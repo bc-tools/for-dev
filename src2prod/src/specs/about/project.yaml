@@ -147,13 +147,13 @@ project:
 
 ###
 # prototype::
-#     ignore : Rules of type \gitignore to exclude files from the final
-#              product. The list provided here complements that used by
-#              \git if the latter is used.
+#     ignore : \gitignore rules to exclude files from the final product.
+#              The list provided here complements that used by \git if
+#              the latter is used.
 #
 # tip::
-#     The vertical bar is used to define one rule per line, as in the
-#     following fictitious example.
+#     The \yaml syntax allows to use a vertical bar to define one rule per
+#     line, as in the following fictitious example.
 #
 #     yaml::
 #         ignore: |
