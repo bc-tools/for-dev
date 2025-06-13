@@ -2,20 +2,12 @@
 # this::
 #     date = 2025-06-XXX
 #
-# ===============================================
-# == Schema validation file for ''jsonschema'' ==
-# ===============================================
+# ===========================================
+# == Schema validation file for ''yamale'' ==
+# ===========================================
 ###
 
-type: object
-properties:
-###
-# We need a single ''project'' key to indicate all the data about a product.
-###
-  project:
-    type: object
-    properties:
-
+project:
 ###
 # -------------- #
 # -- THE WHAT -- #
@@ -31,14 +23,9 @@ properties:
 #
 #     desc : A brief description of the product.
 ###
-      name:
-        type: string
-
-      acronym:
-        type: string
-
-      desc:
-        type: string
+      name   : str(required = False)
+      acronym: str(required = False)
+      desc   : str()
 
 ###
 # ------------- #
@@ -67,19 +54,14 @@ properties:
 #
 #     1) verb::''<mails>'' can be a comma-separated list of emails.
 ###
-      author:
-        type: string
+      author : str(required = False)
+      authors: list(str(), required = False)
 
-      authors:
-        type: array
-        items:
-          type: string
-
+###
 # --------------- #
 # -- THE WHERE -- #
 # --------------- #
-
-###
+#
 # prototype::
 #     urls : A dictionary for filling in certain urls.
 ###
@@ -93,12 +75,10 @@ properties:
 #     repo   : The url of the project's repository site.
 ###
       urls:
-        type: object
-        properties:
-          repo:
-            type: string
-            format: uri
-        required: [repo]
+        doc   : str(required = False)
+        home  : str(required = False)
+        issues: str(required = False)
+        repo  : str(required = False)
 
 # -------------- #
 # -- LICENCES -- #
@@ -124,7 +104,8 @@ properties:
 #     manual : The manual licence.
 ###
       licences:
-        type: string
+        code  : str(required = False)
+        manual: str(required = False)
 
 # ----------- #
 # -- LANGS -- #
@@ -149,15 +130,10 @@ properties:
 #     readme : The language of the ''README'' files.
 ###
       lang:
-        type: object
-        properties:
-          doc:
-            type: object
-            properties:
-              manual:
-                type: string
-            required: [manual]
-        required: [doc]
+        code  : str(required = False)
+        manual: str(required = False)
+        readme: str(required = False)
+
 # ------------------ #
 # -- CODING LANGS -- #
 # ------------------ #
@@ -169,10 +145,7 @@ properties:
 #     optional : Optional programming languages to enhance the operation
 #                of the project.
 ###
-      require:
-        type: array
-        items:
-          type: string
+      require: list(str(), required = False)
 
 # -------------------- #
 # -- FILES ANALYSED -- #
@@ -194,16 +167,4 @@ properties:
 #           rule_2
 #           ...
 ###
-      ignore:
-        type: str
-
-# -------------------- #
-# -- MANDATORY DATA -- #
-# -------------------- #
-    required:
-      - desc
-      - licence
-      - require
-
-required:
-  - project
+      ignore: str(required = False)
