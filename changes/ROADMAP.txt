@@ -18,9 +18,10 @@ NEXT STEPS
 
     0) one bash file to launch BLACK on product only, and then publish via poetry
 
-    1) src2prod: tests done ===> 1st rc
 
-    2) multimd : tests done ===> 1st rc
+    1) multimd : hatch + tests done ===> 1st rc
+
+    2) src2prod: tests done ===> 1st rc
 
     3) suaver  : tests done ===> 1st rc
 
