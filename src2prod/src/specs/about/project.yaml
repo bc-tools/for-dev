@@ -72,7 +72,7 @@ project:
 #     issues : The url to report issues, or make suggestions.
 #     repo   : The url of the project's repository site.
 ###
-      urls:
+      url:
         doc   : url(required = False)
         home  : url(required = False)
         issues: url(required = False)
@@ -86,20 +86,18 @@ project:
 # Using a dictionary, some licences can be indicated using one of the
 # following formats.
 #
-#     1) A short identifier.
+#     1) A short identifier (see the \doc).
 #
-#     2) The relative or absolute path of a file containing the full
+#     2) The relative, or absolute path of a file containing the full
 #        text of the licence, and also the name of the licence as in
 #        ''path/to/my/licence.txt [My special licence]''. Both pieces
 #        of information must be provided.
-###
-###
+#
 # prototype::
 #     code   : The code licence.
-#
 #     manual : The manual licence.
 ###
-      licences:
+      licence:
         code  : licence(required = False)
         manual: licence(required = False)
 
