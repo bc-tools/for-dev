@@ -2,20 +2,36 @@
 src2prod - TODO
 ========
 
-> ---------------------------- <
-
-utilisation de jsonschema pour vaider yaml !!!
-
-vsyaml disparait!!!
-
 
 > ---------------------------- <
 
-api about.yaml
+# file: url_validator.py
+import re
+from yamale.validators import Validator
+from yamale.validators import DefaultValidators
 
-    --> on passe via vsyaml et els desc longues sont de la doc tnsdoc tout simplement !
+class UrlValidator(Validator):
+    tag = 'url'
 
-    --> ce n'est plus une contribution car on la garde c$ote code, on proposera une version tarduisible plus tard quand la doc sera effectivement fabriquée
+    def _is_valid(self, value):
+        pattern = re.compile(r'^https?://[^\s]+$')
+        return isinstance(value, str) and pattern.match(value)
+
+    def _validation_message(self, value):
+        return f'{value} is not a valid URL.'
+
+# Inject the custom validator into Yamale
+validators = DefaultValidators.copy()
+validators[UrlValidator.tag] = UrlValidator
+
+
+import yamale
+from url_validator import validators
+
+schema = yamale.make_schema('schema.yaml', validators=validators)
+data = yamale.make_data('data.yaml')
+
+yamale.validate(schema, data)
 
 
 > ---------------------------- <

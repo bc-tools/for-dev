@@ -1,7 +1,5 @@
 project:
-  desc   : This module allows to develop a project in a source folder,
-           then publish the final product in another directory, the latter
-           being a "lite" version of the source folder.
+  desc   : This module allows to develop a project in a source folder, then publish the final product in another directory, the latter being a "lite" version of the source folder.
   acronym: "From [s]-ou-[rc]-e development [to prod]-uct delivered."
   author : Christophe, BAL
 

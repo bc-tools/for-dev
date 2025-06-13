@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
 THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 
