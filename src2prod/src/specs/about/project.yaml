@@ -40,45 +40,41 @@ project:
 #
 # You can use one of the following formats.
 #
-#     + verb:''<name>''
-#     + verb:''<name> [<mails>]''
-#     + verb:''<first names>, <last name>''
-#     + verb:''<first names>, <last name> [<mails>]''
+#     + verb::''<name>''
+#     + verb::''<name> [<mails>]''
+#     + verb::''<first names>, <last name>''
+#     + verb::''<first names>, <last name> [<mails>]''
 #
 # Here's what each part means.
 #
-#     1) verb:''<first names>'' can be a comma-separated list of first
+#     1) verb::''<first names>'' can be a comma-separated list of first
 #        names.
 #
-#     1) verb:''<name>'' is the author's name.
+#     1) verb::''<name>'' is the author's name.
 #
 #     1) verb::''<mails>'' can be a comma-separated list of emails.
 ###
-      author : str(required = False)
-      authors: list(str(), required = False)
+      author : author(required = False)
+      authors: list(author(), required = False)
 
 ###
 # --------------- #
 # -- THE WHERE -- #
 # --------------- #
 #
-# prototype::
-#     urls : A dictionary for filling in certain urls.
-###
+# Using a dictionary, certain urls can be indicated.
+#
 # prototype::
 #     doc    : The url of the project manual.
-#
 #     home   : The url of the project website.
-#
 #     issues : The url to report issues, or make suggestions.
-#
 #     repo   : The url of the project's repository site.
 ###
       urls:
-        doc   : str(required = False)
-        home  : str(required = False)
-        issues: str(required = False)
-        repo  : str(required = False)
+        doc   : url(required = False)
+        home  : url(required = False)
+        issues: url(required = False)
+        repo  : url(required = False)
 
 # -------------- #
 # -- LICENCES -- #
@@ -104,8 +100,8 @@ project:
 #     manual : The manual licence.
 ###
       licences:
-        code  : str(required = False)
-        manual: str(required = False)
+        code  : licence(required = False)
+        manual: licence(required = False)
 
 # ----------- #
 # -- LANGS -- #
