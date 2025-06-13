@@ -4,6 +4,13 @@ src2prod - TODO
 
 > ---------------------------- <
 
+utilisation de jsonschema pour vaider yaml !!!
+
+vsyaml disparait!!!
+
+
+> ---------------------------- <
+
 api about.yaml
 
     --> on passe via vsyaml et els desc longues sont de la doc tnsdoc tout simplement !
