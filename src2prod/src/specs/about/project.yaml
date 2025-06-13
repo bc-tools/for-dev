@@ -1,6 +1,6 @@
 ###
 # this::
-#     date = 2025-06-XXX
+#     date = 2025-06-13
 #
 # ===========================================
 # == Schema validation file for ''yamale'' ==
@@ -24,7 +24,7 @@ project:
 #     desc : A brief description of the product.
 ###
       name   : str(required = False)
-      acronym: str(required = False)
+      acronym: acronym(required = False)
       desc   : str()
 
 ###
@@ -33,12 +33,14 @@ project:
 # ------------- #
 #
 # prototype::
-#     author : Identification of a single author.
-#
+#     author  : Identification of a single author.
 #     authors : Identification of several authors indicated via a list
 #               à la "\yaml.
 #
-# You can use one of the following formats.
+# warning::
+#     You can't use ''author'' and ''authors''.
+#
+# Here are the possible formats for one single author.
 #
 #     + verb::''<name>''
 #     + verb::''<name> [<mails>]''
@@ -62,7 +64,7 @@ project:
 # -- THE WHERE -- #
 # --------------- #
 #
-# Using a dictionary, certain urls can be indicated.
+# Using a dictionary, some urls can be indicated.
 #
 # prototype::
 #     doc    : The url of the project manual.
@@ -81,12 +83,10 @@ project:
 # -------------- #
 
 ###
-# prototype::
-#     licences : A dictionary to give the licences used.
+# Using a dictionary, some licences can be indicated using one of the
+# following formats.
 #
-# You can use one of the following formats.
-#
-#     1) Use of a short identifier.
+#     1) A short identifier.
 #
 #     2) The relative or absolute path of a file containing the full
 #        text of the licence, and also the name of the licence as in
