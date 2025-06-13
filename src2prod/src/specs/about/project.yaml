@@ -1,0 +1,209 @@
+###
+# this::
+#     date = 2025-06-XXX
+#
+# ===============================================
+# == Schema validation file for ''jsonschema'' ==
+# ===============================================
+###
+
+type: object
+properties:
+###
+# We need a single ''project'' key to indicate all the data about a product.
+###
+  project:
+    type: object
+    properties:
+
+###
+# -------------- #
+# -- THE WHAT -- #
+# -------------- #
+#
+# prototype::
+#     name : A name for the final product to use. If this key is not used,
+#            a name is generated automatically from the main folder name.
+#
+#     acronym : A possible naming scheme for the project. For example,
+#               typing yaml::''acronym: "[MY] [H]idden [A]cronym"'' will
+#               clearly explain the product name ''myha''.
+#
+#     desc : A brief description of the product.
+###
+      name:
+        type: string
+
+      acronym:
+        type: string
+
+      desc:
+        type: string
+
+###
+# ------------- #
+# -- THE WHO -- #
+# ------------- #
+#
+# prototype::
+#     author : Identification of a single author.
+#
+#     authors : Identification of several authors indicated via a list
+#               à la "\yaml.
+#
+# You can use one of the following formats.
+#
+#     + verb:''<name>''
+#     + verb:''<name> [<mails>]''
+#     + verb:''<first names>, <last name>''
+#     + verb:''<first names>, <last name> [<mails>]''
+#
+# Here's what each part means.
+#
+#     1) verb:''<first names>'' can be a comma-separated list of first
+#        names.
+#
+#     1) verb:''<name>'' is the author's name.
+#
+#     1) verb::''<mails>'' can be a comma-separated list of emails.
+###
+      author:
+        type: string
+
+      authors:
+        type: array
+        items:
+          type: string
+
+# --------------- #
+# -- THE WHERE -- #
+# --------------- #
+
+###
+# prototype::
+#     urls : A dictionary for filling in certain urls.
+###
+# prototype::
+#     doc    : The url of the project manual.
+#
+#     home   : The url of the project website.
+#
+#     issues : The url to report issues, or make suggestions.
+#
+#     repo   : The url of the project's repository site.
+###
+      urls:
+        type: object
+        properties:
+          repo:
+            type: string
+            format: uri
+        required: [repo]
+
+# -------------- #
+# -- LICENCES -- #
+# -------------- #
+
+###
+# prototype::
+#     licences : A dictionary to give the licences used.
+#
+# You can use one of the following formats.
+#
+#     1) Use of a short identifier.
+#
+#     2) The relative or absolute path of a file containing the full
+#        text of the licence, and also the name of the licence as in
+#        ''path/to/my/licence.txt [My special licence]''. Both pieces
+#        of information must be provided.
+###
+###
+# prototype::
+#     code   : The code licence.
+#
+#     manual : The manual licence.
+###
+      licences:
+        type: string
+
+# ----------- #
+# -- LANGS -- #
+# ----------- #
+
+###
+# prototype::
+#     langs : A dictionary for the languages used, the default language
+#             being English. To indicate languages, use a comma separated
+#             list of short standard codes: see
+#             cf:''https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes''.
+#             For example, ''manual = "fr, es"'' indicates that the manual
+#             is written in French and Spanish.
+###
+###
+# prototype::
+#     code   : The language of the technical documentation typed into
+#              the source code.
+#
+#     manual : The language of the manual.
+#
+#     readme : The language of the ''README'' files.
+###
+      lang:
+        type: object
+        properties:
+          doc:
+            type: object
+            properties:
+              manual:
+                type: string
+            required: [manual]
+        required: [doc]
+# ------------------ #
+# -- CODING LANGS -- #
+# ------------------ #
+
+###
+# prototype::
+#     require  : The programming languages required to run the project.
+#
+#     optional : Optional programming languages to enhance the operation
+#                of the project.
+###
+      require:
+        type: array
+        items:
+          type: string
+
+# -------------------- #
+# -- FILES ANALYSED -- #
+# -------------------- #
+
+###
+# prototype::
+#     ignore : Rules of type \gitignore to exclude files from the final
+#              product. The list provided here complements that used by
+#              \git if the latter is used.
+#
+# tip::
+#     The vertical bar is used to define one rule per line, as in the
+#     following fictitious example.
+#
+#     yaml::
+#         ignore: |
+#           rule_1
+#           rule_2
+#           ...
+###
+      ignore:
+        type: str
+
+# -------------------- #
+# -- MANDATORY DATA -- #
+# -------------------- #
+    required:
+      - desc
+      - licence
+      - require
+
+required:
+  - project
