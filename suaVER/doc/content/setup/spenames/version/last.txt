@@ -1,9 +1,0 @@
-﻿this::
-    date = 2023-01-22
-
-
-=========================
-La toute dernière version
-=========================
-
-Pour le moment, il est juste possible de faire ¨ref à la ¨tte dernière version via ''last''.
