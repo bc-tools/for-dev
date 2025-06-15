@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "This project makes it possible to write separated pieces of ''MD'' files that will be merged to produce one single final ''MD'' file."
 readme = "README.md"
 requires-python = ">=3.12"
-license = "GNU License Version 3"
+license = "GPL-3.0-or-later"
 keywords = []
 authors = [
   { name = "Christophe BAL", email = "projetmbc@gmail.com" },
@@ -22,6 +22,7 @@ classifiers = [
 ]
 dependencies = [
   "natsort>=8.4",
+  "pyyaml>=6.0",
   "typer>=0.16"
 ]
 
@@ -58,3 +59,9 @@ exclude_lines = [
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
 ]
+
+[tool.hatch.build]
+sources = ["src"]
+
+[tool.hatch.envs.debug]
+dependencies = []
