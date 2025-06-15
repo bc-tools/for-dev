@@ -1,0 +1,25 @@
+=======
+multimd - TODO
+=======
+
+
+> ---------------------------- <
+
+release après mise en place de tests
+
++
+
+ajout TOC
+
+> ---------------------------- <
+
+passer via package about et virer toc.py
+
+    --> chgt mineur car factorisation interne, et toc pas destiné à être utilisé!!!
+
+
+> ---------------------------- <
+
+YAGNI
+
+    + possibilité de changer de about en cas de conflit mais cela erste comportment par défait

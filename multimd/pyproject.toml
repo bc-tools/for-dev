@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "multimd"
+dynamic = ["version"]
+description = "This project makes it possible to write separated pieces of ''MD'' files that will be merged to produce one single final ''MD'' file."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "GNU License Version 3"
+keywords = []
+authors = [
+  { name = "Christophe BAL", email = "projetmbc@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "natsort>=8.4",
+  "typer>=0.16"
+]
+
+[project.urls]
+Documentation = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
+Issues = "https://github.com/bc-tools/for-dev/tree/main/multimd/issues"
+Source = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
+
+[tool.hatch.version]
+path = "src/multimd/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/multimd tests}"
+
+[tool.coverage.run]
+source_pkgs = ["multimd", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/multimd/__about__.py",
+]
+
+[tool.coverage.paths]
+multimd = ["src/multimd", "*/multimd/src/multimd"]
+tests = ["tests", "*/multimd/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

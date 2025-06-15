@@ -1,0 +1,7 @@
+===========
+Initiliaser
+===========
+
+term::
+    > cd mondossier/contenant/monprojet
+    > hatch new monprojet
