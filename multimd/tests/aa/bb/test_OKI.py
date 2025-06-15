@@ -1,2 +1,4 @@
+import multimd
+
 def test_bidon():
-    assert True
+    assert "0.3.2-beta" == multimd.__version__

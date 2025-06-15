@@ -41,7 +41,7 @@ toc:
 ~~~
 
 
-> ***CUATION!*** *You can use relative paths but you must use the Unix path separator `/`.*
+> ***CAUTION!*** *You can use relative paths but you must use the Unix path separator `/`.*
 
 
 Building the final `README.md` file is done quickly on the command line after using the `cd` command to go into the `multimd` folder. We use the option `-e` to allow to erase an existing `README.md` file.
