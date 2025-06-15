@@ -19,8 +19,7 @@ from .toc import *
 # This class finds all the single path::''MD'' files and then builds a final
 # single one with all the chunks found.
 ###
-class Builder():
-
+class Builder:
 ###
 # prototype::
 #     src   : the path of the directory containing the path::''MD'' chunks.
@@ -30,14 +29,13 @@ class Builder():
 ###
     def __init__(
         self,
-        src  : Path,
-        dest : Path,
+        src: Path,
+        dest: Path,
         erase: bool = False
     ) -> None:
         self.src   = src
         self.dest  = dest
         self.erase = erase
-
 
 ###
 # prototype::
@@ -49,24 +47,18 @@ class Builder():
         mdcode = []
 
         for onefile in TOC(self.src).extract():
-            mdcode.append(
-                onefile.read_text(encoding = 'utf-8')
-                       .strip()
-            )
+            mdcode.append(onefile.read_text(encoding="utf-8").strip())
 
-        mdcode = ('\n'*3).join(mdcode)
+        mdcode = ("\n" * 3).join(mdcode)
 
 # Can we erase an existing final file?
         if self.dest.is_file() and not self.erase:
             raise IOError(
                 f"the class {type(self).__name__} is not allowed "
-                 "to erase the final file:"
-                 "\n"
+                "to erase the final file:"
+                "\n"
                 f"{self.dest}"
             )
 
-# We can build the file, so let's do it.
-        self.dest.write_text(
-            data     = mdcode,
-            encoding = 'utf-8'
-        )
+        # We can build the file, so let's do it.
+        self.dest.write_text(data=mdcode, encoding="utf-8")

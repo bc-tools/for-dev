@@ -1,25 +1,34 @@
 [build-system]
-requires = ["hatchling"]
+requires      = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "multimd"
-dynamic = ["version"]
-description = "This project makes it possible to write separated pieces of ''MD'' files that will be merged to produce one single final ''MD'' file."
-readme = "README.md"
+version         = "0.3.2-beta"
 requires-python = ">=3.12"
-license = "GPL-3.0-or-later"
-keywords = []
-authors = [
+name            = "multimd"
+description     = "This project makes it possible to write separated pieces of ''MD'' files that will be merged to produce one single final ''MD'' file."
+readme          = "README.md"
+authors         = [
   { name = "Christophe BAL", email = "projetmbc@gmail.com" },
 ]
+
+license = "GPL-3.0-or-later"
+
+keywords = [
+  "markdown",
+  "readme",
+]
+
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
+
 dependencies = [
   "natsort>=8.4",
   "pyyaml>=6.0",
@@ -28,30 +37,35 @@ dependencies = [
 
 [project.urls]
 Documentation = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
-Issues = "https://github.com/bc-tools/for-dev/tree/main/multimd/issues"
-Source = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
-
-[tool.hatch.version]
-path = "src/multimd/__about__.py"
+Issues        = "https://github.com/bc-tools/for-dev/tree/main/multimd/issues"
+Source        = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
 
 [tool.hatch.envs.types]
 extra-dependencies = [
   "mypy>=1.0.0",
 ]
+
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/multimd tests}"
 
 [tool.coverage.run]
-source_pkgs = ["multimd", "tests"]
-branch = true
-parallel = true
-omit = [
-  "src/multimd/__about__.py",
+source_pkgs = [
+  "multimd",
+  "tests"
 ]
+branch   = true
+parallel = true
+# omit     = []
 
 [tool.coverage.paths]
-multimd = ["src/multimd", "*/multimd/src/multimd"]
-tests = ["tests", "*/multimd/tests"]
+multimd = [
+  "src/multimd",
+  "*/multimd/src/multimd"
+]
+tests = [
+  "tests",
+  "*/multimd/tests"
+]
 
 [tool.coverage.report]
 exclude_lines = [
@@ -65,3 +79,13 @@ sources = ["src"]
 
 [tool.hatch.envs.debug]
 dependencies = []
+
+
+# [tool.hatch.envs.lint]
+# dependencies = ["black"]
+
+# [tool.hatch.envs.lint.scripts]
+# fmt = "black src tests"
+
+# [tool.black]
+# line-length = 88
