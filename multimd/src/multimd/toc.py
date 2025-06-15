@@ -82,7 +82,8 @@ class TOC:
     ) -> List[Path]:
 # There is an ''about.yaml'' file.
         if (curdir / ABOUT_FILE_NAME).is_file():
-# ''strpaths == []'' can be ''True'' if no ''toc'' block has been used.
+# ''strpaths == []'' can be ''True'' if no ''toc'' block has been used
+# (an ''about.yaml'' file can contains other metadata than a simple toc).
             strpaths = self.yaml2paths(curdir)
 
         else:
