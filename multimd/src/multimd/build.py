@@ -47,7 +47,9 @@ class Builder:
         mdcode = []
 
         for onefile in TOC(self.src).extract():
-            mdcode.append(onefile.read_text(encoding="utf-8").strip())
+            mdcode.append(
+                onefile.read_text(encoding="utf-8").strip()
+            )
 
         mdcode = ("\n" * 3).join(mdcode)
 
