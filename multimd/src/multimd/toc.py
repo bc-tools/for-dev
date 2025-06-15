@@ -10,7 +10,7 @@
 from typing import List
 
 from pathlib import Path
-from yaml import safe_load as yaml_load
+from yaml    import safe_load as yaml_load
 
 from natsort import natsorted
 
@@ -20,11 +20,11 @@ from natsort import natsorted
 # --------------- #
 
 ABOUT_FILE_NAME = "about.yaml"
-TAG_TOC = "toc"
+TAG_TOC         = "toc"
 
 UNIX_SEP = "/"
 
-MD_FILE_EXT = "md"
+MD_FILE_EXT    = "md"
 MD_FILE_SUFFIX = f".{MD_FILE_EXT}"
 
 
@@ -49,46 +49,46 @@ MD_FILE_SUFFIX = f".{MD_FILE_EXT}"
 ###
 class TOC:
 
-    ###
-    # prototype::
-    #     maindir : the path of the directory to analyze.
-    ###
+###
+# prototype::
+#     maindir : the path of the directory to analyze.
+###
     def __init__(
         self,
         maindir: Path,
     ) -> None:
         self.maindir = maindir
 
-    ###
-    # prototype::
-    #     :return: the paths of the files found inside path::''self.maindir''
-    #              by using or not an path::''about.yaml'' file.
-    #
-    #     :see: self._extract_recu
-    ###
+###
+# prototype::
+#     :return: the paths of the files found inside path::''self.maindir''
+#              by using or not an path::''about.yaml'' file.
+#
+#     :see: self._extract_recu
+###
     def extract(self) -> List[Path]:
-        return self._extract_recu(curdir=self.maindir)
+        return self._extract_recu(curdir = self.maindir)
 
-    ###
-    # prototype::
-    #     curdir : the path of a directory to analyze.
-    #
-    #     :return: the list of absolute paths found inside path::''curdir''
-    #              by using or not an path::''about.yaml'' file.
-    ###
+###
+# prototype::
+#     curdir : the path of a directory to analyze.
+#
+#     :return: the list of absolute paths found inside path::''curdir''
+#              by using or not an path::''about.yaml'' file.
+###
     def _extract_recu(
         self,
         curdir: Path,
     ) -> List[Path]:
-        # There is an ''about.yaml'' file.
+# There is an ''about.yaml'' file.
         if (curdir / ABOUT_FILE_NAME).is_file():
-            # ''strpaths == []'' can be ''True'' if no ''toc'' block has been used.
+# ''strpaths == []'' can be ''True'' if no ''toc'' block has been used.
             strpaths = self.yaml2paths(curdir)
 
         else:
             strpaths = []
 
-        # No files found at this moment.
+# No files found at this moment.
         if strpaths == []:
             for fileordir in curdir.iterdir():
                 if not fileordir.is_file():
@@ -99,45 +99,47 @@ class TOC:
 
             strpaths = natsorted(strpaths)
 
-        # No files found.
+# No files found.
         if strpaths == []:
-            raise IOError(f"no file found inside " "{curdir}" ".")
+            raise IOError(f"no file found inside ''{curdir}''.")
 
-        # Let's build the ''Path'' paths.
+# Let's build the ''Path'' paths.
         pathsfound = []
 
         for one_strpath in strpaths:
-            # One folder: let's do a recursive search.
+# One folder: let's do a recursive search.
             if one_strpath[-1] == UNIX_SEP:
-                pathsfound += self._extract_recu(curdir=curdir / one_strpath)
+                pathsfound += self._extract_recu(
+                    curdir = curdir / one_strpath
+                )
 
-            # Just a file.
+# Just a file.
             else:
-                # Complete short names.
+# Complete short names.
                 if not "." in one_strpath:
                     one_strpath = f"{one_strpath}{MD_FILE_SUFFIX}"
 
-                # A new path found.
+# A new path found.
                 pathsfound.append(curdir / one_strpath)
 
-        # Everything seems ok.
+# Everything seems ok.
         return pathsfound
 
-    ###
-    # prototype::
-    #     curdir : the path of the directory analyzed.
-    #
-    #     :return: the list of candidate paths found inside path::''curdir''
-    #              by using or not an path::''about.yaml'' file.
-    ###
+###
+# prototype::
+#     curdir : the path of the directory analyzed.
+#
+#     :return: the list of candidate paths found inside path::''curdir''
+#              by using or not an path::''about.yaml'' file.
+###
     def yaml2paths(
         self,
         curdir: Path,
     ) -> List[str]:
         try:
             with (curdir / ABOUT_FILE_NAME).open(
-                encoding="utf-8",
-                mode="r",
+                encoding = "utf-8",
+                mode     = "r",
             ) as f:
                 datasfound = yaml_load(f)
 
@@ -147,11 +149,15 @@ class TOC:
             datasfound = datasfound[TAG_TOC]
 
             if not type(datasfound) == list:
-                self._raise_this("the block `toc` must contains a list of paths.")
+                self._raise_this(
+                    "the block `toc` must contains a list of paths."
+                )
 
             for d in datasfound:
                 if not type(d) == str:
-                    self._raise_this("the block `toc` must contains a list of paths.")
+                    self._raise_this(
+                        "the block `toc` must contains a list of paths."
+                    )
 
                 if not d:
                     raise self._raise_this("an empty path has been found.")
@@ -159,24 +165,26 @@ class TOC:
             return datasfound
 
         except Exception as e:
-            raise self._raise_this("Exception from the package " "yaml" ":" "\n" f"{e}")
+            raise self._raise_this(
+                 "Exception from the package yaml:"
+                 "\n"
+                f"{e}"
+            )
 
-    ###
-    # prototype::
-    #     extra : an additional message to specify the error encountered.
-    #
-    #     :action: raise a ''ValueError'' to indicate a problem met with
-    #              the path::''about.yaml'' file.
-    ###
+###
+# prototype::
+#     extra : an additional message to specify the error encountered.
+#
+#     :action: raise a ''ValueError'' to indicate a problem met with
+#              the path::''about.yaml'' file.
+###
     def _raise_this(
         self,
         extra: str = "",
     ) -> List[str]:
         message = (
-            f"invalid "
-            "{ABOUT_FILE_NAME}"
-            " found in the following dir:"
-            "\n"
+            f"invalid {ABOUT_FILE_NAME} found in the following dir:"
+             "\n"
             f"{self.maindir}"
         )
 

@@ -11,3 +11,7 @@
 
 [[:flow:]]
 \hatch is used to work like a pro!
+
+
+[[:test:]]
+Unit tests added: building good ''MD'' files using the \api.

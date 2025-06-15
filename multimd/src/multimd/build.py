@@ -29,8 +29,8 @@ class Builder:
 ###
     def __init__(
         self,
-        src: Path,
-        dest: Path,
+        src  : Path,
+        dest : Path,
         erase: bool = False
     ) -> None:
         self.src   = src
@@ -48,7 +48,7 @@ class Builder:
 
         for onefile in TOC(self.src).extract():
             mdcode.append(
-                onefile.read_text(encoding="utf-8").strip()
+                onefile.read_text(encoding = "utf-8").strip()
             )
 
         mdcode = ("\n" * 3).join(mdcode)
@@ -62,5 +62,10 @@ class Builder:
                 f"{self.dest}"
             )
 
-        # We can build the file, so let's do it.
-        self.dest.write_text(data=mdcode, encoding="utf-8")
+        mdcode += "\n"
+
+# We can build the file, so let's do it.
+        self.dest.write_text(
+            data     = mdcode,
+            encoding = "utf-8"
+        )

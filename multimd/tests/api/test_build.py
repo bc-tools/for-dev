@@ -4,15 +4,20 @@ from multimd import Builder, Path
 
 THIS_DIR = Path(__file__).parent
 DATA_DIR = THIS_DIR.parent / "data"
-
-for final_MD in DATA_DIR.glob("*.md"):
-    print(final_MD.stem)
+TEMP_DIR = DATA_DIR / ".temp"
 
 def test_builder():
-    ...
+    for final_MD in DATA_DIR.glob("*.md"):
+        src   = DATA_DIR / final_MD.stem
+        dest  = TEMP_DIR / final_MD.name
 
-    # Builder(
-    #     src   = THIS_DIR / f'build-{kind}',
-    #     dest  = THIS_DIR / f'build-{kind}-final.md',
-    #     erase = True,
-    # ).build()
+        Builder(
+            src   = src,
+            dest  = dest,
+            erase = True,
+        ).build()
+
+        text_build    = dest.read_text().rstrip()
+        text_expected = final_MD.read_text().rstrip()
+
+        assert text_build == text_expected

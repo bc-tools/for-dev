@@ -32,15 +32,15 @@ CLI = typer.Typer()
 ###
 @CLI.command(
     context_settings=dict(help_option_names=["--help", "-h"]),
-    help="Merging MD chunks into a single MD file.",
+    help = "Merging MD chunks into a single MD file.",
 )
 def _CLI(
     src_dest: Annotated[
         Tuple[Path, Path],
         typer.Argument(
-            help="Path of the source directory with "
-            "the MD chunks to be merged, followed "
-            "by the path of the final MD file to build."
+            help = "Path of the source directory with the MD "
+                   "chunks to be merged, followed by the path "
+                   "of the final MD file to build."
         ),
     ],
     erase: Annotated[
@@ -48,14 +48,15 @@ def _CLI(
         typer.Option(
             "--erase",
             "-e",
-            help="Erase an existing final MD file before " "building the new one.",
+            help = "Erase an existing final MD file before "
+                   "building the new one.",
         ),
     ] = False,
 ) -> None:
 # Relative to absolute?
     cwd = Path.cwd()
 
-    src_dest = list(src_dest)
+    src_dest     = list(src_dest)
     dest_message = src_dest[1]
 
     for i, p in enumerate(src_dest):
@@ -63,7 +64,10 @@ def _CLI(
             src_dest[i] = cwd / p
 
 # Let's call our worker.
-    Builder(erase=erase, *src_dest).build()
+    Builder(
+        erase = erase,
+        *src_dest
+    ).build()
 
 # Let's talk to the user.
     if Path(dest_message).is_absolute():

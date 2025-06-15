@@ -47,7 +47,8 @@ That's all.
 Part 3
 ======
 
-For the table of contents...
+Sub contents...
+
 
 Section 3.1
 -----------
