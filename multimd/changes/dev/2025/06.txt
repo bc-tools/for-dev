@@ -2,6 +2,21 @@
 
 
 ==
+16 ?????
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+\Toc: one placeholder can be used to obtain the \toc with hyperlinks of the single final ''MD'' file.
+
+
+// ---------- //
+
+
+==
 15
 ==
 

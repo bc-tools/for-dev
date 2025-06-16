@@ -3,6 +3,8 @@ The `Python` `CLI` and module `multimd`
 
 This document is a short tutorial showing all the features.
 
+::TOC::
+
 
 About `multimd`
 ---------------
@@ -41,7 +43,7 @@ toc:
 ~~~
 
 
-> ***CAUTION!*** *You can use relative paths but you must use the Unix path separator `/`.*
+> ***CAUTION!*** *It is possible to specify relative paths, but this requires the use of the Unix path separator `/`.*
 
 
 Building the final `README.md` file is done quickly on the command line after using the `cd` command to go into the `multimd` folder. We use the option `-e` to allow to erase an existing `README.md` file.
@@ -80,3 +82,21 @@ Without an `about.yaml` file, all the `MD` files will be merged into one after s
 
 
 > ***WARNING!*** *Without an `about.yaml` file, it is impossible to work with subfolders containing `MD` files. In other words, there will be no recursive search in any subfolders.*
+
+
+Adding a table of contents
+--------------------------
+
+`multimd` can create a table of contents with hyperlinks, as in this `README` file. To do this, use the keyword `::TOC::` where you want to put your table of contents to appear.
+
+~~~md
+...
+Let's put the table of contents here.
+
+::TOC::
+
+Let's continue writing our content.
+...
+~~~
+
+By default, all sections from level `2` onwards are included in the table of contents (level `1` corresponds to the document title). You can specify the maximum level `<m>` using `::TOC-<m>::` like in `::TOC-2::`.

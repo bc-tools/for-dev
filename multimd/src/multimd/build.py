@@ -8,7 +8,7 @@
 
 from pathlib import Path
 
-from .toc import *
+from .about import *
 
 
 # ------------------------------------ #
