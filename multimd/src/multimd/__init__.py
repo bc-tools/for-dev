@@ -4,5 +4,6 @@ __version__ = "0.3.2-beta"
 
 from typing import *
 
-from .build import *
 from .about import *
+from .build import *
+from .toc   import *
