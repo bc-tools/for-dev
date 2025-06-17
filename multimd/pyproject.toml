@@ -30,6 +30,7 @@ classifiers = [
 ]
 
 dependencies = [
+  "markdown-it-py>=2.2",
   "natsort>=8.4",
   "pyyaml>=6.0",
   "typer>=0.16"
