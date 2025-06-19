@@ -2,16 +2,19 @@
 
 
 ==
-16 ?????
+?????
 ==
 
 -----
 :new:
 -----
 
-[[:api:]]
+[[:api:]]    ????
 \Toc: one placeholder can be used to obtain the \toc with hyperlinks of the single final ''MD'' file.
 
+
+[[:format:]]    ????
+Final ‘MD’ file: the code is always generated using the same formatting rules.
 
 // ---------- //
 

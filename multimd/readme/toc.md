@@ -1,5 +1,7 @@
-Adding a table of contents
---------------------------
+Adding a table of contents and standard formatting
+--------------------------------------------------
+
+XXXX
 
 `multimd` can create a table of contents with hyperlinks, as in this `README` file. To do this, use the keyword `::TOC::` where you want to put your table of contents to appear.
 
@@ -19,7 +21,7 @@ By default, all sections from level `2` onwards are included in the table of con
 > ***NOTE.*** There is also an easy-to-use `Python` API where `Path` is the class from the `pathlib` module.
 
 ~~~python
-from multimd import addtoc, Path
+from multimd import finalize, Path
 
-addtoc(Path("/full/path/to/README.md"))
+finalize(Path("/full/path/to/README.md"))
 ~~~

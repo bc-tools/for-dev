@@ -1,61 +1,19 @@
-"""
-class Renderer
-
-Generates HTML from parsed token stream. Each instance has independent
-copy of rules. Those can be rewritten with ease. Also, you can add new
-rules if you create plugin and adds new token types.
-"""
-
-from __future__ import annotations
-
 from collections.abc import Sequence
 import inspect
 from typing import Any, ClassVar, Protocol
 
-from .common.utils import escapeHtml, unescapeAll
-from .token import Token
-from .utils import EnvType, OptionsDict
+from markdown_it.renderer import (
+    RendererHTML,
+    Token,
+    EnvType, OptionsDict
+)
 
+# Source
+#     - https://github.com/executablebooks/markdown-it-py/blob/master/markdown_it/renderer.py
 
-class RendererProtocol(Protocol):
-    __output__: ClassVar[str]
+class StdMD(RendererHTML):
+    __output__ = "standrard markdown"
 
-    def render(
-        self, tokens: Sequence[Token], options: OptionsDict, env: EnvType
-    ) -> Any: ...
-
-
-class RendererHTML(RendererProtocol):
-    """Contains render rules for tokens. Can be updated and extended.
-
-    Example:
-
-    Each rule is called as independent static function with fixed signature:
-
-    ::
-
-        class Renderer:
-            def token_type_name(self, tokens, idx, options, env) {
-                # ...
-                return renderedHTML
-
-    ::
-
-        class CustomRenderer(RendererHTML):
-            def strong_open(self, tokens, idx, options, env):
-                return '<b>'
-            def strong_close(self, tokens, idx, options, env):
-                return '</b>'
-
-        md = MarkdownIt(renderer_cls=CustomRenderer)
-
-        result = md.render(...)
-
-    See https://github.com/markdown-it/markdown-it/blob/master/lib/renderer.js
-    for more details and examples.
-    """
-
-    __output__ = "html"
 
     def __init__(self, parser: Any = None):
         self.rules = {
@@ -63,6 +21,7 @@ class RendererHTML(RendererProtocol):
             for k, v in inspect.getmembers(self, predicate=inspect.ismethod)
             if not (k.startswith("render") or k.startswith("_"))
         }
+
 
     def render(
         self, tokens: Sequence[Token], options: OptionsDict, env: EnvType
@@ -87,6 +46,10 @@ class RendererHTML(RendererProtocol):
 
         return result
 
+
+
+
+
     def renderInline(
         self, tokens: Sequence[Token], options: OptionsDict, env: EnvType
     ) -> str:
@@ -105,6 +68,10 @@ class RendererHTML(RendererProtocol):
                 result += self.renderToken(tokens, i, options, env)
 
         return result
+
+
+
+
 
     def renderToken(
         self,
@@ -169,6 +136,10 @@ class RendererHTML(RendererProtocol):
 
         return result
 
+
+
+
+
     @staticmethod
     def renderAttrs(token: Token) -> str:
         """Render token attributes to string."""
@@ -178,6 +149,10 @@ class RendererHTML(RendererProtocol):
             result += " " + escapeHtml(key) + '="' + escapeHtml(str(value)) + '"'
 
         return result
+
+
+
+
 
     def renderInlineAsText(
         self,
@@ -209,6 +184,10 @@ class RendererHTML(RendererProtocol):
 
     ###################################################
 
+
+
+
+
     def code_inline(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
     ) -> str:
@@ -220,6 +199,10 @@ class RendererHTML(RendererProtocol):
             + escapeHtml(tokens[idx].content)
             + "</code>"
         )
+
+
+
+
 
     def code_block(
         self,
@@ -237,6 +220,10 @@ class RendererHTML(RendererProtocol):
             + escapeHtml(tokens[idx].content)
             + "</code></pre>\n"
         )
+
+
+
+
 
     def fence(
         self,
@@ -290,6 +277,10 @@ class RendererHTML(RendererProtocol):
             + "</code></pre>\n"
         )
 
+
+
+
+
     def image(
         self,
         tokens: Sequence[Token],
@@ -308,10 +299,18 @@ class RendererHTML(RendererProtocol):
 
         return self.renderToken(tokens, idx, options, env)
 
+
+
+
+
     def hardbreak(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
     ) -> str:
         return "<br />\n" if options.xhtmlOut else "<br>\n"
+
+
+
+
 
     def softbreak(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
@@ -320,15 +319,27 @@ class RendererHTML(RendererProtocol):
             ("<br />\n" if options.xhtmlOut else "<br>\n") if options.breaks else "\n"
         )
 
+
+
+
+
     def text(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
     ) -> str:
         return escapeHtml(tokens[idx].content)
 
+
+
+
+
     def html_block(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
     ) -> str:
         return tokens[idx].content
+
+
+
+
 
     def html_inline(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType

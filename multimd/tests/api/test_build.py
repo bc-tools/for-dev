@@ -3,7 +3,7 @@
 from multimd import Builder, Path
 
 THIS_DIR = Path(__file__).parent
-DATA_DIR = THIS_DIR.parent / "data"
+DATA_DIR = THIS_DIR.parent / "data" / "buildit"
 TEMP_DIR = DATA_DIR / ".temp"
 
 def test_builder():
