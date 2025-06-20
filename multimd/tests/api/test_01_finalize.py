@@ -6,7 +6,7 @@ THIS_DIR = Path(__file__).parent
 DATA_DIR = THIS_DIR.parent / "data" / "buildit"
 TEMP_DIR = DATA_DIR / ".temp"
 
-def test_builder():
+def test_std_md():
     for final_MD in DATA_DIR.glob("*.md"):
         src   = DATA_DIR / final_MD.stem
         dest  = TEMP_DIR / final_MD.name

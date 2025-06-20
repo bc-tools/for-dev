@@ -2,6 +2,7 @@ from collections.abc import Sequence
 import inspect
 from typing import Any, ClassVar, Protocol
 
+from markdown_it import MarkdownIt
 from markdown_it.renderer import (
     RendererHTML,
     Token,
@@ -11,7 +12,7 @@ from markdown_it.renderer import (
 # Source
 #     - https://github.com/executablebooks/markdown-it-py/blob/master/markdown_it/renderer.py
 
-class StdMD(RendererHTML):
+class RendererStdMD(RendererHTML):
     __output__ = "standrard markdown"
 
 
@@ -345,3 +346,10 @@ class StdMD(RendererHTML):
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
     ) -> str:
         return tokens[idx].content
+
+
+def stdit(
+    src : Path,
+    dest: Path
+):
+    ...
