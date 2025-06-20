@@ -17,7 +17,7 @@ def test_builder():
             erase = True,
         ).build()
 
-        text_build    = dest.read_text().rstrip()
-        text_expected = final_MD.read_text().rstrip()
+        text_build  = dest.read_text().rstrip()
+        text_wanted = final_MD.read_text().rstrip()
 
-        assert text_build == text_expected
+        assert text_build == text_wanted

@@ -2,6 +2,8 @@ from collections.abc import Sequence
 import inspect
 from typing import Any, ClassVar, Protocol
 
+from pathlib import Path
+
 from markdown_it import MarkdownIt
 from markdown_it.renderer import (
     RendererHTML,
