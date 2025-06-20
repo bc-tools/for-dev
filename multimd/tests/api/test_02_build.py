@@ -6,6 +6,9 @@ THIS_DIR = Path(__file__).parent
 DATA_DIR = THIS_DIR.parent / "data" / "buildit"
 TEMP_DIR = DATA_DIR / ".temp"
 
+if not TEMP_DIR.is_dir():
+    TEMP_DIR.mkdir()
+
 def test_builder():
     for final_MD in DATA_DIR.glob("*.md"):
         src   = DATA_DIR / final_MD.stem

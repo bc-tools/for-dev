@@ -3,7 +3,7 @@ Section I
 Sub Section 3.1
 ---------------
 ### Sub Section 3.1.1
-Some texts and some code.
+Some ***text*** and some `code`.
 ~~~python
 print("Missing empty lines!")
 ~~~

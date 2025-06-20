@@ -18,144 +18,14 @@ class RendererStdMD(RendererHTML):
     __output__ = "standrard markdown"
 
 
-    def __init__(self, parser: Any = None):
-        self.rules = {
-            k: v
-            for k, v in inspect.getmembers(self, predicate=inspect.ismethod)
-            if not (k.startswith("render") or k.startswith("_"))
-        }
-
-
-    def render(
-        self, tokens: Sequence[Token], options: OptionsDict, env: EnvType
-    ) -> str:
-        """Takes token stream and generates HTML.
-
-        :param tokens: list on block tokens to render
-        :param options: params of parser instance
-        :param env: additional data from parsed input
-
-        """
-        result = ""
-
-        for i, token in enumerate(tokens):
-            if token.type == "inline":
-                if token.children:
-                    result += self.renderInline(token.children, options, env)
-            elif token.type in self.rules:
-                result += self.rules[token.type](tokens, i, options, env)
-            else:
-                result += self.renderToken(tokens, i, options, env)
-
-        return result
-
-
-
-
-
-    def renderInline(
-        self, tokens: Sequence[Token], options: OptionsDict, env: EnvType
-    ) -> str:
-        """The same as ``render``, but for single token of `inline` type.
-
-        :param tokens: list on block tokens to render
-        :param options: params of parser instance
-        :param env: additional data from parsed input (references, for example)
-        """
-        result = ""
-
-        for i, token in enumerate(tokens):
-            if token.type in self.rules:
-                result += self.rules[token.type](tokens, i, options, env)
-            else:
-                result += self.renderToken(tokens, i, options, env)
-
-        return result
-
-
-
-
-
-    def renderToken(
-        self,
-        tokens: Sequence[Token],
-        idx: int,
-        options: OptionsDict,
-        env: EnvType,
-    ) -> str:
-        """Default token renderer.
-
-        Can be overridden by custom function
-
-        :param idx: token index to render
-        :param options: params of parser instance
-        """
-        result = ""
-        needLf = False
-        token = tokens[idx]
-
-        # Tight list paragraphs
-        if token.hidden:
-            return ""
-
-        # Insert a newline between hidden paragraph and subsequent opening
-        # block-level tag.
-        #
-        # For example, here we should insert a newline before blockquote:
-        #  - a
-        #    >
-        #
-        if token.block and token.nesting != -1 and idx and tokens[idx - 1].hidden:
-            result += "\n"
-
-        # Add token name, e.g. `<img`
-        result += ("</" if token.nesting == -1 else "<") + token.tag
-
-        # Encode attributes, e.g. `<img src="foo"`
-        result += self.renderAttrs(token)
-
-        # Add a slash for self-closing tags, e.g. `<img src="foo" /`
-        if token.nesting == 0 and options["xhtmlOut"]:
-            result += " /"
-
-        # Check if we need to add a newline after this tag
-        if token.block:
-            needLf = True
-
-            if token.nesting == 1 and (idx + 1 < len(tokens)):
-                nextToken = tokens[idx + 1]
-
-                if nextToken.type == "inline" or nextToken.hidden:
-                    # Block-level tag containing an inline tag.
-                    #
-                    needLf = False
-
-                elif nextToken.nesting == -1 and nextToken.tag == token.tag:
-                    # Opening tag + closing tag of the same type. E.g. `<li></li>`.
-                    #
-                    needLf = False
-
-        result += ">\n" if needLf else ">"
-
-        return result
-
-
-
-
-
     @staticmethod
     def renderAttrs(token: Token) -> str:
-        """Render token attributes to string."""
         result = ""
 
         for key, value in token.attrItems():
-            result += " " + escapeHtml(key) + '="' + escapeHtml(str(value)) + '"'
+            result += " " + key + '="' + (str(value)) + '"'
 
         return result
-
-
-
-
 
     def renderInlineAsText(
         self,
@@ -163,15 +33,6 @@ class RendererStdMD(RendererHTML):
         options: OptionsDict,
         env: EnvType,
     ) -> str:
-        """Special kludge for image `alt` attributes to conform CommonMark spec.
-
-        Don't try to use it! Spec requires to show `alt` content with stripped markup,
-        instead of simple escaping.
-
-        :param tokens: list on block tokens to render
-        :param options: params of parser instance
-        :param env: additional data from parsed input
-        """
         result = ""
 
         for token in tokens or []:
@@ -185,27 +46,12 @@ class RendererStdMD(RendererHTML):
 
         return result
 
-    ###################################################
-
-
-
-
 
     def code_inline(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
     ) -> str:
         token = tokens[idx]
-        return (
-            "<code"
-            + self.renderAttrs(token)
-            + ">"
-            + escapeHtml(tokens[idx].content)
-            + "</code>"
-        )
-
-
-
-
+        return  f"`{tokens[idx].content}`"
 
     def code_block(
         self,
@@ -224,10 +70,6 @@ class RendererStdMD(RendererHTML):
             + "</code></pre>\n"
         )
 
-
-
-
-
     def fence(
         self,
         tokens: Sequence[Token],
@@ -236,7 +78,7 @@ class RendererStdMD(RendererHTML):
         env: EnvType,
     ) -> str:
         token = tokens[idx]
-        info = unescapeAll(token.info).strip() if token.info else ""
+        info = (token.info).strip() if token.info else ""
         langName = ""
         langAttrs = ""
 
@@ -249,39 +91,17 @@ class RendererStdMD(RendererHTML):
         if options.highlight:
             highlighted = options.highlight(
                 token.content, langName, langAttrs
-            ) or escapeHtml(token.content)
+            ) or (token.content)
         else:
-            highlighted = escapeHtml(token.content)
+            highlighted = (token.content)
 
         if highlighted.startswith("<pre"):
             return highlighted + "\n"
 
-        # If language exists, inject class gently, without modifying original token.
-        # May be, one day we will add .deepClone() for token and simplify this part, but
-        # now we prefer to keep things local.
-        if info:
-            # Fake token just to render attributes
-            tmpToken = Token(type="", tag="", nesting=0, attrs=token.attrs.copy())
-            tmpToken.attrJoin("class", options.langPrefix + langName)
-
-            return (
-                "<pre><code"
-                + self.renderAttrs(tmpToken)
-                + ">"
-                + highlighted
-                + "</code></pre>\n"
-            )
-
-        return (
-            "<pre><code"
-            + self.renderAttrs(token)
-            + ">"
-            + highlighted
-            + "</code></pre>\n"
-        )
-
-
-
+        return f"""
+~~~{langName}
+{highlighted}~~~
+        """.strip() + "\n"*2
 
 
     def image(
@@ -302,18 +122,10 @@ class RendererStdMD(RendererHTML):
 
         return self.renderToken(tokens, idx, options, env)
 
-
-
-
-
     def hardbreak(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
     ) -> str:
         return "<br />\n" if options.xhtmlOut else "<br>\n"
-
-
-
-
 
     def softbreak(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
@@ -322,27 +134,15 @@ class RendererStdMD(RendererHTML):
             ("<br />\n" if options.xhtmlOut else "<br>\n") if options.breaks else "\n"
         )
 
-
-
-
-
     def text(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
     ) -> str:
-        return escapeHtml(tokens[idx].content)
-
-
-
-
+        return tokens[idx].content
 
     def html_block(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
     ) -> str:
         return tokens[idx].content
-
-
-
-
 
     def html_inline(
         self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
@@ -350,8 +150,47 @@ class RendererStdMD(RendererHTML):
         return tokens[idx].content
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+###
+# prototype::
+#     src   : the path of the MD file to standardise.
+#     dest  : the path of the single final path::''MD'' file to build.
+#     erase : set to ''True'', this argument allows to erase an existing
+#             final file to build a new one.
+###
 def stdit(
-    src : Path,
-    dest: Path
-):
-    ...
+    src  : Path,
+    dest : Path,
+    erase: bool = False
+) -> None:
+    if not erase and dest.is_file():
+        raise IOError(
+            f"the function stdit is not allowed "
+            "to erase the final file:"
+            "\n"
+            f"{dest}"
+        )
+
+    mdit = MarkdownIt(
+        renderer_cls   = RendererStdMD,
+        options_update = {
+            'breaks': True,
+            'html'  : True
+        }
+    )
+
+    md_std = mdit.render(src.read_text())
+
+    dest.touch()
+    dest.write_text(md_std)
