@@ -1,7 +1,7 @@
 Finishing touches
 -----------------
 
-### What is done automatically
+### What is done automatically?
 
 During final formatting, `multimd` standardises the source code to prevent `git` from spotting any *'false'* changes. Here's what happens behind the scenes.
 
@@ -11,7 +11,7 @@ During final formatting, `multimd` standardises the source code to prevent `git`
 
   1. **Removal of unnecessary spaces**.
 
-  1. **Management of consecutive blank lines**: excluding formatted code, consecutive blank lines are reduced to a single one, except before section headings, where they are doubled, except for a heading just after another. Did you understand that sentence? I don't really. `:-)`
+  1. **Management of consecutive blank lines**: excluding formatted code, consecutive blank lines are reduced to a single one.
 
   1. **Add a blank line** after an `MD` block, if necessary.
 

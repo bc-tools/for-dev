@@ -10,7 +10,10 @@ if not TEMP_DIR.is_dir():
     TEMP_DIR.mkdir()
 
 def test_builder():
-    for final_MD in DATA_DIR.glob("*.md"):
+    allfiles = [f for f in DATA_DIR.glob("*.md")]
+    allfiles.sort()
+
+    for final_MD in allfiles:
         src   = DATA_DIR / final_MD.stem
         dest  = TEMP_DIR / final_MD.name
 
@@ -23,4 +26,4 @@ def test_builder():
         text_build  = dest.read_text().rstrip()
         text_wanted = final_MD.read_text().rstrip()
 
-        assert text_build == text_wanted
+        assert text_build == text_wanted, f"see ''{final_MD.name}''"

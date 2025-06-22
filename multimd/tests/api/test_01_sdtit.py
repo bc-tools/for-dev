@@ -10,16 +10,19 @@ if not TEMP_DIR.is_dir():
     TEMP_DIR.mkdir()
 
 def test_stdit():
-    for init_MD in DATA_DIR.glob("*/INIT.md"):
+    allfiles = [f for f in DATA_DIR.glob("*/INIT.md")]
+    allfiles.sort()
+
+    for init_MD in allfiles:
         src       = init_MD
         src_dir   = init_MD.parent
         test_name = src_dir.name
-        dest      = TEMP_DIR / f"{test_name}-{src.name}"
+        dest      = TEMP_DIR / f"{test_name}.md"
         wanted    = src_dir / "WANTED.md"
 
         stdit(src, dest, True)
 
-        text_build  = dest.read_text()
-        text_wanted = wanted.read_text()
+        lines_build  = dest.read_text(encoding = "utf8").split('\n')
+        lines_wanted = wanted.read_text(encoding = "utf8").split('\n')
 
-        assert text_build == test_name, f"see ''{test_name}.md''"
+        assert lines_build == lines_wanted, f"see ''{test_name}.md''"

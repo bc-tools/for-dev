@@ -18,12 +18,10 @@ Section 1.1
 
 ###### Sub^4 Section 1.1.2.1.1.1
 
-
 Section 1.2
 -----------
 
 That's all.
-
 
 Part 2
 ======
@@ -37,12 +35,10 @@ Section 2.1
 
 ### Sub Section 2.1.2
 
-
 Section 2.2
 -----------
 
 That's all.
-
 
 Part 3
 ======
@@ -55,7 +51,6 @@ Section 3.1
 ### Sub Section 3.1.1
 
 ### Sub Section 3.1.2
-
 
 Section 3.2
 -----------

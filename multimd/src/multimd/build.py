@@ -8,7 +8,8 @@
 
 from pathlib import Path
 
-from .about import *
+from .about    import *
+from .finalize import stdit
 
 
 # ------------------------------------ #
@@ -64,8 +65,15 @@ class Builder:
 
         mdcode += "\n"
 
-# We can build the file, so let's do it.
+# Raw MD version.
         self.dest.write_text(
             data     = mdcode,
             encoding = "utf-8"
+        )
+
+# Standard version.
+        stdit(
+            self.dest,
+            self.dest,
+            self.erase
         )

@@ -1,200 +1,85 @@
-from collections.abc import Sequence
-import inspect
-from typing import Any, ClassVar, Protocol
-
 from pathlib import Path
 
+# No need to rebuild a wheel...
 from markdown_it import MarkdownIt
-from markdown_it.renderer import (
-    RendererHTML,
-    Token,
-    EnvType, OptionsDict
+from markdownify import (
+    MarkdownConverter,
+    markdownify,
 )
 
 
-DECO_SECTION_12 = {
-    '1': "=",
-    '2': "-",
-}
+TAG_TOC           = "::TOC::"
+TAG_ANCHOR        = "MULTIMD-TOC-ANCHOR"
+TAG_TMP_MD_ANCHOR = f"::{TAG_ANCHOR}-{{}}::\n{{}}"
 
-FOCUS = {
-    'em'    : "*",
-    'strong': "**",
-}
-
-MD_TAGS = list(FOCUS) + ['p']
-
-
-# Source
-#     - https://github.com/executablebooks/markdown-it-py/blob/master/markdown_it/renderer.py
-
-class RendererStdMD(RendererHTML):
-    __output__ = "standrard markdown"
-
+###
+# XXXX
+###
+class StdConverter(MarkdownConverter):
+###
+# XXXX
+###
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.in_title       = False
-        self.title_deco_len = 0
+        self.anchor_nb = 0
 
+###
+# XXXX
+###
+    def convert_hN(self, n, el, text, parent_tags):
+        title = super().convert_hN(n, el, "text", parent_tags)
 
-    def renderToken(
-        self,
-        tokens : Sequence[Token],
-        idx    : int,
-        options: OptionsDict,
-        env    : EnvType,
-    ) -> str:
-        token = tokens[idx]
+        n = max(1, min(6, n))
 
-        add_line_after = False
-        result         = ""
+        if n > 1:
+            self.anchor_nb += 1
 
-# Nothing to do.
-        if token.hidden:
-            return ""
-
-# Keep HTML format when no equivalent markdown aletranative exists.
-        tag = token.tag
-
-        if (
-            self.renderAttrs(token)
-            or
-            not tag in MD_TAGS
-            and
-            tag[0] != "h"
-        ):
-            return super().renderToken(
-                tokens,
-                idx,
-                options,
-                env,
+            title = TAG_TMP_MD_ANCHOR.format(
+                self.anchor_nb,
+                title
             )
 
-# Only MD syntax.
-#
-# Newline: see ''RendererHTML'' code.
-#
-# Insert a newline between hidden paragraph and subsequent opening
-# block-level tag.
-#
-# For example, here we should insert a newline before blockquote:
-#  - a
-#    >
-        if token.block and token.nesting != -1 and idx and tokens[idx - 1].hidden:
-            result += "\n"
+        return title
 
-# Check if we need to add a newline after this tag
-        if token.block:
-            add_line_after = True
+###
+# XXXX
+###
+    def convert_code(self, el, text, parent_tags):
+        # Ne pas traiter si on est dans un bloc <pre>
+        if el.parent.name == "pre":
+            return text
 
-            if token.nesting == 1 and (idx + 1 < len(tokens)):
-                nextToken = tokens[idx + 1]
+        code = el.get_text()
 
-                if nextToken.type == "inline" or nextToken.hidden:
-# Block-level tag containing an inline tag.
-                    add_line_after = False
+        if "`" in code:
+            code = f"`{code}`"
 
-                elif nextToken.nesting == -1 and nextToken.tag == token.tag:
-# Opening tag + closing tag of the same type. E.g. `<li></li>`.
-                    add_line_after = False
+        return f"`{code}`"
 
-# A section title.
-        if tag[0] == 'h':
-            level = tag[1]
+###
+# XXXX
+###
+    def convert_pre(self, el, text, parent_tags):
+        code_el = el.find("code")
 
-            if level in DECO_SECTION_12:
-                if token.nesting == -1:
-                    result += "\n"
+        if code_el:
+            lang_classes = code_el.get("class", [])
+            lang = ""
 
-                    result += DECO_SECTION_12[level]*self.title_deco_len
-                    result += "\n"*2
+            for cls in lang_classes:
+                if cls.startswith("language-"):
+                    lang = cls.replace("language-", "")
+                    break
 
-                    self.in_title       = False
-                    self.title_deco_len = 0
+            code = code_el.get_text()
 
-                else:
-                    self.in_title          = True
-                    self.title_deco_len    = 0
-
-            elif token.nesting != -1:
-                result = "#"*int(level)
-                result += " "
-
-            else:
-                result += "\n"*2
-
-            return result
-
-# An inline tag.
-        if tag in FOCUS:
-            result += FOCUS[tag]
-
-# A paragraph.
-        elif tag == 'p':
-            if add_line_after:
-                result += "\n"*2
-
-# Nothing left to do.
-        return result
-
-
-    def code_inline(
-        self,
-        tokens : Sequence[Token],
-        idx    : int,
-        options: OptionsDict,
-        env    : EnvType
-    ) -> str:
-        token = tokens[idx]
-        return  f"`{tokens[idx].content}`"
-
-    def fence(
-        self,
-        tokens : Sequence[Token],
-        idx    : int,
-        options: OptionsDict,
-        env    : EnvType,
-    ) -> str:
-        token = tokens[idx]
-        info = (token.info).strip() if token.info else ""
-        langName = ""
-        langAttrs = ""
-
-        if info:
-            arr = info.split(maxsplit=1)
-            langName = arr[0]
-            if len(arr) == 2:
-                langAttrs = arr[1]
-
-        if options.highlight:
-            highlighted = options.highlight(
-                token.content, langName, langAttrs
-            ) or (token.content)
         else:
-            highlighted = (token.content)
+            lang = ""
+            code = el.get_text()
 
-        if highlighted.startswith("<pre"):
-            return highlighted + "\n"
+        return f"\n~~~{lang}\n{code.strip()}\n~~~\n"
 
-        return f"""
-~~~{langName}
-{highlighted}~~~
-        """.strip() + "\n"*2
-
-    def text(
-        self, tokens: Sequence[Token], idx: int, options: OptionsDict, env: EnvType
-    ) -> str:
-        content = tokens[idx].content
-
-# We need to know the len of a title for the two first levels.
-        if self.in_title:
-            self.title_deco_len = max(
-                len(content),
-                self.title_deco_len
-            )
-
-        return content
 
 ###
 # prototype::
@@ -208,6 +93,7 @@ def stdit(
     dest : Path,
     erase: bool = False
 ) -> None:
+# Can we erase an existing file?
     if not erase and dest.is_file():
         raise IOError(
             f"the function stdit is not allowed "
@@ -216,16 +102,28 @@ def stdit(
             f"{dest}"
         )
 
+# MD nomralized version keeping possible ''::TOC::''.
     mdit = MarkdownIt(
-        renderer_cls   = RendererStdMD,
         options_update = {
-            'breaks': True,
+            # 'breaks': True,
             'html'  : True
         }
     )
 
-    md_std = mdit.render(src.read_text())
-    md_std = md_std.rstrip() + "\n"
+    md_std = mdit.render(
+        src.read_text(encoding = "utf8")
+    )
 
+    sdtconv = StdConverter(bullets = '-'*3)
+    md_std  = sdtconv.convert(md_std)
+    md_std += "\n"
+
+# Management of ''::TOC::''.
+    print(sdtconv.anchor_nb)
+
+# Nothing left to do.
     dest.touch()
-    dest.write_text(md_std)
+    dest.write_text(
+        data     = md_std,
+        encoding = "utf8"
+    )

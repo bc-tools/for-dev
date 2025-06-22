@@ -1,21 +1,31 @@
+<a id="MULTIMD-TOC-ANCHOR-0"></a>
 The `Python` `CLI` and module `multimd`
-=======================================
+============
 
 This document is a short tutorial showing all the features.
 
-::TOC::
+**Table of contents**
 
+- [About `multimd`](#MULTIMD-TOC-ANCHOR-1)
+- [`README.md` part by part](#MULTIMD-TOC-ANCHOR-2)
+- [Without the special `about.yaml` file](#MULTIMD-TOC-ANCHOR-3)
+- [Finishing touches](#MULTIMD-TOC-ANCHOR-4)
+  - [What is done automatically?](#MULTIMD-TOC-ANCHOR-5)
+  - [ToC settings](#MULTIMD-TOC-ANCHOR-6)
 
+<a id="MULTIMD-TOC-ANCHOR-1"></a>
 About `multimd`
----------------
+------
 
 The specific objective of this project is to write `README.md` files for online code repositories. The idea is to write small, separate `MD` files that will then be merged into a single final `MD` file to be seen on the repository.
 
-> *Resources such as images and videos are not managed and never will be. If necessary, use links to resources available on the Internet.*
+<blockquote>
+*Resources such as images and videos are not managed and never will be. If necessary, use links to resources available on the Internet.*
 
-
+</blockquote>
+<a id="MULTIMD-TOC-ANCHOR-2"></a>
 `README.md` part by part
-------------------------
+-------------
 
 With `multimd`, you can write a `MD` document by typing small section-like parts which are easy to maintain. Consider the `README.md` file from the `multimd` project itself which was written using the following tree on 15 June 2025.
 
@@ -31,7 +41,6 @@ With `multimd`, you can write a `MD` document by typing small section-like parts
     + ...
 ~~~
 
-
 The special `about.yaml` file is used to specify a specific order in which the different `MD` files are put together (without this file, a "natural" order is used). Its content is as follows: we give the list of the files without their extension.
 
 ~~~yaml
@@ -42,10 +51,10 @@ toc:
   - no-about
 ~~~
 
+<blockquote>
+***CAUTION!*** *It is possible to specify relative paths, but this requires the use of the Unix path separator `/`.*
 
-> ***CAUTION!*** *It is possible to specify relative paths, but this requires the use of the Unix path separator `/`.*
-
-
+</blockquote>
 Building the final `README.md` file is done quickly on the command line after using the `cd` command to go into the `multimd` folder. We use the option `-e` to allow to erase an existing `README.md` file.
 
 ~~~bash
@@ -56,7 +65,6 @@ Successfully built file.
   + Full path used:
     /full/path/to/README.md
 ~~~
-
 
 There is also an easy-to-use `Python` API where `Path` is the class from the `pathlib` module.
 
@@ -71,41 +79,85 @@ mybuilder = Builder(
 mybuilder.build()
 ~~~
 
+<blockquote>
+***NOTE.*** *It is possible to work with subfolders containing `MD` files. In this case, `multimd` will work recursively. In the `about.yaml` file, the path to a subfolder simply ends with the Unix path separator `/` like in `one/sub/folder/`.*
 
-> ***NOTE.*** *It is possible to work with subfolders containing `MD` files. In this case, `multimd` will work recursively. In the `about.yaml` file, the path to a subfolder simply ends with the Unix path separator `/` like in `one/sub/folder/`.*
-
-
+</blockquote>
+<a id="MULTIMD-TOC-ANCHOR-3"></a>
 Without the special `about.yaml` file
--------------------------------------
+--------------------
 
 Without an `about.yaml` file, all the `MD` files will be merged into one after sorting them in a "natural" order.
 
+<blockquote>
+***WARNING!*** *Without an `about.yaml` file, it is impossible to work with subfolders containing `MD` files. In other words, there will be no recursive search in any subfolders.*
 
-> ***WARNING!*** *Without an `about.yaml` file, it is impossible to work with subfolders containing `MD` files. In other words, there will be no recursive search in any subfolders.*
+</blockquote>
+<a id="MULTIMD-TOC-ANCHOR-4"></a>
+Finishing touches
+-----------------
 
+<a id="MULTIMD-TOC-ANCHOR-5"></a>
+### What is done automatically?
 
-Adding a table of contents
---------------------------
+During final formatting, `multimd` standardises the source code to prevent `git` from spotting any *'false'* changes. Here's what happens behind the scenes.
 
-`multimd` can create a table of contents with hyperlinks, as in this `README` file. To do this, use the keyword `::TOC::` where you want to put your table of contents to appear.
+<ol>
+<li>
+**Add a table of contents**, with hyperlinks, via the alias `::TOC::` that can be used **only on one line and only once**. See the following section for more details.
+
+</li>
+<li>
+**Section titles** use the non-standard, but very visual, syntax of `===` and `---` for the first two levels of section, and then the `#` symbol is used.
+
+</li>
+<li>
+**Removal of unnecessary spaces**.
+
+</li>
+<li>
+**Management of consecutive blank lines**: excluding formatted code, consecutive blank lines are reduced to a single one.
+
+</li>
+<li>
+**Add a blank line** after an `MD` block, if necessary.
+
+</li>
+</ol>
+<blockquote>
+***NOTE.*** The `Python` API allows you to apply the above normalisation to an `MD` file of your choice, as in the following code where `Path` is the class provided by the `pathlib` module (it is possible to use the same source and destination).
+
+</blockquote>
+~~~python
+from multimd import finalize, Path
+
+stdit(
+    src  = Path("/full/path/to/MY-FILE.md")
+    dest = Path("/full/path/to/MY-FILE-STD.md")
+)
+~~~
+
+<a id="MULTIMD-TOC-ANCHOR-6"></a>
+### ToC settings
+
+In the following code, the alias `::TOC::` will be replaced by a table of contents, with hyperlinks, in the final document.
 
 ~~~md
 ...
-Let's put the table of contents here.
+My project
+==========
 
-::TOC::
+Let's put *the table of contents here*.
 
-Let's continue writing our content.
+- [About `multimd`](#MULTIMD-TOC-ANCHOR-1)
+- [`README.md` part by part](#MULTIMD-TOC-ANCHOR-2)
+- [Without the special `about.yaml` file](#MULTIMD-TOC-ANCHOR-3)
+- [Finishing touches](#MULTIMD-TOC-ANCHOR-4)
+  - [What is done automatically?](#MULTIMD-TOC-ANCHOR-5)
+  - [ToC settings](#MULTIMD-TOC-ANCHOR-6)
+
+Let's continue writing **our content**.
 ...
 ~~~
 
-By default, all sections from level `2` onwards are included in the table of contents (level `1` corresponds to the document title). You can specify the maximum level `<m>` of sections to be retained using `::TOC-<m>::`, as in `::TOC-2::`.
-
-
-> ***NOTE.*** There is also an easy-to-use `Python` API where `Path` is the class from the `pathlib` module.
-
-~~~python
-from multimd import addtoc, Path
-
-addtoc(Path("/full/path/to/README.md"))
-~~~
+By default, all sections from level `2` onwards are included in the table of contents (level `1` corresponds to the document title). You can specify the maximum level `<m>` of sections to be retained using `::TOC-<m>::`, as in `::TOC-2::`, which requests that only sections of level `2` be retained.
