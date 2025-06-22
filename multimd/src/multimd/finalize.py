@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 # No need to rebuild a wheel...
 from markdown_it import MarkdownIt
@@ -12,6 +13,9 @@ TAG_TOC           = "::TOC::"
 TAG_ANCHOR        = "MULTIMD-TOC-ANCHOR"
 TAG_TMP_MD_ANCHOR = f"::{TAG_ANCHOR}-{{}}::\n{{}}"
 
+PATTERN_TMP_ANCHOR = re.compile(rf"::{TAG_ANCHOR}-(\d+)::\n")
+
+
 ###
 # XXXX
 ###
@@ -22,30 +26,42 @@ class StdConverter(MarkdownConverter):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.anchor_nb = 0
+        self.anchor_nb  = -1
+        self.nb_tag_TOC = 0
+        self.titles     = []
+
+    def process_text(self, el, parent_tags = None):
+        text = super().process_text(el, parent_tags)
+
+        if (
+            not 'code' in parent_tags
+            and
+            text == TAG_TOC
+        ):
+            self.nb_tag_TOC += 1
+
+        return text
+###
+# XXXX
+###
+    def _convert_hn(self, n, el, text, parent_tags = None):
+        title = super()._convert_hn(n, el, text, parent_tags)
+
+        if "blockquote" in parent_tags:
+            return title
+
+        title = title.lstrip()
+
+        self.titles.append((text, n))
+
+        self.anchor_nb += 1
+
+        return TAG_TMP_MD_ANCHOR.format(self.anchor_nb, title)
 
 ###
 # XXXX
 ###
-    def convert_hN(self, n, el, text, parent_tags):
-        title = super().convert_hN(n, el, "text", parent_tags)
-
-        n = max(1, min(6, n))
-
-        if n > 1:
-            self.anchor_nb += 1
-
-            title = TAG_TMP_MD_ANCHOR.format(
-                self.anchor_nb,
-                title
-            )
-
-        return title
-
-###
-# XXXX
-###
-    def convert_code(self, el, text, parent_tags):
+    def convert_code(self, el, text, parent_tags = None):
         # Ne pas traiter si on est dans un bloc <pre>
         if el.parent.name == "pre":
             return text
@@ -60,7 +76,7 @@ class StdConverter(MarkdownConverter):
 ###
 # XXXX
 ###
-    def convert_pre(self, el, text, parent_tags):
+    def convert_pre(self, el, text, parent_tags = None):
         code_el = el.find("code")
 
         if code_el:
@@ -119,7 +135,55 @@ def stdit(
     md_std += "\n"
 
 # Management of ''::TOC::''.
-    print(sdtconv.anchor_nb)
+    nb_tag_TOC = sdtconv.nb_tag_TOC
+
+# Misuse of ''::TOC::''.
+    if nb_tag_TOC > 1:
+        raise ValueError(
+            f"Too many ''{TAG_TOC}'' used."
+        )
+
+# No ''::TOC::''.
+    elif nb_tag_TOC == 0:
+        md_std = re.sub(
+            PATTERN_TMP_ANCHOR,
+            '',
+            md_std,
+        )
+
+# Let's build the ToC.
+    else:
+        md_std = re.sub(
+            PATTERN_TMP_ANCHOR,
+            rf'<a id="{TAG_ANCHOR}-\1"></a>\n',
+            md_std,
+        )
+
+        old_lines = md_std.split('\n')
+        md_std    = []
+
+        for line in old_lines:
+            if line == TAG_TOC:
+                toc_html = []
+
+                for i, (title, level) in enumerate(sdtconv.titles):
+                    if level == 1:
+                        continue
+
+                    tab   = "  "*(level- 2)
+                    title = title.replace("\n", "</br>")
+
+                    toc_html.append(
+                        f"{tab}- [{title}](#{TAG_ANCHOR}-{i})"
+                    )
+
+                line = "\n".join(toc_html)
+
+
+            md_std.append(line)
+
+        md_std = "\n".join(md_std)
+
 
 # Nothing left to do.
     dest.touch()

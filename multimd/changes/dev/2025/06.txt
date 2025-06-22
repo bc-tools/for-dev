@@ -2,19 +2,20 @@
 
 
 ==
-?????
+23  (1.0.0-rc.1)
 ==
 
 -----
 :new:
 -----
 
-[[:api:]]    ????
-\Toc: one placeholder can be used to obtain the \toc with hyperlinks of the single final ''MD'' file.
+[[:api:]]
+Two important new features just before the first version version::''1.0.0''.
 
+    1) \Toc: the placeholder ''::TOC::'' can be used to obtain the \toc with hyperlinks of the final ''MD'' file.
 
-[[:format:]]    ????
-Final ‘MD’ file: the code is always generated using the same formatting rules.
+    1) Standardisation of the final ‘MD’ file to to prevent `git` from spotting any *'false'* changes.
+
 
 // ---------- //
 

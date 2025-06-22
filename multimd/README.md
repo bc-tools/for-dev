@@ -1,6 +1,6 @@
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 The `Python` `CLI` and module `multimd`
-============
+=======================================
 
 This document is a short tutorial showing all the features.
 
@@ -15,17 +15,15 @@ This document is a short tutorial showing all the features.
 
 <a id="MULTIMD-TOC-ANCHOR-1"></a>
 About `multimd`
-------
+---------------
 
 The specific objective of this project is to write `README.md` files for online code repositories. The idea is to write small, separate `MD` files that will then be merged into a single final `MD` file to be seen on the repository.
 
-<blockquote>
-*Resources such as images and videos are not managed and never will be. If necessary, use links to resources available on the Internet.*
+> *Resources such as images and videos are not managed and never will be. If necessary, use links to resources available on the Internet.*
 
-</blockquote>
 <a id="MULTIMD-TOC-ANCHOR-2"></a>
 `README.md` part by part
--------------
+------------------------
 
 With `multimd`, you can write a `MD` document by typing small section-like parts which are easy to maintain. Consider the `README.md` file from the `multimd` project itself which was written using the following tree on 15 June 2025.
 
@@ -50,11 +48,8 @@ toc:
   - with-about
   - no-about
 ~~~
+> ***CAUTION!*** *It is possible to specify relative paths, but this requires the use of the Unix path separator `/`.*
 
-<blockquote>
-***CAUTION!*** *It is possible to specify relative paths, but this requires the use of the Unix path separator `/`.*
-
-</blockquote>
 Building the final `README.md` file is done quickly on the command line after using the `cd` command to go into the `multimd` folder. We use the option `-e` to allow to erase an existing `README.md` file.
 
 ~~~bash
@@ -78,21 +73,16 @@ mybuilder = Builder(
 )
 mybuilder.build()
 ~~~
+> ***NOTE.*** *It is possible to work with subfolders containing `MD` files. In this case, `multimd` will work recursively. In the `about.yaml` file, the path to a subfolder simply ends with the Unix path separator `/` like in `one/sub/folder/`.*
 
-<blockquote>
-***NOTE.*** *It is possible to work with subfolders containing `MD` files. In this case, `multimd` will work recursively. In the `about.yaml` file, the path to a subfolder simply ends with the Unix path separator `/` like in `one/sub/folder/`.*
-
-</blockquote>
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
 Without the special `about.yaml` file
---------------------
+-------------------------------------
 
 Without an `about.yaml` file, all the `MD` files will be merged into one after sorting them in a "natural" order.
 
-<blockquote>
-***WARNING!*** *Without an `about.yaml` file, it is impossible to work with subfolders containing `MD` files. In other words, there will be no recursive search in any subfolders.*
+> ***WARNING!*** *Without an `about.yaml` file, it is impossible to work with subfolders containing `MD` files. In other words, there will be no recursive search in any subfolders.*
 
-</blockquote>
 <a id="MULTIMD-TOC-ANCHOR-4"></a>
 Finishing touches
 -----------------
@@ -102,32 +92,14 @@ Finishing touches
 
 During final formatting, `multimd` standardises the source code to prevent `git` from spotting any *'false'* changes. Here's what happens behind the scenes.
 
-<ol>
-<li>
-**Add a table of contents**, with hyperlinks, via the alias `::TOC::` that can be used **only on one line and only once**. See the following section for more details.
+1. **Add a table of contents**, with hyperlinks, via the alias `::TOC::` that can be used **only on one line and only once**. See the following section for more details.
+2. **Section titles** use the non-standard, but very visual, syntax of `===` and `---` for the first two levels of section, and then the `#` symbol is used.
+3. **Removal of unnecessary spaces**.
+4. **Management of consecutive blank lines**: excluding formatted code, consecutive blank lines are reduced to a single one.
+5. **Add a blank line** after an `MD` block, if necessary.
 
-</li>
-<li>
-**Section titles** use the non-standard, but very visual, syntax of `===` and `---` for the first two levels of section, and then the `#` symbol is used.
+> ***NOTE.*** The `Python` API allows you to apply the above normalisation to an `MD` file of your choice, as in the following code where `Path` is the class provided by the `pathlib` module (it is possible to use the same source and destination).
 
-</li>
-<li>
-**Removal of unnecessary spaces**.
-
-</li>
-<li>
-**Management of consecutive blank lines**: excluding formatted code, consecutive blank lines are reduced to a single one.
-
-</li>
-<li>
-**Add a blank line** after an `MD` block, if necessary.
-
-</li>
-</ol>
-<blockquote>
-***NOTE.*** The `Python` API allows you to apply the above normalisation to an `MD` file of your choice, as in the following code where `Path` is the class provided by the `pathlib` module (it is possible to use the same source and destination).
-
-</blockquote>
 ~~~python
 from multimd import finalize, Path
 
@@ -136,7 +108,6 @@ stdit(
     dest = Path("/full/path/to/MY-FILE-STD.md")
 )
 ~~~
-
 <a id="MULTIMD-TOC-ANCHOR-6"></a>
 ### ToC settings
 

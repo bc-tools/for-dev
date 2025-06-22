@@ -75,5 +75,5 @@ class Builder:
         stdit(
             self.dest,
             self.dest,
-            self.erase
+            erase = True
         )
