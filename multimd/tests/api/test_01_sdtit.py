@@ -22,4 +22,4 @@ def test_stdit():
         text_build  = dest.read_text()
         text_wanted = wanted.read_text()
 
-        assert (test_name, text_build) == (test_name, text_wanted)
+        assert text_build == test_name, f"see ''{test_name}.md''"

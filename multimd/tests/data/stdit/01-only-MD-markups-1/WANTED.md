@@ -1,4 +1,4 @@
-Section I
+Section 1
 =========
 
 Sub Section 3.1
@@ -6,17 +6,15 @@ Sub Section 3.1
 
 ### Sub Section 3.1.1
 
-Some ***text*** and some `code`.
-
 ~~~python
 print("Missing empty lines!")
 ~~~
 
+Some ***text*** and some `code`.
 
 ### Sub Section 3.1.2
 
 Another sub section.
-
 
 Section 3.2
 -----------

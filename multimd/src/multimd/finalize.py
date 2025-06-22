@@ -22,6 +22,9 @@ FOCUS = {
     'strong': "**",
 }
 
+MD_TAGS = list(FOCUS) + ['p']
+
+
 # Source
 #     - https://github.com/executablebooks/markdown-it-py/blob/master/markdown_it/renderer.py
 
@@ -31,9 +34,8 @@ class RendererStdMD(RendererHTML):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.in_title          = False
-        self.title_deco_len    = 0
-        self.line_before_title = False
+        self.in_title       = False
+        self.title_deco_len = 0
 
 
     def renderToken(
@@ -48,22 +50,41 @@ class RendererStdMD(RendererHTML):
         add_line_after = False
         result         = ""
 
-
-        # Tight list paragraphs
+# Nothing to do.
         if token.hidden:
             return ""
 
-        # Insert a newline between hidden paragraph and subsequent opening
-        # block-level tag.
-        #
-        # For example, here we should insert a newline before blockquote:
-        #  - a
-        #    >
-        #
+# Keep HTML format when no equivalent markdown aletranative exists.
+        tag = token.tag
+
+        if (
+            self.renderAttrs(token)
+            or
+            not tag in MD_TAGS
+            and
+            tag[0] != "h"
+        ):
+            return super().renderToken(
+                tokens,
+                idx,
+                options,
+                env,
+            )
+
+# Only MD syntax.
+#
+# Newline: see ''RendererHTML'' code.
+#
+# Insert a newline between hidden paragraph and subsequent opening
+# block-level tag.
+#
+# For example, here we should insert a newline before blockquote:
+#  - a
+#    >
         if token.block and token.nesting != -1 and idx and tokens[idx - 1].hidden:
             result += "\n"
 
-        # Check if we need to add a newline after this tag
+# Check if we need to add a newline after this tag
         if token.block:
             add_line_after = True
 
@@ -71,40 +92,30 @@ class RendererStdMD(RendererHTML):
                 nextToken = tokens[idx + 1]
 
                 if nextToken.type == "inline" or nextToken.hidden:
-                    # Block-level tag containing an inline tag.
-                    #
+# Block-level tag containing an inline tag.
                     add_line_after = False
 
                 elif nextToken.nesting == -1 and nextToken.tag == token.tag:
-                    # Opening tag + closing tag of the same type. E.g. `<li></li>`.
-                    #
+# Opening tag + closing tag of the same type. E.g. `<li></li>`.
                     add_line_after = False
 
-        tag = token.tag
-
-        if tag == 'p':
-            if add_line_after:
-                result += "\n"*2
-
-
-        elif tag[0] == 'h':
+# A section title.
+        if tag[0] == 'h':
             level = tag[1]
 
             if level in DECO_SECTION_12:
                 if token.nesting == -1:
                     result += "\n"
+
                     result += DECO_SECTION_12[level]*self.title_deco_len
                     result += "\n"*2
 
                     self.in_title       = False
                     self.title_deco_len = 0
 
-
-
                 else:
-                    self.in_title       = True
-                    self.title_deco_len = 0
-
+                    self.in_title          = True
+                    self.title_deco_len    = 0
 
             elif token.nesting != -1:
                 result = "#"*int(level)
@@ -113,23 +124,18 @@ class RendererStdMD(RendererHTML):
             else:
                 result += "\n"*2
 
-        elif tag in FOCUS:
+            return result
+
+# An inline tag.
+        if tag in FOCUS:
             result += FOCUS[tag]
 
+# A paragraph.
+        elif tag == 'p':
+            if add_line_after:
+                result += "\n"*2
 
-        else:
-            # Add token name, e.g. `<img`
-            result += ("</" if token.nesting == -1 else "<") + token.tag
-
-            # Encode attributes, e.g. `<img src="foo"`
-            result += self.renderAttrs(token)
-
-            # Add a slash for self-closing tags, e.g. `<img src="foo" /`
-            if token.nesting == 0 and options["xhtmlOut"]:
-                result += " /"
-
-            result += ">\n" if add_line_after else ">"
-
+# Nothing left to do.
         return result
 
 
@@ -181,6 +187,7 @@ class RendererStdMD(RendererHTML):
     ) -> str:
         content = tokens[idx].content
 
+# We need to know the len of a title for the two first levels.
         if self.in_title:
             self.title_deco_len = max(
                 len(content),
@@ -218,6 +225,7 @@ def stdit(
     )
 
     md_std = mdit.render(src.read_text())
+    md_std = md_std.rstrip() + "\n"
 
     dest.touch()
     dest.write_text(md_std)
