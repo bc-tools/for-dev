@@ -104,8 +104,9 @@ During final formatting, `multimd` standardises the source code to prevent `git`
 from multimd import finalize, Path
 
 stdit(
-    src  = Path("/full/path/to/MY-FILE.md")
-    dest = Path("/full/path/to/MY-FILE-STD.md")
+    src   = Path("/full/path/to/MY-FILE.md"),
+    dest  = Path("/full/path/to/MY-FILE-STD.md"),
+    erase = True
 )
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-6"></a>
@@ -120,15 +121,10 @@ My project
 
 Let's put *the table of contents here*.
 
-- [About `multimd`](#MULTIMD-TOC-ANCHOR-1)
-- [`README.md` part by part](#MULTIMD-TOC-ANCHOR-2)
-- [Without the special `about.yaml` file](#MULTIMD-TOC-ANCHOR-3)
-- [Finishing touches](#MULTIMD-TOC-ANCHOR-4)
-  - [What is done automatically?](#MULTIMD-TOC-ANCHOR-5)
-  - [ToC settings](#MULTIMD-TOC-ANCHOR-6)
+::TOC::
 
 Let's continue writing **our content**.
 ...
 ~~~
 
-By default, all sections from level `2` onwards are included in the table of contents (level `1` corresponds to the document title). You can specify the maximum level `<m>` of sections to be retained using `::TOC-<m>::`, as in `::TOC-2::`, which requests that only sections of level `2` be retained.
+By default, all sections from level `2` onwards are included in the table of contents (level `1` corresponds to the document title). You can specify the maximum depth `<depth>` of the table of content sections to be retained using `::TOC-<m>::`, as in `::TOC-2::`, which requests that only sections of level `2` be retained.

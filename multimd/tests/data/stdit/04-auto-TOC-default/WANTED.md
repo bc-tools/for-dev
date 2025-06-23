@@ -11,7 +11,15 @@ Section 1
 Sub Section 1.1
 ---------------
 
-Content A
+Content A: we don't want a `::TOC::` here!
+
+~~~
+No
+::TOC::
+here!
+~~~
+
+OK?
 
 <a id="MULTIMD-TOC-ANCHOR-2"></a>
 ### Sub Section 1.1.1

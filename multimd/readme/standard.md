@@ -22,8 +22,9 @@ During final formatting, `multimd` standardises the source code to prevent `git`
 from multimd import finalize, Path
 
 stdit(
-    src  = Path("/full/path/to/MY-FILE.md")
-    dest = Path("/full/path/to/MY-FILE-STD.md")
+    src   = Path("/full/path/to/MY-FILE.md"),
+    dest  = Path("/full/path/to/MY-FILE-STD.md"),
+    erase = True
 )
 ~~~
 
@@ -45,4 +46,4 @@ Let's continue writing **our content**.
 ...
 ~~~
 
-By default, all sections from level `2` onwards are included in the table of contents (level `1` corresponds to the document title). You can specify the maximum level `<m>` of sections to be retained using `::TOC-<m>::`, as in `::TOC-2::`, which requests that only sections of level `2` be retained.
+By default, all sections from level `2` onwards are included in the table of contents (level `1` corresponds to the document title). You can specify the maximum depth `<depth>` of the table of content sections to be retained using `::TOC-<depth>::`, as in `::TOC-1::`, which requests that only sections of level `2` be retained.

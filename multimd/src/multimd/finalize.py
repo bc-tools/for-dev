@@ -1,3 +1,9 @@
+###
+# This module ????    allows to make a single path::''MD'' file from several single
+# ones (using or not an "automatic" merging).
+###
+
+
 from pathlib import Path
 import re
 
@@ -9,12 +15,21 @@ from markdownify import (
 )
 
 
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
 TAG_TOC           = "::TOC::"
+TAG_TMP_TOC       = "::M+u-L+t-I+m-D=T-o+C::"
 TAG_ANCHOR        = "MULTIMD-TOC-ANCHOR"
 TAG_TMP_MD_ANCHOR = f"::{TAG_ANCHOR}-{{}}::\n{{}}"
 
 PATTERN_TMP_ANCHOR = re.compile(rf"::{TAG_ANCHOR}-(\d+)::\n")
 
+
+# ------------------------------------ #
+# -- XXXX -- #
+# ------------------------------------ #
 
 ###
 # XXXX
@@ -39,6 +54,8 @@ class StdConverter(MarkdownConverter):
             text == TAG_TOC
         ):
             self.nb_tag_TOC += 1
+
+            text = TAG_TMP_TOC
 
         return text
 ###
@@ -163,7 +180,7 @@ def stdit(
         md_std    = []
 
         for line in old_lines:
-            if line == TAG_TOC:
+            if line == TAG_TMP_TOC:
                 toc_html = []
 
                 for i, (title, level) in enumerate(sdtconv.titles):

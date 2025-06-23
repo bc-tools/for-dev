@@ -2,6 +2,30 @@
 
 
 ==
+23  (1.0.0-rc.2)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]    ?????
+\Toc with settings: the placeholders ''::TOC-<depth>::'' can be used to chiise the depth of the \toc.
+
+
+
+-----
+:fix:
+-----
+
+[[:api:]]
+\Toc without settings: the placeholder ''::TOC::'' was change regadles of its use in a code content.
+
+
+// ---------- //
+
+
+==
 23  (1.0.0-rc.1)
 ==
 
@@ -12,7 +36,7 @@
 [[:api:]]
 Two important new features just before the first version version::''1.0.0''.
 
-    1) \Toc: the placeholder ''::TOC::'' can be used to obtain the \toc with hyperlinks of the final ''MD'' file.
+    1) \Toc without settings: the placeholder ''::TOC::'' can be used to obtain the \toc with hyperlinks of the final ''MD'' file.
 
     1) Standardisation of the final ‘MD’ file to to prevent `git` from spotting any *'false'* changes.
 
