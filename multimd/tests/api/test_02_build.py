@@ -3,19 +3,20 @@
 from multimd import Builder, Path
 
 THIS_DIR = Path(__file__).parent
-DATA_DIR = THIS_DIR.parent / "data" / "buildit"
-TEMP_DIR = DATA_DIR / ".temp"
 
-if not TEMP_DIR.is_dir():
-    TEMP_DIR.mkdir()
+DATA_OK_DIR = THIS_DIR.parent / "data" / "OK" / "buildit"
+TEMP_OK_DIR = DATA_OK_DIR / ".temp"
 
-def test_builder():
-    allfiles = [f for f in DATA_DIR.glob("*.md")]
+if not TEMP_OK_DIR.is_dir():
+    TEMP_OK_DIR.mkdir()
+
+def test_builder_OK():
+    allfiles = [f for f in DATA_OK_DIR.glob("*.md")]
     allfiles.sort()
 
     for final_MD in allfiles:
-        src   = DATA_DIR / final_MD.stem
-        dest  = TEMP_DIR / final_MD.name
+        src   = DATA_OK_DIR / final_MD.stem
+        dest  = TEMP_OK_DIR / final_MD.name
 
         Builder(
             src   = src,

@@ -2,24 +2,30 @@
 
 
 ==
-23  (1.0.0-rc.2)
+23  (1.0.0-rc.3)
 ==
 
 -----
 :new:
 -----
 
-[[:api:]]    ?????
+[[:api:]]
 \Toc with settings: the placeholders ''::TOC-<depth>::'' can be used to chiise the depth of the \toc.
 
 
+// ---------- //
+
+
+==
+23  (1.0.0-rc.2)
+==
 
 -----
 :fix:
 -----
 
 [[:api:]]
-\Toc without settings: the placeholder ''::TOC::'' was change regadles of its use in a code content.
+\Toc without settings: the placeholder ''::TOC::'' was changed regardless of its use in a code content.
 
 
 // ---------- //

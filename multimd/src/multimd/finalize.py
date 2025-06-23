@@ -19,12 +19,14 @@ from markdownify import (
 # -- CONSTANTS -- #
 # --------------- #
 
-TAG_TOC           = "::TOC::"
-TAG_TMP_TOC       = "::M+u-L+t-I+m-D=T-o+C::"
-TAG_ANCHOR        = "MULTIMD-TOC-ANCHOR"
-TAG_TMP_MD_ANCHOR = f"::{TAG_ANCHOR}-{{}}::\n{{}}"
+TAG_TOC     = "::TOC::"
+TAG_TMP_TOC = "::M+u-L+t-I+m-D=T-o+C::"
+PATTERN_TOC = re.compile(rf"::TOC(-(\d+))?::")
 
-PATTERN_TMP_ANCHOR = re.compile(rf"::{TAG_ANCHOR}-(\d+)::\n")
+TAG_ANCHOR         = "MULTIMD-TOC-ANCHOR"
+TAG_TMP_MD_ANCHOR  = f"::{TAG_ANCHOR}-{{}}::\n{{}}"
+PATTERN_TMP_ANCHOR = re.compile(rf"::{TAG_ANCHOR}-\d+::\n")
+
 
 
 # ------------------------------------ #
@@ -43,17 +45,33 @@ class StdConverter(MarkdownConverter):
 
         self.anchor_nb  = -1
         self.nb_tag_TOC = 0
+        self.depth_TOC  = 100 # "Infinite" depth....
         self.titles     = []
 
     def process_text(self, el, parent_tags = None):
         text = super().process_text(el, parent_tags)
 
+# Do we have a placeholder for a ToC?
+        matched_toc = re.match(
+            PATTERN_TOC,
+            text
+        )
+
         if (
             not 'code' in parent_tags
             and
-            text == TAG_TOC
+            not matched_toc is None
         ):
             self.nb_tag_TOC += 1
+
+            if matched_toc.groups() != -1:
+                self.depth_TOC = matched_toc.groups()[1]
+
+                if self.depth_TOC is None:
+                    self.depth_TOC = 100
+
+                else:
+                    self.depth_TOC = int(self.depth_TOC)
 
             text = TAG_TMP_TOC
 
@@ -64,14 +82,19 @@ class StdConverter(MarkdownConverter):
     def _convert_hn(self, n, el, text, parent_tags = None):
         title = super()._convert_hn(n, el, text, parent_tags)
 
-        if "blockquote" in parent_tags:
+        print((parent_tags, n))
+        if (
+            "blockquote" in parent_tags
+            or
+            n == 1
+        ):
             return title
 
         title = title.lstrip()
 
-        self.titles.append((text, n))
-
         self.anchor_nb += 1
+
+        self.titles.append((text, n, self.anchor_nb))
 
         return TAG_TMP_MD_ANCHOR.format(self.anchor_nb, title)
 
@@ -113,6 +136,20 @@ class StdConverter(MarkdownConverter):
 
         return f"\n~~~{lang}\n{code.strip()}\n~~~\n"
 
+###
+# XXXX
+###
+def _update_anchor_HTML():
+    anchor_nb_HTML = -1
+
+    def replace(match):
+        nonlocal anchor_nb_HTML
+
+        anchor_nb_HTML += 1
+
+        return f'<a id="MULTIMD-TOC-ANCHOR-{anchor_nb_HTML}"></a>\n'
+
+    return replace
 
 ###
 # prototype::
@@ -153,6 +190,8 @@ def stdit(
 
 # Management of ''::TOC::''.
     nb_tag_TOC = sdtconv.nb_tag_TOC
+    depth_TOC  = sdtconv.depth_TOC
+    all_titles = sdtconv.titles
 
 # Misuse of ''::TOC::''.
     if nb_tag_TOC > 1:
@@ -160,47 +199,53 @@ def stdit(
             f"Too many ''{TAG_TOC}'' used."
         )
 
-# No ''::TOC::''.
-    elif nb_tag_TOC == 0:
-        md_std = re.sub(
-            PATTERN_TMP_ANCHOR,
-            '',
-            md_std,
-        )
+# Remove unused title anchors.
+    anchor_nbs_kept = []
 
-# Let's build the ToC.
-    else:
-        md_std = re.sub(
-            PATTERN_TMP_ANCHOR,
-            rf'<a id="{TAG_ANCHOR}-\1"></a>\n',
-            md_std,
-        )
+    for (title, level, anchor_nb) in all_titles:
+        if (
+            nb_tag_TOC == 1
+            and
+            level - 1 <= depth_TOC
+        ):
+            anchor_nbs_kept.append(anchor_nb)
 
-        old_lines = md_std.split('\n')
-        md_std    = []
+        else:
+            md_std = md_std.replace(TAG_TMP_MD_ANCHOR.format(anchor_nb, ''), '')
+
+
+# We have to build the ToC.
+    if nb_tag_TOC == 1:
+# Consecutive anchor numbers is prettier.
+        md_std = PATTERN_TMP_ANCHOR.sub(_update_anchor_HTML(), md_std)
+
+# The ToC itself.
+        old_lines     = md_std.split('\n')
+        md_std        = []
+        anchor_nb_TOC = -1
 
         for line in old_lines:
             if line == TAG_TMP_TOC:
                 toc_html = []
 
-                for i, (title, level) in enumerate(sdtconv.titles):
-                    if level == 1:
+                for i, (title, level, anchor_nb) in enumerate(all_titles):
+                    if not anchor_nb in anchor_nbs_kept:
                         continue
 
-                    tab   = "  "*(level- 2)
+                    anchor_nb_TOC += 1
+
+                    tab   = "  "*(level - 2)
                     title = title.replace("\n", "</br>")
 
                     toc_html.append(
-                        f"{tab}- [{title}](#{TAG_ANCHOR}-{i})"
+                        f"{tab}- [{title}](#{TAG_ANCHOR}-{anchor_nb_TOC})"
                     )
 
                 line = "\n".join(toc_html)
 
-
             md_std.append(line)
 
         md_std = "\n".join(md_std)
-
 
 # Nothing left to do.
     dest.touch()
