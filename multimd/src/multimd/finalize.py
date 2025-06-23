@@ -1,6 +1,5 @@
 ###
-# This module ????    allows to make a single path::''MD'' file from several single
-# ones (using or not an "automatic" merging).
+# This module ????
 ###
 
 
@@ -28,10 +27,9 @@ TAG_TMP_MD_ANCHOR  = f"::{TAG_ANCHOR}-{{}}::\n{{}}"
 PATTERN_TMP_ANCHOR = re.compile(rf"::{TAG_ANCHOR}-\d+::\n")
 
 
-
-# ------------------------------------ #
-# -- XXXX -- #
-# ------------------------------------ #
+# -------------------------------------- #
+# -- CLASS FOR CUSTOMISING CONVERSION -- #
+# -------------------------------------- #
 
 ###
 # XXXX
@@ -48,6 +46,9 @@ class StdConverter(MarkdownConverter):
         self.depth_TOC  = 100 # "Infinite" depth....
         self.titles     = []
 
+###
+# XXXX
+###
     def process_text(self, el, parent_tags = None):
         text = super().process_text(el, parent_tags)
 
@@ -76,13 +77,13 @@ class StdConverter(MarkdownConverter):
             text = TAG_TMP_TOC
 
         return text
+
 ###
 # XXXX
 ###
     def _convert_hn(self, n, el, text, parent_tags = None):
         title = super()._convert_hn(n, el, text, parent_tags)
 
-        print((parent_tags, n))
         if (
             "blockquote" in parent_tags
             or
@@ -135,6 +136,11 @@ class StdConverter(MarkdownConverter):
             code = el.get_text()
 
         return f"\n~~~{lang}\n{code.strip()}\n~~~\n"
+
+
+# ------------------------------ #
+# -- THE CUSTOMISATION ITSELF -- #
+# ------------------------------ #
 
 ###
 # XXXX

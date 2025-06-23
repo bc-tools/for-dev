@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-__version__ = "0.3.2-beta"
-
-from typing import *
+__version__ = "1.0.0"
 
 from .about    import *
 from .build    import *

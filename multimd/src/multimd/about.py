@@ -2,8 +2,8 @@
 
 ###
 # This module finds paths to path::''MD'' files either by following
-# the specification in a path::''about.yaml'' file, or by looking
-# directly in a directory (without going further recursively).
+# the \spec in a path::''about.yaml'' file, or by looking directly,
+# but not recursively, in a \dir.
 ###
 
 
@@ -34,14 +34,14 @@ MD_FILE_SUFFIX = f".{MD_FILE_EXT}"
 
 
 ###
-# This class produces a list of file paths from a path::''maindir'' folder.
+# This \cls produces a list of file paths from a path::''maindir'' folder.
 # There are two possible ways of doing this.
 #
 #     1) If there is a path::''about.yaml'' file in path::''maindir'',
-#        the yaml::''toc'' block specifications are followed.
+#        the yaml::''toc'' block \specs are followed.
 #
 #     2) If there is no path::''about.yaml'' file, a search is made only
-#        in path::''maindir''.
+#        in path::''maindir'' without any recursive search.
 #
 #
 # warning::
@@ -51,7 +51,7 @@ class TOC:
 
 ###
 # prototype::
-#     maindir : the path of the directory to analyze.
+#     maindir : the path of the \dir to analyze.
 ###
     def __init__(
         self,
@@ -71,7 +71,7 @@ class TOC:
 
 ###
 # prototype::
-#     curdir : the path of a directory to analyze.
+#     curdir : the path of a \dir to analyze.
 #
 #     :return: the list of absolute paths found inside path::''curdir''
 #              by using or not an path::''about.yaml'' file.
@@ -128,7 +128,7 @@ class TOC:
 
 ###
 # prototype::
-#     curdir : the path of the directory analyzed.
+#     curdir : the path of the \dir analyzed.
 #
 #     :return: the list of candidate paths found inside path::''curdir''
 #              by using or not an path::''about.yaml'' file.
@@ -167,9 +167,7 @@ class TOC:
 
         except Exception as e:
             raise self._raise_this(
-                 "Exception from the package yaml:"
-                 "\n"
-                f"{e}"
+                f"Exception from the package yaml:\n{e}"
             )
 
 ###

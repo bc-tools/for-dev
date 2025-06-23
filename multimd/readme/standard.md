@@ -3,9 +3,9 @@ Finishing touches
 
 ### What is done automatically?
 
-During final formatting, `multimd` standardises the source code to prevent `git` from spotting any *'false'* changes. Here's what happens behind the scenes.
+During final formatting, `multimd` standardises the source code to prevent `git` from spotting any *'false-positive'* changes. Here's what happens behind the scenes.
 
-  1. **Add a table of contents**, with hyperlinks, via the alias `::TOC::` that can be used **only on one line and only once**. See the following section for more details.
+  1. **Add a table of contents**, with hyperlinks, via the alias `::TOC::` that can be used **only alone on one line and only once**. See the following section for more details.
 
   1. **Section titles** use the non-standard, but very visual, syntax of `===` and `---` for the first two levels of section, and then the `#` symbol is used.
 
@@ -16,7 +16,7 @@ During final formatting, `multimd` standardises the source code to prevent `git`
   1. **Add a blank line** after an `MD` block, if necessary.
 
 
-> ***NOTE.*** The `Python` API allows you to apply the above normalisation to an `MD` file of your choice, as in the following code where `Path` is the class provided by the `pathlib` module (it is possible to use the same source and destination).
+> ***NOTE.*** *The `Python` API allows you to apply the above normalisation to an `MD` file of your choice, as in the following code where `Path` is the class provided by the `pathlib` module (it is possible to use the same source and destination).*
 
 ~~~python
 from multimd import finalize, Path

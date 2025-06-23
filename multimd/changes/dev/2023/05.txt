@@ -10,7 +10,7 @@
 --------
 
 [[:fix:]]
-Bug in the ¨cli: the class ''pathlib.Path'' was not imported (this broke the type checking).
+Bug in the \cli: the class ''pathlib.Path'' was not imported (this broke the type checking).
 
 
 // ---------- //
@@ -65,7 +65,7 @@ Features added.
 
     1) Erasing an existing final path::''MD'' file is not allowed by default now.
 
-    1) ¨CLI: direct use of the command term::''multimd'' is now possible.
+    1) \Cli: direct use of the command term::''multimd'' is now possible.
 
 
 -------
@@ -73,13 +73,13 @@ Features added.
 -------
 
 [[:api:]]
-Changes made.
+\Chges made.
 
     1) path::''toc.py'' and ''TOC'' have been renamed to path::''mmdtoc.py'' and ''MMDTOC'' respectively.
 
     1) path::''build.py'' and ''Builder'' have been changed to path::''mmdbuild.py'' and ''MMDBuilder'' respectively.
 
-    1) The classes ''mmdbuild.MMDBuilder'' and ''mmdtoc.MMDTOC'' have been factorised such to manage recursive searchs.
+    1) The classes ''mmdbuild.MMDBuilder'' and ''mmdtoc.MMDTOC'' have been factorised to manage recursive searchs.
 
 
 --------
@@ -87,8 +87,8 @@ Changes made.
 --------
 
 [[:doc:]]
-Changes made in the path::''README'' file.
+\Chges made in the path::''README'' file.
 
-    1) The use of command lines is indicated.
+    1) The use of \cmd lines is indicated.
 
     1) The non-inclusion of resources is indicated.

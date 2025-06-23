@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# This module is the entry point for the command ''multimd ...''.
+# This module is the entry point for the \cmd ''multimd ...''.
 ###
 
 

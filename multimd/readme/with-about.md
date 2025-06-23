@@ -1,7 +1,7 @@
 `README.md` part by part
 ------------------------
 
-With `multimd`, you can write a `MD` document by typing small section-like parts which are easy to maintain. Consider the `README.md` file from the `multimd` project itself which was written using the following tree on 15 June 2025.
+With `multimd`, you can write a `MD` document by typing small section-like files which are easy to maintain. Consider the `README.md` file from the `multimd` project itself which was written using the following tree on 23 June 2025 (the day of the version `1.0.0`).
 
 ~~~
 + multimd
@@ -11,6 +11,7 @@ With `multimd`, you can write a `MD` document by typing small section-like parts
         * LICENSE.txt
         * no-about.md
         * prologue.md
+        * standard.md
         * with-about.md
     + ...
 ~~~
@@ -24,10 +25,11 @@ toc:
   - about
   - with-about
   - no-about
+  - standard
 ~~~
 
 
-> ***CAUTION!*** *It is possible to specify relative paths, but this requires the use of the Unix path separator `/`.*
+> ***NOTE.*** *It is possible to specify relative paths, but this requires the use of the Unix path separator `/`.*
 
 
 Building the final `README.md` file is done quickly on the command line after using the `cd` command to go into the `multimd` folder. We use the option `-e` to allow to erase an existing `README.md` file.

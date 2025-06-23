@@ -3,7 +3,7 @@ requires      = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-version         = "0.3.2-beta"
+version         = "1.0.0"
 requires-python = ">=3.12"
 name            = "multimd"
 description     = "This project makes it possible to write separated pieces of ''MD'' files that will be merged to produce one single final ''MD'' file."
@@ -15,8 +15,10 @@ authors         = [
 license = "GPL-3.0-or-later"
 
 keywords = [
-  "markdown",
   "readme",
+  "repository",
+  "build",
+  "markdown",
 ]
 
 classifiers = [

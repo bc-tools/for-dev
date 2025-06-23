@@ -10,4 +10,4 @@
 -------
 
 [[:api:]]
-About file: the project ¨orpyste beeing killed by the author of ¨multimd, the use of path::''about.yaml'' replaces the obsolete path::''about.peuf''.
+About file: the project ''orpyste'' beeing killed by the author of \thisproj, the use of path::''about.yaml'' replaces the obsolete path::''about.peuf''.

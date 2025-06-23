@@ -23,9 +23,9 @@ from .finalize import stdit
 class Builder:
 ###
 # prototype::
-#     src   : the path of the directory containing the path::''MD'' chunks.
+#     src   : the path of the \dir containing the path::''MD'' chunks.
 #     dest  : the path of the single final path::''MD'' file to build.
-#     erase : set to ''True'', this argument allows to erase an existing
+#     erase : set to ''True'', this \arg allows to erase an existing
 #             final file to build a new one.
 ###
     def __init__(
@@ -41,7 +41,7 @@ class Builder:
 ###
 # prototype::
 #     :action: this method finds the single path::''MD'' files, and then merges
-#              all the ¨md codes found to build the final path::''MD'' file.
+#              all the \md codes found to build the final path::''MD'' file.
 ###
     def build(self) -> None:
 # All the MD codes.

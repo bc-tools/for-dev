@@ -5,23 +5,14 @@ multimd - TODO
 
 > ---------------------------- <
 
-ajout TOC + formattage standardisé (pour évit git updated si juste une ligne vide tapée par erreur) : nouvelle dependance markdown-it-py via le recodage de renderer.py
+Attention à la nlle version de markdownify car _convert_hn --> convert_hN
 
 
 > ---------------------------- <
 
-release après mise en place de tests
+UTILE ?
 
+    --> passer via package about et virer toc.py
+        chgt mineur car factorisation interne, et toc pas destiné à être utilisé!!!
 
-> ---------------------------- <
-
-passer via package about et virer toc.py
-
-    --> chgt mineur car factorisation interne, et toc pas destiné à être utilisé!!!
-
-
-> ---------------------------- <
-
-YAGNI
-
-    + possibilité de changer de about en cas de conflit mais cela erste comportment par défait
+    --> possibilité de changer de about en cas de conflit mais cela erste comportment par défait
