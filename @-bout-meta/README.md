@@ -37,7 +37,7 @@ block-2:
 block-3:
   - key-1: val-1
   - key-2: val-2
-  - key-3s: val-3
+  - key-3: val-3
 ~~~
 > ***NOTE.*** *If you are unfamiliar with the general syntax of `YAML`, the [Wikipedia article YAML](https://wikipedia.org/wiki/YAML) is a good place to start.*
 
@@ -48,10 +48,16 @@ Let's start with a full description of a fictive project.
 
 ~~~yaml
 project:
-  desc   : This class proposes tools for writing "human friendly"
-           documentations of LaTeX packages.
-  acronym: "[tuto]rial [doc]umentation"
-  author : Christophe, BAL
+  acronym: "[@]bout [Desc]"
+  usename: a_desc
+
+  desc   : Let's explain what is the project ''@Desc''...
+  authors:
+    - Ada, Lovelace [ada.babbage.computer@paper.org]
+      (Victorian Institute of Applied Mechanical Informatic)
+    - Jean-Louis, Krivine [jl-krivine@compile.brain]
+    - Torvalds
+      (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
 
   licences:
     code  : gnu 3
