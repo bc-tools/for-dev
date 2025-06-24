@@ -1,9 +1,13 @@
 general:
-    project : "@-bout"
-    name    : about
-    desc    : This project allows to define and use very easy-to-write
-              `YAML` files containing customisable metadatas about projects.
+    project : "@-bout-meta"
+    name    : aboutmeta
+    desc    : This project allows metadata to be defined in `about.yaml` files,
+              making it easier for third-party programs to manage digital projects
+              (code and text).
     author  : Christophe BAL
     licence : gnu 3
+
+    repo   : https://github.com/bc-tools/for-dev/tree/main/@-bout-meta
+
     require :
       - python3
