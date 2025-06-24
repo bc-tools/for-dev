@@ -5,7 +5,7 @@ This document is a complete tutorial showing all the available features.
 
 **Table of contents**
 
-- [About `multimd`](#MULTIMD-TOC-ANCHOR-0)
+- [What is `multimd`?](#MULTIMD-TOC-ANCHOR-0)
 - [`README.md` part by part](#MULTIMD-TOC-ANCHOR-1)
 - [Without the special `about.yaml` file](#MULTIMD-TOC-ANCHOR-2)
 - [Finishing touches](#MULTIMD-TOC-ANCHOR-3)
@@ -13,8 +13,8 @@ This document is a complete tutorial showing all the available features.
   - [ToC settings](#MULTIMD-TOC-ANCHOR-5)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
-About `multimd`
----------------
+What is `multimd`?
+------------------
 
 The specific objective of this project is to write single `README.md` files for online code repositories. The idea is to write small, separate `MD` files that will then be merged by `multimd` into a single final `MD` file to be seen on the repository.
 

@@ -1,5 +1,5 @@
-About `multimd`
----------------
+What is `multimd`?
+------------------
 
 The specific objective of this project is to write single `README.md` files for online code repositories. The idea is to write small, separate `MD` files that will then be merged by `multimd` into a single final `MD` file to be seen on the repository.
 
