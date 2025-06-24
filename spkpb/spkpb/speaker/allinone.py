@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# This module defines the class ``Speaker`` that manages easy-to-use recipes
+# This module defines the class ''Speaker'' that manages easy-to-use recipes
 # and the wanted prints (on the terminal and/or in the log file).
 ###
 
@@ -88,8 +88,8 @@ VAR_WITH_NL   = "with_NL"
 # ---------------------- #
 
 ###
-# This decorator simplifies the managment of the use of ``silent = False``
-# when instanciating the class ``Speaker``.
+# This decorator simplifies the managment of the use of ''silent = False''
+# when instanciating the class ''Speaker''.
 ###
 
 def only_resume_or_not_deco(method):
@@ -122,14 +122,14 @@ class Speaker(AbstractSpeaker):
 
 ###
 # prototype::
-#     logfile   : ``None`` to not use a log file, or the path of the log file.
-#     style     : ``None`` to not use the terminal, or the style to use in
+#     logfile   : ''None'' to not use a log file, or the path of the log file.
+#     style     : ''None'' to not use the terminal, or the style to use in
 #                 the terminal.
 #               @ :in: GLOBAL_STYLE_BW, GLOBAL_STYLE_COLOR]
-#     onlyresume: ``True`` indicates to only print a resume of the errors found
-#                 contrary to ``False`` (this is useful for short processes showing
-#                 only warning and co when using the method ``resume`` of the class
-#                 ``problems.Problems``).
+#     onlyresume: ''True'' indicates to only print a resume of the errors found
+#                 contrary to ''False'' (this is useful for short processes showing
+#                 only warning and co when using the method ''resume'' of the class
+#                 ''problems.Problems'').
 ###
     def __init__(
         self,
@@ -148,7 +148,7 @@ class Speaker(AbstractSpeaker):
         if termstyle:
             assert termstyle in ALL_GLOBAL_STYLES
 
-# Here we do not need the use of ``super().__init__()``.
+# Here we do not need the use of ''super().__init__()''.
         self._speakers   = {}
         self._all_outputs = []
 
@@ -191,7 +191,7 @@ class Speaker(AbstractSpeaker):
 
 
 ###
-# We use ``getter`` and ``setter`` for the boolean attribute ``silent``
+# We use ''getter'' and ''setter'' for the boolean attribute ''silent''
 # to automatically update the list of outputs expected.
 ###
     @property
@@ -245,7 +245,7 @@ class Speaker(AbstractSpeaker):
 # prototype::
 #     repeat : the number of empty lines wanted.
 #
-# This method simply prints ``repeat`` empty new lines in all the
+# This method simply prints ''repeat'' empty new lines in all the
 # outputs wanted.
 ###
     def NL(self, repeat: int = 1) -> None:
@@ -275,11 +275,11 @@ class Speaker(AbstractSpeaker):
 #     title   : the content of the title.
 #     level   : the level of the title.
 #             @ :in: 1..2
-#     with_NL : ``True`` asks to add a new line after the title and
-#               ``False`` to not do this
+#     with_NL : ''True'' asks to add a new line after the title and
+#               ''False'' to not do this
 #
 # note::
-#     ``with_NL`` is used to resume problems found, or to print
+#     ''with_NL'' is used to resume problems found, or to print
 #     the very last time stamps in the log file.
 ###
     def title(self,
@@ -295,7 +295,7 @@ class Speaker(AbstractSpeaker):
 ###
 # prototype::
 #     step_info : one short info.
-#     level     : the level of step indicating where ``0`` is for automatic
+#     level     : the level of step indicating where ''0'' is for automatic
 #                 numbered enumerations.
 #               @ :in: 0..3
 ###
@@ -326,7 +326,7 @@ class Speaker(AbstractSpeaker):
 ###
 # prototype::
 #     out   : the kind of speaker.
-#     level : the level of step indicating where ``0`` is for automatic
+#     level : the level of step indicating where ''0'' is for automatic
 #             numbered enumerations.
 #           @ :in: 0..3
 ###
@@ -409,7 +409,7 @@ class Speaker(AbstractSpeaker):
         self.style()
 
 # In most cases, to call the good action with its good arguments we will use:
-# ``getattr(self, action)(*action_args, **action_kwargs)``.
+# ''getattr(self, action)(*action_args, **action_kwargs)''.
         for action in args:
 # An action with no arg.
             if action in ACTIONS_NO_ARG:
@@ -454,7 +454,7 @@ class Speaker(AbstractSpeaker):
 
                 action, *extras = action
 
-# ``extras`` is just on dict.
+# ''extras'' is just on dict.
                 if (
                     len(extras) == 1
                     and
@@ -462,7 +462,7 @@ class Speaker(AbstractSpeaker):
                 ):
                     action_kwargs = extras[0]
 
-# ``extras`` is a list of args.
+# ''extras'' is a list of args.
                 else:
                     action_args = extras
 

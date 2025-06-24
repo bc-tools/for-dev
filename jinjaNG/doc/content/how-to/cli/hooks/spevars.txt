@@ -10,20 +10,20 @@ Pour faciliter la rédaction des commandes des traitements périphériques, il e
 
 /* -- SPE. VARS - START -- */
 
-    1) jinjang::``data`` est le chemin complet du fichier des données.
-    Pour ne pas garder l'extension, il suffit d'employer jinjang::``data_stem``.
+    1) jinjang::''data'' est le chemin complet du fichier des données.
+    Pour ne pas garder l'extension, il suffit d'employer jinjang::''data_stem''.
 
-    1) jinjang::``template`` est le chemin complet du fichier "patron".
-    Pour ne pas garder l'extension, il suffit d'employer jinjang::``template_stem``.
+    1) jinjang::''template'' est le chemin complet du fichier "patron".
+    Pour ne pas garder l'extension, il suffit d'employer jinjang::''template_stem''.
 
-    1) jinjang::``output`` est le chemin complet du fichier produit.
-    Pour ne pas garder l'extension, il suffit d'employer jinjang::``output_stem``.
+    1) jinjang::''output'' est le chemin complet du fichier produit.
+    Pour ne pas garder l'extension, il suffit d'employer jinjang::''output_stem''.
 
 /* -- SPE. VARS - END -- */
 
 
 note::
-    En coulisse, les ``f-strings``de ¨python sont utilisées. Si besoin, ceci permet d'employer term::``{output}`` tel quel dans une commande en tapant yaml::``{{output}}`` dans une commande de traitement périphérique
+    En coulisse, les ''f-strings''de ¨python sont utilisées. Si besoin, ceci permet d'employer term::''{output}'' tel quel dans une commande en tapant yaml::''{{output}}'' dans une commande de traitement périphérique
     ((
         Cela aura-t-il une utilité ?
     )).

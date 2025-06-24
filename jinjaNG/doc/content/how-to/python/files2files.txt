@@ -6,9 +6,9 @@
 Travailler avec des fichiers
 ============================
 
-Considérons le code suivant qui produit un fichier path::``output.txt`` en peuplant le fichier path::``template.txt`` avec les données fournies via le dictionnaire de notre choix python::``DATA``
+Considérons le code suivant qui produit un fichier path::''output.txt'' en peuplant le fichier path::''template.txt'' avec les données fournies via le dictionnaire de notre choix python::''DATA''
 ((
-    Nous supposons ici que la commande term::``cd`` a été employée avant d'appeler notre fichier ¨python, ceci afin de se placer dans le dossier contenant le script ¨python ainsi que le "patron".
+    Nous supposons ici que la commande term::''cd'' a été employée avant d'appeler notre fichier ¨python, ceci afin de se placer dans le dossier contenant le script ¨python ainsi que le "patron".
     Normalement, c'est au code ¨python de gérer cela, mais nous n'avons pas voulu alourdir l'exemple proposé.
 )).
 Des explications sont données juste après.
@@ -22,45 +22,45 @@ python::
     ---
 
 
-Le code s'appuie sur une instance de la classe python::``JNGBuilder`` du package python::``jinjang``, celle-ci s'utilisant comme suit.
+Le code s'appuie sur une instance de la classe python::''JNGBuilder'' du package python::''jinjang'', celle-ci s'utilisant comme suit.
 
     1) L'initialisation indique un "dialecte", soit ici la "saveur" ¨ascii
     ((
-        L'emploi de la constante python::``FLAVOUR_ASCII``, fournie par ¨jinjang, évite des fautes de frappe ravageuses.
+        L'emploi de la constante python::''FLAVOUR_ASCII'', fournie par ¨jinjang, évite des fautes de frappe ravageuses.
     )).
-    Par défaut, python::``flavour = AUTO_FLAVOUR`` demande une recherche ¨auto d'un dialecte en fonction de l'extenision du fichier "patron".
-    Comme ici le fichier "patron" a pour extension path::``TXT``, il n'est en fait pas utile d'indiquer le dialecte ¨ascii ; il faut retenir que l'utilisation de l'argument python::``flavour`` permet d'imposer un dialecte.
+    Par défaut, python::''flavour = AUTO_FLAVOUR'' demande une recherche ¨auto d'un dialecte en fonction de l'extenision du fichier "patron".
+    Comme ici le fichier "patron" a pour extension path::''TXT'', il n'est en fait pas utile d'indiquer le dialecte ¨ascii ; il faut retenir que l'utilisation de l'argument python::''flavour'' permet d'imposer un dialecte.
 
     1) A l'initialisation, on peut aussi choisir les valeurs des arguments suivants.
 
-        * python::``launch_py`` permet d'interdire, ou non, l'appel de code ¨python extérieur pour produire des données.
-        Par défaut, python::``launch_py = True``.
+        * python::''launch_py'' permet d'interdire, ou non, l'appel de code ¨python extérieur pour produire des données.
+        Par défaut, python::''launch_py = True''.
 
-        * python::``config`` sert à utiliser, ou non, des ¨cfgs spécifiques : voir cf::``config.txt`` à ce sujet.
-        Par défaut, python::``config = NO_CONFIG``.
+        * python::''config'' sert à utiliser, ou non, des ¨cfgs spécifiques : voir cf::''config.txt'' à ce sujet.
+        Par défaut, python::''config = NO_CONFIG''.
 
-    1) La construction du fichier "produit" se fait via la méthode python::``render`` qui possède les arguments non optionnels, et bien nommés, python::``data``, python::``template`` et python::``output``, pour "données", "patron" et "produit" ¨resp.
+    1) La construction du fichier "produit" se fait via la méthode python::''render'' qui possède les arguments non optionnels, et bien nommés, python::''data'', python::''template'' et python::''output'', pour "données", "patron" et "produit" ¨resp.
 
-    Cette méthode propose aussi les arguments optionnels suivants qui valent par défaut ``None`` ; ce choix par défaut indique d'utiliser les attributs éponymes de l'instance de la classe ``JNGBuilder``.
+    Cette méthode propose aussi les arguments optionnels suivants qui valent par défaut ''None'' ; ce choix par défaut indique d'utiliser les attributs éponymes de l'instance de la classe ''JNGBuilder''.
 
 // -- RENDER - LOCAL VARS - AUTO LIST - START -- //
 
-        * python::``config``
+        * python::''config''
 
-        * python::``flavour``
+        * python::''flavour''
 
-        * python::``launch_py``
+        * python::''launch_py''
 
-        * python::``verbose``
+        * python::''verbose''
 
 // -- RENDER - LOCAL VARS - AUTO LIST - END -- //
 
-    Pour chacun des ¨args optionnels ci-dessus, si une valeuur est indiquée, alors elle sera employée localement : autrement dit, à la fin de l'exécution de la méthode ``render``, les valeurs des attributs éponymes avant l'appel de la méthode seront rétablies.
+    Pour chacun des ¨args optionnels ci-dessus, si une valeuur est indiquée, alors elle sera employée localement : autrement dit, à la fin de l'exécution de la méthode ''render'', les valeurs des attributs éponymes avant l'appel de la méthode seront rétablies.
 
 
 info::
-    L'argument python::``data`` peut aussi être le chemin d'un fichier ¨json, ¨yaml, ou ¨python.
+    L'argument python::''data'' peut aussi être le chemin d'un fichier ¨json, ¨yaml, ou ¨python.
 
 
 info::
-    A tout moment, on peut changer les valeurs des attributs python::``flavour``, python::``launch_py``, et python::``config``, ceci se faisant de façon sûre car des "getters" sont appelées en coulisse.
+    A tout moment, on peut changer les valeurs des attributs python::''flavour'', python::''launch_py'', et python::''config'', ceci se faisant de façon sûre car des "getters" sont appelées en coulisse.

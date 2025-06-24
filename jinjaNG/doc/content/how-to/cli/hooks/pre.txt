@@ -10,7 +10,7 @@ Supposons que pour peupler un "patron", nous voulons obtenir le fichier suivant,
 
 json::
     ---
-    title = Le fichier path::``data.json``
+    title = Le fichier path::''data.json''
     path  = ?/examples/hooks/pre/data.json
     ---
 
@@ -19,44 +19,44 @@ Pour la fabrication ¨auto, nous obtons pour le fichier ¨bash ci-après (qui ne
 
 bash::
     ---
-    title = Le fichier path::``bash2data.bash``
+    title = Le fichier path::''bash2data.bash''
     path  = ?/examples/hooks/pre/bash2data.bash
     keep  = regex: (.*\n)*> data.json\n
     ---
 
 
 Il reste à voir comment demander à ¨jinjang de lancer le script ¨bash.
-La ¨1ere méthode nécessite une commande du type term::``jinjang --config auto ...`` où est employé term::``--config auto``.
-L'option supplémentaire term::``--config``, ou term::``-c``, demande la recherche d'un fichier path::``cfg.jng.yaml`` placé dans le même dossier que le fichier "patron".
-Dans notre cas, le contenu de ce fichier de ¨cfg est le suivant (la ligne avec term::``echo``, qui produira un affichage, est juste là pour expliquer le comportement de ¨jinjang).
+La ¨1ere méthode nécessite une commande du type term::''jinjang --config auto ...'' où est employé term::''--config auto''.
+L'option supplémentaire term::''--config'', ou term::''-c'', demande la recherche d'un fichier path::''cfg.jng.yaml'' placé dans le même dossier que le fichier "patron".
+Dans notre cas, le contenu de ce fichier de ¨cfg est le suivant (la ligne avec term::''echo'', qui produira un affichage, est juste là pour expliquer le comportement de ¨jinjang).
 
 yaml::
     ---
-    title = Le fichier de ¨config path::``cfg.jng.yaml``
+    title = Le fichier de ¨config path::''cfg.jng.yaml''
     path  = ?/examples/hooks/pre/cfg.jng.yaml
     ---
 
 
 Le contenu précédent est analysé comme suit par ¨jinjang.
 
-    1) Le bloc yaml::``pre`` dans le bloc yaml::``hooks`` indique des commandes de pré-traitements.
+    1) Le bloc yaml::''pre'' dans le bloc yaml::''hooks'' indique des commandes de pré-traitements.
 
     1) Les commandes sont listées dans leur ordre d'utilisation.
 
-    1) Chaque commande est lancée relativement au dossier du "patron" utilisé. Ceci permet de comprendre la simplicté du fichier ¨bash proposé plus haut qui n'utilise pas term::``cd``.
+    1) Chaque commande est lancée relativement au dossier du "patron" utilisé. Ceci permet de comprendre la simplicté du fichier ¨bash proposé plus haut qui n'utilise pas term::''cd''.
 
 
 info::
-    Sans term::``--config auto``, la recherche du fichier path::``cfg.jng.yaml`` ne sera pas entreprise.
+    Sans term::''--config auto'', la recherche du fichier path::''cfg.jng.yaml'' ne sera pas entreprise.
 
 
 Si plusieurs "patrons" sont présents dans un même dossier, ou pour utiliser des ¨configs de test, il est utile de pouvoir choisir le fichier de ¨config de façon explicite.
-Dans ce type de situation, il suffit de procéder via term::``jinjang --config chemin/vers/speconfig.yaml ...`` par exemple.
+Dans ce type de situation, il suffit de procéder via term::''jinjang --config chemin/vers/speconfig.yaml ...'' par exemple.
 
 
 info::
-    Pour cacher les sorties des commandes lancées en pré-trairement, il suffit d'employer l'option term::``--short``, ou term::``-s``.
+    Pour cacher les sorties des commandes lancées en pré-trairement, il suffit d'employer l'option term::''--short'', ou term::''-s''.
 
 
 info::
-    Dans cf::``spevars`` se trouvent ¨ttes les variables spéciales disponibles pour définir des commandes dans un fichier de ¨cfg.
+    Dans cf::''spevars'' se trouvent ¨ttes les variables spéciales disponibles pour définir des commandes dans un fichier de ¨cfg.

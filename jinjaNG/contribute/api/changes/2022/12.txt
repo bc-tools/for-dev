@@ -10,4 +10,4 @@
 -------
 
 [[:api:]]
-Naming: ``JNGVAR`` has been replaced by ``JNGVALOF`` which is mor explicit.
+Naming: ''JNGVAR'' has been replaced by ''JNGVALOF'' which is mor explicit.

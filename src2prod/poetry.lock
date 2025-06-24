@@ -17,7 +17,7 @@ python-versions = "*"
 [[package]]
 name = "multimd"
 version = "0.0.0b0"
-description = "This project makes it possible to write separated pieces of ``MD`` files that will be merged to produce one single final ``MD`` file."
+description = "This project makes it possible to write separated pieces of ''MD'' files that will be merged to produce one single final ''MD'' file."
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 ###
-# This module defines the internal class ``TermSpeaker`` to "speak" on
+# This module defines the internal class ''TermSpeaker'' to "speak" on
 # a terminal.
 #
 # note::
-#     There are also two classes ``BWStylist`` and ``ColorStylist`` to
+#     There are also two classes ''BWStylist'' and ''ColorStylist'' to
 #     produce the style wanted.
 ###
 
@@ -50,7 +50,7 @@ def _colorit(
 # Source: GNU/Linux Mag. - Hors Série 115
 
 class ColorStylist(Enum):
-# See ``spk_interface.ALL_CONTEXTS.``
+# See ''spk_interface.ALL_CONTEXTS.''
     normal  : str = ''
     good    : str = '96'
     warning : str = '94'
@@ -69,7 +69,7 @@ class ColorStylist(Enum):
 ###
 
 class BWStylist(Enum):
-# See ``spk_interface.ALL_CONTEXTS.``
+# See ''spk_interface.ALL_CONTEXTS.''
     normal  : str = ''
     good    : str = '1m'
     warning : str = '3m'
@@ -137,7 +137,7 @@ class TermSpeaker(AbstractSpeaker):
 #
 #     :action: this methods activates the style given.
 #
-#     :see: ``ColorStylist`` and ``BWStylist``.
+#     :see: ''ColorStylist'' and ''BWStylist''.
 ###
     def style(self, context: str = CONTEXT_NORMAL) -> None:
         getattr(self.stylist, context).colorit()
@@ -148,7 +148,7 @@ class TermSpeaker(AbstractSpeaker):
 #     :api: speaker.spk_interface.AbstractSpeaker
 #
 # note::
-#     We redefine the method ``hardwrap`` because in a terminal, the hard
+#     We redefine the method ''hardwrap'' because in a terminal, the hard
 #     wrapping consists only to add tabulations "to" each new line.
 ###
     def hardwrap(

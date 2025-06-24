@@ -1,0 +1,28 @@
+// ---------- //
+
+
+==
+11  (0.1.2-beta)
+==
+
+-----
+:fix:
+-----
+
+[[:api:]]
+\about: the \specs should be \ok now.
+
+
+// ---------- //
+
+
+==
+03
+==
+
+--------
+:update:
+--------
+
+[[:doc:]]
+\about: the \specs become verbose but clearer.

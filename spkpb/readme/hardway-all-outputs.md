@@ -3,9 +3,9 @@ Using directly the API - All the outputs
 
 ### `Python` code
 
-Let's consider the following `Python` file where `Path` is the class proposed by the module `pathlib`. You have to know that the values of the arguments ``what`` are "stringified" (this allows to use either standard strings or advanced classes by defining your own ``__str__`` method for the resume output of problems, if you need it).
+Let's consider the following `Python` file where `Path` is the class proposed by the module `pathlib`. You have to know that the values of the arguments ''what'' are "stringified" (this allows to use either standard strings or advanced classes by defining your own ''__str__'' method for the resume output of problems, if you need it).
 
-```python
+''`python
 from spkpb import *
 
 speaker = Speaker(
@@ -37,13 +37,13 @@ speaker.recipe(
 )
 
 problems.resume()
-```
+''`
 
 ### The terminal output
 
 Launching our `Python` code from a terminal, we will see the following output.
 
-```
+''`
 1) [ #1 ] WARNING: some strange behaviors.
 2) [ #2 ] ERROR: bad things appear.
 
@@ -69,7 +69,7 @@ Look at the log file and/or above for details.
     * "one/bad/file.txt"
         + 1 error.
           See #.: [2].
-```
+''`
 
 
 ### The content of the log file `mylog.log`
@@ -77,7 +77,7 @@ Look at the log file and/or above for details.
 Launching our `Python` code, `mylog.log` will have the following content (just note that the resume is more verbose than the one in a terminal).
 
 
-```
+''`
 1) [ #1 ] WARNING: some strange behaviors.
 2) [ #2 ] ERROR: bad things appear.
 
@@ -97,4 +97,4 @@ One basic showcase.
 
     * one/bad/file.txt
         + See [ #.2 ] : bad things appear.
-```
+''`

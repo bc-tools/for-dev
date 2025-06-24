@@ -1,0 +1,18 @@
+=======
+multimd - TODO
+=======
+
+
+> ---------------------------- <
+
+Attention à la nlle version de markdownify car _convert_hn --> convert_hN
+
+
+> ---------------------------- <
+
+UTILE ?
+
+    --> passer via package about et virer toc.py
+        chgt mineur car factorisation interne, et toc pas destiné à être utilisé!!!
+
+    --> possibilité de changer de about en cas de conflit mais cela erste comportment par défait

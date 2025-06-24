@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# This module simplifies the use of path::``PEUF`` files for datas used
+# This module simplifies the use of path::''PEUF'' files for datas used
 # to achieve unit tests (see the project ¨orpyste).
 ###
 
@@ -26,7 +26,7 @@ from orpyste.data import ReadBlock
 #
 # note::
 #     The "intuitive" ready-to-use dictionary is build via the call of
-#     ``mydict("std nosep nonb")`` (see ¨orpyste).
+#     ''mydict("std nosep nonb")'' (see ¨orpyste).
 #
 #
 # refs::
@@ -40,7 +40,7 @@ def peuf_fixture() -> None:
 
 ###
 # This internal function always has the same signature as the function
-# ``build_datas_block``.
+# ''build_datas_block''.
 ###
     def _make_peuf_datas(*args, **kwargs) -> None:
         datas_build.append(
@@ -59,17 +59,17 @@ def peuf_fixture() -> None:
 
 ###
 # prototype::
-#     file : just use the magic constant ``__file__`` when calling this
+#     file : just use the magic constant ''__file__'' when calling this
 #            function from a testing file.
 #
-#     :return: an instance of ``ReadBlock`` associated to a path::``peuf``
+#     :return: an instance of ''ReadBlock'' associated to a path::''peuf''
 #              file automatically named.
 #
 #
 # warning::
-#     The name of the path::``peuf`` file is obtained by removing the prefix
-#     path::``test_`` from the name of the testing file (see the ¨tech ¨doc
-#     of ``peuf_fixture`` for a concrete example).
+#     The name of the path::''peuf'' file is obtained by removing the prefix
+#     path::''test_'' from the name of the testing file (see the ¨tech ¨doc
+#     of ''peuf_fixture'' for a concrete example).
 ###
 def build_datas_block(
     file: str,

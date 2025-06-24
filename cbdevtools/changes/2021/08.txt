@@ -10,7 +10,7 @@
 --------
 
 [[:fix:]]
-The line ``from pytest import fixture`` was missing in the test file... Do not laugh please!
+The line ''from pytest import fixture'' was missing in the test file... Do not laugh please!
 
 
 // ---------- //
@@ -25,7 +25,7 @@ The line ``from pytest import fixture`` was missing in the test file... Do not l
 -----
 
 [[:api:]]
-One fixture added to build and use path::``PEUF`` files very easily.
+One fixture added to build and use path::''PEUF'' files very easily.
 
 
 -------
@@ -33,7 +33,7 @@ One fixture added to build and use path::``PEUF`` files very easily.
 -------
 
 [[:api:]]
-``orpystedatas.build_datas`` has been removed (it was wrong, and it is unuseful for the moment).
+''orpystedatas.build_datas'' has been removed (it was wrong, and it is unuseful for the moment).
 
 
 // ---------- //
@@ -48,7 +48,7 @@ One fixture added to build and use path::``PEUF`` files very easily.
 --------
 
 [[:fix:]]
-A very stupid bug fixed in path::``orpystedata.py``.
+A very stupid bug fixed in path::''orpystedata.py''.
 
 
 // ---------- //

@@ -1,0 +1,64 @@
+==========
+cbdevtools - TODO
+==========
+
+
+> ---------------------------- <
+
+orPyste dead ===> YAML used!
+
+    ---> orpystedata : transformer les fixtures !!!!
+
+
+> ---------------------------- <
+
+addfindsrc gardé même si virtualenv rend plus de services
+
+
+> ---------------------------- <
+
+proposer des templates f-string pour les codes
+
+    --> builder avec leur noms dessus et un pbout de codes
+
+
+> ---------------------------- <
+
+launcher de builders
+
+    --> prise en compted e VAR d'env pour controler    COMMENT indiquer ce paramétrage dynamiquement ?
+
+        + par exemple, on peut ne pas souhaiter avoir webscrapping à chaque étape mais juste lors de la nelle version
+
+> ---------------------------- <
+
+juste le chemin sans import
+donc utiliser en coulisse par findsrc
+
+proposer en gestion erreur
+
+
+
+PROJECT_NAME = 'justcode'
+PROJECT_DIR  = Path(THIS_FILE).parent
+
+while(
+    PROJECT_DIR.name != PROJECT_NAME
+    and
+    PROJECT_DIR != Path('/')
+):
+   PROJECT_DIR = PROJECT_DIR.parent
+
+assert PROJECT_DIR != Path('/'), \
+       (
+        f"imposible to find the folder ''{PROJECT_NAME}'' by looking upward"
+       )
+
+
+> ---------------------------- <
+
+build_datas_block
+
+    --> arg optionnel pour indiquer le peuf : utile pour ficheir avec plusieurs fonctions test :  chemin du fichier relativement au dosseir du fichier test
+
+    ---> autonom pour tests_ tools?_

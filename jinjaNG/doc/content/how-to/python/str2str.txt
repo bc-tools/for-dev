@@ -6,7 +6,7 @@
 Travailler avec des chaînes de caractères
 =========================================
 
-Pour ne travailler qu'avec des variables ¨python, il suffit de faire appel à la méthode python::``render_frompy`` comme dans l'exemple suivant qui reprend l'idée de la section précédente.
+Pour ne travailler qu'avec des variables ¨python, il suffit de faire appel à la méthode python::''render_frompy'' comme dans l'exemple suivant qui reprend l'idée de la section précédente.
 
 python::
     ---
@@ -14,7 +14,7 @@ python::
     ---
 
 
-Avec le code précédent, la variable python::``output_str`` aura le contenu suivant.
+Avec le code précédent, la variable python::''output_str'' aura le contenu suivant.
 
 verb::
     Le mot "TEST" se code en ASCII :
@@ -22,4 +22,4 @@ verb::
 
 
 warning::
-    La méthode python::``render_frompy`` ne fonctionne pas avec python::``AUTO_FLAVOUR``, et de plus le type de python::``data`` ne peut être que python::``dict``.
+    La méthode python::''render_frompy'' ne fonctionne pas avec python::''AUTO_FLAVOUR'', et de plus le type de python::''data'' ne peut être que python::''dict''.

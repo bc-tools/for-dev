@@ -88,7 +88,7 @@ JNGBuilder(
 
 print(
     f"Rendering from {DATA_EXT.upper()} made in "
-    f"the folder ``files/{FILES_FOLDER_NAME}``."
+    f"the folder ''files/{FILES_FOLDER_NAME}''."
 )
 
 print()

@@ -19,13 +19,13 @@ L'ambition de ¨jinjang est de rendre le travail avec ¨jinja plus efficace dans
     )),
     de tels fichiers pouvant être détectés ¨auto^t.
 
-    1) La rédaction d'un patron pour ¨jinja nécessite de "polluer" le fichier "patron" avec des balises du langage ¨jinja : par exemple, des instructions s'indiquent dans un bloc jinja::``{% ... %}`` (comportement par défaut).
-    Malheureusement, ceci rend, par exemple, impossible la compilation d'un fichier path::``TEX`` utilisant de telles balises
+    1) La rédaction d'un patron pour ¨jinja nécessite de "polluer" le fichier "patron" avec des balises du langage ¨jinja : par exemple, des instructions s'indiquent dans un bloc jinja::''{% ... %}'' (comportement par défaut).
+    Malheureusement, ceci rend, par exemple, impossible la compilation d'un fichier path::''TEX'' utilisant de telles balises
     ((
         La conception de patron reste aussi pénible en ¨html qui est pourtant le langage ciblé principalement par ¨jinja.
     )).
-    Pour remédier à cela, ¨jinjang redéfinit les réglages de ¨jinja pour travailler avec des balises ne perturbant plus ¨latex : par exemple, des instructions s'indiquent dans un bloc jinjang::``%: ... :%``.
-    De plus, un package ¨latex dédié latex::``jinjang`` permet d'obtenir un aperçu permettant d'imaginer facilement ce que sera le ¨docu final
+    Pour remédier à cela, ¨jinjang redéfinit les réglages de ¨jinja pour travailler avec des balises ne perturbant plus ¨latex : par exemple, des instructions s'indiquent dans un bloc jinjang::''%: ... :%''.
+    De plus, un package ¨latex dédié latex::''jinjang'' permet d'obtenir un aperçu permettant d'imaginer facilement ce que sera le ¨docu final
     ((
         Il est ainsi possible de déboguer un patron sans avoir à lancer le processus de fabrication d'un ¨docu final "test".
     )).

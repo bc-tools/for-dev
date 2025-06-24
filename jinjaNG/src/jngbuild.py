@@ -106,11 +106,11 @@ class JNGBuilder:
 #               @ flavour = AUTO_FLAVOUR
 #                 or
 #                 flavour in config.jngflavours.ALL_FLAVOURS
-#     launch_py : the value ``True`` allows the execution of ¨python files
+#     launch_py : the value ''True'' allows the execution of ¨python files
 #                 suchas to build feeding data.
 #                 Otherwise, no ¨python script will be launched.
 #     config    : :see: jngconfig.JNGConfig
-#     verbose   : the value ``True`` asks to show the outputs of external
+#     verbose   : the value ''True'' asks to show the outputs of external
 #                 commands launched.
 #                 Otherwise, these outputs will be hidden from the user.
 ###
@@ -125,13 +125,13 @@ class JNGBuilder:
         self.config  = config
         self.verbose = verbose
 
-# The update of ``launch_py`` implies the use of a new instance of
-# ``self._build_data`` via ``JNGData(value).build``.
+# The update of ''launch_py'' implies the use of a new instance of
+# ''self._build_data'' via ''JNGData(value).build''.
         self.launch_py = launch_py
 
 
 ###
-# One getter, and one setter for ``config`` are used to secure the values
+# One getter, and one setter for ''config'' are used to secure the values
 # used for this special attribut.
 ###
     @property
@@ -149,7 +149,7 @@ class JNGBuilder:
 
 
 ###
-# One getter, and one setter for ``launch_py`` are used to secure the values
+# One getter, and one setter for ''launch_py'' are used to secure the values
 # used for this special attribut.
 ###
     @property
@@ -163,7 +163,7 @@ class JNGBuilder:
 
 
 ###
-# One getter, and one setter for ``flavour`` are used to secure the values
+# One getter, and one setter for ''flavour'' are used to secure the values
 # used for this special attribut.
 ###
     @property
@@ -195,7 +195,7 @@ class JNGBuilder:
 #     data     : data feeding the template.
 #     template : one template.
 #
-#     :return: the output made by using ``data`` on ``template``.
+#     :return: the output made by using ''data'' on ''template''.
 ###
     def render_frompy(
         self,
@@ -230,24 +230,24 @@ class JNGBuilder:
 #              @ exists path(str(data))
 #     template : one template.
 #              @ exists path(str(template))
-#     output   : the file used for the output build after using ``data``
-#                on ``template``.
+#     output   : the file used for the output build after using ''data''
+#                on ''template''.
 #              @ exists path(str(output))
-#     flavour  : if the value is not ``None``, a local value is used
+#     flavour  : if the value is not ''None'', a local value is used
 #                without deleting the previous one.
 #                :see: self.__init__
-#     launch_py: if the value is not ``None``, a local value is used
+#     launch_py: if the value is not ''None'', a local value is used
 #                without deleting the previous one.
 #                :see: self.__init__
-#     config   : if the value is not ``None``, a local value is used
+#     config   : if the value is not ''None'', a local value is used
 #                without deleting the previous one.
 #                :see: self.__init__
-#     verbose  : if the value is not ``None``, a local value is used
+#     verbose  : if the value is not ''None'', a local value is used
 #                without deleting the previous one.
 #                :see: self.__init__
 #
-#     :action: the file ``output`` is built by using ``data`` on
-#              ``template``, while respecting any additional behaviour
+#     :action: the file ''output'' is built by using ''data'' on
+#              ''template'', while respecting any additional behaviour
 #              specified.
 ###
     def render(
@@ -356,7 +356,7 @@ class JNGBuilder:
 #     flavour : an exiting dialect.
 #             @ flavour in config.jngflavours.ALL_FLAVOURS
 #
-#     :return: a ``jinja2.Environment`` that will create the final output.
+#     :return: a ''jinja2.Environment'' that will create the final output.
 ###
     def _build_jinja2env(
         self,
@@ -404,11 +404,11 @@ class JNGBuilder:
 # prototype::
 #     kind   : the kind of processing
 #     loc    : [l]-ist [o]-f [c]-ommands to execute
-#     frompy : ``True`` indicates the use of the method within a ¨python
+#     frompy : ''True'' indicates the use of the method within a ¨python
 #              script.
 #              Otherwise, the method is used in a "command line" context.
 #
-#     :action: attempt to execute all commands in ``loc``.
+#     :action: attempt to execute all commands in ''loc''.
 ###
     def launch_commands(
         self,
@@ -487,9 +487,9 @@ class JNGBuilder:
 #     kind   : :see: self.launch_commands
 #     frompy : :see: self.launch_commands
 #
-#     :return: an empty string if ``frompy = True``.
+#     :return: an empty string if ''frompy = True''.
 #              Otherwise, a message indicates the block used in the
-#              path::``YAML`` configuration file, as well as the rank of
+#              path::''YAML'' configuration file, as well as the rank of
 #              the command.
 ###
     def _about_command(

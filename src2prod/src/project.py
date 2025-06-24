@@ -7,10 +7,10 @@
 
 from shutil import rmtree
 
-from multimd import *
-from spkpb   import *
+from multimd import Builder as MMDBuilder
+from spkpb import *
 
-from .baseproj import *
+from .project_base import *
 
 
 # ------------------------ #
@@ -19,32 +19,32 @@ from .baseproj import *
 
 ###
 # This class is the main one to use such as to easily manage a project
-# following the "source-to-final-product" workflow.
+# following the "src-to-final-product" workflow.
 ###
-class Project(BaseProj):
+class Project(ProjectBase):
     MD_SUFFIX = '.md'
 
 ###
 # prototype::
-#     opensession  : ``True`` is to reset eveything and open the communication
-#                    and ``False`` starts directly the work.
-#     closesession : ``True`` is to close the communication and
-#                    ``False`` otherwise.
-#     safemode     : ``True`` asks to never remove a none empty target folder
-#                    contrary to ``False``.
+#     opensession  : ''True'' is to reset eveything and open the communication
+#                    and ''False'' starts directly the work.
+#     closesession : ''True'' is to close the communication and
+#                    ''False'' otherwise.
+#     erase        : ''True'' asks to remove a none empty dest folder
+#                    contrary to ''True''.
 #
-#     :action: this method updates the ¨src code of the final product.
+#     :action: this method builds the final product from the \src code.
 #
 # note::
-#     The argument ``safemode`` is here to leave the responsability of
-#     removing a none empty folder to the user (my lawyers forced me to
-#     add this feature).
+#     The argument ''erase'' is here to leave the responsability of
+#     removing a none empty folder to the user (my lawyers forced me
+#     to add this feature).
 ###
-    def update(
+    def build(
         self,
         opensession : bool = True,
         closesession: bool = True,
-        safemode    : bool = True
+        erase       : bool = False
     ) -> None:
 # Do we open the session?
         if opensession:
@@ -54,7 +54,7 @@ class Project(BaseProj):
             )
 
 # Build the l.o.f.
-        self.build(
+        self.check(
             opensession  = False,
             closesession = False,
         )
@@ -65,14 +65,14 @@ class Project(BaseProj):
 
 # Safe mode?
         if (
-            safemode
+            not erase
             and
-            not self.isempty(self.target)
+            not self.isempty(self.dest)
         ):
             self.new_error(
-                what = self.target,
+                what = self.dest,
                 info = (
-                    'target folder exists and is not empty '
+                    'dest folder exists and is not empty '
                     '(safe mode used).'
                 )
             )
@@ -81,10 +81,10 @@ class Project(BaseProj):
 
             return
 
-# We can update the target folder.
+# We can update the dest folder.
         for name in [
-            'empty_target',
-            'copy_src2target',
+            'empty_dest',
+            'copy_src2dest',
             'build_readme',
         ]:
             getattr(self, name)()
@@ -92,7 +92,7 @@ class Project(BaseProj):
 # Every copies has been made.
         self.recipe(
             {VAR_STEP_INFO:
-                f'Target folder updated.'}
+                f'Dest folder updated.'}
         )
 
 # Do we clode the session?
@@ -102,82 +102,83 @@ class Project(BaseProj):
 
 ###
 # prototype::
-#     :action: this method creates or empties the target folder.
+#     :action: this method creates or empties the dest folder.
 ###
-    def empty_target(self) -> None:
-# The target folder must be deletted.
-        if self.target.is_dir():
+    def empty_dest(self) -> None:
+# The dest folder must be deletted.
+        if self.dest.is_dir():
             action = 'emptied'
 
-            rmtree(self.target)
+            rmtree(self.dest)
 
         else:
             action = 'created'
 
-# Create a new version of the target folder.
-        self.target.mkdir()
+# Create a new version of the dest folder.
+        self.dest.mkdir()
 
 # We are so happy to talk about our exploit...
         self.recipe(
             {VAR_STEP_INFO:
-                f'Target folder has been {action}:'
+                f'Dest folder has been {action}:'
                  '\n'
-                f'"{self.target}".'},
+                f'"{self.dest}".'},
         )
 
 
 ###
 # prototype::
-#     :action: this method copies the files kept from the source
-#              to the target.
+#     :action: this method copies the files kept from the src
+#              to the dest.
 ###
-    def copy_src2target(self) -> None:
+    def copy_src2dest(self) -> None:
 # Indicating the start of the copying.
         nb_files = len(self.lof)
         plurial  = '' if nb_files == 1 else 's'
 
         self.recipe(
             {VAR_STEP_INFO:
-                f'Copying {nb_files} file{plurial} from source to target.'}
+                f'Copying {nb_files} file{plurial} from src to dest.'}
         )
 
 # Let's copy each files.
         for srcfile in self.lof:
-            targetfile = self.target / srcfile.relative_to(self.source)
+            destfile = self.dest / srcfile.relative_to(self.src)
 
             self.copyfile(
-                source = srcfile,
-                target = targetfile
+                src = srcfile,
+                dest = destfile
             )
 
 
 ###
 # prototype::
 #     :action: this method writes the content into the final
-#              path::``README`` file.
+#              path::''README'' file.
 ###
     def build_readme(self) -> None:
 # No README to copy.
-        if self.readme is None:
+        if self.readme_src is None:
             return
 
-# A folder with small `MD` files or a single file?
+# A folder with `MD` chuncks or a single file?
         if self._readme_is_file:
-            readme_src = self.readme
+            readme_src = self.readme_src
 
         else:
             readme_src = self.project / 'README.md'
 
-# Let ``multimd.buil.Builder`` does all the thankless job...
-            Builder(
-                output  = readme_src,
-                content = self.readme,
+# Let ''multimd.buil.Builder'' does all the thankless job...
+            MMDBuilder(
+                src   = self.readme_src,
+                dest  = readme_src,
+                erase = self.erase,
             ).build()
 
 # Now we just have a file to copy.
         self.copyfile(
-            source = readme_src,
-            target = self._readme_target
+            src = readme_src,
+            dest = self._readme_dest
         )
 
 # Let's talk...
@@ -185,21 +186,21 @@ class Project(BaseProj):
 
         self.recipe(
             {VAR_STEP_INFO:
-                f'"{readme_rel}" added to the target.'}
+                f'"{readme_rel}" added to the dest.'}
         )
 
 
 ###
 # prototype::
-#     opensession  : ``True`` is to reset eveything and open the communication
-#                    and ``False`` starts directly the work.
-#     closesession : ``True`` is to close the communication and
-#                    ``False`` otherwise.
+#     opensession  : ''True'' is to reset eveything and open the communication
+#                    and ''False'' starts directly the work.
+#     closesession : ''True'' is to close the communication and
+#                    ''False'' otherwise.
 #
 #     :action: this method is the great bandleader building the list of files
-#              to be copied to the target dir.
+#              to be copied to the dest dir.
 ###
-    def build(
+    def check(
         self,
         opensession : bool = True,
         closesession: bool = True,
@@ -239,19 +240,19 @@ class Project(BaseProj):
 
 ###
 # prototype::
-#     :action: this method checks the existence of a path::``README`` file
-#              if the user has given such one, or a path::``readme`` folder.
+#     :action: this method checks the existence of a path::''README'' file
+#              if the user has given such one, or a path::''readme'' folder.
 ###
     def check_readme(self) -> None:
 # No external README.
-        if self.readme is None:
+        if self.readme_src is None:
             return
 
 # Do we have an external README file?
-        if self.readme.suffix:
-            if not self.readme.is_file():
+        if self.readme_src.suffix:
+            if not self.readme_src.is_file():
                 self.new_error(
-                    what  = self.readme,
+                    what  = self.readme_src,
                     info  = '"README" file not found.',
                     level = 1
                 )
@@ -261,9 +262,9 @@ class Project(BaseProj):
 
 # Do we have an external readme dir?
         else:
-            if not self.readme.is_dir():
+            if not self.readme_src.is_dir():
                 self.new_error(
-                    what  = self.readme,
+                    what  = self.readme_src,
                     info  = '"readme" folder not found.',
                     level = 1
                 )
@@ -278,16 +279,16 @@ class Project(BaseProj):
             {VAR_STEP_INFO:
                 f'External {kind} to use:'
                  '\n'
-                 f'"{self.readme}".'}
+                 f'"{self.readme_src}".'}
         )
 
 
 ###
 # prototype::
-#     :action: this method checks that ¨git can be used,
+#     :action: this method checks that \git can be used,
 #              finds the branch on which we are working,
 #              and verifies that there isn't any uncommitted changes in
-#              the ¨src files.
+#              the \src files.
 #
 # warning::
 #     We do not want any uncommitted changes even on the ignored files because this
@@ -304,7 +305,7 @@ class Project(BaseProj):
         for kind, options in [
 # Current branch.
             ('branch', ['branch']),
-# We don't want uncommitted files in our source folder!
+# We don't want uncommitted files in our src folder!
             ('uncommitted', ['a']),
         ]:
             infos[kind] = self.rungit(options)
@@ -322,8 +323,8 @@ class Project(BaseProj):
             {VAR_STEP_INFO: f'Working in the branch "{branch}".'}
         )
 
-# Uncommitted changes in our source?
-        tosearch = f'{self.project.name}/{self.source.name}/'
+# Uncommitted changes in our src?
+        tosearch = f'{self.project.name}/{self.src.name}/'
 
         if (
             "Changes to be committed" in infos['uncommitted']
@@ -351,9 +352,9 @@ class Project(BaseProj):
             gitinfos    = fictive_tab.join(gitinfos)
 
             self.new_error(
-                what = self.source,
+                what = self.src,
                 info = (
-                    f'{howmany} uncommitted file{plurial} found in the source folder. '
+                    f'{howmany} uncommitted file{plurial} found in the src folder. '
                     f'See{whichuncommitted} below.'
                     f'{fictive_tab}{gitinfos}'
                 ),
@@ -368,35 +369,35 @@ class Project(BaseProj):
 #              the ignore rules.
 #
 # note::
-#     ¨git is not used here.
+#     \git is not used here.
 ###
     def files_without_git(self) -> None:
 # Let's talk.
         self.recipe(
             {VAR_STEP_INFO:
-                 'Starting the analysis of the source folder:'
+                 'Starting the analysis of the src folder:'
                  '\n'
-                f'"{self.source}".'},
+                f'"{self.src}".'},
         )
 
-# Does the source dir exist?
-        if not self.source.is_dir():
+# Does the src dir exist?
+        if not self.src.is_dir():
             self.new_error(
-                what = self.source,
-                info = 'source folder not found.',
+                what = self.src,
+                info = 'src folder not found.',
             )
             return
 
 # List all the files.
         self.lof = [
-            f for f in self.iterfiles(self.source)
+            f for f in self.iterfiles(self.src)
         ]
 
 # An empty list stops the process.
         if not self.lof:
             self.new_critical(
-                what = self.source,
-                info = 'empty source folder.',
+                what = self.src,
+                info = 'empty src folder.',
             )
             return
 
@@ -421,10 +422,10 @@ class Project(BaseProj):
 ###
 # prototype::
 #     :action: this method shrinks the list of files by using the ignore
-#              rules used by ¨git.
+#              rules used by \git.
 #
 # note::
-#     The method ``rungit`` fails with ``options = ['check-ignore', '**/*'])``,
+#     The method ''rungit'' fails with ''options = ['check-ignore', '**/*'])'',
 #     so we must test directly each path.
 ###
     def removed_by_git(self) -> None:
@@ -514,7 +515,7 @@ class Project(BaseProj):
         title      : str,
         timer_title: str
     ) -> None:
-        self.reset()
+        self.reset_speaker()
 
         self.timestamp(f'{timer_title} - start')
 

@@ -67,7 +67,7 @@ maxlen = max(
 
 autolist = '\n'.join(
       ' '*4 + f'* ¨{fl} ' + ' '*(maxlen - len(fl))
-    + f'via python::``FLAVOUR_{fl.upper()} = "{fl}"``.'
+    + f'via python::''FLAVOUR_{fl.upper()} = "{fl}"''.'
     for fl in flavours_by_status[STATUS_OK]
 )
 

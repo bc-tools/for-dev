@@ -68,7 +68,7 @@ for name in [
 # exit()
 
 
-def funcOK(a:int, b: int = 1) -> str:
+def funcOK(a: int, b: int = 1) -> str:
     ...
 
 for f in [

@@ -6,7 +6,7 @@
 Partir d'une saveur existence
 =============================
 
-La saveur ¨md utilise la même syntaxe que la saveur ¨html, mais sans proposer d'outils. ¨jinjang permet de spécifier très rapidement ceci via yaml::``extend: html`` comme dans l'exemple tronqué suivant où l'emploi de yaml::``utils: no`` efface le réglage indiqué pour la saveur ¨html.
+La saveur ¨md utilise la même syntaxe que la saveur ¨html, mais sans proposer d'outils. ¨jinjang permet de spécifier très rapidement ceci via yaml::''extend: html'' comme dans l'exemple tronqué suivant où l'emploi de yaml::''utils: no'' efface le réglage indiqué pour la saveur ¨html.
 
 yaml::
     about:

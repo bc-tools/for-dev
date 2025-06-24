@@ -10,7 +10,7 @@
 --------
 
 [[:doc:]]
-path::``README.md`` has been updated.
+path::''README.md'' has been updated.
 
 
 // ---------- //
@@ -25,13 +25,13 @@ path::``README.md`` has been updated.
 -------
 
 [[:api:]]
-``Speaker`` has been modified.
+''Speaker'' has been modified.
 
     1) The way to init the class has changed such as to choose easily the outputs (instead of imposing both the terminal and the log file).
 
-    1) The argument ``silent`` has been changed to ``onlyresume`` (this is easier to understand).
+    1) The argument ''silent'' has been changed to ''onlyresume'' (this is easier to understand).
 
-    1) The argument ``style`` has been renamed to ``termstyle``.
+    1) The argument ''style'' has been renamed to ''termstyle''.
 
 
 // ---------- //
@@ -46,7 +46,7 @@ path::``README.md`` has been updated.
 --------
 
 [[:doc:]]
-path::``README.md`` was partially updated. It should be good now.
+path::''README.md'' was partially updated. It should be good now.
 
 
 // ---------- //
@@ -61,7 +61,7 @@ path::``README.md`` was partially updated. It should be good now.
 -------
 
 [[:api:]]
-``BaseCom``, ``Problems`` and ``Speaker``: the method ``reset_logfile`` has been removed.
+''BaseCom'', ''Problems'' and ''Speaker'': the method ''reset_logfile'' has been removed.
 
 
 -----
@@ -69,7 +69,7 @@ path::``README.md`` was partially updated. It should be good now.
 -----
 
 [[:api:]]
-``BaseCom``, ``Problems`` and ``Speaker``: a new method ``reset`` resets the management of problems and consequently the log file.
+''BaseCom'', ''Problems'' and ''Speaker'': a new method ''reset'' resets the management of problems and consequently the log file.
 
 
 --------
@@ -77,7 +77,7 @@ path::``README.md`` was partially updated. It should be good now.
 --------
 
 [[:doc:]]
-path::``README.md`` updated.
+path::''README.md'' updated.
 
 
 --------
@@ -85,7 +85,7 @@ path::``README.md`` updated.
 --------
 
 [[:fix:]]
-``Speaker``: the way used to set the attribut `silent` was wrong.
+''Speaker'': the way used to set the attribut `silent` was wrong.
 
 
 // ---------- //
@@ -100,7 +100,7 @@ path::``README.md`` updated.
 -----
 
 [[:api:]]
-The method ``reset_logfile`` of ``speaker.log.LogSpeaker`` is accessible directly from the classes ``BaseCom``, ``Problems`` and ``Speaker``.
+The method ''reset_logfile'' of ''speaker.log.LogSpeaker'' is accessible directly from the classes ''BaseCom'', ''Problems'' and ''Speaker''.
 
 
 --------
@@ -108,7 +108,7 @@ The method ``reset_logfile`` of ``speaker.log.LogSpeaker`` is accessible directl
 --------
 
 [[:doc:]]
-path::``README.md`` has a simpler example of use of ``BaseCom`` and it also talks about the new methods ``reset_logfile``.
+path::''README.md'' has a simpler example of use of ''BaseCom'' and it also talks about the new methods ''reset_logfile''.
 
 
 // ---------- //
@@ -123,7 +123,7 @@ path::``README.md`` has a simpler example of use of ``BaseCom`` and it also talk
 -----
 
 [[:api:]]
-The class ``BaseCom`` allows now the use of time stamps (that was omitted).
+The class ''BaseCom'' allows now the use of time stamps (that was omitted).
 
 
 --------
@@ -131,7 +131,7 @@ The class ``BaseCom`` allows now the use of time stamps (that was omitted).
 --------
 
 [[:doc:]]
-path::``README.md`` has been updated with a small example of use of ``BaseCom``.
+path::''README.md'' has been updated with a small example of use of ''BaseCom''.
 
 
 // ---------- //
@@ -146,7 +146,7 @@ path::``README.md`` has been updated with a small example of use of ``BaseCom``.
 -----
 
 [[:api:]]
-A class ``BaseCom`` has been added such as to work easily with instances of ``Speaker`` and ``Problems``.
+A class ''BaseCom'' has been added such as to work easily with instances of ''Speaker'' and ''Problems''.
 
 
 // ---------- //
@@ -161,7 +161,7 @@ A class ``BaseCom`` has been added such as to work easily with instances of ``Sp
 --------
 
 [[:doc:]]
-Better path::``README.md``.
+Better path::''README.md''.
 
 
 // ---------- //
@@ -176,13 +176,13 @@ Better path::``README.md``.
 --------
 
 [[:tech:]]
-path::``README.md`` and link added in the path::``pyproject.toml`` for ``poetry``.
+path::''README.md'' and link added in the path::''pyproject.toml'' for ''poetry''.
 
 [[:api:]]
-Class ``speaker.allinone.Speaker``: ``getter`` and ``setter`` for the boolean attribute ``silent`` (the ``setter`` automatically call the ``forall`` method).
+Class ''speaker.allinone.Speaker'': ''getter'' and ''setter'' for the boolean attribute ''silent'' (the ''setter'' automatically call the ''forall'' method).
 
 [[:tech:]]
-``problems.Problems``: the ``wraps`` decorator from ``functools`` has been removed because it was unuseful.
+''problems.Problems'': the ''wraps'' decorator from ''functools'' has been removed because it was unuseful.
 
 
 // ---------- //

@@ -11,7 +11,7 @@ import              sys
 
 ###
 # prototype::
-#     file    : just use the magic constant ``__file__`` when calling
+#     file    : just use the magic constant ''__file__'' when calling
 #               this function.
 #     project : the name of the project
 #
@@ -19,7 +19,7 @@ import              sys
 #
 #
 # warning::
-#     The ¨dir of the project must contain the file path::``__file__``.
+#     The ¨dir of the project must contain the file path::''__file__''.
 ###
 def addfindsrc(
     file   : str,

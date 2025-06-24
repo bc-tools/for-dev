@@ -1,0 +1,94 @@
+// ---------- //
+
+
+==
+23  (0.3.2-beta)
+==
+
+--------
+:update:
+--------
+
+[[:fix:]]
+Bug in the \cli: the class ''pathlib.Path'' was not imported (this broke the type checking).
+
+
+// ---------- //
+
+
+==
+14  (0.3.1-beta)
+==
+
+--------
+:update:
+--------
+
+[[:fix:]]
+Bug in ''toc.TOC._extract_recu'': the test used to handle subfolders was broken because ''Path'' instances from the automatic search were not converted to strings.
+
+
+// ---------- //
+
+
+==
+13  (0.3.0-beta)
+==
+
+-------
+:break:
+-------
+
+[[:api:]]
+What a mess! Using prefixes was a very bad good idea.
+
+    1) path::''toc.py'' and ''TOC'' are coming back and steal the show from path::''mmdtoc.py'' and ''MMDTOC''.
+
+    1) path::''build.py'' and ''Builder'' make also their coming back, and kill path::''mmdbuild.py'' and ''MMDBuilder''.
+
+
+// ---------- //
+
+
+==
+10  (0.2.0-beta)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+Features added.
+
+    1) Recursive search of path::''MD'' chunks in subfolders is now possible.
+
+    1) Erasing an existing final path::''MD'' file is not allowed by default now.
+
+    1) \Cli: direct use of the command term::''multimd'' is now possible.
+
+
+-------
+:break:
+-------
+
+[[:api:]]
+\Chges made.
+
+    1) path::''toc.py'' and ''TOC'' have been renamed to path::''mmdtoc.py'' and ''MMDTOC'' respectively.
+
+    1) path::''build.py'' and ''Builder'' have been changed to path::''mmdbuild.py'' and ''MMDBuilder'' respectively.
+
+    1) The classes ''mmdbuild.MMDBuilder'' and ''mmdtoc.MMDTOC'' have been factorised to manage recursive searchs.
+
+
+--------
+:update:
+--------
+
+[[:doc:]]
+\Chges made in the path::''README'' file.
+
+    1) The use of \cmd lines is indicated.
+
+    1) The non-inclusion of resources is indicated.

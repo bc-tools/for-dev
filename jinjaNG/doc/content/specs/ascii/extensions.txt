@@ -3,7 +3,7 @@ this::
 
 
 ===============================================
-Fichiers ¨auto^t associés à la saveur ``ascii``
+Fichiers ¨auto^t associés à la saveur ''ascii''
 ===============================================
 
-La saveur ``ascii`` est celle par défaut : en cas de recherche ¨auto, un fichier qui n'aura pas pu être associé à une saveur autre que ``ascii`` sera analysé en utilisant la saveur ``ascii``.
+La saveur ''ascii'' est celle par défaut : en cas de recherche ¨auto, un fichier qui n'aura pas pu être associé à une saveur autre que ''ascii'' sera analysé en utilisant la saveur ''ascii''.

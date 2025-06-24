@@ -1,0 +1,246 @@
+=======
+jinjaNG - TODO
+=======
+
+
+> ---------------------------- <
+
+on vire les jng...  mauvaise idées !!!!
+
++
+
+maj pydoc de CLI
+
+
+> ---------------------------- <
+
+filtres ajoutable en mode Python (uniquement ? console pertinent?)
+
+
+> ---------------------------- <
+
+sclés imbriquée via chemin pointés avec échappement possible \.
+
+        {a.b.c}
+        =
+        mydata["a"]["b"]["c"]
+
+
+> ---------------------------- <
+
+yaml, json, toml = ascii car par pertinnt d'avoir syst spécifique ici !!!
+
+    ---> doc !!!
+
+
+> ---------------------------- <
+
+jinjaX ??? pourqupoi pas mais via choix du moteur qui sera jinja ^par défaut !
+
+> ---------------------------- <
+
+trim = yes --> par défaut !!!
+
+
+> ---------------------------- <
+
+copie automatisé des hooks ?
+
+    ---> Ok pour bash2data.bash
+
+
+> ---------------------------- <
+
+A FAIRE !!!!
+
+    ---> autonomage du fichier produits via config     (0.2.0-rc)   ????
+
+    car au final c'est pratique : du coup on passe via group de click pour taper jinjang autoname data.yaml my-tmpl.txt qui produira my-output.txt viar regex remplaecment
+
+    autoname:
+        - from: regex qui récupère dans chemin template
+        - to: construction via nom des groupes : ce ce que faisait aatom
+
+    Usage: jinjang [OPTIONS] DATA TEMPLATE OUTPUT
+    Try 'jinjang --help' for help.
+
+    Error: Missing argument 'OUTPUT'.
+
+    --> Tests plus poussés
+
+            1) ????   TRAVIS !!!!
+
+
+    --> classe gérant kes varuables pséciales, et du autonam à intégre aussi dans les test CLI
+
+
+> ---------------------------- <
+
+plus de notion de param, en fait on donne accès à plusisuers type de vars à la place : par exemple, string spé pour yaml et ascci like pour contenu d'une string YAML
+
+du coup, libre choix du JNG<name>  pas juste JNGVAR
+
+on pass de var: ...
+à
+vars:
+    - ...
+
+
+le tout 1er nom sera celui réellment utilise (ancien JNGVAR), et les autres seraont transofrmés en lui
+
+
+vars:
+    - \\JNGVAR{ ... }       <--- utilisé pour jinja2
+    - \\JNGVARBIS{ ... }    <--- ce qui sera utilisé
+                                 pour revenir à \\JNGVAR{ ... }
+    - regex: \\JNGPAR[.+]\{ (?P<jinjavar>.+) \}
+                            <--- ce qui sera utilisé
+                                 pour revenir à \\JNGVAR{ ... }
+                                 via le grpe nommé jinjavar
+
+
+> ---------------------------- <
+
+config
+
+    ---> python ok dans config par souci d'efficacité pour CLI
+
+
+> ---------------------------- <
+
+jng-extra-tools : licenece GPL auto !
+
+    ---> gestion licences
+
+    ---> src2prod pour mettre dans jng-extra-tools : gestion de ce qui est gardé, et de ce qui est ignoré, du coup, au passage on peut organiser comme on veut
+
+    ---> par contrre on n'utilise plus tools.... mais jng<falvour>.EXT seul obligatoirement à la racine afin de pouvoir avor des tests s'papuyant sur cette syntaxe, et aussi d'avoir usecas utilisable une fois tools accessible facilment
+
+    ---> créer syst de mise à jour de chemins relativement au test dans jng-extra-tools : cf partage sur le net,
+    et aussi dans tests pour usage relativement au dossier (ùoins utile mais plus prpore)
+
+    ---> publication ?????
+
+
+> ---------------------------- <
+
+jinja2.Environment
+
+    ---> quelles options uspportées ?
+
+
+> ---------------------------- <
+
+possibilité d'utiliser specs.yaml via l'option --debug ou -d directement : utile pour les contributions !
+
+passer via groupe click !
+
+
+> ---------------------------- <
+
+PB à résoudre ????
+
+    ---> HTML + JS , HTML + PHP ????
+
+    ---> pour config hook : besoin d'un système de chgt locale de {{  }} pour config si cela est utilisé pour une oud es commandes en ligne
+
+
+> ---------------------------- <
+
+proposer un outil de test
+
+    ---> si var par défaut, on prend, sinon on crée une valeur FAKE correspodnant au type
+
+    ---> scénario pour cas problématique faisable ! yaml ou peuf, à voir !!!
+
+    ---> juste besoin d'indiquer le dossier ou mettre le template test
+
+
+> ---------------------------- <
+
+YAGNI ?????
+
+    ---> list of data pour une boucle principale ???
+
+    ---> batch
+
+
+> ---------------------------- <
+
+    ---> nouveaux usecase via python
+
+    ---> launch_commands doc ????
+
+    ---> build_config devient une classe appellable afi de gérer simplement la normalisation du dico renvoyé
+
+    ---> test cfg ?????
+
+    ---> quand mistool rajeuni, l'utiliser pour JNGBuilder.launch_commands
+
+> ---------------------------- <
+
+jinja2 DOC : parler de ...
+
+
+    Template Inheritance
+
+
++ AUSSI +
+
+
+    https://jinja.palletsprojects.com/en/3.1.x/templates/#whitespace-control
+
+
++ AUSSI +
+
+
+    Here’s a test that checks if a value is a prime number:
+
+    import math
+
+    def is_prime(n):
+        if n == 2:
+            return True
+
+        for i in range(2, int(math.ceil(math.sqrt(n))) + 1):
+            if n % i == 0:
+                return False
+
+        return True
+
+    environment.tests["prime"] = is_prime
+
+    Now it can be used in templates:
+
+    {% if value is prime %}
+        {{ value }} is a prime number
+    {% else %}
+        {{ value }} is not a prime number
+    {% endif %}
+
+
++ AUSSI +
+
+
+    Working with Manual Escaping
+
+    If manual escaping is enabled, it’s your responsibility to escape variables if needed. What to escape? If you have a variable that may include any of the following chars (>, <, &, or ") you SHOULD escape it unless the variable contains well-formed and trusted HTML. Escaping works by piping the variable through the |e filter:
+
+    {{ user.username|e }}
+
+
++ AUSSI +
+
+
+    \begin{stepcalc}[style = ar*, ope = {\iff[ssi]}]
+        T = \JNGVAR{v["r_1"]}
+            \explnext{$T \eq[nota] \JNGVAR{v["trig"]}$}
+        \JNGVAR{v["trig"]} = \JNGVAR{v["r_1"]}
+            \explnext{Via le cercle trigonométrique.}
+        %: for s in v["sol_1"] :%
+            %: if loop.index0 != 0 :%
+                \text{ , ou }
+            %: endif :%
+            x = \JNGVAR{s} \text{ à $2\pi$ près}
+        %:- endfor :%
+    \end{stepcalc}

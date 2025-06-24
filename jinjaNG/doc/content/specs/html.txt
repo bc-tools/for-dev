@@ -1,9 +1,9 @@
-abrev::
+abbrev::
     content = /html
 
 
 ==================
-La saveur ``html``
+La saveur ''html''
 ==================
 
 content::

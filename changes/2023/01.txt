@@ -10,4 +10,4 @@
 --------
 
 [[:flow:]]
-The ¨bash file path::``print-loc.bash`` allows to see the [l]-ist [o]-f [c]-hanges between the current branch and the main one.
+The ¨bash file path::''print-loc.bash'' allows to see the [l]-ist [o]-f [c]-hanges between the current branch and the main one.

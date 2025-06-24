@@ -6,15 +6,15 @@
 ¨Configs
 ========
 
-Par défaut, la classe python::``JNGBuilder`` ne cherche pas de fichier de ¨config path::``cfg.jng.yaml`` de façon ¨auto pour des raisons évidentes de ¨secu.
-C'est pour cela que la valeur par défaut de python::``config`` lors de l'initilisation de la classe python::``JNGBuilder`` est la constante python::``NO_CONFIG``.
+Par défaut, la classe python::''JNGBuilder'' ne cherche pas de fichier de ¨config path::''cfg.jng.yaml'' de façon ¨auto pour des raisons évidentes de ¨secu.
+C'est pour cela que la valeur par défaut de python::''config'' lors de l'initilisation de la classe python::''JNGBuilder'' est la constante python::''NO_CONFIG''.
 
 
-Pour une recherche ¨auto de path::``cfg.jng.yaml`` dans le dossier du "patron", il suffit d'employer la constante python::``AUTO_CONFIG`` comme dans l'exemple ci-dessous.
+Pour une recherche ¨auto de path::''cfg.jng.yaml'' dans le dossier du "patron", il suffit d'employer la constante python::''AUTO_CONFIG'' comme dans l'exemple ci-dessous.
 
 python::
     ---
-    title = Utilisation ¨auto d'un fichier path::``cfg.jng.yaml``
+    title = Utilisation ¨auto d'un fichier path::''cfg.jng.yaml''
     path  = ?/examples/via-python/use-config/autoconfig.py
     ---
 
@@ -23,14 +23,14 @@ Il est aussi possible de choisir un fichier de ¨config spécifique
 ((
     Ceci permet, par exemple, d'user d'un fichier de ¨config en phase de ¨dev bloquant des pré et post-actions chronophages, pour ensuite au final passer via un fichier de ¨config par défaut qui lui appliquera les pré et post-actions chronophages.
 )).
-Dans ce cas, il suffit de procéder comme suit où la valeur de python::``config`` correspond au chemin du fichier de ¨config.
+Dans ce cas, il suffit de procéder comme suit où la valeur de python::''config'' correspond au chemin du fichier de ¨config.
 
 python::
     ---
-    title = Un fichier de ¨config autre que path::``cfg.jng.yaml``
+    title = Un fichier de ¨config autre que path::''cfg.jng.yaml''
     path  = ?/examples/via-python/use-config/myconfig.py
     ---
 
 
 info::
-    Dans l'exemple précédent, on peut aussi utiliser python::``pathlib.Path('myconfig.yaml')``.
+    Dans l'exemple précédent, on peut aussi utiliser python::''pathlib.Path('myconfig.yaml')''.

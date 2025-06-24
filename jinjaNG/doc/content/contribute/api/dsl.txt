@@ -2,7 +2,7 @@
     date = 2023-01-10
 
 
-abrev::
+abbrev::
     content = dsl
 
 
@@ -14,10 +14,10 @@ Il est possible de proposer de nouveaux dialectes. À ce jour, les saveurs propo
 
 // -- ALL FLAVOURS - AUTO LIST - START -- //
 
-    * ¨ascii via python::``FLAVOUR_ASCII = "ascii"``.
-    * ¨html  via python::``FLAVOUR_HTML = "html"``.
-    * ¨latex via python::``FLAVOUR_LATEX = "latex"``.
-    * ¨md    via python::``FLAVOUR_MD = "md"``.
+    * ¨ascii via python::''FLAVOUR_ASCII = "ascii"''.
+    * ¨html  via python::''FLAVOUR_HTML = "html"''.
+    * ¨latex via python::''FLAVOUR_LATEX = "latex"''.
+    * ¨md    via python::''FLAVOUR_MD = "md"''.
 
 // -- ALL FLAVOURS - AUTO LIST - END -- //
 
@@ -27,4 +27,3 @@ content::
     ¨content/specs.txt
     ¨content/usecases.txt
     ¨content/propose.txt
-

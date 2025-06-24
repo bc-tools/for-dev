@@ -1,0 +1,28 @@
+// ---------- //
+
+
+==
+23
+==
+
+--------
+:update:
+--------
+
+[[:doc:]]
+\Doc before code: the path::''README.md'' file looks good.
+
+
+// ---------- //
+
+
+==
+15
+==
+
+--------
+:fordev:
+--------
+
+[[:update:]]
+Last version of \multimd: the code works well with the new version::''0.3.1-beta'' version of \multimd.

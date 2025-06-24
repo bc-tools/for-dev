@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 ###
-# This module defines the internal class ``TermSpeaker`` to "speak" on
+# This module defines the internal class ''TermSpeaker'' to "speak" on
 # a terminal.
 #
 # note::
-#     There are also two classes ``BWStylist`` and ``ColorStylist`` to
+#     There are also two classes ''BWStylist'' and ''ColorStylist'' to
 #     produce the style wanted.
 ###
 
@@ -50,7 +50,7 @@ def _colorit(
 # Source: GNU/Linux Mag. - Hors Série 115
 
 class ColorStylist(Enum):
-# See ``spk_interface.ALL_CONTEXTS.``
+# See ''spk_interface.ALL_CONTEXTS.''
     normal  : str = ''
     good    : str = '96'
     warning : str = '94'
@@ -69,7 +69,7 @@ class ColorStylist(Enum):
 ###
 
 class BWStylist(Enum):
-# See ``spk_interface.ALL_CONTEXTS.``
+# See ''spk_interface.ALL_CONTEXTS.''
     normal  : str = ''
     good    : str = '1m'
     warning : str = '3m'
@@ -119,7 +119,7 @@ class TermSpeaker(AbstractSpeaker):
 # prototype::
 #     repeat : the numebr of empty lines wanted.
 #
-# This method simply prints ``repeat`` empty lines on the terminal.
+# This method simply prints ''repeat'' empty lines on the terminal.
 ###
     def NL(self, repeat: int = 1) -> None:
         print("\n"*(repeat - 1))
@@ -136,7 +136,7 @@ class TermSpeaker(AbstractSpeaker):
 #     context : a context to format some outputs
 #             @ :in: spk_interface.CONTEXTS
 #
-#     :see: = ``ColorStylist`` and ``BWStylist``.
+#     :see: = ''ColorStylist'' and ''BWStylist''.
 ###
     def style(self, context: str = CONTEXT_NORMAL) -> None:
         getattr(self.stylist, context).colorit()
@@ -147,10 +147,10 @@ class TermSpeaker(AbstractSpeaker):
 #     text : a text to be hard wrapped.
 #     tab  : a possible tabulation to use for each new line created.
 #
-#     :return: a wrapped message of maximal width ``self.maxwidth``.
+#     :return: a wrapped message of maximal width ''self.maxwidth''.
 #
 # note::
-#     We redefine the method ``hardwrap`` because in a terminal, the
+#     We redefine the method ''hardwrap'' because in a terminal, the
 #     hard wrapping consists only to add tabulations "to" each new line.
 ###
     def hardwrap(

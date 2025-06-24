@@ -1,6 +1,6 @@
 # Lines automatically build by the following file.
 #
-#     + ``tools/factory/dsl/build_01_update_specs.py``
+#     + ''tools/factory/dsl/build_01_update_specs.py''
 
 ASSOCIATED_EXT = dict()
 WITH_UTILS = dict()

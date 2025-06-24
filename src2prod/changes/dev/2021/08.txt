@@ -1,0 +1,120 @@
+// ---------- //
+
+
+==
+22  (0.0.6-beta)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+It is now possible to use a \dir path::''readme'' where the path::''README.md'' file is written piece by piece.
+
+
+// ---------- //
+
+
+==
+12  (0.0.5-beta)
+==
+
+-------
+:break:
+-------
+
+[[:api:]]
+Indeed terminal::''poetry run src2prod'' does not work as expected... This implies the impossibility to use terminal::''poetry run src2prod'' for a while.
+
+
+// ---------- //
+
+
+==
+12  (0.0.4-beta)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+The \cli can be launched via terminal::''poetry run src2prod''.
+
+
+// ---------- //
+
+
+==
+12  (0.0.3-beta)
+==
+
+------
+:news:
+------
+
+[[:api:]]
+Attribut ''ignore'': it can be either a string or an absolute ''pathib.Path'' of a file containing the rules (that feature is necessary for the \cli but it is also useful in a none \cli context)
+
+[[:api:]]
+One \cli has been added to update projects.
+
+
+--------
+:update:
+--------
+
+[[:doc:]]
+path::''README.md'': the syntax for ''ignore'' rules has been explained and \infos about the new \cli features have been added.
+
+
+// ---------- //
+
+
+==
+12  (0.0.2-beta)
+==
+
+---------
+:updates:
+---------
+
+[[:api:]]
+The module ''lowlevel'' and the class ''LowLevel'' have been renamed ''baseproj'' and ''BaseProj''.
+
+[[:doc:]]
+path::''README.md'': the use of relative paths has been indicated.
+
+
+--------
+:fordev:
+--------
+
+[[:fix:]]
+''baseproj.BaseProj'' previously ''lowlevel.LowLevel'': fixed a stupid bug. Instantiation was using the default value ''False'' instead of ''None'' for the ''readme'' argument.
+
+
+// ---------- //
+
+
+==
+12  (0.0.1-beta)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+An external path::''README'' file can be used.
+
+
+// ---------- //
+
+
+==
+11  (0.0.0-beta)
+==
+
+This module allows to develop a project within a source folder and to publish the final product in another folder, this last directory being a "thin" version of the source one.

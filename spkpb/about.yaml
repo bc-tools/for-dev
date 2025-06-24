@@ -1,7 +1,11 @@
-general:
-    project : spkpb
-    desc    : A module to write programs which have to be verbose about a process on files and directories, and that have to emit informations, warnings and errors.
-    author  : Christophe BAL
-    licence : gnu 3
-    need    :
-        - python3
+project:
+  desc   : A module to write programs which have to be verbose about
+           informations, warnings and errors.
+  acronym: "[SP]ea[K]ing, [P]ro[B]lems"
+  author : Christophe, BAL
+  licence: gnu 3
+
+  repo   : https://github.com/bc-tools/for-dev/tree/main/spkpb
+
+  require:
+    - python3

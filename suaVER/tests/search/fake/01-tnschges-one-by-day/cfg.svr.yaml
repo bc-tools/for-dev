@@ -1,4 +1,0 @@
-search:
-  - tnschges:
-    - changes/(?<year>\d{4})/(?<month>\d+)\.txt
-    - \n?={2,}\n(?<day>\d+)\s*(?<version>.*)\n={2,}\n?

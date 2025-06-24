@@ -29,17 +29,17 @@ TAG_POST  = 'post'
 ###
 # prototype::
 #     config : ¨configs used to allow extra features.
-#              ``NO_CONFIG`` prohibits the use of a configuration file.
-#              ``AUTO_CONFIG`` requires the use of a file named
-#              ``DEFAULT_CONFIG_FILE`` in the template directory.
+#              ''NO_CONFIG'' prohibits the use of a configuration file.
+#              ''AUTO_CONFIG'' requires the use of a file named
+#              ''DEFAULT_CONFIG_FILE'' in the template directory.
 #              In other cases, the value will be interpreted as a path
-#              to a path::``YAML`` file to be used for configurations.
+#              to a path::''YAML'' file to be used for configurations.
 #            @ config in [AUTO_CONFIG, NO_CONFIG]
 #              or
 #              exists path(config)
 #     parent : the parent directory of the template which is the folder
 #              where to look for the default ¨config file.
-#              This parameter is ignored if ``config = AUTO_CONFIG``
+#              This parameter is ignored if ''config = AUTO_CONFIG''
 #
 #     :return: a ¨python ¨dict of the ¨configs that is ready-to-use
 ###

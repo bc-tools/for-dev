@@ -6,7 +6,7 @@
 #
 #
 # note::
-#    The hard job is done by the excellent ``inspect.signature``.
+#    The hard job is done by the excellent ''inspect.signature''.
 ###
 
 from typing import (
@@ -66,15 +66,15 @@ def cleantype(onetype: str) -> Union[None, str]:
 #                   a class)
 #
 #     :return: a dictionary giving all the ¨infos about the siganture of
-#              ``onecallable``.
+#              ''onecallable''.
 #
 #
 # warning::
 #     When nothing has been indicated in the original code, the value
-#     ``None`` is used.
+#     ''None'' is used.
 ###
 def easysign(onecallable: Callable) -> Dict[str, Any]:
-# Thanks for the hard job done by ``signature``.
+# Thanks for the hard job done by ''signature''.
     sign = signature(onecallable)
 
 # An easier version of the signature (at least for me).

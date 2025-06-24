@@ -147,7 +147,7 @@ this::
 
 {title}
 
-<:explanations:> à la saveur ``{flavour}``<:extra:>.
+<:explanations:> à la saveur ''{flavour}''<:extra:>.
 
 /* -- AUTO LIST - START -- */
 /* -- AUTO LIST - END -- */
@@ -206,7 +206,7 @@ def build_predoc(flavour, filename):
 
 
 TEMPL_TOC = """
-abrev::
+abbrev::
     content = /{flavour}
 
 
@@ -232,7 +232,7 @@ def build_toc(flavour):
 
     toc = ('\n' + ' '*4).join(toc)
 
-    title = f"La saveur ``{flavour}``"
+    title = f"La saveur ''{flavour}''"
 
     return TEMPL_TOC.format(
         flavour = flavour,
@@ -257,7 +257,7 @@ def build_ext(flavour, autoext, dest_file):
     else:
         action = ACTION_ADDING
 
-        title = f"Fichiers ¨auto^t associés à la saveur ``{flavour}``"
+        title = f"Fichiers ¨auto^t associés à la saveur ''{flavour}''"
 
         content = DEFAULT_TEMPLATES[TAG_LISTEXT].format(
             date    = today,
@@ -300,7 +300,7 @@ def build_ext(flavour, autoext, dest_file):
         )
 
     newext = [
-        ' '*4 + f"* path::``{e}``"
+        ' '*4 + f"* path::''{e}''"
         for e in newext
     ]
     newext = '\n'.join(newext)
@@ -338,7 +338,7 @@ def extract_lastext(lastext):
 
         for toremove in [
             "path::",
-            "``"
+            "''"
         ]:
             line = line.replace(toremove, "")
 
@@ -370,7 +370,7 @@ for flavour in sorted(ASSOCIATED_EXT):
 
     MAIN_TOC.append(flavour)
 
-    print(f'{TAB_1}* Missing doc for the flavour ``{flavour}``?')
+    print(f'{TAB_1}* Missing doc for the flavour ''{flavour}''?')
 
     nothingdone = True
 
@@ -386,7 +386,7 @@ for flavour in sorted(ASSOCIATED_EXT):
 
             if action:
                 print(
-                    f"{TAB_2}+ {action.title()} the file ``{filename}``."
+                    f"{TAB_2}+ {action.title()} the file ''{filename}''."
                 )
 
             continue
@@ -403,7 +403,7 @@ for flavour in sorted(ASSOCIATED_EXT):
 
         nothingdone = False
 
-        print(f"{TAB_2}+ Adding the file ``{filename}``.")
+        print(f"{TAB_2}+ Adding the file ''{filename}''.")
 
         predoc = build_predoc(flavour, filename)
 
@@ -420,7 +420,7 @@ for flavour in sorted(ASSOCIATED_EXT):
     if FORCE_TOC_UPDATE or not tocfile.is_file():
         nothingdone = False
 
-        print(f"{TAB_2}+ TOC - Adding ``{flavour}.txt``.")
+        print(f"{TAB_2}+ TOC - Adding ''{flavour}.txt''.")
 
         toc = build_toc(flavour)
 

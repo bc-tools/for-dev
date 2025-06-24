@@ -1,0 +1,168 @@
+﻿### ??
+# this::
+#     date = 2024-09-22 ???
+###
+
+
+### ??
+#
+###
+ANY_KIND | one_in("project", "monorepo"):
+### ??
+#
+###
+# ----------------------- #
+# -- SHORT DESCRIPTION -- #
+# ----------------------- #
+  # name*   : "This allows you to give the name of the distributed
+  #           product instead of the name automatically generated from
+  #           the name of the folder containing this YAML file (in some
+  #           cases, product names must follow specific naming rules)."
+
+  # acronym*: "Most names follow hidden schemas that you can explain here.
+  #           For example, you can just type \"MY Hidden Acronym\" for
+  #           a product named is ''myha''."
+
+  # desc    : "You must always give one small description of your product,
+  #           or monorepo."
+  KIND* | in("name", "acronym"): >
+    str
+
+  desc: str
+
+
+### ??
+#
+###
+# ---------------- #
+# -- CREATOR(S) -- #
+# ---------------- #
+
+# NOTES.
+#     1) For authors, only the NAME is mandatory.
+#     2) Several FIRST NAMES can be indicated.
+#     3) Using comas, several MAILS can be given.
+  author* | not(exist(\this.ANY_KIND.authors)): >
+    author
+
+  authors* | not(exist(\this.ANY_KIND.author)): >
+    list(author)
+
+# NOTES.
+#     1) For institutes, only the NAME is mandatory.
+#     2) Several MAILS can be used.
+#     3) Using comas, several MAILS can be given.
+  institute* | not(exist(\this.ANY_KIND.institutes)): >
+    institute
+
+  institutes* | not(exist(\this.ANY_KIND.institute)): >
+    list(institute)
+
+
+### ??
+#
+###
+# --------------- #
+# -- RESOURCES -- #
+# --------------- #
+  # readme*: "By default, a ''readme'' folder is searched first, and then
+  #          a ''README.md'' file in the project folder, and not its
+  #          source directory, but you can use two kinds of path for
+  #          the ''README'' file of the product.
+  #            1) ''path/to/file/README.md'' indicates an existing file.
+  #            2) ''path/to/dir/readme/'' allows to use a directory
+  #               following the specifications of the Python project
+  #               ''multimd'' such  s to write the ''README'' file part
+  #               by part."
+
+  readme*: XXXX
+
+
+### ??
+#
+###
+  # url:
+  #   repo*: "The url of the product repository."
+  #   home*: "The url of a dedicated website for the product."
+  #   doc* : "The url of a dedicated website for the product documentation."
+  url:
+    KIND* | in("repo", "home", "doc"): >
+      url
+
+  lang*:
+    # readme*: "This indicates the language(s) of the ''README'' file(s)
+    #          which can be given as a single language ID like ''fr'' or
+    #          ''en'' for example, or as a comma separated list of IDs like
+    #          ''fr, en, es''."
+    readme*: lang
+
+    doc*:
+      DOC_KIND* | in("manual", "code"): >
+        lang
+
+
+### ??
+#
+###
+# ------------------------ #
+# -- TECHNICAL SETTINGS -- #
+# ------------------------ #
+# "There is two ways to give the licence of the product.
+#               1) You can use an ID managed by the Python project ''ealic''.
+#               2) You can give the path of one file containing the full
+#                  text of the licence like in ''path/to/my/licence.txt
+#                  [My special licence]'' where we also have to indicate
+#                  the name of the licence inside square brackets."
+  licence*: XXX
+
+# You can specify the coding languages required by the product.
+
+# You can specify several optional coding languages for the product.
+  KIND* | in("require", "optional"): >
+    list(str)
+
+# You can complete locally the ''git'' list of paths to ignore when
+# producing the final product.
+#
+# TIP: the pipe symbol allows you to define one rule per line.
+# yaml::
+#   ignore*: |
+#     rule_1
+#     rule_2
+#     etc.
+  ignore*: str
+
+
+### ??
+#
+###
+# ======================== #
+# == JUST FOR MONOREPOS == #
+# ======================== #
+
+# By default, all sub-folders are considered to be those of projects
+# belonging to the monorepo.
+#
+# NOTES.
+#     1) Mixing keeping-and-disgarding rules is allowed.
+#     2) If only the disgard rules are used, any folder that does not
+#        comply with any of these rules will be retained.
+
+monorepo:
+  projects*:
+    - "One folder kept is indicated via ''project_1'' or ''rule_1''."
+    - "One folder disgarded is indicated via ''!project_1'' or ''!rule_1''."
+    - "etc."
+
+
+### ??
+#
+###
+# =========================== #
+# == JUST FOR FOR PROJECTS == #
+# =========================== #
+
+project:
+  dist*:
+# This is the source code folder used during the development process which will not be distributed in its entirety. The default value is ''src''."
+    src*: path_dir

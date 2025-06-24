@@ -6,7 +6,7 @@ this::
 Variables dans un patron
 ========================
 
-Les variables se tapent via une macro fictive latex::``\JNGVALOF{ ... }`` qui devient active si l'on utilise les outils présentés dans cf::``tools.txt``.
+Les variables se tapent via une macro fictive latex::''\JNGVALOF{ ... }'' qui devient active si l'on utilise les outils présentés dans cf::''tools.txt''.
 
 jinjang::
     ---

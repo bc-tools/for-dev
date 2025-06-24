@@ -12,9 +12,9 @@
 [[:api:]]
 Naming: here are two new rules.
 
-    1) In ¨python data files, ``JNG_DATAS`` has been replaced by ``JNGDATAS`` which is easier to type. The underscore will no longer be allowed for naming purposes.
+    1) In ¨python data files, ''JNG_DATAS'' has been replaced by ''JNGDATAS'' which is easier to type. The underscore will no longer be allowed for naming purposes.
 
-    1) For editing tools, ``JNGVAR`` has been replaced by ``JNGVALOF`` which is more explicit. This has been done for the latex::``jnglatex`` package, but this name will have to be used by other tools working with named functions.
+    1) For editing tools, ''JNGVAR'' has been replaced by ''JNGVALOF'' which is more explicit. This has been done for the latex::''jnglatex'' package, but this name will have to be used by other tools working with named functions.
 
 
 // ---------- //
@@ -31,13 +31,13 @@ Naming: here are two new rules.
 [[:api:]]
 The project is functional (the hooks are not yet implemented).
 
-    1) Builder: the class ``jngbuild.JNGBuilder`` builds outputs from templates fed by data.
+    1) Builder: the class ''jngbuild.JNGBuilder'' builds outputs from templates fed by data.
 
-    1) ¨CLI: it is possible to use term::``python -m jinjang`` in a terminal.
+    1) ¨CLI: it is possible to use term::''python -m jinjang'' in a terminal.
 
 
 [[:doc:]]
-path::``README.md``: all the path::``README`` files of the project have been done.
+path::''README.md'': all the path::''README'' files of the project have been done.
 
 
 [[:flow:]]
@@ -76,7 +76,7 @@ Unit tests revealed some stupid minor bugs, as well as some broken outputs in th
 --------
 
 [[:update:]]
-File path::``config.jngflavours.py``: three ¨dicts are proposed to facilitate the internal ¨dev.
+File path::''config.jngflavours.py'': three ¨dicts are proposed to facilitate the internal ¨dev.
 
 
 // ---------- //
@@ -131,9 +131,9 @@ Flavours: one section indicates the files associated automatically to one flavou
 [[:api:]]
 Flavours: better tools
 
-    1) ¨latex macro latex::``\JNGVAR``: the underscores are displayed verbatim (the mathematical mode is no longer used).
+    1) ¨latex macro latex::''\JNGVAR'': the underscores are displayed verbatim (the mathematical mode is no longer used).
 
-    1) ¨js function js::``jnghtml``: the regex trims the content captured.
+    1) ¨js function js::''jnghtml'': the regex trims the content captured.
 
 
 --------
@@ -141,7 +141,7 @@ Flavours: better tools
 --------
 
 [[:api:]]
-Flavours: the path::``README`` files can used images put inside a folder named path::``images``.
+Flavours: the path::''README'' files can used images put inside a folder named path::''images''.
 
 
 // ---------- //

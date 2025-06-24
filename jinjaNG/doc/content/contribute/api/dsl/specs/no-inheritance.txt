@@ -6,7 +6,7 @@ this::
 Des règles "autonomes"
 ======================
 
-Pour indiquer les ¨specs d'une saveur, sans s'appuyer sur une autre saveur, on utilise un fichier path::``specs.yaml`` qui doit avoir le contenu ci-dessous ; nous expliquons plus bas les valeurs attendues pour les différents ``<NOM-GÉNÉRIQUE>``.
+Pour indiquer les ¨specs d'une saveur, sans s'appuyer sur une autre saveur, on utilise un fichier path::''specs.yaml'' qui doit avoir le contenu ci-dessous ; nous expliquons plus bas les valeurs attendues pour les différents ''<NOM-GÉNÉRIQUE>''.
 
 yaml::
     about:
@@ -25,16 +25,16 @@ yaml::
     var: <VARIABLE>
 
 
-Pour le bloc yaml::``about``, on doit indiquer a minima ce qui suit.
+Pour le bloc yaml::''about'', on doit indiquer a minima ce qui suit.
 
-    1) ``<AUTHOR>`` indique l'auteur des ¨specs au format ``Prénom, Nom [courriel]``.
+    1) ''<AUTHOR>'' indique l'auteur des ¨specs au format ''Prénom, Nom [courriel]''.
 
-    1) ``<DESCRIPTION>`` est une ¨desc très courte de la saveur.
+    1) ''<DESCRIPTION>'' est une ¨desc très courte de la saveur.
 
-    1) ``<DATE>`` donne la date de création, ou de dernière ¨modif, au format ``AAAA-MM-JJ`` comme par exemple ``2022-12-19``.
+    1) ''<DATE>'' donne la date de création, ou de dernière ¨modif, au format ''AAAA-MM-JJ'' comme par exemple ''2022-12-19''.
 
 
-Le bloc yaml::``ext`` permet d'indiquer une liste d'extensions de fichiers pour l'¨asso ¨auto d'une saveur à un "patron".
+Le bloc yaml::''ext'' permet d'indiquer une liste d'extensions de fichiers pour l'¨asso ¨auto d'une saveur à un "patron".
 Par exemple, pour la saveur ¨latex, le bloc suivant est utilisé.
 
 yaml::
@@ -45,7 +45,7 @@ yaml::
 
 
 La particularité de ¨jinjang est de considérer que les patrons utilisés ont un ¨syst de commentaires sur lequel s'appuyer pour proposer différentes façons d'utiliser des instructions ¨jinja.
-Par exemple, pour la saveur ¨ascii, le bloc suivant est utilisé où les points de suspension ``...`` symbolise les instructions qui seront employées dans un "patron". Noter ici les guillemets qui ne sont pas toujours obligatoires (ici ce sont les symboles ``#`` qu'il faut protéger).
+Par exemple, pour la saveur ¨ascii, le bloc suivant est utilisé où les points de suspension ''...'' symbolise les instructions qui seront employées dans un "patron". Noter ici les guillemets qui ne sont pas toujours obligatoires (ici ce sont les symboles ''#'' qu'il faut protéger).
 
 yaml::
     src-comment:
@@ -60,8 +60,8 @@ yaml::
 
 
 info::
-    Dans le bloc yaml::``src-comment``, il est possible d'indiquer deux types de commentaire.
+    Dans le bloc yaml::''src-comment'', il est possible d'indiquer deux types de commentaire.
 
 
-Pour finir, la variable yaml::``var`` sert à définir comment devra être tapée dans un patron une "variable de donnée", ou des instructions ¨jinja basiques.
-Par exemple, pour la saveur ¨html, c'est yaml::``var: "{{ ... }}"`` qui est indiqué.
+Pour finir, la variable yaml::''var'' sert à définir comment devra être tapée dans un patron une "variable de donnée", ou des instructions ¨jinja basiques.
+Par exemple, pour la saveur ¨html, c'est yaml::''var: "{{ ... }}"'' qui est indiqué.

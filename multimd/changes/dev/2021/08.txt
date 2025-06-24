@@ -1,0 +1,23 @@
+// ---------- //
+
+
+==
+22  (0.0.1-beta)
+==
+
+-----
+:new:
+-----
+
+[[:doc:]]
+path::''README'': the \proj has now its own path::''README'' file.
+
+
+// ---------- //
+
+
+==
+22  (0.0.0-beta)
+==
+
+This \proj makes it possible to write separated pieces of pure text path::''MD'' files that will be merged to produce one single final path::''MD'' file.

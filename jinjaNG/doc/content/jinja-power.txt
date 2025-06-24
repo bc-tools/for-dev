@@ -2,11 +2,11 @@
     date = 2022-10-31
 
 
-abrev::
-    jinjadoc     = cf::``¨doc de jinja ;
-                          https://jinja.palletsprojects.com/en/3.0.x/``
-    subtemplates = cf::``sous-patrons ;
-                         https://jinja.palletsprojects.com/en/3.0.x/templates/#template-inheritance``
+abbrev::
+    jinjadoc     = cf::''¨doc de jinja ;
+                          https://jinja.palletsprojects.com/en/3.0.x/''
+    subtemplates = cf::''sous-patrons ;
+                         https://jinja.palletsprojects.com/en/3.0.x/templates/#template-inheritance''
 
 
 ================================================

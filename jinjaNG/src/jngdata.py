@@ -26,7 +26,7 @@ from yaml    import safe_load as yaml_load
 # prototype::
 #     path : a path to be added temporarily to the system path.
 #
-#     :action: temporarily add ``path`` to the system path.
+#     :action: temporarily add ''path'' to the system path.
 ###
 @contextlib.contextmanager
 def addpath2sys(path: Path) -> Iterator[None]:
@@ -54,7 +54,7 @@ JNGDATA_PYNAME = "JNGDATA"
 class JNGData:
 ###
 # prototype::
-#     launch_py : the value ``True`` allows the execution of ¨python files
+#     launch_py : the value ''True'' allows the execution of ¨python files
 #                 to build data feeding a template.
 #                 Otherwise, no ¨python script will be launched.
 ###
@@ -119,7 +119,7 @@ class JNGData:
 
 ###
 # prototype::
-#     file: the ``IO``-like contents of a ¨json file.
+#     file: the ''IO''-like contents of a ¨json file.
 #
 #     :return: :see: self.build
 ###
@@ -132,7 +132,7 @@ class JNGData:
 
 ###
 # prototype::
-#     file: the ``IO``-like contents of a ¨yaml file.
+#     file: the ''IO''-like contents of a ¨yaml file.
 #
 #     :return: :see: self.build
 ###
@@ -156,22 +156,22 @@ class JNGData:
 # Are we allowed to launch a Python file?
         if not self.launch_py:
             raise Exception(
-                "``launch_py`` disabled, no Python file can't "
+                "''launch_py'' disabled, no Python file can't "
                 "be launched to build data."
             )
 
 # Lets's launch the Python file, and then recover the expected value
 # of the special variable.
 #
-# Suchas to allow relative imports inside a ``data.py`` file, we have
-# to change ``sys.path`` temporarly.
+# Suchas to allow relative imports inside a ''data.py'' file, we have
+# to change ''sys.path'' temporarly.
         with addpath2sys(file.parent):
             dictdata = run_path(file)
 
 # The special variable is missing.
         if not JNGDATA_PYNAME in dictdata:
             raise Exception(
-                f"no ``{JNGDATA_PYNAME}`` variable found in the Python file :"
+                f"no ''{JNGDATA_PYNAME}'' variable found in the Python file :"
                  "\n"
                 f"{file}"
             )

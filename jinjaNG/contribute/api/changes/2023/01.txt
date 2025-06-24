@@ -10,7 +10,7 @@
 --------
 
 [[¨latex]]
-The macro latex::``\JNGVALOF`` can be used inside contents of a latex::``\section`` like title, or inside footnotes.
+The macro latex::''\JNGVALOF'' can be used inside contents of a latex::''\section'' like title, or inside footnotes.
 
 
 [[¨ascii]]

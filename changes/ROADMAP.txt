@@ -2,8 +2,35 @@
 for-dev (monorepo) - ROADMAP
 ==================
 
+This file is a roadmap, in the short term.
+
+
+-----------
+ALWAYS DONE
+-----------
+
+    1) Test hatch use to sue only it in the future (so easy to use)
+
+
 ----------
 NEXT STEPS
 ----------
 
-    1) ???
+    0) one bash file to launch BLACK on product only, and then publish via poetry
+
+
+    1) multimd : hatch + tests done ===> 1st rc
+
+
+
+    2) src2prod: tests done ===> 1st rc
+
+    3) suaver  : tests done ===> 1st rc
+
+    4) @-bout  : next major step!
+
+    5) ealic   : next major step!
+
+    6) yavya   : next major step!
+
+    7) all tests launchable to verify interoperability of the packages: this needs to work with virtual env

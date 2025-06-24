@@ -1,0 +1,34 @@
+====================
+Monoreop ''for-dev'' - TODO
+====================
+
+
+> ---------------------------- <
+
+outils polyglote de distribution via yaml config : pour moi partir de src2prod, publier puis vierer le dossier de sit qui n'a pas besoin d'être sur git
+
+
+> ---------------------------- <
+
+third-party-imports  /cbdevtools
+
+
+> ---------------------------- <
+
+oneproject/build-project.bash
+
+    ---> suaver
+    ---> poetry à la fin!
+         long mais fonctionnel :
+         pip list --outdated | grep jinjang
+
+
+> ---------------------------- <
+
+monorepo.bash
+
+    ---> on centralise les bash généraux dans un seul TOUT SIMPLEMNT !!!
+
+    ---> permet de commander test sur tout ou juste un projet de
+
+    ---> faire version "intelligente" qui ne touche qu git a si deamndé

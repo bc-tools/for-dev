@@ -15,8 +15,8 @@ from .speaker import *
 #               printed in a terminal).
 #     kind    : the kind of time stamp ("start" and "end" for example).
 #               This string will be always "upperized".
-#     with_NL : ``True`` asks to add a new line after the title and
-#               ``False`` to not do this.
+#     with_NL : ''True'' asks to add a new line after the title and
+#               ''False'' to not do this.
 ###
 def timestamp(
     speaker: Speaker,

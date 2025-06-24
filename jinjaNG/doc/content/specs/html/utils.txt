@@ -6,10 +6,10 @@ this::
 Outils d'aide à la conception
 =============================
 
-Il existe un script ¨js path::``jngutils-html.js`` pour faciliter la conception de patrons : ce script permet de ne pas trop polluer la mise en forme d'un patron avant son utilisation via ¨jinjang. L'essayer, c'est l'adopter.
+Il existe un script ¨js path::''jngutils-html.js'' pour faciliter la conception de patrons : ce script permet de ne pas trop polluer la mise en forme d'un patron avant son utilisation via ¨jinjang. L'essayer, c'est l'adopter.
 
 
-Pour expliquer comment utiliser cet outil, nous allons supposer que le fichier path::``jngutils-html.js`` se trouve dans le même dossier que le fichier ¨html dont nous donnons le code ci-dessous
+Pour expliquer comment utiliser cet outil, nous allons supposer que le fichier path::''jngutils-html.js'' se trouve dans le même dossier que le fichier ¨html dont nous donnons le code ci-dessous
 ((
     Il est prévu de fournir ce script via un service ¨cdn.
 )).
@@ -41,8 +41,8 @@ jinjang::
     </html>
 
 
-Dans le cas précédent, jinja(flavour = html)::``{{ txt_example }}`` sera rendu comme le texte ``txt_example`` mis en gras et en rouge dans un cadre lui aussi rouge.
+Dans le cas précédent, jinja(flavour = html)::''{{ txt_example }}'' sera rendu comme le texte ''txt_example'' mis en gras et en rouge dans un cadre lui aussi rouge.
 
 
 note::
-    Le code ¨js agit directement sur le ``document.body.outerHTML`` en utilisant une ¨regex_fr pour effectuer des remplacements en dur.
+    Le code ¨js agit directement sur le ''document.body.outerHTML'' en utilisant une ¨regex_fr pour effectuer des remplacements en dur.

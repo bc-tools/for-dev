@@ -95,7 +95,7 @@ for path in chge_files:
         t = t.strip()
 
         allnbsversion = (
-            f'See the title ``{t}`` in the file '
+            f'See the title ''{t}'' in the file '
             f'changes/{year}/{month}.txt'
         )
 
@@ -104,7 +104,7 @@ for path in chge_files:
 
         assert t[-1] == ')', \
                (
-                 'missing ``)`` at the end.'
+                 'missing '')'' at the end.'
                  '\n' + allnbsversion
                )
 
@@ -112,7 +112,7 @@ for path in chge_files:
 
         assert len(version) == 1, \
                (
-                 'invalid number of ``(``.'
+                 'invalid number of ''(''.'
                  '\n' + allnbsversion
                )
 
@@ -136,7 +136,7 @@ for path in chge_files:
                  '{fullversion} already used.'
                  '\n' + allnbsversion +
                  '\nSee the most recent date '
-                f'``{"-".join(nb_versions_found[fullversion])}``.'
+                f'''{"-".join(nb_versions_found[fullversion])}''.'
                )
 
         nb_versions_found[fullversion] = date
@@ -164,7 +164,7 @@ for path in chge_files:
 # -- LAST VERSION NB -- #
 # --------------------- #
 
-print(f"   * Update of the file ``VERSION.json``.")
+print(f"   * Update of the file ''VERSION.json''.")
 
 if not versions_found:
     about_version = {}

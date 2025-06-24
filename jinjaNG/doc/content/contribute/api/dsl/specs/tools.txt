@@ -6,8 +6,8 @@
 Outils d'aide à la conception
 =============================
 
-Certaines saveurs comme jinjang::``latex`` et jinjang::``html`` proposent des outils pour obtenir des patrons facilement analysables.
-Pour indiquer l'existence de tels outils, il faut employer yaml::``utils: yes`` dans le bloc yaml::``about`` comme ci-dessous.
+Certaines saveurs comme jinjang::''latex'' et jinjang::''html'' proposent des outils pour obtenir des patrons facilement analysables.
+Pour indiquer l'existence de tels outils, il faut employer yaml::''utils: yes'' dans le bloc yaml::''about'' comme ci-dessous.
 
 yaml::
     about:

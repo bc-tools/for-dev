@@ -14,7 +14,7 @@ Two things done.
 
     1) Paths as strings: new tests revealed bad behaviour when paths were considered as strings. This has been fixed.
 
-    1) path::``data.py``: relative imports can be done.
+    1) path::''data.py'': relative imports can be done.
 
 
 --------
@@ -24,9 +24,9 @@ Two things done.
 [[:facto:]]
 ¨CLI: two things have been done.
 
-    1) For paths, we now use ``type = click.Path())`` (see why in cf::``this section; https://click.palletsprojects.com/en/8.1.x/arguments/#file-path-arguments``.
+    1) For paths, we now use ''type = click.Path())'' (see why in cf::''this section; https://click.palletsprojects.com/en/8.1.x/arguments/#file-path-arguments''.
 
-    2) The ``unquotedpath`` function has been removed as it was totally unnecessary (indeed, some of the previous tests were not well written).
+    2) The ''unquotedpath'' function has been removed as it was totally unnecessary (indeed, some of the previous tests were not well written).
 
 
 // ---------- //
@@ -41,13 +41,13 @@ Two things done.
 --------
 
 [[:flow:]]
-New options for path::``launch-all.bash``.
+New options for path::''launch-all.bash''.
 
-    1) The option term::``--test``, or term::``-t``, only launches tests.
+    1) The option term::''--test'', or term::''-t'', only launches tests.
 
-    1) The option term::``--build``, term::``-b`` only launches all builders, even the slow ones.
+    1) The option term::''--build'', term::''-b'' only launches all builders, even the slow ones.
 
-    1) It is now possible to combine two options (for example, term::``-t -q`` launches only quick tests).
+    1) It is now possible to combine two options (for example, term::''-t -q'' launches only quick tests).
 
 
 // ---------- //
@@ -62,7 +62,7 @@ New options for path::``launch-all.bash``.
 --------
 
 [[:flow:]]
-¨latex flavour: the image for the path::``README`` file is only modified if at least one pixel changes. This will stop the pollution of the ¨git log.
+¨latex flavour: the image for the path::''README'' file is only modified if at least one pixel changes. This will stop the pollution of the ¨git log.
 
 
 // ---------- //
@@ -81,11 +81,11 @@ New options for path::``launch-all.bash``.
 
     1) Added new special variables for hooks to obtain paths without extension.
 
-        * jinjang::``data_stem``
-        * jinjang::``template_stem``
-        * jinjang::``output_stem``
+        * jinjang::''data_stem''
+        * jinjang::''template_stem''
+        * jinjang::''output_stem''
 
-    1) The option term::``-h`` can be used as a shortcut for term::``--help``.
+    1) The option term::''-h'' can be used as a shortcut for term::''--help''.
 
 
 --------
@@ -114,15 +114,15 @@ New options for path::``launch-all.bash``.
 
     1) Names for tools follow new rules.
 
-        * The folder for the tools is now path::``jngutils``.
+        * The folder for the tools is now path::''jngutils''.
 
-        * The tools path::``jnghtml.js``, and path::``jnglatex.sty`` have been renamed path::``jngutils-html.js`` and path::``jngutils.sty`` ¨resp.
+        * The tools path::''jnghtml.js'', and path::''jnglatex.sty'' have been renamed path::''jngutils-html.js'' and path::''jngutils.sty'' ¨resp.
 
     1) Two new names.
 
-        * ``AUTO_FROM_EXT`` is now ``ASSOCIATED_EXT``.
+        * ''AUTO_FROM_EXT'' is now ''ASSOCIATED_EXT''.
 
-        * ``WITH_EXTRA_TOOLS`` is now ``WITH_UTILS``
+        * ''WITH_EXTRA_TOOLS'' is now ''WITH_UTILS''
 
 
 --------
@@ -142,11 +142,11 @@ New options for path::``launch-all.bash``.
 
     1) One flavour can be inherited from another (only one level of inheritance depth is allowed).
 
-    1) Tools: all files directly inside a flavour folder are kept except path::``specs.yaml`` and path::``status.yaml``.
+    1) Tools: all files directly inside a flavour folder are kept except path::''specs.yaml'' and path::''status.yaml''.
 
 
 [[:flow:]]
-path::``TEX`` files: extra files made by ¨latex compilations are removed by the builder path::``build_only_texfiles_slow.py``.
+path::''TEX'' files: extra files made by ¨latex compilations are removed by the builder path::''build_only_texfiles_slow.py''.
 
 
 // ---------- //
@@ -163,13 +163,13 @@ path::``TEX`` files: extra files made by ¨latex compilations are removed by the
 [[:api:]]
 ¨DSL.
 
-    1) ¨latex: the macro latex::``\JNGVALOF`` can be used inside contents of a latex::``\section`` like title, or inside footnotes.
+    1) ¨latex: the macro latex::''\JNGVALOF'' can be used inside contents of a latex::''\section'' like title, or inside footnotes.
 
     1) ¨ascii: only fictive inline comments are used to simplify typing.
 
 
 [[:doc:]]
-path::``README.md``: the ¨tech section about all the flavours has been simplified a lot.
+path::''README.md'': the ¨tech section about all the flavours has been simplified a lot.
 
 
 --------
@@ -192,11 +192,11 @@ path::``README.md``: the ¨tech section about all the flavours has been simplifi
 --------
 
 [[:doc:]]
-¨Doc: a warning indicates that scripts like ``data.py`` cannot yet do relative imports.
+¨Doc: a warning indicates that scripts like ''data.py'' cannot yet do relative imports.
 
 
 [[:fix:]]
-¨Cli: the use of ``--config auto`` was not functional because internally the value used is ``AUTO_CONFIG = ":auto-config:"``, but not ``"auto"``.
+¨Cli: the use of ''--config auto'' was not functional because internally the value used is ''AUTO_CONFIG = ":auto-config:"'', but not ''"auto"''.
 
 
 --------
@@ -204,7 +204,7 @@ path::``README.md``: the ¨tech section about all the flavours has been simplifi
 --------
 
 [[:flow:]]
-¨Doc: the list of local ¨vars of the method ``JNGBuilder.render`` is automatically constructed.
+¨Doc: the list of local ¨vars of the method ''JNGBuilder.render'' is automatically constructed.
 
 
 // ---------- //
@@ -225,15 +225,15 @@ Here are all the new features.
 
     1) ¨CLI: two new things done.
 
-        * An alias allows to use term::``jinjang`` instead of term::``python -m jinjang``.
+        * An alias allows to use term::''jinjang'' instead of term::''python -m jinjang''.
 
-        * One new option term::``--short``, or term::``-s``, asks to hide the external command output.
+        * One new option term::''--short'', or term::''-s'', asks to hide the external command output.
 
-    1) Launching external commands: for consistency, a new special ¨var yaml::``{data}`` is available.
+    1) Launching external commands: for consistency, a new special ¨var yaml::''{data}'' is available.
 
 
 [[:doc:]]
-path::``README.md``: a new section explains how to use hooks.
+path::''README.md'': a new section explains how to use hooks.
 
 
 -------
@@ -243,13 +243,13 @@ path::``README.md``: a new section explains how to use hooks.
 [[:api:]]
 Here are all the breaking changes.
 
-    1) The method ``JNGBuilder.render``: the new option ``verbose`` allows to disable the printing of the external command output.
+    1) The method ''JNGBuilder.render'': the new option ''verbose'' allows to disable the printing of the external command output.
 
-    1) ¨CLI: the optins term::``--flavour`` and term::``--config`` replace the obsolete term::``--fl`` and term::``--cfg``.
+    1) ¨CLI: the optins term::''--flavour'' and term::''--config'' replace the obsolete term::''--fl'' and term::''--cfg''.
 
     1) All classes, functions, methods... named with "datas" know use "data" without the letter "s".
 
-    1) Launching external commands: the special ¨vars yaml::``{output}`` and yaml::``{template}`` replace the obsolete yaml::``{{output}}`` and yaml::``{{template}}``.
+    1) Launching external commands: the special ¨vars yaml::''{output}'' and yaml::''{template}'' replace the obsolete yaml::''{{output}}'' and yaml::''{{template}}''.
 
 
 --------
@@ -259,11 +259,11 @@ Here are all the breaking changes.
 [[:api:]]
 Here are the new features.
 
-    1) Contributions: the use cases must propose path::``JSON``, and path::``YAML`` data files. No path::``PY`` data file required.
+    1) Contributions: the use cases must propose path::''JSON'', and path::''YAML'' data files. No path::''PY'' data file required.
 
-    1) New file path::``VERSIONS.yaml``: this file lists all dated versions. **In the near future, it will be built automatically.**
+    1) New file path::''VERSIONS.yaml'': this file lists all dated versions. **In the near future, it will be built automatically.**
 
-    1) New file path::``KEYWORDS.yaml``: the purpose of this file is to easily provide keywords related to the project.
+    1) New file path::''KEYWORDS.yaml'': the purpose of this file is to easily provide keywords related to the project.
 
 
 // ---------- //
@@ -296,9 +296,9 @@ Testing improved.
 [[:flow:]]
 Two small important files added.
 
-    1) Launching all: the ¨bash file path::``launch-all.bash`` launches all builders, and tests to verify that a new version can be delivered (the order of launch is the responsibility of the developer: see the file path::``launch-all-folders.txt``.).
+    1) Launching all: the ¨bash file path::''launch-all.bash'' launches all builders, and tests to verify that a new version can be delivered (the order of launch is the responsibility of the developer: see the file path::''launch-all-folders.txt''.).
 
-    1) Building the distributed source: the ¨bash file path::``build-project.bash`` does that.
+    1) Building the distributed source: the ¨bash file path::''build-project.bash'' does that.
 
 
 // ---------- //
@@ -315,19 +315,19 @@ Two small important files added.
 [[:api:]]
 Here are the changes made to simplify the ¨api.
 
-    1) Classe ``JNGBuilder``: the boolean parameter/attribut ``pydatas`` has been renamed ``launch_py`` which is more explicit.
+    1) Classe ''JNGBuilder'': the boolean parameter/attribut ''pydatas'' has been renamed ''launch_py'' which is more explicit.
 
     1) The ¨cli ¨api has been simplified, and made more explicit.
 
-        * The parameters term::``--dto`` and term::``--pydto`` no longer exist.
+        * The parameters term::''--dto'' and term::''--pydto'' no longer exist.
 
-        * The new parameter term::``--unsafe`` indicates clearly that the dangerous use of a ¨python file to build data is allowed.
+        * The new parameter term::''--unsafe'' indicates clearly that the dangerous use of a ¨python file to build data is allowed.
 
         * Each parameter has an abbreviation.
 
-            + term::``-c`` for term::``--cfg``.
-            + term::``-f`` for term::``--fl``.
-            + term::``-u`` for term::``--unsafe``.
+            + term::''-c'' for term::''--cfg''.
+            + term::''-f'' for term::''--fl''.
+            + term::''-u'' for term::''--unsafe''.
 
 
 --------

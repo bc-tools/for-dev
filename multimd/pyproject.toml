@@ -1,24 +1,95 @@
-[tool.poetry]
-name         = "multimd"
-version      = "0.1.0-beta"
-description  = 'This project makes it possible to write separated pieces of `MD` files that will be merged to produce one single final `MD` file.'
-readme       = "README.md"
-authors      = ["Christophe BAL"]
-maintainers  = ["Christophe BAL"]
-license      = "GNU License Version 3"
-repository   = "https://github.com/bc-tools/for-dev/tree/main/multimd"
-
-[tool.poetry.scripts]
-multimd = "multimd.__main__:mmd_CLI"
-
-[tool.poetry.dependencies]
-python  = "^3.8"
-natsort = "^8.2"
-rich    = "^13.3.5"
-typer   = "^0.9"
-
-[tool.poetry.dev-dependencies]
-
 [build-system]
-requires      = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires      = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+version         = "1.0.0"
+requires-python = ">=3.12"
+name            = "multimd"
+description     = "This project makes it possible to write separated pieces of ''MD'' files that will be merged to produce one single final ''MD'' file."
+readme          = "README.md"
+authors         = [
+  { name = "Christophe BAL", email = "projetmbc@gmail.com" },
+]
+
+license = "GPL-3.0-or-later"
+
+keywords = [
+  "readme",
+  "repository",
+  "build",
+  "markdown",
+]
+
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+dependencies = [
+  "markdown-it-py>=2.2",
+  "markdownify>=1.1",
+  "natsort>=8.4",
+  "pyyaml>=6.0",
+  "typer>=0.16"
+]
+
+[project.urls]
+Documentation = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
+Issues        = "https://github.com/bc-tools/for-dev/tree/main/multimd/issues"
+Source        = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/multimd tests}"
+
+[tool.coverage.run]
+source_pkgs = [
+  "multimd",
+  "tests"
+]
+branch   = true
+parallel = true
+# omit     = []
+
+[tool.coverage.paths]
+multimd = [
+  "src/multimd",
+  "*/multimd/src/multimd"
+]
+tests = [
+  "tests",
+  "*/multimd/tests"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.hatch.build]
+sources = ["src"]
+
+[tool.hatch.envs.debug]
+dependencies = []
+
+
+# [tool.hatch.envs.lint]
+# dependencies = ["black"]
+
+# [tool.hatch.envs.lint.scripts]
+# fmt = "black src tests"
+
+# [tool.black]
+# line-length = 88

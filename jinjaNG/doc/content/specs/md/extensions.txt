@@ -4,12 +4,11 @@ this::
 
 
 ============================================
-Fichiers ¨auto^t associés à la saveur ``md``
+Fichiers ¨auto^t associés à la saveur ''md''
 ============================================
 
-Un seul type de fichier est automatiquement associé à la saveur ``md``.
+Un seul type de fichier est automatiquement associé à la saveur ''md''.
 
 /* -- AUTO LIST - START -- */
-    * path::``*.md``
+    * path::''*.md''
 /* -- AUTO LIST - END -- */
-    

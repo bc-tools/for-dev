@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# This module defines the internal class ``LogSpeaker`` to "speak" in
+# This module defines the internal class ''LogSpeaker'' to "speak" in
 # a log file.
 ###
 
@@ -78,7 +78,7 @@ class LogSpeaker(AbstractSpeaker):
 # prototype::
 #     repeat : the number of empty lines wanted.
 #
-# This method simply append ``repeat`` empty new lines to the log file.
+# This method simply append ''repeat'' empty new lines to the log file.
 ###
     def NL(self, repeat: int = 1) -> None:
         self.print("\n"*(repeat - 1))

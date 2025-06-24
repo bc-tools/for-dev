@@ -48,10 +48,10 @@ with(THIS_DIR / "spevars.yaml").open(
 
 
 TEMPLATE_ONEPATH = ' '*4 + (
-    "1) jinjang::``{name}`` est le chemin complet du fichier {desc}."
+    "1) jinjang::''{name}'' est le chemin complet du fichier {desc}."
     "\n"
     "    Pour ne pas garder l'extension, il suffit d'employer "
-    "jinjang::``{name}_stem``."
+    "jinjang::''{name}_stem''."
 )
 
 

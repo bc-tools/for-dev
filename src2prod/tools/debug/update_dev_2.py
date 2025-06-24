@@ -24,19 +24,20 @@ MODULE_DIR = addfindsrc(
 # -- LET'S GO -- #
 # -------------- #
 
-from src import *
+from src_OLD import *
+from src     import *
 
 MONOREPO_DIR = MODULE_DIR.parent
 PROJECT_DIR  = Path(projectname)
 
 project = Project(
     project = MONOREPO_DIR / PROJECT_DIR,
-    source  = 'src',
-    target  = projectname.lower(),
+    src  = 'src',
+    dest  = projectname.lower(),
     ignore  = MONOREPO_DIR / 'ignore-for-prod.txt',
     usegit  = True,
     # readme  = 'README.md',
     readme  = 'readme',
 )
 
-project.update(safemode = False)
+project.build(erase = False)

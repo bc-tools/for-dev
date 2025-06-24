@@ -12,12 +12,12 @@ Deux méthodes sont possibles pour proposer une ¨nelle saveur.
 
         a) Commencer par compresser au format ¨zip le dossier de la saveur.
 
-        a) Envoyer le dossier compressé à l'adresse email::``projetmbc@gmail.com`` en indiquant bien "jinjaNG - Contribute - Flavour" comme sujet du courriel.
+        a) Envoyer le dossier compressé à l'adresse email::''projetmbc@gmail.com'' en indiquant bien "jinjaNG - Contribute - Flavour" comme sujet du courriel.
 
     1) Si vous connaissez ¨github, voici les étapes à suivre.
 
         a) Commencer par cloner le projet ¨jinjang.
 
-        a) Ajouter la contribution dans le dossier path::``contribute/api/dsl``.
+        a) Ajouter la contribution dans le dossier path::''contribute/api/dsl''.
 
-        a) Pour finir, passer via un git::``git merge requests``.
+        a) Pour finir, passer via un git::''git merge requests''.

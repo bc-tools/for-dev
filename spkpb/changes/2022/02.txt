@@ -7,4 +7,4 @@
 --------
 
 [[:doc:]]
-In path::``README.md``, the "human" goal of the project has been clarified.
+In path::''README.md'', the "human" goal of the project has been clarified.

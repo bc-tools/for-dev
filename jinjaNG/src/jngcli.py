@@ -19,7 +19,7 @@ from .jngbuild import *
 #     message : this text is to indicate one error.
 #
 #     :action: an error message is printed, then the script exits
-#              with a ``1`` error.
+#              with a ''1'' error.
 ###
 def _exit(message: str) -> None:
     print(
@@ -37,17 +37,17 @@ Error: {message}
 # prototype::
 #     data     : the path of the file containing the data to feed
 #                the template.
-#                path::``YAML``, path::``JSON``, and path::``PY``
+#                path::''YAML'', path::''JSON'', and path::''PY''
 #                files can be used.
 #     template : the path of the template file.
 #     output   : the path for the output built by ¨jinjaNG.
-#     unsafe   : same usage as the attribut/parameter ``launch_py``
-#                of the method ``jngbuild.JNGBuilder.render``,
+#     unsafe   : same usage as the attribut/parameter ''launch_py''
+#                of the method ''jngbuild.JNGBuilder.render'',
 #                :see: jngbuild.JNGBuilder.render
 #     flavour  : :see: jngbuild.JNGBuilder.render
 #     config   : :see: jngconfig.build_config.render
-#     short    : opposite usage of the attribut/parameter ``verbose``
-#                of the method ``jngbuild.JNGBuilder.render``,
+#     short    : opposite usage of the attribut/parameter ''verbose''
+#                of the method ''jngbuild.JNGBuilder.render'',
 #                :see: jngconfig.build_config.render
 #
 #     :action: :see: :see: jngbuild.JNGBuilder.render
@@ -68,7 +68,7 @@ Error: {message}
               default = False,
               help    = '** TO USE WITH A LOT OF CAUTION! ** '
                         'This flag allows Python file to build data: use '
-                        'a dictionary named ``JNGDATA`` for the Jinja '
+                        'a dictionary named ''JNGDATA'' for the Jinja '
                         'variables and their value. ')
 @click.option('--flavour', '-f',
               default = AUTO_FLAVOUR,
@@ -82,8 +82,8 @@ Error: {message}
 @click.option('--config', '-c',
               default = NO_CONFIG,
               help    = '** TO USE WITH A LOT OF CAUTION! ** '
-                        'The value ``auto`` authorizes jinjaNG to use '
-                        'a ``cfg.jng.yaml`` file detected automatically '
+                        'The value ''auto'' authorizes jinjaNG to use '
+                        'a ''cfg.jng.yaml'' file detected automatically '
                         'relatively to the parent folder of the template. '
                         'You can also indicate the path of a specific '
                         'YAML configuration file.')

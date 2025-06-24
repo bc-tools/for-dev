@@ -1,0 +1,164 @@
+###
+# this::
+#     date = 2025-06-13
+#
+# ===========================================
+# == Schema validation file for ''yamale'' ==
+# ===========================================
+###
+
+project:
+###
+# -------------- #
+# -- THE WHAT -- #
+# -------------- #
+#
+# prototype::
+#     name : A name for the final product to use. If this key is not used,
+#            a name is generated automatically from the main folder name.
+#
+#     acronym : A possible naming scheme for the project. For example,
+#               typing yaml::''acronym: "[MY] [H]idden [A]cronym"'' will
+#               clearly explain the product name ''myha''.
+#
+#     desc : A brief description of the product.
+###
+      name   : str(required = False)
+      acronym: acronym(required = False)
+      desc   : str()
+
+###
+# ------------- #
+# -- THE WHO -- #
+# ------------- #
+#
+# prototype::
+#     author  : Identification of a single author.
+#     authors : Identification of several authors indicated via a list
+#               à la "\yaml.
+#
+# warning::
+#     You can't use ''author'' and ''authors''.
+#
+# Here are the possible formats for one single author.
+#
+#     + verb::''<name>''
+#     + verb::''<name> [<mails>]''
+#     + verb::''<first names>, <last name>''
+#     + verb::''<first names>, <last name> [<mails>]''
+#
+# Here's what each part means.
+#
+#     1) verb::''<first names>'' can be a comma-separated list of first
+#        names.
+#
+#     1) verb::''<name>'' is the author's name.
+#
+#     1) verb::''<mails>'' can be a comma-separated list of emails.
+###
+      author : author(required = False)
+      authors: list(author(), required = False)
+
+###
+# --------------- #
+# -- THE WHERE -- #
+# --------------- #
+#
+# Using a dictionary, some urls can be indicated.
+#
+# prototype::
+#     doc    : The url of the project manual.
+#     home   : The url of the project website.
+#     issues : The url to report issues, or make suggestions.
+#     repo   : The url of the project's repository site.
+###
+      url:
+        doc   : url(required = False)
+        home  : url(required = False)
+        issues: url(required = False)
+        repo  : url(required = False)
+
+# -------------- #
+# -- LICENCES -- #
+# -------------- #
+
+###
+# Using a dictionary, some licences can be indicated using one of the
+# following formats.
+#
+#     1) A short identifier (see the \doc).
+#
+#     2) The relative, or absolute path of a file containing the full
+#        text of the licence, and also the name of the licence as in
+#        ''path/to/my/licence.txt [My special licence]''. Both pieces
+#        of information must be provided.
+#
+# prototype::
+#     code   : The code licence.
+#     manual : The manual licence.
+###
+      licence:
+        code  : licence(required = False)
+        manual: licence(required = False)
+
+# ----------- #
+# -- LANGS -- #
+# ----------- #
+
+###
+# prototype::
+#     langs : A dictionary for the languages used, the default language
+#             being English. To indicate languages, use a comma separated
+#             list of short standard codes: see
+#             cf:''https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes''.
+#             For example, ''manual = "fr, es"'' indicates that the manual
+#             is written in French and Spanish.
+###
+###
+# prototype::
+#     code   : The language of the technical documentation typed into
+#              the source code.
+#
+#     manual : The language of the manual.
+#
+#     readme : The language of the ''README'' files.
+###
+      lang:
+        code  : str(required = False)
+        manual: str(required = False)
+        readme: str(required = False)
+
+# ------------------ #
+# -- CODING LANGS -- #
+# ------------------ #
+
+###
+# prototype::
+#     require  : The programming languages required to run the project.
+#
+#     optional : Optional programming languages to enhance the operation
+#                of the project.
+###
+      require: list(str(), required = False)
+
+# -------------------- #
+# -- FILES ANALYSED -- #
+# -------------------- #
+
+###
+# prototype::
+#     ignore : \gitignore rules to exclude files from the final product.
+#              The list provided here complements that used by \git if
+#              the latter is used.
+#
+# tip::
+#     The \yaml syntax allows to use a vertical bar to define one rule per
+#     line, as in the following fictitious example.
+#
+#     yaml::
+#         ignore: |
+#           rule_1
+#           rule_2
+#           ...
+###
+      ignore: str(required = False)

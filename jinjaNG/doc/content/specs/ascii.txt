@@ -2,12 +2,12 @@ this::
     date = 2022-12-04
 
 
-abrev::
+abbrev::
     content = /ascii
 
 
 ===============================================
-La saveur ``ascii``, le comportement par défaut
+La saveur ''ascii'', le comportement par défaut
 ===============================================
 
 warning::

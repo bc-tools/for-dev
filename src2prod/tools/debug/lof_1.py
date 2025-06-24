@@ -17,7 +17,9 @@ MODULE_DIR = addfindsrc(
 # -- LET'S GO -- #
 # -------------- #
 
-from src import *
+
+from src_OLD import *
+from src     import *
 
 MONOREPO_DIR = MODULE_DIR.parent
 
@@ -26,8 +28,8 @@ projectname = 'src2prod'
 
 project = Project(
     project = MONOREPO_DIR,
-    source  = Path(projectname) / 'src',
-    target  = '',
+    src  = Path(projectname) / 'src',
+    dest  = '',
     ignore  = '''
         tool_*/
         tools_*/
@@ -44,10 +46,9 @@ project = Project(
     usegit = True
 )
 
-project.build()
+project.check()
 
 print('---')
 
 for f in project.lof:
     print(f)
-

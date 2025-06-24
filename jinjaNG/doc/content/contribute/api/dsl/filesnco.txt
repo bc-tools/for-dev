@@ -6,7 +6,7 @@
 Quels sont les fichiers à produire ?
 ====================================
 
-Pour un ¨dev local, il suffit de créer un dossier path::``myflavour`` qui doit avoir une structure minimale du type suivant (les contenus attendus vont être présentés dans les sections suivantes).
+Pour un ¨dev local, il suffit de créer un dossier path::''myflavour'' qui doit avoir une structure minimale du type suivant (les contenus attendus vont être présentés dans les sections suivantes).
 
 dirtree::
     + myflavour
@@ -15,5 +15,5 @@ dirtree::
 
 
 info::
-    Le dépôt ¨github du projet montre aussi un fichier path::``status.yaml`` pour chaque saveur. Ce fichier est de la responsabilité du développeur de ¨jinjang.
+    Le dépôt ¨github du projet montre aussi un fichier path::''status.yaml'' pour chaque saveur. Ce fichier est de la responsabilité du développeur de ¨jinjang.
     Il permet de savoir où en est l'intégration, ou non, d'une saveur.

@@ -1,6 +1,6 @@
 # This TXT file gives the list of folders where to look for
-# some ``launch.bash`` files. The sorting indicated will be
-# the one used to launch all the ``launch.bash`` files.
+# some ''launch.bash'' files. The sorting indicated will be
+# the one used to launch all the ''launch.bash'' files.
 
 - contribute/api
 - tools/factory

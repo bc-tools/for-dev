@@ -6,4 +6,4 @@
 Imposer un dialecte
 ===================
 
-Si l'on souhaite imposer un dialecte, il suffit d'employer l'option term::``--flavour``, ou term::``-f``,  pour "flavour", soit "saveur" en français. Par exemple, on utilisera term::``jinjang --flavour ascii ...`` pour forcer l'utilisation du dialecte ¨ascii.
+Si l'on souhaite imposer un dialecte, il suffit d'employer l'option term::''--flavour'', ou term::''-f'',  pour "flavour", soit "saveur" en français. Par exemple, on utilisera term::''jinjang --flavour ascii ...'' pour forcer l'utilisation du dialecte ¨ascii.

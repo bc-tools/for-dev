@@ -1,9 +1,9 @@
-abrev::
+abbrev::
     content = /latex
 
 
 ===================
-La saveur ``latex``
+La saveur ''latex''
 ===================
 
 content::

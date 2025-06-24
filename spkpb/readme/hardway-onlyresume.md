@@ -3,7 +3,7 @@ Using directly the API - Only a resume
 
 Let's modify a little our first code (the ellipsis indicate the lines unchanged).
 
-```python
+''`python
 from spkpb import *
 
 speaker = Speaker(
@@ -13,11 +13,11 @@ speaker = Speaker(
 )
 
 ...
-```
+''`
 
-The use of ``onlyresume = True`` asks to print only the summaries of problems (that is useful for short processes with no need to be verbose). The terminal and the log file will show the following same verbose resume.
+The use of ''onlyresume = True'' asks to print only the summaries of problems (that is useful for short processes with no need to be verbose). The terminal and the log file will show the following same verbose resume.
 
-```
+''`
 ---------------
 1 WARNING FOUND
 ---------------
@@ -31,4 +31,4 @@ The use of ``onlyresume = True`` asks to print only the summaries of problems (t
 
     * one/bad/file.txt
         + Bad things appear.
-```
+''`

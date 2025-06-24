@@ -1,9 +1,9 @@
-abrev::
+abbrev::
     content = /md
 
 
 ================
-La saveur ``md``
+La saveur ''md''
 ================
 
 content::

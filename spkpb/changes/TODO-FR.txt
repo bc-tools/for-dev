@@ -1,0 +1,87 @@
+=====
+spkpb - TODO
+=====
+
+
+> ---------------------------- <
+
+clarifier qu'ici on fait comm utilisateur, ce n'est pas un log dev d'om la verbosité possible !
+
+
+> ---------------------------- <
+
+orPyste dead ===> YAML used!
+
+
+> ---------------------------- <
+
+incster que speaker != logger
+
+
+> ---------------------------- <
+
+recipe à simplifier
+
++
+
+à implémenter
+    ---> no_output
+    ---> only_log
+    ---> only_term
+
++
+
+termstyle --> style
+
+MAIS
+
+dans terl méthode style à enommer
+
+
+> ---------------------------- <
+
+non testé , sans doc ?
+
+CONTEXT_CRITICAL = "critical"
+CONTEXT_ERROR    = "error"
+CONTEXT_FOCUS    = "focus"              <--- ????
+CONTEXT_NORMAL   = "normal"             <--- ????
+CONTEXT_WARNING  = "warning"
+
+
+> ---------------------------- <
+
+ASCII_FRAME = {}
+
+for i in range(1, 3):
+    ASCII_FRAME[i] = lambda t: withframe(
+        text  = t,
+        frame = ALL_FRAMES[f'pyba_title_{i}']
+    )
+
+pas bon car dernier i !!!!
+
+
+> ---------------------------- <
+
+spk_interface.hardwrap
+    --> ne pas couper si on a "..." : cf les chemins par exemple
+        facile
+        on commence par couper le texte suivant ces chaînes puis on recolle intelligemment
+
+
+> ---------------------------- <
+
+Dans doc tech
+    --> LogSpeaker et TermSpeaker : pas fait pour un usgae direct !
+
+
+> ---------------------------- <
+
+personnalisation possible des titres
+    --> parler de mistool.term_use (ou de sa nelle version)
+
+
+> ---------------------------- <
+
+mistool.term_use remplacé par ???

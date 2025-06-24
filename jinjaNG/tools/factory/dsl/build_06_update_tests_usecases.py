@@ -44,7 +44,7 @@ from src import ASSOCIATED_EXT
 print(f"{TAB_1}* Updating data for tests built from usecases.")
 
 # We can't update usecases for an evolving flavour, this is why we use
-# ``FLAVOURS_STATUS_YAML``, and not ``config.flavour.SETTINGS``.
+# ''FLAVOURS_STATUS_YAML'', and not ''config.flavour.SETTINGS''.
 #
 # This implies to not erase last tests!
 

@@ -1,53 +1,45 @@
 `README.md` piece-by-piece
 --------------------------
 
-You can write your `README.md` by typing small sections. Let's assume we have done this for our fictitious development project `MockProject` which now has the following tree structure.
+You can write your `README.md` by typing `MD` chunks. Let's assume we have done this for our fictitious development project `MockProject` which now has the following tree structure.
 
 ~~~
 + MockProject
+    * about.yaml
+    * pyproject.toml
     + changes [...]
-
     + readme
         * about.md
         * about.yaml
         * cli.md
         * escape.md
         * prologue.md
-
     + src [...]
-
     + tests [...]
-
-    * pyproject.toml
 ~~~
 
 
-The special file `about.yaml` is used to specify the order in which the different `MD` files are merged. Its contents were as follows.
+The special file `readme/about.yaml` is used here to specify the order in which the different `MD` files are merged. Its contents is as follows where the `toc` key is for *"table of contents"*.
 
 ~~~yaml
 toc:
   - prologue
   - about
-  - escape
+  - mockthis
   - cli
 ~~~
 
-The construction of the new final product `mockproject` is very simple: we just specify the folder `readme` instead of a file for the `readme` argument. And that's it! See the code below where the class `Project` guesses that `Path('readme')` is a folder.
+The construction of the new final product `mockproject` is very simple: we just specify the folder `readme` instead of a file in the `MockProject/about.yaml` file which is now the following one.
 
-~~~python
-from src2prod import *
+''`yaml
+dist:
+  # We use a relative path with the character /
+  # at the end to say that we give a folder.
+  readme: readme/
+  ignore: |
+    tool_*/
+    tool_*.*
+''`
 
-project = Project(
-    project = Path('mockproject'),
-    source  = Path('src'),
-    target  = Path('mockproject'),
-    ignore  = '''
-        tool_*/
-        tool_*.*
-    ''',
-    usegit = True,
-    readme = Path('readme')
-)
 
-project.update()
-~~~
+That's all folks!

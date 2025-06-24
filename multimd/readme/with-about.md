@@ -1,20 +1,18 @@
 `README.md` part by part
 ------------------------
 
-With `multimd`, you can write a `MD` document by typing small section-like parts which are easy to maintain. Consider the `README.md` file from the `src2prod` project which was written using the following tree on 6 May 2023.
+With `multimd`, you can write a `MD` document by typing small section-like files which are easy to maintain. Consider the `README.md` file from the `multimd` project itself which was written using the following tree on 23 June 2025 (the day of the version `1.0.0`).
 
 ~~~
-+ src2prod
++ multimd
     * README.md
     + readme
         * about.yaml
-        * about.md
-        * build.md
-        * cli.md
-        * example-used.md
-        * only-files.md
+        * LICENSE.txt
+        * no-about.md
         * prologue.md
-        * readme-splitted.md
+        * standard.md
+        * with-about.md
     + ...
 ~~~
 
@@ -25,18 +23,16 @@ The special `about.yaml` file is used to specify a specific order in which the d
 toc:
   - prologue
   - about
-  - example-used
-  - build
-  - only-files
-  - readme-splitted
-  - cli
+  - with-about
+  - no-about
+  - standard
 ~~~
 
 
-> ***WARNING!*** *You can use relative paths but you must use the Unix path separator `/`.*
+> ***NOTE.*** *It is possible to specify relative paths, but this requires the use of the Unix path separator `/`.*
 
 
-Building the final `README.md` file is done quickly on the command line using `multimd` after using the `cd` command to go into the `src2prod` folder. We use the option `-e` to allow to erase an existing `README.md` file.
+Building the final `README.md` file is done quickly on the command line after using the `cd` command to go into the `multimd` folder. We use the option `-e` to allow to erase an existing `README.md` file.
 
 ~~~bash
 > multimd -e readme README.md
@@ -48,12 +44,12 @@ Successfully built file.
 ~~~
 
 
-There is also an easy-to-use `Python` API.
+There is also an easy-to-use `Python` API where `Path` is the class from the `pathlib` module.
 
 ~~~python
-from multimd import MMDBuilder, Path
+from multimd import Builder, Path
 
-mybuilder = MMDBuilder(
+mybuilder = Builder(
     src   = Path("/full/path/to/readme"),
     dest  = Path("/full/path/to/README.md"),
     erase = True

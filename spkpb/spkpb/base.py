@@ -20,11 +20,11 @@ class BaseCom:
 
 ###
 # prototype::
-#     problems : an instance of ``toolbox.Problems`` that manages
+#     problems : an instance of ''toolbox.Problems'' that manages
 #                a basic history of the problems found.
 #
 # note::
-#     This class uses the attribut ``success`` to indicate if
+#     This class uses the attribut ''success'' to indicate if
 #     at least one "critical" or error has been emitted (sometimes
 #     we want to continue to work even if something bad has been
 #     found, for example when working on several projects in the
@@ -109,8 +109,8 @@ class BaseCom:
 # prototype::
 #     kind    : the kind of time stamp ("start" and "end" for example).
 #               This string will be always "upperized".
-#     with_NL : ``True`` asks to add a new line after the title and
-#               ``False`` to not do this.
+#     with_NL : ''True'' asks to add a new line after the title and
+#               ''False'' to not do this.
 #
 #     :see: timer.timestamp
 #

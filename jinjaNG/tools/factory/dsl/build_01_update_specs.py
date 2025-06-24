@@ -260,7 +260,7 @@ ALL_TAGS.sort()
 final_pycode = f"""
 # Lines automatically build by the following file.
 #
-#     + ``{THIS_FILE_REL_SRC_PATH}``
+#     + ''{THIS_FILE_REL_SRC_PATH}''
 
 ASSOCIATED_EXT = dict()
 WITH_UTILS    = dict()

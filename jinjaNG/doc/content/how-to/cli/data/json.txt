@@ -14,17 +14,17 @@ La méthode la plus sûre, en terme de sécurité, consiste à travailler avec d
 
 
 note::
-    Le format ¨json est supporté en lecture, et en écriture, par la majorité des ¨langs de ¨prog. Ceci permet d'envisager la fabrication de données de façon automatisée : voir à ce sujet la section cf::``python-data.txt`` expliquant comment fabriquer des données via ¨python, ou plus généralement la section cf::``hooks.txt`` pour apprendre à lancer des programmes extérieurs avant le travail fait par ¨jinjnag.
+    Le format ¨json est supporté en lecture, et en écriture, par la majorité des ¨langs de ¨prog. Ceci permet d'envisager la fabrication de données de façon automatisée : voir à ce sujet la section cf::''python-data.txt'' expliquant comment fabriquer des données via ¨python, ou plus généralement la section cf::''hooks.txt'' pour apprendre à lancer des programmes extérieurs avant le travail fait par ¨jinjnag.
 
 
 Imaginons que nous soyons dans la situation suivante.
 
-    1) Dans un dossier path::``my/folder`` se trouve un fichier "patron" path::``template.tex`` qui est de type ¨latex.
+    1) Dans un dossier path::''my/folder'' se trouve un fichier "patron" path::''template.tex'' qui est de type ¨latex.
 
-    1) Les données sont indiquées dans le fichier path::``data.json``.
+    1) Les données sont indiquées dans le fichier path::''data.json''.
 
 
-Dans ce cas, pour obtenir un fichier path::``output.tex`` obtenu après peuplement, il suffira de procéder comme suit en retenant l'ordre "données-patron-produit" pour les fichiers (la sortie ¨jinjang a été omise d'où la présence de term::``[...]``).
+Dans ce cas, pour obtenir un fichier path::''output.tex'' obtenu après peuplement, il suffira de procéder comme suit en retenant l'ordre "données-patron-produit" pour les fichiers (la sortie ¨jinjang a été omise d'où la présence de term::''[...]'').
 
 terminal::
     > cd my/folder
@@ -33,14 +33,14 @@ terminal::
 
 
 info::
-    Nous laissons ici la responsabilité à ¨jinjang de trouver le bon "dialecte" à utiliser pour repérer les variables dans le "patron" : voir cf::``flavour.txt`` à ce sujet.
+    Nous laissons ici la responsabilité à ¨jinjang de trouver le bon "dialecte" à utiliser pour repérer les variables dans le "patron" : voir cf::''flavour.txt'' à ce sujet.
 
 
 A titre indicatif, montrons des contenus possibles pour les deux fichiers de départ, et ensuite ce que contient le fichier produit. Commençons par le "patron".
 
 latex::
     ---
-    title = Le "patron" path::``template.tex``
+    title = Le "patron" path::''template.tex''
     path  = ?/examples/direct/template.tex
     ---
 
@@ -49,20 +49,20 @@ Les données suivantes sont utilisées pour peupler le "patron".
 
 json::
     ---
-    title = Les données dans path::``data.json``
+    title = Les données dans path::''data.json''
     path  = ?/examples/direct/data.json
     ---
 
 
-La commande term::``jinjang ...`` fournit finalement le fichier suivant.
+La commande term::''jinjang ...'' fournit finalement le fichier suivant.
 
 latex::
     ---
-    title = Le produit fini path::``output.tex``
+    title = Le produit fini path::''output.tex''
     path  = ?/examples/direct/output.tex
     ---
 
 
 note::
-    La seule obtention du fichier path::``output.tex`` n'est pas forcément satisfaisante : on pourrait souhaiter obtenir aussi le ¨pdf fabriqué via l'appel de ¨pdflatex appliqué à path::``output.tex``.
-    La section cf::``hooks.txt`` explique comment appeler des programmes extérieurs après le travail fait par ¨jinjnag.
+    La seule obtention du fichier path::''output.tex'' n'est pas forcément satisfaisante : on pourrait souhaiter obtenir aussi le ¨pdf fabriqué via l'appel de ¨pdflatex appliqué à path::''output.tex''.
+    La section cf::''hooks.txt'' explique comment appeler des programmes extérieurs après le travail fait par ¨jinjnag.

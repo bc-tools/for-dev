@@ -2,7 +2,7 @@
 
 ###
 # This module defines some constants and the interface like class
-# ``AbstractSpeaker`` which defines a minimal contract for speakers
+# ''AbstractSpeaker'' which defines a minimal contract for speakers
 # but also some common methods.
 ###
 
@@ -68,7 +68,7 @@ class AbstractSpeaker(metaclass = ABCMeta):
 ###
 # prototype::
 #     style    : a global style for the output. Internally this style is
-#                stored in the attribut ``global_style``.
+#                stored in the attribut ''global_style''.
 #              @ :in: ALL_GLOBAL_STYLES
 #     maxwidth : the maw width expected for hard wrapped contents.
 ###
@@ -119,7 +119,7 @@ class AbstractSpeaker(metaclass = ABCMeta):
 #     text : a text to be hard wrapped.
 #     tab  : a possible tabulation to use for each new line created.
 #
-#     :return: a wrapped message of maximal width ``self.maxwidth``.
+#     :return: a wrapped message of maximal width ''self.maxwidth''.
 ###
     def hardwrap(
         self,

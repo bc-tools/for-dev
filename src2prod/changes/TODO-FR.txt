@@ -1,0 +1,122 @@
+========
+src2prod - TODO
+========
+
+
+> ---------------------------- <
+
+# file: url_validator.py
+import re
+from yamale.validators import Validator
+from yamale.validators import DefaultValidators
+
+class UrlValidator(Validator):
+    tag = 'url'
+
+    def _is_valid(self, value):
+        pattern = re.compile(r'^https?://[^\s]+$')
+        return isinstance(value, str) and pattern.match(value)
+
+    def _validation_message(self, value):
+        return f'{value} is not a valid URL.'
+
+# Inject the custom validator into Yamale
+validators = DefaultValidators.copy()
+validators[UrlValidator.tag] = UrlValidator
+
+
+import yamale
+from url_validator import validators
+
+schema = yamale.make_schema('schema.yaml', validators=validators)
+data = yamale.make_data('data.yaml')
+
+yamale.validate(schema, data)
+
+
+> ---------------------------- <
+
+treeview en plus de lof car bien plus pratique de
+
+    ---> on fait un min outil dédié utilisable en ligen de commande pour des sorties à la tee
+
+
+> ---------------------------- <
+
+il faut un mode nocommit pour debogugae par exemple !
+
+
+> ---------------------------- <
+
+// ---------- //
+
+
+==
+??  (1.0.0-beta)
+==
+
+-------
+:break:
+-------
+
+?? yaml reader (reprendre tout baseproject : en reprenant src_old)
+
+?? code totalement refactorise et nelle api !!! pas besoin de détailler car on chge de logique via le about.yaml en utilisant le bloc general : pour le moment on y récupère juste le nom du produit et non du projet
+
+?? mode juste pour avoir la fiche tech (cf projet qui utilise src directement pour distribué : le codeur gère tout seul)
+
+
+> ---------------------------- <
+
+Some unit tests have been created.
+
+
+> ---------------------------- <
+
+intégéreer suaVER + licenece avec ajout des hedaers auto dans TOUS les ficheirs !
+
+
+> ---------------------------- <
+
+syst pour passer de doc prototype à docstring car utile sous Python via help(unefonc)
+
+on garde proto car généraliste pour le dev, mais on utilise docstring car propre à python
+
+on peut imaginer ce mécanisme pour autres langages avec doc strandard mais du cup boulot de tnsdoc ????
+
+
+> ---------------------------- <
+
+gestion des erreurs venues de multimd
+
+
+> ---------------------------- <
+
+intégrer mon PathPlus pour les ignore rules via regex!
+
+
+> ---------------------------- <
+
+Here are the important points about the above code.
+
+  1. `project`, `source`, `target` and `readme` follow the rules below.
+
+      * The values of these arguments can also be strings (which will be converted to instances `Path`).
+
+      * The argument `readme` is optional unlike `project`, `source` and `target`.
+
+      * `project` is a full path to the source development directory when the `Python` script is launched, but `source`, `target` and `readme` are relative to `project`.
+
+  1. The argument `ignore` can be used even if the project does not use `git`. It can be either a string containing rules, or an absolute `Path` to a file containing rules (an absolute path allows the use of the same rules for multiple projects). Now let's see how to define rules.
+
+      * Empty lines are ignored (this allows a basic formatting of rules).
+
+      * Each none empty line is internally stripped. This will indicate one rule for either a file, or a folder.
+
+      * A rule finishing by `/` is for a folder: internally the last `/` is removed such as to store the rule only for folders.
+
+      * Each rule will be used with the method `match` of `pathlib.Path` (it's very basic, but quite powerful).
+
+  1. `usegit = True` asks to ignore files, and folders as `git` does, if this feature is activated for the development directory (this action completes the rules defined with the argument `ignore`).
+
+  1. Errors and warnings are printed in the terminal, and also written verbatim to the file `mockproject.src2prod.log` where `mockproject` is the name taken from the path specified via `project`.

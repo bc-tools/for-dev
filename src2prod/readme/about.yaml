@@ -2,7 +2,6 @@ toc:
   - prologue
   - about
   - example-used
-  - build
+  - build-dist/
   - only-files
   - readme-splitted
-  - cli

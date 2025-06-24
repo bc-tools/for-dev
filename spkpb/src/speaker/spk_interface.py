@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# This module defines constants and the interface like class ``AbstractSpeaker``
+# This module defines constants and the interface like class ''AbstractSpeaker''
 # that defines a minimal contract for speakers and also some common methods.
 ###
 
@@ -124,7 +124,7 @@ class AbstractSpeaker(metaclass = ABCMeta):
 #     text : a text to be hard wrapped.
 #     tab  : a possible tabulation to use for each new line created.
 #
-#     :return: a wrapped message of maximal width ``self.maxwidth``.
+#     :return: a wrapped message of maximal width ''self.maxwidth''.
 ###
     def hardwrap(
         self,

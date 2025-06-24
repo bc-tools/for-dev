@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# This module is the entry point for the standard classical command
-# ``python -m jinjang``.
+# This module is the entry point for the command ''jinjang ...''.
 ###
 
 from .jngcli import *

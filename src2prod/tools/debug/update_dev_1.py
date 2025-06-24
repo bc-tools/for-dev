@@ -5,7 +5,7 @@ from cbdevtools import *
 projectname = 'src2prod'
 # projectname = 'spkpb'
 # projectname = 'cbdevtools'
-projectname = 'jinjaNG'
+# projectname = 'jinjaNG'
 # projectname = 'multimd'
 
 
@@ -23,15 +23,16 @@ MODULE_DIR = addfindsrc(
 # -- LET'S GO -- #
 # -------------- #
 
-from src import *
+from src_OLD import *
+from src     import *
 
 MONOREPO_DIR = MODULE_DIR.parent
 PROJECT_DIR  = Path(projectname)
 
 project = Project(
     project = MONOREPO_DIR,
-    source  = PROJECT_DIR / 'src',
-    target  = PROJECT_DIR / projectname.lower(),
+    src  = PROJECT_DIR / 'src',
+    dest  = PROJECT_DIR / projectname.lower(),
     ignore  = '''
         tool_*/
         tool_*.*
@@ -43,4 +44,4 @@ project = Project(
     readme = PROJECT_DIR / 'README.md'
 )
 
-project.update(safemode = False)
+project.build(erase = False)

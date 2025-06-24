@@ -56,7 +56,7 @@ before, _, after = between(
 tab = " "*8
 
 last_list = [
-    tab + f"* python::``{lv}``\n"
+    tab + f"* python::''{lv}''\n"
     for lv in sorted(JNGBuilder._RENDER_LOC_VARS)
 ]
 last_list = '\n'.join(last_list)

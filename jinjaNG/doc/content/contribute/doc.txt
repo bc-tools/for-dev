@@ -8,7 +8,7 @@ La ¨doc
 
 L'auteur de ¨jinjang étant un codeur amateur français, la ¨doc n'est maintenue activement qu'en français. Si toutefois vous souhaitez traduire la ¨doc dans une autre langue, voici comment contribuer.
 
-    1) Commencer par copier-coller le dossier path::``doc`` là où vous souhaitez faire votre ¨trad.
+    1) Commencer par copier-coller le dossier path::''doc'' là où vous souhaitez faire votre ¨trad.
 
     1) Traduire les fichiers sans toucher à la ¨struc utilisée (le langage de rédaction utilisée est ¨tns, il est très intuitif).
 
@@ -16,14 +16,14 @@ L'auteur de ¨jinjang étant un codeur amateur français, la ¨doc n'est mainten
 
 
 note:
-    La ¨doc sera forcément sous licence "licence::``by nc sa 4.0``".
+    La ¨doc sera forcément sous licence "licence::''by nc sa 4.0''".
 
 
 Si vous souhaitez mettre à jour une ¨propo de ¨trad, il faudra indiquer rapidement en anglais les ¨chgts effectués, en n'oubliant pas de les dater (pas besoin d'entrer trop dans les détails).
 
 
 info::
-    Les ¨trads effectuées seront mises dans le sous-dossier path::``doc`` du dossier path::``contribute`` qui admet la ¨struct suivante (le dossier path::``api`` ne nous intéresse pas ici).
+    Les ¨trads effectuées seront mises dans le sous-dossier path::''doc'' du dossier path::''contribute'' qui admet la ¨struct suivante (le dossier path::''api'' ne nous intéresse pas ici).
 
     dirtree::
         + contribute
@@ -37,4 +37,4 @@ info::
 
 
 tip::
-    Les utilisateurs habitués à ¨github pourront passer via des git::``merge requests`` pour indiquer leur contribution.
+    Les utilisateurs habitués à ¨github pourront passer via des git::''merge requests'' pour indiquer leur contribution.

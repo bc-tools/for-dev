@@ -10,7 +10,7 @@ Afin de mieux cerner l'utilisation d'une saveur, mais aussi de tester son bon fo
 ((
     Ces cas d'utilisation sont ¨auto^t intégrés dans les tests unitaies du projet.
 )).
-Voici une partie du contenu du dossier path::``usecases`` pour la saveur ¨ascii.
+Voici une partie du contenu du dossier path::''usecases'' pour la saveur ¨ascii.
 
 dirtree::
     + usecases
@@ -28,14 +28,14 @@ Chaque cas correspond à un dossier avec un nom court anglais, et parlant
 ((
     Penser aux tests automatisés.
 )).
-Ce dossier doit contenir forcément deux fichiers nommés path::``template``, et path::``output`` avec l'extension attendue, soit ici un simple path::``TXT``, ainsi qu'un fichier path::``data.yaml``, ou path::``data.json`` pour les données de peuplement.
+Ce dossier doit contenir forcément deux fichiers nommés path::''template'', et path::''output'' avec l'extension attendue, soit ici un simple path::''TXT'', ainsi qu'un fichier path::''data.yaml'', ou path::''data.json'' pour les données de peuplement.
 
-    1) Le fichier nommé path::``template`` est un "patron" court, mais bien choisi. Ne pas cumuler les tests de focntionnalité ! Il vaut mieux utiliser plusieurs cas d'utilisation pour isoler ce qui est testé.
+    1) Le fichier nommé path::''template'' est un "patron" court, mais bien choisi. Ne pas cumuler les tests de focntionnalité ! Il vaut mieux utiliser plusieurs cas d'utilisation pour isoler ce qui est testé.
 
-    1) Le fichier path::``data.yaml``, ou path::``data.json``, fournit les données de peuplement.
+    1) Le fichier path::''data.yaml'', ou path::''data.json'', fournit les données de peuplement.
 
-    1) Le fichier nommé path::``output`` est le rendu attendu.
+    1) Le fichier nommé path::''output'' est le rendu attendu.
 
 
 warning::
-    Pour le fichier path::``output``, il faut bien gérer les lignes vides et les espaces, car aucune option de nettoyage des contenus "vides superflus" n'est utilisée lors des tests.
+    Pour le fichier path::''output'', il faut bien gérer les lignes vides et les espaces, car aucune option de nettoyage des contenus "vides superflus" n'est utilisée lors des tests.

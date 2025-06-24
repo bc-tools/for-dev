@@ -1,0 +1,71 @@
+// ---------- //
+
+
+==
+23  (1.0.0-rc.3)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+\Toc with settings: the placeholders ''::TOC-<depth>::'' can be used to choose the depth of the \toc.
+
+
+// ---------- //
+
+
+==
+23  (1.0.0-rc.2)
+==
+
+-----
+:fix:
+-----
+
+[[:api:]]
+
+Two new features
+
+    1) \Toc without settings: the placeholder ''::TOC::'' was changed regardless of its use in a code content.
+
+    1) The \cli has a new option term::''--version'' or term::''-v'' to print the current \nbver number of \thisproj.
+
+
+// ---------- //
+
+
+==
+23  (1.0.0-rc.1)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+Two new features.
+
+    1) \Toc without settings: the placeholder ''::TOC::'' can be used to obtain the \toc with hyperlinks of the final ''MD'' file.
+
+    1) Standardisation of the final ‘MD’ file to to prevent \git from spotting any *'false-positive'* changes.
+
+
+// ---------- //
+
+
+==
+15
+==
+
+--------
+:fordev:
+--------
+
+[[:flow:]]
+\hatch is used to work like a pro! Let's not get carried away...
+
+
+[[:test:]]
+Unit tests added: building good ''MD'' files using the \api.

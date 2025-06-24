@@ -6,21 +6,21 @@
 Agir après l'utilisation du "patron"
 ====================================
 
-Imaginons que nous avons produit un fichier ¨tex à l'aide d'un "patron" comme cela a été proposé dans cf::``?/json-data.txt``.
+Imaginons que nous avons produit un fichier ¨tex à l'aide d'un "patron" comme cela a été proposé dans cf::''?/json-data.txt''.
 L'intérêt des fichiers ¨tex est limité si l'on ne les utilise pas pour produire des contenus mis en forme au format ¨pdf par exemple.
-Obtenir ceci est très simple via term::``jinjang --config auto ...``, et la rédaction d'un fichier de ¨config
+Obtenir ceci est très simple via term::''jinjang --config auto ...'', et la rédaction d'un fichier de ¨config
 ((
     Nous nous plaçons dans la situation d'utilisation ¨auto d'une ¨config à destination de ¨jinjang.
 ))
 comme le suivant où la ¨1ere commande permet d'obtenir le ¨pdf
 ((
-    term::``-interaction=nonstopmode`` est une option demandant de ne pas interagir avec l'utilisateur lors de la compilation en cas de blocage.
+    term::''-interaction=nonstopmode'' est une option demandant de ne pas interagir avec l'utilisateur lors de la compilation en cas de blocage.
 )),
-et la ¨2nde de ne pas garder les fichiers intermédiaires utilisés pour compiler le fichier ¨tex, ce dernier étant indiqué dans les commandes via la ¨var ¨spe jinjang::``{output}`` (voir cf::``spevars`` à ce sujet).
+et la ¨2nde de ne pas garder les fichiers intermédiaires utilisés pour compiler le fichier ¨tex, ce dernier étant indiqué dans les commandes via la ¨var ¨spe jinjang::''{output}'' (voir cf::''spevars'' à ce sujet).
 
 yaml::
     ---
-    title = Le fichier de ¨config path::``cfg.jng.yaml``
+    title = Le fichier de ¨config path::''cfg.jng.yaml''
     path  = ?/examples/hooks/post/cfg.jng.yaml
     ---
 

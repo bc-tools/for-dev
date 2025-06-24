@@ -4,13 +4,13 @@ this::
 
 
 ===============================================
-Fichiers ¨auto^t associés à la saveur ``latex``
+Fichiers ¨auto^t associés à la saveur ''latex''
 ===============================================
 
-Voici les types de fichier automatiquement associés à la saveur ``latex`` (la recherche se fait dans l'ordre indiquée, et s'arrête dès la première concordance trouvée).
+Voici les types de fichier automatiquement associés à la saveur ''latex'' (la recherche se fait dans l'ordre indiquée, et s'arrête dès la première concordance trouvée).
 
 /* -- AUTO LIST - START -- */
-    * path::``*.tex``
-    * path::``*.sty``
-    * path::``*.tkz``
+    * path::''*.tex''
+    * path::''*.sty''
+    * path::''*.tkz''
 /* -- AUTO LIST - END -- */

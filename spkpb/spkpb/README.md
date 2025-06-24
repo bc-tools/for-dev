@@ -27,9 +27,9 @@ Using directly the API - All the outputs
 
 ### `Python` code
 
-Let's consider the following `Python` file where `Path` is the class proposed by the module `pathlib`. You have to know that the values of the arguments ``what`` are "stringified" (this allows to use either standard strings or advanced classes by defining your own ``__str__`` method for the resume output of problems, if you need it).
+Let's consider the following `Python` file where `Path` is the class proposed by the module `pathlib`. You have to know that the values of the arguments ''what'' are "stringified" (this allows to use either standard strings or advanced classes by defining your own ''__str__'' method for the resume output of problems, if you need it).
 
-```python
+''`python
 from spkpb import *
 
 speaker = Speaker(
@@ -61,13 +61,13 @@ speaker.recipe(
 )
 
 problems.resume()
-```
+''`
 
 ### The terminal output
 
 Launching our `Python` code from a terminal, we will see the following output.
 
-```
+''`
 1) [ #1 ] WARNING: some strange behaviors.
 2) [ #2 ] ERROR: bad things appear.
 
@@ -93,7 +93,7 @@ Look at the log file and/or above for details.
     * "one/bad/file.txt"
         + 1 error.
           See #.: [2].
-```
+''`
 
 
 ### The content of the log file `mylog.log`
@@ -101,7 +101,7 @@ Look at the log file and/or above for details.
 Launching our `Python` code, `mylog.log` will have the following content (just note that the resume is more verbose than the one in a terminal).
 
 
-```
+''`
 1) [ #1 ] WARNING: some strange behaviors.
 2) [ #2 ] ERROR: bad things appear.
 
@@ -121,7 +121,7 @@ One basic showcase.
 
     * one/bad/file.txt
         + See [ #.2 ] : bad things appear.
-```
+''`
 
 
 Using directly the API - Just one output
@@ -135,7 +135,7 @@ Using directly the API - Only a resume
 
 Let's modify a little our first code (the ellipsis indicate the lines unchanged).
 
-```python
+''`python
 from spkpb import *
 
 speaker = Speaker(
@@ -145,11 +145,11 @@ speaker = Speaker(
 )
 
 ...
-```
+''`
 
-The use of ``onlyresume = True`` asks to print only the summaries of problems (that is useful for short processes with no need to be verbose). The terminal and the log file will show the following same verbose resume.
+The use of ''onlyresume = True'' asks to print only the summaries of problems (that is useful for short processes with no need to be verbose). The terminal and the log file will show the following same verbose resume.
 
-```
+''`
 ---------------
 1 WARNING FOUND
 ---------------
@@ -163,7 +163,7 @@ The use of ``onlyresume = True`` asks to print only the summaries of problems (t
 
     * one/bad/file.txt
         + Bad things appear.
-```
+''`
 
 
 Using directly the API - Time stamp in the log file
@@ -171,7 +171,7 @@ Using directly the API - Time stamp in the log file
 
 The following code shows how to use `timestamp` such as to add time stamps in the log file.
 
-```python
+''`python
 from spkpb import *
 
 speaker = Speaker(
@@ -194,11 +194,11 @@ timestamp(
     speaker = speaker,
     kind    = 'start 3',
 )
-```
+''`
 
 This will add the following lines in the log file `mylog.log` without printing anything in the terminal.
 
-```
+''`
 -----------------------------------------
 START 1 TIME STAMP: 2021-08-09 (00:40:02)
 -----------------------------------------
@@ -210,7 +210,7 @@ START 2 TIME STAMP: 2021-08-09 (00:40:02)
 START 3 TIME STAMP: 2021-08-09 (00:40:02)
 -----------------------------------------
 
-```
+''`
 
 
 A ready-to-use communicating class

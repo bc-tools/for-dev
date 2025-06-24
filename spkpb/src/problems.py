@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# This module defines the class ``Problems`` to indicate warnings,
+# This module defines the class ''Problems'' to indicate warnings,
 # "criticals" and errors.
 ###
 
@@ -68,7 +68,7 @@ class Problems:
 
 ###
 # prototype::
-#     speaker : an instance of ``speaker.allinone.Speaker`` that is used
+#     speaker : an instance of ''speaker.allinone.Speaker'' that is used
 #               to communicate small ¨infos.
 ###
     def __init__(
@@ -114,8 +114,8 @@ class Problems:
 
 ###
 # prototype::
-#     :return: ``True`` if at least one warning has been found and
-#              ``False` otherwise.
+#     :return: ''True'' if at least one warning has been found and
+#              ''False` otherwise.
 ###
     @property
     def warningfound(self) -> bool:
@@ -124,8 +124,8 @@ class Problems:
 
 ###
 # prototype::
-#     :return: ``True`` if at least one "critical" has been found and
-#              ``False` otherwise.
+#     :return: ''True'' if at least one "critical" has been found and
+#              ''False` otherwise.
 ###
     @property
     def criticalfound(self) -> bool:
@@ -134,8 +134,8 @@ class Problems:
 
 ###
 # prototype::
-#     :return: ``True`` if at least one error has been found and
-#              ``False` otherwise.
+#     :return: ''True'' if at least one error has been found and
+#              ''False` otherwise.
 ###
     @property
     def errorfound(self) -> bool:
@@ -144,8 +144,8 @@ class Problems:
 
 ###
 # prototype::
-#     :return: ``True`` if at least on error or one warning has been found and
-#              ``False` otherwise.
+#     :return: ''True'' if at least on error or one warning has been found and
+#              ''False` otherwise.
 ###
     @property
     def pbfound(self) -> bool:
@@ -160,8 +160,8 @@ class Problems:
 
 ###
 # prototype::
-#     :return: ``True`` if there are several warnings and
-#              ``False`` otherwise.
+#     :return: ''True'' if there are several warnings and
+#              ''False'' otherwise.
 ###
     @property
     def several_warnings(self) -> bool:
@@ -170,8 +170,8 @@ class Problems:
 
 ###
 # prototype::
-#     :return: ``True`` if there are several "criticals" and
-#              ``False`` otherwise.
+#     :return: ''True'' if there are several "criticals" and
+#              ''False'' otherwise.
 ###
     @property
     def several_criticals(self) -> bool:
@@ -180,8 +180,8 @@ class Problems:
 
 ###
 # prototype::
-#     :return: ``True`` if there are several erros and
-#              ``False`` otherwise.
+#     :return: ''True'' if there are several erros and
+#              ''False'' otherwise.
 ###
     @property
     def several_errors(self) -> bool:
@@ -364,7 +364,7 @@ class Problems:
 # prototype::
 #     what    : any object with a string representation indicating clearly
 #               what is causing the problem.
-#     whatpbs : the list of problems for the same ``what``.
+#     whatpbs : the list of problems for the same ''what''.
 #     context : the kind of problem.
 #             @ context in [speaker.spk_interface.CONTEXT_ERROR,
 #                           speaker.spk_interface.CONTEXT_WARNING]
@@ -409,13 +409,13 @@ class Problems:
 # prototype::
 #     what    : any object with a string representation indicating clearly
 #               what is causing the problem.
-#     whatpbs : the list of problems for the same ``what``.
+#     whatpbs : the list of problems for the same ''what''.
 #     context : the kind of problem.
 #             @ context in [speaker.spk_interface.CONTEXT_ERROR,
 #                           speaker.spk_interface.CONTEXT_WARNING]
 #     verb_in : the list of outputs where to be verbose.
-#     showref : ``True`` asks to show the references (for a none silent mode)
-#               contrary to ``False``.
+#     showref : ''True'' asks to show the references (for a none silent mode)
+#               contrary to ''False''.
 #
 #     :action: this methods resumes verbosely all the problems.
 ###

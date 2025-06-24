@@ -8,7 +8,7 @@ Des données construites via ¨python
 
 Il peut être utile de produire directement des données via un script ¨python, le langage de ¨dev de ¨jinjang
 ((
-    Via des pré-traitements, voir cf::``hooks/pre.txt``, il est possible de faire appel à d'autres langages pour produire les fichiers ¨json de données.
+    Via des pré-traitements, voir cf::''hooks/pre.txt'', il est possible de faire appel à d'autres langages pour produire les fichiers ¨json de données.
 )),
 sans passer via un fichier ¨json. Nous allons voir comment faire ceci dans cette section.
 
@@ -17,7 +17,7 @@ warning::
     L'appel d'un programme extérieur doit toujours être fait avec prudence. Donc, en cas de doute, n'employer que des données de peuplement fournies via un fichier ¨json.
 
 
-Côté lignes de commandes, les choses sont simples car il suffit de faire comme dans la session fictive suivante où l'option term::``--unsafe``, ou term::``-u``, autorise le lancement du fichier ¨python construisant les données
+Côté lignes de commandes, les choses sont simples car il suffit de faire comme dans la session fictive suivante où l'option term::''--unsafe'', ou term::''-u'', autorise le lancement du fichier ¨python construisant les données
 ((
     Ceci permet d'éviter d'utiliser un fichier ¨python alors que cela n'était pas prévu, tout en indidquant à ¨jinjang que l'on prend la responsabilité de lancer un script ¨python.
 )).
@@ -28,7 +28,7 @@ terminal::
     [...]
 
 
-Par contre, il faut respecter **une contrainte forte** : le fichier path::``data.py`` doit obligatoirement fournir les données de peuplement via une variable python::``JNGdata`` avec un contenu analogue à celui qu'il faudrait indiquer via un fichier ¨json. C'est tout ! Voici un code très basique permettant de fixer les idées précédentes.
+Par contre, il faut respecter **une contrainte forte** : le fichier path::''data.py'' doit obligatoirement fournir les données de peuplement via une variable python::''JNGdata'' avec un contenu analogue à celui qu'il faudrait indiquer via un fichier ¨json. C'est tout ! Voici un code très basique permettant de fixer les idées précédentes.
 
 python::
     ---

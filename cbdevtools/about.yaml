@@ -1,7 +1,11 @@
-general:
-    project : cbdevtools
-    desc    : '"Common Box of Dev Tools" proposing small scripts that can be helpful.'
-    author  : Christophe BAL
-    licence : gnu 3
-    need    :
-        - python3
+project:
+  desc   : Small scripts that can be helpful.
+  acronym: "[C]ommon [B]ox of [DEV. TOOLS]
+            (bad play on words: Christophe Bal Dev. Tools)"
+  author : Christophe, BAL
+  licence: gnu 3
+
+  repo   : https://github.com/bc-tools/for-dev/tree/main/cbdevtools
+
+  require:
+    - python3

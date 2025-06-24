@@ -8,7 +8,7 @@ Instructions du langage ¨jinja
 
 Voici comment utiliser des intructions ¨jinja sur une ligne, ou dans un bloc
 ((
-    On part du principe fictif qu'un fichier verbatim dispose juste de commentaires sur une ligne du type verb::``# ...``.
+    On part du principe fictif qu'un fichier verbatim dispose juste de commentaires sur une ligne du type verb::''# ...''.
 )).
 
 jinjang::
