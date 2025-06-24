@@ -1,0 +1,25 @@
+### Block `project`
+
+Let's start with a full description of a fictive project.
+
+~~~yaml
+project:
+  desc   : This class proposes tools for writing "human friendly"
+           documentations of LaTeX packages.
+  acronym: "[tuto]rial [doc]umentation"
+  author : Christophe, BAL
+
+  licences:
+    code  : gnu 3
+    manual: gnu 3
+
+  urls:
+    repo  : https://github.com/bc-tools/for-latex/tree/main/tutodoc
+    issues: https://github.com/bc-tools/for-latex/issues
+
+  langs:
+    manual: fr
+
+  require:
+    - latex
+~~~
