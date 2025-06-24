@@ -5,6 +5,9 @@ Let's start with a complete description of a fictional project (detailed explana
 ~~~yaml
 project:
   version: 0.0.0-beta.1
+  dates  :
+    - start
+    - last
 
   acronym: "[@]bout [Desc]"
   usename: a_desc
@@ -13,9 +16,15 @@ project:
   authors:
     - Ada, Lovelace [ada.babbage.computer@paper.org]
       (Victorian Institute of Applied Mechanical Informatic)
-    - Jean-Louis, Krivine [jl-krivine@compile.brain]
+    - Jean, Louis, Krivine [jl-krivine@compile.brain]
     - Torvalds
       (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
+
+  keywords:
+    - HHH
+
+  categories:
+    - ffff
 
   licences:
     code  : gnu 3

@@ -8,3 +8,18 @@
 changement de paradigme!
 
     --> on impose les specs!
+
+
+> ---------------------------- <
+
+plugin de traitementd es données
+
+    --> on rpopose les miens
+
+    --> ajout via de simple fonctions , et non une classe
+        arg = la donné à traiter
+        extra args possible si besoin (on verra)
+
+    --> orga dans un sous dossier parser avec une struc mimant celle du yamm
+
+    --> pour utiisetur de base, donner un exemple de codage d'un nouveau traitement : comme on passe via fonc, c'est facile!
