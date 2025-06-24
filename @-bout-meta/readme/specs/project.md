@@ -4,10 +4,16 @@ Let's start with a full description of a fictive project.
 
 ~~~yaml
 project:
-  desc   : This class proposes tools for writing "human friendly"
-           documentations of LaTeX packages.
-  acronym: "[tuto]rial [doc]umentation"
-  author : Christophe, BAL
+  acronym: "[@]bout [Desc]"
+  usename: a_desc
+
+  desc   : Let's explain what is the project ''@Desc''...
+  authors:
+    - Ada, Lovelace [ada.babbage.computer@paper.org]
+      (Victorian Institute of Applied Mechanical Informatic)
+    - Jean-Louis, Krivine [jl-krivine@compile.brain]
+    - Torvalds
+      (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
 
   licences:
     code  : gnu 3

@@ -16,7 +16,7 @@ block-2:
 block-3:
   - key-1: val-1
   - key-2: val-2
-  - key-3s: val-3
+  - key-3: val-3
 ~~~
 
 
