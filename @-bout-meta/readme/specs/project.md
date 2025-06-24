@@ -1,9 +1,11 @@
 ### Block `project`
 
-Let's start with a full description of a fictive project.
+Let's start with a complete description of a fictional project (detailed explanations are provided immediately afterwards, although the example should be self-explanatory).
 
 ~~~yaml
 project:
+  version: 0.0.0-beta.1
+
   acronym: "[@]bout [Desc]"
   usename: a_desc
 
@@ -20,12 +22,15 @@ project:
     manual: gnu 3
 
   urls:
-    repo  : https://github.com/bc-tools/for-latex/tree/main/tutodoc
+    home  : https://github.com/bc-tools/for-latex/issues
     issues: https://github.com/bc-tools/for-latex/issues
+    dev   : https://github.com/bc-tools/for-latex/tree/main/tutodoc
 
   langs:
+    doc   : fr
     manual: fr
 
   require:
+    - python3
     - latex
 ~~~

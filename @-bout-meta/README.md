@@ -7,8 +7,9 @@ This document is a complete tutorial showing all the available features.
 
 - [What is `@-bout-meta`?](#MULTIMD-TOC-ANCHOR-0)
 - [`YAML` specifications](#MULTIMD-TOC-ANCHOR-1)
-  - [Block `project`](#MULTIMD-TOC-ANCHOR-2)
-  - [Block `toc`](#MULTIMD-TOC-ANCHOR-3)
+    - [Block `project`](#MULTIMD-TOC-ANCHOR-2)
+        - [`version`](#MULTIMD-TOC-ANCHOR-3)
+    - [Block `toc`](#MULTIMD-TOC-ANCHOR-4)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `@-bout-meta`?
@@ -16,7 +17,7 @@ What is `@-bout-meta`?
 
 This project allows metadata to be defined in `about.yaml` files, making it easier for third-party programs to manage digital projects (code and text).
 
-> ***NOTE.*** *A project refers to a folder containing content, some of which is only useful during development (tools and tests), while other content is used to create the final product (a computer program or a document to be read).*
+> ***NOTE.*** *A project is simply a folder containing content, some of which is only useful during development (tools and tests), while other content is used to create the final product (a computer program or a document to read).*
 
 <a id="MULTIMD-TOC-ANCHOR-1"></a>
 `YAML` specifications
@@ -44,10 +45,12 @@ block-3:
 <a id="MULTIMD-TOC-ANCHOR-2"></a>
 ### Block `project`
 
-Let's start with a full description of a fictive project.
+Let's start with a complete description of a fictional project (detailed explanations are provided immediately afterwards, although the example should be self-explanatory).
 
 ~~~yaml
 project:
+  version: 0.0.0-beta.1
+
   acronym: "[@]bout [Desc]"
   usename: a_desc
 
@@ -64,16 +67,24 @@ project:
     manual: gnu 3
 
   urls:
-    repo  : https://github.com/bc-tools/for-latex/tree/main/tutodoc
+    home  : https://github.com/bc-tools/for-latex/issues
     issues: https://github.com/bc-tools/for-latex/issues
+    dev   : https://github.com/bc-tools/for-latex/tree/main/tutodoc
 
   langs:
+    doc   : fr
     manual: fr
 
   require:
+    - python3
     - latex
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
+#### `version`
+
+XXX
+
+<a id="MULTIMD-TOC-ANCHOR-4"></a>
 ### Block `toc`
 
 XXX

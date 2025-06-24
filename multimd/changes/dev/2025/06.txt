@@ -2,6 +2,21 @@
 
 
 ==
+24
+==
+
+-----
+:fix:
+-----
+
+[[:format:]]
+\Toc: the indentation must use four spaces instead of two ones.
+
+
+// ---------- //
+
+
+==
 23  (1.0.0-rc.3)
 ==
 
@@ -25,7 +40,6 @@
 -----
 
 [[:api:]]
-
 Two new features
 
     1) \Toc without settings: the placeholder ''::TOC::'' was changed regardless of its use in a code content.

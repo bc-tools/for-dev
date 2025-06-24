@@ -279,7 +279,7 @@ def stdit(
 
                     anchor_nb_TOC += 1
 
-                    tab   = "  "*(level - 2)
+                    tab   = "    "*(level - 2)
                     title = title.replace("\n", "</br>")
 
                     toc_html.append(
