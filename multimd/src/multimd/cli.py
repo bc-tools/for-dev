@@ -23,17 +23,17 @@ CLI = typer.Typer()
 
 ###
 # prototype::
-#     version : set to ''True'', this \arg asks to print the current
-#               \nb_ver of \thisproj.
-#     src     : the \src \dir path with the MD chunks to be merged.
-#     dest    : the final MD path of the file to build.
-#     erase   : set to ''True'', this \arg allows to erase an existing
-#               final file to build a new version of it.
+#     version : set to ''True'', this \arg asks to print the current \nbver
+#               of \thisproj.
+#     src     : the \src \dir path with the \md chunks to be merged.
+#     dest    : the final \md path of the file to build.
+#     erase   : set to ''True'', this \arg allows to erase an existing final
+#               file to build a new version of it.
 #
 #     :action: :see: build.Builder
 ###
 @CLI.command(
-    help             = "Merging MD chunks into a single MD file.",
+    help             = "Merging markdown chunks into a single markdown file.",
     context_settings = dict(
         help_option_names = ["--help", "-h"]
     ),
@@ -51,18 +51,15 @@ def _CLI(
     src: Annotated[
         Path,
         typer.Argument(
-            help = "Path of the source directory with the MD "
-                   "chunks to be merged, followed by the path "
-                   "of the final MD file to build."
+            help = "Path of the source directory with the markdown "
+                   "chunks to be merged."
         ),
     ] = None,
     #
     dest: Annotated[
         Path,
         typer.Argument(
-            help = "Path of the source directory with the MD "
-                   "chunks to be merged, followed by the path "
-                   "of the final MD file to build."
+            help = "Path of the final markdown file to build."
         ),
     ] = None,
     #
@@ -71,7 +68,7 @@ def _CLI(
         typer.Option(
             "--erase",
             "-e",
-            help = "Erase an existing final MD file before "
+            help = "Erase an existing final markdown file before "
                    "building the new one.",
         ),
     ] = False,
@@ -110,7 +107,7 @@ def _CLI(
     if Path(dest_message).is_absolute():
         message = f"""
 Successfully built file.
-  + Full path given:
+  + Full path given and used:
     {dest_message}
         """
 

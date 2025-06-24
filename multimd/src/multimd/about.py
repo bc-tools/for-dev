@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 ###
-# This module finds paths to path::''MD'' files either by following
-# the \spec in a path::''about.yaml'' file, or by looking directly,
-# but not recursively, in a \dir.
+# This module finds paths to \md files either by following the \spec
+# in a path::''about.yaml'' file, or by looking directly, but not
+# recursively, in a \dir.
 ###
 
 
@@ -28,10 +28,9 @@ MD_FILE_EXT    = "md"
 MD_FILE_SUFFIX = f".{MD_FILE_EXT}"
 
 
-# ------------------------ #
-# -- LOOK FOR MD CHUNKS -- #
-# ------------------------ #
-
+# ------------------------- #
+# -- LOOK FOR \MD CHUNKS -- #
+# ------------------------- #
 
 ###
 # This \cls produces a list of file paths from a path::''maindir'' folder.
@@ -123,7 +122,7 @@ class TOC:
 # A new path found.
                 pathsfound.append(curdir / one_strpath)
 
-# Everything seems ok.
+# Everything seems OK.
         return pathsfound
 
 ###

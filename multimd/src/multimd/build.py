@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 ###
-# This module allows to make a single path::''MD'' file from several single
-# ones (using or not an "automatic" merging).
+# This module allows to make a single \md file from several single ones
+# (using or not an "automatic" merging).
 ###
 
 
@@ -12,19 +12,19 @@ from .about    import *
 from .finalize import stdit
 
 
-# ------------------------------------ #
-# -- SINGLE MD FROM MULTI SINGLE MD -- #
-# ------------------------------------ #
+# -------------------------------- #
+# -- SINGLE \MD FROM \MD CHUNKS -- #
+# -------------------------------- #
 
 ###
-# This class finds all the single path::''MD'' files and then builds a final
+# This class finds all the single \md files and then builds a final
 # single one with all the chunks found.
 ###
 class Builder:
 ###
 # prototype::
-#     src   : the path of the \dir containing the path::''MD'' chunks.
-#     dest  : the path of the single final path::''MD'' file to build.
+#     src   : the path of the \dir containing the \md chunks.
+#     dest  : the path of the single final \md file to build.
 #     erase : set to ''True'', this \arg allows to erase an existing
 #             final file to build a new one.
 ###
@@ -40,11 +40,11 @@ class Builder:
 
 ###
 # prototype::
-#     :action: this method finds the single path::''MD'' files, and then merges
-#              all the \md codes found to build the final path::''MD'' file.
+#     :action: this method finds the single \md files, and then merges
+#              all the \md codes found to build the final \md file.
 ###
     def build(self) -> None:
-# All the MD codes.
+# All the \md codes.
         mdcode = []
 
         for onefile in TOC(self.src).extract():
@@ -65,7 +65,7 @@ class Builder:
 
         mdcode += "\n"
 
-# Raw MD version.
+# User's \md single version.
         self.dest.write_text(
             data     = mdcode,
             encoding = "utf-8"
