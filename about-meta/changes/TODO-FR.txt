@@ -1,6 +1,6 @@
-===========
-@-bout-meta - TODO
-===========
+==========
+about-meta - TODO
+==========
 
 
 > ---------------------------- <
@@ -9,6 +9,14 @@ changement de paradigme!
 
     --> on impose les specs!
 
+
+> ---------------------------- <
+
+usename ou title detérmine une catégo code ou livre
+
+topic ? catgeo ?
+
+faire un truc minimaiste et facile à enrichir et usage verra ce qu'il manque
 
 > ---------------------------- <
 

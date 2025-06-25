@@ -23,12 +23,9 @@ project:
   keywords:
     - HHH
 
-  categories:
-    - ffff
-
   licences:
     code  : gnu 3
-    manual: gnu 3
+    manual: cc by 4
 
   urls:
     home  : https://github.com/bc-tools/for-latex/issues
