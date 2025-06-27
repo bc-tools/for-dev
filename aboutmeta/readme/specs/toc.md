@@ -1,4 +1,4 @@
-### Block `toc`
+### `toc` block
 
 XXX
 

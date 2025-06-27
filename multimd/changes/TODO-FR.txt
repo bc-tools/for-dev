@@ -5,6 +5,13 @@ multimd - TODO
 
 > ---------------------------- <
 
+gestion des refs numérotées car elle reste globale et ne sont pas gérer relatvement!!!
+
+    ---> besoin de sol maison
+
+
+> ---------------------------- <
+
 Attention à la nlle version de markdownify car _convert_hn --> convert_hN
 
 

@@ -1,4 +1,4 @@
-### Block `project`
+### The project itself
 
 Let's start with a complete description of a fictional code project.
 
