@@ -2,6 +2,21 @@
 
 
 ==
+27  (1.0.0-rc.4)
+==
+
+-----
+:fix:
+-----
+
+[[:bug:]]
+\Toc: the authorised case of an empty file path::“'about.yaml”' was not implemented.
+
+
+// ---------- //
+
+
+==
 24
 ==
 

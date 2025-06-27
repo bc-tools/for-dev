@@ -9,8 +9,8 @@ This document is a complete tutorial showing all the available features.
 - [`README.md` part by part](#MULTIMD-TOC-ANCHOR-1)
 - [Without the special `about.yaml` file](#MULTIMD-TOC-ANCHOR-2)
 - [Finishing touches](#MULTIMD-TOC-ANCHOR-3)
-  - [What is done automatically?](#MULTIMD-TOC-ANCHOR-4)
-  - [ToC settings](#MULTIMD-TOC-ANCHOR-5)
+    - [What is done automatically?](#MULTIMD-TOC-ANCHOR-4)
+    - [ToC settings](#MULTIMD-TOC-ANCHOR-5)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `multimd`?

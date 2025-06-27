@@ -79,6 +79,7 @@ class TOC:
         self,
         curdir: Path,
     ) -> List[Path]:
+        print(curdir)
 # There is an ''about.yaml'' file.
         if (curdir / ABOUT_FILE_NAME).is_file():
 # ''strpaths == []'' can be ''True'' if no ''toc'' block has been used
@@ -143,7 +144,11 @@ class TOC:
             ) as f:
                 datasfound = yaml_load(f)
 
-            if not TAG_TOC in datasfound:
+            if (
+                datasfound is None
+                or
+                not TAG_TOC in datasfound
+            ):
                 return []
 
             datasfound = datasfound[TAG_TOC]
