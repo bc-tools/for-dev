@@ -1,36 +1,35 @@
 project:
-  version: 0.0.0-beta.1
-  dates  :
-    - start
-    - last
+  version*: 0.0.0-beta.1 (2025-06-27)
 
-  acronym: "[@]bout [Desc]"
-  usename: a_desc
+  acronym* : "[@]bout [Desc]"
+  codename*: a_desc
+  desc     : Let's explain what is the project ''@Desc''...
 
-  desc   : Let's explain what is the project ''@Desc''...
-  authors:
+  author(s):
     - Ada, Lovelace [ada.babbage.computer@paper.org]
       (Victorian Institute of Applied Mechanical Informatic)
     - Jean, Louis, Krivine [jl-krivine@compile.brain]
     - Torvalds
       (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
 
-  keywords:
+  keywords*:
+    - HHH
+    - HHH
     - HHH
 
-  licences:
-    code  : gnu 3
-    manual: cc by 4
+  licences*:
+    code*  : gnu 3
+    manual*: cc by 4
 
-  urls:
-    home  : https://github.com/bc-tools/for-latex/issues
-    issues: https://github.com/bc-tools/for-latex/issues
-    dev   : https://github.com/bc-tools/for-latex/tree/main/tutodoc
+  urls*:
+    home*  : https://github.com/bc-tools/for-latex/issues
+    issues*: https://github.com/bc-tools/for-latex/issues
+    dev*   : https://github.com/bc-tools/for-latex/tree/main/tutodoc
 
-  langs:
-    doc   : fr
-    manual: fr
+  langs*:
+    doc*   : fr
+    manual*: fr
 
-  require:
+  require*:
     - python3
     - latex
