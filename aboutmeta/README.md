@@ -1,23 +1,23 @@
-The `Python` module `@-bout-meta`
-=================================
+The `Python` module `aboutmeta`
+===============================
 
 This document is a complete tutorial showing all the available features.
 
 **Table of contents**
 
-- [What is `about-meta`?](#MULTIMD-TOC-ANCHOR-0)
+- [What is `aboutmeta`?](#MULTIMD-TOC-ANCHOR-0)
 - [`YAML` specifications](#MULTIMD-TOC-ANCHOR-1)
     - [The project itself](#MULTIMD-TOC-ANCHOR-2)
         - [Versionner le projet](#MULTIMD-TOC-ANCHOR-3)
     - [`toc` block](#MULTIMD-TOC-ANCHOR-4)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
-What is `about-meta`?
----------------------
+What is `aboutmeta`?
+--------------------
 
 This project allows metadata to be defined in `about.yaml` files, making it easier for third-party programs to manage digital projects (code and text).
 
-> ***NOTE.*** *A digital project is simply a folder containing content, some of which is only useful during development (tools and tests), while other content is used to create the final product (a computer program or a document to read). In other word, `about-meta` is agnostic.*
+> ***NOTE.*** *A digital project is simply a folder containing content, some of which is only useful during development (tools and tests), while other content is used to create the final product (a computer program or a document to read). In other word, `aboutmeta` is agnostic.*
 
 <a id="MULTIMD-TOC-ANCHOR-1"></a>
 `YAML` specifications
@@ -44,7 +44,7 @@ block-3:
 Here are the conventions that will use in our explanations.
 
 1. The concept of attribute will refer to a block, a key, etc.
-2. A virtual pointed paths such as `block-3.key-1` refers to the key `key-1` of block `block-3`.
+2. A virtual pointed path like `block-3.key-1` refers to the key `key-1` of block `block-3`.
 3. Optional attributes will be indicated by their name followed by an asterisk `*`.
 4. Sometimes, an attribute can be used either in the singular or plural form, but not both at the same time. In this case, the name will end with `(s)`, as in `author(s)`.
 
@@ -102,11 +102,11 @@ The following sections detail the use and meaning of the various attributes show
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
 #### Versionner le projet
 
-La clé `project.version` sert à indiquer une version. Les deux formats suivants sont pris en compte.
+La clé `project.version` sert à indiquer une version. Les formats suivants peuvent être pris en compte par `aboutmeta`.
 
-1. version = 0.0.0-beta.1 (2025-06-27) ou juste version = 0.0.0-beta.1
-   [XX](https://semver.org/)
-2. version = 2025-06-27
+1. `version = 0.0.0-beta.1 (2025-06-27)` ou juste `version = 0.0.0-beta.1`
+   [Semantic Versioning](https://semver.org/)
+2. `version = 2025-06-27`
 
 <a id="MULTIMD-TOC-ANCHOR-4"></a>
 ### `toc` block

@@ -7,7 +7,7 @@ multimd - TODO
 
 gestion des refs numérotées car elle reste globale et ne sont pas gérer relatvement!!!
 
-    ---> besoin de sol maison
+    ---> sol simple : on colle des morecayx de HTML et non des morceaux de md car cela fait disparaotre les refs numérotées
 
 
 > ---------------------------- <

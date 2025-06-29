@@ -2,6 +2,21 @@
 
 
 ==
+29  (1.0.0-rc.5)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+Standardisation: numbered \refs can be used locally without any trouble.
+
+
+// ---------- //
+
+
+==
 27  (1.0.0-rc.4)
 ==
 

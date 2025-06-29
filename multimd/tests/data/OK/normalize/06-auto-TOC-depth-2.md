@@ -2,14 +2,14 @@ My doc
 ======
 
 - [Section 1](#MULTIMD-TOC-ANCHOR-0)
-  - [Sub Section 1.1](#MULTIMD-TOC-ANCHOR-1)
-  - [Sub Section 1.2](#MULTIMD-TOC-ANCHOR-2)
+    - [Sub Section 1.1](#MULTIMD-TOC-ANCHOR-1)
+    - [Sub Section 1.2](#MULTIMD-TOC-ANCHOR-2)
 - [Section 2](#MULTIMD-TOC-ANCHOR-3)
-  - [Sub Section 2.1](#MULTIMD-TOC-ANCHOR-4)
-  - [Sub Section 2.2](#MULTIMD-TOC-ANCHOR-5)
+    - [Sub Section 2.1](#MULTIMD-TOC-ANCHOR-4)
+    - [Sub Section 2.2](#MULTIMD-TOC-ANCHOR-5)
 - [Section 3](#MULTIMD-TOC-ANCHOR-6)
-  - [Sub Section 3.1](#MULTIMD-TOC-ANCHOR-7)
-  - [Sub Section 3.2](#MULTIMD-TOC-ANCHOR-8)
+    - [Sub Section 3.1](#MULTIMD-TOC-ANCHOR-7)
+    - [Sub Section 3.2](#MULTIMD-TOC-ANCHOR-8)
 - [Section 4](#MULTIMD-TOC-ANCHOR-9)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>

@@ -2,6 +2,6 @@
 
 __version__ = "1.0.0"
 
-from .about    import *
-from .build    import *
-from .finalize import *
+from .about     import *
+from .build     import *
+from .normalize import *

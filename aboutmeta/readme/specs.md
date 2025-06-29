@@ -24,7 +24,7 @@ Here are the conventions that will use in our explanations.
 
   1. The concept of attribute will refer to a block, a key, etc.
 
-  1. A virtual pointed paths such as `block-3.key-1` refers to the key `key-1` of block `block-3`.
+  1. A virtual pointed path like `block-3.key-1` refers to the key `key-1` of block `block-3`.
 
   1. Optional attributes will be indicated by their name followed by an asterisk `*`.
 

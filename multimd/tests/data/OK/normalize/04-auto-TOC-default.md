@@ -2,8 +2,8 @@ My doc
 ======
 
 - [Section 1](#MULTIMD-TOC-ANCHOR-0)
-  - [Sub Section 1.1](#MULTIMD-TOC-ANCHOR-1)
-  - [Sub Section 1.2](#MULTIMD-TOC-ANCHOR-2)
+    - [Sub Section 1.1](#MULTIMD-TOC-ANCHOR-1)
+    - [Sub Section 1.2](#MULTIMD-TOC-ANCHOR-2)
 - [Section 2](#MULTIMD-TOC-ANCHOR-3)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>

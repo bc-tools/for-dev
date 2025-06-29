@@ -16,19 +16,6 @@ During final formatting, `multimd` standardises the source code to prevent `git`
   1. **Add a blank line** after an `MD` block, if necessary.
 
 
-> ***NOTE.*** *The `Python` API allows you to apply the above normalisation to an `MD` file of your choice, as in the following code where `Path` is the class provided by the `pathlib` module (it is possible to use the same source and destination).*
-
-~~~python
-from multimd import finalize, Path
-
-stdit(
-    src   = Path("/full/path/to/MY-FILE.md"),
-    dest  = Path("/full/path/to/MY-FILE-STD.md"),
-    erase = True
-)
-~~~
-
-
 ### ToC settings
 
 In the following code, the alias `::TOC::` will be replaced by a table of contents, with hyperlinks, in the final document.
