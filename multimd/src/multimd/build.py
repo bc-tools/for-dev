@@ -12,9 +12,9 @@ from .about     import *
 from .normalize import *
 
 
-# --------------------------------------------- #
-# -- SINGLE \MD FROM \MD NOMRLAIZED CHUNKS -- #
-# --------------------------------------------- #
+# ------------------- #
+# -- REGEX UTILITY -- #
+# ------------------- #
 
 ###
 # prototype::
@@ -46,6 +46,10 @@ def update_anchor_HTML():
 
     return replace
 
+
+# ------------------------------------------- #
+# -- SINGLE NORMALIZED \MD FROM \MD CHUNKS -- #
+# ------------------------------------------- #
 
 ###
 # This class finds all the single \md files and then builds a final
@@ -85,7 +89,7 @@ class Builder:
 #     initial \src file.
 ###
     def build(self) -> None:
-
+# Let's use our custom converter.
         self.sdtconv = StdConverter(bullets = '-'*3)
 
 # Can we erase an existing final file?
@@ -97,7 +101,7 @@ class Builder:
                 f"{self.dest}"
             )
 
-# \Html version keeping a possible ''::TOC::'' placeholder.
+# \Html version keeping a possible md::''::TOC::'' placeholder.
         self.html_code = []
 
         for onefile in TOC(self.src).extract():
@@ -109,18 +113,16 @@ class Builder:
 
         self.html_code = "\n".join(self.html_code)
 
-# \Md standardized version keeping a possible ''::TOC::''.
+# \Md standardized version keeping a possible md::''::TOC::''.
         self.std_md_code  = self.sdtconv.convert(self.html_code)
 
-# Management of ''::TOC::''.
+# Management of md::''::TOC::''.
         self.tocify()
 
         self.std_md_code += "\n"
 
-
 # Final \md standardized single version.
         self.dest.touch()
-
         self.dest.write_text(
             data     = self.std_md_code,
             encoding = "utf-8"
@@ -128,7 +130,7 @@ class Builder:
 
 ###
 # prototype::
-#     :action: ????
+#     :action: this method manages the placeholder md::''::TOC::''.
 ###
     def tocify(self) -> None:
         md_std = self.std_md_code
@@ -137,7 +139,7 @@ class Builder:
         depth_TOC  = self.sdtconv.depth_TOC
         all_titles = self.sdtconv.titles
 
-# Misuse of ''::TOC::''.
+# Misuse of md::''::TOC::''.
         if nb_tag_TOC > 1:
             raise ValueError(f"too many ''{TAG_TOC}'' used.")
 
@@ -196,5 +198,5 @@ class Builder:
 
             md_std = "\n".join(md_std)
 
-# Let's publish our workd...
+# Let's publish our work...
         self.std_md_code = md_std

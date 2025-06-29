@@ -20,7 +20,7 @@ block-3:
 ~~~
 
 
-Here are the conventions that will use in our explanations.
+Here are the **conventions used in our explanations**.
 
   1. The concept of attribute will refer to a block, a key, etc.
 
