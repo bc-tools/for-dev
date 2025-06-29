@@ -50,6 +50,8 @@ Here are the **conventions used in our explanations**.
 
 > ***NOTE.*** *If you are unfamiliar with the general syntax of `YAML`, the [Wikipedia article YAML](https://wikipedia.org/wiki/YAML) is a good place to start.*
 
+---
+
 > ***IMPORTANT.*** *Technically, `YAML` files are read securely by treating all values as simple character strings.*
 
 <a id="MULTIMD-TOC-ANCHOR-2"></a>
