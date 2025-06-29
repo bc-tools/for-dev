@@ -15,7 +15,7 @@ This document is a complete tutorial showing all the available features.
 What is `aboutmeta`?
 --------------------
 
-This project allows metadata to be defined in `about.yaml` files, making it easier for third-party programs to manage digital projects (code and text).
+This project allows metadata to be defined in `about.yaml` files, making it easier for third-party programs to manage digital projects (code projects and document-type projects).
 
 > ***NOTE.*** *A digital project is simply a folder containing content, some of which is only useful during development (tools and tests), while other content is used to create the final product (a computer program or a document to read). In other word, `aboutmeta` is agnostic.*
 
@@ -41,7 +41,7 @@ block-3:
   - key-3: val-3
 ~~~
 
-Here are the conventions that will use in our explanations.
+Here are the **conventions used in our explanations**.
 
 1. The concept of attribute will refer to a block, a key, etc.
 2. A virtual pointed path like `block-3.key-1` refers to the key `key-1` of block `block-3`.
@@ -49,6 +49,8 @@ Here are the conventions that will use in our explanations.
 4. Sometimes, an attribute can be used either in the singular or plural form, but not both at the same time. In this case, the name will end with `(s)`, as in `author(s)`.
 
 > ***NOTE.*** *If you are unfamiliar with the general syntax of `YAML`, the [Wikipedia article YAML](https://wikipedia.org/wiki/YAML) is a good place to start.*
+
+> ***IMPORTANT.*** *Technically, `YAML` files are read securely by treating all values as simple character strings.*
 
 <a id="MULTIMD-TOC-ANCHOR-2"></a>
 ### The project itself
@@ -80,7 +82,7 @@ project:
     manual*: cc by 4
 
   urls*:
-    home*  : https://github.com/bc-tools/for-latex/issues
+    home*  : https://github.com/bc-tools/for-latex
     issues*: https://github.com/bc-tools/for-latex/issues
     dev*   : https://github.com/bc-tools/for-latex/tree/main/tutodoc
 
@@ -102,7 +104,7 @@ The following sections detail the use and meaning of the various attributes show
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
 #### Versionner le projet
 
-La clé `project.version` sert à indiquer une version. Les formats suivants peuvent être pris en compte par `aboutmeta`.
+La clé optionnel `project.version` sert à identifier la version en cours. Les formats suivants sont pris en compte par `aboutmeta`.
 
 1. `version = 0.0.0-beta.1 (2025-06-27)` ou juste `version = 0.0.0-beta.1`
    [Semantic Versioning](https://semver.org/)
