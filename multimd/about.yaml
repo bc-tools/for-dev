@@ -1,4 +1,6 @@
 project:
+  version: "1.0.0"
+
   desc   : This project makes it possible to write separated
            ''MD'' pieces that will be merged to produce one
            single final ''MD'' file.

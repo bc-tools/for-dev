@@ -27,7 +27,7 @@ project:
     manual*: cc by 4
 
   urls*:
-    home*  : https://github.com/bc-tools/for-latex/issues
+    home*  : https://github.com/bc-tools/for-latex
     issues*: https://github.com/bc-tools/for-latex/issues
     dev*   : https://github.com/bc-tools/for-latex/tree/main/tutodoc
 

@@ -3,14 +3,15 @@ requires      = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-version         = ""
-requires-python = ">=3.8"
+dynamic         = ["version"]
 name            = "aboutmeta"
 description     = ''
 readme          = "README.md"
 authors         = [
   { name = "Christophe BAL", email = "projetmbc@gmail.com" },
 ]
+
+requires-python = ">=3.12"
 
 license = "GPL-3.0-or-later"
 
@@ -22,10 +23,6 @@ keywords = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
@@ -37,6 +34,10 @@ dependencies = []
 Documentation = "https://github.com/bc-tools/for-dev/tree/main/@-bout-meta#readme"
 Issues        = "https://github.com/bc-tools/for-dev/tree/main/@-bout-meta/issues"
 Source        = "https://github.com/bc-tools/for-dev/tree/main/@-bout-meta"
+
+[tool.hatch.version]
+path    = "about.yaml"
+pattern = 'version:\s*"(?P<version>.*)"'
 
 [tool.hatch.envs.types]
 extra-dependencies = [
@@ -63,7 +64,7 @@ aboutmeta = [
 tests = [
   "tests",
   "*/aboutmeta/tests"
-s]
+]
 
 [tool.coverage.report]
 exclude_lines = [

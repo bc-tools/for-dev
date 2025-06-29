@@ -3,12 +3,12 @@ requires      = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-version         = "1.0.0"
-requires-python = ">=3.12"
-name            = "multimd"
-description     = "This project makes it possible to write separated pieces of ''MD'' files that will be merged to produce one single final ''MD'' file."
-readme          = "README.md"
-authors         = [
+dynamic = ["version"]
+
+name        = "multimd"
+description = "This project makes it possible to write separated pieces of ''MD'' files that will be merged to produce one single final ''MD'' file."
+readme      = "README.md"
+authors     = [
   { name = "Christophe BAL", email = "projetmbc@gmail.com" },
 ]
 
@@ -43,6 +43,10 @@ dependencies = [
 Documentation = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
 Issues        = "https://github.com/bc-tools/for-dev/tree/main/multimd/issues"
 Source        = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
+
+[tool.hatch.version]
+path    = "about.yaml"
+pattern = 'version:\s*"(?P<version>.*)"'
 
 [tool.hatch.envs.types]
 extra-dependencies = [
