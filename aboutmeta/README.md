@@ -8,8 +8,15 @@ This document is a complete tutorial showing all the available features.
 - [What is `aboutmeta`?](#MULTIMD-TOC-ANCHOR-0)
 - [`YAML` specifications](#MULTIMD-TOC-ANCHOR-1)
     - [The project itself](#MULTIMD-TOC-ANCHOR-2)
-        - [Versionner le projet](#MULTIMD-TOC-ANCHOR-3)
-    - [`toc` block](#MULTIMD-TOC-ANCHOR-4)
+        - [Versioning the project](#MULTIMD-TOC-ANCHOR-3)
+        - [name-desc](#MULTIMD-TOC-ANCHOR-4)
+        - [authors](#MULTIMD-TOC-ANCHOR-5)
+        - [urls](#MULTIMD-TOC-ANCHOR-6)
+        - [licences](#MULTIMD-TOC-ANCHOR-7)
+        - [langs](#MULTIMD-TOC-ANCHOR-8)
+        - [require](#MULTIMD-TOC-ANCHOR-9)
+        - [keywords](#MULTIMD-TOC-ANCHOR-10)
+    - [`toc` block](#MULTIMD-TOC-ANCHOR-11)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`?
@@ -74,19 +81,14 @@ project:
     - Torvalds
       (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
 
-  keywords*:
-    - HHH
-    - HHH
-    - HHH
-
-  licences*:
-    code*  : gnu 3
-    manual*: cc by 4
-
   urls*:
     home*  : https://github.com/bc-tools/for-latex
     issues*: https://github.com/bc-tools/for-latex/issues
     dev*   : https://github.com/bc-tools/for-latex/tree/main/tutodoc
+
+  licences*:
+    code*  : gnu 3
+    manual*: cc by 4
 
   langs*:
     doc*   : fr
@@ -95,6 +97,11 @@ project:
   require*:
     - python3
     - latex
+
+  keywords*:
+    - HHH
+    - HHH
+    - HHH
 ~~~
 
 In the case of a document-type project, the `project.codename` key is no longer usable and must be replaced by `project.doctitle` (a document must have a title).
@@ -104,15 +111,50 @@ In the case of a document-type project, the `project.codename` key is no longer 
 The following sections detail the use and meaning of the various attributes shown above.
 
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
-#### Versionner le projet
+#### Versioning the project
 
-La clé optionnel `project.version` sert à identifier la version en cours. Les formats suivants sont pris en compte par `aboutmeta`.
+The optional `project.version` key is used to identify the current version, with the following formats being natively supported by `aboutmeta`.
 
-1. `version = 0.0.0-beta.1 (2025-06-27)` ou juste `version = 0.0.0-beta.1`
-   [Semantic Versioning](https://semver.org/)
-2. `version = 2025-06-27`
+1. `version = 2025-06-27` indicates a date in `YYYY-MM-DD` format.
+2. `version = 0.0.0-beta.1` indicates a version number respecting ["Semantic Versioning"](https://semver.org/).
+3. `version = 0.0.0-beta.1 (2025-06-27)` is a combination of version and date.
 
 <a id="MULTIMD-TOC-ANCHOR-4"></a>
+#### name-desc
+
+YYY
+
+<a id="MULTIMD-TOC-ANCHOR-5"></a>
+#### authors
+
+YYY
+
+<a id="MULTIMD-TOC-ANCHOR-6"></a>
+#### urls
+
+YYY
+
+<a id="MULTIMD-TOC-ANCHOR-7"></a>
+#### licences
+
+YYY
+
+<a id="MULTIMD-TOC-ANCHOR-8"></a>
+#### langs
+
+YYY
+
+<a id="MULTIMD-TOC-ANCHOR-9"></a>
+#### require
+
+YYY
+
+<a id="MULTIMD-TOC-ANCHOR-10"></a>
+#### keywords
+
+YYY
+
+<a id="MULTIMD-TOC-ANCHOR-11"></a>
 ### `toc` block
 
 XXX

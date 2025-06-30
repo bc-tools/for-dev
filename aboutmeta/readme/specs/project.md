@@ -17,19 +17,14 @@ project:
     - Torvalds
       (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
 
-  keywords*:
-    - HHH
-    - HHH
-    - HHH
-
-  licences*:
-    code*  : gnu 3
-    manual*: cc by 4
-
   urls*:
     home*  : https://github.com/bc-tools/for-latex
     issues*: https://github.com/bc-tools/for-latex/issues
     dev*   : https://github.com/bc-tools/for-latex/tree/main/tutodoc
+
+  licences*:
+    code*  : gnu 3
+    manual*: cc by 4
 
   langs*:
     doc*   : fr
@@ -38,6 +33,11 @@ project:
   require*:
     - python3
     - latex
+
+  keywords*:
+    - HHH
+    - HHH
+    - HHH
 ~~~
 
 

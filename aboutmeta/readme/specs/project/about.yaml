@@ -1,2 +1,9 @@
 toc:
-  - version
+  - version-date
+  - name-desc
+  - authors
+  - urls
+  - licences
+  - langs
+  - require
+  - keywords
