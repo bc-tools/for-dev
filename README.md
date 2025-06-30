@@ -1,5 +1,5 @@
 The monorepo `tools-for-dev`
-==============================
+============================
 
 > **I beg your pardon for my english...**
 >
@@ -7,7 +7,7 @@ The monorepo `tools-for-dev`
 
 
 About `tools-for-dev`
------------------------
+---------------------
 
 This monorepo contains series of tools that can ease the workflow of an amateur developper.
 

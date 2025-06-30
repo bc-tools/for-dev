@@ -7,7 +7,7 @@ During final formatting, `multimd` standardises the source code to prevent `git`
 
   1. **Add a table of contents**, with hyperlinks, via the alias `::TOC::` that can be used **only alone on one line and only once**. See the following section for more details.
 
-  1. **Section titles** use the non-standard, but very visual, syntax of `===` and `---` for the first two levels of section, and then the `#` symbol is used.
+  1. **Section titles** use the non-standard, but very visual, syntax of `===` and `---` for the first two levels of section, and then consecutive `#` symbols are used.
 
   1. **Removal of unnecessary spaces**.
 
@@ -18,7 +18,7 @@ During final formatting, `multimd` standardises the source code to prevent `git`
 
 ### ToC settings
 
-In the following code, the alias `::TOC::` will be replaced by a table of contents, with hyperlinks, in the final document.
+In the following code, the alias `::TOC::` will be replaced by a full table of contents, with hyperlinks, in the final document. In fact, the first level `1` heading is never added, as it is the title of the document.
 
 ~~~md
 ...
@@ -33,4 +33,8 @@ Let's continue writing **our content**.
 ...
 ~~~
 
-By default, all sections from level `2` onwards are included in the table of contents (level `1` corresponds to the document title). You can specify the maximum depth `<depth>` of the table of content sections to be retained using `::TOC-<depth>::`, as in `::TOC-1::`, which requests that only sections of level `2` be retained.
+By default, all sections from level `2` onwards are included in the table of contents (level `1` corresponds to the document title). You can specify the maximum depth `<depth>` of the table of content sections to be retained using `::TOC-<depth>::`.
+
+  * `::TOC-1::` requests that only sections of level `2` are retained.
+
+  * `::TOC-2::` requests that only sections of level `2` or `3` are retained.
