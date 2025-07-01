@@ -16,6 +16,7 @@ project:
     - Jean, Louis, Krivine [jl-krivine@compile.brain]
     - Torvalds
       (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
+    - William, Justme
 
   urls*:
     home*  : https://github.com/bc-tools/for-latex
@@ -35,9 +36,9 @@ project:
     - latex
 
   keywords*:
-    - HHH
-    - HHH
-    - HHH
+    - metadata
+    - coding
+    - writing
 ~~~
 
 

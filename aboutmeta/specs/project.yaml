@@ -2,7 +2,7 @@ project:
   version*: 0.0.0-beta.1 (2025-06-27)
 
   acronym* : "[@]bout [Desc]"
-  codename*: a_desc
+  codename*|docname*: a_desc
   desc     : Let's explain what is the project ''@Desc''...
 
   author(s):
