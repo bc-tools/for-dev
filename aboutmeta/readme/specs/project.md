@@ -11,12 +11,18 @@ project:
   desc     : Let's explain what is the project ''@Desc''...
 
   author(s):
-    - Ada, Lovelace [ada.babbage.computer@paper.org]
+    - Ada, Lovelace  [ada.babbage.computer@paper.org]
       (Victorian Institute of Applied Mechanical Informatic)
-    - Jean, Louis, Krivine [jl-krivine@compile.brain]
+    - Jean, Louis, Krivine  [jl-krivine@compile.brain]
     - Torvalds
       (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
     - William, Justme
+
+  contrib(s):
+    - Alan, Turing  [alan.turing@enigma.uk]
+      (Institut de Cryptographie Avancée)
+    - Donald, Knuth  [donald.knuth@texmath.net]
+      (Université TeXienne de la Typographie)
 
   urls*:
     home*  : https://github.com/bc-tools/for-latex

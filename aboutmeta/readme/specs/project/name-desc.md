@@ -1,6 +1,6 @@
 #### Project identity.
 
-The keys  `project.acronym`,  `project.codename`,  `project.doctitle`,  and  `project.desc` are used to quickly identify a project.
+The keys `project.acronym`, `project.codename`, `project.doctitle`, and `project.desc` are used to quickly identify a project.
 
 
 > ***IMPORTANT.*** Note that the `desc` key is mandatory. Furthermore, `codename` and  `doctitle` can never be used at the same time.
