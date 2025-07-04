@@ -9,14 +9,15 @@ This document is a complete tutorial showing all the available features.
 - [`YAML` specifications](#MULTIMD-TOC-ANCHOR-1)
     - [The project itself](#MULTIMD-TOC-ANCHOR-2)
         - [Versioning the project](#MULTIMD-TOC-ANCHOR-3)
-        - [name-desc](#MULTIMD-TOC-ANCHOR-4)
-        - [authors](#MULTIMD-TOC-ANCHOR-5)
-        - [urls](#MULTIMD-TOC-ANCHOR-6)
-        - [licences](#MULTIMD-TOC-ANCHOR-7)
-        - [langs](#MULTIMD-TOC-ANCHOR-8)
-        - [require](#MULTIMD-TOC-ANCHOR-9)
-        - [keywords](#MULTIMD-TOC-ANCHOR-10)
+        - [Project identity.](#MULTIMD-TOC-ANCHOR-4)
+        - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-5)
+        - [Hyperliens en lien avec le projet](#MULTIMD-TOC-ANCHOR-6)
+        - [Licences](#MULTIMD-TOC-ANCHOR-7)
+        - [Languages](#MULTIMD-TOC-ANCHOR-8)
+        - [Technologies required](#MULTIMD-TOC-ANCHOR-9)
+        - [Keywords](#MULTIMD-TOC-ANCHOR-10)
     - [`toc` block](#MULTIMD-TOC-ANCHOR-11)
+- [XXX](#MULTIMD-TOC-ANCHOR-12)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`?
@@ -75,16 +76,23 @@ project:
   desc     : Let's explain what is the project ''@Desc''...
 
   author(s):
-    - Ada, Lovelace [ada.babbage.computer@paper.org]
+    - Ada, Lovelace  [ada.babbage.computer@paper.org]
       (Victorian Institute of Applied Mechanical Informatic)
-    - Jean, Louis, Krivine [jl-krivine@compile.brain]
+    - Jean, Louis, Krivine  [jl-krivine@compile.brain]
     - Torvalds
       (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
+    - William, Justme
+
+  contrib(s)*:
+    - Alan, Turing  [alan.turing@enigma.uk]
+      (Institut de Cryptographie Avancée)
+    - Donald, Knuth  [donald.knuth@texmath.net]
+      (Université de la Typographie du TeX-as)
 
   urls*:
-    home*  : https://github.com/bc-tools/for-latex
-    issues*: https://github.com/bc-tools/for-latex/issues
-    dev*   : https://github.com/bc-tools/for-latex/tree/main/tutodoc
+    home*  : https://github.com/bc-tools/for-dev
+    dev*   : https://github.com/bc-tools/for-dev/tree/main/aboutmeta
+    issues*: https://github.com/bc-tools/for-dev/issues
 
   licences*:
     code*  : gnu 3
@@ -99,9 +107,9 @@ project:
     - latex
 
   keywords*:
-    - HHH
-    - HHH
-    - HHH
+    - metadata
+    - coding
+    - writing
 ~~~
 
 In the case of a document-type project, the `project.codename` key is no longer usable and must be replaced by `project.doctitle` (a document must have a title).
@@ -113,47 +121,98 @@ The following sections detail the use and meaning of the various attributes show
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
 #### Versioning the project
 
-The optional `project.version` key is used to identify the current version, with the following formats being natively supported by `aboutmeta`.
+The optional `project.version` key is used to identify the current version, with the following formats being natively supported.
 
-1. `version = 2025-06-27` indicates a date in `YYYY-MM-DD` format.
-2. `version = 0.0.0-beta.1` indicates a version number respecting ["Semantic Versioning"](https://semver.org/).
-3. `version = 0.0.0-beta.1 (2025-06-27)` is a combination of version and date.
+1. `2025-06-27` indicates a date in `YYYY-MM-DD` format.
+2. `0.0.0-beta.1` indicates a version number respecting ["Semantic Versioning"](https://semver.org/).
+3. `0.0.0-beta.1 (2025-06-27)` is a combination of version and date.
 
 <a id="MULTIMD-TOC-ANCHOR-4"></a>
-#### name-desc
+#### Project identity.
 
-YYY
+The keys `project.acronym`, `project.codename`, `project.doctitle`, and `project.desc` are used to quickly identify a project.
+
+> ***IMPORTANT.*** Note that the `desc` key is mandatory. Furthermore, `codename` and `doctitle` can never be used at the same time.
+
+Here is how these different keys are used.
+
+1. `desc` is used to quickly describe the project.
+2. `acronym` explains the origin of an acronym, for example in `‘[@]bout [Desc]’` for a project named `@Desc`. The example provided uses a format that is natively supported.
+3. `codename` allows you to specify the name of a code-type project if it differs from that of the project folder (this convention is widely used).
+4. `doctitle` must be used for a document-type project. This is because such a project must have a title.
+
+> ***NOTE.*** *The last two points show that `aboutmeta` will assume that it is working with a code-type project by default.*
 
 <a id="MULTIMD-TOC-ANCHOR-5"></a>
-#### authors
+#### Developers, authors and contributors
 
-YYY
+The keys `project.author`, which is mandatory, and `project.contrib`, which is optional, are used either in the singular to indicate a single person, or in the plural to indicate a list of people. Here is a fictitious use case.
+
+~~~yaml
+project:
+  author: Ada, Lovelace
+
+  contribs:
+    - Alan, Turing
+    - Donald, Knuth
+~~~
+
+By default, the following forms of personal identification are available.
+
+1. **Title (mandatory):** `Surname`, `First name, Compound surname`, `First name 1, First name 2, Long surname`... Hereinafter, we will refer to one of the above forms as `<title>`.
+2. **Email address (optional):** `<title> [un.id@provider.abc]` (use of square brackets).
+3. **Institute or organisation (optional):** `<title> (Name of institute)` (use of parentheses).
+4. **Indicate everything:** the formats `<title> [email] (institute)` and `<title> (institute) [email]` are both allowed.
 
 <a id="MULTIMD-TOC-ANCHOR-6"></a>
-#### urls
+#### Hyperliens en lien avec le projet
 
-YYY
+The optional `project.url` block allows you to provide hyperlinks via the following keys, all of which are optional.
+
+1. `home` allows you to specify the address of a website dedicated to the project.
+2. `dev` is used to point to a repository for managing project development.
+3. `issues` redirects users to the page where they can report bugs or make suggestions.
 
 <a id="MULTIMD-TOC-ANCHOR-7"></a>
-#### licences
+#### Licences
 
-YYY
+The optional block `project.licences` is used to indicate licences via the following keys.
+
+1. `code` is for the licence of the code or document relating to the project.
+2. `manual` allows, in the case of a code-type porject, the selection of a licence specific to the user manual.
 
 <a id="MULTIMD-TOC-ANCHOR-8"></a>
-#### langs
+#### Languages
 
-YYY
+The optional `project.langs` block allows you to specify the languages used for the following cases related to a code-type project.
+
+1. The `doc` key is for the language used to write the technical documentation.
+2. The `manual` key is for the language used to write the user manual.
 
 <a id="MULTIMD-TOC-ANCHOR-9"></a>
-#### require
+#### Technologies required
 
-YYY
+Using the optional `project.require` block, it is possible to provide a list of programming languages required for the code to work, or for compiling a document, this depends on the type of project.
+For the record, we reproduce the fictitious example presented at the beginning of this document.
 
+~~~yaml
+project:
+  require:
+    - python3
+    - latex
+~~~
 <a id="MULTIMD-TOC-ANCHOR-10"></a>
-#### keywords
+#### Keywords
 
-YYY
+Keywords are used to categorise the type of project succinctly: this is done via the optional `project.keywords` key. Here is the example we proposed at the beginning of the document.
 
+~~~yaml
+project:
+  keywords:
+    - metadata
+    - coding
+    - writing
+~~~
 <a id="MULTIMD-TOC-ANCHOR-11"></a>
 ### `toc` block
 
@@ -164,3 +223,8 @@ toc:
   - hhh
   - hhh
 ~~~
+<a id="MULTIMD-TOC-ANCHOR-12"></a>
+XXX
+---
+
+YYY

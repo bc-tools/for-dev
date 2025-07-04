@@ -18,16 +18,16 @@ project:
       (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
     - William, Justme
 
-  contrib(s):
+  contrib(s)*:
     - Alan, Turing  [alan.turing@enigma.uk]
       (Institut de Cryptographie Avancée)
     - Donald, Knuth  [donald.knuth@texmath.net]
       (Université de la Typographie du TeX-as)
 
   urls*:
-    home*  : https://github.com/bc-tools/for-latex
-    issues*: https://github.com/bc-tools/for-latex/issues
-    dev*   : https://github.com/bc-tools/for-latex/tree/main/tutodoc
+    home*  : https://github.com/bc-tools/for-dev
+    dev*   : https://github.com/bc-tools/for-dev/tree/main/aboutmeta
+    issues*: https://github.com/bc-tools/for-dev/issues
 
   licences*:
     code*  : gnu 3

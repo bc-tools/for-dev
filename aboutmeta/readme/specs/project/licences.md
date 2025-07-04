@@ -1,3 +1,7 @@
-#### licences
+#### Licences
 
-YYY
+The optional block `project.licences` is used to indicate licences via the following keys.
+
+1. `code` is for the licence of the code or document relating to the project.
+
+1. `manual` allows, in the case of a code-type porject, the selection of a licence specific to the user manual.
