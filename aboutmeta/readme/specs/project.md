@@ -22,7 +22,7 @@ project:
     - Alan, Turing  [alan.turing@enigma.uk]
       (Institut de Cryptographie Avancée)
     - Donald, Knuth  [donald.knuth@texmath.net]
-      (Université TeXienne de la Typographie)
+      (Université de la Typographie du TeX-as)
 
   urls*:
     home*  : https://github.com/bc-tools/for-latex

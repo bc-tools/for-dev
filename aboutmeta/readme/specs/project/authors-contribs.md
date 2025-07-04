@@ -12,20 +12,12 @@ project:
 ~~~
 
 
+By default, the following forms of personal identification are available.
 
+  1. **Title (mandatory):** `Surname`, `First name, Compound surname`, `First name 1, First name 2, Long surname`... Hereinafter, we will refer to one of the above forms as `<title>`.
 
+  1. **Email address (optional):** `<title> [un.id@provider.abc]` (use of square brackets).
 
+  1. **Institute or organisation (optional):** `<title> (Name of institute)` (use of parentheses).
 
-Le format supporté par défaut pour indiquer une personne suit le schéma suivant où seul le nom est une valeur obligatoire.
-
-  1.
-
-
-YYY
-  author(s):
-    - Ada, Lovelace [ada.babbage.computer@paper.org]
-      (Victorian Institute of Applied Mechanical Informatic)
-    - Jean, Louis, Krivine [jl-krivine@compile.brain]
-    - Torvalds
-      (Department of Sacred Kernels, Infernal Ranting Graduate School of Helsinki)
-    - William, Justme
+  1. **Indicate everything:** the formats `<title> [email] (institute)` and `<title> (institute) [email]` are both allowed.
