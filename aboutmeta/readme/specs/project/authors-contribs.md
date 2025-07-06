@@ -20,4 +20,4 @@ By default, the following forms of personal identification are available.
 
   1. **Institute or organisation (optional):** `<title> (Name of institute)` (use of parentheses).
 
-  1. **Indicate everything:** the formats `<title> [email] (institute)` and `<title> (institute) [email]` are both allowed.
+  1. **Indicate everything:** only the format `<title> [email] (institute)` is allowed.

@@ -1,6 +1,6 @@
 #### Licences
 
-The optional block `project.licences` is used to indicate licences via the following keys.
+The optional block `project.licences` is used to indicate licences via the following keys (no formats supported at this time).
 
 1. `code` is for the licence of the code or document relating to the project.
 

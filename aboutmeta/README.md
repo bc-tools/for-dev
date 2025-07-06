@@ -11,12 +11,12 @@ This document is a complete tutorial showing all the available features.
         - [Versioning the project](#MULTIMD-TOC-ANCHOR-3)
         - [Project identity.](#MULTIMD-TOC-ANCHOR-4)
         - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-5)
-        - [Hyperliens en lien avec le projet](#MULTIMD-TOC-ANCHOR-6)
+        - [The project on the web](#MULTIMD-TOC-ANCHOR-6)
         - [Licences](#MULTIMD-TOC-ANCHOR-7)
         - [Languages](#MULTIMD-TOC-ANCHOR-8)
         - [Technologies required](#MULTIMD-TOC-ANCHOR-9)
         - [Keywords](#MULTIMD-TOC-ANCHOR-10)
-    - [`toc` block](#MULTIMD-TOC-ANCHOR-11)
+    - [Organising folders and files](#MULTIMD-TOC-ANCHOR-11)
 - [XXX](#MULTIMD-TOC-ANCHOR-12)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
@@ -68,7 +68,7 @@ Here are the **conventions used in our explanations**.
 Let's start with a complete description of a fictional code project.
 
 ~~~yaml
-project:
+project*:
   version*: 0.0.0-beta.1 (2025-06-27)
 
   acronym* : "[@]bout [Desc]"
@@ -162,10 +162,10 @@ By default, the following forms of personal identification are available.
 1. **Title (mandatory):** `Surname`, `First name, Compound surname`, `First name 1, First name 2, Long surname`... Hereinafter, we will refer to one of the above forms as `<title>`.
 2. **Email address (optional):** `<title> [un.id@provider.abc]` (use of square brackets).
 3. **Institute or organisation (optional):** `<title> (Name of institute)` (use of parentheses).
-4. **Indicate everything:** the formats `<title> [email] (institute)` and `<title> (institute) [email]` are both allowed.
+4. **Indicate everything:** only the format `<title> [email] (institute)` is allowed.
 
 <a id="MULTIMD-TOC-ANCHOR-6"></a>
-#### Hyperliens en lien avec le projet
+#### The project on the web
 
 The optional `project.url` block allows you to provide hyperlinks via the following keys, all of which are optional.
 
@@ -173,10 +173,12 @@ The optional `project.url` block allows you to provide hyperlinks via the follow
 2. `dev` is used to point to a repository for managing project development.
 3. `issues` redirects users to the page where they can report bugs or make suggestions.
 
+> ***NOTE.*** *It is possible to request verification of the validity of URLs. Technically, a simple DNS query is performed, and nothing more is done for security reasons.*
+
 <a id="MULTIMD-TOC-ANCHOR-7"></a>
 #### Licences
 
-The optional block `project.licences` is used to indicate licences via the following keys.
+The optional block `project.licences` is used to indicate licences via the following keys (no formats supported at this time).
 
 1. `code` is for the licence of the code or document relating to the project.
 2. `manual` allows, in the case of a code-type porject, the selection of a licence specific to the user manual.
@@ -184,7 +186,7 @@ The optional block `project.licences` is used to indicate licences via the follo
 <a id="MULTIMD-TOC-ANCHOR-8"></a>
 #### Languages
 
-The optional `project.langs` block allows you to specify the languages used for the following cases related to a code-type project.
+The optional `project.langs` block allows you to specify the languages used for the following cases related to a code-type project (no formats supported at this time).
 
 1. The `doc` key is for the language used to write the technical documentation.
 2. The `manual` key is for the language used to write the user manual.
@@ -214,14 +216,17 @@ project:
     - writing
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-11"></a>
-### `toc` block
+### Organising folders and files
 
-XXX
+Whether for a document written in small sections or for a monorepo project, it is useful to be able to specify a list of folders and files to explore in a customised order.
+The optional `toc` block meets this need. Its content must be a list of relative paths, with folders indicated by a slash ‘/’ at the end of the path, which also serves as a path separator, even when working with the Windows operating system.
+Here is a fictitious example.
 
 ~~~yaml
 toc:
-  - hhh
-  - hhh
+  - relative/path/to/file_1
+  - relative/path/to/one/folder/
+  - relative/path/inside/one/sub/folder/file_2
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-12"></a>
 XXX

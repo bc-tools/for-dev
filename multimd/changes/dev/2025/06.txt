@@ -10,7 +10,7 @@
 -----
 
 [[:api:]]
-Standardisation: numbered \refs can be used locally without any trouble.
+Standardisation: numbered \refs can be used locally in a file regardless other numbered \refs in other files.
 
 
 // ---------- //
