@@ -5,9 +5,14 @@ about-meta - TODO
 
 > ---------------------------- <
 
-changement de paradigme!
+test sur tous mes projets séreux
 
-    --> on impose les specs!
+
+> ---------------------------- <
+
+UTILE ?
+
+    --> possibilité de changer de about en cas de conflit mais cela erste comportment par défait
 
 
 > ---------------------------- <

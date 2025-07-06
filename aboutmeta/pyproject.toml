@@ -28,7 +28,10 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 
-dependencies = []
+dependencies = [
+  "python-box>=7.3",
+  "requests>=2.32",
+]
 
 [project.urls]
 Documentation = "https://github.com/bc-tools/for-dev/tree/main/@-bout-meta#readme"

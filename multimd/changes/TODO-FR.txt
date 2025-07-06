@@ -5,21 +5,9 @@ multimd - TODO
 
 > ---------------------------- <
 
-gestion des refs numérotées car elle reste globale et ne sont pas gérer relatvement!!!
-
-    ---> sol simple : on colle des morecayx de HTML et non des morceaux de md car cela fait disparaotre les refs numérotées
+utilisation de aboutmeta qui du coup gère TOC !!!
 
 
 > ---------------------------- <
 
 Attention à la nlle version de markdownify car _convert_hn --> convert_hN
-
-
-> ---------------------------- <
-
-UTILE ?
-
-    --> passer via package about et virer toc.py
-        chgt mineur car factorisation interne, et toc pas destiné à être utilisé!!!
-
-    --> possibilité de changer de about en cas de conflit mais cela erste comportment par défait
