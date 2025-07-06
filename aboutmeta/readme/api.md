@@ -1,4 +1,4 @@
-XXX
-------------------------------------------
+The `Python` module `aboutmeta`
+-------------------------------
 
-YYY
+En plus de fournir des spécificatuions `YAML` exploitables dans son kangauge de programmation préféré,

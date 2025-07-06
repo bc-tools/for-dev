@@ -9,4 +9,4 @@ The optional `project.url` block allows you to provide hyperlinks via the follow
   1. `issues` redirects users to the page where they can report bugs or make suggestions.
 
 
-> ***NOTE.*** *It is possible to request verification of the validity of URLs. Technically, a simple DNS query is performed, and nothing more is done for security reasons.*
+> ***NOTE.*** *It is possible to request verification of the validity of URLs by the `Python` module `aboutmeta`. Technically, a simple DNS query is performed, and nothing more is done for security reasons.*

@@ -1,6 +1,6 @@
 #### Versioning the project
 
-The optional `project.version` key is used to identify the current version, with the following formats being natively supported.
+The optional `project.version` key is used to identify the current version, with the following formats being natively supported by the `Python` module `aboutmeta`.
 
   1. `2025-06-27` indicates a date in `YYYY-MM-DD` format.
 

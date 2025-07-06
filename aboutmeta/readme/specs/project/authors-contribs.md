@@ -12,7 +12,7 @@ project:
 ~~~
 
 
-By default, the following forms of personal identification are available.
+The following forms of personal identification are managed by the `Python` module `aboutmeta`.
 
   1. **Title (mandatory):** `Surname`, `First name, Compound surname`, `First name 1, First name 2, Long surname`... Hereinafter, we will refer to one of the above forms as `<title>`.
 

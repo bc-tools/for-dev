@@ -10,10 +10,11 @@ Here is how these different keys are used.
 
   1. `desc` is used to quickly describe the project.
 
-  1. `acronym` explains the origin of an acronym, for example in `‘[@]bout [Desc]’` for a project named `@Desc`. The example provided uses a format that is natively supported.
+  1. `acronym` explains the origin of an acronym, for example in `‘[@]bout [Desc]’` for a project named `@Desc`. The example provided uses a format that is supported by the `Python` module `aboutmeta`.
 
   1. `codename` allows you to specify the name of a code-type project if it differs from that of the project folder (this convention is widely used).
 
   1. `doctitle` must be used for a document-type project. This is because such a project must have a title.
+
 
 > ***NOTE.*** *The last two points show that `aboutmeta` will assume that it is working with a code-type project by default.*
