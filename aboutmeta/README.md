@@ -18,6 +18,11 @@ This document is a complete tutorial showing all the available features.
         - [Keywords](#MULTIMD-TOC-ANCHOR-10)
     - [Working with folders and files](#MULTIMD-TOC-ANCHOR-11)
 - [The `Python` module `aboutmeta`](#MULTIMD-TOC-ANCHOR-12)
+    - [Extraction des données](#MULTIMD-TOC-ANCHOR-13)
+    - [XXX](#MULTIMD-TOC-ANCHOR-14)
+        - [Versioning the project](#MULTIMD-TOC-ANCHOR-15)
+        - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-16)
+        - [Languages](#MULTIMD-TOC-ANCHOR-17)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`?
@@ -231,10 +236,12 @@ Here is a fictitious example.
 
 ~~~yaml
 toc:
-  - relative/path/to/file_1
+  - relative/path/to/file_1.txt
   - relative/path/to/one/folder/
-  - relative/path/inside/one/sub/folder/file_2
+  - relative/path/inside/one/sub/folder/file_2.md
 ~~~
+> ***NOTE.*** *Using the `Python` module `aboutmeta`, it is possible to specify a default extension.*
+
 <a id="MULTIMD-TOC-ANCHOR-12"></a>
 The `Python` module `aboutmeta`
 -------------------------------
@@ -243,3 +250,36 @@ In addition to providing `YAML` specifications, that can be used in your preferr
 The following sections describe what is available in the current version.
 
 > ***NOTE.*** *The `contrib` folder contains a `README.md` file explaining how to easily build and suggest new plugins.*
+
+<a id="MULTIMD-TOC-ANCHOR-13"></a>
+### Extraction des données
+
+L'analyse d'un fichier `about.yaml` se fait simplemnt comme suit.
+
+~~~python
+from aboutmeta import AboutMeta, Path
+
+meta = AboutMeta(Path("/full/path/to/about.yaml"))
+meta.build()
+~~~
+> ***NOTE.*** *XXXXXXX*
+
+<a id="MULTIMD-TOC-ANCHOR-14"></a>
+### XXX
+
+YYY
+
+<a id="MULTIMD-TOC-ANCHOR-15"></a>
+#### Versioning the project
+
+XXX
+
+<a id="MULTIMD-TOC-ANCHOR-16"></a>
+#### Developers, authors and contributors
+
+XXX
+
+<a id="MULTIMD-TOC-ANCHOR-17"></a>
+#### Languages
+
+XXX

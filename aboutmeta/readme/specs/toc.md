@@ -6,7 +6,10 @@ Here is a fictitious example.
 
 ~~~yaml
 toc:
-  - relative/path/to/file_1
+  - relative/path/to/file_1.txt
   - relative/path/to/one/folder/
-  - relative/path/inside/one/sub/folder/file_2
+  - relative/path/inside/one/sub/folder/file_2.md
 ~~~
+
+
+> ***NOTE.*** *Using the `Python` module `aboutmeta`, it is possible to specify a default extension.*
