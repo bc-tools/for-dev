@@ -3,7 +3,7 @@
 The keys `project.acronym`, `project.codename`, `project.doctitle`, and `project.desc` are used to quickly identify a project.
 
 
-> ***IMPORTANT.*** Note that the `desc` key is mandatory. Furthermore, `codename` and  `doctitle` can never be used at the same time.
+> ***IMPORTANT.*** *Note that the `desc` key is mandatory. Furthermore, `codename` and  `doctitle` can never be used at the same time.*
 
 
 Here is how these different keys are used.

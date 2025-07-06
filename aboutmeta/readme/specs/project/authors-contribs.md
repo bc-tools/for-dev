@@ -21,3 +21,6 @@ The following forms of personal identification are managed by the `Python` modul
   1. **Institute or organisation (optional):** `<title> (Name of institute)` (use of parentheses).
 
   1. **Indicate everything:** only the format `<title> [email] (institute)` is allowed.
+
+
+> ***NOTE.*** *Emails are not verified.*

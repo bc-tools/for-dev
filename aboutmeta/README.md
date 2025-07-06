@@ -16,8 +16,8 @@ This document is a complete tutorial showing all the available features.
         - [Languages](#MULTIMD-TOC-ANCHOR-8)
         - [Technologies required](#MULTIMD-TOC-ANCHOR-9)
         - [Keywords](#MULTIMD-TOC-ANCHOR-10)
-    - [Organising folders and files](#MULTIMD-TOC-ANCHOR-11)
-- [XXX](#MULTIMD-TOC-ANCHOR-12)
+    - [Working with folders and files](#MULTIMD-TOC-ANCHOR-11)
+- [The `Python` module `aboutmeta`](#MULTIMD-TOC-ANCHOR-12)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`?
@@ -111,19 +111,16 @@ project*:
     - coding
     - writing
 ~~~
-
-In the case of a document-type project, the `project.codename` key is no longer usable and must be replaced by `project.doctitle` (a document must have a title).
-
-> ***NOTE.*** *By default, the project will be considered a code project.*
+> ***NOTE.*** *In the case of a document-type project, the `project.codename` key is no longer usable and must be replaced by `project.doctitle` (a document must have a title). By default, the project will be considered a code project.*
 
 The following sections detail the use and meaning of the various attributes shown above.
 
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
 #### Versioning the project
 
-The optional `project.version` key is used to identify the current version, with the following formats being natively supported.
+The optional `project.version` key is used to identify the current version, with the following formats being natively supported by the `Python` module `aboutmeta`.
 
-1. `2025-06-27` indicates a date in `YYYY-MM-DD` format.
+1. `2025-06-27` indicates a date in the English format `YYYY-MM-DD`.
 2. `0.0.0-beta.1` indicates a version number respecting ["Semantic Versioning"](https://semver.org/).
 3. `0.0.0-beta.1 (2025-06-27)` is a combination of version and date.
 
@@ -132,12 +129,12 @@ The optional `project.version` key is used to identify the current version, with
 
 The keys `project.acronym`, `project.codename`, `project.doctitle`, and `project.desc` are used to quickly identify a project.
 
-> ***IMPORTANT.*** Note that the `desc` key is mandatory. Furthermore, `codename` and `doctitle` can never be used at the same time.
+> ***IMPORTANT.*** *Note that the `desc` key is mandatory. Furthermore, `codename` and `doctitle` can never be used at the same time.*
 
 Here is how these different keys are used.
 
 1. `desc` is used to quickly describe the project.
-2. `acronym` explains the origin of an acronym, for example in `‘[@]bout [Desc]’` for a project named `@Desc`. The example provided uses a format that is natively supported.
+2. `acronym` explains the origin of an acronym, for example in `‘[@]bout [Desc]’` for a project named `@Desc`. The example provided uses a format that is supported by the `Python` module `aboutmeta`.
 3. `codename` allows you to specify the name of a code-type project if it differs from that of the project folder (this convention is widely used).
 4. `doctitle` must be used for a document-type project. This is because such a project must have a title.
 
@@ -157,12 +154,14 @@ project:
     - Donald, Knuth
 ~~~
 
-By default, the following forms of personal identification are available.
+The following forms of personal identification are managed by the `Python` module `aboutmeta`.
 
 1. **Title (mandatory):** `Surname`, `First name, Compound surname`, `First name 1, First name 2, Long surname`... Hereinafter, we will refer to one of the above forms as `<title>`.
 2. **Email address (optional):** `<title> [un.id@provider.abc]` (use of square brackets).
 3. **Institute or organisation (optional):** `<title> (Name of institute)` (use of parentheses).
 4. **Indicate everything:** only the format `<title> [email] (institute)` is allowed.
+
+> ***NOTE.*** *Emails are not verified.*
 
 <a id="MULTIMD-TOC-ANCHOR-6"></a>
 #### The project on the web
@@ -173,7 +172,7 @@ The optional `project.url` block allows you to provide hyperlinks via the follow
 2. `dev` is used to point to a repository for managing project development.
 3. `issues` redirects users to the page where they can report bugs or make suggestions.
 
-> ***NOTE.*** *It is possible to request verification of the validity of URLs. Technically, a simple DNS query is performed, and nothing more is done for security reasons.*
+> ***NOTE.*** *It is possible to request verification of the validity of URLs by the `Python` module `aboutmeta`. Technically, a simple DNS query is performed, and nothing more is done for security reasons.*
 
 <a id="MULTIMD-TOC-ANCHOR-7"></a>
 #### Licences
@@ -183,13 +182,21 @@ The optional block `project.licences` is used to indicate licences via the follo
 1. `code` is for the licence of the code or document relating to the project.
 2. `manual` allows, in the case of a code-type porject, the selection of a licence specific to the user manual.
 
+The `Python` module `aboutmeta` takes into account the licence names proposed by the [`SPDX` SPDX License List](https://spdx.org/licenses/).
+
+> ***NOTE.*** *You can request the addition of a `LICENCE.txt` file in the folder containing the `about.yaml` file.*
+
 <a id="MULTIMD-TOC-ANCHOR-8"></a>
 #### Languages
 
-The optional `project.langs` block allows you to specify the languages used for the following cases related to a code-type project (no formats supported at this time).
+The optional `project.langs` block allows you to specify the languages used for the following cases related to a code-type project.
 
 1. The `doc` key is for the language used to write the technical documentation.
 2. The `manual` key is for the language used to write the user manual.
+
+Language names must be those recognised by the `Python` package [`Babel`](https://babel.pocoo.org/en/latest/) used behind the scenes: see [ISO 639 standard](https://en.wikipedia.org/wiki/ISO_639) for languages and [ISO 3166 standard](https://en.wikipedia.org/wiki/ISO_3166) for countries. For example, `fr_FR` indicates French spoken in France.
+
+> ***NOTE.*** *The default language is `en_GB`.*
 
 <a id="MULTIMD-TOC-ANCHOR-9"></a>
 #### Technologies required
@@ -216,9 +223,9 @@ project:
     - writing
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-11"></a>
-### Organising folders and files
+### Working with folders and files
 
-Whether for a document written in small sections or for a monorepo project, it is useful to be able to specify a list of folders and files to explore in a customised order.
+Whether for a document written in small sections or for a monorepo project, it is useful to be able to specify a **list of existing folders and/or files** to explore in a customised order.
 The optional `toc` block meets this need. Its content must be a list of relative paths, with folders indicated by a slash ‘/’ at the end of the path, which also serves as a path separator, even when working with the Windows operating system.
 Here is a fictitious example.
 
@@ -229,7 +236,9 @@ toc:
   - relative/path/inside/one/sub/folder/file_2
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-12"></a>
-XXX
----
+The `Python` module `aboutmeta`
+-------------------------------
 
-YYY
+In addition to providing `YAML` specifications that can be used in your preferred programming language, `aboutmeta` also offers a `Python` module that uses a plugin system to manage certain formats, while allowing new ones to be added easily. We will present the formats supported by the current version.
+
+> ***NOTE.*** *If you want to add new plugins, simply go to the `contrib` folder.*

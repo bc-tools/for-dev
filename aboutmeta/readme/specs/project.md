@@ -48,10 +48,7 @@ project*:
 ~~~
 
 
-In the case of a document-type project, the `project.codename` key is no longer usable and must be replaced by `project.doctitle` (a document must have a title).
-
-
-> ***NOTE.*** *By default, the project will be considered a code project.*
+> ***NOTE.*** *In the case of a document-type project, the `project.codename` key is no longer usable and must be replaced by `project.doctitle` (a document must have a title). By default, the project will be considered a code project.*
 
 
 The following sections detail the use and meaning of the various attributes shown above.
