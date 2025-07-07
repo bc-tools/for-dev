@@ -22,14 +22,8 @@ This document is a complete tutorial showing all the available features.
     - [Using the data](#MULTIMD-TOC-ANCHOR-14)
         - [The project itself](#MULTIMD-TOC-ANCHOR-15)
             - [Versioning the project](#MULTIMD-TOC-ANCHOR-16)
-            - [Project identity.](#MULTIMD-TOC-ANCHOR-17)
-            - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-18)
-            - [The project on the web](#MULTIMD-TOC-ANCHOR-19)
-            - [Licences](#MULTIMD-TOC-ANCHOR-20)
-            - [Languages](#MULTIMD-TOC-ANCHOR-21)
-            - [Technologies required](#MULTIMD-TOC-ANCHOR-22)
-            - [Keywords](#MULTIMD-TOC-ANCHOR-23)
-        - [Working with folders and files](#MULTIMD-TOC-ANCHOR-24)
+            - [The project on the web](#MULTIMD-TOC-ANCHOR-17)
+            - [Licences](#MULTIMD-TOC-ANCHOR-18)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`?
@@ -107,8 +101,8 @@ project*:
     issues*: https://github.com/bc-tools/for-dev/issues
 
   licences*:
-    code*  : gnu 3
-    manual*: cc by 4
+    code*  : gpl 3.0+
+    manual*: cc by nc 4.0
 
   langs*:
     doc*   : fr
@@ -146,7 +140,7 @@ The keys `project.acronym`, `project.codename`, `project.doctitle`, and `project
 Here is how these different keys are used.
 
 1. `desc` is used to quickly describe the project.
-2. `acronym` explains the origin of an acronym, for example in `‘[@]bout [Desc]’` for a project named `@Desc`. The example provided uses a format that is supported by the `Python` module `aboutmeta`.
+2. `acronym` explains the origin of an acronym, for example in `‘[@]bout [Desc]’` for a project named `@Desc`.
 3. `codename` allows you to specify the name of a code-type project if it differs from that of the project folder (this convention is widely used).
 4. `doctitle` must be used for a document-type project. This is because such a project must have a title.
 
@@ -267,9 +261,9 @@ The following sections describe what is available in the current version.
 The analysis of an `about.yaml` file is done simply as follows where `Path` is the class from the `pathlib` module.
 
 ~~~python
-from aboutmeta import AboutMeta, Path
+from aboutmeta import Extract, Path
 
-meta = AboutMeta(Path("/full/path/to/about.yaml"))
+meta = Extract(Path("/full/path/to/about.yaml"))
 meta.build()
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-14"></a>
@@ -277,55 +271,75 @@ meta.build()
 
 Once the data has been extracted by `aboutmeta.AboutMeta`, the `data` attribute of the `meta` object, see the previous section, provides access to the digested data in a simple manner.
 
-1. If we take the example given in the specifications, access to the home URL, as a string variable, is done via `meta.data.project.urls.home`, which is ideal for non-dynamic code.
-2. For dynamic coding, it is possible to use a virtual pointed path as in `meta.data["project.urls.home"]`.
+1. If we take the example given in the specifications, access to the home URL is done via `meta.data.project.urls.home`, which is ideal for non-dynamic code.
+2. For dynamic coding, it is possible to use a virtual pointed path as in `meta["project.urls.home"]`.
 
-The following sections present data that, after digestion, are not simple copies of the texts typed into the `about.yaml` file.
+The following sections present the data after digestion. **To keep things simple, we will always use access to data processed via the `data` attribute, and work with the `meta` object explained in the previous section.**
+
+> ***NOTE.*** *To retrieve the original `YAML` version of a piece of data, there is the `verbatim` attribute, as in `meta.verbatim.project.version`, which is a standardised version of the original text.*
 
 <a id="MULTIMD-TOC-ANCHOR-15"></a>
 #### The project itself
 
+We only present digested data that does not reproduce the contents of the `YAML` file.
+
 <a id="MULTIMD-TOC-ANCHOR-16"></a>
 ##### Versioning the project
 
-XXX
+Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build.5 (2025-06-27)`. By default, the digest will provide the following information.
+
+1. The version number is accessible via the `meta.data.project.version.nb` attribute, whose text version is simply `1.2.3-beta.4+build.5`.
+   For a detailed analysis, you can use the following sub-attributes.
+
+   - `major` provides the integer `1`.
+   - `minor` provides the integer `2`.
+   - `patch` provides the integer `3`.
+   - `prerelease` provides the text `beta.4`.
+   - `v.build` provides the text `build.5`.
+2. The version date is accessible via the attribute `meta.data.project.version.date`, whose text version is simply `2025-06-27`.
+   If needed, you can use the following sub-attributes.
+
+   - `year` provides the integer `2025`.
+   - `month` provides the integer `6`.
+   - `day` provides the integer `27`.
+
+> ***NOTE*** *Behind the scenes, the version number is a `semver.version.Version` object, while the date is a `datetime.date` object (which provides access to all the methods associated with these types of objects).*
 
 <a id="MULTIMD-TOC-ANCHOR-17"></a>
-##### Project identity.
-
-XXX
-
-<a id="MULTIMD-TOC-ANCHOR-18"></a>
-##### Developers, authors and contributors
-
-XXX
-
-<a id="MULTIMD-TOC-ANCHOR-19"></a>
 ##### The project on the web
 
-XXX
+Although URLs are stored verbatim, we would like to point out here that `aboutmeta.Extract` is capable of testing the validity of URLs in the sense that they are associated with a DNS catalogue. In other words, a URL that points nowhere will cause an error.
+As this operation involves a basic, risk-free web query, the user must make an explicit request as in the following code.
 
-<a id="MULTIMD-TOC-ANCHOR-20"></a>
+~~~python
+from aboutmeta import Extract, Path
+
+meta = Extract(Path("/full/path/to/about.yaml"))
+meta.build()
+
+meta.validate_urls("project.urls")
+~~~
+<a id="MULTIMD-TOC-ANCHOR-18"></a>
 ##### Licences
 
-XXX
+The licence abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List](https://spdx.org/licenses/) (internally, we use a local version of the [`licenses.json`](https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json) file).
+To facilitate data entry, lowercase letters may be used, and hyphens may be replaced with spaces: for example, to indicate the *"Creative Commons Attribution Non Commercial 4.0 International"* licence, it is possible to use `cc by nc 4.0` instead of `CC-BY-NC-4.0` as expected by the `SPDX` project.
 
-<a id="MULTIMD-TOC-ANCHOR-21"></a>
-##### Languages
+> ***NOTE.*** *In the case of an unknown abbreviation, the error message will provide possible suggestions if simple typos have been made in the `YAML` file.*
 
-XXX
+The digested licence provides the following information.
 
-<a id="MULTIMD-TOC-ANCHOR-22"></a>
-##### Technologies required
+1. `meta.data.project.licence.id` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.licence)` for example.
+2. `meta.data.project.licence.name` is the full title of the licence.
+3. `meta.data.project.licence.text` is the text of the licence, which will always be obtained via a web request (you must therefore be connected to obtain this text).
 
-XXX
+> ***NOTE.*** *You can request that the full text of the licence be added to a file named `LICENCE.txt` located in the folder containing the `about.yaml` file. This can be achieved using the following code.*
 
-<a id="MULTIMD-TOC-ANCHOR-23"></a>
-##### Keywords
+~~~python
+from aboutmeta import Extract, Path
 
-XXX
+meta = Extract(Path("/full/path/to/about.yaml"))
+meta.build()
 
-<a id="MULTIMD-TOC-ANCHOR-24"></a>
-#### Working with folders and files
-
-XXXX
+meta.add_licence()
+~~~
