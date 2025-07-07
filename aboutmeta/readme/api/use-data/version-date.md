@@ -1,3 +1,0 @@
-#### Versioning the project
-
-XXX

@@ -16,7 +16,7 @@ This document is a complete tutorial showing all the available features.
 What is `multimd`?
 ------------------
 
-The specific objective of this project is to write single `README.md` files for online code repositories. The idea is to write small, separate `MD` files that will then be merged by `multimd` into a single final `MD` file to be seen on the repository.
+The specific objective of this project is to write single `README.md` file for online code repositories. The idea is to write small, separate `MD` files that will then be merged by `multimd` into a single final `MD` file to be seen on the repository.
 
 > ***CAUTION!*** *The main process is based on the [markdown-it-py](https://github.com/executablebooks/markdown-it-py) and [markdownify](https://github.com/matthewwithanm/python-markdownify/tree/master) projects, so the limitations of `multimd` therefore come from these projects, but the unit tests show a fairly robust behaviour.*
 

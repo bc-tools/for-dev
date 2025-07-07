@@ -18,11 +18,18 @@ This document is a complete tutorial showing all the available features.
         - [Keywords](#MULTIMD-TOC-ANCHOR-10)
     - [Working with folders and files](#MULTIMD-TOC-ANCHOR-11)
 - [The `Python` module `aboutmeta`](#MULTIMD-TOC-ANCHOR-12)
-    - [Extraction des données](#MULTIMD-TOC-ANCHOR-13)
-    - [XXX](#MULTIMD-TOC-ANCHOR-14)
-        - [Versioning the project](#MULTIMD-TOC-ANCHOR-15)
-        - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-16)
-        - [Languages](#MULTIMD-TOC-ANCHOR-17)
+    - [Data extraction](#MULTIMD-TOC-ANCHOR-13)
+    - [Using the data](#MULTIMD-TOC-ANCHOR-14)
+        - [The project itself](#MULTIMD-TOC-ANCHOR-15)
+            - [Versioning the project](#MULTIMD-TOC-ANCHOR-16)
+            - [Project identity.](#MULTIMD-TOC-ANCHOR-17)
+            - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-18)
+            - [The project on the web](#MULTIMD-TOC-ANCHOR-19)
+            - [Licences](#MULTIMD-TOC-ANCHOR-20)
+            - [Languages](#MULTIMD-TOC-ANCHOR-21)
+            - [Technologies required](#MULTIMD-TOC-ANCHOR-22)
+            - [Keywords](#MULTIMD-TOC-ANCHOR-23)
+        - [Working with folders and files](#MULTIMD-TOC-ANCHOR-24)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`?
@@ -240,6 +247,9 @@ toc:
   - relative/path/to/one/folder/
   - relative/path/inside/one/sub/folder/file_2.md
 ~~~
+
+When a folder is specified, this means that it contains an `about.yaml` file that must also be analysed.
+
 > ***NOTE.*** *Using the `Python` module `aboutmeta`, it is possible to specify a default extension.*
 
 <a id="MULTIMD-TOC-ANCHOR-12"></a>
@@ -252,9 +262,9 @@ The following sections describe what is available in the current version.
 > ***NOTE.*** *The `contrib` folder contains a `README.md` file explaining how to easily build and suggest new plugins.*
 
 <a id="MULTIMD-TOC-ANCHOR-13"></a>
-### Extraction des données
+### Data extraction
 
-L'analyse d'un fichier `about.yaml` se fait simplemnt comme suit.
+The analysis of an `about.yaml` file is done simply as follows where `Path` is the class from the `pathlib` module.
 
 ~~~python
 from aboutmeta import AboutMeta, Path
@@ -262,24 +272,60 @@ from aboutmeta import AboutMeta, Path
 meta = AboutMeta(Path("/full/path/to/about.yaml"))
 meta.build()
 ~~~
-> ***NOTE.*** *XXXXXXX*
-
 <a id="MULTIMD-TOC-ANCHOR-14"></a>
-### XXX
+### Using the data
 
-YYY
+Once the data has been extracted by `aboutmeta.AboutMeta`, the `data` attribute of the `meta` object, see the previous section, provides access to the digested data in a simple manner.
+
+1. If we take the example given in the specifications, access to the home URL, as a string variable, is done via `meta.data.project.urls.home`, which is ideal for non-dynamic code.
+2. For dynamic coding, it is possible to use a virtual pointed path as in `meta.data["project.urls.home"]`.
+
+The following sections present data that, after digestion, are not simple copies of the texts typed into the `about.yaml` file.
 
 <a id="MULTIMD-TOC-ANCHOR-15"></a>
-#### Versioning the project
-
-XXX
+#### The project itself
 
 <a id="MULTIMD-TOC-ANCHOR-16"></a>
-#### Developers, authors and contributors
+##### Versioning the project
 
 XXX
 
 <a id="MULTIMD-TOC-ANCHOR-17"></a>
-#### Languages
+##### Project identity.
 
 XXX
+
+<a id="MULTIMD-TOC-ANCHOR-18"></a>
+##### Developers, authors and contributors
+
+XXX
+
+<a id="MULTIMD-TOC-ANCHOR-19"></a>
+##### The project on the web
+
+XXX
+
+<a id="MULTIMD-TOC-ANCHOR-20"></a>
+##### Licences
+
+XXX
+
+<a id="MULTIMD-TOC-ANCHOR-21"></a>
+##### Languages
+
+XXX
+
+<a id="MULTIMD-TOC-ANCHOR-22"></a>
+##### Technologies required
+
+XXX
+
+<a id="MULTIMD-TOC-ANCHOR-23"></a>
+##### Keywords
+
+XXX
+
+<a id="MULTIMD-TOC-ANCHOR-24"></a>
+#### Working with folders and files
+
+XXXX
