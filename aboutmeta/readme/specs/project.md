@@ -30,8 +30,8 @@ project*:
     issues*: https://github.com/bc-tools/for-dev/issues
 
   licences*:
-    code*  : gnu 3
-    manual*: cc by 4
+    code*  : gpl 3.0+
+    manual*: cc by nc 4.0
 
   langs*:
     doc*   : fr
