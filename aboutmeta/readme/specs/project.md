@@ -6,7 +6,7 @@ Let's start with a complete description of a fictional code project.
 project*:
   version*: 0.0.0-beta.1 (2025-06-27)
 
-  acronym* : "[@]bout [Desc]"
+  acronym* : "[@]bout [Desc]ription"
   codename*: a_desc
   desc     : Let's explain what is the project ''@Desc''...
 
@@ -34,7 +34,7 @@ project*:
     manual*: cc by nc 4.0
 
   langs*:
-    doc*   : fr
+    doc*   : f
     manual*: fr
 
   require*:

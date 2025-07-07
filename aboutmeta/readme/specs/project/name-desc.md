@@ -10,7 +10,7 @@ Here is how these different keys are used.
 
   1. `desc` is used to quickly describe the project.
 
-  1. `acronym` explains the origin of an acronym, for example in `‘[@]bout [Desc]’` for a project named `@Desc`.
+  1. `acronym` explains the origin of an acronym: for example, `"[@]bout [Desc]ription"` explains the choice for the project name `@Desc`.
 
   1. `codename` allows you to specify the name of a code-type project if it differs from that of the project folder (this convention is widely used).
 

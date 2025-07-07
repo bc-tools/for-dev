@@ -1,4 +1,4 @@
-### Using the data
+### Use of data
 
 Once the data has been extracted by `aboutmeta.AboutMeta`, the `data` attribute of the `meta` object, see the previous section, provides access to the digested data in a simple manner.
 

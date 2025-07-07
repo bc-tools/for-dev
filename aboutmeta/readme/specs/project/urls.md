@@ -1,4 +1,4 @@
-#### The project on the web
+#### URLs of the project
 
 The optional `project.url` block allows you to provide hyperlinks via the following keys, all of which are optional.
 

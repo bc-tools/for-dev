@@ -8,10 +8,10 @@ This document is a complete tutorial showing all the available features.
 - [What is `aboutmeta`?](#MULTIMD-TOC-ANCHOR-0)
 - [`YAML` specifications](#MULTIMD-TOC-ANCHOR-1)
     - [The project itself](#MULTIMD-TOC-ANCHOR-2)
-        - [Versioning the project](#MULTIMD-TOC-ANCHOR-3)
+            - [Version and date](#MULTIMD-TOC-ANCHOR-3)
         - [Project identity.](#MULTIMD-TOC-ANCHOR-4)
         - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-5)
-        - [The project on the web](#MULTIMD-TOC-ANCHOR-6)
+        - [URLs of the project](#MULTIMD-TOC-ANCHOR-6)
         - [Licences](#MULTIMD-TOC-ANCHOR-7)
         - [Languages](#MULTIMD-TOC-ANCHOR-8)
         - [Technologies required](#MULTIMD-TOC-ANCHOR-9)
@@ -19,11 +19,14 @@ This document is a complete tutorial showing all the available features.
     - [Working with folders and files](#MULTIMD-TOC-ANCHOR-11)
 - [The `Python` module `aboutmeta`](#MULTIMD-TOC-ANCHOR-12)
     - [Data extraction](#MULTIMD-TOC-ANCHOR-13)
-    - [Using the data](#MULTIMD-TOC-ANCHOR-14)
+    - [Use of data](#MULTIMD-TOC-ANCHOR-14)
         - [The project itself](#MULTIMD-TOC-ANCHOR-15)
-            - [Versioning the project](#MULTIMD-TOC-ANCHOR-16)
-            - [The project on the web](#MULTIMD-TOC-ANCHOR-17)
-            - [Licences](#MULTIMD-TOC-ANCHOR-18)
+            - [Version and date](#MULTIMD-TOC-ANCHOR-16)
+            - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-17)
+            - [URLs of the project](#MULTIMD-TOC-ANCHOR-18)
+            - [Licences](#MULTIMD-TOC-ANCHOR-19)
+            - [Languages](#MULTIMD-TOC-ANCHOR-20)
+        - [Working with folders and files](#MULTIMD-TOC-ANCHOR-21)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`?
@@ -77,7 +80,7 @@ Let's start with a complete description of a fictional code project.
 project*:
   version*: 0.0.0-beta.1 (2025-06-27)
 
-  acronym* : "[@]bout [Desc]"
+  acronym* : "[@]bout [Desc]ription"
   codename*: a_desc
   desc     : Let's explain what is the project ''@Desc''...
 
@@ -105,7 +108,7 @@ project*:
     manual*: cc by nc 4.0
 
   langs*:
-    doc*   : fr
+    doc*   : f
     manual*: fr
 
   require*:
@@ -122,7 +125,7 @@ project*:
 The following sections detail the use and meaning of the various attributes shown above.
 
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
-#### Versioning the project
+##### Version and date
 
 The optional `project.version` key is used to identify the current version, with the following formats being natively supported by the `Python` module `aboutmeta`.
 
@@ -140,7 +143,7 @@ The keys `project.acronym`, `project.codename`, `project.doctitle`, and `project
 Here is how these different keys are used.
 
 1. `desc` is used to quickly describe the project.
-2. `acronym` explains the origin of an acronym, for example in `‘[@]bout [Desc]’` for a project named `@Desc`.
+2. `acronym` explains the origin of an acronym: for example, `"[@]bout [Desc]ription"` explains the choice for the project name `@Desc`.
 3. `codename` allows you to specify the name of a code-type project if it differs from that of the project folder (this convention is widely used).
 4. `doctitle` must be used for a document-type project. This is because such a project must have a title.
 
@@ -170,7 +173,7 @@ The following forms of personal identification are managed by the `Python` modul
 > ***NOTE.*** *Emails are not verified.*
 
 <a id="MULTIMD-TOC-ANCHOR-6"></a>
-#### The project on the web
+#### URLs of the project
 
 The optional `project.url` block allows you to provide hyperlinks via the following keys, all of which are optional.
 
@@ -267,7 +270,7 @@ meta = Extract(Path("/full/path/to/about.yaml"))
 meta.build()
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-14"></a>
-### Using the data
+### Use of data
 
 Once the data has been extracted by `aboutmeta.AboutMeta`, the `data` attribute of the `meta` object, see the previous section, provides access to the digested data in a simple manner.
 
@@ -284,7 +287,7 @@ The following sections present the data after digestion. **To keep things simple
 We only present digested data that does not reproduce the contents of the `YAML` file.
 
 <a id="MULTIMD-TOC-ANCHOR-16"></a>
-##### Versioning the project
+##### Version and date
 
 Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build.5 (2025-06-27)`. By default, the digest will provide the following information.
 
@@ -306,7 +309,19 @@ Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build
 > ***NOTE*** *Behind the scenes, the version number is a `semver.version.Version` object, while the date is a `datetime.date` object (which provides access to all the methods associated with these types of objects).*
 
 <a id="MULTIMD-TOC-ANCHOR-17"></a>
-##### The project on the web
+##### Developers, authors and contributors
+
+> ***NOTE.*** *Pour les clés `project.author(s)` et `project.contrib(s)`, les données digérées sont toujours des listes d'identifications. Autrement dit, les formes singuliers `project.author` et `project.contrib` produiront une liste de taille 1. Ce choix permet une gestion unifiée des données digérées.*
+
+Les éléments de la liste sont des objets `aboutmeta.person.Person` qui s'utilisent comme suit où `someone` désigne un tel objet.
+
+1. `someone.firstnames` is the list of first names.
+2. `someone.surname` is the surname.
+3. `someone.email` corresponds to the text written in parentheses.
+4. `someone.institute` corresponds to the text written in square brackets.
+
+<a id="MULTIMD-TOC-ANCHOR-18"></a>
+##### URLs of the project
 
 Although URLs are stored verbatim, we would like to point out here that `aboutmeta.Extract` is capable of testing the validity of URLs in the sense that they are associated with a DNS catalogue. In other words, a URL that points nowhere will cause an error.
 As this operation involves a basic, risk-free web query, the user must make an explicit request as in the following code.
@@ -319,7 +334,7 @@ meta.build()
 
 meta.validate_urls("project.urls")
 ~~~
-<a id="MULTIMD-TOC-ANCHOR-18"></a>
+<a id="MULTIMD-TOC-ANCHOR-19"></a>
 ##### Licences
 
 The licence abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List](https://spdx.org/licenses/) (internally, we use a local version of the [`licenses.json`](https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json) file).
@@ -343,3 +358,14 @@ meta.build()
 
 meta.add_licence()
 ~~~
+<a id="MULTIMD-TOC-ANCHOR-20"></a>
+##### Languages
+
+You can specify a language using the [ISO 639 standard](https://en.wikipedia.org/wiki/ISO_639), then, if needed, add a country using the [ISO 3166 standard](https://en.wikipedia.org/wiki/ISO_3166).
+The default language is `en_GB` for British English.
+You can type either `fr` if you do not wish to specify France, or `fr_BE` to indicate Belgian French.
+
+<a id="MULTIMD-TOC-ANCHOR-21"></a>
+#### Working with folders and files
+
+XXXX

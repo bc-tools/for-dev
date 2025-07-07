@@ -1,4 +1,4 @@
-#### Versioning the project
+##### Version and date
 
 The optional `project.version` key is used to identify the current version, with the following formats being natively supported by the `Python` module `aboutmeta`.
 

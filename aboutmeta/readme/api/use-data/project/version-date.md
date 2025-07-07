@@ -1,4 +1,4 @@
-##### Versioning the project
+##### Version and date
 
 Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build.5 (2025-06-27)`. By default, the digest will provide the following information.
 

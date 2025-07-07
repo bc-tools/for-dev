@@ -10,4 +10,11 @@ utilisation de aboutmeta qui du coup gère TOC !!!
 
 > ---------------------------- <
 
+titre dans toc sont cliquables pour retourner à la TOC
+
+<a href="#MULTIMD-TOC-ANCHOR" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -0.2em;"></span></a>
+
+
+> ---------------------------- <
+
 Attention à la nlle version de markdownify car _convert_hn --> convert_hN
