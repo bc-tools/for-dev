@@ -16,9 +16,9 @@ The following forms of personal identification are managed by the `Python` modul
 
   1. **Title (mandatory):** `Surname`, `First name, Compound surname`, `First name 1, First name 2, Long surname`... Hereinafter, we will refer to one of the above forms as `<title>`.
 
-  1. **Email address (optional):** `<title> [un.id@provider.abc]` (use of square brackets).
+  1. **Email address (optional):** `<title> [un.id@provider.abc]` uses square brackets for the email.
 
-  1. **Institute or organisation (optional):** `<title> (Name of institute)` (use of parentheses).
+  1. **Affiliation (optional):** `<title> (Name of institute)` uses parentheses for the affiliation.
 
   1. **Indicate everything:** only the format `<title> [email] (institute)` is allowed.
 

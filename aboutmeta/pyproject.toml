@@ -29,6 +29,7 @@ classifiers = [
 ]
 
 dependencies = [
+  "babel>=2.16",
   "python-box>=7.3",
   "requests>=2.32",
 ]

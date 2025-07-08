@@ -1,17 +1,12 @@
-Contribute to the plugins of `aboutmeta`
-========================================
+Contribute to the `API` of `aboutmeta`
+======================================
 
 How to contribute?
 ------------------
 
-XXXX
-
-
-
-The contributions made are in the `contribute/api` folder which has the following structure.
+The contributions made are in the `contrib` folder which has the following structure.
 
 <!-- FOLDER STRUCT. AUTO - START -->
-
 <!-- FOLDER STRUCT. AUTO - END -->
 
 

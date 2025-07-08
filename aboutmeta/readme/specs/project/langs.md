@@ -7,12 +7,11 @@ The optional `project.langs` block allows you to specify the languages used for 
 1. The `manual` key is for the language used to write the user manual.
 
 
-Language names must be those recognised by the `Python` package [`Babel`][1] used behind the scenes: see [ISO 639 standard][2] for languages and [ISO 3166 standard][3] for countries. For example, `fr_FR` indicates French spoken in France.
+You can specify a language using the [ISO 639 standard][1], then, if necessary, add a country using the [ISO 3166 standard][2]: for example, you can type either `fr` if you do not wish to specify France, or `fr_BE` to indicate Belgian French.
 
 
-> ***NOTE.*** *The default language is `en_GB`.*
+> ***NOTE.*** *The default language is `en_GB` for British English.*
 
 
-[1]: https://babel.pocoo.org/en/latest/
-[2]: https://en.wikipedia.org/wiki/ISO_639
-[3]: https://en.wikipedia.org/wiki/ISO_3166
+[1]: https://en.wikipedia.org/wiki/ISO_639
+[2]: https://en.wikipedia.org/wiki/ISO_3166

@@ -11,4 +11,4 @@ The elements of the list are `aboutmeta.person.Person` objects that have the fol
 
   1) `email` is to the text written in parentheses.
 
-  1) `institute` is to the text written in square brackets.
+  1) `affiliation` is to the text written in square brackets.

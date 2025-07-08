@@ -166,8 +166,8 @@ project:
 The following forms of personal identification are managed by the `Python` module `aboutmeta`.
 
 1. **Title (mandatory):** `Surname`, `First name, Compound surname`, `First name 1, First name 2, Long surname`... Hereinafter, we will refer to one of the above forms as `<title>`.
-2. **Email address (optional):** `<title> [un.id@provider.abc]` (use of square brackets).
-3. **Institute or organisation (optional):** `<title> (Name of institute)` (use of parentheses).
+2. **Email address (optional):** `<title> [un.id@provider.abc]` uses square brackets for the email.
+3. **Affiliation (optional):** `<title> (Name of institute)` uses parentheses for the affiliation.
 4. **Indicate everything:** only the format `<title> [email] (institute)` is allowed.
 
 > ***NOTE.*** *Emails are not verified.*
@@ -256,7 +256,7 @@ The `Python` module `aboutmeta`
 In addition to providing `YAML` specifications, that can be used in your preferred programming language, `aboutmeta` offers a `Python` module based on a plugin system that handles certain data formats.
 The following sections describe what is available in the current version.
 
-> ***NOTE.*** *The `contrib/plugins` folder contains a `README.md` file explaining how to easily build and suggest new plugins.*
+> ***NOTE.*** *The `contrib/parsers` folder contains a `README.md` file explaining how to easily build and suggest new parsers.*
 
 <a id="MULTIMD-TOC-ANCHOR-13"></a>
 ### Data extraction
@@ -318,7 +318,7 @@ The elements of the list are `aboutmeta.person.Person` objects that have the fol
 1. `firstnames` is the list of first names.
 2. `surname` is the surname.
 3. `email` is to the text written in parentheses.
-4. `institute` is to the text written in square brackets.
+4. `affiliation` is to the text written in square brackets.
 
 <a id="MULTIMD-TOC-ANCHOR-18"></a>
 ##### URLs of the project
