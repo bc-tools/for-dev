@@ -14,7 +14,7 @@ un syste de about.cfg.yaml pour gérer certains choses
 
     ---> validationd es urls mais dans ce cas, on mémorise ce qui fonctionne
 
-    ---> ajout de la licence uniquement si besoin
+    ---> ajout de la license uniquement si besoin
 
 besoin d'un syst d'historique via un fichier temp caché à l'utilisateur
 

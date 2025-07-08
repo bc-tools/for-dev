@@ -3,7 +3,7 @@ project:
            informations, warnings and errors.
   acronym: "[SP]ea[K]ing, [P]ro[B]lems"
   author : Christophe, BAL
-  licence: gnu 3
+  license: gnu 3
 
   repo   : https://github.com/bc-tools/for-dev/tree/main/spkpb
 

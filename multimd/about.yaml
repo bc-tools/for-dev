@@ -6,7 +6,7 @@ project:
            single final ''MD'' file.
   acronym: "[MULTI]ple [''MD''] files (multiple Markdown files)"
   author : Christophe, BAL
-  licence: gnu 3
+  license: gnu 3
 
   repo   : https://github.com/bc-tools/for-dev/tree/main/multimd
 

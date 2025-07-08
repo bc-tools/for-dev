@@ -1,22 +1,22 @@
-##### Licences
+##### Licenses
 
-The licence abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List][1] (internally, we use a local version of the [`licenses.json`][2] file).
-To facilitate data entry, lowercase letters may be used, and hyphens may be replaced with spaces: for example, to indicate the *"Creative Commons Attribution Non Commercial 4.0 International"* licence, it is possible to use `cc by nc 4.0` instead of `CC-BY-NC-4.0` as expected by the `SPDX` project.
+The license abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List][1] (internally, we use a local version of the [`licenses.json`][2] file).
+To facilitate data entry, lowercase letters may be used, and hyphens may be replaced with spaces: for example, to indicate the *"Creative Commons Attribution Non Commercial 4.0 International"* license, it is possible to use `cc by nc 4.0` instead of `CC-BY-NC-4.0` as expected by the `SPDX` project.
 
 
 > ***NOTE.*** *In the case of an unknown abbreviation, the error message will provide possible suggestions if simple typos have been made in the `YAML` file.*
 
 
-The digested licence provides the following sub-attributes of ``meta.data.project.licence`.
+The digested license provides the following sub-attributes of ``meta.data.project.license`.
 
-  1) `id` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.licence)` for example.
+  1) `std` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.license)` for example.
 
-  1) `name` is the full title of the licence.
+  1) `name` is the full title of the license.
 
-  1) `text` is the text of the licence, which will always be obtained via a web request (you must therefore be connected to obtain this text).
+  1) `ref` is an url pointed to the `SPDX` web page describing the license.
 
 
-> ***NOTE.*** *You can request that the full text of the licence be added to a file named `LICENCE.txt` located in the folder containing the `about.yaml` file. To do so, use the following code.*
+> ***NOTE.*** *You can request that the full text of the license be added to a file named `License.txt` located in the folder containing the `about.yaml` file. To do so, use the following code.*
 
 ~~~python
 from aboutmeta import Extract, Path
@@ -24,7 +24,7 @@ from aboutmeta import Extract, Path
 meta = Extract(Path("/full/path/to/about.yaml"))
 meta.build()
 
-meta.add_licence()
+meta.add_license()
 ~~~
 
 

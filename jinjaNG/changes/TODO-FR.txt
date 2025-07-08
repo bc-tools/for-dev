@@ -110,7 +110,7 @@ config
 
 jng-extra-tools : licenece GPL auto !
 
-    ---> gestion licences
+    ---> gestion licenses
 
     ---> src2prod pour mettre dans jng-extra-tools : gestion de ce qui est gardé, et de ce qui est ignoré, du coup, au passage on peut organiser comme on veut
 

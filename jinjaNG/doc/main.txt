@@ -4,7 +4,7 @@
     author = Christophe, BAL [projetmbc@gmail.com]
     lang   = fr
 
-    licence = by nc sa 4.0
+    license = by nc sa 4.0
     out     = html, pdf
 
 //    lexic   =

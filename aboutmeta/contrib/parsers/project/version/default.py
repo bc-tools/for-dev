@@ -12,6 +12,7 @@ from semver import (
     VersionInfo,
 )
 
+
 ### TODO
 # prototype::
 #     content : XXX
@@ -38,8 +39,9 @@ if __name__ == "__main__":
         v = parser(nbver)
 
         print()
-        print(f'--- ({v})')
+        print(f'--- ({nbver})')
 
+        print(v)
         print(repr(v))
 
         print(f"major      = {v.major}")

@@ -12,6 +12,7 @@ from langcodes import (
     LanguageTagError
 )
 
+
 ### TODO
 # prototype::
 #     content : XXX

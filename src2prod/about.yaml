@@ -3,7 +3,7 @@ project:
   acronym: "From [s]-ou-[rc]-e development [to prod]-uct delivered."
   author : Christophe, BAL
 
-  licence: gnu 3
+  license: gnu 3
 
   url:
     repo: https://github.com/bc-tools/for-dev/tree/main/src2prod

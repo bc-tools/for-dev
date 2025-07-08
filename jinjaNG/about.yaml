@@ -3,7 +3,7 @@ project:
            working with the template engine Jinja.
   acronym: "[JINJA] [N]ext [G]eneration"
   author : Christophe, BAL
-  licence: gnu 3
+  license: gnu 3
 
   repo   : https://github.com/bc-tools/for-dev/tree/main/jinjang
 

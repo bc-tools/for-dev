@@ -24,7 +24,7 @@ project*:
     dev*   : https://github.com/bc-tools/for-dev/tree/main/aboutmeta
     issues*: https://github.com/bc-tools/for-dev/issues
 
-  licences*:
+  licenses*:
     code*  : gpl 3.0+
     manual*: cc by nc 4.0
 

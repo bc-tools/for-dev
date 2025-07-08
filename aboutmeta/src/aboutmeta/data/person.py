@@ -17,7 +17,8 @@ class Person:
         text = self.surname
 
         if self.firstnames:
-            text = f"{', '.join(self.firstnames)}, {text}"
+            firstnames = ', '.join(self.firstnames)
+            text       = f"{firstnames}, {text}"
 
         if self.email:
             text += f' {TAG_EMAIL_OPEN}{self.email}{TAG_EMAIL_CLOSE}'

@@ -16,7 +16,7 @@ L'auteur de ¨jinjang étant un codeur amateur français, la ¨doc n'est mainten
 
 
 note:
-    La ¨doc sera forcément sous licence "licence::''by nc sa 4.0''".
+    La ¨doc sera forcément sous license "license::''by nc sa 4.0''".
 
 
 Si vous souhaitez mettre à jour une ¨propo de ¨trad, il faudra indiquer rapidement en anglais les ¨chgts effectués, en n'oubliant pas de les dater (pas besoin d'entrer trop dans les détails).

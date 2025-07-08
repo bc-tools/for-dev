@@ -107,13 +107,13 @@ ANY_KIND | one_in("project", "monorepo"):
 # ------------------------ #
 # -- TECHNICAL SETTINGS -- #
 # ------------------------ #
-# "There is two ways to give the licence of the product.
+# "There is two ways to give the license of the product.
 #               1) You can use an ID managed by the Python project ''ealic''.
 #               2) You can give the path of one file containing the full
-#                  text of the licence like in ''path/to/my/licence.txt
-#                  [My special licence]'' where we also have to indicate
-#                  the name of the licence inside square brackets."
-  licence*: XXX
+#                  text of the license like in ''path/to/my/license.txt
+#                  [My special license]'' where we also have to indicate
+#                  the name of the license inside square brackets."
+  license*: XXX
 
 # You can specify the coding languages required by the product.
 

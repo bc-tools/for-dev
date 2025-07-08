@@ -8,7 +8,7 @@ project:
 
   author: Christophe BAL
 
-  licence: gnu 3
+  license: gnu 3
 
   urls:
     home  : https://github.com/bc-tools/for-dev

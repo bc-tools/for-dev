@@ -2,5 +2,6 @@
 
 from .constants import *
 
-from .lang   import *
-from .person import *
+from .lang    import *
+from .license import *
+from .person  import *

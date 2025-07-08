@@ -12,7 +12,7 @@ This document is a complete tutorial showing all the available features.
         - [Project identity.](#MULTIMD-TOC-ANCHOR-4)
         - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-5)
         - [URLs of the project](#MULTIMD-TOC-ANCHOR-6)
-        - [Licences](#MULTIMD-TOC-ANCHOR-7)
+        - [Licenses](#MULTIMD-TOC-ANCHOR-7)
         - [Languages](#MULTIMD-TOC-ANCHOR-8)
         - [Technologies required](#MULTIMD-TOC-ANCHOR-9)
         - [Keywords](#MULTIMD-TOC-ANCHOR-10)
@@ -24,7 +24,7 @@ This document is a complete tutorial showing all the available features.
             - [Version and date](#MULTIMD-TOC-ANCHOR-16)
             - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-17)
             - [URLs of the project](#MULTIMD-TOC-ANCHOR-18)
-            - [Licences](#MULTIMD-TOC-ANCHOR-19)
+            - [Licenses](#MULTIMD-TOC-ANCHOR-19)
             - [Languages](#MULTIMD-TOC-ANCHOR-20)
         - [Working with folders and files](#MULTIMD-TOC-ANCHOR-21)
 
@@ -103,7 +103,7 @@ project*:
     dev*   : https://github.com/bc-tools/for-dev/tree/main/aboutmeta
     issues*: https://github.com/bc-tools/for-dev/issues
 
-  licences*:
+  licenses*:
     code*  : gpl 3.0+
     manual*: cc by nc 4.0
 
@@ -184,16 +184,16 @@ The optional `project.url` block allows you to provide hyperlinks via the follow
 > ***NOTE.*** *It is possible to request verification of the validity of URLs by the `Python` module `aboutmeta`. Technically, a simple DNS query is performed, and nothing more is done for security reasons.*
 
 <a id="MULTIMD-TOC-ANCHOR-7"></a>
-#### Licences
+#### Licenses
 
-The optional block `project.licences` is used to indicate licences via the following keys (no formats supported at this time).
+The optional block `project.licenses` is used to indicate licenses via the following keys (no formats supported at this time).
 
-1. `code` is for the licence of the code or document relating to the project.
-2. `manual` allows, in the case of a code-type porject, the selection of a licence specific to the user manual.
+1. `code` is for the license of the code or document relating to the project.
+2. `manual` allows, in the case of a code-type porject, the selection of a license specific to the user manual.
 
-The `Python` module `aboutmeta` takes into account the licence names proposed by the [`SPDX` SPDX License List](https://spdx.org/licenses/).
+The `Python` module `aboutmeta` takes into account the license names proposed by the [`SPDX` SPDX License List](https://spdx.org/licenses/).
 
-> ***NOTE.*** *You can request the addition of a `LICENCE.txt` file in the folder containing the `about.yaml` file.*
+> ***NOTE.*** *You can request the addition of a `License.txt` file in the folder containing the `about.yaml` file.*
 
 <a id="MULTIMD-TOC-ANCHOR-8"></a>
 #### Languages
@@ -335,20 +335,20 @@ meta.build()
 meta.validate_urls("project.urls")
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-19"></a>
-##### Licences
+##### Licenses
 
-The licence abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List](https://spdx.org/licenses/) (internally, we use a local version of the [`licenses.json`](https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json) file).
-To facilitate data entry, lowercase letters may be used, and hyphens may be replaced with spaces: for example, to indicate the *"Creative Commons Attribution Non Commercial 4.0 International"* licence, it is possible to use `cc by nc 4.0` instead of `CC-BY-NC-4.0` as expected by the `SPDX` project.
+The license abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List](https://spdx.org/licenses/) (internally, we use a local version of the [`licenses.json`](https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json) file).
+To facilitate data entry, lowercase letters may be used, and hyphens may be replaced with spaces: for example, to indicate the *"Creative Commons Attribution Non Commercial 4.0 International"* license, it is possible to use `cc by nc 4.0` instead of `CC-BY-NC-4.0` as expected by the `SPDX` project.
 
 > ***NOTE.*** *In the case of an unknown abbreviation, the error message will provide possible suggestions if simple typos have been made in the `YAML` file.*
 
-The digested licence provides the following sub-attributes of ``meta.data.project.licence`.
+The digested license provides the following sub-attributes of ``meta.data.project.license`.
 
-1. `id` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.licence)` for example.
-2. `name` is the full title of the licence.
-3. `text` is the text of the licence, which will always be obtained via a web request (you must therefore be connected to obtain this text).
+1. `id` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.license)` for example.
+2. `name` is the full title of the license.
+3. `text` is the text of the license, which will always be obtained via a web request (you must therefore be connected to obtain this text).
 
-> ***NOTE.*** *You can request that the full text of the licence be added to a file named `LICENCE.txt` located in the folder containing the `about.yaml` file. To do so, use the following code.*
+> ***NOTE.*** *You can request that the full text of the license be added to a file named `License.txt` located in the folder containing the `about.yaml` file. To do so, use the following code.*
 
 ~~~python
 from aboutmeta import Extract, Path
@@ -356,7 +356,7 @@ from aboutmeta import Extract, Path
 meta = Extract(Path("/full/path/to/about.yaml"))
 meta.build()
 
-meta.add_licence()
+meta.add_license()
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-20"></a>
 ##### Languages
