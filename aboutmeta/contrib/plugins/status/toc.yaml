@@ -1,14 +1,11 @@
 author: Christophe, BAL, [projetmbc@gmail.com]
 
-# Babel codification of languages.
-lang-api: english
-
 # Possible status.
 #    + on hold
 #    + ko
 #    + ok
 #    + update
-status: ok
+status: on hold
 
 # Classical comments.
 #    + [on hold]  New API not yet analysed.
@@ -16,4 +13,4 @@ status: ok
 #    + [ko]       API rejected because ...
 #    + [ok]       API accepted.
 #    + [update]   Working on...
-comment: API accepted.
+comment: API from the project maintainer. ;-)

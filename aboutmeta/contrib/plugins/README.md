@@ -1,5 +1,5 @@
-Contribute to the `API` of `aboutmeta`
-======================================
+Contribute to the plugins of `aboutmeta`
+========================================
 
 How to contribute?
 ------------------

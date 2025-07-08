@@ -1,14 +1,11 @@
 author: Christophe, BAL, [projetmbc@gmail.com]
 
-# Babel codification of languages.
-lang-api: spanish
-
 # Possible status.
 #    + on hold
 #    + ko
 #    + ok
 #    + update
-status: ok
+status: on hold
 
 # Classical comments.
 #    + [on hold]  New API not yet analysed.
