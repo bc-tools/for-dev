@@ -16,5 +16,5 @@ class Lang:
 
     def __repr__(self):
         return f"""
-Lang(std='{self.std}', name='{self.name}', territory='{self.territory}')
+aboutmeta.data.lang.Lang(std='{self.std}', name='{self.name}', territory='{self.territory}')
         """.strip()

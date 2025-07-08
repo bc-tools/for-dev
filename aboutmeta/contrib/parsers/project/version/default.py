@@ -45,7 +45,6 @@ if __name__ == "__main__":
         print(f"major      = {v.major}")
         print(f"minor      = {v.minor}")
         print(f"patch      = {v.patch}")
-
         print(f"prerelease = {v.prerelease}")
         print(f"build      = {v.build}")
 
