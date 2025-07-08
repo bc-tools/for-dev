@@ -311,14 +311,14 @@ Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build
 <a id="MULTIMD-TOC-ANCHOR-17"></a>
 ##### Developers, authors and contributors
 
-> ***NOTE.*** *Pour les clés `project.author(s)` et `project.contrib(s)`, les données digérées sont toujours des listes d'identifications. Autrement dit, les formes singuliers `project.author` et `project.contrib` produiront une liste de taille 1. Ce choix permet une gestion unifiée des données digérées.*
+> ***NOTE.*** *For the `project.author(s)` and `project.contrib(s)` keys, the digested data is always a list of identifiers. In other words, the singular forms `project.author` and `project.contrib` will produce a list of size 1. This choice allows for unified management of the digested data.*
 
-Les éléments de la liste sont des objets `aboutmeta.person.Person` qui s'utilisent comme suit où `someone` désigne un tel objet.
+The elements of the list are `aboutmeta.person.Person` objects that have the following sub-attributes.
 
-1. `someone.firstnames` is the list of first names.
-2. `someone.surname` is the surname.
-3. `someone.email` corresponds to the text written in parentheses.
-4. `someone.institute` corresponds to the text written in square brackets.
+1. `firstnames` is the list of first names.
+2. `surname` is the surname.
+3. `email` is to the text written in parentheses.
+4. `institute` is to the text written in square brackets.
 
 <a id="MULTIMD-TOC-ANCHOR-18"></a>
 ##### URLs of the project
@@ -342,13 +342,13 @@ To facilitate data entry, lowercase letters may be used, and hyphens may be repl
 
 > ***NOTE.*** *In the case of an unknown abbreviation, the error message will provide possible suggestions if simple typos have been made in the `YAML` file.*
 
-The digested licence provides the following information.
+The digested licence provides the following sub-attributes of ``meta.data.project.licence`.
 
-1. `meta.data.project.licence.id` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.licence)` for example.
-2. `meta.data.project.licence.name` is the full title of the licence.
-3. `meta.data.project.licence.text` is the text of the licence, which will always be obtained via a web request (you must therefore be connected to obtain this text).
+1. `id` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.licence)` for example.
+2. `name` is the full title of the licence.
+3. `text` is the text of the licence, which will always be obtained via a web request (you must therefore be connected to obtain this text).
 
-> ***NOTE.*** *You can request that the full text of the licence be added to a file named `LICENCE.txt` located in the folder containing the `about.yaml` file. This can be achieved using the following code.*
+> ***NOTE.*** *You can request that the full text of the licence be added to a file named `LICENCE.txt` located in the folder containing the `about.yaml` file. To do so, use the following code.*
 
 ~~~python
 from aboutmeta import Extract, Path
@@ -361,11 +361,16 @@ meta.add_licence()
 <a id="MULTIMD-TOC-ANCHOR-20"></a>
 ##### Languages
 
-You can specify a language using the [ISO 639 standard](https://en.wikipedia.org/wiki/ISO_639), then, if needed, add a country using the [ISO 3166 standard](https://en.wikipedia.org/wiki/ISO_3166).
-The default language is `en_GB` for British English.
-You can type either `fr` if you do not wish to specify France, or `fr_BE` to indicate Belgian French.
+You can specify a language using the [ISO 639 standard](https://en.wikipedia.org/wiki/ISO_639), then, if necessary, add a country using the [ISO 3166 standard](https://en.wikipedia.org/wiki/ISO_3166): for example, you can type either `fr` if you do not wish to specify France, or `fr_BE` to indicate Belgian French.
+
+> ***NOTE.*** *The default language is `en_GB` for British English.*
 
 <a id="MULTIMD-TOC-ANCHOR-21"></a>
 #### Working with folders and files
 
-XXXX
+The list of paths is validated during digestion and is returned as a list of pairs `(boolean, Path)` that complies with the following specifications.
+
+1. The boolean value is `True` for a path pointing to a file, and `False` for a folder.
+2. The path is a `pathlib.Path` object.
+
+> ***NOTE.*** *Paths must point to existing folders and files.*

@@ -7,16 +7,16 @@ To facilitate data entry, lowercase letters may be used, and hyphens may be repl
 > ***NOTE.*** *In the case of an unknown abbreviation, the error message will provide possible suggestions if simple typos have been made in the `YAML` file.*
 
 
-The digested licence provides the following information.
+The digested licence provides the following sub-attributes of ``meta.data.project.licence`.
 
-  1) `meta.data.project.licence.id` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.licence)` for example.
+  1) `id` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.licence)` for example.
 
-  1) `meta.data.project.licence.name` is the full title of the licence.
+  1) `name` is the full title of the licence.
 
-  1) `meta.data.project.licence.text` is the text of the licence, which will always be obtained via a web request (you must therefore be connected to obtain this text).
+  1) `text` is the text of the licence, which will always be obtained via a web request (you must therefore be connected to obtain this text).
 
 
-> ***NOTE.*** *You can request that the full text of the licence be added to a file named `LICENCE.txt` located in the folder containing the `about.yaml` file. This can be achieved using the following code.*
+> ***NOTE.*** *You can request that the full text of the licence be added to a file named `LICENCE.txt` located in the folder containing the `about.yaml` file. To do so, use the following code.*
 
 ~~~python
 from aboutmeta import Extract, Path

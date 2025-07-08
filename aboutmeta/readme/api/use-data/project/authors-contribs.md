@@ -1,14 +1,14 @@
 ##### Developers, authors and contributors
 
-> ***NOTE.*** *Pour les clés `project.author(s)` et `project.contrib(s)`, les données digérées sont toujours des listes d'identifications. Autrement dit, les formes singuliers `project.author` et `project.contrib` produiront une liste de taille 1. Ce choix permet une gestion unifiée des données digérées.*
+> ***NOTE.*** *For the `project.author(s)` and `project.contrib(s)` keys, the digested data is always a list of identifiers. In other words, the singular forms `project.author` and `project.contrib` will produce a list of size 1. This choice allows for unified management of the digested data.*
 
 
-Les éléments de la liste sont des objets `aboutmeta.person.Person` qui s'utilisent comme suit où `someone` désigne un tel objet.
+The elements of the list are `aboutmeta.person.Person` objects that have the following sub-attributes.
 
-  1) `someone.firstnames` is the list of first names.
+  1) `firstnames` is the list of first names.
 
-  1) `someone.surname` is the surname.
+  1) `surname` is the surname.
 
-  1) `someone.email` corresponds to the text written in parentheses.
+  1) `email` is to the text written in parentheses.
 
-  1) `someone.institute` corresponds to the text written in square brackets.
+  1) `institute` is to the text written in square brackets.
