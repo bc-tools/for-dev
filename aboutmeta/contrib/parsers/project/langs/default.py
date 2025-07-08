@@ -7,43 +7,34 @@ import aboutmeta
 # -- IMPLEMENTATION -- #
 # -------------------- #
 
-from babel import localedata, Locale
-
-lang_code = "en"
-
-locale = Locale.parse(lang_code)
-print("Nom en anglais :", locale.get_display_name('fr'))
-
-# Cherche une locale complète qui commence par 'fr_'
-default_locale = next(
-    (loc for loc in localedata.locale_identifiers() if loc.startswith(lang_code + "_")),
-    None
+from langcodes import (
+    get as getlangcode,
+    LanguageTagError
 )
 
-if default_locale:
-    print(f"Locale par défaut trouvée pour '{lang_code}' : {default_locale}")
-    default_territory = default_locale.split("_")[1]
-    print(f"Territoire par défaut : {default_territory}")
-else:
-    print(f"Aucune locale étendue trouvée pour '{lang_code}'")
+###
+# prototype::
+#     content :
+#
+#     :return:
+###
+def parser(content: str) -> aboutmeta.data.lang.Lang:
+# Getting a normalized code.
+    try:
+        lang = getlangcode(content).maximize()
 
-territories = sorted({
-    loc.split("_")[1]
-    for loc in localedata.locale_identifiers()
-    if loc.startswith(f"{lang_code}_")
-})
+    except LanguageTagError as e:
+        raise ValueError(f"illegal language code ''{content}''")
 
-print(f"Territoires associés à '{lang_code}' :", territories)
+# Small description of the language code.
+    describe = lang.describe('en')
 
-
-from babel import Locale
-
-# Obtenir le nom du territoire en français
-locale_fr = Locale(lang_code)
-print(f"{default_territory} → {locale_fr.territories['BE']}")  # France
-
-
-
+# The job has been done.
+    return aboutmeta.data.lang.Lang(
+        std       = f"{lang.language}-{lang.territory}",
+        name      = describe["language"],
+        territory = describe["territory"]
+    )
 
 
 # ----------------------------- #
@@ -51,4 +42,18 @@ print(f"{default_territory} → {locale_fr.territories['BE']}")  # France
 # ----------------------------- #
 
 if __name__ == "__main__":
-    ...
+    for userlang in [
+        "fr",
+        "es",
+        "en-GB",
+        # "XXXXXX"   # BUG!
+    ]:
+        print()
+        print(f'--- ({userlang})')
+
+        lang = parser(userlang)
+
+        print(lang)
+        print(repr(lang))
+
+    print()

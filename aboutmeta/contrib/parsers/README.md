@@ -11,7 +11,7 @@ This folder allows you to know the status of your proposal.
 
 ### Other subfolders
 
-The structure mimics that of the `about.yaml` file. When the file corresponds to data to be analyzed, you will find at least one `Python` file named `default.py`, which correspond to the default behavior of the `Python` module `aboutmeta`.
+The folders correspond to the main blocks of the `about.yaml` file. In their subfolders, you will find at least one `Python` file named `default.py`, which corresponds to the default behavior of the `Python` `aboutmeta` module.
 
 
 How to propose new parsers?

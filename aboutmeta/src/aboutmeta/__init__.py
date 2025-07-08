@@ -2,5 +2,7 @@
 
 __version__ = "?"
 
+from .data    import *
+from .parsers import *
+
 from .extract import *
-from .plugins import *
