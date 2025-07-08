@@ -9,7 +9,7 @@ Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build
      * `minor` provides the integer `2`.
      * `patch` provides the integer `3`.
      * `prerelease` provides the text `beta.4`.
-     * `v.build` provides the text `build.5`.
+     * `build` provides the text `build.5`.
 
   1) The version date is accessible via the attribute `meta.data.project.version.date`, whose text version is simply `2025-06-27`.
   If needed, you can use the following sub-attributes.

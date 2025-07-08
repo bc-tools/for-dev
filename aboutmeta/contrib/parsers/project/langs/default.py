@@ -12,11 +12,11 @@ from langcodes import (
     LanguageTagError
 )
 
-###
+### TODO
 # prototype::
-#     content :
+#     content : XXX
 #
-#     :return:
+#     :return: XXX
 ###
 def parser(content: str) -> aboutmeta.data.lang.Lang:
 # Getting a normalized code.
@@ -46,7 +46,7 @@ if __name__ == "__main__":
         "fr",
         "es",
         "en-GB",
-        # "XXXXXX"   # BUG!
+        # "XXXXXX"   # Test of an exception.
     ]:
         print()
         print(f'--- ({userlang})')

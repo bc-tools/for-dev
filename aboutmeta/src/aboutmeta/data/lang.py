@@ -16,8 +16,5 @@ class Lang:
 
     def __repr__(self):
         return f"""
-aboutmeta.data.lang.Lang object
-  .std       = "{self.std}"  -> used for str(...)
-  .name      = "{self.name}"
-  .territory = "{self.territory}"
+Lang(std='{self.std}', name='{self.name}', territory='{self.territory}')
         """.strip()
