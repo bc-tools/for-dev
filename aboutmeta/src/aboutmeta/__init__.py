@@ -3,6 +3,7 @@
 __version__ = "?"
 
 from .data    import *
+from .tools   import *
 from .parsers import *
 
 from .extract import *

@@ -1,3 +1,6 @@
 #!/usr/bin/env python3
 
-from .lang import *
+from .constants import *
+
+from .lang   import *
+from .person import *
