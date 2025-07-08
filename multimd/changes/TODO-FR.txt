@@ -5,14 +5,14 @@ multimd - TODO
 
 > ---------------------------- <
 
-utilisation de aboutmeta qui du coup gère TOC !!!
+titre dans toc sont cliquables pour retourner à la TOC
+
+<a href="#MULTIMD-TOC-ANCHOR" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -0.2em;"></span></a>
 
 
 > ---------------------------- <
 
-titre dans toc sont cliquables pour retourner à la TOC
-
-<a href="#MULTIMD-TOC-ANCHOR" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -0.2em;"></span></a>
+utilisation de aboutmeta qui du coup gère TOC !!!
 
 
 > ---------------------------- <

@@ -29,7 +29,7 @@ This document is a complete tutorial showing all the available features.
         - [Working with folders and files](#MULTIMD-TOC-ANCHOR-21)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
-What is `aboutmeta`?
+What is `aboutmeta`? ::MULTIMD-GO-BACK-TO-TOC-0::
 --------------------
 
 This project allows metadata to be defined in `about.yaml` files, making it easier for third-party programs to manage digital projects (code projects and document-type projects).
@@ -37,7 +37,7 @@ This project allows metadata to be defined in `about.yaml` files, making it easi
 > ***NOTE.*** *A digital project is simply a folder containing content, some of which is only useful during development (tools and tests), while other content is used to create the final product (a computer program or a document to read). In other word, `aboutmeta` is agnostic.*
 
 <a id="MULTIMD-TOC-ANCHOR-1"></a>
-`YAML` specifications
+`YAML` specifications ::MULTIMD-GO-BACK-TO-TOC-1::
 ---------------------
 
 In this section, we present all level `1` blocks. In the following fictive example, these blocks are named `block-1`, `block-2`, and `block-3`.
@@ -72,7 +72,7 @@ Here are the **conventions used in our explanations**.
 > ***IMPORTANT.*** *Technically, `YAML` files are read securely by treating all values as simple character strings.*
 
 <a id="MULTIMD-TOC-ANCHOR-2"></a>
-### The project itself
+### The project itself ::MULTIMD-GO-BACK-TO-TOC-2::
 
 Let's start with a complete description of a fictional code project.
 
@@ -125,7 +125,7 @@ project*:
 The following sections detail the use and meaning of the various attributes shown above.
 
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
-##### Version and date
+##### Version and date ::MULTIMD-GO-BACK-TO-TOC-3::
 
 The optional `project.version` key is used to identify the current version, with the following formats being natively supported by the `Python` module `aboutmeta`.
 
@@ -134,7 +134,7 @@ The optional `project.version` key is used to identify the current version, with
 3. `0.0.0-beta.1 (2025-06-27)` is a combination of version and date.
 
 <a id="MULTIMD-TOC-ANCHOR-4"></a>
-#### Project identity.
+#### Project identity. ::MULTIMD-GO-BACK-TO-TOC-4::
 
 The keys `project.acronym`, `project.codename`, `project.doctitle`, and `project.desc` are used to quickly identify a project.
 
@@ -150,7 +150,7 @@ Here is how these different keys are used.
 > ***NOTE.*** *The last two points show that `aboutmeta` will assume that it is working with a code-type project by default.*
 
 <a id="MULTIMD-TOC-ANCHOR-5"></a>
-#### Developers, authors and contributors
+#### Developers, authors and contributors ::MULTIMD-GO-BACK-TO-TOC-5::
 
 The keys `project.author`, which is mandatory, and `project.contrib`, which is optional, are used either in the singular to indicate a single person, or in the plural to indicate a list of people. Here is a fictitious use case.
 
@@ -173,7 +173,7 @@ The following forms of personal identification are managed by the `Python` modul
 > ***NOTE.*** *Emails are not verified.*
 
 <a id="MULTIMD-TOC-ANCHOR-6"></a>
-#### URLs of the project
+#### URLs of the project ::MULTIMD-GO-BACK-TO-TOC-6::
 
 The optional `project.url` block allows you to provide hyperlinks via the following keys, all of which are optional.
 
@@ -184,7 +184,7 @@ The optional `project.url` block allows you to provide hyperlinks via the follow
 > ***NOTE.*** *It is possible to request verification of the validity of URLs by the `Python` module `aboutmeta`. Technically, a simple DNS query is performed, and nothing more is done for security reasons.*
 
 <a id="MULTIMD-TOC-ANCHOR-7"></a>
-#### Licenses
+#### Licenses ::MULTIMD-GO-BACK-TO-TOC-7::
 
 The optional block `project.licenses` is used to indicate licenses via the following keys (no formats supported at this time).
 
@@ -196,19 +196,21 @@ The `Python` module `aboutmeta` takes into account the license names proposed by
 > ***NOTE.*** *You can request the addition of a `License.txt` file in the folder containing the `about.yaml` file.*
 
 <a id="MULTIMD-TOC-ANCHOR-8"></a>
-#### Languages
+#### Languages ::MULTIMD-GO-BACK-TO-TOC-8::
 
 The optional `project.langs` block allows you to specify the languages used for the following cases related to a code-type project.
 
 1. The `doc` key is for the language used to write the technical documentation.
 2. The `manual` key is for the language used to write the user manual.
 
-Language names must be those recognised by the `Python` package [`Babel`](https://babel.pocoo.org/en/latest/) used behind the scenes: see [ISO 639 standard](https://en.wikipedia.org/wiki/ISO_639) for languages and [ISO 3166 standard](https://en.wikipedia.org/wiki/ISO_3166) for countries. For example, `fr_FR` indicates French spoken in France.
+You can specify a language using the [ISO 639 standard](https://en.wikipedia.org/wiki/ISO_639), then, if necessary, add a country using the [ISO 3166 standard](https://en.wikipedia.org/wiki/ISO_3166): for example, you can type either `fr` if you do not wish to specify France, or `fr-BE` to indicate Belgian French.
 
-> ***NOTE.*** *The default language is `en_GB`.*
+> ***NOTE.*** *The default language is `en-US` for US English.*
+
+> ***TIP.*** *You can use `_` instead of `-`. This can be useful when pasting external text.*
 
 <a id="MULTIMD-TOC-ANCHOR-9"></a>
-#### Technologies required
+#### Technologies required ::MULTIMD-GO-BACK-TO-TOC-9::
 
 Using the optional `project.require` block, it is possible to provide a list of programming languages required for the code to work, or for compiling a document, this depends on the type of project.
 For the record, we reproduce the fictitious example presented at the beginning of this document.
@@ -220,7 +222,7 @@ project:
     - latex
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-10"></a>
-#### Keywords
+#### Keywords ::MULTIMD-GO-BACK-TO-TOC-10::
 
 Keywords are used to categorise the type of project succinctly: this is done via the optional `project.keywords` key. Here is the example we proposed at the beginning of the document.
 
@@ -232,7 +234,7 @@ project:
     - writing
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-11"></a>
-### Working with folders and files
+### Working with folders and files ::MULTIMD-GO-BACK-TO-TOC-11::
 
 Whether for a document written in small sections or for a monorepo project, it is useful to be able to specify a **list of existing folders and/or files** to explore in a customised order.
 The optional `toc` block meets this need. Its content must be a list of relative paths, with folders indicated by a slash ‘/’ at the end of the path, which also serves as a path separator, even when working with the Windows operating system.
@@ -250,7 +252,7 @@ When a folder is specified, this means that it contains an `about.yaml` file tha
 > ***NOTE.*** *Using the `Python` module `aboutmeta`, it is possible to specify a default extension.*
 
 <a id="MULTIMD-TOC-ANCHOR-12"></a>
-The `Python` module `aboutmeta`
+The `Python` module `aboutmeta` ::MULTIMD-GO-BACK-TO-TOC-12::
 -------------------------------
 
 In addition to providing `YAML` specifications, that can be used in your preferred programming language, `aboutmeta` offers a `Python` module based on a plugin system that handles certain data formats.
@@ -259,7 +261,7 @@ The following sections describe what is available in the current version.
 > ***NOTE.*** *The `contrib/parsers` folder contains a `README.md` file explaining how to easily build and suggest new parsers.*
 
 <a id="MULTIMD-TOC-ANCHOR-13"></a>
-### Data extraction
+### Data extraction ::MULTIMD-GO-BACK-TO-TOC-13::
 
 The analysis of an `about.yaml` file is done simply as follows where `Path` is the class from the `pathlib` module.
 
@@ -270,7 +272,7 @@ meta = Extract(Path("/full/path/to/about.yaml"))
 meta.build()
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-14"></a>
-### Use of data
+### Use of data ::MULTIMD-GO-BACK-TO-TOC-14::
 
 Once the data has been extracted by `aboutmeta.AboutMeta`, the `data` attribute of the `meta` object, see the previous section, provides access to the digested data in a simple manner.
 
@@ -282,12 +284,12 @@ The following sections present the data after digestion. **To keep things simple
 > ***NOTE.*** *To retrieve the original `YAML` version of a piece of data, there is the `verbatim` attribute, as in `meta.verbatim.project.version`, which is a standardised version of the original text.*
 
 <a id="MULTIMD-TOC-ANCHOR-15"></a>
-#### The project itself
+#### The project itself ::MULTIMD-GO-BACK-TO-TOC-15::
 
 We only present digested data that does not reproduce the contents of the `YAML` file.
 
 <a id="MULTIMD-TOC-ANCHOR-16"></a>
-##### Version and date
+##### Version and date ::MULTIMD-GO-BACK-TO-TOC-16::
 
 Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build.5 (2025-06-27)`. By default, the digest will provide the following information.
 
@@ -298,7 +300,7 @@ Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build
    - `minor` provides the integer `2`.
    - `patch` provides the integer `3`.
    - `prerelease` provides the text `beta.4`.
-   - `v.build` provides the text `build.5`.
+   - `build` provides the text `build.5`.
 2. The version date is accessible via the attribute `meta.data.project.version.date`, whose text version is simply `2025-06-27`.
    If needed, you can use the following sub-attributes.
 
@@ -309,8 +311,7 @@ Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build
 > ***NOTE*** *Behind the scenes, the version number is a `semver.version.Version` object, while the date is a `datetime.date` object (which provides access to all the methods associated with these types of objects).*
 
 <a id="MULTIMD-TOC-ANCHOR-17"></a>
-##### Developers, authors and contributors
-
+##### Developers, authors and contributors ::MULTIMD-GO-BACK-TO-TOC-17::
 > ***NOTE.*** *For the `project.author(s)` and `project.contrib(s)` keys, the digested data is always a list of identifiers. In other words, the singular forms `project.author` and `project.contrib` will produce a list of size 1. This choice allows for unified management of the digested data.*
 
 The elements of the list are `aboutmeta.person.Person` objects that have the following sub-attributes.
@@ -321,7 +322,7 @@ The elements of the list are `aboutmeta.person.Person` objects that have the fol
 4. `affiliation` is to the text written in square brackets.
 
 <a id="MULTIMD-TOC-ANCHOR-18"></a>
-##### URLs of the project
+##### URLs of the project ::MULTIMD-GO-BACK-TO-TOC-18::
 
 Although URLs are stored verbatim, we would like to point out here that `aboutmeta.Extract` is capable of testing the validity of URLs in the sense that they are associated with a DNS catalogue. In other words, a URL that points nowhere will cause an error.
 As this operation involves a basic, risk-free web query, the user must make an explicit request as in the following code.
@@ -335,7 +336,7 @@ meta.build()
 meta.validate_urls("project.urls")
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-19"></a>
-##### Licenses
+##### Licenses ::MULTIMD-GO-BACK-TO-TOC-19::
 
 The license abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List](https://spdx.org/licenses/) (internally, we use a local version of the [`licenses.json`](https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json) file).
 To facilitate data entry, lowercase letters may be used, and hyphens may be replaced with spaces: for example, to indicate the *"Creative Commons Attribution Non Commercial 4.0 International"* license, it is possible to use `cc by nc 4.0` instead of `CC-BY-NC-4.0` as expected by the `SPDX` project.
@@ -344,9 +345,9 @@ To facilitate data entry, lowercase letters may be used, and hyphens may be repl
 
 The digested license provides the following sub-attributes of ``meta.data.project.license`.
 
-1. `id` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.license)` for example.
+1. `std` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.license)` for example.
 2. `name` is the full title of the license.
-3. `text` is the text of the license, which will always be obtained via a web request (you must therefore be connected to obtain this text).
+3. `ref` is an url pointed to the `SPDX` web page describing the license.
 
 > ***NOTE.*** *You can request that the full text of the license be added to a file named `License.txt` located in the folder containing the `about.yaml` file. To do so, use the following code.*
 
@@ -359,14 +360,16 @@ meta.build()
 meta.add_license()
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-20"></a>
-##### Languages
+##### Languages ::MULTIMD-GO-BACK-TO-TOC-20::
 
-You can specify a language using the [ISO 639 standard](https://en.wikipedia.org/wiki/ISO_639), then, if necessary, add a country using the [ISO 3166 standard](https://en.wikipedia.org/wiki/ISO_3166): for example, you can type either `fr` if you do not wish to specify France, or `fr_BE` to indicate Belgian French.
+A digested language provides the following information.
 
-> ***NOTE.*** *The default language is `en_GB` for British English.*
+1. `std` is the standard full identifier: for example, `fr` becomes `fr-FR`. This text is also used for the basic text version obtained via `str(meta.data.project.langs.manual)`, for example.
+2. `name` is the English name of the language.
+3. `territory` is the English name of the territory associated with the language.
 
 <a id="MULTIMD-TOC-ANCHOR-21"></a>
-#### Working with folders and files
+#### Working with folders and files ::MULTIMD-GO-BACK-TO-TOC-21::
 
 The list of paths is validated during digestion and is returned as a list of pairs `(boolean, Path)` that complies with the following specifications.
 

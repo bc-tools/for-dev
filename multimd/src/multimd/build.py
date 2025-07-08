@@ -114,7 +114,7 @@ class Builder:
         self.html_code = "\n".join(self.html_code)
 
 # \Md standardized version keeping a possible md::''::TOC::''.
-        self.std_md_code  = self.sdtconv.convert(self.html_code)
+        self.std_md_code = self.sdtconv.convert(self.html_code)
 
 # Management of md::''::TOC::''.
         self.tocify()
@@ -155,6 +155,11 @@ class Builder:
                 anchor_nbs_kept.append(anchor_nb)
 
             else:
+                md_std = md_std.replace(
+                    TAG_TMP_REF_2_TOC.format('',anchor_nb),
+                    ''
+                )
+
                 md_std = md_std.replace(
                     TAG_TMP_MD_ANCHOR.format(anchor_nb, ''),
                     ''

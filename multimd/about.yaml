@@ -1,14 +1,20 @@
 project:
   version: "1.0.0"
 
+  acronym: "[multi]ple [''MD''] files"
   desc   : This project makes it possible to write separated
            ''MD'' pieces that will be merged to produce one
            single final ''MD'' file.
-  acronym: "[MULTI]ple [''MD''] files (multiple Markdown files)"
-  author : Christophe, BAL
-  license: gnu 3
 
-  repo   : https://github.com/bc-tools/for-dev/tree/main/multimd
+  author : Christophe, BAL
+
+  licenses:
+    code: gpl 3.0+
+
+  urls:
+    home  : https://github.com/bc-tools/for-dev
+    dev   : https://github.com/bc-tools/for-dev/tree/main/multimd
+    issues: https://github.com/bc-tools/for-dev/issues
 
   require:
     - python3

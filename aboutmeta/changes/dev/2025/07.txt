@@ -10,7 +10,11 @@
 -----
 
 [[:api:]]
-\Doc before code: the \api has been explained.
+Two new features.
+
+    1) \Doc before code: the \api has been explained.
+
+    2) All default parsers have been coded in the path::''contrib/parsers'' folder.
 
 
 // ---------- //
