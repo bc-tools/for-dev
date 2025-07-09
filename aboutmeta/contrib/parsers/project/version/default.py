@@ -59,6 +59,6 @@ if __name__ == "__main__":
 
 # Corrupted data.
     nbver = "2.3"
-    print(f'--- ({nbver}) CORRUPTED!')
+    print(f'--- ({nbver}) --> CORRUPTED!')
 
     v = parser(nbver)

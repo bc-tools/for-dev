@@ -7,7 +7,16 @@
 #     :return: XXX
 ###
 def extract_group(content, opener, closer, context):
-    if content[-1] != closer:
+    if (
+        not closer in content
+        and
+        opener in content
+    ):
+        raise ValueError(
+            f"missing closing ''{closer}'' for {context}"
+        )
+
+    elif content[-1] != closer:
         extra = None
 
     else:

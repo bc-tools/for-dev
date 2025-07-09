@@ -66,8 +66,6 @@ if __name__ == "__main__":
         "A,B,C",
         "A,B",
         "A",
-        # "ABC)", # Test of an exception.
-        # "AB](C)", # Test of an exception.
     ]:
         print()
         print(f'---\n{someone}\n---')
@@ -81,3 +79,11 @@ if __name__ == "__main__":
         print()
 
 # Corrupted data.
+    someone = "ABC)"
+    someone = "AB(C"
+    # someone = "AB](C)"
+    someone = "A[B(C)"
+
+    print(f'---\n{someone} --> CORRUPTED!\n---')
+
+    s = parser(someone)

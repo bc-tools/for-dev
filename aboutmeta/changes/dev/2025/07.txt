@@ -17,6 +17,14 @@ Two new features.
     2) All default parsers have been coded in the path::''contrib/parsers'' folder.
 
 
+-----
+:fix:
+-----
+
+[[:bug:]]   ????,
+Réparé pour parser de person : pas de gestion des tags fermants absents bien qu'un ouvrant soit laà
+
+
 // ---------- //
 
 
