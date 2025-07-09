@@ -7,11 +7,12 @@ import aboutmeta
 # -- IMPLEMENTATION -- #
 # -------------------- #
 
-### TODO
+###
 # prototype::
-#     content : XXX
+#     content : one person provided in the \yaml file, but stripped.
 #
-#     :return: XXX
+#     :return: an instance of the class ''aboutmeta.data.person.Person''
+#               to work easily with the person data.
 ###
 def parser(content: str) -> aboutmeta.data.person.Person:
 # One affiliation?
@@ -34,7 +35,7 @@ def parser(content: str) -> aboutmeta.data.person.Person:
     titles = content.split(',')
 
     if len(titles) == 1:
-        firstnames = []
+        firstnames = None
 
     else:
         firstnames = [
@@ -81,7 +82,7 @@ if __name__ == "__main__":
 # Corrupted data.
     someone = "ABC)"
     someone = "AB(C"
-    # someone = "AB](C)"
+    someone = "AB](C)"
     someone = "A[B(C)"
 
     print(f'---\n{someone} --> CORRUPTED!\n---')

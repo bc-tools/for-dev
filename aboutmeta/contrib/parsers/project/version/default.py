@@ -41,10 +41,10 @@ if __name__ == "__main__":
         "2.3.4-beta.1",
         "2.3.4",
     ]:
-        v = parser(nbver)
-
         print()
         print(f'--- ({nbver})')
+
+        v = parser(nbver)
 
         print(v)
         print(repr(v))
@@ -59,6 +59,7 @@ if __name__ == "__main__":
 
 # Corrupted data.
     nbver = "2.3"
+
     print(f'--- ({nbver}) --> CORRUPTED!')
 
     v = parser(nbver)

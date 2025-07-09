@@ -14,11 +14,12 @@ from datetime import datetime
 # -- IMPLEMENTATION -- #
 # -------------------- #
 
-### TODO
+###
 # prototype::
-#     content : XXX
+#     content : the date provided in the \yaml file, but stripped.
 #
-#     :return: XXX
+#     :return: an instance of the class ''datetime.date'' to work
+#              easily with the date.
 ###
 def parser(content: str) -> datetime.date:
     d = datetime.strptime(
@@ -37,13 +38,11 @@ if __name__ == "__main__":
 # Working examples.
     for onedate in [
         "2025-06-27",
-        # "2.3",          # Test of an exception.
-        # "2025-02-30",   # Test of an exception.
     ]:
-        d = parser(onedate)
-
         print()
         print(f'--- ({onedate})')
+
+        d = parser(onedate)
 
         print(repr(d))
 
@@ -54,3 +53,9 @@ if __name__ == "__main__":
     print()
 
 # Corrupted data.
+    onedate = "2.3"
+    onedate = "2025-02-30"
+
+    print(f'--- ({onedate}) --> CORRUPTED!')
+
+    d = parser(onedate)

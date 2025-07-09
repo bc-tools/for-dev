@@ -8,7 +8,7 @@ import aboutmeta
 # ------------- #
 
 from langcodes import (
-    get as getlangcode,
+    get as get_langcode,
     LanguageTagError
 )
 
@@ -17,16 +17,17 @@ from langcodes import (
 # -- IMPLEMENTATION -- #
 # -------------------- #
 
-### TODO
+###
 # prototype::
-#     content : XXX
+#     content : the \lang provided in the \yaml file, but stripped.
 #
-#     :return: XXX
+#     :return: an instance of the class ''aboutmeta.data.lang.Lang''
+#              to work easily with the \lang.
 ###
 def parser(content: str) -> aboutmeta.data.lang.Lang:
 # Getting a normalized code.
     try:
-        lang = getlangcode(content).maximize()
+        lang = get_langcode(content).maximize()
 
     except LanguageTagError as e:
         raise ValueError(f"illegal language code ''{content}''")
@@ -51,8 +52,8 @@ if __name__ == "__main__":
     for userlang in [
         "fr",
         "es",
+        "en",
         "en-GB",
-        # "XXXXXX"   # Test of an exception.
     ]:
         print()
         print(f'--- ({userlang})')
@@ -65,3 +66,8 @@ if __name__ == "__main__":
     print()
 
 # Corrupted data.
+    userlang =  "XXXXXX"   # Test of an exception.
+
+    print(f'--- ({userlang}) --> CORRUPTED!')
+
+    lang = parser(userlang)

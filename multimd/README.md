@@ -124,3 +124,4 @@ By default, all sections from level `2` onwards are included in the table of con
 
 - `::TOC-1::` requests that only sections of level `2` are retained.
 - `::TOC-2::` requests that only sections of level `2` or `3` are retained.
+- And so on...

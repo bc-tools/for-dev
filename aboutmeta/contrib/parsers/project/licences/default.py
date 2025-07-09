@@ -7,9 +7,13 @@ import aboutmeta
 # -- IMPORTS -- #
 # ------------- #
 
-import                     json
-from pathlib        import Path
-import                     re
+from json import (
+    load  as json_load ,
+    dumps as json_dumps
+)
+
+from pathlib import Path
+import              re
 
 from rapidfuzz import (
     process as fuzz_process,
@@ -42,7 +46,7 @@ TAG_SPDX_LICENSE_NAME = 'name'
 def parser(content: str) -> aboutmeta.data.license.License:
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
-        all_licenses = json.load(f)
+        all_licenses = json_load(f)
 
 # Normal form found?
     normal_ID  = normalize(content)
@@ -94,12 +98,12 @@ def normalize(text):
 ###
 def license_matches(
     normal_ID,
-    max_suggestions = 5,
+    max_suggestions = 15,
     min_score       = 60
 ):
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
-        all_licenses = json.load(f)
+        all_licenses = json_load(f)
 
     all_norm_IDs = list(all_licenses.keys())
 
@@ -127,14 +131,12 @@ def license_matches(
         if match[1] not in combined:
             combined.append(match[1])
 
-    return combined[:max_suggestions]
+    return sorted(combined[:max_suggestions])
 
 
 # ----------- #
 # -- TOOLS -- #
 # ----------- #
-
-from urllib.request import urlopen
 
 ### TODO
 # prototype::
@@ -143,11 +145,13 @@ from urllib.request import urlopen
 #     :return: XXX
 ###
 def tool_update_license_json() -> None:
+    from urllib.request import urlopen
+
     SPDX_URL = "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json"
 
 # The SPDX data online.
     with urlopen(SPDX_URL) as response:
-        spdx_data = json.load(response)
+        spdx_data = json_load(response)
 
 # Our local data.
     licenses = {
@@ -172,9 +176,7 @@ def tool_update_license_json() -> None:
             'ref' : lic[TAG_SPDX_LICENSE_REF],
         }
 
-    LICENSES_JSON_FILE.write_text(json.dumps(licenses))
-
-
+    LICENSES_JSON_FILE.write_text(json_dumps(licenses))
 
 
 # ----------------- #
@@ -182,23 +184,29 @@ def tool_update_license_json() -> None:
 # ----------------- #
 
 if __name__ == "__main__":
-    tool_update_license_json()
+    # tool_update_license_json()
 
 # Working examples.
     for lic in [
         "gpl-3.0+",
         "cc    by nc 4.0",
-        # "gpl",   # Test of an exception with suggestions.
-        # "cc nc",   # Test of an exception with suggestions.
-        # "cc",     # Test of an exception without suggestion.
-        # " ",     # Test of an exception without suggestion.
     ]:
-        liccode = parser(lic)
-
         print()
         print(f'--- ({lic})')
+
+        liccode = parser(lic)
 
         print(liccode)
         print(repr(liccode))
 
+    print()
+
 # Corrupted data.
+    lic = "gpl"
+    lic = "cc nc"
+    # lic = "cc"
+    # lic = " "
+
+    print(f'--- ({lic}) --> CORRUPTED! Possible matches...')
+
+    liccode = parser(lic)

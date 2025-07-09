@@ -81,6 +81,7 @@ exclude_lines = [
 
 [tool.hatch.build]
 sources = ["src"]
+include = []
 
 [tool.hatch.envs.debug]
 dependencies = []
