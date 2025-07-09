@@ -21,8 +21,6 @@ from rapidfuzz import (
 ###
 # TODO
 ###
-SPDX_URL = "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json"
-
 LICENSES_JSON_FILE = Path(__file__).parent / "licenses.json"
 
 TAG_SPDX_LICENSES     = 'licenses'
@@ -36,7 +34,9 @@ TAG_SPDX_LICENSE_NAME = 'name'
 #
 #     :return: XXX
 ###
-def update_license_json() -> None:
+def tool_update_license_json() -> None:
+    SPDX_URL = "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json"
+
 # The SPDX data online.
     with urlopen(SPDX_URL) as response:
         spdx_data = json.load(response)
@@ -169,7 +169,7 @@ def license_matches(
 # ----------------------------- #
 
 if __name__ == "__main__":
-    update_license_json()
+    tool_update_license_json()
 
     for lic in [
         "gpl-3.0+",

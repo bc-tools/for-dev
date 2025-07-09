@@ -7,6 +7,8 @@ How to contribute?
 The contributions made are in the `contrib` folder which has the following structure.
 
 <!-- FOLDER STRUCT. AUTO - START -->
+    + contrib
+      + parsers
 <!-- FOLDER STRUCT. AUTO - END -->
 
 
