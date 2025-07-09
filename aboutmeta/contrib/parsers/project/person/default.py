@@ -12,7 +12,7 @@ import aboutmeta
 #     content : one person provided in the \yaml file, but stripped.
 #
 #     :return: an instance of the class ''aboutmeta.data.person.Person''
-#               to work easily with the person data.
+#              to work easily with the person data.
 ###
 def parser(content: str) -> aboutmeta.data.person.Person:
 # One affiliation?

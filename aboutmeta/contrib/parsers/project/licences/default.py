@@ -37,11 +37,12 @@ TAG_SPDX_LICENSE_NAME = 'name'
 # -- IMPLEMENTATION -- #
 # -------------------- #
 
-### TODO
+###
 # prototype::
-#     content : XXX
+#     content : the \lic code provided in the \yaml file, but stripped.
 #
-#     :return: XXX
+#     :return: an instance of the class ''aboutmeta.data.license.License''
+#              to work easily with the license.
 ###
 def parser(content: str) -> aboutmeta.data.license.License:
 # Our local data.
@@ -78,11 +79,15 @@ def parser(content: str) -> aboutmeta.data.license.License:
     )
 
 
-### TODO
+###
 # prototype::
-#     text : XXX
+#     text : a \lic code.
 #
-#     :return: XXX
+#     :return: a normalized code for the data process.
+#
+# note::
+#     The construction of the path::licenses.json file verifies that
+#     normalization does not create any duplicates.
 ###
 def normalize(text):
     text = re.sub(r"[\s_\-\.]+", "", text.lower())
@@ -90,16 +95,16 @@ def normalize(text):
     return text
 
 
-### TODO
+###
 # prototype::
-#     text : XXX
+#     normal_ID       : an invalid normalized \lic code.
+#     max_suggestions : the maximum \nb of suggestions proposed.
 #
-#     :return: XXX
+#     :return: possible matches for a valid SPDX \lic code.
 ###
 def license_matches(
     normal_ID,
-    max_suggestions = 15,
-    min_score       = 60
+    max_suggestions = 15
 ):
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
@@ -111,6 +116,8 @@ def license_matches(
     del all_norm_IDs[0]
 
 # Ask to ''rapidfuzz'' to help us...
+    min_score = 60
+
     fuzzy_matches_raw = fuzz_process.extract(
         normal_ID,
         all_norm_IDs,
@@ -123,7 +130,11 @@ def license_matches(
     for norm_match, score, idx in fuzzy_matches_raw:
         if score >= min_score:
             orig_key = all_norm_IDs[idx]
-            fuzzy_matches_filtered.append((orig_key,all_licenses[orig_key]['std']))
+
+            fuzzy_matches_filtered.append((
+                orig_key,
+                all_licenses[orig_key]['std']
+            ))
 
     combined = []
 
@@ -138,11 +149,10 @@ def license_matches(
 # -- TOOLS -- #
 # ----------- #
 
-### TODO
+###
 # prototype::
-#     content : XXX
-#
-#     :return: XXX
+#     :action: build a local \std version of the online SPDX
+#              path::''licenses.json'' file.
 ###
 def tool_update_license_json() -> None:
     from urllib.request import urlopen
@@ -184,11 +194,11 @@ def tool_update_license_json() -> None:
 # ----------------- #
 
 if __name__ == "__main__":
-    # tool_update_license_json()
+    tool_update_license_json()
 
 # Working examples.
     for lic in [
-        "gpl-3.0+",
+        "gpl - 3.0 +",
         "cc    by nc 4.0",
     ]:
         print()
