@@ -17,11 +17,12 @@ from semver import (
 # -- IMPLEMENTATION -- #
 # -------------------- #
 
-### TODO
+###
 # prototype::
-#     content : XXX
+#     content : the \nbver provided in the \yaml file, but stripped.
 #
-#     :return: XXX
+#     :return: an instance of the class ''semver.Version'' to work
+#              easily with the number version.
 ###
 def parser(content: str) -> Version:
     version = VersionInfo.parse(content)
@@ -34,11 +35,11 @@ def parser(content: str) -> Version:
 # ----------------- #
 
 if __name__ == "__main__":
+# Working examples.
     for nbver in [
         "2.3.4-beta.1+build.5",
         "2.3.4-beta.1",
         "2.3.4",
-        # "2.3",   # Test of an exception.
     ]:
         v = parser(nbver)
 
@@ -55,3 +56,9 @@ if __name__ == "__main__":
         print(f"build      = {v.build}")
 
     print()
+
+# Corrupted data.
+    nbver = "2.3"
+    print(f'--- ({nbver}) CORRUPTED!')
+
+    v = parser(nbver)

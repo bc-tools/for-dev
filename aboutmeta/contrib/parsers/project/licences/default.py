@@ -184,6 +184,7 @@ def tool_update_license_json() -> None:
 if __name__ == "__main__":
     tool_update_license_json()
 
+# Working examples.
     for lic in [
         "gpl-3.0+",
         "cc    by nc 4.0",
@@ -199,3 +200,5 @@ if __name__ == "__main__":
 
         print(liccode)
         print(repr(liccode))
+
+# Corrupted data.

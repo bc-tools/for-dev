@@ -47,6 +47,7 @@ def parser(content: str) -> aboutmeta.data.lang.Lang:
 # ----------------- #
 
 if __name__ == "__main__":
+# Working examples.
     for userlang in [
         "fr",
         "es",
@@ -62,3 +63,5 @@ if __name__ == "__main__":
         print(repr(lang))
 
     print()
+
+# Corrupted data.

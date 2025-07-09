@@ -57,6 +57,7 @@ def parser(content: str) -> aboutmeta.data.person.Person:
 # ----------------- #
 
 if __name__ == "__main__":
+# Working examples.
     for someone in [
         "A,B,C[a.b.c@d.e](fgh)",
         "A  ,  B   , C   [  a.b.c@d.e  ]  (  fgh  )",
@@ -78,3 +79,5 @@ if __name__ == "__main__":
         print(s)
 
         print()
+
+# Corrupted data.

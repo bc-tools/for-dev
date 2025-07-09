@@ -34,6 +34,7 @@ def parser(content: str) -> datetime.date:
 # ----------------- #
 
 if __name__ == "__main__":
+# Working examples.
     for onedate in [
         "2025-06-27",
         # "2.3",          # Test of an exception.
@@ -51,3 +52,5 @@ if __name__ == "__main__":
         print(d.day)
 
     print()
+
+# Corrupted data.
