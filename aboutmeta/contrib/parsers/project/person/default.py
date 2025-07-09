@@ -52,10 +52,9 @@ def parser(content: str) -> aboutmeta.data.person.Person:
     )
 
 
-
-# ----------------------------- #
-# -- HUMAN TESTS (MANDATORY) -- #
-# ----------------------------- #
+# ----------------- #
+# -- HUMAN TESTS -- #
+# ----------------- #
 
 if __name__ == "__main__":
     for someone in [

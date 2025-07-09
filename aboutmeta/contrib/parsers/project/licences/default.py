@@ -3,11 +3,10 @@
 import aboutmeta
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------- #
+# -- IMPORTS -- #
+# ------------- #
 
-from urllib.request import urlopen
 import                     json
 from pathlib        import Path
 import                     re
@@ -18,9 +17,10 @@ from rapidfuzz import (
 )
 
 
-###
-# TODO
-###
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
 LICENSES_JSON_FILE = Path(__file__).parent / "licenses.json"
 
 TAG_SPDX_LICENSES     = 'licenses'
@@ -28,44 +28,10 @@ TAG_SPDX_LICENSE_ID   = 'licenseId'
 TAG_SPDX_LICENSE_REF  = 'reference'
 TAG_SPDX_LICENSE_NAME = 'name'
 
-### TODO
-# prototype::
-#     content : XXX
-#
-#     :return: XXX
-###
-def tool_update_license_json() -> None:
-    SPDX_URL = "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json"
 
-# The SPDX data online.
-    with urlopen(SPDX_URL) as response:
-        spdx_data = json.load(response)
-
-# Our local data.
-    licenses = {
-        '__version__': spdx_data["licenseListVersion"]
-    }
-
-    for lic in spdx_data[TAG_SPDX_LICENSES]:
-        license_ID = lic[TAG_SPDX_LICENSE_ID]
-        normal_ID  = normalize(license_ID)
-
-        if normal_ID in licenses:
-            raise Exception(
-                 "unbijective normal transofrmation of license names:"
-                 "\n"
-                f"{license_ID} --> {normal_ID}. "
-                 "BUG!"
-            )
-
-        licenses[normal_ID] = {
-            'std' : license_ID,
-            'name': lic[TAG_SPDX_LICENSE_NAME],
-            'ref' : lic[TAG_SPDX_LICENSE_REF],
-        }
-
-    LICENSES_JSON_FILE.write_text(json.dumps(licenses))
-
+# -------------------- #
+# -- IMPLEMENTATION -- #
+# -------------------- #
 
 ### TODO
 # prototype::
@@ -164,9 +130,56 @@ def license_matches(
     return combined[:max_suggestions]
 
 
-# ----------------------------- #
-# -- HUMAN TESTS (MANDATORY) -- #
-# ----------------------------- #
+# ----------- #
+# -- TOOLS -- #
+# ----------- #
+
+from urllib.request import urlopen
+
+### TODO
+# prototype::
+#     content : XXX
+#
+#     :return: XXX
+###
+def tool_update_license_json() -> None:
+    SPDX_URL = "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json"
+
+# The SPDX data online.
+    with urlopen(SPDX_URL) as response:
+        spdx_data = json.load(response)
+
+# Our local data.
+    licenses = {
+        '__version__': spdx_data["licenseListVersion"]
+    }
+
+    for lic in spdx_data[TAG_SPDX_LICENSES]:
+        license_ID = lic[TAG_SPDX_LICENSE_ID]
+        normal_ID  = normalize(license_ID)
+
+        if normal_ID in licenses:
+            raise Exception(
+                 "unbijective normal transofrmation of license names:"
+                 "\n"
+                f"{license_ID} --> {normal_ID}. "
+                 "BUG!"
+            )
+
+        licenses[normal_ID] = {
+            'std' : license_ID,
+            'name': lic[TAG_SPDX_LICENSE_NAME],
+            'ref' : lic[TAG_SPDX_LICENSE_REF],
+        }
+
+    LICENSES_JSON_FILE.write_text(json.dumps(licenses))
+
+
+
+
+# ----------------- #
+# -- HUMAN TESTS -- #
+# ----------------- #
 
 if __name__ == "__main__":
     tool_update_license_json()

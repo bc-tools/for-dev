@@ -3,12 +3,16 @@
 import aboutmeta
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------- #
+# -- IMPORTS -- #
+# ------------- #
 
 from datetime import datetime
 
+
+# -------------------- #
+# -- IMPLEMENTATION -- #
+# -------------------- #
 
 ### TODO
 # prototype::
@@ -25,9 +29,9 @@ def parser(content: str) -> datetime.date:
     return d
 
 
-# ----------------------------- #
-# -- HUMAN TESTS (MANDATORY) -- #
-# ----------------------------- #
+# ----------------- #
+# -- HUMAN TESTS -- #
+# ----------------- #
 
 if __name__ == "__main__":
     for onedate in [

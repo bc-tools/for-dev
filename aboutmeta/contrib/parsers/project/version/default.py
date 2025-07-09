@@ -3,15 +3,19 @@
 import aboutmeta
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------- #
+# -- IMPORTS -- #
+# ------------- #
 
 from semver import (
     Version,
     VersionInfo,
 )
 
+
+# -------------------- #
+# -- IMPLEMENTATION -- #
+# -------------------- #
 
 ### TODO
 # prototype::
@@ -25,9 +29,9 @@ def parser(content: str) -> Version:
     return version
 
 
-# ----------------------------- #
-# -- HUMAN TESTS (MANDATORY) -- #
-# ----------------------------- #
+# ----------------- #
+# -- HUMAN TESTS -- #
+# ----------------- #
 
 if __name__ == "__main__":
     for nbver in [

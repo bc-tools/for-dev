@@ -3,15 +3,19 @@
 import aboutmeta
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------- #
+# -- IMPORTS -- #
+# ------------- #
 
 from langcodes import (
     get as getlangcode,
     LanguageTagError
 )
 
+
+# -------------------- #
+# -- IMPLEMENTATION -- #
+# -------------------- #
 
 ### TODO
 # prototype::
@@ -38,9 +42,9 @@ def parser(content: str) -> aboutmeta.data.lang.Lang:
     )
 
 
-# ----------------------------- #
-# -- HUMAN TESTS (MANDATORY) -- #
-# ----------------------------- #
+# ----------------- #
+# -- HUMAN TESTS -- #
+# ----------------- #
 
 if __name__ == "__main__":
     for userlang in [
