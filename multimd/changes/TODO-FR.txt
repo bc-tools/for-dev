@@ -5,10 +5,10 @@ multimd - TODO
 
 > ---------------------------- <
 
-titre dans toc sont cliquables pour retourner à la TOC
 
-<a href="#MULTIMD-TOC-ANCHOR" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -0.2em;"></span></a>
+::tags:: pour cas utile via des images en ligne ou autre
 
+    ---> uniquement un par ligne ?
 
 > ---------------------------- <
 

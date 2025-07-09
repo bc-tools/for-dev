@@ -25,8 +25,9 @@ TAG_TOC     = "::TOC::"
 TAG_TMP_TOC = f"::{_UGLY_TAG_TOC}::"
 PATTERN_TOC = re.compile(rf"::TOC(-(\d+))?::")
 
-TAG_REF_2_TOC     = "MULTIMD-GO-BACK-TO-TOC"
-TAG_TMP_REF_2_TOC = f"{{}} ::{TAG_REF_2_TOC}-{{}}::\n"
+TAG_REF_2_TOC         = "MULTIMD-GO-BACK-TO-TOC"
+TAG_TMP_REF_2_TOC     = f"{{}} ::{TAG_REF_2_TOC}-{{}}::"
+PATTERN_TMP_REF_2_TOC = re.compile(rf"::{TAG_REF_2_TOC}-\d+::")
 
 TAG_ANCHOR         = "MULTIMD-TOC-ANCHOR"
 TAG_TMP_MD_ANCHOR  = f"::{TAG_ANCHOR}-{{}}::\n{{}}"
@@ -106,6 +107,8 @@ class StdConverter(MarkdownConverter):
 
         title = title.lstrip()
 
+        print("before:", repr(title))
+
         self.anchor_nb += 1
 
         if '\n---' in title:
@@ -120,6 +123,9 @@ class StdConverter(MarkdownConverter):
             title = TAG_TMP_REF_2_TOC.format(title.rstrip(), self.anchor_nb)
 
         title += "\n\n"
+
+        print("after:", repr(title))
+
 
         self.titles.append((text, n, self.anchor_nb))
 

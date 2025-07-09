@@ -5,6 +5,7 @@ This document is a complete tutorial showing all the available features.
 
 **Table of contents**
 
+<a id="MULTIMD-GO-BACK-TO-TOC"></a>
 - [What is `multimd`?](#MULTIMD-TOC-ANCHOR-0)
 - [`README.md` part by part](#MULTIMD-TOC-ANCHOR-1)
 - [Without the special `about.yaml` file](#MULTIMD-TOC-ANCHOR-2)
@@ -13,7 +14,7 @@ This document is a complete tutorial showing all the available features.
     - [ToC settings](#MULTIMD-TOC-ANCHOR-5)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
-What is `multimd`?
+What is `multimd`? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 ------------------
 
 The specific objective of this project is to write single `README.md` file for online code repositories. The idea is to write small, separate `MD` files that will then be merged by `multimd` into a single final `MD` file to be seen on the repository.
@@ -21,7 +22,7 @@ The specific objective of this project is to write single `README.md` file for o
 > ***CAUTION!*** *The main process is based on the [markdown-it-py](https://github.com/executablebooks/markdown-it-py) and [markdownify](https://github.com/matthewwithanm/python-markdownify/tree/master) projects, so the limitations of `multimd` therefore come from these projects, but the unit tests show a fairly robust behaviour.*
 
 <a id="MULTIMD-TOC-ANCHOR-1"></a>
-`README.md` part by part
+`README.md` part by part <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 ------------------------
 
 With `multimd`, you can write a `MD` document by typing small section-like files which are easy to maintain. Consider the `README.md` file from the `multimd` project itself which was written using the following tree on 23 June 2025 (the day of the version `1.0.0`).
@@ -77,7 +78,7 @@ mybuilder.build()
 > ***NOTE.*** *It is possible to work with subfolders containing `MD` files. In this case, `multimd` will work recursively. In the `about.yaml` file, the path to a subfolder simply ends with the Unix path separator `/` like in `one/sub/folder/`.*
 
 <a id="MULTIMD-TOC-ANCHOR-2"></a>
-Without the special `about.yaml` file
+Without the special `about.yaml` file <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 -------------------------------------
 
 Without an `about.yaml` file, all the `MD` files found will be merged into one after sorting them in a "natural" order.
@@ -85,11 +86,11 @@ Without an `about.yaml` file, all the `MD` files found will be merged into one a
 > ***WARNING!*** *Without an `about.yaml` file, it is impossible to work with subfolders containing `MD` files. In other words, there will be no recursive search in any subfolders.*
 
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
-Finishing touches
+Finishing touches <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 -----------------
 
 <a id="MULTIMD-TOC-ANCHOR-4"></a>
-### What is done automatically?
+### What is done automatically? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 During final formatting, `multimd` standardises the source code to prevent `git` from spotting any *'false-positive'* changes. Here's what happens behind the scenes.
 
@@ -100,7 +101,7 @@ During final formatting, `multimd` standardises the source code to prevent `git`
 5. **Add a blank line** after an `MD` block, if necessary.
 
 <a id="MULTIMD-TOC-ANCHOR-5"></a>
-### ToC settings
+### ToC settings <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 In the following code, the alias `::TOC::` will be replaced by a full table of contents, with hyperlinks, in the final document. In fact, the first level `1` heading is never added, as it is the title of the document.
 

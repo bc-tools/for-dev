@@ -12,6 +12,21 @@ from .about     import *
 from .normalize import *
 
 
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
+HTML_HREF_TOC = f'<a id="{TAG_REF_2_TOC}"></a>'
+
+HTML_HREF_GO_BACK_TO_TOC = (
+    f'<a href="#{TAG_REF_2_TOC}" style="text-decoration: none;">'
+        '<span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">'
+            '&#x2191;'
+        '</span>'
+     '</a>'
+)
+
+
 # ------------------- #
 # -- REGEX UTILITY -- #
 # ------------------- #
@@ -167,6 +182,12 @@ class Builder:
 
 # We have to build the \toc.
         if nb_tag_TOC == 1:
+# Back-to-TOC anchors.
+            md_std = PATTERN_TMP_REF_2_TOC.sub(
+                HTML_HREF_GO_BACK_TO_TOC,
+                md_std
+            )
+
 # Consecutive anchor numbers is prettier.
             md_std = PATTERN_TMP_ANCHOR.sub(
                 update_anchor_HTML(),
@@ -181,7 +202,9 @@ class Builder:
             for line in old_lines:
 # \toc placeholder found.
                 if line == TAG_TMP_TOC:
-                    toc_html = []
+                    toc_html = [
+                        HTML_HREF_TOC
+                    ]
 
                     for i, (title, level, anchor_nb) in enumerate(all_titles):
                         if not anchor_nb in anchor_nbs_kept:
