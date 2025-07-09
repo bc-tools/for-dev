@@ -1,3 +1,5 @@
+<!-- This file was generated using the Python package `multimd`. -->
+
 Let's start our document here.
 
 Part 1

@@ -10,4 +10,8 @@
 -----
 
 [[:format:]]
-\Toc: arrows added to return to the \toc.
+One visible addition, and an unvisible one.
+
+    1) \Toc: arrows added to return to the \toc.
+
+    1) The source code contains a comment explaining how the file was generated.

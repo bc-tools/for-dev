@@ -107,8 +107,6 @@ class StdConverter(MarkdownConverter):
 
         title = title.lstrip()
 
-        print("before:", repr(title))
-
         self.anchor_nb += 1
 
         if '\n---' in title:
@@ -123,9 +121,6 @@ class StdConverter(MarkdownConverter):
             title = TAG_TMP_REF_2_TOC.format(title.rstrip(), self.anchor_nb)
 
         title += "\n\n"
-
-        print("after:", repr(title))
-
 
         self.titles.append((text, n, self.anchor_nb))
 

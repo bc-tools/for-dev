@@ -1,3 +1,5 @@
+<!-- This file was generated using the Python package `multimd`. -->
+
 The `Python` `CLI` and module `multimd`
 =======================================
 

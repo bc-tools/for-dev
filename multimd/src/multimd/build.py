@@ -27,6 +27,11 @@ HTML_HREF_GO_BACK_TO_TOC = (
 )
 
 
+HTML_COMMENT_REF_2_MULTIMD = """
+<!-- This file was generated using the Python package `multimd`. -->
+""".strip()
+
+
 # ------------------- #
 # -- REGEX UTILITY -- #
 # ------------------- #
@@ -195,8 +200,9 @@ class Builder:
             )
 
 # The \toc itself.
-            old_lines     = md_std.split('\n')
-            md_std        = []
+            old_lines = md_std.split('\n')
+            md_std    = []
+
             anchor_nb_TOC = -1
 
             for line in old_lines:
@@ -227,4 +233,4 @@ class Builder:
             md_std = "\n".join(md_std)
 
 # Let's publish our work...
-        self.std_md_code = md_std
+        self.std_md_code = f"{HTML_COMMENT_REF_2_MULTIMD}\n\n{md_std}"
