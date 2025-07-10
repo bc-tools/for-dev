@@ -24,6 +24,7 @@ TAG_OK     = "ok"
 
 def get_relfiles(onedir):
     status_dir = onedir / "STATUS"
+    files      = []
 
     for yaml_file in status_dir.glob("**/*.yaml"):
         status_data = safe_load(yaml_file.read_text())
@@ -38,9 +39,11 @@ def get_relfiles(onedir):
         if not fullfile.is_file():
             raise IOError(f"missing file:\n{fullfile}")
 
-        print(relfile)
 
-        exit()
+        files.append((relfile, fullfile))
+
+    return files
+
 
 # ------------ #
 # -- PARSER -- #
@@ -50,4 +53,5 @@ def get_relfiles(onedir):
 
 PARSER_DIR = CONTRIB_DIR / "parser"
 
-get_relfiles(PARSER_DIR)
+for relfile, fullfile in get_relfiles(PARSER_DIR):
+    print(f"+ ''{relfile}'' new parser.")
