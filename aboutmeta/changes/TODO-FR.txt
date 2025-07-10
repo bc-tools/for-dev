@@ -10,6 +10,11 @@ test sur tous mes projets séreux
 
 > ---------------------------- <
 
+api de modif des donnés guidées et aussi de gestion des textes des licences, meêm se cle reste accessible via l'api python (faire un syst d'ajout partout ou cela est util par exemple, et gérer un syst de cahce pour limiter les téléchargements que l'on fera de façon prudente) !
+
+
+> ---------------------------- <
+
 un syste de about.cfg.yaml pour gérer certains choses
 
     ---> validationd es urls mais dans ce cas, on mémorise ce qui fonctionne

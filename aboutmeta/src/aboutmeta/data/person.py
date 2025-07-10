@@ -6,6 +6,11 @@ from dataclasses import dataclass
 
 from .constants  import *
 
+
+# ----------------------- #
+# -- PERSON DATA CLASS -- #
+# ----------------------- #
+
 @dataclass
 class Person:
     firstnames : List[str]
@@ -13,6 +18,10 @@ class Person:
     email      : str
     affiliation: str
 
+###
+# The string representation must be a normalized version using
+# the syntax of the path::''about.yaml''.
+###
     def __str__(self):
         text = self.surname
 

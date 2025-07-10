@@ -216,15 +216,6 @@ if __name__ == "__main__":
 # Update the license data.
     tool_update_license_json()
 
-# Printing a licence text.
-    lic_id = "CC-BY-NC-4.0"
-    text   = get_licence_text(lic_id)
-
-    print()
-    print(f'--- text for ({lic_id})')
-    print(text[:400])
-    print("[...]")
-
 # Working examples.
     for lic in [
         "gpl - 3.0 +",

@@ -2,3 +2,4 @@
 
 from .check_dns import *
 from .group     import *
+from .licence   import *

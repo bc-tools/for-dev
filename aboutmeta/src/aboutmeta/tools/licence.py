@@ -2,6 +2,21 @@
 
 import requests
 
+
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
+URL_TEMPL_SPDX_LICENSE_TEXT = (
+    "https://raw.githubusercontent.com/spdx/"
+    "license-list-data/main/text/{}.txt"
+)
+
+
+# ------------------------- #
+# -- XXXX -- #
+# ------------------------- #
+
 ###
 # prototype::
 #     license_id : XXX
@@ -9,11 +24,9 @@ import requests
 #     :return: XXX
 ###
 def get_licence_text(license_id):
-    lic_url = f"https://raw.githubusercontent.com/spdx/license-list-data/main/text/{license_id}.txt"
-
     try:
         response = requests.get(
-            url     = lic_url,
+            url     = URL_TEMPL_SPDX_LICENSE_TEXT.format(license_id),
             timeout = 5
         )
 

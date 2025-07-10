@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
 TAG_AFFILIATION_OPEN  = "("
 TAG_AFFILIATION_CLOSE = ")"
 
