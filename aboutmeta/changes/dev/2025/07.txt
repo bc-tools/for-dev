@@ -2,6 +2,21 @@
 
 
 ==
+10  (0.0.0-beta.3)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+\Lic: implementation of license text download.
+
+
+// ---------- //
+
+
+==
 08  (0.0.0-beta.2)
 ==
 

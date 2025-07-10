@@ -8,8 +8,8 @@ import aboutmeta
 # ------------- #
 
 from json import (
-    load  as json_load ,
-    dumps as json_dumps
+    dumps as json_dumps,
+    load  as json_load,
 )
 
 from pathlib import Path
@@ -155,13 +155,32 @@ def license_matches(
 #              path::''licenses.json'' file.
 ###
 def tool_update_license_json() -> None:
-    from urllib.request import urlopen
+    import requests
 
     SPDX_URL = "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json"
 
 # The SPDX data online.
-    with urlopen(SPDX_URL) as response:
-        spdx_data = json_load(response)
+    try:
+        response = requests.get(
+            url     = SPDX_URL,
+            timeout = 5
+        )
+
+        if response.status_code == 200:
+            spdx_data = response.json()
+
+        elif response.status_code == 404:
+            raise FileNotFoundError(
+                f"aboutmeta BUG!\nBad SPDX_URL:\n{SPDX_URL}"
+            )
+
+        else:
+            raise RuntimeError(
+                f"HTTP error {response.status_code}."
+            )
+
+    except requests.exceptions.RequestException as e:
+        raise e
 
 # Our local data.
     licenses = {
@@ -194,7 +213,17 @@ def tool_update_license_json() -> None:
 # ----------------- #
 
 if __name__ == "__main__":
+# Update the license data.
     tool_update_license_json()
+
+# Printing a licence text.
+    lic_id = "CC-BY-NC-4.0"
+    text   = get_licence_text(lic_id)
+
+    print()
+    print(f'--- text for ({lic_id})')
+    print(text[:400])
+    print("[...]")
 
 # Working examples.
     for lic in [
