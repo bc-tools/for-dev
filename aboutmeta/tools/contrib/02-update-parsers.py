@@ -45,6 +45,10 @@ def get_relpaths(onedir):
     return files
 
 
+def normalize_code(content):
+    ...
+
+
 # ------------ #
 # -- PARSER -- #
 # ------------ #
@@ -54,6 +58,10 @@ parser_src_dir = SRC_DIR / "parser"
 
 for relpath, contrib_file in get_relpaths(parser_contrib_dir):
     print(f"+ ''{relpath}'' new parser.")
+
+    code = normalize_code(contrib_file.read_text())
+
+    print(code);exit()
 
     src_file = parser_src_dir / relpath
 
