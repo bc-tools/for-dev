@@ -7,6 +7,8 @@ import aboutmeta
 # -- IMPORTS -- #
 # ------------- #
 
+from typing import List
+
 from json import (
     dumps as json_dumps,
     load  as json_load,
@@ -89,7 +91,7 @@ def parser(content: str) -> aboutmeta.data.license.License:
 #     The construction of the path::licenses.json file verifies that
 #     normalization does not create any duplicates.
 ###
-def normalize(text):
+def normalize(text: str) -> str:
     text = re.sub(r"[\s_\-\.]+", "", text.lower())
 
     return text
@@ -103,9 +105,9 @@ def normalize(text):
 #     :return: possible matches for a valid SPDX \lic code.
 ###
 def license_matches(
-    normal_ID,
-    max_suggestions = 15
-):
+    normal_ID      : str,
+    max_suggestions: int = 15
+) -> List[str]:
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
         all_licenses = json_load(f)
