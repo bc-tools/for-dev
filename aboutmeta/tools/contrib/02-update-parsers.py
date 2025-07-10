@@ -22,7 +22,7 @@ TAG_OK     = "ok"
 # -- TOOLS -- #
 # ----------- #
 
-def get_status(onedir):
+def get_relfiles(onedir):
     status_dir = onedir / "STATUS"
 
     for yaml_file in status_dir.glob("**/*.yaml"):
@@ -31,15 +31,14 @@ def get_status(onedir):
         if status_data[TAG_STATUS] != TAG_OK:
             continue
 
-        relpath        = yaml_file.relative_to(status_dir)
-        pyfile_contrib = onedir / relpath.parent / f"{relpath.stem}.py"
+        reldir   = yaml_file.relative_to(status_dir)
+        relfile  = reldir.parent / f"{reldir.stem}.py"
+        fullfile = onedir / relfile
 
-        if not pyfile_contrib.is_file():
-            raise IOError(f"missing file:\n{pyfile_contrib}")
+        if not fullfile.is_file():
+            raise IOError(f"missing file:\n{fullfile}")
 
-        pyfile_src = SRC_DIR / onedir.name / pyfile_contrib.relative_to(onedir)
-
-        print(pyfile_src)
+        print(relfile)
 
         exit()
 
@@ -51,4 +50,4 @@ def get_status(onedir):
 
 PARSER_DIR = CONTRIB_DIR / "parser"
 
-get_status(PARSER_DIR)
+get_relfiles(PARSER_DIR)
