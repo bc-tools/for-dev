@@ -8,7 +8,7 @@ The contributions made are in the `contrib` folder which has the following struc
 
 <!-- FOLDER STRUCT. AUTO - START -->
     + contrib
-      + parsers
+      + parser
 <!-- FOLDER STRUCT. AUTO - END -->
 
 

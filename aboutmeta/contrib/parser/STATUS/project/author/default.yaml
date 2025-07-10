@@ -1,11 +1,11 @@
-author: Christophe, BAL, [projetmbc@gmail.com]
+author: Christophe, BAL
 
 # Possible status.
 #    + on hold
 #    + ko
 #    + ok
 #    + update
-status: on hold
+status: ok
 
 # Classical comments.
 #    + [on hold]  New API not yet analysed.

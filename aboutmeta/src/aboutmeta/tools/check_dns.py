@@ -2,6 +2,13 @@
 
 import requests
 
+
+### TODO
+# prototype::
+#     content : XXX
+#
+#     :return: XXX
+###
 def url_accessible(
     url,
     timeout         = 3,

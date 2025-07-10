@@ -1,12 +1,12 @@
 Add new plugins to `aboutmeta`
 ==============================
 
-Structure of the `contrib/parsers` folder
------------------------------------------
+Structure of the `contrib/parser` folder
+----------------------------------------
 
 ### The `STATUS` subfolder
 
-This folder allows you to know the status of your proposal.
+This folder allows you to know the status of your proposal. Its structure mimics the `contrib/parser` one.
 
 
 ### Other subfolders
