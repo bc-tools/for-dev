@@ -5,4 +5,4 @@ In addition to providing `YAML` specifications, that can be used in your preferr
 The following sections describe what is available in the current version.
 
 
-> ***NOTE.*** *The `contrib/parsers` folder contains a `README.md` file explaining how to easily build and suggest new parsers.*
+> ***NOTE.*** *The `contrib/parser` folder contains a `README.md` file explaining how to easily build and suggest new parsers.*

@@ -11,16 +11,22 @@ This folder allows you to know the status of your proposal. Its structure mimics
 
 ### Other subfolders
 
-The folders correspond to the main blocks of the `about.yaml` file. In their subfolders, you will find at least one `Python` file named `default.py`, which corresponds to the default behavior of the `Python` `aboutmeta` module.
+The folders correspond to the data structure of the `about.yaml` file. In the deepest subfolders, you will find at least one `Python` file named `default.py` corresponding to the default behavior.
 
 
-How to propose new parsers?
----------------------------
-
-The easiest way is to copy and paste the `default.py` file, then adapt it to your proposal without changing the signature of the `dataparser` function. It is preferable to propose a name that corresponds to the parameter used by the user of aboutmeta, but if you don't have any ideas, use your name to name your `Python` file.
+> ***NOTE.*** *If you want to create a parser that does not exist by default, simply follow the structure of the `about.yaml` file in the folder structure of `contrib/parser`.*
 
 
-> ***NOTE.*** *In manual tests, don't forget to provide functional examples and corrupted data that will be added to the unit tests!*
+How to propose a new parser?
+----------------------------
+
+Here are the steps to follow.
+
+  1. Start by finding a name to use when calling `aboutmeta` to invoke your parser. *If you're stuck for inspiration, use your surname.*
+
+  1. The name you choose is the name of the `Python` file where you will implement your data digestion function, which must be named `parser` and have only one argument `content` corresponding to the text content as typed in the `about.yaml` file.
+
+  1. If necessary, you can add other processing functions, but be sure to read the caution and warning below carefully.
 
 
 ---
@@ -32,7 +38,7 @@ The easiest way is to copy and paste the `default.py` file, then adapt it to you
 ---
 
 
-> ***WARNING!*** *You must follow the template below and use the long and tedious access to constants, functions, and classes of the `Python` `aboutmeta` module. This is necessary for the automation process. But, if you do not need any imports, tools or constants, you can skip the associated sections.*
+> ***WARNING!*** *You must follow the template below and use the long and tedious access to constants, functions, and classes of the `Python` `aboutmeta` module. This is necessary for the automation process. But, if you do not need any imports, tools or constants, you can skip the associated sections.* ***In manual tests, don't forget to provide functional examples and corrupted data that will be added to the unit tests!***
 
 ~~~python
 #!/usr/bin/env python3

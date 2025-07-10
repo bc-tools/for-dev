@@ -261,7 +261,7 @@ The `Python` module `aboutmeta` <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-de
 In addition to providing `YAML` specifications, that can be used in your preferred programming language, `aboutmeta` offers a `Python` module based on a plugin system that handles certain data formats.
 The following sections describe what is available in the current version.
 
-> ***NOTE.*** *The `contrib/parsers` folder contains a `README.md` file explaining how to easily build and suggest new parsers.*
+> ***NOTE.*** *The `contrib/parser` folder contains a `README.md` file explaining how to easily build and suggest new parsers.*
 
 <a id="MULTIMD-TOC-ANCHOR-13"></a>
 ### Data extraction <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
