@@ -22,7 +22,8 @@ TAG_OK     = "ok"
 # -- TOOLS -- #
 # ----------- #
 
-def get_relfiles(onedir):
+def get_relpaths(onedir):
+# WARNING! "No status" implies "No parser to add".
     status_dir = onedir / "STATUS"
     files      = []
 
@@ -32,15 +33,14 @@ def get_relfiles(onedir):
         if status_data[TAG_STATUS] != TAG_OK:
             continue
 
-        reldir   = yaml_file.relative_to(status_dir)
-        relfile  = reldir.parent / f"{reldir.stem}.py"
-        fullfile = onedir / relfile
+        reldir       = yaml_file.relative_to(status_dir)
+        relpath      = reldir.parent / f"{reldir.stem}.py"
+        contrib_file = onedir / relpath
 
-        if not fullfile.is_file():
-            raise IOError(f"missing file:\n{fullfile}")
+        if not contrib_file.is_file():
+            raise IOError(f"missing file:\n{contrib_file}")
 
-
-        files.append((relfile, fullfile))
+        files.append((relpath, contrib_file))
 
     return files
 
@@ -49,9 +49,20 @@ def get_relfiles(onedir):
 # -- PARSER -- #
 # ------------ #
 
-# WARNING! "No status" implies "No parser to add".
+parser_contrib_dir = CONTRIB_DIR / "parser"
+parser_src_dir = SRC_DIR / "parser"
 
-PARSER_DIR = CONTRIB_DIR / "parser"
+for relpath, contrib_file in get_relpaths(parser_contrib_dir):
+    print(f"+ ''{relpath}'' new parser.")
 
-for relfile, fullfile in get_relfiles(PARSER_DIR):
-    print(f"+ ''{relfile}'' new parser.")
+    src_file = parser_src_dir / relpath
+
+    src_file.parent.mkdir(
+        parents  = True,
+        exist_ok = True
+    )
+
+    src_file.touch()
+    src_file.write_text(
+        contrib_file.read_text()
+    )
