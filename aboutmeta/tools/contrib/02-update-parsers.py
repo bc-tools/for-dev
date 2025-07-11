@@ -15,6 +15,9 @@ PROJECT_NAME = PROJECT_DIR.name
 CONTRIB_DIR = PROJECT_DIR / "contrib"
 SRC_DIR     = PROJECT_DIR / "src" / PROJECT_NAME
 
+TAB_1 = ' '*2
+TAB_2 = TAB_1*2
+
 TAG_STATUS = "status"
 TAG_OK     = "ok"
 
@@ -86,6 +89,40 @@ def get_code_parts(content):
     return parts
 
 
+def get_src_code(code_parts):
+    code = []
+
+    for tag in CTXS_FOR_CODE:
+        if tag in code_parts:
+            code += [
+                '',
+                '',
+                magic_comment(tag),
+                '',
+                code_parts[tag]
+            ]
+
+    code = '\n'.join(code)
+    code = code.strip()
+
+    return code
+
+
+def magic_comment(title):
+    title = f"-- {title} --"
+
+    rule = '-'*len(title)
+    rule = f"# {rule} #"
+
+    title = f"""
+{rule}
+# {title} #
+{rule}
+    """.strip()
+
+    return title
+
+
 # ------------ #
 # -- PARSER -- #
 # ------------ #
@@ -98,7 +135,10 @@ for relpath, contrib_file in get_relpaths(parser_contrib_dir):
 
     code_parts = get_code_parts(contrib_file.read_text())
 
-    from pprint import pprint;pprint(code_parts);exit()
+    if CTX_TOOLS in code_parts:
+        print(f"{TAB_2}> This parser use tools.")
+
+    code = get_src_code(code_parts)
 
     src_file = parser_src_dir / relpath
 
@@ -108,6 +148,4 @@ for relpath, contrib_file in get_relpaths(parser_contrib_dir):
     )
 
     src_file.touch()
-    src_file.write_text(
-        contrib_file.read_text()
-    )
+    src_file.write_text(code)

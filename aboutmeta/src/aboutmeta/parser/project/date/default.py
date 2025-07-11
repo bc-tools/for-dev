@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-
-import aboutmeta
-
-
 # ------------- #
 # -- IMPORTS -- #
 # ------------- #
@@ -28,34 +23,3 @@ def parser(content: str) -> datetime.date:
     ).date()
 
     return d
-
-
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
-
-if __name__ == "__main__":
-# Working examples.
-    for onedate in [
-        "2025-06-27",
-    ]:
-        print()
-        print(f'--- ({onedate})')
-
-        d = parser(onedate)
-
-        print(repr(d))
-
-        print(d.year)
-        print(d.month)
-        print(d.day)
-
-    print()
-
-# Corrupted data.
-    onedate = "2.3"
-    onedate = "2025-02-30"
-
-    print(f'--- ({onedate}) --> CORRUPTED!')
-
-    d = parser(onedate)

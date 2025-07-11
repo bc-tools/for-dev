@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-
-import aboutmeta
-
-
 # -------------------- #
 # -- IMPLEMENTATION -- #
 # -------------------- #
@@ -51,40 +46,3 @@ def parser(content: str) -> aboutmeta.data.person.Person:
         email       = email,
         affiliation = affiliation
     )
-
-
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
-
-if __name__ == "__main__":
-# Working examples.
-    for someone in [
-        "A,B,C[a.b.c@d.e](fgh)",
-        "A  ,  B   , C   [  a.b.c@d.e  ]  (  fgh  )",
-        "A,B,C[a.b.c@d.e]",
-        "A,B,C(fgh)",
-        "A,B,C",
-        "A,B",
-        "A",
-    ]:
-        print()
-        print(f'---\n{someone}\n---')
-
-        s = parser(someone)
-
-        print(repr(s))
-
-        print(s)
-
-        print()
-
-# Corrupted data.
-    someone = "ABC)"
-    someone = "AB(C"
-    someone = "AB](C)"
-    someone = "A[B(C)"
-
-    print(f'---\n{someone} --> CORRUPTED!\n---')
-
-    s = parser(someone)

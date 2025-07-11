@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-
-import aboutmeta
-
-
 # ------------- #
 # -- IMPORTS -- #
 # ------------- #
@@ -41,33 +36,3 @@ def parser(content: str) -> aboutmeta.data.lang.Lang:
         name      = describe["language"],
         territory = describe["territory"]
     )
-
-
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
-
-if __name__ == "__main__":
-# Working examples.
-    for userlang in [
-        "fr",
-        "es",
-        "en",
-        "en-GB",
-    ]:
-        print()
-        print(f'--- ({userlang})')
-
-        lang = parser(userlang)
-
-        print(lang)
-        print(repr(lang))
-
-    print()
-
-# Corrupted data.
-    userlang =  "XXXXXX"   # Test of an exception.
-
-    print(f'--- ({userlang}) --> CORRUPTED!')
-
-    lang = parser(userlang)
