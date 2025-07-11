@@ -5,6 +5,17 @@ about-meta - TODO
 
 > ---------------------------- <
 
+    aboutmeta.data.person.PersonXXX
+
+devient
+
+    from ....data import person
+
+    person.Person
+
+
+> ---------------------------- <
+
 test sur tous mes projets séreux
 
 
