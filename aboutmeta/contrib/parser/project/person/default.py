@@ -16,7 +16,7 @@ import aboutmeta
 ###
 def parser(content: str) -> aboutmeta.data.person.Person:
 # One affiliation?
-    content, affiliation = aboutmeta.tools.group.extract_group(
+    content, affiliation = aboutmeta.tool.group.extract_group(
         content = content,
         opener  = aboutmeta.data.constants.TAG_AFFILIATION_OPEN,
         closer  = aboutmeta.data.constants.TAG_AFFILIATION_CLOSE,
@@ -24,7 +24,7 @@ def parser(content: str) -> aboutmeta.data.person.Person:
     )
 
 # One email?
-    content, email = aboutmeta.tools.group.extract_group(
+    content, email = aboutmeta.tool.group.extract_group(
         content = content,
         opener  = aboutmeta.data.constants.TAG_EMAIL_OPEN,
         closer  = aboutmeta.data.constants.TAG_EMAIL_CLOSE,
