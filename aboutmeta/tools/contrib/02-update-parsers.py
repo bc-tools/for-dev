@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
+import              re
 from yaml    import safe_load
 
 # --------------- #
@@ -16,6 +17,27 @@ SRC_DIR     = PROJECT_DIR / "src" / PROJECT_NAME
 
 TAG_STATUS = "status"
 TAG_OK     = "ok"
+
+PATTERN_MAGIC_COMMENT = re.compile(
+    r"#\s+-+\s+#\n# --(.*)-- #\n# -+ #\n"
+)
+
+CTXS_FOR_CONTRIB = [
+    (CTX_MAIN := "MAIN"),
+    (CTX_TESTS:= "HUMAN TESTS"),
+]
+
+CTXS_FOR_CODE = [
+    (CTX_IMPORTS  := "IMPORTS"),
+    (CTX_CONSTANTS:= "CONSTANTS"),
+    (CTX_IMPLEMENT:= "IMPLEMENTATION"),
+]
+
+CTXS_FOR_TOOLS = [
+    (CTX_TOOLS:= "TOOLS"),
+]
+
+ALL_CTXTS = CTXS_FOR_CONTRIB + CTXS_FOR_CODE + CTXS_FOR_TOOLS
 
 
 # ----------- #
@@ -45,8 +67,23 @@ def get_relpaths(onedir):
     return files
 
 
-def normalize_code(content):
-    ...
+def get_code_parts(content):
+    ctxt  = "MAIN"
+    parts = {}
+
+    for i, piece in enumerate(PATTERN_MAGIC_COMMENT.split(content)):
+        if i % 2 == 1:
+            ctxt = piece.strip()
+
+            if not ctxt in ALL_CTXTS:
+                raise ValueError(
+                    f"unkwon magic title comment ''{ctxt}''."
+                )
+
+        else:
+            parts[ctxt] = piece.strip()
+
+    return parts
 
 
 # ------------ #
@@ -59,9 +96,9 @@ parser_src_dir = SRC_DIR / "parser"
 for relpath, contrib_file in get_relpaths(parser_contrib_dir):
     print(f"+ ''{relpath}'' new parser.")
 
-    code = normalize_code(contrib_file.read_text())
+    code_parts = get_code_parts(contrib_file.read_text())
 
-    print(code);exit()
+    from pprint import pprint;pprint(code_parts);exit()
 
     src_file = parser_src_dir / relpath
 
