@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-import aboutmeta
-
-
 # ------------- #
 # -- IMPORTS -- #
 # ------------- #
+
+from aboutmeta.data import license
 
 from typing import List
 
@@ -43,10 +42,10 @@ TAG_SPDX_LICENSE_NAME = 'name'
 # prototype::
 #     content : the \lic code provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the class ''aboutmeta.data.license.License''
-#              to work easily with the license.
+#     :return: an instance of the class ''license.License'' to work
+#              easily with the license.
 ###
-def parser(content: str) -> aboutmeta.data.license.License:
+def parser(content: str) -> license.License:
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
         all_licenses = json_load(f)
@@ -74,7 +73,7 @@ def parser(content: str) -> aboutmeta.data.license.License:
     spdx_infos = all_licenses[normal_ID]
 
 # The job has been done.
-    return aboutmeta.data.license.License(
+    return license.License(
         std  = spdx_infos["std"],
         name = spdx_infos["name"],
         ref  = spdx_infos["ref"],
@@ -219,26 +218,26 @@ if __name__ == "__main__":
     tool_update_license_json()
 
 # Working examples.
-    for lic in [
+    for lic_ID in [
         "gpl - 3.0 +",
         "cc    by nc 4.0",
     ]:
         print()
-        print(f'--- ({lic})')
+        print(f'--- ({lic_ID})')
 
-        liccode = parser(lic)
+        lic_data = parser(lic_ID)
 
-        print(liccode)
-        print(repr(liccode))
+        print(lic_data)
+        print(repr(lic_data))
 
     print()
 
 # Corrupted data.
-    lic = "gpl"
-    lic = "cc nc"
-    # lic = "cc"
-    # lic = " "
+    lic_ID = "gpl"
+    lic_ID = "cc nc"
+    # lic_ID = "cc"
+    # lic_ID = " "
 
-    print(f'--- ({lic}) --> CORRUPTED! Possible matches...')
+    print(f'--- ({lic_ID}) --> CORRUPTED! Possible matches...')
 
-    liccode = parser(lic)
+    lic_data = parser(lic_ID)

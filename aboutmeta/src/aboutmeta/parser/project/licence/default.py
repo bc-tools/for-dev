@@ -2,7 +2,7 @@
 # -- IMPORTS -- #
 # ------------- #
 
-from ....data import license
+from aboutmeta.data import license
 
 from typing import List
 
@@ -40,10 +40,10 @@ TAG_SPDX_LICENSE_NAME = 'name'
 # prototype::
 #     content : the \lic code provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the class ''aboutmeta.data.license.License''
-#              to work easily with the license.
+#     :return: an instance of the class ''license.License'' to work
+#              easily with the license.
 ###
-def parser(content: str) -> license.License:#
+def parser(content: str) -> license.License:
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
         all_licenses = json_load(f)
@@ -71,7 +71,7 @@ def parser(content: str) -> license.License:#
     spdx_infos = all_licenses[normal_ID]
 
 # The job has been done.
-    return license.License(#
+    return license.License(
         std  = spdx_infos["std"],
         name = spdx_infos["name"],
         ref  = spdx_infos["ref"],

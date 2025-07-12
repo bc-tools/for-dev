@@ -2,7 +2,7 @@
 # -- IMPORTS -- #
 # ------------- #
 
-from ....data import lang
+from aboutmeta.data import lang
 
 from langcodes import (
     get as get_langcode,
@@ -18,23 +18,23 @@ from langcodes import (
 # prototype::
 #     content : the \lang provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the class ''aboutmeta.data.lang.Lang''
-#              to work easily with the \lang.
+#     :return: an instance of the class ''lang.Lang'' to work easily
+#              with the \lang.
 ###
-def parser(content: str) -> lang.Lang:#
+def parser(content: str) -> lang.Lang:
 # Getting a normalized code.
     try:
-        lang = get_langcode(content).maximize()
+        onelang = get_langcode(content).maximize()
 
     except LanguageTagError as e:
         raise ValueError(f"illegal language code ''{content}''")
 
 # Small description of the language code.
-    describe = lang.describe('en')
+    describe = onelang.describe('en')
 
 # The job has been done.
-    return lang.Lang(#
-        std       = f"{lang.language}-{lang.territory}",
+    return lang.Lang(
+        std       = f"{onelang.language}-{onelang.territory}",
         name      = describe["language"],
         territory = describe["territory"]
     )

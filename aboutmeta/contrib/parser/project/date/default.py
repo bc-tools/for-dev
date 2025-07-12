@@ -39,13 +39,13 @@ if __name__ == "__main__":
         print()
         print(f'--- ({onedate})')
 
-        d = parser(onedate)
+        date_data = parser(onedate)
 
-        print(repr(d))
+        print(repr(date_data))
 
-        print(d.year)
-        print(d.month)
-        print(d.day)
+        print(date_data.year)
+        print(date_data.month)
+        print(date_data.day)
 
     print()
 
@@ -55,4 +55,4 @@ if __name__ == "__main__":
 
     print(f'--- ({onedate}) --> CORRUPTED!')
 
-    d = parser(onedate)
+    date_data = parser(onedate)

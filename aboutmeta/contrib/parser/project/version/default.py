@@ -41,16 +41,16 @@ if __name__ == "__main__":
         print()
         print(f'--- ({nbver})')
 
-        v = parser(nbver)
+        version_data = parser(nbver)
 
-        print(v)
-        print(repr(v))
+        print(version_data)
+        print(repr(version_data))
 
-        print(f"major      = {v.major}")
-        print(f"minor      = {v.minor}")
-        print(f"patch      = {v.patch}")
-        print(f"prerelease = {v.prerelease}")
-        print(f"build      = {v.build}")
+        print(f"major      = {version_data.major}")
+        print(f"minor      = {version_data.minor}")
+        print(f"patch      = {version_data.patch}")
+        print(f"prerelease = {version_data.prerelease}")
+        print(f"build      = {version_data.build}")
 
     print()
 
@@ -59,4 +59,4 @@ if __name__ == "__main__":
 
     print(f'--- ({nbver}) --> CORRUPTED!')
 
-    v = parser(nbver)
+    version_data = parser(nbver)

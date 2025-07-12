@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-import aboutmeta
-
-
 # ------------- #
 # -- IMPORTS -- #
 # ------------- #
+
+from aboutmeta.data import lang
 
 from langcodes import (
     get as get_langcode,
@@ -21,23 +20,23 @@ from langcodes import (
 # prototype::
 #     content : the \lang provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the class ''aboutmeta.data.lang.Lang''
-#              to work easily with the \lang.
+#     :return: an instance of the class ''lang.Lang'' to work easily
+#              with the \lang.
 ###
-def parser(content: str) -> aboutmeta.data.lang.Lang:
+def parser(content: str) -> lang.Lang:
 # Getting a normalized code.
     try:
-        lang = get_langcode(content).maximize()
+        onelang = get_langcode(content).maximize()
 
     except LanguageTagError as e:
         raise ValueError(f"illegal language code ''{content}''")
 
 # Small description of the language code.
-    describe = lang.describe('en')
+    describe = onelang.describe('en')
 
 # The job has been done.
-    return aboutmeta.data.lang.Lang(
-        std       = f"{lang.language}-{lang.territory}",
+    return lang.Lang(
+        std       = f"{onelang.language}-{onelang.territory}",
         name      = describe["language"],
         territory = describe["territory"]
     )
@@ -58,10 +57,10 @@ if __name__ == "__main__":
         print()
         print(f'--- ({userlang})')
 
-        lang = parser(userlang)
+        onelang = parser(userlang)
 
-        print(lang)
-        print(repr(lang))
+        print(onelang)
+        print(repr(onelang))
 
     print()
 
@@ -70,4 +69,4 @@ if __name__ == "__main__":
 
     print(f'--- ({userlang}) --> CORRUPTED!')
 
-    lang = parser(userlang)
+    onelang = parser(userlang)

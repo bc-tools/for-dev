@@ -44,11 +44,9 @@ CTXTS_FOR_TOOLS = [
 ALL_CTXTS = CTXTS_FOR_CONTRIB + CTXTS_FOR_CODE + CTXTS_FOR_TOOLS
 
 
-PATTERN_ABOUTMETA_IMPORTS = re.compile(
-    fr"\b(aboutmeta\.(?P<kind>data|tool)\.)(?P<module>\w+)(?P<used>.\w+)+\b"
-)
+INIT_FILE    = "__init__.py"
+INIT_CONTENT = "#!/usr/bin/env python3\n"
 
-TMPL_INTERNAL_IMPORT = "from ....{} import {}"
 
 # ----------- #
 # -- TOOLS -- #
@@ -96,50 +94,6 @@ def get_code_parts(content):
         else:
             parts[ctxt] = piece.strip()
 
-# Management of the aboutmeta internal imports.
-    newlines         = []
-    internal_imports = set()
-
-    for line in parts[CTXT_IMPLEMENT].split('\n'):
-        linecode, *comment = line.split("#")
-
-        if linecode:
-            match = PATTERN_ABOUTMETA_IMPORTS.search(linecode)
-
-            if match:
-                comment = '#' + '#'.join(comment)
-
-                before = linecode[:match.start()]
-                after = linecode[match.end():]
-
-                line = (
-                    before
-                    + match.group('module')
-                    + match.group('used')
-                    + after
-                    + comment
-                )
-
-                internal_imports.add(
-                    TMPL_INTERNAL_IMPORT.format(
-                        match.group('kind'),
-                        match.group('module')
-                    )
-                )
-
-        newlines.append(line)
-
-    parts[CTXT_IMPLEMENT] = '\n'.join(newlines)
-
-    if internal_imports:
-        internal_imports = list(internal_imports)
-        internal_imports.sort()
-
-        internal_imports = '\n'.join(internal_imports)
-
-        parts[CTXT_IMPORTS] = f"{internal_imports}\n\n{parts[CTXT_IMPORTS]}"
-        parts[CTXT_IMPORTS] = parts[CTXT_IMPORTS].strip()
-
 # Nothing left todo.
     return parts
 
@@ -186,6 +140,8 @@ def magic_comment(title):
 parser_contrib_dir = CONTRIB_DIR / "parser"
 parser_src_dir = SRC_DIR / "parser"
 
+dirs_created = set()
+
 for relpath, contrib_file in get_relpaths(parser_contrib_dir):
     print(f"+ ''{relpath}'' new parser.")
 
@@ -203,7 +159,16 @@ for relpath, contrib_file in get_relpaths(parser_contrib_dir):
         exist_ok = True
     )
 
+    dirs_created.add(src_file.parent)
+
     src_file.touch()
     src_file.write_text(code)
 
-# Files for unit tests?
+# Just add ''__init__.py'' files.
+for onedir in dirs_created:
+    initfile = onedir / INIT_FILE
+
+    initfile.touch()
+    initfile.write_text(INIT_CONTENT)
+
+# Do we have files for unit tests?
