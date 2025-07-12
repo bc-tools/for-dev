@@ -13,6 +13,10 @@
 \Contrib: tools for parser \contribs is functionnal.
 
 
+[[:fix:]]
+Default \lang parser: patch for the strange "Unknow language" feature of ''langcodes''.
+
+
 // ---------- //
 
 

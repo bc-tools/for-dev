@@ -32,6 +32,10 @@ def parser(content: str) -> lang.Lang:
 # Small description of the language code.
     describe = onelang.describe('en')
 
+# Patch for the strange "Unknow language".
+    if describe['language'].startswith('Unknown language'):
+        raise ValueError(f"illegal language code ''{content}''")
+
 # The job has been done.
     return lang.Lang(
         std       = f"{onelang.language}-{onelang.territory}",

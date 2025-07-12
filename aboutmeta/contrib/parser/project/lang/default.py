@@ -34,6 +34,10 @@ def parser(content: str) -> lang.Lang:
 # Small description of the language code.
     describe = onelang.describe('en')
 
+# Patch for the strange "Unknow language".
+    if describe['language'].startswith('Unknown language'):
+        raise ValueError(f"illegal language code ''{content}''")
+
 # The job has been done.
     return lang.Lang(
         std       = f"{onelang.language}-{onelang.territory}",
@@ -65,7 +69,8 @@ if __name__ == "__main__":
     print()
 
 # Corrupted data.
-    userlang =  "XXXXXX"   # Test of an exception.
+    userlang = "XXXXXXXX"
+    userlang = "XXX"
 
     print(f'--- ({userlang}) --> CORRUPTED!')
 

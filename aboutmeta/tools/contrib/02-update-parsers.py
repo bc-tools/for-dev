@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-from pathlib import Path
-import              re
-from yaml    import safe_load
+from collections import defaultdict
+from pathlib     import Path
+import                  re
+from yaml        import safe_load
 
 # --------------- #
 # -- CONSTANTS -- #
@@ -12,11 +13,20 @@ THIS_DIR     = Path(__file__).parent
 PROJECT_DIR  = THIS_DIR.parent.parent
 PROJECT_NAME = PROJECT_DIR.name
 
-CONTRIB_DIR = PROJECT_DIR / "contrib"
-SRC_DIR     = PROJECT_DIR / "src" / PROJECT_NAME
+CONTRIB_DIR = PROJECT_DIR / "contrib" / "parser"
+SRC_DIR     = PROJECT_DIR / "src" / PROJECT_NAME / "parser"
+TESTS_DIR   = PROJECT_DIR / "tests" / "parser"
+
+INIT_FILE    = "__init__.py"
+INIT_CONTENT = "#!/usr/bin/env python3\n"
+
 
 TAB_1 = ' '*2
 TAB_2 = TAB_1*2
+
+ITEM_1 = '+'
+ITEM_2 = f'{TAB_1}*'
+ITEM_3 = f'{TAB_2}-->'
 
 TAG_STATUS = "status"
 TAG_OK     = "ok"
@@ -25,6 +35,8 @@ TAG_OK     = "ok"
 PATTERN_MAGIC_COMMENT = re.compile(
     r"#\s+-+\s+#\n# --(.*)-- #\n# -+ #\n"
 )
+
+PATTERN_TEST_NAME =re.compile(r"test_.*_\d+_(?P<syntax>.+)")
 
 CTXTS_FOR_CONTRIB = [
     (CTXT_MAIN := "MAIN"),
@@ -42,10 +54,6 @@ CTXTS_FOR_TOOLS = [
 ]
 
 ALL_CTXTS = CTXTS_FOR_CONTRIB + CTXTS_FOR_CODE + CTXTS_FOR_TOOLS
-
-
-INIT_FILE    = "__init__.py"
-INIT_CONTENT = "#!/usr/bin/env python3\n"
 
 
 # ----------- #
@@ -132,27 +140,31 @@ def magic_comment(title):
     return title
 
 
-# ------------ #
-# -- PARSER -- #
-# ------------ #
+# ------------------ #
+# -- SOURCE CODES -- #
+# ------------------ #
 
-# Source codes.
-parser_contrib_dir = CONTRIB_DIR / "parser"
-parser_src_dir = SRC_DIR / "parser"
+print(f"{ITEM_1} Creation/update of source code...")
 
-dirs_created = set()
+contrib_files = defaultdict(set)
+dirs_created  = set()
 
-for relpath, contrib_file in get_relpaths(parser_contrib_dir):
-    print(f"+ ''{relpath}'' new parser.")
+for relpath, contrib_file in get_relpaths(CONTRIB_DIR):
+    print(f"{ITEM_2} ''{relpath}'' new parser.")
+
+    data_type = str(relpath.parents[0])
+    syntax    = relpath.stem
+
+    contrib_files[data_type].add(syntax)
 
     code_parts = get_code_parts(contrib_file.read_text())
 
     if CTXT_TOOLS in code_parts:
-        print(f"{TAB_2}> This parser use tools.")
+        print(f"{ITEM_3} This parser use tools.")
 
     code = get_src_code(code_parts)
 
-    src_file = parser_src_dir / relpath
+    src_file = SRC_DIR / relpath
 
     src_file.parent.mkdir(
         parents  = True,
@@ -171,4 +183,56 @@ for onedir in dirs_created:
     initfile.touch()
     initfile.write_text(INIT_CONTENT)
 
-# Do we have files for unit tests?
+
+# --------------------------- #
+# -- FILES FOR UNIT TESTS? -- #
+# --------------------------- #
+
+print(f"{ITEM_1} Verifying the existence of test files...")
+
+test_files  = defaultdict(set)
+no_pb_found = True
+
+for test_file in TESTS_DIR.glob("*/*/test_*.py"):
+    test_file = test_file.relative_to(TESTS_DIR)
+
+    data_type = str(test_file.parents[0])
+    syntax    = test_file.stem
+
+    match = PATTERN_TEST_NAME.search(syntax)
+
+    if match:
+        test_files[data_type].add(match.group("syntax"))
+
+for data_type, syntaxes in contrib_files.items():
+    if not data_type in test_files:
+        no_pb_found = False
+
+        print(f"{ITEM_2} Zero test files for ''{data_type}'' parsers.")
+
+    elif test_files[data_type] != contrib_files[data_type]:
+        no_pb_found = False
+
+        unexpected = test_files[data_type] - contrib_files[data_type]
+        missing    = contrib_files[data_type] - test_files[data_type]
+
+        if missing:
+            print(f"{ITEM_2} Missing test files for ''{data_type}'' parsers.")
+
+            missing = list(missing)
+            missing.sort()
+            missing = f"\n{ITEM_3}".join(missing)
+
+            print(f"{ITEM_3} {missing}")
+
+        if unexpected:
+            print(f"{ITEM_2} Unexpected test files for ''{data_type}'' parsers.")
+
+            unexpected = list(unexpected)
+            unexpected.sort()
+            unexpected = f"\n{ITEM_3}".join(unexpected)
+
+            print(f"{ITEM_3} {unexpected}")
+
+if no_pb_found:
+    print(f"{ITEM_2} No test files missing.")
