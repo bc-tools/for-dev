@@ -1,0 +1,17 @@
+﻿this::
+    date = 2023-??-???
+
+
+abbrev::
+    content = :this.name:
+
+
+===========================
+Usage en ligne de commandes
+===========================
+
+TODO
+
+/*
+content::
+    ¨content/XXXX.txt     ???????????????

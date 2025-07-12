@@ -10,6 +10,9 @@ multimd - TODO
 
     ---> uniquement un par ligne ?
 
+    ---> ADMONOTION: on peut choisir sa saveur (cf REDAME github versus d'autre)
+
+
 > ---------------------------- <
 
 utilisation de aboutmeta qui du coup gère TOC !!!

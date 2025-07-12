@@ -1,0 +1,102 @@
+﻿# ----------------------- #
+# -- DONNÉES EXTRAITES -- #
+# ----------------------- #
+
+# Données structurées supportées : YAML, JSON et TOML.
+data:
+  <NOM-RÈGLE-1>:
+    storein: dict / database
+    path   : <CHEMIN-MOTIF-A-LA-UNIX>
+    keep   : <SPECS-MIMANT-LE-FICHIER>
+
+  <NOM-RÈGLE-2>:
+    storein: dict / database
+    regpath: <REGEX-CHEMIN>
+    keep   : <SPECS-MIMANT-LE-FICHIER>
+
+  ...
+
+# Données non supportées.
+search:
+  <NOM-RÈGLE-1>:
+    storein: dict / database
+    path   : <CHEMIN-MOTIF-A-LA-UNIX>
+    regex  :
+      - <REGEX-CONTENU>
+      - ...
+
+  <NOM-RÈGLE-2>:
+    storein: dict / database
+    regpath: <REGEX-CHEMIN>
+    regex  :
+      - <REGEX-CONTENU>
+      - ...
+
+  ...
+
+
+# ----------------------------------------------- #
+# -- PRÉ-GESTION BASIQUE DES DONNÉES CAPTURÉES -- #
+# ----------------------------------------------- #
+
+# Des manipulations de concert ou en solo.
+handler:
+  <NELLE-CLÉ>:
+    - sql    : <INSTRUCTIONS-SQLITE-SUR-DONNÉES-EXISTANTES>
+    - jinjang: <INSTRUCTIONS-JINJANG-SUR-DONNÉES-EXISTANTES>
+    - ...
+
+  ...
+
+
+# -------------------------- #
+# -- CE QUI EST ACTUALISÉ -- #
+# -------------------------- #
+
+# Quatre options disponibles.
+update:
+  data:
+    <NOM-RÈGLE>:
+      path  : <CHEMIN-MOTIF-A-LA-UNIX>
+      change: <SPECS-MIMANT-LE-FICHIER>
+
+    ...
+
+  replace:
+    <NOM-RÈGLE-1>:
+      path : <CHEMIN-MOTIF-A-LA-UNIX>
+      regex:
+        - <REGEX-DE-REMPLACEMENT>
+        - ...
+
+    <NOM-RÈGLE-2>:
+      path    : <CHEMIN-MOTIF-A-LA-UNIX>
+      template: <NOM-DU-PATRON>
+      between :
+        - <TEXTE-MAGIQUE-AVANT>
+        - <TEXTE-MAGIQUE-APRÈS>
+
+    <NOM-RÈGLE-3>:
+      path    : <CHEMIN-MOTIF-A-LA-UNIX>
+      template: <NOM-DU-PATRON>
+# Un groupe nommé ''template'' indique où faire le remplacement.
+      regex   : <REGEX-DE-REMPLACEMENT>
+
+    ...
+
+  ...
+
+
+# --------------------------- #
+# -- PATRONS DE CONCEPTION -- #
+# --------------------------- #
+
+# Deux options disponibles.
+template:
+    <NOM-PATRON-1>:
+      jinjang: <TEXTE-DU-PATRON>
+
+    <NOM-PATRON-2>:
+      path: <CHEMIN-VERS-LE-PATRON>
+
+    ...

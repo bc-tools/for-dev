@@ -1,0 +1,9 @@
+﻿this::
+    date = 2023-04-16
+
+
+================
+De petites ¨cfgs
+================
+
+Il est conseillé de multiplier les fichiers de ¨cfg pour les cantonner à des rôles bien ciblés. Ne surtout pas produire de monstrueux fichiers durs à analyser et maintenir ! Il suffit ensuite de passer via de petits scripts automatiques lançant ¨cofiup sur les différents fichiers de ¨config.

@@ -1,4 +1,3 @@
-<!-- This file was generated using the Python package `multimd`. -->
 
 The monorepo `tools-for-dev`
 ============================

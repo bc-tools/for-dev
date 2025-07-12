@@ -8,6 +8,7 @@
 
 from pathlib import Path
 
+from .          import __version__
 from .about     import *
 from .normalize import *
 
@@ -27,9 +28,40 @@ HTML_HREF_GO_BACK_TO_TOC = (
 )
 
 
-HTML_COMMENT_REF_2_MULTIMD = """
-<!-- This file was generated using the Python package `multimd`. -->
+HTML_COMMENT_REF_2_MULTIMD = f"""
+File created by the ''multimd'' project, version {__version__}.
+
+''multimd'', available on PyPI, is developed at
+https://github.com/bc-tools/for-dev/tree/main/multimd
 """.strip()
+
+
+HTML_COMMENT_REF_2_MULTIMD = f"""
+File created by the ''multimd'' project, version {__version__}.
+
+''multimd'', soon to be available on PyPI, is developed at
+https://github.com/bc-tools/for-dev/tree/main/multimd
+""".strip()
+
+HTML_COMMENT_REF_2_MULTIMD = HTML_COMMENT_REF_2_MULTIMD.split('\n')
+
+__maxlen = max(len(x) for x in HTML_COMMENT_REF_2_MULTIMD)
+__deco   = '-'*(6 + __maxlen)
+
+HTML_COMMENT_REF_2_MULTIMD = '\n'.join(
+    f"  -- {x.ljust(__maxlen)} --" for x in HTML_COMMENT_REF_2_MULTIMD
+)
+
+HTML_COMMENT_REF_2_MULTIMD = f"""
+<!{__deco}
+{HTML_COMMENT_REF_2_MULTIMD}
+  {__deco}>
+
+
+""".lstrip()
+
+__maxlen = None
+__deco   = None
 
 
 # ------------------- #
@@ -233,4 +265,4 @@ class Builder:
             md_std = "\n".join(md_std)
 
 # Let's publish our work...
-        self.std_md_code = f"{HTML_COMMENT_REF_2_MULTIMD}\n\n{md_std}"
+        self.std_md_code = f"{HTML_COMMENT_REF_2_MULTIMD}{md_std}"

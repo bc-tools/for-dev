@@ -1,0 +1,26 @@
+﻿this::
+    title  = Mises à jour ciblées de contenus
+    author = Christophe, BAL [projetmbc@gmail.com]
+    lang   = fr
+
+    license = by nc sa 4.0
+    out     = html, pdf
+
+    lexic   = python
+
+
+abbrev::
+    cofiup = cf::''CoFiUp ;
+                   https://github.com/bc-tools/for-dev/tree/main/cofiup''
+
+    debuggex = cf::''DebuggexBeta ; https://www.debuggex.com/''
+    regexkit = cf::''regexkit     ; https://regexkit.com/python-regex''
+
+    content = content
+
+
+content::
+    ¨content/intro.txt
+    ¨content/setup.txt
+    ¨content/via-cli.txt        ????
+    ¨content/via-python.txt     ??

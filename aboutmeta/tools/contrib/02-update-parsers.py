@@ -127,6 +127,7 @@ def magic_comment(title):
 # -- PARSER -- #
 # ------------ #
 
+# Source codes.
 parser_contrib_dir = CONTRIB_DIR / "parser"
 parser_src_dir = SRC_DIR / "parser"
 
@@ -149,3 +150,5 @@ for relpath, contrib_file in get_relpaths(parser_contrib_dir):
 
     src_file.touch()
     src_file.write_text(code)
+
+# Files for unit tests?

@@ -1,5 +1,3 @@
-<!-- This file was generated using the Python package `multimd`. -->
-
 My doc
 ======
 

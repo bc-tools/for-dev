@@ -1,0 +1,13 @@
+// ---------- //
+
+
+==
+13
+==
+
+-----
+:new:
+-----
+
+[[:doc:]]
+¨Doc before code: the first ¨specs look good and sufficient to start coding.

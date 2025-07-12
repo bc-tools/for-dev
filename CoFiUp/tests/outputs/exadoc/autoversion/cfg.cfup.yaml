@@ -1,0 +1,23 @@
+﻿# -- DONNÉES EXTRAITES -- #
+data:       # Analyse(s) de données structurées.
+  versions: # Nom caractérisant l'analyse faite.
+            # Viennent ensuite les règles à appliquer.
+    storein: dict
+    path   : VERSIONS.yaml
+    keep   :
+      - history
+
+# -- PRÉ-GESTION BASIQUE DES DONNÉES CAPTURÉES -- #
+handler:           # Traitements avant utilisation.
+  dt_last_version: # Nom d'une nouvelle donnée à créer.
+                   # Viennent ensuite les règles à appliquer.
+    - jinjang: "{{ history }} | list | sort | last"
+
+# -- CE QUI EST ACTUALISÉ -- #
+update:      # Mise(s) à jour.
+  pyproject: # Nom caractérisant la modification faite.
+    data:    # Modification(s) de données structurées.
+             # Viennent ensuite les règles à appliquer.
+      path  : pyproject.toml
+      change:
+        - version = dt_last_version

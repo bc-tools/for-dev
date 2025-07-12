@@ -1,0 +1,25 @@
+﻿# -- DONNÉES EXTRAITES -- #
+data:    # Analyse(s) de données structurées.
+  about: # Nom caractérisant l'analyse faite.
+         # Viennent ensuite les règles à appliquer.
+    storein: dict
+    path   : about.yaml
+    keep   :
+      - general:
+        - desc
+        - authors
+        - sources:
+          - repository
+
+# -- CE QUI EST ACTUALISÉ -- #
+update:      # Mise(s) à jour.
+  pyproject: # Nom caractérisant la modification faite.
+    data:    # Modification(s) de données structurées.
+             # Viennent ensuite les règles à appliquer.
+      path  : pyproject.toml
+      change:
+        - tool:
+          - poetry:
+            - description = desc
+            - repository
+            - authors

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from multimd import Builder, Path
+from multimd       import Builder, Path
+from multimd.build import HTML_COMMENT_REF_2_MULTIMD
 
 THIS_DIR = Path(__file__).parent
 
@@ -26,7 +27,10 @@ def test_normalize_OK():
             erase = True,
         ).build()
 
-        lines_build  = dest.read_text(encoding = "utf8").split('\n')
-        lines_wanted = wanted.read_text(encoding = "utf8").split('\n')
+        lines_build = dest.read_text(encoding = "utf8").split('\n')
+
+        lines_wanted = wanted.read_text(encoding = "utf8")
+        lines_wanted = HTML_COMMENT_REF_2_MULTIMD + lines_wanted
+        lines_wanted = lines_wanted.split('\n')
 
         assert lines_build == lines_wanted, f"see ''{test_name}.md''"

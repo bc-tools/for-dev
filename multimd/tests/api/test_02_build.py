@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from multimd import Builder, Path
+from multimd       import Builder, Path
+from multimd.build import HTML_COMMENT_REF_2_MULTIMD
 
 THIS_DIR = Path(__file__).parent
 
@@ -24,7 +25,10 @@ def test_builder_OK():
             erase = True,
         ).build()
 
-        text_build  = dest.read_text().rstrip()
-        text_wanted = final_MD.read_text().rstrip()
+        lines_build = dest.read_text(encoding = "utf8").split('\n')
 
-        assert text_build == text_wanted, f"see ''{final_MD.name}''"
+        lines_wanted = final_MD.read_text(encoding = "utf8")
+        lines_wanted = HTML_COMMENT_REF_2_MULTIMD + lines_wanted
+        lines_wanted = lines_wanted.split('\n')
+
+        assert lines_build == lines_wanted, f"see ''{final_MD.name}''"

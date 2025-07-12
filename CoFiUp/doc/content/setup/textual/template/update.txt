@@ -1,0 +1,82 @@
+﻿this::
+    date = 2023-02-13
+
+
+====================================
+Le moment de la ¨maj arrive enfin...
+====================================
+
+Une fois nos données prêtes, la ¨maj du fichier path::''readme/about.md'' va être facile. Rappelons que dans le contenu suivant, nous souhaitons mettre à jour la partie entre les commentaires "magiques" md::''<!-- VERSION ... -->'' pour indiquer le ¨numver le plus récent.
+
+md::
+    ---
+    title = Contenu initial du fichier path::''readme/about.md''
+    path  = ¨examples/about-start.md
+    ---
+
+On souhaite en fait obtenir le contenu ci-dedsous.
+
+md::
+    ---
+    title = Contenu souaité pour le fichier path::''readme/about.md''
+    path  = ¨examples/about.md
+    ---
+
+
+Notre objectif va être atteint grâce aux lignes suivantes.
+
+cofiup::
+    ---
+    title = Le fichier path::''cfg.cfup.yaml''
+    path  = ¨examples/cfg.cfup.yaml
+    from  = # -- CE QUI EST ACTUALISÉ -- #
+    ---
+
+
+warning::
+    Rappelons que le fichier de ¨cfg est supposé être à la racine du dossier du projet fictif.
+
+
+Le bloc cofiup::''update'' est immédiat à comprendre une fois que l'on sait que pour la règle cofiup::''about'', la ligne cofiup::''template: templ-about'' demande d'employer un patron de conception "maison" qui est défini dans le bloc cofiup::''template'' à la fin du fichier path::''cfg.cfup.yaml''. Ce patron est conçu via le ¨lang de conception ¨jinjang qui améliore un peu le fonctionnement de l'excellentissime ¨jinja.
+Dans le contenu multi-lignes de la ¨var cofiup::''jinjang'', l'emploi des ¨vals se fait via les très parlants jinjang::''{{ last_version_nb }}'' et jinjang::''{{ last_version_date }}''.
+
+
+Pour finir voici d'autres options disponibles.
+
+    1) Parfois, il n'est pas possible de donner directement le texte d'un patron de conception comme dans l'exemple suivant où la ligne ''### Current version'' sera interprétée ici comme un commentaire ¨yaml, et non comme faisant partie du contenu du patron.
+
+    yaml::
+        template:
+          templ-about:
+            jinjang: |
+              ### Current version
+
+              * **Number:** {{ last_version_nb }}
+
+              * **Date:** {{ last_version_date }}
+
+    Dans ce type de situation, il suffit de placer le contenu du patron dans un fichier dédié
+    ((
+        Cette méthode présente un gros avantage pratique en permettant le stockage à un endroit fixé de patrons utilisables dans divers projets.
+    )),
+    puis de changer comme suit la ¨def du patron.
+
+    yaml::
+        template:
+          templ-about:
+            path: chemin/vers/le/fichier/patron
+
+
+    1) Pour finir, si la ¨tech de repérage via des textes "encadrant" ne répond pas à vos besoins, il est toujours possible de passer via une ¨regex_FR. L'exemple précédent s'écrit alors comme suit
+    ((
+        Si besoin, le site ¨regexkit vous apportera des éclaircissements sur l'regex_FR employée.
+    )).
+    Noter l'emploi du groupe nommé spécial regex::''template''.
+
+    yaml::
+        update:
+          about:
+            replace:
+              path    : readme/about.md
+              template: templ-about
+              regex   : '<!--.*START -->\n(?P<template>.*)\n<!--.*END -->'

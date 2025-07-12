@@ -1,0 +1,57 @@
+﻿# -- DONNÉES EXTRAITES -- #
+search:     # Recherche(s) ciblée(s) de contenus.
+  tnschges: # Nom caractérisant la recherche faite.
+            # Viennent ensuite les règles à appliquer.
+    storein: database
+    regpath: 'changes/(?P<year>\d{4})/(?P<month>\d{2})\.txt'
+    regex  :
+      - '^={2,}\n(?P<day>\d{2})[ \t]*\((?P<version>.*)\)\n={2,}\n'
+
+# -- PRÉ-GESTION BASIQUE DES DONNÉES CAPTURÉES -- #
+handler:        # Traitements avant utilisation.
+  last_version: # Nom d'une nouvelle donnée à créer.
+                # Viennent ensuite les règles à appliquer.
+    - sql: |
+        SELECT *
+        FROM tnschges
+        ORDER BY year    DESC,
+                 month   DESC,
+                 day     DESC,
+                 version DESC
+        LIMIT 1;
+
+    # C'est le dernier bloc qui fournit la valeur de la nouvelle
+    # donnée créée.
+    - jinjang: "{{ last_version[0] }}"
+
+  last_version_nb: # Nom d'une nouvelle donnée à créer.
+                   # Viennent ensuite les règles à appliquer.
+    jinjang: "{{ last_version['version'] }}"
+
+  last_version_date: # Nom d'une nouvelle donnée à créer.
+                     # Viennent ensuite les règles à appliquer.
+    jinjang: "{{ last_version['year'] }}-{{ last_version['month'] }}-{{ last_version['day'] }}"
+
+# -- CE QUI EST ACTUALISÉ -- #
+update:      # Mise(s) à jour.
+  about:     # Nom caractérisant la modification faite.
+    replace: # Remplacement(s) ciblé(s) de contenus.
+             # Viennent ensuite les règles à appliquer.
+      path    : readme/about.md
+      template: templ_about
+      between :
+        - '\n<!-- VERSION - INFOS - AUTO - START -->\n'
+        - '\n<!-- VERSION - INFOS - AUTO - END -->\n'
+
+# -- PATRONS DE CONCEPTION -- #
+template:      # Patron(s) de conception.
+  templ_about: # Nom du patron de conception
+               # Vient ensuite son contenu paramétrable.
+# Remarque: en YAML, les barres veticales permettent des retours
+# à la ligne.
+    jinjang: |
+      > **Current version**
+      >
+      >   * *Number: {{ last_version_nb }}*
+      >
+      >   * *Date: {{ last_version_date }}*

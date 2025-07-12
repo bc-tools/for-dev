@@ -1,0 +1,50 @@
+﻿this::
+    date = 2023-04-16
+
+
+===============================
+Obtenir des données utilisables
+===============================
+
+Les données extraites via le bloc cofiup::''search'' sont stockées dans des tables ¨sql en mémoire nommées comme les règles employées : dans le cas de notre exemple, nous disposons d'une table sql::''tnschges'' ayant pour attributs "naturels" sql::''year'', sql::''month'', sql::''day'' et sql::''version''
+((
+    Si plusieurs règles d'extraction sont utilisées, la table associée agrége ¨ttes les ¨vals.
+)).
+Malheureusement, l'utilisation directe de ces tables n'est pas possible pour les raisons suivantes.
+
+    1) La lecture des valeurs se ferait en itérant sur des listes de ¨dicts, ¨cad en lisant chaque table ligne par ligne.
+
+    1) L'ordre d'insertion des données dans les tables n'étant pas prévisible, on ne maitriserait pas l'ordre d'utilisation.
+
+
+C'est pour ces raisons qu'il faut passer par le bloc cofiup::''handler'' afin de fabriquer des données exploitables pour des ¨majs de fichiers. Voici ce que cela donne avec notre exemple fictif.
+
+cofiup::
+    ---
+    title  = Extrait du fichier path::''cfg.cfup.yaml''
+    path   = ¨examples/cfg.cfup.yaml
+    from   = # -- PRÉ-GESTION BASIQUE DES DONNÉES CAPTURÉES -- #
+    before = # -- CE QUI EST ACTUALISÉ -- #
+    ---
+
+
+Expliquons comment cela fonctionne.
+
+    1) La donnée fabriquée cofiup::''last_version'' utilise deux mécanismes de fabrication, le premier via ¨sql, puis ensuite un second via ¨jinjang.
+    L'ordre d'utilisation est ici essentiel comme nous allons le voir.
+    Si besoin nous aurions pu cumuler d'autres traitements, ¨cad employer une liste ¨yaml de taille supérieure à `2`.
+
+        * Le ¨1er elt cofiup::''sql: ...'' de la liste cofiup::''last_version'' permet d'employer une requête ¨sql classique portant sur la table sql::''tnschges'' : ici, nous extrayons une liste de taille `1` contenant un dictionnaire donnant les ¨infos sur la version la plus ancienne
+        ((
+            La requête proposée est fragile car elle ne prend pas en compte les ¨numsver de type ¨semver. Voir à ce propos l'¨info donnée plus bas dans cette section.
+        )).
+
+        * Il reste à comprende comment fonctionne ensuite le ¨2nd ¨elt cofiup::''jinjang: "{{ last_version[0] }}"''. Pas d'auto-référence ici ! En fait, ¨cofiup fabrique les ¨nelles données pas à pas, donc au moment de l'emploi de cofiup::''jinjang'', ¨cofiup a connaissance de la variable cofiup::''last_version'' qui a pour valeur le résultat obtenu juste avant via la requête ¨sql.
+        Ceci permet d'obtenir un simple ¨dict, et non une liste de taille `1` ; ceci va simplifier les règles de ¨maj du contenu. Se reporter à la ¨doc de ¨jinjang pour des traitements plus avancés en cas de besoin.
+
+    1) Rien de nouveau à dire pour les blocs cofiup::''last_version_nb'' et cofiup::''last_version_date'' une fois que l'on a compris que cofiup::''last_version'' est un dictionnaire.
+
+
+info::
+    Le langage ¨python permet l'ajout de fonctions de comparaison "maison" pour personnaliser des requêtes ¨sql de tri: dans le cas de notre exemple, ceci permettrait de gérer les ¨numsver de type ¨semver.
+    Cette fonctionnalité est disponible uniquement via l'¨api ¨python présentée dans cf::''?/via-python.txt''.

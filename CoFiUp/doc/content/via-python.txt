@@ -1,0 +1,17 @@
+﻿this::
+    date = 2023-??-???
+
+
+abbrev::
+    content = :this.name:
+
+
+====================
+Usage depuis ¨python
+====================
+
+TODO
+
+/*
+content::
+    ¨content/XXXX.txt     ???????????????

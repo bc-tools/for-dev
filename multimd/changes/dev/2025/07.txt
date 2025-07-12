@@ -2,6 +2,21 @@
 
 
 ==
+12  (1.0.0-rc.7)
+==
+
+--------
+:fordev:
+--------
+
+[[:test:]]
+A text citing \thisproj as the file builder tool is automaticaaly added.
+
+
+// ---------- //
+
+
+==
 09  (1.0.0-rc.6)
 ==
 

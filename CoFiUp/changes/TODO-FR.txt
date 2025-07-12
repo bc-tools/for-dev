@@ -1,0 +1,163 @@
+======
+CoFiUp - TODO
+======
+
+
+> ---------------------------- <
+
+config key
+
+    data:
+    search:
+    handler:
+    update:
+    template:
+
+
+> ---------------------------- <
+
+https://github.com/fabiocaccamo/python-benedict
+
+
+==
+????
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+Structured data: support of ¨json, ¨toml and ¨yaml files for extraction and updating (¨jinjang and ¨sqlite are not yet implemented).
+
+
+API
+
+    ---> outil qui indique juste les chemins concernés, avec un rapport détaillé
+
+    ---> faire CLI avancé de comparaison en cas de fichiers sensmbles à la demande !
+
+    ---> clés imbriquée via chemin pointés avec échappement possible \. juste
+
+
+> ---------------------------- <
+
+clés imbriquée via chemin pointés dans template quand jinjang le fera
+
+
+> ---------------------------- <
+
+API
+
+    ---> config nom par défaut : cfg.cfup et non cfg.cfp car trop ambigü
+
+
+> ---------------------------- <
+
+Via ¨python, il est possible d'ajouter des fonctions de tri "maison" pour améliorer les requêtes ¨sqlite.
+Dans le cas de notre exemple, il est possible de gérer les ¨numsver de type ¨semver.
+
+
+Custom Collation With The SQLite Database Connection Object’s create_collation(name, callable) Function.
+
+    ---> application aux num de version
+
+https://wellsr.com/python/making-new-collations-with-python-sqlite-create_collation/#DefiningNewCollations
+
+import sqlite3
+import re
+
+def test_band_names():
+    """ Defining a collation algorithm for band names. """
+
+    def collate_band(name1, name2):
+        """ A collation skipping leading articles from a name. """
+        n1 = re.sub(r'^(a |the |an )', '', name1.lower())
+        n2 = re.sub(r'^(a |the |an )', '', name2.lower())
+        return 1 if n1 > n2 else -1 if n1 < n2 else 0
+
+    with sqlite3.connect(':memory:') as conn:
+        conn.create_collation('band', collate_band)
+
+        conn.execute('CREATE TABLE bands(' \
+            'id INTEGER PRIMARY KEY, ' \
+            'name TEXT NOT NULL COLLATE band, ' \
+            'country TEXT NOT NULL);')
+
+        conn.executemany(
+            'INSERT INTO bands(name, country) VALUES (?, ?);',
+            ( ('A Taste of Honey', 'USA'),
+              ('The Killers', 'USA'),
+              ('A-ha', 'NOR'),
+              ('The Beatles', 'GBR'),
+              ('The Clash', 'GBR')
+            ) )
+
+        for band in conn.execute(
+            'SELECT name FROM bands ORDER BY name ASC;'):
+            print(band[0])
+
+test_band_names()
+
+> ---------------------------- <
+
+YAGNI ???
+
+    ----> usefrom utile si espace de noms du dict des données utilisables pour usage interne
+
+    ---> échappement du point dans nom de bloc
+
+    ---> mi-chemin template regex: offre une soupllesse de modif
+        regex:
+            - from: '\*Number\s*:.*\*'
+              to:   '\*Number: {{ last_version_nb }}\*'
+
+    ---> regpath pour les update ???
+
+    ---> script appellables pour par exemple mettre à jour desc sur ggithub
+
+
+> ---------------------------- <
+
+python en plus de jinjnag pour éviter trucs pénibles : passer via eval mais en mode sécurisséé ???????? ou l'on importe pas os et co, le but étant de faire des manipulation de base
+
+pour template et handler !!!!!
+
+
+- jinjang: "{{ last_version[0] }}"
+
+via
+
+- python: last_version[0]
+
+
+ou
+
+jinjang: "{{ last_version['year'] }}-{{ last_version['month'] }}-{{ last_version['day'] }}"
+
+via
+
+python: f"{last_version['year']}-{last_version['month']}-{last_version['day']}"
+
+
+ou
+
+template:
+  templ_about:
+    jinjang: |
+      > **Current version**
+      >
+      >   * *Number: {{ last_version_nb }}*
+      >
+      >   * *Date: {{ last_version_date }}*
+
+via
+
+template:
+  templ_about:
+    python: |
+      > **Current version**
+      >
+      >   * *Number: {last_version_nb}*
+      >
+      >   * *Date: {last_version_date}*

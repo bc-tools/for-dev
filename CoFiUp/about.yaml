@@ -1,0 +1,14 @@
+project:
+  desc   : This project can update chunks of contents from
+           selected files.
+  acronym: "[CO]ntent [FI]le [UP]date
+            (bad play on words: updated content while drinking
+            your coffee ''up'', indeed in french the word ''cofi''
+            sounds like ''coffee'')"
+  author : Christophe, BAL
+  license: gnu 3
+
+  repo   : https://github.com/bc-tools/for-dev/tree/main/cofiup
+
+  require:
+    - python3
