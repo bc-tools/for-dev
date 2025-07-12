@@ -13,7 +13,7 @@ import requests
 #
 #     :return: XXX
 ###
-def url_accessible(
+def is_url_on_dns(
     url,
     timeout         = 3,
     allow_redirects = True

@@ -4,6 +4,5 @@ __version__ = "0.0.0-beta"
 
 from .data   import *
 from .tool   import *
-# from .parser import *
 
 from .extract import *
