@@ -1,4 +1,1 @@
-toc*:
-  - relative/path/to/file_1
-  - relative/path/to/one/folder/
-  - relative/path/inside/one/sub/folder/file_2
+toc*: list(str)
