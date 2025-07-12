@@ -2,6 +2,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from ....data import lang
+
 from langcodes import (
     get as get_langcode,
     LanguageTagError
@@ -19,7 +21,7 @@ from langcodes import (
 #     :return: an instance of the class ''aboutmeta.data.lang.Lang''
 #              to work easily with the \lang.
 ###
-def parser(content: str) -> aboutmeta.data.lang.Lang:
+def parser(content: str) -> lang.Lang:#
 # Getting a normalized code.
     try:
         lang = get_langcode(content).maximize()
@@ -31,7 +33,7 @@ def parser(content: str) -> aboutmeta.data.lang.Lang:
     describe = lang.describe('en')
 
 # The job has been done.
-    return aboutmeta.data.lang.Lang(
+    return lang.Lang(#
         std       = f"{lang.language}-{lang.territory}",
         name      = describe["language"],
         territory = describe["territory"]

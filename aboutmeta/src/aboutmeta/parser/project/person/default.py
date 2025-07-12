@@ -1,3 +1,12 @@
+# ------------- #
+# -- IMPORTS -- #
+# ------------- #
+
+from ....data import constants
+from ....data import person
+from ....tool import group
+
+
 # -------------------- #
 # -- IMPLEMENTATION -- #
 # -------------------- #
@@ -9,20 +18,20 @@
 #     :return: an instance of the class ''aboutmeta.data.person.Person''
 #              to work easily with the person data.
 ###
-def parser(content: str) -> aboutmeta.data.person.Person:
+def parser(content: str) -> person.Person: # abc  #def
 # One affiliation?
-    content, affiliation = aboutmeta.tool.group.extract_group(
+    content, affiliation = group.extract_group(#
         content = content,
-        opener  = aboutmeta.data.constants.TAG_AFFILIATION_OPEN,
-        closer  = aboutmeta.data.constants.TAG_AFFILIATION_CLOSE,
+        opener  = constants.TAG_AFFILIATION_OPEN,#
+        closer  = constants.TAG_AFFILIATION_CLOSE,#
         context = "affiliation"
     )
 
 # One email?
-    content, email = aboutmeta.tool.group.extract_group(
+    content, email = group.extract_group(#
         content = content,
-        opener  = aboutmeta.data.constants.TAG_EMAIL_OPEN,
-        closer  = aboutmeta.data.constants.TAG_EMAIL_CLOSE,
+        opener  = constants.TAG_EMAIL_OPEN,#
+        closer  = constants.TAG_EMAIL_CLOSE,#
         context = "email"
     )
 
@@ -40,7 +49,7 @@ def parser(content: str) -> aboutmeta.data.person.Person:
     surname = titles[-1].lstrip()
 
 # The job has been done.
-    return aboutmeta.data.person.Person(
+    return person.Person(#
         firstnames  = firstnames,
         surname     = surname,
         email       = email,
