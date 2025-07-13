@@ -1,42 +1,80 @@
-from cerberus import Validator
-
-class CustomValidator(Validator):
-    def _validate_zero_or_one_of(self, constraint, field, value):
-        """
-        Custom rule: at most one of the given fields may be present.
-        Usage: any field can declare 'zero_or_one_of': ['field1', 'field2']
-        """
-        if not isinstance(constraint, list):
-            self._error(field, "zero_or_one_of must be a list")
-            return
-
-        count = sum(
-            1 for key in constraint
-            if key in self.document and self.document[key] not in (None, '', [], {}, False)
-        )
-        if count > 1:
-            self._error(field, f"Only one of {constraint} is allowed (found {count})")
-
-# Le schéma
 schema = {
-    'author': {'type': 'string', 'zero_or_one_of': ['author', 'authors']},
-    'authors': {'type': 'list', 'schema': {'type': 'string'}, 'zero_or_one_of': ['author', 'authors']}
+    "project": {
+        "type": "dict",
+        "required": True,
+        "schema": {
+            "version": {"type": "string", "required": True},
+            "acronym": {"type": "string", "required": True},
+            "codename": {"type": "string", "required": True},
+            "desc": {"type": "string", "required": False},
+            "author": {"type": "string", "required": False},
+            "urls": {
+                "type": "dict",
+                "required": True,
+                "schema": {
+                    "home": {"type": "string", "required": True},
+                    "dev": {"type": "string", "required": True},
+                    "issues": {"type": "string", "required": True},
+                }
+            },
+            "licenses": {
+                "type": "dict",
+                "required": True,
+                "schema": {
+                    "code": {"type": "string", "required": True},
+                    "manual": {"type": "string", "required": True},
+                }
+            },
+            "langs": {
+                "type": "dict",
+                "required": True,
+                "schema": {
+                    "doc": {"type": "string", "required": True},
+                    "manual": {"type": "string", "required": True},
+                }
+            },
+            "require": {
+                "type": "list",
+                "schema": {"type": "string"},
+                "required": True
+            },
+            "keywords": {
+                "type": "list",
+                "schema": {"type": "string"},
+                "required": True
+            },
+        }
+    }
 }
 
-# Données à valider
-docs = [
-    {},  # ✅
-    {'author': 'Alice'},  # ✅
-    {'authors': ['Bob', 'Carol']},  # ✅
-    {'author': 'Alice', 'authors': ['Bob']},  # ❌
-]
 
-# Test
-v = CustomValidator(schema)
+def format_errors(errors, prefix=""):
+    lines = []
+    for field, issues in errors.items():
+        path = f"{prefix}.{field}" if prefix else field
+        if isinstance(issues, list):
+            for item in issues:
+                if isinstance(item, dict):
+                    # Sous-dictionnaire d'erreurs
+                    lines += format_errors(item, prefix=path)
+                else:
+                    lines.append(f"❌ {path} → {item}")
+        elif isinstance(issues, dict):
+            lines += format_errors(issues, prefix=path)
+    return lines
 
-for i, doc in enumerate(docs, 1):
-    print(f"\n🔍 Document {i}")
-    if v.validate(doc):
-        print("✅ Valid")
-    else:
-        print("❌ Invalid:", v.errors)
+
+from cerberus import Validator
+import yaml
+
+with open("test.yaml") as f:
+    data = yaml.safe_load(f)
+
+v = Validator(schema)
+
+if v.validate(data):
+    print("✅ YAML valide.")
+else:
+    print("❌ Erreurs de validation :")
+    for line in format_errors(v.errors):
+        print("  " + line)
