@@ -14,6 +14,7 @@ from aboutmeta.parser import (
 )
 
 from aboutmeta.specs import *
+from aboutmeta.style import ALL_STYLES
 
 
 # --------------- #
@@ -31,10 +32,25 @@ class Extract:
     def __init__(self, style = TAG_STYLE_DEFAULT):
         self.style = style
 
+    @property
+    def style(self):
+        return self._style
+
+    @style.setter
+    def style(self, style):
+        if not style in ALL_STYLES:
+            raise ValueError(f"''{style}'' is not a style of parsers.")
+
+        self._parsers = ALL_STYLES[style]
+        self._style   = style
+
+
     def build(self, yaml_file):
-        self.data = self.__recu_parse(
-            safe_load(yaml_file.read_text()),
-            SPECS_PARSING
+        self.data = Box(
+            self.__recu_parse(
+                safe_load(yaml_file.read_text()),
+                SPECS_PARSING
+            )
         )
 
     def __recu_parse(self, data, specs):
@@ -60,9 +76,8 @@ class Extract:
                         if not isinstance(val, list):
                             needed = "list of data"
 
-                    else:
-                        if not isinstance(val, str):
-                            needed = "a data"
+                    elif not isinstance(val, str):
+                        needed = "a data"
 
             if needed:
                 raise ValueError(
@@ -71,21 +86,29 @@ class Extract:
 
 # Block data needs a recursive work.
             if key_type == TAG_SPECS_BLOCK:
-                data_parsed[key] = self.__recu_parse(val,
-            specs[key][TAG_SPECS_CONTENT])
+                data_parsed[key] = self.__recu_parse(
+                    val,
+                    specs[key][TAG_SPECS_CONTENT]
+                )
 
 # List of data needs an iterative parsing.
             else:
                 parser = specs[key][TAG_SPECS_PARSER]
 
+                if parser is None:
+                    parser = str
+
+                else:
+                    parser = getattr(self._parsers, parser)
+
                 if specs[key][TAG_SPECS_LIST_OF]:
                     for i, d in enumerate(val):
-                        val[i] = parser
+                        val[i] = parser(val[i])
 
                     data_parsed[key] = val
 
                 else:
-                    data_parsed[key] = parser
+                    data_parsed[key] = parser(val)
 
 # Job done.
         return data_parsed
@@ -93,4 +116,4 @@ class Extract:
 xtrct = Extract()
 xtrct.build(Path(__file__).parent.parent.parent / "about.yaml")
 
-from pprint import pprint;pprint(xtrct.data)
+from pprint import pprint;pprint(xtrct.data.project.licenses.code)
