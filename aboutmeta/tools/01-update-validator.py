@@ -105,8 +105,8 @@ def build_pyspecs(specs, extradata):
 
             if len(splitted_keys) != len(splitted_vals):
                 raise ValueError(
-                     "keys and types with differnet numbers of pipe in "
-                    f"''specs/{extradata[TAG_FILE]}'' file."
+                     "keys and types with differnet numbers of pipe "
+                    f"in ''specs/{extradata[TAG_FILE]}'' file."
                     f"\n  + ''{key}''"
                     f"\n  + ''{val}''"
                 )
@@ -122,7 +122,9 @@ def build_pyspecs(specs, extradata):
 
                     pyspecs[TAG_SPECS_ALT_ALL] += splitted_keys
 
-                    pyspecs[TAG_SPECS_ALT_TUPLES].append(tuple(splitted_keys))
+                    pyspecs[TAG_SPECS_ALT_TUPLES].append(
+                        tuple(sorted(splitted_keys))
+                    )
 
                     splitted_keys = [f"{k}*" for k in  splitted_keys]
 
@@ -135,8 +137,13 @@ def build_pyspecs(specs, extradata):
             pyspecs[key]  = thispsec
 
     if pyspecs[TAG_SPECS_ALT_ALL]:
-        pyspecs[TAG_SPECS_ALT_ALL]    = tuple(pyspecs[TAG_SPECS_ALT_ALL])
-        pyspecs[TAG_SPECS_ALT_TUPLES] = tuple(pyspecs[TAG_SPECS_ALT_TUPLES])
+        pyspecs[TAG_SPECS_ALT_ALL] = tuple(
+            sorted(pyspecs[TAG_SPECS_ALT_ALL])
+        )
+
+        pyspecs[TAG_SPECS_ALT_TUPLES] = tuple(
+            sorted(pyspecs[TAG_SPECS_ALT_TUPLES])
+        )
 
     else:
         pyspecs[TAG_SPECS_ALT_ALL] = tuple()
@@ -174,8 +181,7 @@ def build_single_pyspec(key, val, extradata):
 
 
     else:
-        this_specs[TAG_SPECS_TYPE] = TAG_SPECS_BLOCK
-
+        this_specs[TAG_SPECS_TYPE]    = TAG_SPECS_BLOCK
         this_specs[TAG_SPECS_CONTENT] = build_pyspecs(val, extradata)
 
     return key, this_specs
@@ -242,13 +248,14 @@ for onevar in allvars:
     if not globals()[onevar] in PY_TAGS:
         continue
 
+    constants.append(f'{onevar} = "{globals()[onevar]}"')
+
     pyspecs = pyspecs.replace(
         f"'{globals()[onevar]}'",
         onevar
     )
 
-    constants.append(f'{onevar} = "{globals()[onevar]}"')
-
+# Text version of the constants.
 constants = '\n'.join(constants)
 
 # Use of tag parsers instead of hard typed texts.
@@ -259,10 +266,13 @@ tag_parsers = {}
 
 for parser in all_parsers:
     tag_parsers[
-        tag:= f"TAG_SPECS_PARSER_{parser.upper()}"
+        tag:= f"TAG_PARSER_{parser.upper()}"
     ] = parser
 
-    pyspecs = pyspecs.replace(f"'{parser}'", tag)
+    pyspecs = pyspecs.replace(
+        f"'{parser}'}}",
+        f"{tag}}}"
+    )
 
 tag_parsers = [
     f'{k} = "{v}"'

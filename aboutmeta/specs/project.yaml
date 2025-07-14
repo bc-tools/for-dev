@@ -1,9 +1,9 @@
 project*:
   version*: version
 
-  acronym* : str
-  codename*: str
-  desc     : str
+  acronym*            : str
+  doctitle | codename*: str | str
+  desc                : str
 
   authors | author *: list(person) | person
 

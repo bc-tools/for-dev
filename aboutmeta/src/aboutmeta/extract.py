@@ -37,10 +37,8 @@ class Extract:
             SPECS_PARSING
         )
 
-
-    def __recu_parse(self, boxdata, specs):
-
-        for key, val in boxdata.items():
+    def __recu_parse(self, data, specs):
+        for key, val in data.items():
             if not key in specs:
                 raise KeyError(f"unknown key ''{key}''.")
 

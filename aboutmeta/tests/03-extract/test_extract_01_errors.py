@@ -25,14 +25,11 @@ def test_extract_no_file_KO():
         XTRCT.build(Path('bidon'))
 
 
-def test_extract_unknown_key_1_KO():
-    with pytest.raises(KeyError):
-        XTRCT.build(AD_DIR / "key" / "1.yaml")
+NB_BAD_KEYS = 3 + 1
 
-def test_extract_unknown_key_2_KO():
-    with pytest.raises(KeyError):
-        XTRCT.build(AD_DIR / "key" / "2.yaml")
+@pytest.mark.parametrize("i", range(1, NB_BAD_KEYS))
+def test_extract_unknown_key_KO(i):
+    bad_yaml = BAD_DIR / "key" / f"{i}.yaml"
 
-def test_extract_unknown_key_3_KO():
     with pytest.raises(KeyError):
-        XTRCT.build(AD_DIR / "key" / "3.yaml")
+        XTRCT.build(bad_yaml)

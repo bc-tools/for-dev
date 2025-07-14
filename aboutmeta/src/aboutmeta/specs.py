@@ -20,11 +20,11 @@ TAG_SPECS_PARSER = "PARSER"
 TAG_SPECS_REQUIRED = "REQUIRED"
 TAG_SPECS_TYPE = "TYPE"
 
-TAG_SPECS_PARSER_LANG = "lang"
-TAG_SPECS_PARSER_LICENSE = "license"
-TAG_SPECS_PARSER_PATH = "path"
-TAG_SPECS_PARSER_PERSON = "person"
-TAG_SPECS_PARSER_VERSION = "version"
+TAG_PARSER_LANG = "lang"
+TAG_PARSER_LICENSE = "license"
+TAG_PARSER_PATH = "path"
+TAG_PARSER_PERSON = "person"
+TAG_PARSER_VERSION = "version"
 
 
 # ------------------------ #
@@ -37,15 +37,32 @@ SPECS_PARSING = {
         TAG_SPECS_REQUIRED: False,
         TAG_SPECS_TYPE: TAG_SPECS_BLOCK,
         TAG_SPECS_CONTENT: {
-            TAG_SPECS_ALT_ALL: ("authors", "author", "contribs", "contrib"),
-            TAG_SPECS_ALT_TUPLES: (("authors", "author"), ("contribs", "contrib")),
-            TAG_SPECS_PARSER_VERSION: {
+            TAG_SPECS_ALT_ALL: (
+                "author",
+                "authors",
+                "codename",
+                "contrib",
+                "contribs",
+                "doctitle",
+            ),
+            TAG_SPECS_ALT_TUPLES: (
+                ("author", "authors"),
+                ("codename", "doctitle"),
+                ("contrib", "contribs"),
+            ),
+            "version": {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: False,
-                TAG_SPECS_PARSER: TAG_SPECS_PARSER_VERSION,
+                TAG_SPECS_PARSER: TAG_PARSER_VERSION,
             },
             "acronym": {
+                TAG_SPECS_REQUIRED: False,
+                TAG_SPECS_TYPE: TAG_SPECS_DATA,
+                TAG_SPECS_LIST_OF: False,
+                TAG_SPECS_PARSER: None,
+            },
+            "doctitle": {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: False,
@@ -67,25 +84,25 @@ SPECS_PARSING = {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: True,
-                TAG_SPECS_PARSER: TAG_SPECS_PARSER_PERSON,
+                TAG_SPECS_PARSER: TAG_PARSER_PERSON,
             },
             "author": {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: False,
-                TAG_SPECS_PARSER: TAG_SPECS_PARSER_PERSON,
+                TAG_SPECS_PARSER: TAG_PARSER_PERSON,
             },
             "contribs": {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: True,
-                TAG_SPECS_PARSER: TAG_SPECS_PARSER_PERSON,
+                TAG_SPECS_PARSER: TAG_PARSER_PERSON,
             },
             "contrib": {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: False,
-                TAG_SPECS_PARSER: TAG_SPECS_PARSER_PERSON,
+                TAG_SPECS_PARSER: TAG_PARSER_PERSON,
             },
             "urls": {
                 TAG_SPECS_REQUIRED: False,
@@ -121,13 +138,13 @@ SPECS_PARSING = {
                         TAG_SPECS_REQUIRED: False,
                         TAG_SPECS_TYPE: TAG_SPECS_DATA,
                         TAG_SPECS_LIST_OF: False,
-                        TAG_SPECS_PARSER: TAG_SPECS_PARSER_LICENSE,
+                        TAG_SPECS_PARSER: TAG_PARSER_LICENSE,
                     },
                     "manual": {
                         TAG_SPECS_REQUIRED: False,
                         TAG_SPECS_TYPE: TAG_SPECS_DATA,
                         TAG_SPECS_LIST_OF: False,
-                        TAG_SPECS_PARSER: TAG_SPECS_PARSER_LICENSE,
+                        TAG_SPECS_PARSER: TAG_PARSER_LICENSE,
                     },
                 },
             },
@@ -140,13 +157,13 @@ SPECS_PARSING = {
                         TAG_SPECS_REQUIRED: False,
                         TAG_SPECS_TYPE: TAG_SPECS_DATA,
                         TAG_SPECS_LIST_OF: False,
-                        TAG_SPECS_PARSER: TAG_SPECS_PARSER_LANG,
+                        TAG_SPECS_PARSER: TAG_PARSER_LANG,
                     },
                     "manual": {
                         TAG_SPECS_REQUIRED: False,
                         TAG_SPECS_TYPE: TAG_SPECS_DATA,
                         TAG_SPECS_LIST_OF: False,
-                        TAG_SPECS_PARSER: TAG_SPECS_PARSER_LANG,
+                        TAG_SPECS_PARSER: TAG_PARSER_LANG,
                     },
                 },
             },
@@ -168,6 +185,6 @@ SPECS_PARSING = {
         TAG_SPECS_REQUIRED: False,
         TAG_SPECS_TYPE: TAG_SPECS_DATA,
         TAG_SPECS_LIST_OF: True,
-        TAG_SPECS_PARSER: TAG_SPECS_PARSER_PATH,
+        TAG_SPECS_PARSER: TAG_PARSER_PATH,
     },
 }
