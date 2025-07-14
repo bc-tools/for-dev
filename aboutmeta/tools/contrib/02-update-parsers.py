@@ -24,10 +24,12 @@ INIT_CONTENT = "#!/usr/bin/env python3\n"
 
 TAB_1 = ' '*2
 TAB_2 = TAB_1*2
+TAB_3 = TAB_1*3
 
 ITEM_1 = '+'
 ITEM_2 = f'{TAB_1}*'
-ITEM_3 = f'{TAB_2}-->'
+ITEM_3 = f'{TAB_2}-'
+ITEM_4 = f'{TAB_3}-->'
 
 TAG_STATUS = "status"
 TAG_OK     = "ok"
@@ -158,10 +160,11 @@ for relpath, contrib_file in get_relpaths(CONTRIB_DIR):
 
     contrib_files[data_type].add(syntax)
 
+# Python code.
     code_parts = get_code_parts(contrib_file.read_text())
 
     if CTXT_TOOLS in code_parts:
-        print(f"{ITEM_3} This parser use tools.")
+        print(f"{ITEM_3} This parser needs tools.")
 
     code = get_src_code(code_parts)
 
@@ -177,6 +180,29 @@ for relpath, contrib_file in get_relpaths(CONTRIB_DIR):
     src_file.touch()
     src_file.write_text(code)
 
+    src_local_dir = src_file.parent
+
+# Extra files?
+    extra_files = [
+        p
+        for p in contrib_file.parent.glob(f"{contrib_file.stem}*")
+        if p != contrib_file
+    ]
+
+    if extra_files:
+        plurial = "s" if len(extra_files) != 1 else ""
+
+        print(f"{ITEM_3} This parser uses the following extra file{plurial}.")
+
+        for xfile in extra_files:
+            xfile_name = xfile.name
+
+            print(f"{ITEM_4} {xfile_name}")
+
+            src_file = src_local_dir / xfile_name
+            src_file.touch()
+            src_file.write_text(xfile.read_text())
+
 # Just add ''__init__.py'' files.
 for onedir in dirs_created:
     initfile = onedir / INIT_FILE
@@ -191,6 +217,7 @@ for onedir in dirs_created:
 
 print(f"{ITEM_1} Verifying the existence of test files...")
 
+# Test files implemented.
 test_files  = defaultdict(set)
 no_pb_found = True
 
@@ -205,6 +232,7 @@ for test_file in TESTS_DIR.glob("*/*/test_*.py"):
     if match:
         test_files[data_type].add(match.group("syntax"))
 
+# Tests needed.
 for data_type, syntaxes in contrib_files.items():
     if not data_type in test_files:
         no_pb_found = False
@@ -235,5 +263,6 @@ for data_type, syntaxes in contrib_files.items():
 
             print(f"{ITEM_3} {unexpected}")
 
+# Conclusion.
 if no_pb_found:
     print(f"{ITEM_2} No test files missing.")

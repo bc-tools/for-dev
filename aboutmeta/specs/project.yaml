@@ -1,16 +1,13 @@
-__abrev__:
-  am_data: aboutmeta.data
-
 project*:
-  version*: \am_data.version.Version
+  version*: version
 
   acronym* : str
   codename*: str
   desc     : str
 
-  authors* | author*: list(\am_data.person.Person) | \am_data.person.Person
+  authors | author *: list(person) | person
 
-  contribs* | contrib*: list(\am_data.person.Person) | \am_data.person.Person
+  contribs | contrib *: list(person) | person
 
   urls*:
     home*  : str
@@ -18,12 +15,12 @@ project*:
     issues*: str
 
   licenses*:
-    code*  : \am_data.license.License
-    manual*: \am_data.license.License
+    code*  : license
+    manual*: license
 
   langs*:
-    doc*   : \am_data.lang.Lang
-    manual*: \am_data.lang.Lang
+    doc*   : lang
+    manual*: lang
 
   require*: list(str)
 

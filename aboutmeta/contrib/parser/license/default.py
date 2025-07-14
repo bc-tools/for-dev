@@ -26,7 +26,7 @@ from rapidfuzz import (
 # -- CONSTANTS -- #
 # --------------- #
 
-LICENSES_JSON_FILE = Path(__file__).parent / "licenses.json"
+LICENSES_JSON_FILE = Path(__file__).parent / "default-licenses.json"
 
 TAG_SPDX_LICENSES     = 'licenses'
 TAG_SPDX_LICENSE_ID   = 'licenseId'

@@ -9,8 +9,3 @@ TAG_AFFILIATION_CLOSE = ")"
 
 TAG_EMAIL_OPEN  = "["
 TAG_EMAIL_CLOSE = "]"
-
-
-# ---------------- #
-# -- YAML SPECS -- #
-# ---------------- #

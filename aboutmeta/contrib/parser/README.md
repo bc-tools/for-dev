@@ -4,12 +4,12 @@ Add new plugins to `aboutmeta`
 Structure of the `contrib/parser` folder
 ----------------------------------------
 
-### The `STATUS` subfolder
+### The `STATUS` folder
 
 This folder allows you to know the status of your proposal. Its structure mimics the `contrib/parser` one.
 
 
-### Other subfolders
+### Other folders
 
 The folders correspond to the data structure of the `about.yaml` file. In the deepest subfolders, you will find at least one `Python` file named `default.py` corresponding to the default behavior.
 
@@ -32,7 +32,7 @@ Here are the steps to follow.
 ---
 
 
-> ***CAUTION!*** *If you need external files, as is the case with the parser `contrib/parsers/licences/default.py`, you must use them locally. These files must be added, or build via functions placed in the `TOOLS` section, which will import the necessary modules.* **This choice allows to provide only files that are permanently stored on the end user's operating system.** *This is a best practice imposed for obvious security reasons.*
+> ***CAUTION!*** *If you need external files, as is the case with the parser `contrib/parsers/licences/default.py`, you must use them locally and prefix their name by the parser name followed by an hyphen. These files must be added, or build via functions placed in the `TOOLS` section, which will import the necessary modules.* **This choice allows to provide only files that are permanently stored on the end user's operating system.** *This is a best practice imposed for obvious security reasons.*
 
 
 ---
