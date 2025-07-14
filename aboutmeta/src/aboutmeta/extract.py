@@ -56,6 +56,31 @@ class Extract:
     def __recu_parse(self, data, specs):
         data_parsed = {}
 
+# Illegal alternatives?
+        if specs[TAG_SPECS_ALT_ALL]:
+            keys_set   = set(data.keys())
+            to_analyze = keys_set.intersection(
+                set(specs[TAG_SPECS_ALT_ALL])
+            )
+
+            print(f"{to_analyze=}")
+
+            if len(to_analyze) > 1:
+                for no_alt in specs[TAG_SPECS_ALT_TUPLES]:
+                    common_keys = keys_set.intersection(no_alt)
+
+                    if len(common_keys) > 1:
+                        common_keys = list(common_keys)
+                        common_keys.sort()
+                        common_keys = [f"''{k}''" for k in common_keys]
+                        common_keys = ', '.join(common_keys)
+
+                        raise ValueError(
+                            f"just use on the keys {common_keys}."
+                        )
+
+
+# Let's parse...
         for key, val in data.items():
 # Legal key?
             if not key in specs:
@@ -113,7 +138,9 @@ class Extract:
 # Job done.
         return data_parsed
 
-xtrct = Extract()
-xtrct.build(Path(__file__).parent.parent.parent / "about.yaml")
 
-from pprint import pprint;pprint(xtrct.data.project.licenses.code)
+if __name__ == "__main__":
+    xtrct = Extract()
+    xtrct.build(Path(__file__).parent.parent.parent / "about.yaml")
+
+    from pprint import pprint;pprint(xtrct.data.project.licenses.code)

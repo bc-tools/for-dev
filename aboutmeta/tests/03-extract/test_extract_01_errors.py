@@ -16,6 +16,10 @@ THIS_DIR = Path(__file__).parent
 BAD_DIR = THIS_DIR / "bad"
 
 
+NB_BAD_KEYS = 3
+NB_BAD_VALS = 3
+NB_BAD_ALTS = 1
+
 # ------------- #
 # -- ILLEGAL -- #
 # ------------- #
@@ -25,11 +29,34 @@ def test_extract_no_file_KO():
         XTRCT.build(Path('bidon'))
 
 
-NB_BAD_KEYS = 3 + 1
-
-@pytest.mark.parametrize("i", range(1, NB_BAD_KEYS))
+@pytest.mark.parametrize("i", range(1, NB_BAD_KEYS + 1))
 def test_extract_unknown_key_KO(i):
     bad_yaml = BAD_DIR / "key" / f"{i}.yaml"
 
-    with pytest.raises(KeyError):
+    with pytest.raises(
+        KeyError,
+        match = r"unknown key .*"
+    ):
+        XTRCT.build(bad_yaml)
+
+
+@pytest.mark.parametrize("i", range(1, NB_BAD_VALS + 1))
+def test_extract_bad_val_type_KO(i):
+    bad_yaml = BAD_DIR / "val" / f"{i}.yaml"
+
+    with pytest.raises(
+        ValueError,
+        match = r"content of ''.*'' must be a .*"
+    ):
+        XTRCT.build(bad_yaml)
+
+
+@pytest.mark.parametrize("i", range(1, NB_BAD_ALTS + 1))
+def test_extract_bad_val_type_KO(i):
+    bad_yaml = BAD_DIR / "alt" / f"{i}.yaml"
+
+    with pytest.raises(
+        ValueError,
+        match = r"just use on the keys .*"
+    ):
         XTRCT.build(bad_yaml)

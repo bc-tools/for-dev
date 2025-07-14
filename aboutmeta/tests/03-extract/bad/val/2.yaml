@@ -1,5 +1,5 @@
 project:
-  authr: Person 1
+  authors: Person 1
 
   licenses:
     code: gpl 3.0+
