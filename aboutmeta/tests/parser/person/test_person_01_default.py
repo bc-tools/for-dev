@@ -2,7 +2,7 @@
 
 import pytest
 
-from aboutmeta.parser.project.person.default import parser
+from aboutmeta.parser.person.default import parser
 
 
 # ----------- #

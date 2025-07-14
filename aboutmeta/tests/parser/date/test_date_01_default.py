@@ -2,7 +2,7 @@
 
 import pytest
 
-from aboutmeta.parser.project.date.default import parser
+from aboutmeta.parser.date.default import parser
 
 
 # ----------- #

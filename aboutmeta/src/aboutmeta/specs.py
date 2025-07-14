@@ -20,6 +20,12 @@ TAG_PARSER = "__parser__"
 TAG_REQUIRED = "__required__"
 TAG_TYPE = "__type__"
 
+TAG_PARSER_LANG = "lang"
+TAG_PARSER_LICENSE = "license"
+TAG_PARSER_PATH = "path"
+TAG_PARSER_PERSON = "person"
+TAG_PARSER_VERSION = "version"
+
 
 # ------------------------ #
 # -- READY-TO-USE SPECS -- #
@@ -33,11 +39,11 @@ YAML_SPECS = {
             TAG_TYPE: TAG_BLOCK,
             TAG_ALT_ALL: ("authors", "author", "contribs", "contrib"),
             TAG_ALT_TUPLES: (("authors", "author"), ("contribs", "contrib")),
-            "version": {
+            TAG_PARSER_VERSION: {
                 TAG_REQUIRED: False,
                 TAG_TYPE: TAG_DATA,
                 TAG_LIST_OF: False,
-                TAG_PARSER: "version",
+                TAG_PARSER: TAG_PARSER_VERSION,
             },
             "acronym": {
                 TAG_REQUIRED: False,
@@ -61,25 +67,25 @@ YAML_SPECS = {
                 TAG_REQUIRED: False,
                 TAG_TYPE: TAG_DATA,
                 TAG_LIST_OF: True,
-                TAG_PARSER: "person",
+                TAG_PARSER: TAG_PARSER_PERSON,
             },
             "author": {
                 TAG_REQUIRED: False,
                 TAG_TYPE: TAG_DATA,
                 TAG_LIST_OF: False,
-                TAG_PARSER: "person",
+                TAG_PARSER: TAG_PARSER_PERSON,
             },
             "contribs": {
                 TAG_REQUIRED: False,
                 TAG_TYPE: TAG_DATA,
                 TAG_LIST_OF: True,
-                TAG_PARSER: "person",
+                TAG_PARSER: TAG_PARSER_PERSON,
             },
             "contrib": {
                 TAG_REQUIRED: False,
                 TAG_TYPE: TAG_DATA,
                 TAG_LIST_OF: False,
-                TAG_PARSER: "person",
+                TAG_PARSER: TAG_PARSER_PERSON,
             },
             "urls": {
                 TAG_REQUIRED: False,
@@ -112,13 +118,13 @@ YAML_SPECS = {
                     TAG_REQUIRED: False,
                     TAG_TYPE: TAG_DATA,
                     TAG_LIST_OF: False,
-                    TAG_PARSER: "license",
+                    TAG_PARSER: TAG_PARSER_LICENSE,
                 },
                 "manual": {
                     TAG_REQUIRED: False,
                     TAG_TYPE: TAG_DATA,
                     TAG_LIST_OF: False,
-                    TAG_PARSER: "license",
+                    TAG_PARSER: TAG_PARSER_LICENSE,
                 },
             },
             "langs": {
@@ -129,13 +135,13 @@ YAML_SPECS = {
                     TAG_REQUIRED: False,
                     TAG_TYPE: TAG_DATA,
                     TAG_LIST_OF: False,
-                    TAG_PARSER: "lang",
+                    TAG_PARSER: TAG_PARSER_LANG,
                 },
                 "manual": {
                     TAG_REQUIRED: False,
                     TAG_TYPE: TAG_DATA,
                     TAG_LIST_OF: False,
-                    TAG_PARSER: "lang",
+                    TAG_PARSER: TAG_PARSER_LANG,
                 },
             },
             "require": {
@@ -158,7 +164,7 @@ YAML_SPECS = {
             TAG_REQUIRED: False,
             TAG_TYPE: TAG_DATA,
             TAG_LIST_OF: True,
-            TAG_PARSER: "path",
+            TAG_PARSER: TAG_PARSER_PATH,
         },
     },
 }

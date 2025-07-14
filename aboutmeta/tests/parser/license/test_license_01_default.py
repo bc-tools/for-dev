@@ -2,7 +2,7 @@
 
 import pytest
 
-from aboutmeta.parser.project.license.default import parser
+from aboutmeta.parser.license.default import parser
 
 
 # ----------- #

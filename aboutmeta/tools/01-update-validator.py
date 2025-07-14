@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 
 from copy    import copy
@@ -41,23 +40,9 @@ SPECIAL_TAGS_SPECS = [
 PATTERN_LIST_OF    = re.compile(r"list\((?P<kind>.*)\)")
 PATTERN_LEGAL_LIST = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
 
-TAG_AM_DATA        = "aboutmeta.data"
-PATTERN_AM_DATA    = re.compile(fr"'{TAG_AM_DATA}\.(?P<module>[a-z]+)\.(?P<class>[a-zA-Z]+)'")
-
 PY_TAGS = [
     TAG_ALT_ALL   := "__alternative_all__",
     TAG_ALT_TUPLES:= "__alternative_tuples__",
-    TAG_BLOCK     := "__block__",
-    TAG_DATA      := "__data__",
-    TAG_LIST_OF   := "__list_of__",
-    TAG_PARSER    := "__parser__",
-    TAG_REQUIRED  := "__required__",
-    TAG_TYPE      := "__type__",
-]
-
-PY_TYPES = [
-    TAG_PERSON := "person",
-    TAG_VERSION:= "__alternative_tuples__",
     TAG_BLOCK     := "__block__",
     TAG_DATA      := "__data__",
     TAG_LIST_OF   := "__list_of__",
@@ -221,12 +206,16 @@ def which_parser(val, extradata):
     if val == 'str':
         return is_list_of, None
 
+    all_parsers.add(val)
+
     return is_list_of, val
 
 
 # --------------- #
 # -- PRE SPECS -- #
 # --------------- #
+
+all_parsers = set()
 
 print(f"{ITEM_1} Creation/update of the Python specs file.")
 
@@ -240,7 +229,7 @@ for yaml_file in SPECS_DIR.glob("*.yaml"):
 # -- BUILD FINAL PYTHON SPECS -- #
 # ------------------------------ #
 
-# Use of tags instead of hard typed texts.
+# Use of tag keys instead of hard typed texts.
 pyspecs = f"{pyspecs}"
 
 allvars = copy(globals())
@@ -260,18 +249,25 @@ for onevar in allvars:
 
 constants = '\n'.join(constants)
 
-# # ''aboutemeta.data'' objects instead of hard typed texts.
-# imports_needed = set(PATTERN_AM_DATA.findall(pyspecs))
+# Use of tag parsers instead of hard typed texts.
+all_parsers = list(all_parsers)
+all_parsers.sort()
 
-# for module_name, cls_name in imports_needed:
-#     pyspecs = pyspecs.replace(
-#         f"'{TAG_AM_DATA}.{module_name}.{cls_name}'",
-#         f"{module_name}.{cls_name}"
-#     )
+tag_parsers = {}
 
-# imports_needed = [f"    {m}," for m, c in imports_needed]
-# imports_needed.sort()
-# imports_needed = '\n'.join(imports_needed)
+for parser in all_parsers:
+    tag_parsers[
+        tag:= f"TAG_PARSER_{parser.upper()}"
+    ] = parser
+
+    pyspecs = pyspecs.replace(f"'{parser}'", tag)
+
+tag_parsers = [
+    f'{k} = "{v}"'
+    for k, v in tag_parsers.items()
+]
+
+tag_parsers = '\n'.join(tag_parsers)
 
 # Nothing left to do.
 SPECS_FILE.write_text(
@@ -290,6 +286,8 @@ SPECS_FILE.write_text(
 # --------------- #
 
 {constants}
+
+{tag_parsers}
 
 
 # ------------------------ #

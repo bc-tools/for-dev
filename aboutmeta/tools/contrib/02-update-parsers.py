@@ -14,9 +14,10 @@ THIS_DIR     = Path(__file__).parent
 PROJECT_DIR  = THIS_DIR.parent.parent
 PROJECT_NAME = PROJECT_DIR.name
 
-CONTRIB_DIR = PROJECT_DIR / "contrib" / "parser"
-SRC_DIR     = PROJECT_DIR / "src" / PROJECT_NAME / "parser"
-TESTS_DIR   = PROJECT_DIR / "tests" / "parser"
+PARSER_DIR = PROJECT_DIR / "contrib" / "parser"
+STATUS_DIR = PARSER_DIR / "status"
+SRC_DIR    = PROJECT_DIR / "src" / PROJECT_NAME / "parser"
+TESTS_DIR  = PROJECT_DIR / "tests" / "parser"
 
 INIT_FILE    = "__init__.py"
 INIT_CONTENT = "#!/usr/bin/env python3\n"
@@ -65,17 +66,15 @@ ALL_CTXTS = CTXTS_FOR_CONTRIB + CTXTS_FOR_CODE + CTXTS_FOR_TOOLS
 
 def get_relpaths(onedir):
 # WARNING! "No status" implies "No parser to add".
-    status_dir = onedir / "STATUS"
-    files      = []
+    files = []
 
-    for yaml_file in status_dir.glob("**/*.yaml"):
+    for yaml_file in STATUS_DIR.glob("**/*.yaml"):
         status_data = safe_load(yaml_file.read_text())
 
         if status_data[TAG_STATUS] != TAG_OK:
             continue
 
-        reldir       = yaml_file.relative_to(status_dir)
-        relpath      = reldir.parent / f"{reldir.stem}.py"
+        relpath      = Path(yaml_file.parent.name) / f"{yaml_file.stem}.py"
         contrib_file = onedir / relpath
 
         if not contrib_file.is_file():
@@ -152,7 +151,7 @@ print(f"{ITEM_1} Creation/update of source code...")
 contrib_files = defaultdict(set)
 dirs_created  = set()
 
-for relpath, contrib_file in get_relpaths(CONTRIB_DIR):
+for relpath, contrib_file in get_relpaths(PARSER_DIR):
     print(f"{ITEM_2} ''{relpath}'' new parser.")
 
     data_type = str(relpath.parents[0])
@@ -204,6 +203,11 @@ for relpath, contrib_file in get_relpaths(CONTRIB_DIR):
             src_file.write_text(xfile.read_text())
 
 # Just add ''__init__.py'' files.
+initfile = SRC_DIR / INIT_FILE
+
+initfile.touch()
+initfile.write_text(INIT_CONTENT)
+
 for onedir in dirs_created:
     initfile = onedir / INIT_FILE
 
@@ -221,7 +225,9 @@ print(f"{ITEM_1} Verifying the existence of test files...")
 test_files  = defaultdict(set)
 no_pb_found = True
 
-for test_file in TESTS_DIR.glob("*/*/test_*.py"):
+
+
+for test_file in TESTS_DIR.glob("*/test_*.py"):
     test_file = test_file.relative_to(TESTS_DIR)
 
     data_type = str(test_file.parents[0])
