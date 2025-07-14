@@ -30,26 +30,24 @@ MAGIC_GOMMENT_SPECS = f"""
 
 PATTERN_SPECIAL_TAGS_SPECS = re.compile(r'__[a-z]+__')
 
-TAG_FILE = "-.-.file.-.-"
+TAG_FILE = "file"
 
-SPECIAL_TAGS_SPECS = [
-    TAG_ABBREV:= "-.-.abrev.-.-",
-]
+SPECIAL_TAGS_SPECS = []
 
 
 PATTERN_LIST_OF    = re.compile(r"list\((?P<kind>.*)\)")
 PATTERN_LEGAL_LIST = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
 
 PY_TAGS = [
-    TAG_SPECS_ALT_ALL   := "-.-.alternative_all.-.-",
-    TAG_SPECS_ALT_TUPLES:= "-.-.alternative_tuples.-.-",
-    TAG_SPECS_BLOCK     := "-.-.block.-.-",
-    TAG_SPECS_CONTENT   := "-.-.content.-.-",
-    TAG_SPECS_DATA      := "-.-.data.-.-",
-    TAG_SPECS_LIST_OF   := "-.-.list_of.-.-",
-    TAG_SPECS_PARSER    := "-.-.parser.-.-",
-    TAG_SPECS_REQUIRED  := "-.-.required.-.-",
-    TAG_SPECS_TYPE      := "-.-.type.-.-",
+    TAG_SPECS_ALT_ALL   := "ALT_ALL",
+    TAG_SPECS_ALT_TUPLES:= "ALT_TUPLES",
+    TAG_SPECS_BLOCK     := "BLOCK",
+    TAG_SPECS_CONTENT   := "CONTENT",
+    TAG_SPECS_DATA      := "DATA",
+    TAG_SPECS_LIST_OF   := "LIST_OF",
+    TAG_SPECS_PARSER    := "PARSER",
+    TAG_SPECS_REQUIRED  := "REQUIRED",
+    TAG_SPECS_TYPE      := "TYPE",
 ]
 
 
@@ -184,9 +182,9 @@ def build_single_pyspec(key, val, extradata):
 
 
 def which_parser(val, extradata):
-    if TAG_ABBREV in extradata:
-        for oneabbrev, replacement in extradata[TAG_ABBREV].items():
-            val = val.replace(f"\\{oneabbrev}", replacement)
+    # if TAG_ABBREV in extradata:
+    #     for oneabbrev, replacement in extradata[TAG_ABBREV].items():
+    #         val = val.replace(f"\\{oneabbrev}", replacement)
 
     match = PATTERN_LIST_OF.fullmatch(val)
 
@@ -283,7 +281,6 @@ SPECS_FILE.write_text(
 # --                                                   -- #
 # -- Formatting done by the Python project “black.”    -- #
 # ------------------------------------------------------- #
-
 
 # --------------- #
 # -- CONSTANTS -- #

@@ -6,20 +6,19 @@
 # -- Formatting done by the Python project “black.”    -- #
 # ------------------------------------------------------- #
 
-
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
-TAG_SPECS_ALT_ALL = "-.-.alternative_all.-.-"
-TAG_SPECS_ALT_TUPLES = "-.-.alternative_tuples.-.-"
-TAG_SPECS_BLOCK = "-.-.block.-.-"
-TAG_SPECS_CONTENT = "-.-.content.-.-"
-TAG_SPECS_DATA = "-.-.data.-.-"
-TAG_SPECS_LIST_OF = "-.-.list_of.-.-"
-TAG_SPECS_PARSER = "-.-.parser.-.-"
-TAG_SPECS_REQUIRED = "-.-.required.-.-"
-TAG_SPECS_TYPE = "-.-.type.-.-"
+TAG_SPECS_ALT_ALL = "ALT_ALL"
+TAG_SPECS_ALT_TUPLES = "ALT_TUPLES"
+TAG_SPECS_BLOCK = "BLOCK"
+TAG_SPECS_CONTENT = "CONTENT"
+TAG_SPECS_DATA = "DATA"
+TAG_SPECS_LIST_OF = "LIST_OF"
+TAG_SPECS_PARSER = "PARSER"
+TAG_SPECS_REQUIRED = "REQUIRED"
+TAG_SPECS_TYPE = "TYPE"
 
 TAG_SPECS_PARSER_LANG = "lang"
 TAG_SPECS_PARSER_LICENSE = "license"
