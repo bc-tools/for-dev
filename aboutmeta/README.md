@@ -302,29 +302,31 @@ We only present digested data that does not reproduce the contents of the `YAML`
 
 Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build.5 (2025-06-27)`. By default, the digest will provide the following information.
 
-1. The version number is accessible via the `meta.data.project.version.nb` attribute, whose text version is simply `1.2.3-beta.4+build.5`.
-   For a detailed analysis, you can use the following sub-attributes.
+The version number is accessible via the `meta.data.project.version.nb` attribute, whose text version is simply `1.2.3-beta.4+build.5`.
+For a detailed analysis, you can use the following sub-attributes.
 
-   - `major` provides the integer `1`.
-   - `minor` provides the integer `2`.
-   - `patch` provides the integer `3`.
-   - `prerelease` provides the text `beta.4`.
-   - `build` provides the text `build.5`.
-2. The version date is accessible via the attribute `meta.data.project.version.date`, whose text version is simply `2025-06-27`.
-   If needed, you can use the following sub-attributes.
+- `major` provides the integer `1`.
+- `minor` provides the integer `2`.
+- `patch` provides the integer `3`.
+- `prerelease` provides the text `beta.4`.
+- `build` provides the text `build.5`.
 
-   - `year` provides the integer `2025`.
-   - `month` provides the integer `6`.
-   - `day` provides the integer `27`.
+The version date is accessible via the attribute `meta.data.project.version.date`, whose text version is simply `2025-06-27`.
+If needed, you can use the following sub-attributes.
 
+~~~
+* `year` provides the integer `2025`.
+ * `month` provides the integer `6`.
+ * `day` provides the integer `27`.
+~~~
 > ***NOTE*** *Behind the scenes, the version number is a `semver.version.Version` object, while the date is a `datetime.date` object (which provides access to all the methods associated with these types of objects).*
 
 <a id="MULTIMD-TOC-ANCHOR-17"></a>
 ##### Developers, authors and contributors <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-> ***NOTE.*** *For the `project.author(s)` and `project.contrib(s)` keys, the digested data is always a list of identifiers. In other words, the singular forms `project.author` and `project.contrib` will produce a list of size 1. This choice allows for unified management of the digested data.*
+> ***NOTE.*** *The singular forms `project.author` and `project.contrib` will produce a single data object, while the plural forms `project.authors` and `project.contribs` will produce a list of data objects.*
 
-The elements of the list are `aboutmeta.person.Person` objects that have the following sub-attributes.
+A data object is an instance of `aboutmeta.person.Person` that has the following attributes.
 
 1. `firstnames` is the list of first names.
 2. `surname` is the surname.
@@ -335,7 +337,7 @@ The elements of the list are `aboutmeta.person.Person` objects that have the fol
 ##### URLs of the project <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Although URLs are stored verbatim, we would like to point out here that `aboutmeta.Extract` is capable of testing the validity of URLs in the sense that they are associated with a DNS catalogue. In other words, a URL that points nowhere will cause an error.
-As this operation involves a basic, risk-free web query, the user must make an explicit request as in the following code.
+As this operation involves a basic web query, the user must make an explicit request as in the following code, even if the metjod used is risk-free.
 
 ~~~python
 from aboutmeta import Extract, Path
@@ -353,7 +355,7 @@ To facilitate data entry, lowercase letters may be used, and hyphens may be repl
 
 > ***NOTE.*** *In the case of an unknown abbreviation, the error message will provide possible suggestions if simple typos have been made in the `YAML` file.*
 
-The digested license provides the following sub-attributes of ``meta.data.project.license`.
+The digested license provides the following sub-attributes of `meta.data.project.license`.
 
 1. `std` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.license)` for example.
 2. `name` is the full title of the license.

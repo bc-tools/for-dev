@@ -1,9 +1,9 @@
 ##### Developers, authors and contributors
 
-> ***NOTE.*** *For the `project.author(s)` and `project.contrib(s)` keys, the digested data is always a list of identifiers. In other words, the singular forms `project.author` and `project.contrib` will produce a list of size 1. This choice allows for unified management of the digested data.*
+> ***NOTE.*** *The singular forms `project.author` and `project.contrib` will produce a single data object, while the plural forms `project.authors` and `project.contribs` will produce a list of data objects.*
 
 
-The elements of the list are `aboutmeta.person.Person` objects that have the following sub-attributes.
+A data object is an instance of `aboutmeta.person.Person` that has the following attributes.
 
   1) `firstnames` is the list of first names.
 

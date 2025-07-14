@@ -7,7 +7,7 @@ To facilitate data entry, lowercase letters may be used, and hyphens may be repl
 > ***NOTE.*** *In the case of an unknown abbreviation, the error message will provide possible suggestions if simple typos have been made in the `YAML` file.*
 
 
-The digested license provides the following sub-attributes of ``meta.data.project.license`.
+The digested license provides the following sub-attributes of `meta.data.project.license`.
 
   1) `std` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.license)` for example.
 
