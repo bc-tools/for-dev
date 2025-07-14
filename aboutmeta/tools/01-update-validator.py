@@ -5,20 +5,24 @@ from pathlib import Path
 import              re
 from yaml    import safe_load
 
-import black
-from black import FileMode, WriteBack
+from black import (
+    format_file_in_place,
+    FileMode,
+    WriteBack
+)
 
 
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
-THIS_DIR     = Path(__file__).parent
+THIS_DIR = Path(__file__).parent
+
 PROJECT_DIR  = THIS_DIR.parent
 PROJECT_NAME = PROJECT_DIR.name
 
 SPECS_DIR  = PROJECT_DIR / "specs"
-SPECS_FILE = PROJECT_DIR / "src" / "aboutmeta" / "specs.py"
+SPECS_FILE = PROJECT_DIR / "src" / PROJECT_NAME / "specs.py"
 
 
 MAGIC_GOMMENT_SPECS = f"""
@@ -309,7 +313,7 @@ SPECS_PARSING = {pyspecs}
     """.strip() + '\n'
 )
 
-black.format_file_in_place(
+format_file_in_place(
     SPECS_FILE,
     fast       = False,
     mode       = FileMode(),

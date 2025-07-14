@@ -15,8 +15,8 @@ import aboutmeta.parser.version.default as version_default
 
 @dataclass
 class Parsers:
-    date    = date_default.parser
-    lang    = lang_default.parser
+    date = date_default.parser
+    lang = lang_default.parser
     license = license_default.parser
-    person  = person_default.parser
+    person = person_default.parser
     version = version_default.parser
