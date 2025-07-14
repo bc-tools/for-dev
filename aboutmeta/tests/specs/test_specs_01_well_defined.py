@@ -8,4 +8,4 @@ import pytest
 # ----------- #
 
 def test_specs_YAML_def_OK():
-    from aboutmeta.specs import YAML_SPECS
+    from aboutmeta.specs import SPECS_PARSING

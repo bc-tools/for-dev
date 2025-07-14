@@ -28,12 +28,12 @@ MAGIC_GOMMENT_SPECS = f"""
 """.strip()
 
 
-PATTERN_SPECIAL_TAGS_SPECS = re.compile(r"__[a-z]+__")
+PATTERN_SPECIAL_TAGS_SPECS = re.compile(r'__[a-z]+__')
 
-TAG_FILE = '__file__'
+TAG_FILE = "-.-.file.-.-"
 
 SPECIAL_TAGS_SPECS = [
-    TAG_ABBREV:= '__abrev__',
+    TAG_ABBREV:= "-.-.abrev.-.-",
 ]
 
 
@@ -41,14 +41,15 @@ PATTERN_LIST_OF    = re.compile(r"list\((?P<kind>.*)\)")
 PATTERN_LEGAL_LIST = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
 
 PY_TAGS = [
-    TAG_ALT_ALL   := "__alternative_all__",
-    TAG_ALT_TUPLES:= "__alternative_tuples__",
-    TAG_BLOCK     := "__block__",
-    TAG_DATA      := "__data__",
-    TAG_LIST_OF   := "__list_of__",
-    TAG_PARSER    := "__parser__",
-    TAG_REQUIRED  := "__required__",
-    TAG_TYPE      := "__type__",
+    TAG_SPECS_ALT_ALL   := "-.-.alternative_all.-.-",
+    TAG_SPECS_ALT_TUPLES:= "-.-.alternative_tuples.-.-",
+    TAG_SPECS_BLOCK     := "-.-.block.-.-",
+    TAG_SPECS_CONTENT   := "-.-.content.-.-",
+    TAG_SPECS_DATA      := "-.-.data.-.-",
+    TAG_SPECS_LIST_OF   := "-.-.list_of.-.-",
+    TAG_SPECS_PARSER    := "-.-.parser.-.-",
+    TAG_SPECS_REQUIRED  := "-.-.required.-.-",
+    TAG_SPECS_TYPE      := "-.-.type.-.-",
 ]
 
 
@@ -95,8 +96,8 @@ def digested_specs(yaml_file):
 
 def build_pyspecs(specs, extradata):
     pyspecs = {
-        TAG_ALT_ALL: [],
-        TAG_ALT_TUPLES : [],
+        TAG_SPECS_ALT_ALL   : [],
+        TAG_SPECS_ALT_TUPLES: [],
     }
 
     for key, val in specs.items():
@@ -121,9 +122,9 @@ def build_pyspecs(specs, extradata):
                         for k in  splitted_keys
                     ]
 
-                    pyspecs[TAG_ALT_ALL] += splitted_keys
+                    pyspecs[TAG_SPECS_ALT_ALL] += splitted_keys
 
-                    pyspecs[TAG_ALT_TUPLES].append(tuple(splitted_keys))
+                    pyspecs[TAG_SPECS_ALT_TUPLES].append(tuple(splitted_keys))
 
                     splitted_keys = [f"{k}*" for k in  splitted_keys]
 
@@ -135,14 +136,14 @@ def build_pyspecs(specs, extradata):
             key, thispsec = build_single_pyspec(key, val, extradata)
             pyspecs[key]  = thispsec
 
-    if pyspecs[TAG_ALT_ALL]:
-        pyspecs[TAG_ALT_ALL]    = tuple(pyspecs[TAG_ALT_ALL])
-        pyspecs[TAG_ALT_TUPLES] = tuple(pyspecs[TAG_ALT_TUPLES])
+    if pyspecs[TAG_SPECS_ALT_ALL]:
+        pyspecs[TAG_SPECS_ALT_ALL]    = tuple(pyspecs[TAG_SPECS_ALT_ALL])
+        pyspecs[TAG_SPECS_ALT_TUPLES] = tuple(pyspecs[TAG_SPECS_ALT_TUPLES])
 
     else:
-        pyspecs[TAG_ALT_ALL] = tuple()
+        pyspecs[TAG_SPECS_ALT_ALL] = tuple()
 
-        del pyspecs[TAG_ALT_TUPLES]
+        del pyspecs[TAG_SPECS_ALT_TUPLES]
 
 # Nothing left to do.
     return pyspecs
@@ -160,7 +161,7 @@ def build_single_pyspec(key, val, extradata):
         isrequired = True
 
     this_specs = {
-        TAG_REQUIRED: isrequired
+        TAG_SPECS_REQUIRED: isrequired
     }
 
 # Value analysis.
@@ -168,17 +169,16 @@ def build_single_pyspec(key, val, extradata):
         is_list_of, parser = which_parser(val, extradata)
 
         this_specs |= {
-            TAG_TYPE   : TAG_DATA,
-            TAG_LIST_OF: is_list_of,
-            TAG_PARSER : parser,
+            TAG_SPECS_TYPE   : TAG_SPECS_DATA,
+            TAG_SPECS_LIST_OF: is_list_of,
+            TAG_SPECS_PARSER : parser,
         }
 
 
     else:
-        this_specs[TAG_TYPE] = TAG_BLOCK
+        this_specs[TAG_SPECS_TYPE] = TAG_SPECS_BLOCK
 
-        for k, v in build_pyspecs(val, extradata).items():
-            this_specs[k] = v
+        this_specs[TAG_SPECS_CONTENT] = build_pyspecs(val, extradata)
 
     return key, this_specs
 
@@ -222,7 +222,11 @@ print(f"{ITEM_1} Creation/update of the Python specs file.")
 pyspecs = {}
 
 for yaml_file in SPECS_DIR.glob("*.yaml"):
-    pyspecs[yaml_file.stem] = digested_specs(yaml_file)
+    pyspecs |= digested_specs(yaml_file)
+
+# To simplify future processing, we deliberately retain
+# the ''TAG_SPECS_ALT_ALL'' key.
+# del pyspecs[TAG_SPECS_ALT_ALL]
 
 
 # ------------------------------ #
@@ -257,7 +261,7 @@ tag_parsers = {}
 
 for parser in all_parsers:
     tag_parsers[
-        tag:= f"TAG_PARSER_{parser.upper()}"
+        tag:= f"TAG_SPECS_PARSER_{parser.upper()}"
     ] = parser
 
     pyspecs = pyspecs.replace(f"'{parser}'", tag)
@@ -294,7 +298,7 @@ SPECS_FILE.write_text(
 # -- READY-TO-USE SPECS -- #
 # ------------------------ #
 
-YAML_SPECS = {pyspecs}
+SPECS_PARSING = {pyspecs}
     """.strip() + '\n'
 )
 

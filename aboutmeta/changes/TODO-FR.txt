@@ -5,23 +5,6 @@ about-meta - TODO
 
 > ---------------------------- <
 
-    aboutmeta.data.person.PersonXXX
-
-devient
-
-    from ....data import person
-
-    person.Person
-
-+
-
-''aboutmeta.data.person.Person'' inchangé !!!
-
-on ignore les commentaires finaux !!!
-
-
-> ---------------------------- <
-
 test sur tous mes projets séreux
 
 

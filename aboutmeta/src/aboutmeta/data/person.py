@@ -30,9 +30,9 @@ class Person:
             text       = f"{firstnames}, {text}"
 
         if self.email:
-            text += f' {TAG_EMAIL_OPEN}{self.email}{TAG_EMAIL_CLOSE}'
+            text += f' {TAG_YAML_EMAIL_OPEN}{self.email}{TAG_YAML_EMAIL_CLOSE}'
 
         if self.affiliation:
-            text += f' {TAG_AFFILIATION_OPEN}{self.affiliation}{TAG_AFFILIATION_CLOSE}'
+            text += f' {TAG_YAML_AFFILIATION_OPEN}{self.affiliation}{TAG_YAML_AFFILIATION_CLOSE}'
 
         return text

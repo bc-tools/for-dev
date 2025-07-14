@@ -143,7 +143,7 @@ TAGS_EXTENDABLE = [
 
 TAG_1ST_NAME  = '1st name'
 TAG_LAST_NAME = 'last name'
-TAG_EMAIL     = 'email'
+TAG_YAML_EMAIL     = 'email'
 
 
 TAG_JINJA = "jinja2"
@@ -199,7 +199,7 @@ def build_authorinfos(text):
     infos = {
         TAG_1ST_NAME : firstname,
         TAG_LAST_NAME: lastname,
-        TAG_EMAIL    : email,
+        TAG_YAML_EMAIL    : email,
     }
 
     return {

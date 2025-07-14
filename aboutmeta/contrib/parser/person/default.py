@@ -23,16 +23,16 @@ def parser(content: str) -> person.Person: # abc  #def
 # One affiliation?
     content, affiliation = group.extract_group(
         content = content,
-        opener  = constants.TAG_AFFILIATION_OPEN,
-        closer  = constants.TAG_AFFILIATION_CLOSE,
+        opener  = constants.TAG_YAML_AFFILIATION_OPEN,
+        closer  = constants.TAG_YAML_AFFILIATION_CLOSE,
         context = "affiliation"
     )
 
 # One email?
     content, email = group.extract_group(
         content = content,
-        opener  = constants.TAG_EMAIL_OPEN,
-        closer  = constants.TAG_EMAIL_CLOSE,
+        opener  = constants.TAG_YAML_EMAIL_OPEN,
+        closer  = constants.TAG_YAML_EMAIL_CLOSE,
         context = "email"
     )
 
