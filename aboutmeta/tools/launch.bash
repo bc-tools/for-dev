@@ -12,7 +12,7 @@ HELP="$USAGE
   Launch all buider files.
 
 Options:
-  -q, --quick Any builder file named '..._slow' will be ignored.
+  -q, --quick Any builder file named '...-slow' will be ignored.
               This option is useful during the development phase,
               but not when the project has to be published.
   -h, --help  Show this message and exit.
@@ -84,9 +84,9 @@ find . -type f -name "*.py" | sort | while read -r builderfile
 do
     filename=$(basename "$builderfile")
 
-    if [[ $QUICKOPTION == 1 && $filename =~ ^build_.*_slow\..* ]]
+    if [[ $QUICKOPTION == 1 && $filename =~ ^.*-slow\..* ]]
     then
-        print_about "33m" "Ignoring slow $builderfile"
+        print_about "33m" "Ignoring  $builderfile"
 
     else
         print_about "32m" "Launching $builderfile"
