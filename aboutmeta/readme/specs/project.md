@@ -4,7 +4,8 @@ Let's start with a complete description of a fictional code project.
 
 ~~~yaml
 project*:
-  version*: 0.0.0-beta.1 (2025-06-27)
+  version*: 0.0.0-beta.1
+  date*   : 2025-06-27
 
   acronym* : "[@]bout [Desc]ription"
   codename*: a_desc

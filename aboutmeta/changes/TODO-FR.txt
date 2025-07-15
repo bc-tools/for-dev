@@ -5,16 +5,39 @@ about-meta - TODO
 
 > ---------------------------- <
 
+`meta["project.urls.home"]`
+
+au lieu de
+
+meta.project.urls.home
+
+
+> ---------------------------- <
+
 test sur tous mes projets séreux
 
 
 > ---------------------------- <
 
-CLI
+version OU date  dans yaml via clé différentes
 
-    ---> modif des donnés guidées
+   ---> plus de 0.0.0-beta.1 (2025-06-27)
 
-    ---> gestion des textes des licences, mais pas fait automatiquement, bien que ceka reste accessible via l'api python (faire un syst d'ajout partout ou cela est util par exemple, et gérer un syst de cahce pour limiter les téléchargements que l'on fera de façon prudente) !
+
+> ---------------------------- <
+
+re^rendre README en vérfiant que tou est codé
+
+
+> ---------------------------- <
+
+CLI (avec API simple : on prend un clé et on descend au plus profond trouver les données;, on peut ainsi faire valider tous les urls, en indiquant urls)
+
+    ---> création / modif des donnés guidées
+
+    ---> gestion des textes des licences, mais pas fait automatiquement
+
+    ---> test des urls
 
 
 > ---------------------------- <

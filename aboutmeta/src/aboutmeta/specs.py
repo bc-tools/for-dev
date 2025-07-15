@@ -20,6 +20,7 @@ TAG_SPECS_PARSER = "PARSER"
 TAG_SPECS_REQUIRED = "REQUIRED"
 TAG_SPECS_TYPE = "TYPE"
 
+TAG_PARSER_DATE = "date"
 TAG_PARSER_LANG = "lang"
 TAG_PARSER_LICENSE = "license"
 TAG_PARSER_PATH = "path"
@@ -55,6 +56,12 @@ SPECS_PARSING = {
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: False,
                 TAG_SPECS_PARSER: TAG_PARSER_VERSION,
+            },
+            "date": {
+                TAG_SPECS_REQUIRED: False,
+                TAG_SPECS_TYPE: TAG_SPECS_DATA,
+                TAG_SPECS_LIST_OF: False,
+                TAG_SPECS_PARSER: TAG_PARSER_DATE,
             },
             "acronym": {
                 TAG_SPECS_REQUIRED: False,

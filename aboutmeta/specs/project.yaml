@@ -1,5 +1,6 @@
 project*:
   version*: version
+  date*   : date
 
   acronym*            : str
   doctitle | codename*: str | str

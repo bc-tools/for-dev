@@ -34,9 +34,9 @@ def parser(content: str) -> Version:
 if __name__ == "__main__":
 # Working examples.
     for nbver in [
-        "2.3.4-beta.1+build.5",
+        "1.2.3-beta.4+build.5",
         "2.3.4-beta.1",
-        "2.3.4",
+        "4.5.6",
     ]:
         print()
         print(f'--- ({nbver})')
@@ -46,11 +46,13 @@ if __name__ == "__main__":
         print(version_data)
         print(repr(version_data))
 
-        print(f"major      = {version_data.major}")
-        print(f"minor      = {version_data.minor}")
-        print(f"patch      = {version_data.patch}")
-        print(f"prerelease = {version_data.prerelease}")
-        print(f"build      = {version_data.build}")
+        print(f"major             = {version_data.major}")
+        print(f"minor             = {version_data.minor}")
+        print(f"patch             = {version_data.patch}")
+        print(f"prerelease        = {version_data.prerelease}")
+        print(f"build             = {version_data.build}")
+
+        print(f"next (prerelease) = {version_data.next_version(part="prerelease")}")
 
     print()
 

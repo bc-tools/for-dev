@@ -10,4 +10,4 @@ Once the data has been extracted by `aboutmeta.AboutMeta`, the `data` attribute 
 The following sections present the data after digestion. **To keep things simple, we will always use access to data processed via the `data` attribute, and work with the `meta` object explained in the previous section.**
 
 
-> ***NOTE.*** *To retrieve the original `YAML` version of a piece of data, there is the `verbatim` attribute, as in `meta.verbatim.project.version`, which is a standardised version of the original text.*
+> ***NOTE.*** *To retrieve a standar version of the original `YAML` version of a piece of data, just use the string verions as in `str(meta.verbatim.project.version)`.*
