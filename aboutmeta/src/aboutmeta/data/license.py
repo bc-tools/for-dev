@@ -7,6 +7,12 @@ from dataclasses import dataclass
 # -- LICENSE DATA CLASS -- #
 # ------------------------ #
 
+### TODO
+# prototype::
+#     content : XXX
+#
+#     :return: XXX
+###
 @dataclass
 class License:
     std : str

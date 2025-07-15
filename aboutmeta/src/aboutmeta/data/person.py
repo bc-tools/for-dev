@@ -11,6 +11,12 @@ from .constants  import *
 # -- PERSON DATA CLASS -- #
 # ----------------------- #
 
+### TODO
+# prototype::
+#     content : XXX
+#
+#     :return: XXX
+###
 @dataclass
 class Person:
     firstnames : List[str]

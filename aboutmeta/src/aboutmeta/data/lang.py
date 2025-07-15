@@ -7,6 +7,12 @@ from dataclasses import dataclass
 # -- LANGUAGE DATA CLASS -- #
 # ------------------------- #
 
+### TODO
+# prototype::
+#     content : XXX
+#
+#     :return: XXX
+###
 @dataclass
 class Lang:
     std      : str

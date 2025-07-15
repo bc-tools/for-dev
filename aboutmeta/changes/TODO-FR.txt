@@ -5,11 +5,10 @@ about-meta - TODO
 
 > ---------------------------- <
 
-`meta["project.urls.home"]`
+toc
+    renvoie de dirornot et path absolue
 
-au lieu de
-
-meta.project.urls.home
+    besoin d'avoir la path du aboutyaml pas jsute du content :
 
 
 > ---------------------------- <

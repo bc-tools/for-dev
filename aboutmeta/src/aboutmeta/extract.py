@@ -55,6 +55,8 @@ class Extract:
         self,
         yaml_file
     ):
+        self._yaml_file_dir = yaml_file.parent
+
         self.data = BoxPlus(
             self.__recu_parse(
                 safe_load(yaml_file.read_text()),
@@ -131,13 +133,25 @@ class Extract:
 
 # List of data needs an iterative parsing.
             else:
-                parser = specs[key][TAG_SPECS_PARSER]
+                parser_name = specs[key][TAG_SPECS_PARSER]
 
-                if parser is None:
-                    parser = str
+                if parser_name is None:
+                    _parser = str
 
                 else:
-                    parser = getattr(self._parsers, parser)
+                    _parser = getattr(
+                        self._parsers,
+                        parser_name
+                    )
+
+                if parser_name == TAG_PARSER_PATH:
+                    parser = lambda x: _parser(
+                        self._yaml_file_dir,
+                        x
+                    )
+
+                else:
+                    parser = lambda x: _parser(x)
 
                 if specs[key][TAG_SPECS_LIST_OF]:
                     for i, d in enumerate(val):

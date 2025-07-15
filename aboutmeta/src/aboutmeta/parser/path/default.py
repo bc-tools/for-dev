@@ -16,7 +16,8 @@ from pathlib import Path
 #     :return: an instance of the class ''pathlib.Path'' giving
 #              the absolute path, and not only a relative one.
 ###
-def parser(content: str) -> Path:
+def parser(yaml_file_dir: Path, content: str) -> Path:
+    return repr(yaml_file_dir)
     p = Path(content)
 
     isdir = bool(content[-1] == "/")
