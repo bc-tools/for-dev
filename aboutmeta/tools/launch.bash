@@ -1,0 +1,97 @@
+#!/bin/bash
+
+THIS_DIR="$(cd "$(dirname "$0")" && pwd)"
+THIS_FILE=$(basename "$0")
+THIS_FILE=${THIS_FILE%%.*}
+
+USAGE="Usage: bash $THIS_FILE.bash [OPTIONS]"
+TRY="'bash $THIS_FILE.bash --help' for help."
+
+HELP="$USAGE
+
+  Launch all buider files.
+
+Options:
+  -q, --quick Any builder file named '..._slow' will be ignored.
+              This option is useful during the development phase,
+              but not when the project has to be published.
+  -h, --help  Show this message and exit.
+"
+
+
+print_cli_info() {
+    echo "$2"
+    exit $1
+}
+
+
+if (( $# > 1 ))
+then
+    message="$USAGE
+$TRY
+
+Error: Too much options."
+
+    print_cli_info 1 "$message"
+fi
+
+
+QUICKOPTION=0
+
+if (( $# == 1 ))
+then
+    case $1 in
+        "-q"|"--quick")
+            QUICKOPTION=1
+        ;;
+
+        "-h"|"--help")
+            print_cli_info 0 "$HELP"
+        ;;
+
+        *)
+            message="$USAGE
+$TRY
+
+Error: No such option: $1"
+
+            print_cli_info 1 "$message"
+        ;;
+    esac
+fi
+
+cd "$THIS_DIR"
+
+
+error_exit() {
+    printf "\033[91m\033[1m"
+
+    echo "  ERROR , see the file:"
+    echo "    + $1/$2"
+
+    exit 1
+}
+
+
+print_about() {
+    printf "\033[$1"
+    echo "$2"
+    printf "\033[0m"
+}
+
+
+find . -type f -name "*.py" | sort | while read -r builderfile
+do
+    filename=$(basename "$builderfile")
+
+    if [[ $QUICKOPTION == 1 && $filename =~ ^build_.*_slow\..* ]]
+    then
+        print_about "33m" "Ignoring slow $builderfile"
+
+    else
+        print_about "32m" "Launching $builderfile"
+        python "$builderfile" || error_exit "$THIS_DIR" "$builderfile"
+    fi
+done
+
+echo ""
