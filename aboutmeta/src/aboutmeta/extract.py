@@ -160,7 +160,11 @@ class Extract:
 
 
 if __name__ == "__main__":
-    xtrct = Extract()
-    xtrct.build(Path(__file__).parent.parent.parent / "about.yaml")
+    filetest = Path(__file__).parent.parent.parent / "about.yaml"
+    filetest = Path(__file__).parent.parent.parent / "readme" / "about.yaml"
 
-    from pprint import pprint;pprint(xtrct.data.project.licenses.code)
+    xtrct = Extract()
+    xtrct.build(filetest)
+
+    from pprint import pprint
+    pprint(xtrct.data.project.toc)

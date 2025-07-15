@@ -5,6 +5,7 @@ from dataclasses import dataclass
 import aboutmeta.parser.date.default as date_default
 import aboutmeta.parser.lang.default as lang_default
 import aboutmeta.parser.license.default as license_default
+import aboutmeta.parser.path.default as path_default
 import aboutmeta.parser.person.default as person_default
 import aboutmeta.parser.version.default as version_default
 
@@ -18,5 +19,6 @@ class Parsers:
     date = date_default.parser
     lang = lang_default.parser
     license = license_default.parser
+    path = path_default.parser
     person = person_default.parser
     version = version_default.parser
