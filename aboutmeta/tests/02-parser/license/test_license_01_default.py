@@ -9,24 +9,36 @@ from aboutmeta.parser.license.default import parser
 # -- LEGAL -- #
 # ----------- #
 
-def test_parser_license_default_OK():
-    for strict_ID, lazzy_ID in [
-        ("GPL-3.0+"    , "gpl - 3.0 +"),
+@pytest.mark.parametrize(
+    (
+        "strict_ID",
+        "lazzy_ID"
+    ),
+    [
+        ("GPL-3.0+"    , "gpl - 3.0 +"    ),
         ("CC-BY-NC-4.0", "cc    by nc 4.0"),
-    ]:
-        lic_data = parser(lazzy_ID)
+    ]
+)
+def test_parser_license_default_OK(
+    strict_ID,
+    lazzy_ID
+):
+    lic_data = parser(lazzy_ID)
 
-        assert strict_ID == lic_data.std, f"license tested: {lazzy_ID}"
+    assert strict_ID == lic_data.std
 
 
 # ------------- #
 # -- ILLEGAL -- #
 # ------------- #
 
-def test_parser_license_default_KO():
-    for lazzy_ID in [
+@pytest.mark.parametrize(
+    "lazzy_ID",
+    [
         "gpl",
         "cc nc"
-    ]:
-        with pytest.raises(ValueError):
-            parser(lazzy_ID)
+    ]
+)
+def test_parser_license_default_KO(lazzy_ID):
+    with pytest.raises(ValueError):
+        parser(lazzy_ID)

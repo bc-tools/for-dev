@@ -1,9 +1,6 @@
 ##### Developers, authors and contributors
 
-> ***NOTE.*** *The singular forms `project.author` and `project.contrib` will produce a single data object, while the plural forms `project.authors` and `project.contribs` will produce a list of data objects.*
-
-
-A data object is an instance of `aboutmeta.person.Person` that has the following attributes.
+In the `YAML` file, the singular forms `project.author` and `project.contrib` will produce a single data object, while the plural forms `project.authors` and `project.contribs` will produce a list of instances of `aboutmeta.person.Person` that have the following attributes.
 
   1) `firstnames` is the list of first names.
 

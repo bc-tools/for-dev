@@ -3,7 +3,7 @@
 from pathlib import Path
 from yaml    import safe_load
 
-from box import Box
+from aboutmeta.data.boxplus import BoxPlus
 
 from aboutmeta.parser import (
     date,
@@ -29,7 +29,10 @@ TAG_STYLE_DEFAULT = 'default'
 # -------------------------------------------------- #
 
 class Extract:
-    def __init__(self, style = TAG_STYLE_DEFAULT):
+    def __init__(
+        self,
+        style = TAG_STYLE_DEFAULT
+    ):
         self.style = style
 
     @property
@@ -37,7 +40,10 @@ class Extract:
         return self._style
 
     @style.setter
-    def style(self, style):
+    def style(
+        self,
+        style
+    ):
         if not style in ALL_STYLES:
             raise ValueError(f"''{style}'' is not a style of parsers.")
 
@@ -45,15 +51,22 @@ class Extract:
         self._style   = style
 
 
-    def build(self, yaml_file):
-        self.data = Box(
+    def build(
+        self,
+        yaml_file
+    ):
+        self.data = BoxPlus(
             self.__recu_parse(
                 safe_load(yaml_file.read_text()),
                 SPECS_PARSING
             )
         )
 
-    def __recu_parse(self, data, specs):
+    def __recu_parse(
+        self,
+        data,
+        specs
+    ):
         data_parsed = {}
 
 # Illegal alternatives?
@@ -137,6 +150,13 @@ class Extract:
 
 # Job done.
         return data_parsed
+
+
+    def validate_urls(self):
+        ...
+
+    def add_license(self):
+        ...
 
 
 if __name__ == "__main__":

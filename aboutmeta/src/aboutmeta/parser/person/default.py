@@ -17,7 +17,7 @@ from aboutmeta.tool import group
 #     :return: an instance of the class ''person.Person'' to work
 #              easily with the person data.
 ###
-def parser(content: str) -> person.Person: # abc  #def
+def parser(content: str) -> person.Person:
 # One affiliation?
     content, affiliation = group.extract_group(
         content = content,
@@ -33,6 +33,14 @@ def parser(content: str) -> person.Person: # abc  #def
         closer  = constants.TAG_YAML_EMAIL_CLOSE,
         context = "email"
     )
+
+# Affiliation before email?
+    if (
+        not email is None
+        and
+        content[-1] == constants.TAG_YAML_AFFILIATION_CLOSE
+    ):
+        raise ValueError("affiliation must be after email!")
 
 # Titles of the person.
     titles = content.split(',')

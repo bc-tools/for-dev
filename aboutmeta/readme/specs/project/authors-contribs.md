@@ -1,6 +1,6 @@
 #### Developers, authors and contributors
 
-The keys `project.author`, which is mandatory, and `project.contrib`, which is optional, are used either in the singular to indicate a single person, or in the plural to indicate a list of people. Here is a fictitious use case.
+The keys `project.author`, which is mandatory, and `project.contrib`, which is optional, are used either in the singular form to indicate a single person, or in the plural form to indicate a list of people. Here is a fictitious use case.
 
 ~~~yaml
 project:

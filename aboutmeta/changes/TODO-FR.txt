@@ -26,6 +26,10 @@ version OU date  dans yaml via clé différentes
 
 > ---------------------------- <
 
+formattage standard !
+
+> ---------------------------- <
+
 re^rendre README en vérfiant que tou est codé
 
 

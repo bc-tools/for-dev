@@ -9,27 +9,39 @@ from aboutmeta.parser.lang.default import parser
 # -- LEGAL -- #
 # ----------- #
 
-def test_parser_lang_default_OK():
-    for lazzy_ID, strict_ID in [
+@pytest.mark.parametrize(
+    (
+        "lazzy_ID",
+        "strict_ID"
+    ),
+    [
         ("fr"   , "fr-FR"),
         ("es"   , "es-ES"),
         ("en"   , "en-US"),
         ("de"   , "de-DE"),
         ("en-GB", "en-GB"),
-    ]:
-        lang_data = parser(lazzy_ID)
+    ]
+)
+def test_parser_lang_default_OK(
+    lazzy_ID,
+    strict_ID
+):
+    lang_data = parser(lazzy_ID)
 
-        assert strict_ID == lang_data.std, f"lazzy lang ID tested: {lazzy_ID}"
+    assert strict_ID == lang_data.std
 
 
 # ------------- #
 # -- ILLEGAL -- #
 # ------------- #
 
-def test_parser_lang_default_KO():
-    for lazzy_ID in [
+@pytest.mark.parametrize(
+    "lazzy_ID",
+    [
         "XX",
         "XXXXXX",
-    ]:
-        with pytest.raises(ValueError):
-            parser(lazzy_ID)
+    ]
+)
+def test_parser_lang_default_KO(lazzy_ID):
+    with pytest.raises(ValueError):
+        parser(lazzy_ID)

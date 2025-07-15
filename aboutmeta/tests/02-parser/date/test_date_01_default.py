@@ -9,26 +9,33 @@ from aboutmeta.parser.date.default import parser
 # -- LEGAL -- #
 # ----------- #
 
-def test_parser_date_default_OK():
-    for year, month, day in [
-        ("2025", "06", "27"),
-    ]:
-        onedate   = f"{year}-{month}-{day}"
-        date_data = parser(onedate)
+@pytest.mark.parametrize(
+    "onedate",
+    [
+        "2025-06-27",
+    ]
+)
+def test_parser_date_default_Y_M_D_OK(onedate):
+    year, month, day = onedate.split('-')
 
-        assert date_data.year  == int(year) , f"date tested: {ondeate}"
-        assert date_data.month == int(month), f"date tested: {ondeate}"
-        assert date_data.day   == int(day)  , f"date tested: {ondeate}"
+    date_data = parser(onedate)
+
+    assert date_data.year  == int(year)
+    assert date_data.month == int(month)
+    assert date_data.day   == int(day)
 
 
 # ------------- #
 # -- ILLEGAL -- #
 # ------------- #
 
-def test_parser_date_default_KO():
-    for onedate in [
+@pytest.mark.parametrize(
+    "onedate",
+    [
         "2.3",
-        "2025-02-30"
-    ]:
-        with pytest.raises(ValueError):
-            parser(onedate)
+        "2025-02-30",
+    ]
+)
+def test_parser_date_default_KO(onedate):
+    with pytest.raises(ValueError):
+        parser(onedate)

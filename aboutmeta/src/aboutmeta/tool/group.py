@@ -10,7 +10,12 @@
 #
 #     :return: XXX
 ###
-def extract_group(content, opener, closer, context):
+def extract_group(
+    content,
+    opener,
+    closer,
+    context
+):
     if (
         not closer in content
         and

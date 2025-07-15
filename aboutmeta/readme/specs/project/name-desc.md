@@ -3,7 +3,10 @@
 The keys `project.acronym`, `project.codename`, `project.doctitle`, and `project.desc` are used to quickly identify a project.
 
 
-> ***IMPORTANT.*** *Note that the `desc` key is mandatory. Furthermore, `codename` and  `doctitle` can never be used at the same time.*
+> ***IMPORTANT.*** *The key `desc` is mandatory.*
+
+
+> ***WARNING!*** *`codename` and  `doctitle` can never be used at the same time.*
 
 
 Here is how these different keys are used.
@@ -12,7 +15,7 @@ Here is how these different keys are used.
 
   1. `acronym` explains the origin of an acronym: for example, `"[@]bout [Desc]ription"` explains the choice for the project name `@Desc`.
 
-  1. `codename` allows you to specify the name of a code-type project if it differs from that of the project folder (this convention is widely used).
+  1. `codename` allows you to specify the name of a code-type project if it differs from that of the project folder.
 
   1. `doctitle` must be used for a document-type project. This is because such a project must have a title.
 

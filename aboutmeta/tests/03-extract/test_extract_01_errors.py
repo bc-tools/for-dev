@@ -29,9 +29,12 @@ def test_extract_no_file_KO():
         XTRCT.build(Path('bidon'))
 
 
-@pytest.mark.parametrize("i", range(1, NB_BAD_KEYS + 1))
-def test_extract_unknown_key_KO(i):
-    bad_yaml = BAD_DIR / "key" / f"{i}.yaml"
+@pytest.mark.parametrize(
+    "filenb",
+    range(1, NB_BAD_KEYS + 1)
+)
+def test_extract_unknown_key_KO(filenb):
+    bad_yaml = BAD_DIR / "key" / f"{filenb}.yaml"
 
     with pytest.raises(
         KeyError,
@@ -40,9 +43,12 @@ def test_extract_unknown_key_KO(i):
         XTRCT.build(bad_yaml)
 
 
-@pytest.mark.parametrize("i", range(1, NB_BAD_VALS + 1))
-def test_extract_bad_val_type_KO(i):
-    bad_yaml = BAD_DIR / "val" / f"{i}.yaml"
+@pytest.mark.parametrize(
+    "filenb",
+    range(1, NB_BAD_VALS + 1)
+)
+def test_extract_bad_val_type_KO(filenb):
+    bad_yaml = BAD_DIR / "val" / f"{filenb}.yaml"
 
     with pytest.raises(
         ValueError,
@@ -51,9 +57,12 @@ def test_extract_bad_val_type_KO(i):
         XTRCT.build(bad_yaml)
 
 
-@pytest.mark.parametrize("i", range(1, NB_BAD_ALTS + 1))
-def test_extract_bad_val_type_KO(i):
-    bad_yaml = BAD_DIR / "alt" / f"{i}.yaml"
+@pytest.mark.parametrize(
+    "filenb",
+    range(1, NB_BAD_ALTS + 1)
+)
+def test_extract_bad_val_type_KO(filenb):
+    bad_yaml = BAD_DIR / "alt" / f"{filenb}.yaml"
 
     with pytest.raises(
         ValueError,

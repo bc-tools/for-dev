@@ -9,43 +9,61 @@ from aboutmeta.parser.version.default import parser
 # -- LEGAL -- #
 # ----------- #
 
-def test_parser_version_default_OK():
-    for major, minor, patch, prerelease, build in [
+@pytest.mark.parametrize(
+    (
+        "major",
+        "minor",
+        "patch",
+        "prerelease",
+        "build"
+    ),
+    [
         (2, 3, 4, "beta.1", "build.5"),
         (2, 3, 4, "beta.1", ""       ),
         (2, 3, 4, ""      , ""       ),
-    ]:
-        nbver = f"{major}.{minor}.{patch}"
+    ]
+)
+def test_parser_version_default_OK(
+    major,
+    minor,
+    patch,
+    prerelease,
+    build
+):
+    nbver = f"{major}.{minor}.{patch}"
 
-        if prerelease:
-            nbver += f"-{prerelease}"
+    if prerelease:
+        nbver += f"-{prerelease}"
 
-        else:
-            prerelease = None
+    else:
+        prerelease = None
 
-        if build:
-            nbver += f"+{build}"
+    if build:
+        nbver += f"+{build}"
 
-        else:
-            build = None
+    else:
+        build = None
 
-        version_data = parser(nbver)
+    version_data = parser(nbver)
 
-        assert major      == version_data.major, f"version tested: {nbver}"
-        assert minor      == version_data.minor, f"version tested: {nbver}"
-        assert patch      == version_data.patch, f"version tested: {nbver}"
-        assert prerelease == version_data.prerelease, f"version tested: {nbver}"
-        assert build      == version_data.build, f"version tested: {nbver}"
+    assert major      == version_data.major
+    assert minor      == version_data.minor
+    assert patch      == version_data.patch
+    assert prerelease == version_data.prerelease
+    assert build      == version_data.build
 
 
 # ------------- #
 # -- ILLEGAL -- #
 # ------------- #
 
-def test_parser_version_default_KO():
-    for nbver in [
+@pytest.mark.parametrize(
+    "nbver",
+    [
         "2.3",
         "2025-02-30"
-    ]:
-        with pytest.raises(ValueError):
-            parser(nbver)
+    ]
+)
+def test_parser_version_default_KO(nbver):
+    with pytest.raises(ValueError):
+        parser(nbver)

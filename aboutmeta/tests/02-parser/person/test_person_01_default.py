@@ -9,86 +9,73 @@ from aboutmeta.parser.person.default import parser
 # -- LEGAL -- #
 # ----------- #
 
-def test_parser_person_default_OK():
-    for firstnames, surname, email, affiliation in [
-        (
-            ['A', 'B'],
-            "C",
-            "a.b.c@d.e",
-            "fgh",
-        ),
-        (
-            ['A', 'B'],
-            "C",
-            "a.b.c@d.e",
-            "",
-        ),
-        (
-            ['A', 'B'],
-            "C",
-            "a.b.c@d.e",
-            "",
-        ),
-        (
-            ['A', 'B'],
-            "C",
-            "",
-            "fgh",
-        ),
-        (
-            ['A', 'B'],
-            "C",
-            "",
-            "",
-        ),
-        (
-            [],
-            "C",
-            "",
-            "",
-        ),
-    ]:
-        someone = ','.join(firstnames)
+@pytest.mark.parametrize(
+    (
+        "firstnames",
+        "surname",
+        "email",
+        "affiliation"
+    ),
+    [
+        (['A', 'B'], "C", "a.b.c@d.e", "fgh"),
+        (['A', 'B'], "C", "a.b.c@d.e", ""   ),
+        (['A', 'B'], "C", "a.b.c@d.e", ""   ),
+        (['A', 'B'], "C", ""         , "fgh"),
+        (['A', 'B'], "C", ""         , ""   ),
+        ([]        , "C", ""         , ""   ),
+    ]
+)
+def test_parser_person_default_OK(
+    firstnames,
+    surname,
+    email,
+    affiliation
+):
+    someone = ','.join(firstnames)
 
-        if not firstnames:
-            firstnames = None
+    if not firstnames:
+        firstnames = None
 
-        if someone:
-            someone += ','
+    if someone:
+        someone += ','
 
 
-        someone += f"{surname}"
+    someone += f"{surname}"
 
-        if email:
-            someone += f"[{email}]"
+    if email:
+        someone += f"[{email}]"
 
-        else:
-            email = None
+    else:
+        email = None
 
-        if affiliation:
-            someone += f"({affiliation})"
+    if affiliation:
+        someone += f"({affiliation})"
 
-        else:
-            affiliation = None
+    else:
+        affiliation = None
 
-        person_data = parser(someone)
+    person_data = parser(someone)
 
-        assert firstnames  == person_data.firstnames, f"person tested: {someone}"
-        assert surname     == person_data.surname, f"person tested: {someone}"
-        assert email       == person_data.email, f"person tested: {someone}"
-        assert affiliation == person_data.affiliation, f"person tested: {someone}"
+    assert firstnames  == person_data.firstnames
+    assert surname     == person_data.surname
+    assert email       == person_data.email
+    assert affiliation == person_data.affiliation
 
 
 # ------------- #
 # -- ILLEGAL -- #
 # ------------- #
 
-def test_parser_person_default_KO():
-    for someone in [
+@pytest.mark.parametrize(
+    "someone",
+    [
+        "A(B)[C]",
         "ABC)",
         "AB(C",
         "AB](C)",
-        "A[B(C)"
-    ]:
-        with pytest.raises(ValueError):
-            parser(someone)
+        "A[B(C)",
+    ]
+)
+def test_parser_person_default_KO(someone):
+    with pytest.raises(ValueError):
+        parser(someone)

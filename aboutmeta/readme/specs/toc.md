@@ -12,7 +12,7 @@ toc:
 ~~~
 
 
-When  a folder is specified, this means that it contains an `about.yaml` file that must also be analysed.
+When a folder is specified, this means that it contains an `about.yaml` file that must also be analysed.
 
 
-> ***NOTE.*** *Using the `Python` module `aboutmeta`, it is possible to specify a default extension, and to check for the validity of all the paths.*
+> ***NOTE.*** *Using the `Python` module `aboutmeta`, it is possible to specify a default extension.*
