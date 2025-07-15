@@ -17,7 +17,7 @@ PROJECT_NAME = PROJECT_DIR.name
 PARSER_DIR = PROJECT_DIR / "contrib" / "parser"
 STATUS_DIR = PARSER_DIR / "status"
 SRC_DIR    = PROJECT_DIR / "src" / PROJECT_NAME / "parser"
-TESTS_DIR  = PROJECT_DIR / "tests" / "parser"
+TESTS_DIR  = PROJECT_DIR / "tests" / "02-parser"
 
 INIT_FILE    = "__init__.py"
 INIT_CONTENT = "#!/usr/bin/env python3\n"
@@ -225,9 +225,7 @@ print(f"{ITEM_1} Verifying the existence of test files...")
 test_files  = defaultdict(set)
 no_pb_found = True
 
-
-
-for test_file in TESTS_DIR.glob("*/test_*.py"):
+for test_file in TESTS_DIR.glob("**/test_*.py"):
     test_file = test_file.relative_to(TESTS_DIR)
 
     data_type = str(test_file.parents[0])

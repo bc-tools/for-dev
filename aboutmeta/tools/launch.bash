@@ -82,11 +82,13 @@ print_about() {
 
 find . -type f -name "*.py" | sort | while read -r builderfile
 do
+    echo ""
+
     filename=$(basename "$builderfile")
 
-    if [[ $QUICKOPTION == 1 && $filename =~ ^.*-slow\..* ]]
+    if [[ $QUICKOPTION == 1 && $filename =~ ^.*-slow\.py ]]
     then
-        print_about "33m" "Ignoring  $builderfile"
+        print_about "33m" "Ignoring $builderfile"
 
     else
         print_about "32m" "Launching $builderfile"

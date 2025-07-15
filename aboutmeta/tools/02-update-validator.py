@@ -225,8 +225,6 @@ def which_parser(val, extradata):
 
 all_parsers = set()
 
-print(f"{ITEM_1} Creation/update of the Python specs file.")
-
 pyspecs = {}
 
 for yaml_file in SPECS_DIR.glob("*.yaml"):
