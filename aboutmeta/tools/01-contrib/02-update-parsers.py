@@ -82,6 +82,8 @@ def get_relpaths(onedir):
 
         files.append((relpath, contrib_file))
 
+    files.sort()
+
     return files
 
 

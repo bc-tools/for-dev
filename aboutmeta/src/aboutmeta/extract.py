@@ -53,9 +53,11 @@ class Extract:
 
     def build(
         self,
-        yaml_file
+        yaml_file,
+        auto_suffix = ""
     ):
         self._yaml_file_dir = yaml_file.parent
+        self._auto_suffix   = f".{auto_suffix}"
 
         self.data = BoxPlus(
             self.__recu_parse(
@@ -147,7 +149,8 @@ class Extract:
                 if parser_name == TAG_PARSER_PATH:
                     parser = lambda x: _parser(
                         self._yaml_file_dir,
-                        x
+                        x,
+                        self._auto_suffix
                     )
 
                 else:
@@ -175,10 +178,16 @@ class Extract:
 
 if __name__ == "__main__":
     filetest = Path(__file__).parent.parent.parent / "about.yaml"
+
     filetest = Path(__file__).parent.parent.parent / "readme" / "about.yaml"
 
     xtrct = Extract()
-    xtrct.build(filetest)
+    xtrct.build(filetest, auto_suffix = "md")
 
     from pprint import pprint
-    pprint(xtrct.data.project.toc)
+
+    for p in xtrct.data.toc:
+        print(
+            "+" if p[0] else "-",
+            p[1].relative_to(filetest.parent)
+        )
