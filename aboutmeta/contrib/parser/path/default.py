@@ -23,6 +23,14 @@ def parser(
     content    : str,
     auto_suffix: str = ""
 ) -> Path:
+    def raisethis(kind):
+        raise ValueError(
+            f"{kind}.\n"
+            f"  + Data: {content}\n"
+            f"  + Path: {abspath}"
+        )
+
+
     isdir = bool(content[-1] == "/")
 
     if not isdir:
@@ -32,17 +40,9 @@ def parser(
     abspath = abspath.resolve()
 
     if isdir and not abspath.is_dir():
-        raise ValueError(
-             "inexistant folder.\n"
-            f"  + Data: {content}\n"
-            f"  + Path: {abspath}"
-        )
+        raisethis("inexistant folder.")
 
     if not isdir and not abspath.is_file():
-        raise ValueError(
-             "inexistant file.\n"
-            f"  + Data: {content}\n"
-            f"  + Path: {abspath}"
-        )
+        raisethis("inexistant file.")
 
     return (isdir, abspath)
