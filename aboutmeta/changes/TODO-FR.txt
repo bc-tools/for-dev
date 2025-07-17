@@ -6,9 +6,7 @@ about-meta - TODO
 > ---------------------------- <
 
 toc
-    renvoie de dirornot et path absolue
-
-    besoin d'avoir la path du aboutyaml pas jsute du content :
+    reste à gérer path des dirs points vers un autre aboutyaml où l'on veut juste ananlyser le toc, du coup besoin d'ignorer le bloc project s'il est utilisé ! à indiquer dans la doc !
 
 
 > ---------------------------- <
