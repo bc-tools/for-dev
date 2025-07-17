@@ -14,7 +14,8 @@ from pathlib import Path
 #     parent_dir : XXXX
 #     content    : a string path of an existing file or folder.
 #
-#     :return: an instance of the class ''pathlib.Path'' giving
+#     :return: XXXXX
+#              an instance of the class ''pathlib.Path'' giving
 #              the absolute path, and not only a relative one.
 ###
 def parser(
