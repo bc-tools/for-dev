@@ -10,7 +10,7 @@
 --------
 
 [[:doc:]]
-\Readme has been rewritted a little to validate the parsing tools.
+\Readme has been rewritted a little, and at the same time the tiny parsers have been tested.
 
 
 // ---------- //

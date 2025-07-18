@@ -1,6 +1,18 @@
-==========
-about-meta - TODO
-==========
+=========
+aboutmeta - TODO
+=========
+
+
+
+Mode cool si dico yaml complété : ceci autorise à compléter le about et si pertinent on implémente.
+
+Doc sur contribution à compléter avec cas particulier de path qui demande plus d'arguments
+
+Parser path : on renvoie un objet unique Path qui a sa méthode is_dir mais on garde tests de validation en interne
+
+API ok pour ne garder que certaines clés ou en ignorer d'autre. Comment ? Chaîne ou liste de chaînes du type "garder" ou "-ignorer"
+
+CLI.  1/ création guidée  2/ lecture et validation avec mode complétion  3/ formatage standardisé  4/ Ajout de la licence au format texte  5/  test dns des urls avec rêche reçu auto à partir d'un point donné
 
 
 > ---------------------------- <

@@ -42,9 +42,9 @@ THIS_DIR  = THIS_FILE.parent
     ]
 )
 def test_parser_path_default_OK(isdir, pdir, path, abspath):
-    isdir_found, abspath_found = parser(pdir, path)
+    abspath_found = parser(pdir, path)
 
-    assert isdir   == isdir_found
+    assert isdir   == abspath_found.is_dir()
     assert abspath == abspath_found
 
 
