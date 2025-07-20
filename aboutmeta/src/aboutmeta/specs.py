@@ -3,7 +3,7 @@
 # ------------------------------------------------------- #
 # -- File created automatically from YAML spec. files. -- #
 # --                                                   -- #
-# -- Formatting done by the Python project “black.”    -- #
+# -- Formatting done by the Python project "black".    -- #
 # ------------------------------------------------------- #
 
 # --------------- #

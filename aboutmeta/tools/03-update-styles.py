@@ -25,10 +25,18 @@ STYLE_DIR  = SRC_DIR / "style"
 
 
 TAG_INIT_FILE = "__init__.py"
+INIT_FILE    = STYLE_DIR / TAG_INIT_FILE
+
 
 
 TMPL_STYLE_PY = """
 #!/usr/bin/env python3
+
+# ---------------------------------------------------- #
+# -- File created automatically.                    -- #
+# --                                                -- #
+# -- Formatting done by the Python project "black." -- #
+# ---------------------------------------------------- #
 
 from dataclasses import dataclass
 
@@ -47,6 +55,12 @@ class Parsers:
 
 TMP_INIT_FILE = """
 #!/usr/bin/env python3
+
+# ---------------------------------------------------- #
+# -- File created automatically.                    -- #
+# --                                                -- #
+# -- Formatting done by the Python project "black." -- #
+# ---------------------------------------------------- #
 
 {all_imports}
 
@@ -101,8 +115,12 @@ for style, parsers in all_parsers.items():
     style_file.touch()
     style_file.write_text(pycode)
 
-
-init_file = STYLE_DIR / TAG_INIT_FILE
+    format_file_in_place(
+        style_file,
+        fast       = False,
+        mode       = FileMode(),
+        write_back = WriteBack.YES,
+    )
 
 all_imports = []
 all_attrs   = []
@@ -124,5 +142,12 @@ pycode = TMP_INIT_FILE.format(
     all_attrs   = all_attrs,
 )
 
-init_file.touch()
-init_file.write_text(pycode)
+INIT_FILE.touch()
+INIT_FILE.write_text(pycode)
+
+format_file_in_place(
+    INIT_FILE,
+    fast       = False,
+    mode       = FileMode(),
+    write_back = WriteBack.YES,
+)

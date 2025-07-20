@@ -19,5 +19,5 @@ class Lang:
 ###
 # We want to string print the standard code of the language.
 ###
-    def __str__(self):
+    def __str__(self) -> str:
         return self.std

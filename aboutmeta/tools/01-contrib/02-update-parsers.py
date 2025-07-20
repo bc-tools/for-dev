@@ -179,7 +179,7 @@ for relpath, contrib_file in get_relpaths(PARSER_DIR):
     dirs_created.add(src_file.parent)
 
     src_file.touch()
-    src_file.write_text(code)
+    src_file.write_text(code + "\n")
 
     src_local_dir = src_file.parent
 
@@ -202,7 +202,7 @@ for relpath, contrib_file in get_relpaths(PARSER_DIR):
 
             src_file = src_local_dir / xfile_name
             src_file.touch()
-            src_file.write_text(xfile.read_text())
+            src_file.write_text(xfile.read_text() + "\n")
 
 # Just add ''__init__.py'' files.
 initfile = SRC_DIR / INIT_FILE

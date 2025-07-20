@@ -20,5 +20,5 @@ class License:
 ###
 # We want to string print the standard code of the license.
 ###
-    def __str__(self):
+    def __str__(self) -> str:
         return self.std

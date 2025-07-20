@@ -14,7 +14,7 @@
 
 
 [[:format:]]
-Licenses: depraceted licences are not allowed.
+Licenses: obsolete licenses are no longer permitted.
 
 
 // ---------- //

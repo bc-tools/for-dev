@@ -19,10 +19,10 @@ class URL:
     url: str
 
 ###
-# The string representation must be a normalized version using
+# The string representation is be a normalized version using
 # the syntax of the path::''about.yaml''.
 ###
-    def __str__(self):
+    def __str__(self) -> str:
         return self.url
 
 ###

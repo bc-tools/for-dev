@@ -23,7 +23,7 @@ URL_TEMPL_SPDX_LICENSE_TEXT = (
 #
 #     :return: the fule text of the license.
 ###
-def get_licence_text(license_id):
+def get_licence_text(license_id: str) -> str:
 # Let's try to get the text.
     try:
         response = requests.get(
@@ -50,11 +50,3 @@ def get_licence_text(license_id):
 
 # Success implies returned text.
     return text
-
-
-
-if __name__ == "__main__":
-    lic_ID = "CC-BY-NC-4.0"
-    lic_ID = "GPL-3.0-only"
-
-    print(get_licence_text(lic_ID).split('\n')[0])

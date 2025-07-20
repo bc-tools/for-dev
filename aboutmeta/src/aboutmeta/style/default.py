@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+# ---------------------------------------------------- #
+# -- File created automatically.                    -- #
+# --                                                -- #
+# -- Formatting done by the Python project "black." -- #
+# ---------------------------------------------------- #
+
 from dataclasses import dataclass
 
 import aboutmeta.parser.date.default as date_default
@@ -14,6 +20,7 @@ import aboutmeta.parser.version.default as version_default
 # --------------------- #
 # -- DEFAULT PARSERS -- #
 # --------------------- #
+
 
 @dataclass
 class Parsers:

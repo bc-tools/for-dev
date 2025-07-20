@@ -284,6 +284,7 @@ tag_parsers = [
 tag_parsers = '\n'.join(tag_parsers)
 
 # Nothing left to do.
+SPECS_FILE.touch()
 SPECS_FILE.write_text(
     f"""
 #!/usr/bin/env python3
@@ -291,7 +292,7 @@ SPECS_FILE.write_text(
 # ------------------------------------------------------- #
 # -- File created automatically from YAML spec. files. -- #
 # --                                                   -- #
-# -- Formatting done by the Python project “black.”    -- #
+# -- Formatting done by the Python project "black".    -- #
 # ------------------------------------------------------- #
 
 # --------------- #

@@ -25,7 +25,7 @@ class Person:
 # The string representation must be a normalized version using
 # the syntax of the path::''about.yaml''.
 ###
-    def __str__(self):
+    def __str__(self) -> str:
         text = self.surname
 
         if self.firstnames:

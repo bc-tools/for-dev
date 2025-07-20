@@ -16,6 +16,8 @@ from aboutmeta.parser import (
 from aboutmeta.specs import *
 from aboutmeta.style import ALL_STYLES
 
+from aboutmeta.tool.license import get_licence_text
+
 
 # --------------- #
 # -- CONSTANTS -- #
@@ -24,18 +26,22 @@ from aboutmeta.style import ALL_STYLES
 TAG_STYLE_DEFAULT = 'default'
 
 
-# -------------------------------------------------- #
-# -- XXXX -- #
-# -------------------------------------------------- #
+# -------------------------- #
+# -- ABOUTMETA DATA CLASS -- #
+# -------------------------- #
 
 ###
 # TODO
 ###
 class AMData:
+### TODO
+# prototype::
+#     style : XXX
+###
     def __init__(
         self,
         style = TAG_STYLE_DEFAULT
-    ):
+    ) -> None:
         self.style = style
 
 ###
@@ -56,14 +62,19 @@ class AMData:
         self._parsers = ALL_STYLES[style]
         self._style   = style
 
-###
-# TODO
+
+### TODO
+# prototype::
+#     yaml_file   : XXX
+#     auto_suffix : XXX
+#
+#     :action: XXX
 ###
     def build(
         self,
         yaml_file,
         auto_suffix = ""
-    ):
+    ) -> None:
         self._yaml_file_dir = yaml_file.parent
         self._auto_suffix   = f".{auto_suffix}"
 
@@ -74,14 +85,18 @@ class AMData:
             )
         )
 
-###
-# TODO
+### TODO
+# prototype::
+#     data  : XXX
+#     specs : XXX
+#
+#     :action: XXX
 ###
     def __recu_parse(
         self,
         data,
         specs
-    ):
+    ) -> dict:
         data_parsed = {}
 
 # Illegal alternatives?
@@ -177,17 +192,42 @@ class AMData:
 # Job done.
         return data_parsed
 
+### TODO
+# prototype::
+#     :action: XXX
 ###
-# TODO
-###
-    def validate(self):
+    def validate(self) -> None:
         ...
 
+### TODO
+# prototype::
+#     :action: ajout du texte de la licence choisie dans le fichier, ce derniet étant indiqué via un chemin textuel relatif au dossier contenant le fichier path::''about.yaml'' analysé.
 ###
-# TODO
-###
-    def add_license(self):
-        ...
+    def add_license(
+        self,
+        license_path : str,
+        relative_path: str
+    ) -> None:
+        license_id   = self.data(license_path)
+        license_text = get_licence_text(license_id)
+
+        license_file = self._yaml_file_dir
+
+        for subfolder in relative_path.split('/'):
+            license_file /= subfolder
+
+        if not license_file.parent.is_dir():
+            license_file.parent.mkdir(
+                parents  = True,
+                exist_ok = True
+            )
+
+        license_file.touch()
+        license_file.write_text(license_text)
+
+
+
+
 
 
 
@@ -195,15 +235,18 @@ class AMData:
 if __name__ == "__main__":
     filetest = Path(__file__).parent.parent.parent / "about.yaml"
 
-    filetest = Path(__file__).parent.parent.parent / "readme" / "about.yaml"
-
     xtrct = AMData()
     xtrct.build(filetest, auto_suffix = "md")
 
-    from pprint import pprint
+    xtrct.add_license(
+        license_path  = "project.licenses.code",
+        relative_path = "LICENSE.txt"
+    )
 
-    for p in xtrct.data.toc:
-        print(
-            "+" if p[0] else "-",
-            p[1].relative_to(filetest.parent)
-        )
+
+    # filetest = Path(__file__).parent.parent.parent / "readme" / "about.yaml"
+
+    # from pprint import pprint
+
+    # for p in xtrct.data.toc:
+    #     print(f"+ {p}")
