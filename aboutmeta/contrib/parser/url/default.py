@@ -22,5 +22,5 @@ from aboutmeta.data import url
 #     validations.
 ###
 def parser(content: str) -> url.URL:
-# We do nothing...
+# We do almost nothing...
     return url.URL(url = content)

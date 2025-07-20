@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 from .constants  import *
 
+import logging
 
 # ----------------------- #
 # -- PERSON DATA CLASS -- #
@@ -52,6 +53,8 @@ class Person:
 #     thus saving the user from having to spend time studying
 #     problems one by one.
 ###
-    def validate(self) -> List[str]:
+    def validate(self) -> int:
         print(f"??? {self.email}")
         print(f"??? {self.affiliation}")
+
+        return 0

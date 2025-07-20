@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from typing import List
+
 from pathlib import Path
 from yaml    import safe_load
 
@@ -18,6 +20,35 @@ from aboutmeta.specs import *
 from aboutmeta.style import ALL_STYLES
 
 from aboutmeta.tool.license import get_licence_text
+
+
+
+
+
+import logging
+from rich.logging import RichHandler
+
+LOG_FILE = "aboutmeta.validate.log"
+
+# Console : afficher à partir de INFO
+console_handler = RichHandler(rich_tracebacks=True)
+console_handler.setLevel(logging.INFO)
+
+# Fichier : enregistrer uniquement à partir de ERROR
+file_handler = logging.FileHandler(LOG_FILE, mode="a")
+file_handler.setLevel(logging.ERROR)
+
+# Format pour fichier
+file_formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+file_handler.setFormatter(file_formatter)
+
+# Config globale :
+logging.basicConfig(
+    level=logging.DEBUG,  # <-- Niveau global le plus bas pour tout capter
+    handlers=[console_handler, file_handler],
+    force=True,
+)
+
 
 
 # --------------- #
@@ -250,14 +281,22 @@ class AMData:
 # prototype::
 #     :action: XXX
 ###
-    def validate(self, data_path: (str | None) = None) -> None:
+    def validate(
+        self,
+        data_path: (str | None) = None,
+        erase_log: bool = False
+    ) -> bool:
         if data_path is None:
             data = self.data
 
         else:
             data = self.data(data_path)
 
-        self.__recu_validate(data)
+        if erase_log:
+            Path(LOG_FILE).touch()
+            Path(LOG_FILE).write_text("")
+
+        return self.__recu_validate(data) == 0
 
 ### TODO
 # prototype::
@@ -268,20 +307,24 @@ class AMData:
     def __recu_validate(
         self,
         data
-    ) -> None:
+    ) -> bool:
+        nb_pbs = 0
+
 # One dict?
         if isinstance(data, dict):
             for key, val in data.items():
-                self.__recu_validate(val)
+                nb_pbs += self.__recu_validate(val)
 
 # One list?
         elif isinstance(data, list):
             for val in data:
-                self.__recu_validate(val)
+                nb_pbs += self.__recu_validate(val)
 
 # One data to validate?
         elif hasattr(data, 'validate'):
-            data.validate()
+            nb_pbs += data.validate()
+
+        return nb_pbs
 
 
 
@@ -291,6 +334,8 @@ class AMData:
 
 
 if __name__ == "__main__":
+    from pprint import pprint
+
     filetest = Path(__file__).parent.parent.parent / "about.yaml"
 
     xtrct = AMData()
@@ -298,8 +343,11 @@ if __name__ == "__main__":
 
     # xtrct.validate("project.author")
 
-    xtrct.validate()
+    pbs = xtrct.validate(
+        erase_log = True
+    )
 
+    pprint(pbs)
 
     # xtrct.add_license(
     #     license_path = "project.licenses.manual",
@@ -311,7 +359,7 @@ if __name__ == "__main__":
 # TODO
     # filetest = Path(__file__).parent.parent.parent / "readme" / "about.yaml"
 
-    # from pprint import pprint
+    #
 
     # for p in xtrct.data.toc:
     #     print(f"+ {p}")

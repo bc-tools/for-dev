@@ -55,21 +55,15 @@ This project allows metadata to be defined in `about.yaml` files, making it easi
 Complete list of dependencies <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 -----------------------------
 
-Here are the `Python` libraries used by `aboutmeta`. The version numbers in brackets correspond to those used in the latest tests.
+Here are the `Python` libraries used by `aboutmeta`. Version numbers are indicated in brackets.
 
-- `certifi` [2025.6.15]
-- `charset-normalizer` [3.4.2]
-- `idna` [3.10]
-- `langcodes` [3.5.0]
-- `language_data` [1.3.0]
-- `marisa-trie` [1.2.1]
-- `python-box` [7.3.2]
-- `PyYAML` [6.0.2]
-- `RapidFuzz` [3.13.0]
-- `requests` [2.32.4]
-- `semver` [3.0.4]
-- `setuptools` [80.9.0]
-- `urllib3` [2.5.0]
+- `langcodes` **[3.5]**
+- `python-box` **[7.3]**
+- `pyyaml` **[6.0]**
+- `rapidfuzz` **[3.13]**
+- `requests` **[2.32]**
+- `rich` **[13.9]**
+- `semver` **[3.0]**
 
 <a id="MULTIMD-TOC-ANCHOR-2"></a>
 `YAML` specifications <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -383,7 +377,7 @@ The digested license provides the following information.
 2. `mdp.license.name` is the full title of the license.
 3. `mdp.license.ref` is a URL pointed to the `SPDX` web page describing the license.
 
-> ***NOTE.*** *The CLI allows to request that the full text of the license be put into a file relatively to the folder containing the `about.yaml` file. You can also do that using codes like the follwing one.*
+> ***NOTE.*** *The CLI allows to request that the full text of the license be put into a file `LICENSE.txt `relatively to the folder containing the `about.yaml` file. You can also do that using codes like the follwing one.*
 
 ~~~python
 from aboutmeta import AMData, Path
@@ -393,13 +387,12 @@ meta.build()
 
 meta.add_license(
     license_path = "project.licenses.code",
-    dir_relpath = "LICENSE.txt",
     erase        = True
 )
 
 meta..add_license(
     license_path = "project.licenses.manual",
-    dir_relpath = "readme/LICENSE.txt",
+    dir_relpath  = "readme",
     erase        = True
 )
 ~~~

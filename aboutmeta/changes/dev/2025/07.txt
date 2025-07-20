@@ -10,7 +10,11 @@
 --------
 
 [[:api:]]
-Licenses: a license file can be added easily now.
+Two new features.
+
+    1) Licenses: a license file can be added easily now.
+
+    1) Validation: urls can be validated using an hostanme and a DNS technic.
 
 
 [[:format:]]
