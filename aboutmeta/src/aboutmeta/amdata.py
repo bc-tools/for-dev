@@ -4,14 +4,15 @@ from pathlib import Path
 from yaml    import safe_load
 
 from aboutmeta.data.boxplus import BoxPlus
+from aboutmeta.data.license import License
 
-from aboutmeta.parser import (
-    date,
-    lang,
-    license,
-    person,
-    version,
-)
+# from aboutmeta.parser import (
+#     date,
+#     lang,
+#     license,
+#     person,
+#     version,
+# )
 
 from aboutmeta.specs import *
 from aboutmeta.style import ALL_STYLES
@@ -199,15 +200,21 @@ class AMData:
     def add_license(
         self,
         license_path : str,
-        relative_path: str,
+        file_rel_path: str,
         erase        : bool = False
     ) -> None:
-        license_id   = self.data(license_path)
-        license_text = get_licence_text(license_id)
+        lic = self.data(license_path)
+
+        if not isinstance(lic, License):
+            raise ValueError(
+                f"not a path to a license: ''{license_path}''."
+            )
+
+        license_text = get_licence_text(lic.std)
 
         license_file = self._yaml_file_dir
 
-        for subfolder in relative_path.split('/'):
+        for subfolder in file_rel_path.split('/'):
             license_file /= subfolder
 
 # Can we erase an existing final file?
@@ -233,7 +240,7 @@ class AMData:
 # prototype::
 #     :action: XXX
 ###
-    def validate(self) -> None:
+    def validate(self, ) -> None:
         ...
 
 
@@ -251,7 +258,7 @@ if __name__ == "__main__":
 
     xtrct.add_license(
         license_path  = "project.licenses.manual",
-        relative_path = "readme/LICENSE.txt",
+        file_rel_path = "readme/LICENSE.txt",
         erase         = True
     )
 

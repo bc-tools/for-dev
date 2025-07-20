@@ -26,13 +26,13 @@ meta.build()
 
 meta.add_license(
     license_path  = "project.licenses.code",
-    relative_path = "LICENSE.txt",
+    file_rel_path = "LICENSE.txt",
     erase         = True
 )
 
 meta..add_license(
     license_path  = "project.licenses.manual",
-    relative_path = "readme/LICENSE.txt",
+    file_rel_path = "readme/LICENSE.txt",
     erase         = True
 )
 ~~~
