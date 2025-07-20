@@ -11,9 +11,9 @@ project*:
   contribs | contrib *: list(person) | person
 
   urls*:
-    home*  : str
-    dev*   : str
-    issues*: str
+    home*  : url
+    dev*   : url
+    issues*: url
 
   licenses*:
     code*  : license

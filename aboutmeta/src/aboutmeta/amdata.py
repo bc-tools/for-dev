@@ -250,8 +250,38 @@ class AMData:
 # prototype::
 #     :action: XXX
 ###
-    def validate(self, ) -> None:
-        ...
+    def validate(self, data_path: (str | None) = None) -> None:
+        if data_path is None:
+            data = self.data
+
+        else:
+            data = self.data(data_path)
+
+        self.__recu_validate(data)
+
+### TODO
+# prototype::
+#     data  : XXX
+#
+#     :action: XXX
+###
+    def __recu_validate(
+        self,
+        data
+    ) -> None:
+# One dict?
+        if isinstance(data, dict):
+            for key, val in data.items():
+                self.__recu_validate(val)
+
+# One list?
+        elif isinstance(data, list):
+            for val in data:
+                self.__recu_validate(val)
+
+# One data to validate?
+        elif hasattr(data, 'validate'):
+            print(data)
 
 
 
@@ -266,13 +296,18 @@ if __name__ == "__main__":
     xtrct = AMData()
     xtrct.build(filetest, auto_suffix = "md")
 
-    xtrct.add_license(
-        license_path = "project.licenses.manual",
-        dir_relpath = "readme",
-        erase        = True
-    )
+    print(repr(xtrct.data))
+
+    xtrct.validate()
+
+    # xtrct.add_license(
+    #     license_path = "project.licenses.manual",
+    #     dir_relpath = "readme",
+    #     erase        = True
+    # )
 
 
+# TODO
     # filetest = Path(__file__).parent.parent.parent / "readme" / "about.yaml"
 
     # from pprint import pprint
