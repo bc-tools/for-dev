@@ -250,8 +250,9 @@ if __name__ == "__main__":
     xtrct.build(filetest, auto_suffix = "md")
 
     xtrct.add_license(
-        license_path  = "project.licenses.code",
-        relative_path = "LICENSE.txt"
+        license_path  = "project.licenses.manual",
+        relative_path = "readme/LICENSE.txt",
+        erase         = True
     )
 
 

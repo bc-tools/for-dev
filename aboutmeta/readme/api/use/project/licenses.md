@@ -16,7 +16,7 @@ The digested license provides the following information.
   1) `mdp.license.ref` is a URL pointed to the `SPDX` web page describing the license.
 
 
-> ***NOTE.*** *The CLI allows to request that the full text of the license be added to a file named `LICENSE.txt` located in the folder containing the `about.yaml` file. You can also do that using the following code.*
+> ***NOTE.*** *The CLI allows to request that the full text of the license be put into a file relatively to the folder containing the `about.yaml` file. You can also do that using codes like the follwing one.*
 
 ~~~python
 from aboutmeta import AMData, Path
@@ -24,9 +24,16 @@ from aboutmeta import AMData, Path
 meta = AMData(Path("/full/path/to/about.yaml"))
 meta.build()
 
-meta.add_license(add_license(
+meta.add_license(
     license_path  = "project.licenses.code",
-    relative_path = "LICENSE.txt"
+    relative_path = "LICENSE.txt",
+    erase         = True
+)
+
+meta..add_license(
+    license_path  = "project.licenses.manual",
+    relative_path = "readme/LICENSE.txt",
+    erase         = True
 )
 ~~~
 
