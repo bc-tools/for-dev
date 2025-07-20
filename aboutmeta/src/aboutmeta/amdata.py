@@ -193,28 +193,36 @@ class AMData:
 # Job done.
         return data_parsed
 
-### TODO
+###
 # prototype::
-#     :action: ajout du texte de la licence choisie dans le fichier, ce derniet étant indiqué via un chemin textuel relatif au dossier contenant le fichier path::''about.yaml'' analysé.
+#     license_path : a virtual path to access the license specified
+#                    in the analyzed path::‘'about.yaml’' file.
+#     dir_relpath  : a textual path relative to the folder containing
+#                    the analyzed file path::‘'about.yaml’'.
+#     erase        : set to ''True'', this \arg allows to erase an
+#                    existing final file to build a new one.
+#
+#     :action: Create or update a path::''LICENSE.txt'' file in the
+#              specified folder with the text of the selected license.
 ###
     def add_license(
         self,
         license_path : str,
-        file_relpath : str,
+        dir_relpath  : str,
         erase        : bool = False
     ) -> None:
         lic = self.data(license_path)
 
         if not isinstance(lic, License):
             raise ValueError(
-                f"not a path to a license: ''{license_path}''."
+                f"not a virtual path to a license: ''{license_path}''."
             )
 
         license_text = get_licence_text(lic.std)
 
         license_file = self._yaml_file_dir
 
-        for subfolder in file_relpath.split('/'):
+        for subfolder in dir_relpath.split('/'):
             license_file /= subfolder
 
         license_file /= "LICENSE.txt"
@@ -260,7 +268,7 @@ if __name__ == "__main__":
 
     xtrct.add_license(
         license_path = "project.licenses.manual",
-        file_relpath = "readme",
+        dir_relpath = "readme",
         erase        = True
     )
 
