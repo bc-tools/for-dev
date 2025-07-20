@@ -9,12 +9,16 @@
 :update:
 --------
 
-[[:doc:]]
-\Readme: the full list of \deps is automatically added.
+[[:api:]]
+Licenses: a license file can be added easily now.
 
 
 [[:format:]]
 Licenses: obsolete licenses are no longer permitted.
+
+
+[[:doc:]]
+\Readme: the full list of \deps is automatically added.
 
 
 // ---------- //

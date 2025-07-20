@@ -194,13 +194,6 @@ class AMData:
 
 ### TODO
 # prototype::
-#     :action: XXX
-###
-    def validate(self) -> None:
-        ...
-
-### TODO
-# prototype::
 #     :action: ajout du texte de la licence choisie dans le fichier, ce derniet étant indiqué via un chemin textuel relatif au dossier contenant le fichier path::''about.yaml'' analysé.
 ###
     def add_license(
@@ -224,6 +217,13 @@ class AMData:
 
         license_file.touch()
         license_file.write_text(license_text)
+
+### TODO
+# prototype::
+#     :action: XXX
+###
+    def validate(self) -> None:
+        ...
 
 
 
