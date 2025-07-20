@@ -199,7 +199,8 @@ class AMData:
     def add_license(
         self,
         license_path : str,
-        relative_path: str
+        relative_path: str,
+        erase        : bool = False
     ) -> None:
         license_id   = self.data(license_path)
         license_text = get_licence_text(license_id)
@@ -208,6 +209,16 @@ class AMData:
 
         for subfolder in relative_path.split('/'):
             license_file /= subfolder
+
+# Can we erase an existing final file?
+        if license_file.is_file() and not erase:
+            raise IOError(
+                f"the class {type(self).__name__} is not allowed "
+                "to erase the LICENSE file:"
+                "\n"
+                f"{license_file}"
+            )
+
 
         if not license_file.parent.is_dir():
             license_file.parent.mkdir(
