@@ -12,9 +12,10 @@ from dataclasses import dataclass
 ###
 @dataclass
 class License:
-    std : str
-    name: str
-    ref : str
+    std       : str
+    name      : str
+    ref       : str
+    deprecated: bool
 
 ###
 # We want to string print the standard code of the license.

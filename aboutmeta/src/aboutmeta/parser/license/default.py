@@ -2,7 +2,10 @@
 # -- IMPORTS -- #
 # ------------- #
 
-from aboutmeta.data import license
+from aboutmeta.data import (
+    constants,
+    license
+)
 
 from typing import List
 
@@ -25,11 +28,6 @@ from rapidfuzz import (
 # --------------- #
 
 LICENSES_JSON_FILE = Path(__file__).parent / "default-licenses.json"
-
-TAG_SPDX_LICENSES     = 'licenses'
-TAG_SPDX_LICENSE_ID   = 'licenseId'
-TAG_SPDX_LICENSE_REF  = 'reference'
-TAG_SPDX_LICENSE_NAME = 'name'
 
 
 # -------------------- #
@@ -68,13 +66,22 @@ def parser(content: str) -> license.License:
             f"unknown license code ''{content}''.{extra}"
         )
 
+# Deprecated?
+    if all_licenses[normal_ID]["deprecated"]:
+        raise ValueError(
+            f"deprecated license code ''{all_licenses[normal_ID]['std']}''."
+        )
+
+
+# Living license found.
     spdx_infos = all_licenses[normal_ID]
 
 # The job has been done.
     return license.License(
-        std  = spdx_infos["std"],
-        name = spdx_infos["name"],
-        ref  = spdx_infos["ref"],
+        std        = spdx_infos["std"],
+        name       = spdx_infos["name"],
+        ref        = spdx_infos["ref"],
+        deprecated = spdx_infos["deprecated"],
     )
 
 

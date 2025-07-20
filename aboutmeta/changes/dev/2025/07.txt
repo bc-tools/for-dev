@@ -13,6 +13,10 @@
 \Readme: the full list of \deps is automatically added.
 
 
+[[:format:]]
+Licenses: depraceted licences are not allowed.
+
+
 // ---------- //
 
 

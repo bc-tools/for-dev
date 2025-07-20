@@ -13,17 +13,18 @@ URL_TEMPL_SPDX_LICENSE_TEXT = (
 )
 
 
-# ------------------------- #
-# -- XXXX -- #
-# ------------------------- #
+# ------------------ #
+# -- LICENSE TEXT -- #
+# ------------------ #
 
 ###
 # prototype::
-#     license_id : XXX
+#     license_id : an SPDX license code.
 #
-#     :return: XXX
+#     :return: the fule text of the license.
 ###
 def get_licence_text(license_id):
+# Let's try to get the text.
     try:
         response = requests.get(
             url     = URL_TEMPL_SPDX_LICENSE_TEXT.format(license_id),
@@ -35,15 +36,25 @@ def get_licence_text(license_id):
 
         elif response.status_code == 404:
             raise FileNotFoundError(
-                f"aboutmeta BUG!\nBad SPDX_URL:\n{lic_url}"
+                f"bad SPDX_ID:\n{license_id}"
             )
 
         else:
             raise RuntimeError(
-                f"HTTP error {response.status_code}."
+                f"HTTP error {response.status_code}. URL used:\n"
+                f"{response.url}"
             )
 
     except requests.exceptions.RequestException as e:
         raise e
 
+# Success implies returned text.
     return text
+
+
+
+if __name__ == "__main__":
+    lic_ID = "CC-BY-NC-4.0"
+    lic_ID = "GPL-3.0-only"
+
+    print(get_licence_text(lic_ID).split('\n')[0])

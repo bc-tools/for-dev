@@ -4,7 +4,10 @@
 # -- IMPORTS -- #
 # ------------- #
 
-from aboutmeta.data import license
+from aboutmeta.data import (
+    constants,
+    license
+)
 
 from typing import List
 
@@ -27,11 +30,6 @@ from rapidfuzz import (
 # --------------- #
 
 LICENSES_JSON_FILE = Path(__file__).parent / "default-licenses.json"
-
-TAG_SPDX_LICENSES     = 'licenses'
-TAG_SPDX_LICENSE_ID   = 'licenseId'
-TAG_SPDX_LICENSE_REF  = 'reference'
-TAG_SPDX_LICENSE_NAME = 'name'
 
 
 # -------------------- #
@@ -70,13 +68,22 @@ def parser(content: str) -> license.License:
             f"unknown license code ''{content}''.{extra}"
         )
 
+# Deprecated?
+    if all_licenses[normal_ID]["deprecated"]:
+        raise ValueError(
+            f"deprecated license code ''{all_licenses[normal_ID]['std']}''."
+        )
+
+
+# Living license found.
     spdx_infos = all_licenses[normal_ID]
 
 # The job has been done.
     return license.License(
-        std  = spdx_infos["std"],
-        name = spdx_infos["name"],
-        ref  = spdx_infos["ref"],
+        std        = spdx_infos["std"],
+        name       = spdx_infos["name"],
+        ref        = spdx_infos["ref"],
+        deprecated = spdx_infos["deprecated"],
     )
 
 
@@ -160,6 +167,13 @@ def tool_update_license_json() -> None:
 
     SPDX_URL = "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json"
 
+    TAG_SPDX_LICENSES = 'licenses'
+
+    TAG_SPDX_LICENSE_ID         = 'licenseId'
+    TAG_SPDX_LICENSE_NAME       = 'name'
+    TAG_SPDX_LICENSE_REF        = 'reference'
+    TAG_SPDX_LICENSE_DEPRECATED = "isDeprecatedLicenseId"
+
 # The SPDX data online.
     try:
         response = requests.get(
@@ -201,9 +215,10 @@ def tool_update_license_json() -> None:
             )
 
         licenses[normal_ID] = {
-            'std' : license_ID,
-            'name': lic[TAG_SPDX_LICENSE_NAME],
-            'ref' : lic[TAG_SPDX_LICENSE_REF],
+            'std'       : license_ID,
+            'name'      : lic[TAG_SPDX_LICENSE_NAME],
+            'ref'       : lic[TAG_SPDX_LICENSE_REF],
+            'deprecated': lic[TAG_SPDX_LICENSE_DEPRECATED]
         }
 
     LICENSES_JSON_FILE.write_text(json_dumps(licenses))
@@ -219,7 +234,7 @@ if __name__ == "__main__":
 
 # Working examples.
     for lic_ID in [
-        "gpl - 3.0 +",
+        "gpl - 3.0 only ",
         "cc    by nc 4.0",
     ]:
         print()
@@ -233,8 +248,10 @@ if __name__ == "__main__":
     print()
 
 # Corrupted data.
-    lic_ID = "gpl"
-    lic_ID = "cc nc"
+    lic_ID = "gpl  3.0 +"
+
+    # lic_ID = "gpl"
+    # lic_ID = "cc nc"
     # lic_ID = "cc"
     # lic_ID = " "
 

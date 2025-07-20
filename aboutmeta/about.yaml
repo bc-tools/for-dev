@@ -9,7 +9,7 @@ project:
   author: Christophe, BAL
 
   licenses:
-    code: gpl 3.0+
+    code: gpl 3.0 only
 
   urls:
     home  : https://github.com/bc-tools/for-dev
