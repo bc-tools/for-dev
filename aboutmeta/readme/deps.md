@@ -1,7 +1,7 @@
 Complete list of dependencies
 -----------------------------
 
-Here are the `Python` libraries used by `aboutmeta`, whose version numbers in brackets correspond to those used in the latest tests.
+Here are the `Python` libraries used by `aboutmeta`. The version numbers in brackets correspond to those used in the latest tests.
 
   * `certifi`  [2025.6.15]
   * `charset-normalizer`  [3.4.2]

@@ -22,7 +22,7 @@ MD_HEADER = """
 Complete list of dependencies
 -----------------------------
 
-Here are the `Python` libraries used by `aboutmeta`, whose version numbers in brackets correspond to those used in the latest tests.
+Here are the `Python` libraries used by `aboutmeta`. The version numbers in brackets correspond to those used in the latest tests.
 """.lstrip()
 
 # ----------- #

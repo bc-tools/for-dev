@@ -35,10 +35,13 @@ This document is a complete tutorial showing all the available features.
             - [Version](#MULTIMD-TOC-ANCHOR-18)
             - [Date](#MULTIMD-TOC-ANCHOR-19)
             - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-20)
-            - [URLs of the project](#MULTIMD-TOC-ANCHOR-21)
-            - [Licenses](#MULTIMD-TOC-ANCHOR-22)
-            - [Languages](#MULTIMD-TOC-ANCHOR-23)
-        - [Working with folders and files](#MULTIMD-TOC-ANCHOR-24)
+            - [Licenses](#MULTIMD-TOC-ANCHOR-21)
+            - [Languages](#MULTIMD-TOC-ANCHOR-22)
+        - [Working with folders and files](#MULTIMD-TOC-ANCHOR-23)
+    - [Validate data](#MULTIMD-TOC-ANCHOR-24)
+    - [Affiliation](#MULTIMD-TOC-ANCHOR-25)
+    - [Email](#MULTIMD-TOC-ANCHOR-26)
+            - [URLs](#MULTIMD-TOC-ANCHOR-27)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -52,7 +55,7 @@ This project allows metadata to be defined in `about.yaml` files, making it easi
 Complete list of dependencies <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 -----------------------------
 
-Here are the `Python` libraries used by `aboutmeta`, whose version numbers in brackets correspond to those used in the latest tests.
+Here are the `Python` libraries used by `aboutmeta`. The version numbers in brackets correspond to those used in the latest tests.
 
 - `certifi` [2025.6.15]
 - `charset-normalizer` [3.4.2]
@@ -217,8 +220,6 @@ The optional `project.url` block allows to provide hyperlinks via the following 
 2. `dev` is used to point to a repository for managing project development.
 3. `issues` redirects users to the page where they can report bugs or make suggestions.
 
-> ***NOTE.*** *It is possible to request validate URLs by the `Python` module `aboutmeta`. Technically, a simple DNS query is performed, and nothing more is done for security reasons.*
-
 <a id="MULTIMD-TOC-ANCHOR-9"></a>
 #### Licenses <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
@@ -231,7 +232,7 @@ The `Python` module `aboutmeta` takes into account the license names proposed by
 
 The `Python` module `aboutmeta` takes into account the license names proposed by the [`SPDX` SPDX License List](https://spdx.org/licenses/) with a certain degree of flexibility: for example, you can type `gpl 3.0+` and `cc by nc 4.0` instead of `GPL-3.0+` and `CC-BY-NC-4.0`.
 
-> ***NOTE.*** *You can request the addition of a `License.txt` file in the folder containing the `about.yaml` file.*
+> ***NOTE.*** *Using the `Python` API or the CLI, you can request the addition of a `License.txt` file in the folder containing the `about.yaml` file.*
 
 <a id="MULTIMD-TOC-ANCHOR-10"></a>
 #### Languages <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -275,7 +276,7 @@ project:
 ### Working with folders and files <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Whether for a document written in small sections or for a monorepo project, it is useful to be able to specify a **list of existing folders and/or files** to explore in a customised order.
-The optional `toc` block meets this need. Its content must be a list of relative paths, with folders indicated by a slash ‘/’ at the end of the path, which also serves as a path separator, even when working with the Windows operating system.
+The optional `toc` block meets this need. Its content must be a list of relative paths, with folders indicated by a slash `/` at the end of the path, which also serves as a path separator, even when working with the Windows operating system.
 Here is a fictitious example.
 
 ~~~yaml
@@ -285,9 +286,10 @@ toc:
   - relative/path/inside/one/sub/folder/file_2.md
 ~~~
 
-When a folder is specified, this means that it contains an `about.yaml` file that must also be analysed regarding its `toc` block.
+When a subfolder is specified, the search is performed as follows.
 
-> ***NOTE.*** *Using the `Python` module `aboutmeta`, it is possible to specify a default extension.*
+1. Either an `about.yaml` file is present in the subfolder, in which case `aboutmeta` analyzes its `toc` block.
+2. Otherwise, all files present in the subfolder will be retrieved and sorted in a "natural" way.
 
 <a id="MULTIMD-TOC-ANCHOR-14"></a>
 The `Python` module `aboutmeta` <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -304,15 +306,15 @@ The following sections describe what is available in the current version.
 The analysis of an `about.yaml` file is done simply as follows where `Path` is the class from the `pathlib` module.
 
 ~~~python
-from aboutmeta import Extract, Path
+from aboutmeta import AMData, Path
 
-meta = Extract(Path("/full/path/to/about.yaml"))
+meta = AMData(Path("/full/path/to/about.yaml"))
 meta.build()
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-16"></a>
 ### Use of data <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-Once the data has been extracted by `aboutmeta.AboutMeta`, the `data` attribute of the `meta` object, see the previous section, provides access to the digested data in a simple manner.
+Once the data has been extracted by `aboutmeta.AMData`, the `data` attribute of the `meta` object, see the previous section, provides access to the digested data in a simple manner.
 
 1. If we take the example given in the specifications, access to the home URL is done via `meta.data.project.urls.home`, which is ideal for non-dynamic code.
 2. For dynamic coding, it is possible to use a virtual pointed path as in `meta("project.urls.home")` with parentheses instead of square brackets.
@@ -321,7 +323,7 @@ The following sections present the data after digestion.
 
 > ***NOTE.*** *To keep things simple, we will always use access to data processed via the `data` attribute, and work with the `meta` object explained in the previous section.*
 
-> ***TIP.*** *To retrieve a standard version of the original `YAML` version of a piece of data, just use the string verions as in `str(meta.verbatim.project.version)`.*
+> ***TIP.*** *To retrieve a standard version of the original `YAML` version of a piece of data, just use the string verison of the corresponding `Python` data as in `str(meta.verbatim.project.version)`.*
 
 <a id="MULTIMD-TOC-ANCHOR-17"></a>
 #### The project itself <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -342,7 +344,7 @@ Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build
 5. `mdp.version.prerelease` provides the text `beta.4`.
 6. `mdp.version.build` provides the text `build.5`.
 
-> ***NOTE*** *Behind the scenes, the version number is a `semver.version.Version` object which has useful methods. For example, `mdp.version.next_version(part="prerelease")` gives the version `1.2.3-beta.5`.*
+> ***NOTE*** *Behind the scenes, the version number data is a `semver.version.Version` object which has useful methods. For example, `mdp.version.next_version(part="prerelease")` gives the version `1.2.3-beta.5` with our example above.*
 
 <a id="MULTIMD-TOC-ANCHOR-19"></a>
 ##### Date <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -355,7 +357,7 @@ The date is accessible via the attribute `mdp.version.date`.
 3. `mdp.version.month` provides the integer number of the month.
 4. `mdp.version.day` provides the integer number of the day.
 
-> ***NOTE*** *Behind the date is a `datetime.date` object (which provides access to all the methods associated with these type of object).*
+> ***NOTE*** *Behind the date data is a `datetime.date` object (which provides access to all the methods associated with these type of object).*
 
 <a id="MULTIMD-TOC-ANCHOR-20"></a>
 ##### Developers, authors and contributors <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -368,20 +370,6 @@ In the `YAML` file, the singular forms `project.author` and `project.contrib` wi
 4. `affiliation` is to the text written in square brackets.
 
 <a id="MULTIMD-TOC-ANCHOR-21"></a>
-##### URLs of the project <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
-
-Although URLs are stored verbatim, we would like to point out here that `aboutmeta.Extract` is capable of testing the validity of URLs in the sense that they are associated with a DNS catalogue. In other words, a URL pointing nowhere will cause an error.
-As this operation involves a basic web query, the user must make an explicit request as in the following code, even if the method used is risk-free.
-
-~~~python
-from aboutmeta import Extract, Path
-
-meta = Extract(Path("/full/path/to/about.yaml"))
-meta.build()
-
-meta.validate_urls("project.urls")
-~~~
-<a id="MULTIMD-TOC-ANCHOR-22"></a>
 ##### Licenses <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The license abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List](https://spdx.org/licenses/) (internally, we use a local version of the [`licenses.json`](https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json) file).
@@ -395,17 +383,27 @@ The digested license provides the following information.
 2. `mdp.license.name` is the full title of the license.
 3. `mdp.license.ref` is a URL pointed to the `SPDX` web page describing the license.
 
-> ***NOTE.*** *The CLI allows to request that the full text of the license be added to a file named `License.txt` located in the folder containing the `about.yaml` file. You can also do that using the following code.*
+> ***NOTE.*** *The CLI allows to request that the full text of the license be put into a file relatively to the folder containing the `about.yaml` file. You can also do that using codes like the follwing one.*
 
 ~~~python
-from aboutmeta import Extract, Path
+from aboutmeta import AMData, Path
 
-meta = Extract(Path("/full/path/to/about.yaml"))
+meta = AMData(Path("/full/path/to/about.yaml"))
 meta.build()
 
-meta.add_license()
+meta.add_license(
+    license_path = "project.licenses.code",
+    file_relpath = "LICENSE.txt",
+    erase        = True
+)
+
+meta..add_license(
+    license_path = "project.licenses.manual",
+    file_relpath = "readme/LICENSE.txt",
+    erase        = True
+)
 ~~~
-<a id="MULTIMD-TOC-ANCHOR-23"></a>
+<a id="MULTIMD-TOC-ANCHOR-22"></a>
 ##### Languages <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 A digested language provides the following information in the case of the technical documentation, but the same is true for other contextes.
@@ -414,7 +412,57 @@ A digested language provides the following information in the case of the techni
 2. `mdp.langs.doc.name` is the English name of the language.
 3. `mdp.langs.doc.territory` is the English name of the territory associated with the language.
 
-<a id="MULTIMD-TOC-ANCHOR-24"></a>
+<a id="MULTIMD-TOC-ANCHOR-23"></a>
 #### Working with folders and files <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-The list of reltive paths is validated during parsing and is returned as a list of `pathlib.Path` objects pointing to files (the absolute path is used). The order of the list follows the logic of using multiple `toc` blocks when using folder paths.
+The list of relative paths is validated during parsing and is returned as a list of `pathlib.Path` objects pointing to files (the absolute paths are used). The order of the list follows the logic of using multiple `toc` blocks when using folder paths.
+
+<a id="MULTIMD-TOC-ANCHOR-24"></a>
+### Validate data <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+Some data, such as file paths, dates, and version numbers, are validated during parsing. Others are only validated upon request, as this requires more in-depth analysis using online tools. For this data, you will need to explicitly request validation. This can be done easily as follows.
+
+~~~python
+from aboutmeta import AMData, Path
+
+meta = AMData(Path("/full/path/to/about.yaml"))
+meta.validate()
+~~~
+
+To simply validate the data in the `YAML` block `project.urls`, just specify the abstract path as follows.
+
+~~~python
+from aboutmeta import AMData, Path
+
+meta = AMData(Path("/full/path/to/about.yaml"))
+meta.validate("project.urls")
+~~~
+
+The following sections present the available validations and explain the checks performed.
+
+<a id="MULTIMD-TOC-ANCHOR-25"></a>
+### Affiliation <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+XXXX
+
+<a id="MULTIMD-TOC-ANCHOR-26"></a>
+### Email <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+XXXX
+
+<a id="MULTIMD-TOC-ANCHOR-27"></a>
+##### URLs <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+XXXXXX
+
+Although URLs are stored verbatim, we would like to point out here that `aboutmeta.AMData` is capable of testing the validity of URLs in the sense that they are associated with a DNS catalogue. In other words, a URL pointing nowhere will cause an error.
+As this operation involves a basic web query, the user must make an explicit request as in the following code, even if the method used is risk-free.
+
+~~~python
+from aboutmeta import AMData, Path
+
+meta = AMData(Path("/full/path/to/about.yaml"))
+meta.build()
+
+meta.validate_urls("project.urls")
+~~~
