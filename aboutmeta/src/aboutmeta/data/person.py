@@ -40,8 +40,18 @@ class Person:
 
         return text
 
+###  TODO
+# prototype::
+#     :return: list of errors detected.
+#
+# note::
+#     As the validation system is not 100% reliable, we can
+#     only return a list of errors detected (with possible
+#     false negatives). This choice also allows us to produce
+#     a final report of everything that has not been validated,
+#     thus saving the user from having to spend time studying
+#     problems one by one.
 ###
-# XXX
-###
-    def validate(self):
-        ...
+    def validate(self) -> List[str]:
+        print(f"??? {self.email}")
+        print(f"??? {self.affiliation}")

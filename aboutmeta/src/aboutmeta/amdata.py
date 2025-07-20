@@ -281,7 +281,7 @@ class AMData:
 
 # One data to validate?
         elif hasattr(data, 'validate'):
-            print(data)
+            data.validate()
 
 
 
@@ -296,9 +296,10 @@ if __name__ == "__main__":
     xtrct = AMData()
     xtrct.build(filetest, auto_suffix = "md")
 
-    print(repr(xtrct.data))
+    # xtrct.validate("project.author")
 
     xtrct.validate()
+
 
     # xtrct.add_license(
     #     license_path = "project.licenses.manual",
