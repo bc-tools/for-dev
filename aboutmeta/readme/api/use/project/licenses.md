@@ -25,15 +25,15 @@ meta = AMData(Path("/full/path/to/about.yaml"))
 meta.build()
 
 meta.add_license(
-    license_path  = "project.licenses.code",
-    file_rel_path = "LICENSE.txt",
-    erase         = True
+    license_path = "project.licenses.code",
+    file_relpath = "LICENSE.txt",
+    erase        = True
 )
 
 meta..add_license(
-    license_path  = "project.licenses.manual",
-    file_rel_path = "readme/LICENSE.txt",
-    erase         = True
+    license_path = "project.licenses.manual",
+    file_relpath = "readme/LICENSE.txt",
+    erase        = True
 )
 ~~~
 
