@@ -3,8 +3,8 @@
 The analysis of an `about.yaml` file is done simply as follows where `Path` is the class from the `pathlib` module.
 
 ~~~python
-from aboutmeta import Extract, Path
+from aboutmeta import AMData, Path
 
-meta = Extract(Path("/full/path/to/about.yaml"))
+meta = AMData(Path("/full/path/to/about.yaml"))
 meta.build()
 ~~~

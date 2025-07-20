@@ -19,9 +19,9 @@ The digested license provides the following information.
 > ***NOTE.*** *The CLI allows to request that the full text of the license be added to a file named `License.txt` located in the folder containing the `about.yaml` file. You can also do that using the following code.*
 
 ~~~python
-from aboutmeta import Extract, Path
+from aboutmeta import AMData, Path
 
-meta = Extract(Path("/full/path/to/about.yaml"))
+meta = AMData(Path("/full/path/to/about.yaml"))
 meta.build()
 
 meta.add_license()

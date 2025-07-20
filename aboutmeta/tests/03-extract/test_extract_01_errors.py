@@ -2,14 +2,14 @@
 
 import pytest
 
-from aboutmeta.extract import *
+from aboutmeta.amdata import *
 
 
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
-XTRCT = Extract()
+XTRCT = AMData()
 
 THIS_DIR = Path(__file__).parent
 

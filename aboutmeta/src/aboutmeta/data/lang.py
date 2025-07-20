@@ -7,11 +7,8 @@ from dataclasses import dataclass
 # -- LANGUAGE DATA CLASS -- #
 # ------------------------- #
 
-### TODO
-# prototype::
-#     content : XXX
-#
-#     :return: XXX
+###
+# Easy-to-use data class for languages.
 ###
 @dataclass
 class Lang:

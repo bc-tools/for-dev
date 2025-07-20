@@ -12,4 +12,4 @@ The date is accessible via the attribute `mdp.version.date`.
   1. `mdp.version.day` provides the integer number of the day.
 
 
-> ***NOTE*** *Behind the date is a `datetime.date` object (which provides access to all the methods associated with these type of object).*
+> ***NOTE*** *Behind the date data is a `datetime.date` object (which provides access to all the methods associated with these type of object).*

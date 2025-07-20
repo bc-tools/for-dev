@@ -3,7 +3,7 @@
 from pathlib import Path
 import              pytest
 
-from aboutmeta.extract import Extract
+from aboutmeta.amdata import AMData
 
 
 # --------------- #
@@ -14,7 +14,7 @@ THIS_DIR      = Path(__file__).parent
 PROJECT_DIR   = THIS_DIR.parent.parent
 PROJECT_ABOUT = PROJECT_DIR / "about.yaml"
 
-XTRCT = Extract()
+XTRCT = AMData()
 
 
 # ------------- #

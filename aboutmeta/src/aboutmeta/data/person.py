@@ -11,11 +11,8 @@ from .constants  import *
 # -- PERSON DATA CLASS -- #
 # ----------------------- #
 
-### TODO
-# prototype::
-#     content : XXX
-#
-#     :return: XXX
+###
+# Easy-to-use data class for persons.
 ###
 @dataclass
 class Person:
@@ -42,3 +39,9 @@ class Person:
             text += f' {TAG_YAML_AFFILIATION_OPEN}{self.affiliation}{TAG_YAML_AFFILIATION_CLOSE}'
 
         return text
+
+###
+# XXX
+###
+    def validate(self):
+        ...

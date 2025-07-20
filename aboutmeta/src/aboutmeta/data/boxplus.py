@@ -3,17 +3,22 @@
 from box import Box
 
 
-# ---------- #
-# -- XXXXXXXXXXXXXXX -- #
-# ---------- #
+# ---------------------- #
+# -- BETTER BOX CLASS -- #
+# ---------------------- #
 
-### TODO
-# prototype::
-#     content : XXX
-#
-#     :return: XXX
+###
+# We make the class ''Box'' callable to allow the use of
+# virtual pointed paths.
 ###
 class BoxPlus(Box):
+###
+# prototype::
+#     content : a pointed path similar to a sequence of
+#               attributes request.
+#
+#     :return: the expected value.
+###
     def __call__(
         self,
         str_attrs

@@ -28,13 +28,19 @@ TAG_STYLE_DEFAULT = 'default'
 # -- XXXX -- #
 # -------------------------------------------------- #
 
-class Extract:
+###
+# TODO
+###
+class AMData:
     def __init__(
         self,
         style = TAG_STYLE_DEFAULT
     ):
         self.style = style
 
+###
+# TODO
+###
     @property
     def style(self):
         return self._style
@@ -50,7 +56,9 @@ class Extract:
         self._parsers = ALL_STYLES[style]
         self._style   = style
 
-
+###
+# TODO
+###
     def build(
         self,
         yaml_file,
@@ -66,6 +74,9 @@ class Extract:
             )
         )
 
+###
+# TODO
+###
     def __recu_parse(
         self,
         data,
@@ -79,8 +90,6 @@ class Extract:
             to_analyze = keys_set.intersection(
                 set(specs[TAG_SPECS_ALT_ALL])
             )
-
-            print(f"{to_analyze=}")
 
             if len(to_analyze) > 1:
                 for no_alt in specs[TAG_SPECS_ALT_TUPLES]:
@@ -168,12 +177,19 @@ class Extract:
 # Job done.
         return data_parsed
 
-
-    def validate_urls(self):
+###
+# TODO
+###
+    def validate(self):
         ...
 
+###
+# TODO
+###
     def add_license(self):
         ...
+
+
 
 
 if __name__ == "__main__":
@@ -181,7 +197,7 @@ if __name__ == "__main__":
 
     filetest = Path(__file__).parent.parent.parent / "readme" / "about.yaml"
 
-    xtrct = Extract()
+    xtrct = AMData()
     xtrct.build(filetest, auto_suffix = "md")
 
     from pprint import pprint

@@ -17,6 +17,13 @@ CLI.  1/ création guidée  2/ lecture et validation avec mode complétion  3/ f
 
 > ---------------------------- <
 
+ dans YAML directement !
+
+> ***NOTE.*** *Using the `Python` API or the CLI, it is possible to specify a default extension.*
+
+
+> ---------------------------- <
+
 toc
     reste à gérer path des dirs points vers un autre aboutyaml où l'on veut juste ananlyser le toc, du coup besoin d'ignorer le bloc project s'il est utilisé ! à indiquer dans la doc !
 

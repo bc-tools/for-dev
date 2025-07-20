@@ -12,7 +12,7 @@ The `Python` module `aboutmeta` takes into account the license names proposed by
 The `Python` module `aboutmeta` takes into account the license names proposed by the [`SPDX` SPDX License List][1] with a certain degree of flexibility: for example, you can type `gpl 3.0+` and `cc by nc 4.0` instead of `GPL-3.0+` and `CC-BY-NC-4.0`.
 
 
-> ***NOTE.*** *You can request the addition of a `License.txt` file in the folder containing the `about.yaml` file.*
+> ***NOTE.*** *Using the `Python` API or the CLI, you can request the addition of a `License.txt` file in the folder containing the `about.yaml` file.*
 
 
 [1]: https://spdx.org/licenses/
