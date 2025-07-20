@@ -2,79 +2,54 @@
 
 from pathlib import Path
 import              re
-import              subprocess
+import              tomli
 
 
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
-HATCH_ENV = "debug"
-
 THIS_DIR = Path(__file__).parent
 SRC_DIR  = THIS_DIR.parent
-MD_DEPS_FILE  = SRC_DIR / "readme" / "deps.md"
+
+TOML_PYPROJ_FILE = SRC_DIR / "pyproject.toml"
+MD_DEPS_FILE     = SRC_DIR / "readme" / "deps.md"
 
 
-PATTERN_NAME_VERSION = re.compile(r"([^=<>~!]+)==(.+)")
+PATTERN_NAME_VERSION = re.compile(r"([^=<>~!]+)>=(.+)")
 
 MD_HEADER = """
 Complete list of dependencies
 -----------------------------
 
-Here are the `Python` libraries used by `aboutmeta`. The version numbers in brackets correspond to those used in the latest tests.
+Here are the `Python` libraries used by `aboutmeta`. The version numbers are indicated in brackets.
 """.lstrip()
 
-# ----------- #
-# -- TOOLS -- #
-# ----------- #
 
-def get_pip_freeze_lines(src_dir, hatch_env):
-    result = subprocess.run(
-        [
-            "hatch", "run", f"{hatch_env}:pip", "freeze"
-        ],
-        cwd    = src_dir,
-        check  = True,
-        stdout = subprocess.PIPE,
-        stderr = subprocess.PIPE,
-        text   = True,
-    )
+# --------------- #
+# -- LET'S GO! -- #
+# --------------- #
 
-    return result.stdout.splitlines()
+with TOML_PYPROJ_FILE.open("rb") as f:
+    data = tomli.load(f)
 
-
-def parse_freeze(freeze_lines):
-    deps = []
-    for line in freeze_lines:
-# Ignore the project managed by hatch.
-        if line.startswith("-e git+"):
-            continue
-
-# Extract data.
-        match = PATTERN_NAME_VERSION.match(line)
-
-        if match:
-            deps.append((match.group(1), match.group(2)))
-
-    return deps
-
-
-# ----------- #
-# -- TOOLS -- #
-# ----------- #
+deps = data.get("project", {}).get("dependencies", [])
 
 content = [MD_HEADER]
 
-freeze_lines = get_pip_freeze_lines(SRC_DIR, HATCH_ENV)
+for dep in deps:
+    match = PATTERN_NAME_VERSION.match(dep)
 
-for name, version in parse_freeze(freeze_lines):
-    content.append(
-        f"  * `{name}`  [{version}]"
-    )
+    if match is None:
+        raise ValueError("BUG!")
+
+    name  = match.group(1)
+    nbver = match.group(2)
+
+    content.append(f"  * `{name}`   **[{nbver}]**")
 
 content.append('')
-
 content = "\n".join(content)
 
+MD_DEPS_FILE.touch()
 MD_DEPS_FILE.write_text(content)

@@ -200,7 +200,7 @@ class AMData:
     def add_license(
         self,
         license_path : str,
-        file_relpath: str,
+        file_relpath : str,
         erase        : bool = False
     ) -> None:
         lic = self.data(license_path)
@@ -216,6 +216,8 @@ class AMData:
 
         for subfolder in file_relpath.split('/'):
             license_file /= subfolder
+
+        license_file /= "LICENSE.txt"
 
 # Can we erase an existing final file?
         if license_file.is_file() and not erase:
@@ -258,7 +260,7 @@ if __name__ == "__main__":
 
     xtrct.add_license(
         license_path = "project.licenses.manual",
-        file_relpath = "readme/LICENSE.txt",
+        file_relpath = "readme",
         erase        = True
     )
 
