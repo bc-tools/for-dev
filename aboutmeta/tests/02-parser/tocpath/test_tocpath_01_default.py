@@ -2,7 +2,7 @@
 
 import pytest
 
-from aboutmeta.parser.path.default import parser, Path
+from aboutmeta.parser.tocpath.default import parser, Path
 
 
 

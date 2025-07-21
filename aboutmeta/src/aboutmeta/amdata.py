@@ -200,7 +200,7 @@ class AMData:
                         parser_name
                     )
 
-                if parser_name == TAG_PARSER_PATH:
+                if parser_name == TAG_PARSER_TOCPATH:
                     parser = lambda x: _parser(
                         self._yaml_file_dir,
                         x

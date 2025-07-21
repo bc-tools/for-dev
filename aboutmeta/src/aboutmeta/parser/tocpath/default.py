@@ -45,10 +45,10 @@ def parser(
 
 # Does the path point to somewhere?
     if is_dir and not abspath.is_dir():
-        raisethis("inexistant folder.")
+        raisethis("inexistant folder")
 
     if not is_dir and not abspath.is_file():
-        raisethis("inexistant file.")
+        raisethis("inexistant file")
 
 # Everything looks good.
     return abspath
