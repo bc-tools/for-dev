@@ -1,6 +1,6 @@
 toc:
-  - extract
-  - use
+  - extract.md
+  - use.md
   - use/
-  - validate
-  - validate/
+  - validate.md
+  - glob: validate/*.md

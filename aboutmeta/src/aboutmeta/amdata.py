@@ -107,6 +107,7 @@ class AMData:
 ###
 # prototype::
 #     yaml_file : the path of the path::''about.yaml'' file analyzed.
+#     ignore    : list of top-level blocks to ignore.
 #
 #     :action: build the ''BoxPlus'' version of the data found.
 #
@@ -114,15 +115,19 @@ class AMData:
 ###
     def build(
         self,
-        yaml_file: Path
+        yaml_file: Path,
+        ignore   : List[str] = []
     ) -> None:
         self._yaml_file_dir = yaml_file.parent
 
+        full_data = {
+            k: v
+            for k, v in safe_load(yaml_file.read_text()).items()
+            if not k in ignore
+        }
+
         self.data = BoxPlus(
-            self.__recu_parse(
-                safe_load(yaml_file.read_text()),
-                SPECS_PARSING
-            )
+            self.__recu_parse(full_data, SPECS_PARSING)
         )
 
 ###

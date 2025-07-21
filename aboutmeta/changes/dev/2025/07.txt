@@ -5,24 +5,20 @@
 21  (0.0.0-beta.9)
 ==
 
--------
-:break:    ????
--------
-
-[[:api:]]   ???
-\Toc: a stricter mode that is not implicit, but allows the use of \glob and \regex syntaxes.
-
-
 -----
 :new:
 -----
 
 [[:api:]]
-New validations.
+Here are the new \feats.
 
-    1) Email adresses can be validated: syntax and MX/DNS technic.
+    1) Some top-level blocks can be ignored.
 
-    1) Affiliations can be validated using \openstreetmap.
+    1) New validations.
+
+         * Email adresses can be validated: syntax and MX/DNS technic.
+
+         * Affiliations can be validated using \openstreetmap.
 
 
 --------

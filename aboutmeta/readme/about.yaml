@@ -1,8 +1,8 @@
 toc:
-  - prologue
-  - about
-  - deps
-  - specs
+  - prologue.md
+  - about.md
+  - deps.md
+  - specs.md
   - specs/
-  - api
+  - api.md
   - api/

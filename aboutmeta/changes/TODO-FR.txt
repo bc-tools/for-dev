@@ -8,13 +8,25 @@ aboutmeta - TODO
 toc à reprendre !!!!!
 
 - chemin verbatim.  On en fait le moins
-* motif glob Python fichier * comme glob
-+ regex Python fichier. On en fait le plus
+- glob: motif glob Python fichier * comme glob
+- regex: Python fichier. On en fait le plus
 
 - pour un dossier uniquement s'il contient un about.yaml
 
 
 besoin d'une data de de type SearchPath
+
+
+
+
+-------
+:break:    ????
+-------
+
+[[:api:]]   ???
+\Toc: a stricter mode that is not implicit, but allows the use of \glob and \regex syntaxes.
+
+
 
 
 > ---------------------------- <

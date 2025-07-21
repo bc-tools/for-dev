@@ -1,10 +1,10 @@
 toc:
-  - versioning
-  - date
-  - name-desc
-  - authors-contribs
-  - urls
-  - licenses
-  - langs
-  - require
-  - keywords
+  - versioning.md
+  - date.md
+  - name-desc.md
+  - authors-contribs.md
+  - urls.md
+  - licenses.md
+  - langs.md
+  - require.md
+  - keywords.md
