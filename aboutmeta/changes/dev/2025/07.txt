@@ -17,6 +17,14 @@ New validations.
     1) Affiliations can be validated using \openstreetmap.
 
 
+--------
+:fordev:
+--------
+
+[[:test:]]
+Folders named like glob::''*-SLOW'' contains slow tests that could be ignore when testing.
+
+
 // ---------- //
 
 

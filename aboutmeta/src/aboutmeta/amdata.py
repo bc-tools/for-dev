@@ -2,53 +2,17 @@
 
 from typing import List
 
+import                   logging
+from rich.logging import RichHandler
+
 from pathlib import Path
 from yaml    import safe_load
 
 from aboutmeta.data.boxplus import BoxPlus
 from aboutmeta.data.license import License
-
-# from aboutmeta.parser import (
-#     date,
-#     lang,
-#     license,
-#     person,
-#     version,
-# )
-
-from aboutmeta.specs import *
-from aboutmeta.style import ALL_STYLES
-
+from aboutmeta.specs        import *
+from aboutmeta.style        import ALL_STYLES
 from aboutmeta.tool.license import get_licence_text
-
-
-
-
-
-import logging
-from rich.logging import RichHandler
-
-LOG_FILE = "aboutmeta.validate.log"
-
-# Console : afficher à partir de INFO
-console_handler = RichHandler(rich_tracebacks=True)
-console_handler.setLevel(logging.INFO)
-
-# Fichier : enregistrer uniquement à partir de ERROR
-file_handler = logging.FileHandler(LOG_FILE, mode="a")
-file_handler.setLevel(logging.ERROR)
-
-# Format pour fichier
-file_formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
-file_handler.setFormatter(file_formatter)
-
-# Config globale :
-logging.basicConfig(
-    level=logging.DEBUG,  # <-- Niveau global le plus bas pour tout capter
-    handlers=[console_handler, file_handler],
-    force=True,
-)
-
 
 
 # --------------- #
@@ -56,6 +20,44 @@ logging.basicConfig(
 # --------------- #
 
 TAG_STYLE_DEFAULT = 'default'
+
+
+# --------------------- #
+# -- LOGGING CONFIG. -- #
+# --------------------- #
+
+LOG_FILE = "aboutmeta.validate.log"
+
+# Terminal settings.
+#
+# ''rich_tracebacks = True'' enables colorful, detailed tracebacks
+# when unhandled exceptions occur, showing code context.
+term_handler = RichHandler(rich_tracebacks = True)
+term_handler.setLevel(logging.INFO)
+
+# File settings.
+file_handler = logging.FileHandler(
+    LOG_FILE,
+    mode = "a"
+)
+file_handler.setLevel(logging.ERROR)
+
+file_formatter = logging.Formatter(
+    "%(asctime)s [%(levelname)s] %(message)s"
+)
+file_handler.setFormatter(file_formatter)
+
+# Global settings.
+logging.basicConfig(
+# Resetting configurations
+    force    = True,
+# Lowest level for taking our levels into account.
+    level    = logging.DEBUG,
+    handlers = [
+        term_handler,
+        file_handler
+    ],
+)
 
 
 # -------------------------- #
