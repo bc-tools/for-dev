@@ -19,10 +19,7 @@ from datetime import datetime
 #              easily with the date.
 ###
 def parser(content: str) -> datetime.date:
-    d = datetime.strptime(
-        content,
-        "%Y-%m-%d"
-    ).date()
+    d = datetime.strptime(content, "%Y-%m-%d").date()
 
     return d
 

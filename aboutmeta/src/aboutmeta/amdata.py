@@ -388,5 +388,5 @@ if __name__ == "__main__":
     xtrct = AMData()
     xtrct.build(filetest)
 
-    for p in xtrct.data.toc:
-        print(f"+ {p.relative_to(readme_dir)}")
+    for d in xtrct.data.toc:
+        print(f"+ {d!r}")

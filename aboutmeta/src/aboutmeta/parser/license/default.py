@@ -47,7 +47,7 @@ def parser(content: str) -> license.License:
         all_licenses = json_load(f)
 
 # Normal form found?
-    normal_ID  = normalize(content)
+    normal_ID  = _normalize_lic_code(content)
 
     if normal_ID not in all_licenses:
         extra       = ''
@@ -72,7 +72,6 @@ def parser(content: str) -> license.License:
             f"deprecated license code ''{all_licenses[normal_ID]['std']}''."
         )
 
-
 # Living license found.
     spdx_infos = all_licenses[normal_ID]
 
@@ -87,7 +86,7 @@ def parser(content: str) -> license.License:
 
 ###
 # prototype::
-#     text : a \lic code.
+#     code : a \lic code.
 #
 #     :return: a normalized code for the data process.
 #
@@ -95,10 +94,14 @@ def parser(content: str) -> license.License:
 #     The construction of the path::licenses.json file verifies that
 #     normalization does not create any duplicates.
 ###
-def normalize(text: str) -> str:
-    text = re.sub(r"[\s_\-\.]+", "", text.lower())
+def _normalize_lic_code(code: str) -> str:
+    code = re.sub(
+        r"[\s_\-\.]+",
+        "",
+        code.lower()
+    )
 
-    return text
+    return code
 
 
 ###
