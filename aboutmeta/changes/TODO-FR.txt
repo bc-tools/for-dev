@@ -3,14 +3,19 @@ aboutmeta - TODO
 =========
 
 
-
 > ---------------------------- <
 
 toc à reprendre !!!!!
 
-    --> dossiser ananlysé soit via glob, au passage utilisable aussi pour fihcier, st si dossier non glob, il doit contenir un about.yaml
+- chemin verbatim.  On en fait le moins
+* motif glob Python fichier * comme glob
++ regex Python fichier. On en fait le plus
 
-        EXPLICITE!!!
+- pour un dossier uniquement s'il contient un about.yaml
+
+
+besoin d'une data de de type SearchPath
+
 
 > ---------------------------- <
 

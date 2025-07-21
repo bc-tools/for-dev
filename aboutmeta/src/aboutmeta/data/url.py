@@ -61,8 +61,8 @@ class URL:
             logging.info("Testing hostname KO!")
 
             logging.error(
-                f"DNS FAILED for ''{url}'' with the following "
-                f"error message.\n{e}"
+                f"INVALID URL: DNS FAILED for ''{url}'' with "
+                f"the following error message.\n{e}"
             )
 
 # Is HTTP valid?
@@ -84,8 +84,8 @@ class URL:
                 logging.info(" Head status KO!")
 
                 logging.error(
-                    f"HTTP FAILED for ''{url}'' with the following "
-                    f"REQUESTS STATUS CODE {response.status_code}."
+                    f"INVALID URL: HTTP FAILED for ''{url}'' with "
+                    f"the REQUESTS STATUS CODE {response.status_code}."
                 )
 
         except Exception as e:
@@ -94,8 +94,8 @@ class URL:
             logging.info(" Head status KO!")
 
             logging.error(
-                f"HTTP FAILED for ''{url}'' with the following "
-                f"EXCEPTION.\n{e}"
+                f"INVALID URL: HTTP FAILED for ''{url}'' with "
+                f"the following EXCEPTION.\n{e}"
             )
 
 # Tests finished.

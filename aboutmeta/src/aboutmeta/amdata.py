@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
-from typing import List
+from typing import (
+    Any,
+    List
+)
 
 import                   logging
 from rich.logging import RichHandler
@@ -26,7 +29,7 @@ TAG_STYLE_DEFAULT = 'default'
 # -- LOGGING CONFIG. -- #
 # --------------------- #
 
-LOG_FILE = "aboutmeta.validate.log"
+LOG_FILE = "aboutmeta.log"
 
 # Terminal settings.
 #
@@ -71,9 +74,9 @@ logging.basicConfig(
 class AMData:
 ###
 # prototype::
-#     style : this \arg corresponds to the syntax style used
-#             by the path::''about.yaml'' file (for now, this
-#             \arg is useless because there is only one style).
+#     style : this \arg corresponds to the syntax style used by the
+#             path::''about.yaml'' file (for now, this \arg is useless
+#             because there is only one style).
 ###
     def __init__(
         self,
@@ -101,20 +104,19 @@ class AMData:
         self._style   = style
 
 
-### TODO
+###
 # prototype::
-#     yaml_file   : the path of the path::''about.yaml'' file analyzed.
-#     auto_suffix : XXX
+#     yaml_file : the path of the path::''about.yaml'' file analyzed.
 #
-#     :action: XXX
+#     :action: build the ''BoxPlus'' version of the data found.
+#
+#     :see: self.__recu_parse.
 ###
     def build(
         self,
-        yaml_file  : Path,
-        auto_suffix: str = ""
+        yaml_file: Path
     ) -> None:
         self._yaml_file_dir = yaml_file.parent
-        self._auto_suffix   = f".{auto_suffix}"
 
         self.data = BoxPlus(
             self.__recu_parse(
@@ -123,41 +125,24 @@ class AMData:
             )
         )
 
-### TODO
+###
 # prototype::
-#     data  : XXX
-#     specs : XXX
+#     data  : one piece of data (either a block, a list, or a final
+#             data).
+#     specs : "local" \specs corresponding to the data analyzed.
 #
-#     :action: XXX
+#     :action: validate the \yaml data, then build the corresponding
+#              \python version.
 ###
     def __recu_parse(
         self,
-        data : BoxPlus,
+        data : dict,
         specs: dict
     ) -> dict:
         data_parsed = {}
 
 # Illegal alternatives?
-        if specs[TAG_SPECS_ALT_ALL]:
-            keys_set   = set(data.keys())
-            to_analyze = keys_set.intersection(
-                set(specs[TAG_SPECS_ALT_ALL])
-            )
-
-            if len(to_analyze) > 1:
-                for no_alt in specs[TAG_SPECS_ALT_TUPLES]:
-                    common_keys = keys_set.intersection(no_alt)
-
-                    if len(common_keys) > 1:
-                        common_keys = list(common_keys)
-                        common_keys.sort()
-                        common_keys = [f"''{k}''" for k in common_keys]
-                        common_keys = ', '.join(common_keys)
-
-                        raise ValueError(
-                            f"just use on the keys {common_keys}."
-                        )
-
+        self.__no_alt_keys_together(data, specs)
 
 # Let's parse...
         for key, val in data.items():
@@ -213,8 +198,7 @@ class AMData:
                 if parser_name == TAG_PARSER_PATH:
                     parser = lambda x: _parser(
                         self._yaml_file_dir,
-                        x,
-                        self._auto_suffix
+                        x
                     )
 
                 else:
@@ -234,16 +218,50 @@ class AMData:
 
 ###
 # prototype::
-#     what  : a virtual path to access the license specified in the
-#             analyzed path::‘'about.yaml’' file.
+#     data  : one piece of data (either a block, a list, or a final
+#             data).
+#     specs : "local" \specs corresponding to the data analyzed.
+#
+#     :action: verification that two competing keys are not used
+#              simultaneously.
+###
+    def __no_alt_keys_together(
+        self,
+        data : dict,
+        specs: dict
+    ) -> None:
+        if specs[TAG_SPECS_ALT_ALL]:
+            keys_set   = set(data.keys())
+            to_analyze = keys_set.intersection(
+                set(specs[TAG_SPECS_ALT_ALL])
+            )
+
+            if len(to_analyze) > 1:
+                for no_alt in specs[TAG_SPECS_ALT_TUPLES]:
+                    common_keys = keys_set.intersection(no_alt)
+
+                    if len(common_keys) > 1:
+                        common_keys = list(common_keys)
+                        common_keys.sort()
+                        common_keys = [f"''{k}''" for k in common_keys]
+                        common_keys = ', '.join(common_keys)
+
+                        raise ValueError(
+                            f"just use on the keys {common_keys}."
+                        )
+
+###
+# prototype::
+#     what  : a virtual string path to access the license specified in
+#             the analyzed path::‘'about.yaml’' file.
 #     where : the folder where to add the file path::''LICENSE.txt''.
-#             This folder is indicated using a textual path relative
+#             This folder is indicated using a string path relatively
 #             to the folder containing the file path::‘'about.yaml’'.
 #     erase : set to ''True'', this \arg allows to erase an existing
 #             final file to build a new one.
 #
-#     :action: Create or update a path::''LICENSE.txt'' file in the
-#              specified folder with the text of the selected license.
+#     :action: creation or update of a path::''LICENSE.txt'' file in
+#              the specified folder.
 ###
     def add_license(
         self,
@@ -330,18 +348,19 @@ class AMData:
 
 ###
 # prototype::
-#     data : XXX
+#     data : one piece of data (either a ''BoxPlus'', a list, or a
+#            final data).
 #
-#     :return: CCCC
+#     :return: the \nb of \pbs found during the validation of ''data''.
 ###
     def __recu_validate(
         self,
-        data
-    ) -> bool:
+        data: Any
+    ) -> int:
         nb_pbs = 0
 
 # One dict?
-        if isinstance(data, dict):
+        if isinstance(data, BoxPlus):
             for key, val in data.items():
                 nb_pbs += self.__recu_validate(val)
 
@@ -357,18 +376,12 @@ class AMData:
         return nb_pbs
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
     readme_dir = Path(__file__).parent.parent.parent / "readme"
     filetest   = readme_dir / "about.yaml"
 
     xtrct = AMData()
-    xtrct.build(filetest, auto_suffix = "md")
+    xtrct.build(filetest)
 
     for p in xtrct.data.toc:
         print(f"+ {p.relative_to(readme_dir)}")

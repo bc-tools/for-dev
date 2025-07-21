@@ -3,6 +3,7 @@ Complete list of dependencies
 
 Here are the `Python` libraries used by `aboutmeta`. Version numbers are indicated in brackets.
 
+  * `email_validator`   **[2.2]**
   * `langcodes`   **[3.5]**
   * `python-box`   **[7.3]**
   * `pyyaml`   **[6.0]**
