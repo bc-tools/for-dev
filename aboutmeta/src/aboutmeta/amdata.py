@@ -65,12 +65,15 @@ logging.basicConfig(
 # -------------------------- #
 
 ###
-# TODO
+# The ''AMData'' class is responsible for orchestrating data
+# extraction and validation.
 ###
 class AMData:
-### TODO
+###
 # prototype::
-#     style : XXX
+#     style : this \arg corresponds to the syntax style used
+#             by the path::''about.yaml'' file (for now, this
+#             \arg is useless because there is only one style).
 ###
     def __init__(
         self,
@@ -79,17 +82,18 @@ class AMData:
         self.style = style
 
 ###
-# TODO
+# We define accessors (getters and setters) to add certain treatments
+# to be performed when a style change occurs.
 ###
     @property
-    def style(self):
+    def style(self) -> str:
         return self._style
 
     @style.setter
     def style(
         self,
-        style
-    ):
+        style: str
+    ) -> None:
         if not style in ALL_STYLES:
             raise ValueError(f"''{style}'' is not a style of parsers.")
 
@@ -99,15 +103,15 @@ class AMData:
 
 ### TODO
 # prototype::
-#     yaml_file   : XXX
+#     yaml_file   : the path of the path::''about.yaml'' file analyzed.
 #     auto_suffix : XXX
 #
 #     :action: XXX
 ###
     def build(
         self,
-        yaml_file,
-        auto_suffix = ""
+        yaml_file  : Path,
+        auto_suffix: str = ""
     ) -> None:
         self._yaml_file_dir = yaml_file.parent
         self._auto_suffix   = f".{auto_suffix}"
@@ -128,8 +132,8 @@ class AMData:
 ###
     def __recu_parse(
         self,
-        data,
-        specs
+        data : BoxPlus,
+        specs: dict
     ) -> dict:
         data_parsed = {}
 
@@ -161,23 +165,25 @@ class AMData:
             if not key in specs:
                 raise KeyError(f"unknown key ''{key}''.")
 
+            loc_specs = specs[key]
+
 # Good kind of data?
-            key_type = specs[key][TAG_SPECS_TYPE]
+            key_type = loc_specs[TAG_SPECS_TYPE]
 
             needed = ""
 
             match key_type:
                 case "BLOCK":
                     if not isinstance(val, dict):
-                        needed = TAG_SPECS_BLOCK.lower()
+                        needed = "block"
 
                 case "DATA":
-                    if specs[key][TAG_SPECS_LIST_OF]:
+                    if loc_specs[TAG_SPECS_LIST_OF]:
                         if not isinstance(val, list):
                             needed = "list of data"
 
                     elif not isinstance(val, str):
-                        needed = "a data"
+                        needed = "data"
 
             if needed:
                 raise ValueError(
@@ -188,12 +194,12 @@ class AMData:
             if key_type == TAG_SPECS_BLOCK:
                 data_parsed[key] = self.__recu_parse(
                     val,
-                    specs[key][TAG_SPECS_CONTENT]
+                    loc_specs[TAG_SPECS_CONTENT]
                 )
 
 # List of data needs an iterative parsing.
             else:
-                parser_name = specs[key][TAG_SPECS_PARSER]
+                parser_name = loc_specs[TAG_SPECS_PARSER]
 
                 if parser_name is None:
                     _parser = str
@@ -214,7 +220,7 @@ class AMData:
                 else:
                     parser = lambda x: _parser(x)
 
-                if specs[key][TAG_SPECS_LIST_OF]:
+                if loc_specs[TAG_SPECS_LIST_OF]:
                     for i, d in enumerate(val):
                         val[i] = parser(val[i])
 
