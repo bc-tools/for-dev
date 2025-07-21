@@ -6,7 +6,7 @@ project:
             `about.yaml` files,making it easier for third-party
             programs to manage digital projects (code and text).
 
-  author: Christophe, BAL [projetmbc@gmail.com] (Éducation nationale)
+  author: Christophe, BAL
 
   licenses:
     code  : gpl 3.0 only

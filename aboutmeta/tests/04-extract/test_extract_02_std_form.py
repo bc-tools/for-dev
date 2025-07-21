@@ -17,9 +17,9 @@ PROJECT_ABOUT = PROJECT_DIR / "about.yaml"
 XTRCT = AMData()
 
 
-# ------------- #
+# ----------- #
 # -- LEGAL -- #
-# ------------- #
+# ----------- #
 
 def test_extract_data_OK():
     data = XTRCT.build(PROJECT_ABOUT)

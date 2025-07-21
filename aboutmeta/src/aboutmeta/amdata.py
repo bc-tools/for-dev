@@ -226,34 +226,38 @@ class AMData:
 
 ###
 # prototype::
-#     license_path : a virtual path to access the license specified
-#                    in the analyzed path::‘'about.yaml’' file.
-#     dir_relpath  : a textual path relative to the folder containing
-#                    the analyzed file path::‘'about.yaml’'.
-#     erase        : set to ''True'', this \arg allows to erase an
-#                    existing final file to build a new one.
+#     what  : a virtual path to access the license specified in the
+#             analyzed path::‘'about.yaml’' file.
+#     where : the folder where to add the file path::''LICENSE.txt''.
+#             This folder is indicated using a textual path relative
+#             to the folder containing the file path::‘'about.yaml’'.
+#     erase : set to ''True'', this \arg allows to erase an existing
+#             final file to build a new one.
 #
 #     :action: Create or update a path::''LICENSE.txt'' file in the
 #              specified folder with the text of the selected license.
 ###
     def add_license(
         self,
-        license_path : str,
-        dir_relpath  : str,
-        erase        : bool = False
+        what : str,
+        where: str,
+        erase: bool = False
     ) -> None:
-        lic = self.data(license_path)
+# Do we have a license?
+        lic = self.data(what)
 
         if not isinstance(lic, License):
             raise ValueError(
-                f"not a virtual path to a license: ''{license_path}''."
+                f"not a virtual path to a license: ''{what}''."
             )
 
+# Text of the license.
         license_text = get_licence_text(lic.std)
 
+# File for the license.
         license_file = self._yaml_file_dir
 
-        for subfolder in dir_relpath.split('/'):
+        for subfolder in where.split('/'):
             license_file /= subfolder
 
         license_file /= "LICENSE.txt"
@@ -267,42 +271,60 @@ class AMData:
                 f"{license_file}"
             )
 
-
+# Missing folder for the license file?
         if not license_file.parent.is_dir():
             license_file.parent.mkdir(
                 parents  = True,
                 exist_ok = True
             )
 
+# Everything looks good. Let's write the license text.
         license_file.touch()
         license_file.write_text(license_text)
 
-### TODO
+###
 # prototype::
-#     :action: XXX
+#     what      : either ''None'' to validate evrything, or a
+#                 virtual path to a block or data to be validated.
+#                 In the case of a block, a recursive search for
+#                 the data to be validated is performed automatically.
+#     erase_log : set to ''True'', this \arg allows to erase an
+#                 existing ''LOG_FILE'' file used to store errors.
+#
+#     :return: ''True'' if all data has been validated, and ''False''
+#              if not.
+#
+#     :see: self.__recu_validate
+#
+# note::
+#     The validation process is detailed in the terminal, but only
+#     errors are recorded in the ''LOG_FILE'' file.
 ###
     def validate(
         self,
-        data_path: (str | None) = None,
+        what     : (str | None) = None,
         erase_log: bool = False
     ) -> bool:
-        if data_path is None:
+# Which data to validate?
+        if what is None:
             data = self.data
 
         else:
-            data = self.data(data_path)
+            data = self.data(what)
 
+# Do we have to erase the log file?
         if erase_log:
             Path(LOG_FILE).touch()
             Path(LOG_FILE).write_text("")
 
+# Let's delegate the work to a recursive company.
         return self.__recu_validate(data) == 0
 
-### TODO
+###
 # prototype::
-#     data  : XXX
+#     data : XXX
 #
-#     :action: XXX
+#     :return: CCCC
 ###
     def __recu_validate(
         self,
@@ -334,32 +356,11 @@ class AMData:
 
 
 if __name__ == "__main__":
-    from pprint import pprint
-
-    filetest = Path(__file__).parent.parent.parent / "about.yaml"
+    readme_dir = Path(__file__).parent.parent.parent / "readme"
+    filetest   = readme_dir / "about.yaml"
 
     xtrct = AMData()
     xtrct.build(filetest, auto_suffix = "md")
 
-    # xtrct.validate("project.author")
-
-    pbs = xtrct.validate(
-        erase_log = True
-    )
-
-    pprint(pbs)
-
-    # xtrct.add_license(
-    #     license_path = "project.licenses.manual",
-    #     dir_relpath = "readme",
-    #     erase        = True
-    # )
-
-
-# TODO
-    # filetest = Path(__file__).parent.parent.parent / "readme" / "about.yaml"
-
-    #
-
-    # for p in xtrct.data.toc:
-    #     print(f"+ {p}")
+    for p in xtrct.data.toc:
+        print(f"+ {p.relative_to(readme_dir)}")

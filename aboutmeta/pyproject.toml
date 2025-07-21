@@ -29,6 +29,7 @@ classifiers = [
 ]
 
 dependencies = [
+  "email_validator>=2.2",
   "langcodes>=3.5",
   "python-box>=7.3",
   "pyyaml>=6.0",

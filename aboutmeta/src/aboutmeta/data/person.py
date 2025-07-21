@@ -3,10 +3,16 @@
 from typing import List
 
 from dataclasses import dataclass
+import                  logging
+import                  requests
+
+from email_validator import (
+    validate_email,
+    EmailNotValidError
+)
 
 from .constants  import *
 
-import logging
 
 # ----------------------- #
 # -- PERSON DATA CLASS -- #
@@ -41,9 +47,8 @@ class Person:
 
         return text
 
-###  TODO
-# prototype::
-#     :return: list of errors detected.
+###
+#     :return: the number of errors detected.
 #
 # note::
 #     As the validation system is not 100% reliable, we can
@@ -54,7 +59,70 @@ class Person:
 #     problems one by one.
 ###
     def validate(self) -> int:
-        print(f"??? {self.email}")
-        print(f"??? {self.affiliation}")
+        nb_pbs = 0
 
-        return 0
+# Valid email address?
+        if not self.email is None:
+            email = self.email
+
+            try:
+                logging.info(f"EMAIL -> {email}")
+
+                validate_email(email)
+
+                logging.info("Email OK.")
+
+            except Exception as e:
+                nb_pbs += 1
+
+                logging.info("Email KO!")
+
+                logging.error(
+                    f"INVALID EMAIL''{email}'' with the following "
+                    f"EXCEPTION.\n{e}"
+                )
+
+# Valid affiliation?
+        if not self.affiliation is None:
+            affi = self.affiliation
+
+            try:
+                logging.info(f"AFFILIATION -> {affi}")
+
+                response = requests.get(
+                    "https://nominatim.openstreetmap.org/search",
+                    params = {
+                        "q"     : affi,
+                        "format": "json",
+                        "limit" : 1,
+                    },
+                    headers = {
+                        "User-Agent": "AdresseChecker/1.0"
+                    }
+                )
+
+                if response.ok and len(response.json()) > 0:
+                    logging.info("Affiliation OK.")
+
+                else:
+                    nb_pbs += 1
+
+                    logging.info("Affiliation KO!")
+
+                    logging.error(
+                        f"INVALID AFFILIATION ''{affi}'': "
+                         "nothing found by OPENSTREETMAP."
+                    )
+
+            except Exception as e:
+                nb_pbs += 1
+
+                logging.info("Affiliation KO!")
+
+                logging.error(
+                    f"INVALID AFFILIATION ''{affi}'' with the following "
+                    f"EXCEPTION.\n{e}"
+                )
+
+# Tests finished.
+        return nb_pbs

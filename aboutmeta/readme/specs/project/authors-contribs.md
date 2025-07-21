@@ -18,7 +18,7 @@ The following forms of personal identification are managed by the `Python` modul
 
   1. **Email address (optional):** `<title> [un.id@provider.abc]` uses square brackets for the email.
 
-  1. **Affiliation (optional):** `<title> (Name of institute)` uses parentheses for the affiliation.
+  1. **Affiliation (optional):** `<title> (Name of institute, Country)` uses parentheses for the affiliation.
 
   1. **Indicate everything:** only the format `<title> [email] (institute)` is allowed.
 

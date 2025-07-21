@@ -3,13 +3,13 @@
 from typing import List
 
 from dataclasses  import dataclass
+import                   logging
 import                   requests
 import                   socket
 from urllib.parse import urlparse
 
 from .constants  import *
 
-import logging
 
 # -------------------- #
 # -- URL DATA CLASS -- #
@@ -29,7 +29,7 @@ class URL:
     def __str__(self) -> str:
         return self.url
 
-###  TODO
+###
 # prototype::
 #     :return: the number of errors detected.
 #
@@ -53,16 +53,16 @@ class URL:
 
             socket.gethostbyname(hostname)
 
-            logging.info( "       Testing hostname OK.")
+            logging.info("Testing hostname OK.")
 
         except Exception as e:
             nb_pbs += 1
 
-            logging.info( "       Testing hostname KO!")
+            logging.info("Testing hostname KO!")
 
             logging.error(
-                f"DNS FAILED for ''{url}'' with following "
-                f"SOCKET error message.\n{e}"
+                f"DNS FAILED for ''{url}'' with the following "
+                f"error message.\n{e}"
             )
 
 # Is HTTP valid?
@@ -76,26 +76,26 @@ class URL:
             )
 
             if response.status_code < 400:
-                logging.info("        Head status OK.")
+                logging.info(" Head status OK.")
 
             else:
                 nb_pbs += 1
 
-                logging.info("        Head status KO!")
+                logging.info(" Head status KO!")
 
                 logging.error(
-                    f"HTTP FAILED for ''{url}'' with following "
+                    f"HTTP FAILED for ''{url}'' with the following "
                     f"REQUESTS STATUS CODE {response.status_code}."
                 )
 
-        except requests.RequestException as e:
+        except Exception as e:
             nb_pbs += 1
 
-            logging.info("        Head status KO!")
+            logging.info(" Head status KO!")
 
             logging.error(
-                f"HTTP FAILED for ''{url}'' with following "
-                f"REQUESTS error message.\n{e}"
+                f"HTTP FAILED for ''{url}'' with the following "
+                f"EXCEPTION.\n{e}"
             )
 
 # Tests finished.

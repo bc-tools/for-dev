@@ -41,7 +41,7 @@ This document is a complete tutorial showing all the available features.
     - [Validate data](#MULTIMD-TOC-ANCHOR-24)
     - [Affiliation](#MULTIMD-TOC-ANCHOR-25)
     - [Email](#MULTIMD-TOC-ANCHOR-26)
-            - [URLs](#MULTIMD-TOC-ANCHOR-27)
+            - [URL](#MULTIMD-TOC-ANCHOR-27)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -200,7 +200,7 @@ The following forms of personal identification are managed by the `Python` modul
 
 1. **Title (mandatory):** `Surname`, `First name, Compound surname`, `First name 1, First name 2, Long surname`... Hereinafter, we will refer to one of the above forms as `<title>`.
 2. **Email address (optional):** `<title> [un.id@provider.abc]` uses square brackets for the email.
-3. **Affiliation (optional):** `<title> (Name of institute)` uses parentheses for the affiliation.
+3. **Affiliation (optional):** `<title> (Name of institute, Country)` uses parentheses for the affiliation.
 4. **Indicate everything:** only the format `<title> [email] (institute)` is allowed.
 
 > ***NOTE.*** *Emails are not verified.*
@@ -390,7 +390,7 @@ meta.add_license(
     erase        = True
 )
 
-meta..add_license(
+meta.add_license(
     license_path = "project.licenses.manual",
     dir_relpath  = "readme",
     erase        = True
@@ -419,37 +419,19 @@ Some data, such as file paths, dates, and version numbers, are validated during 
 from aboutmeta import AMData, Path
 
 meta = AMData(Path("/full/path/to/about.yaml"))
-meta.validate()
+meta.build()
+
+if meta.validate():
+    print("Valdation OK")
+
+else:
+    print(
+        "Valdation KO: see all the logging infos in the terminal, "
+        "or just the errors in the aboutmeta.validate.log file."
+    )
 ~~~
 
-To simply validate the data in the `YAML` block `project.urls`, just specify the abstract path as follows.
-
-~~~python
-from aboutmeta import AMData, Path
-
-meta = AMData(Path("/full/path/to/about.yaml"))
-meta.validate("project.urls")
-~~~
-
-The following sections present the available validations and explain the checks performed.
-
-<a id="MULTIMD-TOC-ANCHOR-25"></a>
-### Affiliation <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
-
-XXXX
-
-<a id="MULTIMD-TOC-ANCHOR-26"></a>
-### Email <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
-
-XXXX
-
-<a id="MULTIMD-TOC-ANCHOR-27"></a>
-##### URLs <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
-
-XXXXXX
-
-Although URLs are stored verbatim, we would like to point out here that `aboutmeta.AMData` is capable of testing the validity of URLs in the sense that they are associated with a DNS catalogue. In other words, a URL pointing nowhere will cause an error.
-As this operation involves a basic web query, the user must make an explicit request as in the following code, even if the method used is risk-free.
+To simply validate the data in the `YAML` block `project.urls`, just specify the abstract path as follows. In this example, we also request that the log file be deleted before testing the validity of the data.
 
 ~~~python
 from aboutmeta import AMData, Path
@@ -457,5 +439,35 @@ from aboutmeta import AMData, Path
 meta = AMData(Path("/full/path/to/about.yaml"))
 meta.build()
 
-meta.validate_urls("project.urls")
+if meta.validate(
+    what      = "project.urls",
+    erase_log = True
+):
+    print('Valdation OK')
+
+else:
+    print('Valdation KO!')
 ~~~
+
+The following sections present the available validations and explain the checks performed.
+
+<a id="MULTIMD-TOC-ANCHOR-25"></a>
+### Affiliation <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+The validity test for affiliation to an organization or company is based simply on the `OpenStreetMap` API.
+
+<a id="MULTIMD-TOC-ANCHOR-26"></a>
+### Email <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+For an email, the following validity tests are performed.
+
+1. Is the email syntax correct?
+2. Does the email domain name exist?
+
+<a id="MULTIMD-TOC-ANCHOR-27"></a>
+##### URL <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+For a URL, the following tests are performed during validation.
+
+1. Is the domain name of the URL stored in a DNS service?
+2. Is an “empty content” HTTP request detected?

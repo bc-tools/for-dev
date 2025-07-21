@@ -29,7 +29,7 @@ meta.add_license(
     erase        = True
 )
 
-meta..add_license(
+meta.add_license(
     license_path = "project.licenses.manual",
     dir_relpath  = "readme",
     erase        = True

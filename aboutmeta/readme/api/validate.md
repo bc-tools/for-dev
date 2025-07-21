@@ -6,17 +6,35 @@ Some data, such as file paths, dates, and version numbers, are validated during 
 from aboutmeta import AMData, Path
 
 meta = AMData(Path("/full/path/to/about.yaml"))
-meta.validate()
+meta.build()
+
+if meta.validate():
+    print("Valdation OK")
+
+else:
+    print(
+        "Valdation KO: see all the logging infos in the terminal, "
+        "or just the errors in the aboutmeta.validate.log file."
+    )
 ~~~
 
 
-To simply validate the data in the `YAML` block `project.urls`, just specify the abstract path as follows.
+To simply validate the data in the `YAML` block `project.urls`, just specify the abstract path as follows. In this example, we also request that the log file be deleted before testing the validity of the data.
 
 ~~~python
 from aboutmeta import AMData, Path
 
 meta = AMData(Path("/full/path/to/about.yaml"))
-meta.validate("project.urls")
+meta.build()
+
+if meta.validate(
+    what      = "project.urls",
+    erase_log = True
+):
+    print('Valdation OK')
+
+else:
+    print('Valdation KO!')
 ~~~
 
 
