@@ -16,18 +16,18 @@
 
     1) A relative path to a folder with an path::''about.yaml'' file to indicate a sub yaml::''toc'' block to use.
 
-    1) A \glob pattern to obtain a list of paths sorted "naturally" by the ''natsort'' module.
+    1) A \glob pattern to obtain a list of file paths sorted "naturally" by the ''natsort'' module.
 
-    1) A \regex pattern to obtain a list of paths directly inside the parent folder, the list being sorted "naturally".
+    1) A \regex pattern to obtain a list of file paths directly inside the parent folder, the list being sorted "naturally".
 
-    1) A \regex pattern using a recursive search can also be used.
+    1) A \regex pattern with a recursive search can also be used.
 
 
 --------
-:update:   ???
+:update:
 --------
 
-[[:doc:]]    ???
+[[:doc:]]    ????????????????????????
 \Readme: explanations about how the new yaml::''toc'' works now.
 
 
@@ -35,16 +35,8 @@
 :fordev:
 --------
 
-[[:test:]]  ????
-Update of the test of the ''toc'' parser.
-
-
-
-
-
-
-
-
+[[:test:]]
+Tests for the ''toc'' parser has been updated.
 
 
 // ---------- //

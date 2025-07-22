@@ -7,17 +7,15 @@ aboutmeta - TODO
 
 toc à reprendre !!!!!
 
-- chemin verbatim.  On en fait le moins
-- glob: motif glob Python fichier * comme glob
-- regex: Python fichier. On en fait le plus Z! recherche recursive profonde!
-- recreg pour rech recursive
-
-- pour un dossier uniquement s'il contient un about.yaml
+specs indique traiter via une methode nommée de la liste des paths
 
 
-besoin d'une data de de type SearchPath
 
 
+
+> ---------------------------- <
+
+validate avec arg bool optionnel pour normaliserles données
 
 
 

@@ -75,8 +75,8 @@ class AMData:
 ###
 # prototype::
 #     style : this \arg corresponds to the syntax style used by the
-#             path::''about.yaml'' file (for now, this \arg is useless
-#             because there is only one style).
+#             path::''about.yaml'' file (for now, this \arg is
+#             useless because there is only one style).
 ###
     def __init__(
         self,
@@ -85,7 +85,7 @@ class AMData:
         self.style = style
 
 ###
-# We define accessors (getters and setters) to add certain treatments
+# We define accessors (getters and setters) to add some treatments
 # to be performed when a style change occurs.
 ###
     @property
@@ -380,6 +380,17 @@ class AMData:
             nb_pbs += data.validate()
 
         return nb_pbs
+
+###
+# prototype::
+#     ???
+###
+    def finalize_toc(
+        self,
+        data : dict,
+        specs: dict
+    ) -> None:
+        ...
 
 
 if __name__ == "__main__":

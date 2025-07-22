@@ -13,12 +13,16 @@ XTRCT = AMData()
 
 THIS_DIR = Path(__file__).parent
 
-BAD_DIR = THIS_DIR / "bad"
+TEST_DIR_NAME = "extract"
+
+DATA_DIR    = THIS_DIR.parent / "data"
+OK_DATA_DIR = DATA_DIR / "OK" / TEST_DIR_NAME
+KO_DATA_DIR = DATA_DIR / "KO" / TEST_DIR_NAME
 
 
-NB_BAD_KEYS = 3
-NB_BAD_VALS = 3
-NB_BAD_ALTS = 1
+NB_BAD_KEYS = len([p for p in (KO_DATA_DIR / "key").glob("*.yaml")])
+NB_BAD_VALS = len([p for p in (KO_DATA_DIR / "val").glob("*.yaml")])
+NB_BAD_ALTS = len([p for p in (KO_DATA_DIR / "alt").glob("*.yaml")])
 
 
 # ------------- #
@@ -35,7 +39,7 @@ def test_extract_no_file_KO():
     range(1, NB_BAD_KEYS + 1)
 )
 def test_extract_unknown_key_KO(filenb):
-    bad_yaml = BAD_DIR / "key" / f"{filenb}.yaml"
+    bad_yaml = KO_DATA_DIR / "key" / f"{filenb}.yaml"
 
     with pytest.raises(
         KeyError,
@@ -49,7 +53,7 @@ def test_extract_unknown_key_KO(filenb):
     range(1, NB_BAD_VALS + 1)
 )
 def test_extract_bad_val_type_KO(filenb):
-    bad_yaml = BAD_DIR / "val" / f"{filenb}.yaml"
+    bad_yaml = KO_DATA_DIR / "val" / f"{filenb}.yaml"
 
     with pytest.raises(
         ValueError,
@@ -62,8 +66,8 @@ def test_extract_bad_val_type_KO(filenb):
     "filenb",
     range(1, NB_BAD_ALTS + 1)
 )
-def test_extract_bad_val_type_KO(filenb):
-    bad_yaml = BAD_DIR / "alt" / f"{filenb}.yaml"
+def test_extract_bad_alt_KO(filenb):
+    bad_yaml = KO_DATA_DIR / "alt" / f"{filenb}.yaml"
 
     with pytest.raises(
         ValueError,

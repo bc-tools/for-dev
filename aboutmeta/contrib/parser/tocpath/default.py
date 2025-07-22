@@ -9,7 +9,7 @@ import              re
 
 from natsort import natsorted
 
-from aboutmeta.data import constants
+from aboutmeta.data import constants, tocpath
 
 
 # -------------------- #
@@ -21,94 +21,107 @@ from aboutmeta.data import constants
 #     parent : the parent directory of the path::''about.yaml’' file
 #              from which the ''data’' \arg comes.
 #     data   : a virtual path that is either a relative path in the
-#              form of a string, a \glob pattern, or a \regex pattern,
-#              with the patterns provided using a single-key \dict.
+#              form of a string, a \glob or \regex pattern with the
+#              patterns provided using a single-key \dict.
 #
-#     :return: a single-key \dict indicating the kind of paths build
-#              associated to the paths build (using instances of the
-#              ''pathlib.Path'' class).
+#     :return: an instance of the class ''tocpath.TOCPath'' to work
+#              easily with the ''toc'' path: initial data, kind and
+#              absolute paths build.
 #
 #
-# For our examples, we suppose that is path::''/abs/path/readme'' is
-# the parent folder.
+# Let's look at some virtual examples where we assume that the parent
+# folder has the absolute path path::“”/abs/path/readme''.
 #
 #
 # [[An existing file]]
 #
 # Let's assume that the file path ::''/abs/path/readme/api.md'' exists.
 # In this case, using ''data = "api.md"'' will imply the return of the
-# following \dict. The use of a list can be understood by looking at
-# the paths returned when using \glob or \regex patterns (see below).
+# following ''tocpath.TOCPath''. The use of a list can be understood
+# by looking at the paths returned when using \glob or \regex patterns
+# (see below).
 #
 # python::
-#     {'files': [PosixPath('/abs/path/readme/api.md')]}
+#     TOCPath(
+#         data  = 'api/md',
+#         kind  = 'files',
+#         paths = [PosixPath('/abs/path/readme/api.md')]})
 #
 #
 # [[An existing folder]]
 #
 # Let's assume that the folder path ::''/abs/path/readme/api'' exists.
 # In this case, using ''data = "api/"'' will imply the return of the
-# following \dict indicating that the yaml::''toc'' block of an
-# path::''about.yaml'' file need to be analyzed.
+# following ''tocpath.TOCPath'' indicating that the yaml::''toc''
+# block of an path::''about.yaml'' file need to be analyzed.
 #
 # python::
-#     {'about': PosixPath('/abs/path/readme/api/about.yaml')}
+#     TOCPath(
+#         data  = 'api/',
+#         kind  = 'about',
+#         paths = PosixPath('/abs/path/readme/api/about.yaml')})
 #
 #
 # [[A \glob pattern]]
 #
 # If ''data = {'glob': "*.md"}'' is used, and the \glob pattern finds
-# paths, then something like the following \dict can be returned, the
-# list being sorted "naturally" via the ''natsort'' module.
+# paths, then something like the following ''tocpath.TOCPath'' can be
+# returned, the list being sorted "naturally" via ''natsort'' module.
 #
 # python::
-#     {'files': [PosixPath('/abs/path/readme/about.md'),
-#                   PosixPath('/abs/path/readme/api.md'),
-#                   PosixPath('/abs/path/readme/specs.md')]}
+#     TOCPath(
+#         data  = {'glob': '*.md'},
+#         kind  = 'files',
+#         paths = [PosixPath('/abs/path/readme/about.md'),
+#                  PosixPath('/abs/path/readme/api.md'),
+#                  PosixPath('/abs/path/readme/specs.md')]})
 #
 #
 # [[A "flat" \regex pattern]]
 #
 # If ''data = {'regex': r".*\.md"}'' is used, and the \regex
 # pattern finds paths directly in the parent folder, then something
-# like the following \dict can be returned, the list being sorted
-# "naturally" via the ''natsort'' module.
+# like the following ''tocpath.TOCPath'' can be returned, the list
+# being sorted "naturally" via the ''natsort'' module.
 #
 # python::
-#     {'files': [PosixPath('/abs/path/readme/about.md'),
-#                   PosixPath('/abs/path/readme/api.md'),
-#                   PosixPath('/abs/path/readme/deps.md')]}
+#     TOCPath(
+#         data  = {'regex': '.*\\.md'},
+#         kind  = 'files',
+#         paths = [PosixPath('/abs/path/readme/about.md'),
+#                  PosixPath('/abs/path/readme/api.md'),
+#                  PosixPath('/abs/path/readme/deps.md')]})
 #
 #
 # [[A "recursive" \regex pattern]]
 #
 # If ''data = {'recreg': r".*\.md"}'' is used, and the \regex
 # pattern finds paths recursively in the parent folder, then something
-# like the following \dict can be returned, the list being sorted
-# "naturally" via the ''natsort'' module. Note that here subfolders
-# have been analyzed recursively.
+# like the following ''tocpath.TOCPath'' can be returned, the list
+# being sorted "naturally" via the ''natsort'' module. Note that here
+# subfolders have been analyzed recursively.
 #
 # python::
-#     {'files': [PosixPath('/abs/path/readme/about.md'),
-#                PosixPath('/abs/path/readme/api.md'),
-#                PosixPath('/abs/path/readme/api/extract.md'),
-#                PosixPath('/abs/path/readme/api/use.md'),
-#                PosixPath('/abs/path/readme/api/use/project.md'),
-#                PosixPath('/abs/path/readme/api/use/project/date.md'),
-#                PosixPath('/abs/path/readme/api/use/project/langs.md'),
-#                PosixPath('/abs/path/readme/api/use/toc.md'),
-#                PosixPath('/abs/path/readme/api/validate.md'),
-#                PosixPath('/abs/path/readme/api/validate/affiliation.md'),
-#                PosixPath('/abs/path/readme/api/validate/email.md'),
-#                PosixPath('/abs/path/readme/api/validate/url.md'),
-#                PosixPath('/abs/path/readme/deps.md')]}
+#     TOCPath(
+#         data  = {'recreg': '.*\\.md'},
+#         kind  = 'files',
+#         paths = [PosixPath('/abs/path/readme/about.md'),
+#                  PosixPath('/abs/path/readme/api.md'),
+#                  PosixPath('/abs/path/readme/api/extract.md'),
+#                  PosixPath('/abs/path/readme/api/use.md'),
+#                  PosixPath('/abs/path/readme/api/use/project.md'),
+#                  PosixPath('/abs/path/readme/api/use/toc.md'),
+#                  PosixPath('/abs/path/readme/api/validate.md'),
+#                  PosixPath('/abs/path/readme/api/validate/email.md'),
+#                  PosixPath('/abs/path/readme/api/validate/url.md'),
+#                  PosixPath('/abs/path/readme/deps.md')]}
 ###
 def parser(
     parent: Path,
     data  : str | dict
-) -> dict[str: Path | List[Path]]:
+) -> tocpath.TOCPath:
 ###
-# Intrenal function to raise errors.
+# Internal function to raise errors.
 ###
     def _raisethis(
         kind: str,
@@ -153,11 +166,15 @@ def parser(
             abspath = sub_yaml_file
 
 # "Direct" path looks good.
-        return {kind: abspath}
+        return tocpath.TOCPath(
+            data  = data,
+            kind  = kind,
+            paths = abspath
+        )
 
-# Pattern needs a one-level dict!
+# Pattern needs a one-key dict!
     if not isinstance(data, dict):
-        _raisethis("one dict expecting for one glob or regex pattern")
+        _raisethis("one dict expected for one glob or regex pattern")
 
     if not len(data.keys()) == 1:
         _raisethis("one single key expected for a pattern dict")
@@ -183,15 +200,15 @@ def parser(
 
         except re.error as e:
             _raisethis(
-                kind = f"fail of the compilation of the regex {pattern!r}",
-                xtra = f"RE ERROR: {e}"
+                kind = f"regex compilation failed for {pattern!r}",
+                xtra = f"REGEX ERROR: {e}"
             )
 
         all_abspaths = []
 
-        meth = "glob" if kind == "regex" else "rglob"
+        _glob = "glob" if kind == "regex" else "rglob"
 
-        for fullpath in getattr(parent, meth)("*"):
+        for fullpath in getattr(parent, _glob)("*"):
             relpath = fullpath.relative_to(parent)
 
             if pattern.fullmatch(str(relpath)):
@@ -201,7 +218,11 @@ def parser(
     if not all_abspaths:
         _raisethis(f"no files found with the pattern")
 
-    return {constants.TAG_TOC_PATH_FILES: natsorted(all_abspaths)}
+    return tocpath.TOCPath(
+        data  = data,
+        kind  = constants.TAG_TOC_PATH_FILES,
+        paths = natsorted(all_abspaths)
+    )
 
 
 # ----------------- #
@@ -218,11 +239,16 @@ if __name__ == "__main__":
     pseudopath = {'glb': "*.md"}
     pseudopath = {'regex': r".*(pr"}
 
-    # pseudopath = "api.md"
-    # pseudopath = "api/"
-    # pseudopath = {'glob': "*.md"}
-    # pseudopath = {'regex': r".*\.md"}
-    # pseudopath = {'recreg': r".*\.md"}
+    pseudopath = "api.md"
+    pseudopath = "api/"
+    pseudopath = {'glob': "*.md"}
+    pseudopath = {'regex': r".*\.md"}
+    pseudopath = {'recreg': r".*\.md"}
 
     print(pseudopath)
-    pprint(parser(readme_dir, pseudopath))
+
+    tp = parser(readme_dir, pseudopath)
+
+    print(tp)
+
+    pprint(tp)
