@@ -20,7 +20,7 @@
 
     1) A \regex pattern to obtain a list of paths directly inside the parent folder, the list being sorted "naturally".
 
-    1) A \regex pattern to obtain a list of paths recursively searched inside the parent folder, the list being sorted "naturally".
+    1) A \regex pattern using a recursive search can also be used.
 
 
 --------

@@ -33,7 +33,7 @@ from aboutmeta.data import constants
 # the parent folder.
 #
 #
-# [An existing file]
+# [[An existing file]]
 #
 # Let's assume that the file path ::''/abs/path/readme/api.md'' exists.
 # In this case, using ''data = "api.md"'' will imply the return of the
@@ -44,7 +44,7 @@ from aboutmeta.data import constants
 #     {'files': [PosixPath('/abs/path/readme/api.md')]}
 #
 #
-# [An existing folder]
+# [[An existing folder]]
 #
 # Let's assume that the folder path ::''/abs/path/readme/api'' exists.
 # In this case, using ''data = "api/"'' will imply the return of the
@@ -55,7 +55,7 @@ from aboutmeta.data import constants
 #     {'about': PosixPath('/abs/path/readme/api/about.yaml')}
 #
 #
-# [A \glob pattern]
+# [[A \glob pattern]]
 #
 # If ''data = {'glob': "*.md"}'' is used, and the \glob pattern finds
 # paths, then something like the following \dict can be returned, the
@@ -67,7 +67,7 @@ from aboutmeta.data import constants
 #                   PosixPath('/abs/path/readme/specs.md')]}
 #
 #
-# [A "flat" \regex pattern]
+# [[A "flat" \regex pattern]]
 #
 # If ''data = {'regex': r".*\.md"}'' is used, and the \regex
 # pattern finds paths directly in the parent folder, then something
@@ -80,7 +80,7 @@ from aboutmeta.data import constants
 #                   PosixPath('/abs/path/readme/deps.md')]}
 #
 #
-# [A recursive \regex pattern]
+# [[A "recursive" \regex pattern]]
 #
 # If ''data = {'recreg': r".*\.md"}'' is used, and the \regex
 # pattern finds paths recursively in the parent folder, then something
@@ -178,7 +178,14 @@ def parser(
 
 # ''regex'' pattern.
     else:
-        pattern = re.compile(pattern)
+        try:
+            pattern = re.compile(pattern)
+
+        except re.error as e:
+            _raisethis(
+                kind = f"fail of the compilation of the regex {pattern!r}",
+                xtra = f"RE ERROR: {e}"
+            )
 
         all_abspaths = []
 
