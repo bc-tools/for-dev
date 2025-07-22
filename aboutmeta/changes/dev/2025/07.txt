@@ -2,7 +2,7 @@
 
 
 ==
-21  (0.0.0-beta.10)
+22  (0.0.0-beta.10)
 ==
 
 -----
@@ -27,7 +27,7 @@
 :update:
 --------
 
-[[:doc:]]    ????????????????????????
+[[:doc:]]
 \Readme: explanations about how the new yaml::''toc'' works now.
 
 
@@ -36,7 +36,7 @@
 --------
 
 [[:test:]]
-Tests for the ''toc'' parser has been updated.
+Tests for the new ''toc'' parser has been build.
 
 
 // ---------- //

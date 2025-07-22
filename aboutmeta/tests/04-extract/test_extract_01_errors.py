@@ -50,6 +50,20 @@ def test_extract_unknown_key_KO(filenb):
 
 @pytest.mark.parametrize(
     "filenb",
+    range(1, NB_BAD_ALTS + 1)
+)
+def test_extract_bad_alt_keys_KO(filenb):
+    bad_yaml = KO_DATA_DIR / "alt" / f"{filenb}.yaml"
+
+    with pytest.raises(
+        ValueError,
+        match = r"just use on the keys .*"
+    ):
+        XTRCT.build(bad_yaml)
+
+
+@pytest.mark.parametrize(
+    "filenb",
     range(1, NB_BAD_VALS + 1)
 )
 def test_extract_bad_val_type_KO(filenb):
@@ -58,19 +72,5 @@ def test_extract_bad_val_type_KO(filenb):
     with pytest.raises(
         ValueError,
         match = r"content of ''.*'' must be a .*"
-    ):
-        XTRCT.build(bad_yaml)
-
-
-@pytest.mark.parametrize(
-    "filenb",
-    range(1, NB_BAD_ALTS + 1)
-)
-def test_extract_bad_alt_KO(filenb):
-    bad_yaml = KO_DATA_DIR / "alt" / f"{filenb}.yaml"
-
-    with pytest.raises(
-        ValueError,
-        match = r"just use on the keys .*"
     ):
         XTRCT.build(bad_yaml)
