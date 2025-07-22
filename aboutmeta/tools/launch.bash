@@ -1,29 +1,63 @@
 #!/bin/bash
 
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
 THIS_DIR="$(cd "$(dirname "$0")" && pwd)"
 THIS_FILE=$(basename "$0")
 THIS_FILE=${THIS_FILE%%.*}
+
+
+# -------------- #
+# -- AUTO-DOC -- #
+# -------------- #
 
 USAGE="Usage: bash $THIS_FILE.bash [OPTIONS]"
 TRY="'bash $THIS_FILE.bash --help' for help."
 
 HELP="$USAGE
 
-  Launch all buider files.
+  Launch all Python buider files.
 
 Options:
-  -q, --quick Any builder file named '...-slow' will be ignored.
+  -q, --quick Any builder named '...-slow.py' will be ignored.
               This option is useful during the development phase,
               but not when the project has to be published.
   -h, --help  Show this message and exit.
 "
 
 
+# ----------- #
+# -- TOOLS -- #
+# ----------- #
+
 print_cli_info() {
     echo "$2"
     exit $1
 }
 
+
+error_exit() {
+    printf "\033[91m\033[1m"
+
+    echo "  ERROR , see the file:"
+    echo "    + $1/$2"
+
+    exit 1
+}
+
+
+print_about() {
+    printf "\033[$1"
+    echo "$2"
+    printf "\033[0m"
+}
+
+
+# ------------------- #
+# -- ACTION WANTED -- #
+# ------------------- #
 
 if (( $# > 1 ))
 then
@@ -60,25 +94,12 @@ Error: No such option: $1"
     esac
 fi
 
+
+# ----------------- #
+# -- LET'S WORK! -- #
+# ----------------- #
+
 cd "$THIS_DIR"
-
-
-error_exit() {
-    printf "\033[91m\033[1m"
-
-    echo "  ERROR , see the file:"
-    echo "    + $1/$2"
-
-    exit 1
-}
-
-
-print_about() {
-    printf "\033[$1"
-    echo "$2"
-    printf "\033[0m"
-}
-
 
 find . -type f -name "*.py" | sort | while read -r builderfile
 do

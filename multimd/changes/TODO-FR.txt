@@ -5,6 +5,12 @@ multimd - TODO
 
 > ---------------------------- <
 
+.md plus optionnel, on doit les écrire car toc est généraliste donc explicite s'impose !
+
+penser au projets latex par exemple
+
+> ---------------------------- <
+
 
 ::tags:: pour cas utile via des images en ligne ou autre
 
