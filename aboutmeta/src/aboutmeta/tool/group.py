@@ -22,6 +22,7 @@ from typing import Tuple
 #              and either ''None'' if no data has been extracted,
 #              or the stripped extracted text.
 #
+#
 # For example, we should have the following terminal session.
 #
 # term::

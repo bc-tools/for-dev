@@ -327,6 +327,7 @@ class AMData:
 #
 #     :see: self.__recu_validate
 #
+#
 # note::
 #     The validation process is detailed in the terminal, but only
 #     errors are recorded in the ''LOG_FILE'' file.

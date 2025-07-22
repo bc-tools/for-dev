@@ -90,6 +90,7 @@ def parser(content: str) -> license.License:
 #
 #     :return: a normalized code for the data process.
 #
+#
 # note::
 #     The construction of the path::licenses.json file verifies that
 #     normalization does not create any duplicates.

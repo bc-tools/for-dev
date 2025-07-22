@@ -1,4 +1,4 @@
-Add new plugins to `aboutmeta`
+Add new parsers to `aboutmeta`
 ==============================
 
 Structure of the `contrib/parser` folder
@@ -33,6 +33,8 @@ Here are the steps to follow.
 
   1. If necessary, you can add other processing functions, but be sure to read the caution and warning below carefully.
 
+  1. You are authorised to use the `aboutmeta.data` module. ***Any other use of `aboutmeta` is too risky, as it can create cyclic imports when incorporated into the final project.***
+
 
 ---
 
@@ -47,9 +49,6 @@ Here are the steps to follow.
 
 ~~~python
 #!/usr/bin/env python3
-
-import aboutmeta
-
 
 # ------------- #
 # -- IMPORTS -- #

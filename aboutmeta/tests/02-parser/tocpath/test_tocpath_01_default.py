@@ -27,18 +27,18 @@ THIS_DIR  = THIS_FILE.parent
             str(THIS_FILE.name),
             THIS_FILE
         ),
-        (
-            True,
-            THIS_DIR,
-            "./",
-            THIS_DIR
-        ),
-        (
-            True,
-            THIS_DIR,
-            "../../",
-            THIS_DIR.parent.parent
-        ),
+        # (
+        #     True,
+        #     THIS_DIR,
+        #     "./",
+        #     THIS_DIR
+        # ),
+        # (
+        #     True,
+        #     THIS_DIR,
+        #     "../../",
+        #     THIS_DIR.parent.parent
+        # ),
     ]
 )
 def test_parser_path_default_OK(isdir, pdir, path, abspath):

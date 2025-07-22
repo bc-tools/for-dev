@@ -2,15 +2,49 @@
 
 
 ==
-??  (0.0.0-beta.10)
+21  (0.0.0-beta.10)
 ==
 
--------
-:break:    ????
--------
+-----
+:new:
+-----
 
-[[:api:]]   ???
-\Toc: a stricter mode that is not implicit, but allows the use of \glob and \regex syntaxes.
+[[:api:]]
+\Toc: five kinds of paths can be indicated. Only the parser is functional at the moment.
+
+    1) A relative path to a file.
+
+    1) A relative path to a folder with an path::''about.yaml'' file to indicate a sub yaml::''toc'' block to use.
+
+    1) A \glob pattern to obtain a list of paths sorted "naturally" by the ''natsort'' module.
+
+    1) A \regex pattern to obtain a list of paths directly inside the parent folder, the list being sorted "naturally".
+
+    1) A \regex pattern to obtain a list of paths recursively searched inside the parent folder, the list being sorted "naturally".
+
+
+--------
+:update:   ???
+--------
+
+[[:doc:]]    ???
+\Readme: explanations about how the new yaml::''toc'' works now.
+
+
+--------
+:fordev:
+--------
+
+[[:test:]]  ????
+Update of the test of the ''toc'' parser.
+
+
+
+
+
+
+
+
 
 
 // ---------- //

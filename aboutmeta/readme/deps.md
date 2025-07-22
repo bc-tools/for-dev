@@ -5,6 +5,7 @@ Here are the `Python` libraries used by `aboutmeta`. Version numbers are indicat
 
   * `email_validator`   **[2.2]**
   * `langcodes`   **[3.5]**
+  * `natsort`   **[8.4]**
   * `python-box`   **[7.3]**
   * `pyyaml`   **[6.0]**
   * `rapidfuzz`   **[3.13]**

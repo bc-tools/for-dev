@@ -15,6 +15,7 @@ from aboutmeta.data import url
 #
 #     :return: an exact copy of the content.
 #
+#
 # note::
 #     This fake parser greatly simplifies the part that handles
 #     validations.

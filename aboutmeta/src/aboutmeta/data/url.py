@@ -33,6 +33,7 @@ class URL:
 # prototype::
 #     :return: the number of errors detected.
 #
+#
 # note::
 #     As the validation system is not 100% reliable, we can
 #     only return a list of errors detected (with possible
