@@ -11,11 +11,13 @@ from rich.logging import RichHandler
 from pathlib import Path
 from yaml    import safe_load
 
-from aboutmeta.data.boxplus import BoxPlus
-from aboutmeta.data.license import License
-from aboutmeta.specs        import *
-from aboutmeta.style        import ALL_STYLES
-from aboutmeta.tool.license import get_licence_text
+from aboutmeta.data.constants import *
+from aboutmeta.data.boxplus   import BoxPlus
+from aboutmeta.data.license   import License
+from aboutmeta.data.tocpath   import TOCPath
+from aboutmeta.specs          import *
+from aboutmeta.style          import ALL_STYLES
+from aboutmeta.tool.license   import get_licence_text
 
 
 # --------------- #
@@ -213,6 +215,9 @@ class AMData:
                     for i, d in enumerate(val):
                         val[i] = parser(val[i])
 
+                    if not loc_specs[TAG_SPECS_MAPPER] is None:
+                        val = getattr(self, loc_specs[TAG_SPECS_MAPPER])(val)
+
                     data_parsed[key] = val
 
                 else:
@@ -383,14 +388,27 @@ class AMData:
 
 ###
 # prototype::
-#     ???
+#     data : ???
+#
+#     :return: ???
 ###
     def map_toc(
         self,
-        data : dict,
-        specs: dict
-    ) -> None:
-        ...
+        data : List[TOCPath],
+    ) -> List[Path]:
+        final_paths = []
+
+        for onedata in data:
+            if onedata.kind == TAG_TOC_PATH_FILES:
+                final_paths += onedata.paths
+
+            else:
+                final_paths.append(str(onedata))
+
+        from pprint import pprint;pprint(final_paths)
+
+        exit()
+
 
 
 if __name__ == "__main__":

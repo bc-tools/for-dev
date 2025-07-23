@@ -16,7 +16,7 @@ TAG_SPECS_BLOCK = "BLOCK"
 TAG_SPECS_CONTENT = "CONTENT"
 TAG_SPECS_DATA = "DATA"
 TAG_SPECS_LIST_OF = "LIST_OF"
-TAG_SPECS_MAP = "MAP"
+TAG_SPECS_MAPPER = "MAPPER"
 TAG_SPECS_PARSER = "PARSER"
 TAG_SPECS_REQUIRED = "REQUIRED"
 TAG_SPECS_TYPE = "TYPE"
@@ -93,7 +93,8 @@ SPECS_PARSING = {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: True,
-                TAG_SPECS_PARSER: TAG_PARSER_PERSON,
+                TAG_SPECS_PARSER: "person",
+                TAG_SPECS_MAPPER: None,
             },
             "author": {
                 TAG_SPECS_REQUIRED: False,
@@ -105,7 +106,8 @@ SPECS_PARSING = {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: True,
-                TAG_SPECS_PARSER: TAG_PARSER_PERSON,
+                TAG_SPECS_PARSER: "person",
+                TAG_SPECS_MAPPER: None,
             },
             "contrib": {
                 TAG_SPECS_REQUIRED: False,
@@ -181,12 +183,14 @@ SPECS_PARSING = {
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: True,
                 TAG_SPECS_PARSER: None,
+                TAG_SPECS_MAPPER: None,
             },
             "keywords": {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: True,
                 TAG_SPECS_PARSER: None,
+                TAG_SPECS_MAPPER: None,
             },
         },
     },
@@ -195,6 +199,6 @@ SPECS_PARSING = {
         TAG_SPECS_TYPE: TAG_SPECS_DATA,
         TAG_SPECS_LIST_OF: True,
         TAG_SPECS_PARSER: "tocpath",
-        TAG_SPECS_MAP: "map_toc",
+        TAG_SPECS_MAPPER: "map_toc",
     },
 }

@@ -49,7 +49,7 @@ PY_TAGS = [
     TAG_SPECS_CONTENT   := "CONTENT",
     TAG_SPECS_DATA      := "DATA",
     TAG_SPECS_LIST_OF   := "LIST_OF",
-    TAG_SPECS_MAP       := "MAP",
+    TAG_SPECS_MAPPER    := "MAPPER",
     TAG_SPECS_PARSER    := "PARSER",
     TAG_SPECS_REQUIRED  := "REQUIRED",
     TAG_SPECS_TYPE      := "TYPE",
@@ -184,9 +184,8 @@ def build_single_pyspec(key, val, extradata):
             TAG_SPECS_PARSER : parser,
         }
 
-
-        if not mapper is None:
-            this_specs |= {TAG_SPECS_MAP: mapper}
+        if is_list_of:
+            this_specs |= {TAG_SPECS_MAPPER: mapper}
 
 
     else:
