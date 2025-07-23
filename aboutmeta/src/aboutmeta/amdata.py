@@ -397,17 +397,21 @@ class AMData:
         data : List[TOCPath],
     ) -> List[Path]:
         final_paths = []
+        xtrct       = AMData()
 
         for onedata in data:
             if onedata.kind == TAG_TOC_PATH_FILES:
                 final_paths += onedata.paths
 
             else:
-                final_paths.append(str(onedata))
+                xtrct.build(
+                    yaml_file=onedata.paths,
+                    ignore=["project"]
+                )
 
-        from pprint import pprint;pprint(final_paths)
+                final_paths += xtrct.data.toc
 
-        exit()
+        return final_paths
 
 
 
@@ -419,4 +423,4 @@ if __name__ == "__main__":
     xtrct.build(filetest)
 
     for d in xtrct.data.toc:
-        print(f"+ {d!r}")
+        print(f"+ {d.relative_to(readme_dir)}")

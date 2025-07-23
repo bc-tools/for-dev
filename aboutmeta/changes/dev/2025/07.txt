@@ -2,22 +2,22 @@
 
 
 ==
-???  (0.0.0-beta.11)
+23  (0.0.0-beta.11)
 ==
 
 -----
-:new:           ???
+:new:
 -----
 
-[[:api:]]       ???
+[[:api:]]
 \Toc: the five kinds of paths are fully functional now.
 
 
 --------
-:fordev:        ???
+:fordev:
 --------
 
-[[:tech:]]      ???
+[[:tech:]]
 \specs: the \dev \yaml file can also indicate "mapping" methods for list of parsed data, those methods being implemented in the ''amdata.AMData'' class.
 
 

@@ -5,9 +5,10 @@ multimd - TODO
 
 > ---------------------------- <
 
-.md plus optionnel, on doit les écrire car toc est généraliste donc explicite s'impose !
+.md n'est plus optionnel (FBI) car toc via aboutmeta devient généraliste donc explicite s'impose !
 
 penser au projets latex par exemple
+
 
 > ---------------------------- <
 
