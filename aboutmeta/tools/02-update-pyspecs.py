@@ -39,7 +39,7 @@ TAG_FILE = "file"
 SPECIAL_TAGS_SPECS = []
 
 
-PATTERN_LIST_OF    = re.compile(r"list\((?P<kind>.*)\)")
+PATTERN_LIST_OF    = re.compile(r"list\((?P<kind>.*)\)([\t ]*>[\t ]]*(?P<mapper>.*))?")
 PATTERN_LEGAL_LIST = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
 
 PY_TAGS = [
@@ -49,6 +49,7 @@ PY_TAGS = [
     TAG_SPECS_CONTENT   := "CONTENT",
     TAG_SPECS_DATA      := "DATA",
     TAG_SPECS_LIST_OF   := "LIST_OF",
+    TAG_SPECS_MAP       := "MAP",
     TAG_SPECS_PARSER    := "PARSER",
     TAG_SPECS_REQUIRED  := "REQUIRED",
     TAG_SPECS_TYPE      := "TYPE",
@@ -175,13 +176,17 @@ def build_single_pyspec(key, val, extradata):
 
 # Value analysis.
     if isinstance(val, str):
-        is_list_of, parser = which_parser(val, extradata)
+        is_list_of, mapper, parser = which_parser(val, extradata)
 
         this_specs |= {
             TAG_SPECS_TYPE   : TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: is_list_of,
             TAG_SPECS_PARSER : parser,
         }
+
+
+        if not mapper is None:
+            this_specs |= {TAG_SPECS_MAP: mapper}
 
 
     else:
@@ -200,10 +205,12 @@ def which_parser(val, extradata):
 
     if not match:
         is_list_of = False
+        mapper     = None
 
     else:
         is_list_of = True
         val        = match.group('kind')
+        mapper     = match.group('mapper')
 
         if not PATTERN_LEGAL_LIST.fullmatch(val):
             raise ValueError(
@@ -212,11 +219,11 @@ def which_parser(val, extradata):
             )
 
     if val == 'str':
-        return is_list_of, None
+        return is_list_of, None, None
 
     all_parsers.add(val)
 
-    return is_list_of, val
+    return is_list_of, mapper, val
 
 
 # --------------- #

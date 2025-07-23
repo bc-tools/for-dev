@@ -1,1 +1,1 @@
-toc*: list(tocpath) > finalize_toc
+toc*: list(tocpath) > map_toc

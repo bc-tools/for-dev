@@ -385,7 +385,7 @@ class AMData:
 # prototype::
 #     ???
 ###
-    def finalize_toc(
+    def map_toc(
         self,
         data : dict,
         specs: dict

@@ -18,7 +18,7 @@
 --------
 
 [[:tech:]]      ???
-\specs: the \dev \yaml file can also indicate a "finishing" method implemented in the ''amdata.AMData'' class.
+\specs: the \dev \yaml file can also indicate "mapping" methods for list of parsed data, those methods being implemented in the ''amdata.AMData'' class.
 
 
 
