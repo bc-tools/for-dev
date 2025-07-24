@@ -21,4 +21,4 @@ meta.build(
 ~~~
 
 
-> ***NOTE.*** *By default, `aboutmeta` uses `SET_KEEP_ALL` whcih is teh set of all the main blocks.*
+> ***NOTE.*** *By default, `aboutmeta` uses `SET_KEEP_ALL` which is the set of all the main blocks.*

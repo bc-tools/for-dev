@@ -47,4 +47,4 @@ CLI.
 
 > ---------------------------- <
 
-formattage standard !
+formattage standard : attention car les mappers doivent être neutralisé dans ce cas ! cette neutraisation est purement intern et caché à l'utilisateur : passser via un attrib __use_maps
