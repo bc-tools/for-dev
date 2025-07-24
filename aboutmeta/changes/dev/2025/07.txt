@@ -13,6 +13,14 @@
 \Toc: \r-glob patterns have been added.
 
 
+--------
+:update:
+--------
+
+[[:doc:]]
+\Readme: we are ready to publish the first version of \thisproj.
+
+
 // ---------- //
 
 

@@ -5,11 +5,22 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-toc
+Doc
 
-    --> glob & co avec  abbréviation
+    ---> Mode cool ok : cf val par défaut du keep pour build : il faut juste le documenter.
 
-    --> TESTS à ajouter !!!
+    ---> Contribution à compléter avec cas particulier de path qui demande plus d'arguments
+
+
+// ---------- //
+
+
+==
+24  (1.0.0)  ????
+==
+
+First public version of the \proj available on \pypi.
+
 
 
 
@@ -20,94 +31,20 @@ toc
 validate avec arg bool optionnel pour normaliserles données
 
 
-
 > ---------------------------- <
 
-Mode cool si dico yaml complété : ceci autorise à compléter le about et si pertinent on implémente.
+CLI.
+    ---> Création/modif guidée
 
-Doc sur contribution à compléter avec cas particulier de path qui demande plus d'arguments
+    ---> Lecture et validation avec mode complétion
 
-Parser path : on renvoie un objet unique Path qui a sa méthode is_dir mais on garde tests de validation en interne
+    ---> Formatage standardisé
 
-API ok pour ne garder que certaines clés ou en ignorer d'autre. Comment ? Chaîne ou liste de chaînes du type "garder" ou "-ignorer"
+    ---> Ajout de la licence au format texte
 
-CLI.  1/ création guidée  2/ lecture et validation avec mode complétion  3/ formatage standardisé  4/ Ajout de la licence au format texte  5/  test dns des urls avec rêche reçu auto à partir d'un point donné
-
-
-> ---------------------------- <
-
-toc
-    reste à gérer path des dirs points vers un autre aboutyaml où l'on veut juste ananlyser le toc, du coup besoin d'ignorer le bloc project s'il est utilisé ! à indiquer dans la doc !
-
-
-> ---------------------------- <
-
-test sur tous mes projets séreux
-
-
-> ---------------------------- <
-
-version OU date  dans yaml via clé différentes
-
-   ---> plus de 0.0.0-beta.1 (2025-06-27)
+    ---> Test dns des urls avec rêche reçu auto à partir d'un point donné
 
 
 > ---------------------------- <
 
 formattage standard !
-
-> ---------------------------- <
-
-re^rendre README en vérfiant que tou est codé
-
-
-> ---------------------------- <
-
-CLI (avec API simple : on prend un clé et on descend au plus profond trouver les données;, on peut ainsi faire valider tous les urls, en indiquant urls)
-
-    ---> création / modif des donnés guidées
-
-    ---> gestion des textes des licences, mais pas fait automatiquement
-
-    ---> test des urls
-
-
-> ---------------------------- <
-
-un syste de about.cfg.yaml pour gérer certains choses
-
-    ---> validationd es urls mais dans ce cas, on mémorise ce qui fonctionne
-
-    ---> ajout de la license uniquement si besoin
-
-besoin d'un syst d'historique via un fichier temp caché à l'utilisateur
-
-
-> ---------------------------- <
-
-UTILE ?
-
-    --> possibilité de changer de about en cas de conflit mais cela erste comportment par défait
-
-
-> ---------------------------- <
-
-usename ou title detérmine une catégo code ou livre
-
-topic ? catgeo ?
-
-faire un truc minimaiste et facile à enrichir et usage verra ce qu'il manque
-
-> ---------------------------- <
-
-plugin de traitementd es données
-
-    --> on rpopose les miens
-
-    --> ajout via de simple fonctions , et non une classe
-        arg = la donné à traiter
-        extra args possible si besoin (on verra)
-
-    --> orga dans un sous dossier parser avec une struc mimant celle du yamm
-
-    --> pour utiisetur de base, donner un exemple de codage d'un nouveau traitement : comme on passe via fonc, c'est facile!

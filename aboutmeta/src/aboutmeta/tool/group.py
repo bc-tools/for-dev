@@ -25,15 +25,13 @@ from typing import Tuple
 #
 # For example, we should have the following terminal session.
 #
-# term::
-#     > python
-#     Python 3.12.7 ...
-#     >>> from aboutmeta.tool.group import extract_group
-#     >>> extract_group("Nothing to extract", "[", "]", "DEMO_1")
+# pyterm::
+#     > from aboutmeta.tool.group import extract_group
+#     > extract_group("Nothing to extract", "[", "]", "DEMO_1")
 #     ('Nothing to extract', None)
-#     >>> extract_group("We have [  data ]", "[", "]", "DEMO_2")
+#     > extract_group("We have [  data ]", "[", "]", "DEMO_2")
 #     ('We have', 'data')
-#     >>> extract_group("Problem [here!", "[", "]", "DEMO_3")
+#     > extract_group("Problem [here!", "[", "]", "DEMO_3")
 #     Traceback (most recent call last):
 #       ...
 #         raise ValueError(

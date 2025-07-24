@@ -27,21 +27,24 @@ This document is a complete tutorial showing all the available features.
         - [Languages](#MULTIMD-TOC-ANCHOR-10)
         - [Technologies required](#MULTIMD-TOC-ANCHOR-11)
         - [Keywords](#MULTIMD-TOC-ANCHOR-12)
-    - [Working with folders and files](#MULTIMD-TOC-ANCHOR-13)
-- [The `Python` module `aboutmeta`](#MULTIMD-TOC-ANCHOR-14)
-    - [Data extraction](#MULTIMD-TOC-ANCHOR-15)
-    - [Use of data](#MULTIMD-TOC-ANCHOR-16)
-        - [The project itself](#MULTIMD-TOC-ANCHOR-17)
-            - [Version](#MULTIMD-TOC-ANCHOR-18)
-            - [Date](#MULTIMD-TOC-ANCHOR-19)
-            - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-20)
-            - [Licenses](#MULTIMD-TOC-ANCHOR-21)
-            - [Languages](#MULTIMD-TOC-ANCHOR-22)
-        - [Working with folders and files](#MULTIMD-TOC-ANCHOR-23)
-    - [Validate data](#MULTIMD-TOC-ANCHOR-24)
-    - [Affiliation](#MULTIMD-TOC-ANCHOR-25)
-    - [Email](#MULTIMD-TOC-ANCHOR-26)
-            - [URL](#MULTIMD-TOC-ANCHOR-27)
+    - [Working with files](#MULTIMD-TOC-ANCHOR-13)
+        - [Direct paths](#MULTIMD-TOC-ANCHOR-14)
+        - [`glob` patterns](#MULTIMD-TOC-ANCHOR-15)
+        - [`regex` patterns](#MULTIMD-TOC-ANCHOR-16)
+- [The `Python` module `aboutmeta`](#MULTIMD-TOC-ANCHOR-17)
+    - [Data extraction](#MULTIMD-TOC-ANCHOR-18)
+    - [Use of data](#MULTIMD-TOC-ANCHOR-19)
+        - [The project itself](#MULTIMD-TOC-ANCHOR-20)
+            - [Version](#MULTIMD-TOC-ANCHOR-21)
+            - [Date](#MULTIMD-TOC-ANCHOR-22)
+            - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-23)
+            - [Licenses](#MULTIMD-TOC-ANCHOR-24)
+            - [Languages](#MULTIMD-TOC-ANCHOR-25)
+        - [Working with folders and files](#MULTIMD-TOC-ANCHOR-26)
+    - [Validate data](#MULTIMD-TOC-ANCHOR-27)
+    - [Affiliation](#MULTIMD-TOC-ANCHOR-28)
+    - [Email](#MULTIMD-TOC-ANCHOR-29)
+            - [URL](#MULTIMD-TOC-ANCHOR-30)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -57,7 +60,9 @@ Complete list of dependencies <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-deco
 
 Here are the `Python` libraries used by `aboutmeta`. Version numbers are indicated in brackets.
 
+- `email_validator` **[2.2]**
 - `langcodes` **[3.5]**
+- `natsort` **[8.4]**
 - `python-box` **[7.3]**
 - `pyyaml` **[6.0]**
 - `rapidfuzz` **[3.13]**
@@ -267,25 +272,51 @@ project:
     - writing
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-13"></a>
-### Working with folders and files <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+### Working with files <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-Whether for a document written in small sections or for a monorepo project, it is useful to be able to specify a **list of existing folders and/or files** to explore in a customised order.
-The optional `toc` block meets this need. Its content must be a list of relative paths, with folders indicated by a slash `/` at the end of the path, which also serves as a path separator, even when working with the Windows operating system.
-Here is a fictitious example.
+Whether for a document written in small sections or for a monorepo project, it is useful to be able to specify a **list of existing files** to explore in a customised order: the optional `toc` block meets this need. Its content must be a list of paths or patterns.
+
+Here is a fictitious example showing the functionalities available.
 
 ~~~yaml
 toc:
-  - relative/path/to/file_1.txt
-  - relative/path/to/one/folder/
-  - relative/path/inside/one/sub/folder/file_2.md
+# Hard coded file.
+  - relative/path/to/one/file.txt
+# Hard coded folder with an ''about.yaml'' to follow.
+  - relative/path/to/one/folder/with/another/toc/
+# Non recursive glob pattern for files.
+  - glob: "*.md"
+# Recursive glob pattern for files.
+  - r-glob: "*.md"
+# Non recursive Python regex pattern for files.
+  - regex: '.*\.py'
+# Recursive Python regex pattern for files.
+  - r-regex: '[^/]*\.py'
 ~~~
-
-When a subfolder is specified, the search is performed as follows.
-
-1. Either an `about.yaml` file is present in the subfolder, in which case `aboutmeta` analyzes its `toc` block.
-2. Otherwise, all files present in the subfolder will be retrieved and sorted in a "natural" way.
+> ***IMPORTANT!*** *The search is always done relatively to the folder containing the `about.yaml` file.*
 
 <a id="MULTIMD-TOC-ANCHOR-14"></a>
+#### Direct paths <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+You can use a verbatim relative path of either a file, or a folder, with folders indicated by a slash `/` at the end of the path (the slash `/` also serves as a path separator, even when working with the Windows operating system).
+
+When a folder is specified, it must contain an `about.yaml` file with a `toc` block to be analyzed by `aboutmeta`.
+
+> ***NOTE.*** *If you want to choose the files kept inside a folder without using an `about.yaml` file, you will have to use a pattern as explained in the upcoming sections.*
+
+<a id="MULTIMD-TOC-ANCHOR-15"></a>
+#### `glob` patterns <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+The `glob` patterns are simply indicated using something like `glob: "*.md"`, or `r-glob: "*.md"` if you need a recursive search.
+
+<a id="MULTIMD-TOC-ANCHOR-16"></a>
+#### `regex` patterns <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+The `regex` patterns can be either `regex: '[^/]*\.md'`, or `r-regex: '[^/]*\.md'` for a recursive saerche.
+
+> ***WARNING!*** *In a `YAML` file, using single quotation marks avoids escaping backslashes. With double quotation marks, we would have had to type `"[^/]*\\.py"`.*
+
+<a id="MULTIMD-TOC-ANCHOR-17"></a>
 The `Python` module `aboutmeta` <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 -------------------------------
 
@@ -294,7 +325,7 @@ The following sections describe what is available in the current version.
 
 > ***NOTE.*** *The `contrib/parser` folder contains a `README.md` file explaining how to easily build and suggest new parsers.*
 
-<a id="MULTIMD-TOC-ANCHOR-15"></a>
+<a id="MULTIMD-TOC-ANCHOR-18"></a>
 ### Data extraction <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The analysis of an `about.yaml` file is done simply as follows where `Path` is the class from the `pathlib` module.
@@ -302,10 +333,22 @@ The analysis of an `about.yaml` file is done simply as follows where `Path` is t
 ~~~python
 from aboutmeta import AMData, Path
 
-meta = AMData(Path("/full/path/to/about.yaml"))
-meta.build()
+meta = AMData()
+
+meta.build(yaml_file = Path("/full/path/to/about.yaml"))
 ~~~
-<a id="MULTIMD-TOC-ANCHOR-16"></a>
+
+If necessary, and this is used internally by `aboutmeta`, you can specify the main blocks to be analysed. For example, to focus on the `toc` block, simply do the following, where `SET_KEEP_ONLY_TOC = set([‘toc’])` is provided by `aboutmeta`.
+
+~~~python
+meta.build(
+    yaml_file = Path("/full/path/to/about.yaml"),
+    keep      = SET_KEEP_ONLY_TOC
+)
+~~~
+> ***NOTE.*** *By default, `aboutmeta` uses `SET_KEEP_ALL` whcih is teh set of all the main blocks.*
+
+<a id="MULTIMD-TOC-ANCHOR-19"></a>
 ### Use of data <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Once the data has been extracted by `aboutmeta.AMData`, the `data` attribute of the `meta` object, see the previous section, provides access to the digested data in a simple manner.
@@ -319,14 +362,14 @@ The following sections present the data after digestion.
 
 > ***TIP.*** *To retrieve a standard version of the original `YAML` version of a piece of data, just use the string verison of the corresponding `Python` data as in `str(meta.verbatim.project.version)`.*
 
-<a id="MULTIMD-TOC-ANCHOR-17"></a>
+<a id="MULTIMD-TOC-ANCHOR-20"></a>
 #### The project itself <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 We only present digested data that does not reproduce the contents of the `YAML` file.
 
 > ***NOTE.*** *The next sections will use the abbreviation `mdp = meta.data.project`.*
 
-<a id="MULTIMD-TOC-ANCHOR-18"></a>
+<a id="MULTIMD-TOC-ANCHOR-21"></a>
 ##### Version <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build.5`. By default, the digest will provide the following information.
@@ -340,7 +383,7 @@ Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build
 
 > ***NOTE*** *Behind the scenes, the version number data is a `semver.version.Version` object which has useful methods. For example, `mdp.version.next_version(part="prerelease")` gives the version `1.2.3-beta.5` with our example above.*
 
-<a id="MULTIMD-TOC-ANCHOR-19"></a>
+<a id="MULTIMD-TOC-ANCHOR-22"></a>
 ##### Date <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The date is accessible via the attribute `mdp.version.date`.
@@ -353,7 +396,7 @@ The date is accessible via the attribute `mdp.version.date`.
 
 > ***NOTE*** *Behind the date data is a `datetime.date` object (which provides access to all the methods associated with these type of object).*
 
-<a id="MULTIMD-TOC-ANCHOR-20"></a>
+<a id="MULTIMD-TOC-ANCHOR-23"></a>
 ##### Developers, authors and contributors <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 In the `YAML` file, the singular forms `project.author` and `project.contrib` will produce a single data object, while the plural forms `project.authors` and `project.contribs` will produce a list of instances of `aboutmeta.person.Person` that have the following attributes.
@@ -363,7 +406,7 @@ In the `YAML` file, the singular forms `project.author` and `project.contrib` wi
 3. `email` is to the text written in parentheses.
 4. `affiliation` is to the text written in square brackets.
 
-<a id="MULTIMD-TOC-ANCHOR-21"></a>
+<a id="MULTIMD-TOC-ANCHOR-24"></a>
 ##### Licenses <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The license abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List](https://spdx.org/licenses/) (internally, we use a local version of the [`licenses.json`](https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json) file).
@@ -396,7 +439,7 @@ meta.add_license(
     erase        = True
 )
 ~~~
-<a id="MULTIMD-TOC-ANCHOR-22"></a>
+<a id="MULTIMD-TOC-ANCHOR-25"></a>
 ##### Languages <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 A digested language provides the following information in the case of the technical documentation, but the same is true for other contextes.
@@ -405,12 +448,12 @@ A digested language provides the following information in the case of the techni
 2. `mdp.langs.doc.name` is the English name of the language.
 3. `mdp.langs.doc.territory` is the English name of the territory associated with the language.
 
-<a id="MULTIMD-TOC-ANCHOR-23"></a>
+<a id="MULTIMD-TOC-ANCHOR-26"></a>
 #### Working with folders and files <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-The list of relative paths is validated during parsing and is returned as a list of `pathlib.Path` objects pointing to files (the absolute paths are used). The order of the list follows the logic of using multiple `toc` blocks when using folder paths.
+The paths and patterns are validated during parsing, and a list of `pathlib.Path` objects pointing to files is returned (the absolute paths are used).
 
-<a id="MULTIMD-TOC-ANCHOR-24"></a>
+<a id="MULTIMD-TOC-ANCHOR-27"></a>
 ### Validate data <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Some data, such as file paths, dates, and version numbers, are validated during parsing. Others are only validated upon request, as this requires more in-depth analysis using online tools. For this data, you will need to explicitly request validation. This can be done easily as follows.
@@ -451,12 +494,12 @@ else:
 
 The following sections present the available validations and explain the checks performed.
 
-<a id="MULTIMD-TOC-ANCHOR-25"></a>
+<a id="MULTIMD-TOC-ANCHOR-28"></a>
 ### Affiliation <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The validity test for affiliation to an organization or company is based simply on the `OpenStreetMap` API.
 
-<a id="MULTIMD-TOC-ANCHOR-26"></a>
+<a id="MULTIMD-TOC-ANCHOR-29"></a>
 ### Email <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 For an email, the following validity tests are performed.
@@ -464,7 +507,7 @@ For an email, the following validity tests are performed.
 1. Is the email syntax correct?
 2. Does the email domain name exist?
 
-<a id="MULTIMD-TOC-ANCHOR-27"></a>
+<a id="MULTIMD-TOC-ANCHOR-30"></a>
 ##### URL <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 For a URL, the following tests are performed during validation.

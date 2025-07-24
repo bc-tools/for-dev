@@ -26,6 +26,9 @@ from aboutmeta.tool.license   import get_licence_text
 
 TAG_STYLE_DEFAULT = 'default'
 
+SET_KEEP_ALL      = set(SPECS_PARSING)
+SET_KEEP_ONLY_TOC = set(["toc"])
+
 
 # --------------------- #
 # -- LOGGING CONFIG. -- #
@@ -109,7 +112,7 @@ class AMData:
 ###
 # prototype::
 #     yaml_file : the path of the path::''about.yaml'' file analyzed.
-#     ignore    : list of top-level blocks to ignore.
+#     keep      : set of main blocks to analyze.
 #
 #     :action: build the ''BoxPlus'' version of the data found.
 #
@@ -118,14 +121,14 @@ class AMData:
     def build(
         self,
         yaml_file: Path,
-        ignore   : List[str] = []
+        keep     : set[str] = SET_KEEP_ALL
     ) -> None:
         self._yaml_file_dir = yaml_file.parent
 
         full_data = {
             k: v
             for k, v in safe_load(yaml_file.read_text()).items()
-            if not k in ignore
+            if k in keep
         }
 
         self.data = BoxPlus(
@@ -388,9 +391,10 @@ class AMData:
 
 ###
 # prototype::
-#     data : ???
+#     data : the ''tocpath.TOCPath'' list returned by the parser allows
+#            to perform recursive analysis of subfolders, if necessary.
 #
-#     :return: ???
+#     :return: the list of files found.
 ###
     def map_toc(
         self,
@@ -406,21 +410,9 @@ class AMData:
             else:
                 xtrct.build(
                     yaml_file = onedata.paths,
-                    ignore    = ["project"]
+                    keep      = SET_KEEP_ONLY_TOC
                 )
 
                 final_paths += xtrct.data.toc
 
         return final_paths
-
-
-
-if __name__ == "__main__":
-    readme_dir = Path(__file__).parent.parent.parent / "readme"
-    filetest   = readme_dir / "about.yaml"
-
-    xtrct = AMData()
-    xtrct.build(filetest)
-
-    for d in xtrct.data.toc:
-        print(f"+ {d.relative_to(readme_dir)}")

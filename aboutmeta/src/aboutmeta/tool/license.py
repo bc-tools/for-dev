@@ -21,7 +21,8 @@ URL_TEMPL_SPDX_LICENSE_TEXT = (
 # prototype::
 #     license_id : an SPDX license code.
 #
-#     :return: the fule text of the license.
+#     :return: the full text of the license downloaded from the SPDX
+#              website.
 ###
 def get_licence_text(license_id: str) -> str:
 # Let's try to get the text.
@@ -48,5 +49,5 @@ def get_licence_text(license_id: str) -> str:
     except requests.exceptions.RequestException as e:
         raise e
 
-# Success implies returned text.
+# Success implies to return the text.
     return text

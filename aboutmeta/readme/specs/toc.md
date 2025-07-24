@@ -7,11 +7,18 @@ Here is a fictitious example showing the functionalities available.
 
 ~~~yaml
 toc:
+# Hard coded file.
   - relative/path/to/one/file.txt
+# Hard coded folder with an ''about.yaml'' to follow.
   - relative/path/to/one/folder/with/another/toc/
-  - glob  : glob/*/pattern/*.md
-  - regex : regex/pattern/.*.py
-  - r-regex: regex/recursive/search/*.cpp
+# Non recursive glob pattern for files.
+  - glob: "*.md"
+# Recursive glob pattern for files.
+  - r-glob: "*.md"
+# Non recursive Python regex pattern for files.
+  - regex: '.*\.py'
+# Recursive Python regex pattern for files.
+  - r-regex: '[^/]*\.py'
 ~~~
 
 

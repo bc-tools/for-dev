@@ -26,7 +26,7 @@ class TOCPath:
 # One-key dict used in the initial ''YAML'' file.
         if isinstance(self.data, dict):
             for k, v in self.data.items():
-                return f'{k}: "{v}"'
+                return f"{k}: '{v}'"
 
 # One string used in the initial ''YAML'' file.
         return self.data

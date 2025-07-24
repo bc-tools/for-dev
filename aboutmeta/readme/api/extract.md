@@ -5,6 +5,20 @@ The analysis of an `about.yaml` file is done simply as follows where `Path` is t
 ~~~python
 from aboutmeta import AMData, Path
 
-meta = AMData(Path("/full/path/to/about.yaml"))
-meta.build()
+meta = AMData()
+
+meta.build(yaml_file = Path("/full/path/to/about.yaml"))
 ~~~
+
+
+If necessary, and this is used internally by `aboutmeta`, you can specify the main blocks to be analysed. For example, to focus on the `toc` block, simply do the following, where `SET_KEEP_ONLY_TOC = set([‘toc’])` is provided by `aboutmeta`.
+
+~~~python
+meta.build(
+    yaml_file = Path("/full/path/to/about.yaml"),
+    keep      = SET_KEEP_ONLY_TOC
+)
+~~~
+
+
+> ***NOTE.*** *By default, `aboutmeta` uses `SET_KEEP_ALL` whcih is teh set of all the main blocks.*
