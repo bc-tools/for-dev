@@ -48,16 +48,16 @@ class Person:
         return text
 
 ###
-#     :return: the number of errors detected.
+# prototype::
+#     :return: the number of errors detected when validating
+#              the email and affiliation adresses is made.
 #
 #
 # note::
 #     As the validation system is not 100% reliable, we can
-#     only return a list of errors detected (with possible
-#     false negatives). This choice also allows us to produce
-#     a final report of everything that has not been validated,
-#     thus saving the user from having to spend time studying
-#     problems one by one.
+#     only print and log the errors detected (with possible
+#     false negatives). This method is best suited for terminal
+#     sessions.
 ###
     def validate(self) -> int:
         nb_pbs = 0

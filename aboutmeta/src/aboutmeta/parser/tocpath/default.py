@@ -9,7 +9,8 @@ import              re
 
 from natsort import natsorted
 
-from aboutmeta.data import constants, tocpath
+from aboutmeta.data           import tocpath
+from aboutmeta.data.constants import *
 
 
 # -------------------- #
@@ -62,11 +63,12 @@ from aboutmeta.data import constants, tocpath
 #         paths = PosixPath('/abs/path/readme/api/about.yaml')})
 #
 #
-# [[A \glob pattern]]
+# [[A "flat" \glob pattern]]
 #
 # If ''data = {'glob': "*.md"}'' is used, and the \glob pattern finds
-# paths, then something like the following ''tocpath.TOCPath'' can be
-# returned, the list being sorted "naturally" via ''natsort'' module.
+# paths, then something like the following ''tocpath.TOCPath'' \obj
+# can be returned, the list being sorted "naturally" via ''natsort''
+# module.
 #
 # python::
 #     TOCPath(
@@ -77,33 +79,15 @@ from aboutmeta.data import constants, tocpath
 #                  PosixPath('/abs/path/readme/specs.md')]})
 #
 #
-# [[A "flat" \regex pattern]]
+# [[A "recursive" \glob pattern]]
 #
-# If ''data = {'regex': r".*\.md"}'' is used, and the \regex
-# pattern finds paths directly in the parent folder, then something
-# like the following ''tocpath.TOCPath'' can be returned, the list
-# being sorted "naturally" via the ''natsort'' module.
-#
-# python::
-#     TOCPath(
-#         data  = {'regex': '.*\\.md'},
-#         kind  = 'files',
-#         paths = [PosixPath('/abs/path/readme/about.md'),
-#                  PosixPath('/abs/path/readme/api.md'),
-#                  PosixPath('/abs/path/readme/deps.md')]})
-#
-#
-# [[A "recursive" \regex pattern]]
-#
-# If ''data = {'recreg': r".*\.md"}'' is used, and the \regex
-# pattern finds paths recursively in the parent folder, then something
-# like the following ''tocpath.TOCPath'' can be returned, the list
-# being sorted "naturally" via the ''natsort'' module. Note that here
-# subfolders have been analyzed recursively.
+# If ''data = {'r-glob': "*.md"}'' is used, and the search will be
+# done recursively giving something like the ''tocpath.TOCPath'' \obj
+# below.
 #
 # python::
 #     TOCPath(
-#         data  = {'recreg': '.*\\.md'},
+#         data  = {'r-regex': '.*\\.md'},
 #         kind  = 'files',
 #         paths = [PosixPath('/abs/path/readme/about.md'),
 #                  PosixPath('/abs/path/readme/api.md'),
@@ -115,6 +99,13 @@ from aboutmeta.data import constants, tocpath
 #                  PosixPath('/abs/path/readme/api/validate/email.md'),
 #                  PosixPath('/abs/path/readme/api/validate/url.md'),
 #                  PosixPath('/abs/path/readme/deps.md')]}
+#
+#
+# [[\regex patterns]]
+#
+# You can use \regexs for more advanced needs. The fist \glob pattern
+# can rewritten as ''data = {'regex': r".*\.md"}'', and the scond one
+# as ''data = {'r-regex': r".*\.md"}''.
 ###
 def parser(
     parent: Path,
@@ -130,13 +121,13 @@ def parser(
         raise ValueError(
             f"""
 {kind}.
-    + Data  : {data!r}
-    + Parent: {parent}
+    + Data     : {data!r}
+    + YAML file: {parent}/about.yaml
 {xtra}
             """.strip()
         )
 
-# "Direct" path.
+# -- "Direct" path -- #
     if isinstance(data, str):
         is_dir = bool(data[-1] == "/")
 
@@ -149,7 +140,7 @@ def parser(
             if not abspath.is_file():
                 _raisethis("inexistant file")
 
-            kind    = constants.TAG_TOC_PATH_FILES
+            kind    = TAG_TOC_PATH_FILES
             abspath = [abspath]
 
 # Folder?
@@ -162,7 +153,7 @@ def parser(
             if not sub_yaml_file.is_file():
                 _raisethis("missing sub ''about.yaml'' file")
 
-            kind    = constants.TAG_TOC_PATH_ABOUT
+            kind    = TAG_TOC_PATH_ABOUT
             abspath = sub_yaml_file
 
 # "Direct" path looks good.
@@ -172,24 +163,38 @@ def parser(
             paths = abspath
         )
 
-# Pattern needs a one-key dict!
+# -- Pattern -- #
+#
+# We must have a one-key dict!
     if not isinstance(data, dict):
         _raisethis("one dict expected for one glob or regex pattern")
 
     if not len(data.keys()) == 1:
         _raisethis("one single key expected for a pattern dict")
 
-    for kind, pattern in data.items():
+    for kind, pattern in data.items(): # Python is funny...
         ...
 
-    if not kind in constants.TAG_TOC_PATTERN_KINDS:
+# Legal key?
+    kind = TAG_TOC_PATTERN_ABBREV.get(kind, kind)
+
+    if not kind in TAG_TOC_PATTERN_KINDS:
         _raisethis(f"illegal pattern kind ''{kind}''")
 
+# User writes an abbreviation.
+    if not kind in data:
+        data = {kind: pattern}
+
 # ''glob'' pattern.
-    if kind == constants.TAG_TOC_PATH_GLOB:
+    if kind in TAG_TOC_GLOB_PATTERNS:
+        _glob = "glob"
+
+        if kind == TAG_TOC_PATH_RECU_GLOB:
+            _glob = f"r{_glob}"
+
         all_abspaths = [
             p
-            for p in parent.glob(pattern)
+            for p in getattr(parent, _glob)(pattern)
             if p.is_file()
         ]
 
@@ -220,6 +225,6 @@ def parser(
 
     return tocpath.TOCPath(
         data  = data,
-        kind  = constants.TAG_TOC_PATH_FILES,
+        kind  = TAG_TOC_PATH_FILES,
         paths = natsorted(all_abspaths)
     )

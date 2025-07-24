@@ -2,6 +2,21 @@
 
 
 ==
+24  (0.0.0-beta.12)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+\Toc: \r-glob patterns have been added.
+
+
+// ---------- //
+
+
+==
 23  (0.0.0-beta.11)
 ==
 

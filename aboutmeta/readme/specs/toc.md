@@ -11,7 +11,7 @@ toc:
   - relative/path/to/one/folder/with/another/toc/
   - glob  : glob/*/pattern/*.md
   - regex : regex/pattern/.*.py
-  - recreg: regex/recursive/search/*.cpp
+  - r-regex: regex/recursive/search/*.cpp
 ~~~
 
 

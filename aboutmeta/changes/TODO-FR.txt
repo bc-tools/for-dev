@@ -5,7 +5,12 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-toc --> TESTS à ajouter !!!
+toc
+
+    --> glob & co avec  abbréviation
+
+    --> TESTS à ajouter !!!
+
 
 
 

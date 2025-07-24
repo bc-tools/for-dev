@@ -47,7 +47,7 @@ SPECS_STATUS = defaultdict(list)
 
 specs_status = {}
 
-for specfile in CONTRIB_DSL_DIR.rglob("*/*specs.yaml"):
+for specfile in CONTRIB_DSL_DIR.r-glob("*/*specs.yaml"):
     specdir = specfile.parent
     flavour = specdir.name
 

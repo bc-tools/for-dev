@@ -73,7 +73,7 @@ KO_DATA_DIR = DATA_DIR / "KO" / TEST_DIR_NAME
         ),
         (
             '01-basic',
-            {'recreg': r".*-rev.*\.md"},
+            {'r-regex': r".*-rev.*\.md"},
             'files',
             [
                 '04-rev.md',
@@ -184,6 +184,16 @@ def test_parser_tocpath_default_data_KO(
         (
             '01-basic',
             {'glob': "*.tex"},
+            "no files found"
+        ),
+        (
+            '01-basic',
+            {'g': "*.tex"},
+            "no files found"
+        ),
+        (
+            '01-basic',
+            {'r': ".*\.tex"},
             "no files found"
         ),
     ]

@@ -405,8 +405,8 @@ class AMData:
 
             else:
                 xtrct.build(
-                    yaml_file=onedata.paths,
-                    ignore=["project"]
+                    yaml_file = onedata.paths,
+                    ignore    = ["project"]
                 )
 
                 final_paths += xtrct.data.toc
