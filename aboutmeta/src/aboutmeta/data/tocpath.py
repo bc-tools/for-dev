@@ -13,7 +13,7 @@ from pathlib     import Path
 ###
 # Easy-to-use data class for ''toc'' paths.
 ###
-@dataclass
+@dataclass(frozen = True)
 class TOCPath:
     data : str | dict[str, str]
     kind : str

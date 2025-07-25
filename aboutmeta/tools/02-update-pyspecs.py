@@ -24,7 +24,6 @@ PROJECT_NAME = PROJECT_DIR.name
 SPECS_DIR  = PROJECT_DIR / "specs"
 SPECS_FILE = PROJECT_DIR / "src" / PROJECT_NAME / "specs.py"
 
-
 MAGIC_GOMMENT_SPECS = f"""
 # ---------------- #
 # -- YAML SPECS -- #
@@ -38,6 +37,7 @@ TAG_FILE = "file"
 
 SPECIAL_TAGS_SPECS = []
 
+TAG_MAGIC_CHAR = "."
 
 PATTERN_LIST_OF    = re.compile(r"list\((?P<kind>.*)\)([\t ]*>[\t ]]*(?P<mapper>.*))?")
 PATTERN_LEGAL_LIST = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
@@ -98,6 +98,8 @@ def digested_specs(yaml_file):
 
 
 def build_pyspecs(specs, extradata):
+    last_parser = None
+
     pyspecs = {
         TAG_SPECS_ALT_ALL   : [],
         TAG_SPECS_ALT_TUPLES: [],
@@ -134,12 +136,24 @@ def build_pyspecs(specs, extradata):
                     splitted_keys = [f"{k}*" for k in  splitted_keys]
 
             for k, v in zip(splitted_keys, splitted_vals):
-                k, thispsec = build_single_pyspec(k, v, extradata)
-                pyspecs[k]  = thispsec
+                k, thispsec, last_parser = build_single_pyspec(
+                    k,
+                    v,
+                    extradata,
+                    last_parser
+                )
+
+                pyspecs[k] = thispsec
 
         else:
-            key, thispsec = build_single_pyspec(key, val, extradata)
-            pyspecs[key]  = thispsec
+            key, thispsec, last_parser = build_single_pyspec(
+                key,
+                val,
+                extradata,
+                last_parser
+            )
+
+            pyspecs[key] = thispsec
 
     if pyspecs[TAG_SPECS_ALT_ALL]:
         pyspecs[TAG_SPECS_ALT_ALL] = tuple(
@@ -159,7 +173,7 @@ def build_pyspecs(specs, extradata):
     return pyspecs
 
 
-def build_single_pyspec(key, val, extradata):
+def build_single_pyspec(key, val, extradata, last_parser):
     this_specs = dict()
 
 # Key analysis.
@@ -176,7 +190,24 @@ def build_single_pyspec(key, val, extradata):
 
 # Value analysis.
     if isinstance(val, str):
+        # print(f"\n{key=} {val=} {last_parser=}")
+
+        if TAG_MAGIC_CHAR in val:
+            if last_parser is None:
+                raise ValueError("illegal use of the ''.'' alias.")
+
+            val = val.replace(
+                TAG_MAGIC_CHAR,
+                last_parser
+            )
+
+            # print(val, "???")
+
         is_list_of, mapper, parser = which_parser(val, extradata)
+
+        last_parser = parser
+
+        # print(parser, "????")
 
         this_specs |= {
             TAG_SPECS_TYPE   : TAG_SPECS_DATA,
@@ -189,13 +220,17 @@ def build_single_pyspec(key, val, extradata):
 
 
     else:
+        last_parser = None
+
         this_specs[TAG_SPECS_TYPE]    = TAG_SPECS_BLOCK
         this_specs[TAG_SPECS_CONTENT] = build_pyspecs(val, extradata)
 
-    return key, this_specs
+    return key, this_specs, last_parser
 
 
 def which_parser(val, extradata):
+    global ALL_PARSERS_FOUND
+
     # if TAG_ABBREV in extradata:
     #     for oneabbrev, replacement in extradata[TAG_ABBREV].items():
     #         val = val.replace(f"\\{oneabbrev}", replacement)
@@ -217,10 +252,12 @@ def which_parser(val, extradata):
                 f"''specs/{extradata[TAG_FILE]}'' file."
             )
 
-    if val == 'str':
-        return is_list_of, None, None
+    # if val == 'str':
+    #     return is_list_of, None, "str"
 
-    all_parsers.add(val)
+
+    if val != TAG_MAGIC_CHAR:
+        ALL_PARSERS_FOUND.add(val)
 
     return is_list_of, mapper, val
 
@@ -229,7 +266,7 @@ def which_parser(val, extradata):
 # -- PRE SPECS -- #
 # --------------- #
 
-all_parsers = set()
+ALL_PARSERS_FOUND = set()
 
 pyspecs = {}
 
@@ -267,20 +304,23 @@ for onevar in allvars:
 constants = '\n'.join(constants)
 
 # Use of tag parsers instead of hard typed texts.
-all_parsers = list(all_parsers)
-all_parsers.sort()
+ALL_PARSERS_FOUND = list(ALL_PARSERS_FOUND)
+ALL_PARSERS_FOUND.sort()
 
 tag_parsers = {}
 
-for parser in all_parsers:
+for parser in ALL_PARSERS_FOUND:
     tag_parsers[
         tag:= f"TAG_PARSER_{parser.upper()}"
     ] = parser
 
-    pyspecs = pyspecs.replace(
-        f"'{parser}'}}",
-        f"{tag}}}"
-    )
+    for punctuation in ",}":
+        pyspecs = pyspecs.replace(
+            f"'{parser}'{punctuation}",
+            f"{tag}{punctuation}"
+        )
+
+
 
 tag_parsers = [
     f'{k} = "{v}"'

@@ -17,14 +17,8 @@
 :fordev:
 --------
 
-[[:tech:]]        ????????????
-Internal \yaml \specs.
-
-    1) ???
-    The undesrscore ''_'' avoids to retype the last type indicated (this only works for keys having the same parent).
-
-    1) ????
-    Magic comments give \attr \descs for the \cli, and the line breaks used ine the \yaml \specs will be used to format the path::''about.yaml'' files.
+[[:tech:]]
+Internal \yaml \specs: ''.'' avoids to retype the last basic parser indicated (this only works for keys having the same parent).
 
 
 // ---------- //

@@ -18,7 +18,7 @@ from .constants  import *
 ###
 # Easy-to-use data class for URLs.
 ###
-@dataclass
+@dataclass(frozen = True)
 class URL:
     url: str
 

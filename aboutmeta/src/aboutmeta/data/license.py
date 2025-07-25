@@ -10,7 +10,7 @@ from dataclasses import dataclass
 ###
 # Easy-to-use data class for licenses.
 ###
-@dataclass
+@dataclass(frozen = True)
 class License:
     std : str
     name: str

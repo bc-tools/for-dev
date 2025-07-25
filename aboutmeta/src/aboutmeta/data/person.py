@@ -21,7 +21,7 @@ from .constants  import *
 ###
 # Easy-to-use data class for persons.
 ###
-@dataclass
+@dataclass(frozen = True)
 class Person:
     firstnames : List[str]
     surname    : str

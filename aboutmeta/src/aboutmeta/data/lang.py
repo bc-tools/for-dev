@@ -10,7 +10,7 @@ from dataclasses import dataclass
 ###
 # Easy-to-use data class for languages.
 ###
-@dataclass
+@dataclass(frozen = True)
 class Lang:
     std      : str
     name     : str

@@ -196,7 +196,7 @@ class AMData:
             else:
                 parser_name = loc_specs[TAG_SPECS_PARSER]
 
-                if parser_name is None:
+                if parser_name == TAG_PARSER_STR:
                     _parser = str
 
                 else:

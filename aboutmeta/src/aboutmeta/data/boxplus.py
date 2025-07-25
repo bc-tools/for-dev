@@ -19,7 +19,7 @@ class BoxPlus(Box):
 # prototype::
 #     content : a pointed path instead of sequence of attributes.
 #
-#     :return: the expected value.
+#     :return: the expected value (if it exists).
 ###
     def __call__(
         self,

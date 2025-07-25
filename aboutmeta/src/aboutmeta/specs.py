@@ -25,6 +25,7 @@ TAG_PARSER_DATE = "date"
 TAG_PARSER_LANG = "lang"
 TAG_PARSER_LICENSE = "license"
 TAG_PARSER_PERSON = "person"
+TAG_PARSER_STR = "str"
 TAG_PARSER_TOCPATH = "tocpath"
 TAG_PARSER_URL = "url"
 TAG_PARSER_VERSION = "version"
@@ -69,34 +70,40 @@ SPECS_PARSING = {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: False,
-                TAG_SPECS_PARSER: None,
-            },
-            "doctitle": {
-                TAG_SPECS_REQUIRED: False,
-                TAG_SPECS_TYPE: TAG_SPECS_DATA,
-                TAG_SPECS_LIST_OF: False,
-                TAG_SPECS_PARSER: None,
+                TAG_SPECS_PARSER: TAG_PARSER_STR,
             },
             "codename": {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: False,
-                TAG_SPECS_PARSER: None,
+                TAG_SPECS_PARSER: TAG_PARSER_STR,
+            },
+            "doctitle": {
+                TAG_SPECS_REQUIRED: False,
+                TAG_SPECS_TYPE: TAG_SPECS_DATA,
+                TAG_SPECS_LIST_OF: False,
+                TAG_SPECS_PARSER: TAG_PARSER_STR,
             },
             "desc": {
                 TAG_SPECS_REQUIRED: True,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: False,
-                TAG_SPECS_PARSER: None,
+                TAG_SPECS_PARSER: TAG_PARSER_STR,
+            },
+            "author": {
+                TAG_SPECS_REQUIRED: False,
+                TAG_SPECS_TYPE: TAG_SPECS_DATA,
+                TAG_SPECS_LIST_OF: False,
+                TAG_SPECS_PARSER: TAG_PARSER_PERSON,
             },
             "authors": {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: True,
-                TAG_SPECS_PARSER: "person",
+                TAG_SPECS_PARSER: TAG_PARSER_PERSON,
                 TAG_SPECS_MAPPER: None,
             },
-            "author": {
+            "contrib": {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: False,
@@ -106,14 +113,8 @@ SPECS_PARSING = {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: True,
-                TAG_SPECS_PARSER: "person",
-                TAG_SPECS_MAPPER: None,
-            },
-            "contrib": {
-                TAG_SPECS_REQUIRED: False,
-                TAG_SPECS_TYPE: TAG_SPECS_DATA,
-                TAG_SPECS_LIST_OF: False,
                 TAG_SPECS_PARSER: TAG_PARSER_PERSON,
+                TAG_SPECS_MAPPER: None,
             },
             "urls": {
                 TAG_SPECS_REQUIRED: False,
@@ -182,14 +183,14 @@ SPECS_PARSING = {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: True,
-                TAG_SPECS_PARSER: None,
+                TAG_SPECS_PARSER: TAG_PARSER_STR,
                 TAG_SPECS_MAPPER: None,
             },
             "keywords": {
                 TAG_SPECS_REQUIRED: False,
                 TAG_SPECS_TYPE: TAG_SPECS_DATA,
                 TAG_SPECS_LIST_OF: True,
-                TAG_SPECS_PARSER: None,
+                TAG_SPECS_PARSER: TAG_PARSER_STR,
                 TAG_SPECS_MAPPER: None,
             },
         },
@@ -198,7 +199,7 @@ SPECS_PARSING = {
         TAG_SPECS_REQUIRED: False,
         TAG_SPECS_TYPE: TAG_SPECS_DATA,
         TAG_SPECS_LIST_OF: True,
-        TAG_SPECS_PARSER: "tocpath",
+        TAG_SPECS_PARSER: TAG_PARSER_TOCPATH,
         TAG_SPECS_MAPPER: "map_toc",
     },
 }

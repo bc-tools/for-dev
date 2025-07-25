@@ -1,60 +1,76 @@
 ###
-# Who am I?
+# This block is used to describe a project from a technical point
+# of view.
 ###
 project*:
 ###
-# Who am I?
+# This is the current version number of the project.
 ###
   version*: version
 ###
-# Who am I?
+# This is the date of the current version of the project.
 ###
   date*: date
 
 ###
-# Who am I?
+# These data help explains the meaning of the acronym used to name
+# the project.
 ###
   acronym*: str
 ###
+# {codename}
+# This value, optional for a code-type project, allows to name the
+# project differently from the folder containing it.
+#
+# {doctitle}
+# This value is mandatory for a “document” type project: it gives
+# the title of the document.
+###
+  codename | doctitle *: . | .
+###
 # Who am I?
 ###
-  doctitle | codename*: str | str
-###
-# Who am I?
-###
-  desc: str
+  desc: .
 
 ###
+# {author}
+# Who am I?
+#
+# {authors}
 # Who am I?
 ###
-  authors | author *: list(person) | person
+  author | authors *: person | list(.)
 
 ###
+# {contrib}
+# Who am I?
+#
+# {contribs}
 # Who am I?
 ###
-  contribs | contrib *: list(person) | person
+  contrib | contribs *: . | list(.)
 
 ###
 # Who am I?
 ###
   urls*:
     home*  : url
-    dev*   : _
-    issues*: _
+    dev*   : .
+    issues*: .
 
 ###
 # Who am I?
 ###
   licenses*:
     code*  : license
-    manual*: _
+    manual*: .
 
 ###
 # Who am I?
 ###
   langs*:
     doc*   : lang
-    manual*: _
+    manual*: .
 
 ###
 # Who am I?
@@ -64,4 +80,4 @@ project*:
 ###
 # Who am I?
 ###
-  keywords*: _
+  keywords*: list(.)
