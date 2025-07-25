@@ -18,8 +18,8 @@ This document is a complete tutorial showing all the available features.
 - [Complete list of dependencies](#MULTIMD-TOC-ANCHOR-1)
 - [`YAML` specifications](#MULTIMD-TOC-ANCHOR-2)
     - [The project itself](#MULTIMD-TOC-ANCHOR-3)
-            - [Version](#MULTIMD-TOC-ANCHOR-4)
-            - [Date](#MULTIMD-TOC-ANCHOR-5)
+        - [Version](#MULTIMD-TOC-ANCHOR-4)
+        - [Date](#MULTIMD-TOC-ANCHOR-5)
         - [Project identity.](#MULTIMD-TOC-ANCHOR-6)
         - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-7)
         - [URLs of the project](#MULTIMD-TOC-ANCHOR-8)
@@ -42,9 +42,9 @@ This document is a complete tutorial showing all the available features.
             - [Languages](#MULTIMD-TOC-ANCHOR-25)
         - [Working with folders and files](#MULTIMD-TOC-ANCHOR-26)
     - [Validate data](#MULTIMD-TOC-ANCHOR-27)
-    - [Affiliation](#MULTIMD-TOC-ANCHOR-28)
-    - [Email](#MULTIMD-TOC-ANCHOR-29)
-            - [URL](#MULTIMD-TOC-ANCHOR-30)
+        - [Affiliation](#MULTIMD-TOC-ANCHOR-28)
+        - [Email](#MULTIMD-TOC-ANCHOR-29)
+        - [URL](#MULTIMD-TOC-ANCHOR-30)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is `aboutmeta`? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -160,12 +160,12 @@ project*:
 The following sections detail the use and meaning of the various attributes shown above.
 
 <a id="MULTIMD-TOC-ANCHOR-4"></a>
-##### Version <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+#### Version <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The optional `project.version` key allows to specify a version number that complies with ["Semantic Versioning"](https://semver.org/), such as `1.0.0`, `0.0.0-beta.1`, and `0.3.1-beta.1+build.5`.
 
 <a id="MULTIMD-TOC-ANCHOR-5"></a>
-##### Date <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+#### Date <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The optional `project.date` key allows to give a date in the English format `YYYY-MM-DD` like `2025-07-15`.
 
@@ -473,12 +473,12 @@ else:
 The following sections present the available validations and explain the checks performed.
 
 <a id="MULTIMD-TOC-ANCHOR-28"></a>
-### Affiliation <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+#### Affiliation <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The validity test for affiliation to an organization or company is based simply on the `OpenStreetMap` API.
 
 <a id="MULTIMD-TOC-ANCHOR-29"></a>
-### Email <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+#### Email <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 For an email, the following validity tests are performed.
 
@@ -486,7 +486,7 @@ For an email, the following validity tests are performed.
 2. Does the email domain name exist?
 
 <a id="MULTIMD-TOC-ANCHOR-30"></a>
-##### URL <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+#### URL <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 For a URL, the following tests are performed during validation.
 

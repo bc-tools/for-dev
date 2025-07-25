@@ -47,6 +47,20 @@ meta.add_license(
 
 
 
+> ---------------------------- <
+
+CLI.
+    ---> Création/modif guidée
+
+    ---> Lecture et validation avec mode complétion
+
+    ---> Formatage standardisé
+
+    ---> Ajout de la licence au format texte
+
+    ---> Test dns des urls avec rêche reçu auto à partir d'un point donné
+
+
 // ---------- //
 
 
@@ -64,20 +78,6 @@ First public version of the \proj available on \pypi.
 > ---------------------------- <
 
 validate avec arg bool optionnel pour normaliserles données
-
-
-> ---------------------------- <
-
-CLI.
-    ---> Création/modif guidée
-
-    ---> Lecture et validation avec mode complétion
-
-    ---> Formatage standardisé
-
-    ---> Ajout de la licence au format texte
-
-    ---> Test dns des urls avec rêche reçu auto à partir d'un point donné
 
 
 > ---------------------------- <
