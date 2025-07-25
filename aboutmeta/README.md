@@ -439,8 +439,8 @@ Some data, such as file paths, dates, and version numbers, are validated during 
 ~~~python
 from aboutmeta import AMData, Path
 
-meta = AMData(Path("/full/path/to/about.yaml"))
-meta.build()
+meta = AMData()
+meta.build(yaml_file = Path("/full/path/to/about.yaml"))
 
 if meta.validate():
     print("Valdation OK")
@@ -457,8 +457,8 @@ To simply validate the data in the `YAML` block `project.urls`, just specify the
 ~~~python
 from aboutmeta import AMData, Path
 
-meta = AMData(Path("/full/path/to/about.yaml"))
-meta.build()
+meta = AMData()
+meta.build(yaml_file = Path("/full/path/to/about.yaml"))
 
 if meta.validate(
     what      = "project.urls",
