@@ -1,6 +1,6 @@
 ###
-# This block is used to describe a project from a technical point
-# of view.
+# This block alows to describe a project from a technical point of
+# view.
 ###
 project*:
 ###
@@ -13,8 +13,8 @@ project*:
   date*: date
 
 ###
-# These data help explains the meaning of the acronym used to name
-# the project.
+# These data helps explaining the meaning of the acronym used for
+# naming the project.
 ###
   acronym*: str
 ###
@@ -28,30 +28,51 @@ project*:
 ###
   codename | doctitle *: . | .
 ###
-# Who am I?
+# You need to describe shortly your project.
 ###
   desc: .
 
 ###
 # {author}
-# Who am I?
+# For a single author, you have the following possible syntaxes.
+#
+#   + ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
+#     are legal titles for a person (the number of first names is
+#     unlitimted).
+#
+#   + ''Krivine [jlk@brain.fr]'' adds an email.
+#
+#   + ''Krivine (L'Institut du Cerveau, France)'' adds an institute.
+#
+#   + ''Krivine [jlk@brain.fr] (L'Institut du Cerveau, France)''
+#     mixes the previous features.
 #
 # {authors}
-# Who am I?
+# For severals authors, just use a YAML list of single authors (see
+# the description of the key author).
 ###
   author | authors *: person | list(.)
 
 ###
 # {contrib}
-# Who am I?
+# For a single contributor, the syntaxes allowed are similar to the
+# ones for a single author.
 #
 # {contribs}
-# Who am I?
+# For severals authors, just use a YAML list of single authors (see
+# the description of the key author).
 ###
   contrib | contribs *: . | list(.)
 
 ###
-# Who am I?
+# Three kinds of URL ca be given.
+#
+#   + ''home'' is for the website of the project, the human one.
+#
+#   + ''dev'' is dedicated to the repository of the project, this is
+#     not intended for human beings.
+#
+#   + ''issues'' allows regular users to indicate bugs.
 ###
   urls*:
     home*  : url
@@ -59,25 +80,31 @@ project*:
     issues*: .
 
 ###
-# Who am I?
+# Give a license is a good practice.
+#
+#   + ''code'' is for the code of the project.
+#
+#   + ''manual'' if the manual of the project.
 ###
   licenses*:
     code*  : license
     manual*: .
 
 ###
-# Who am I?
+# You can indicate that the manual and the technical documentations
+# are not in  English.
 ###
   langs*:
     doc*   : lang
     manual*: .
 
 ###
-# Who am I?
+# Don't forget to give the list of the required general tools needed
+# to make yur project functional.
 ###
   require*: list(str)
 
 ###
-# Who am I?
+# It is possible to provide a list of keywords describing the project.
 ###
   keywords*: list(.)
