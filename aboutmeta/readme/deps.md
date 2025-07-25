@@ -1,7 +1,7 @@
 Complete list of dependencies
 -----------------------------
 
-Here are the `Python` libraries used by `aboutmeta`. Version numbers are indicated in brackets.
+Here are the `Python` libraries used by `aboutmeta`. The version numbers in brackets are those used prior to the release of this version of `aboutmeta`.
 
   * `email_validator`   **[2.2]**
   * `langcodes`   **[3.5]**

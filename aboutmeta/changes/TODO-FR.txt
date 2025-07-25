@@ -5,19 +5,22 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+list deps : passer via pip freeze qui donne les vrais nums et npn ceux dur pyproject
+
+en profiter vai cofiup pour mettre cette luste quelque part, et ensuite gérer list des deps en md via cofiup
+
+
+> ---------------------------- <
+
 Doc
 
     ---> Mode cool ok : cf val par défaut du keep pour build : il faut juste le documenter.
 
-    ---> Contribution à compléter avec cas particulier de path qui demande plus d'arguments
-
-    ---> section dédie aux actions en plus !
 
 
+> ---------------------------- <
 
-
-
-
+Doc - Section dédie aux actions en plus !
 
 
 > ***NOTE.*** *Using the `Python` API or the CLI, you can request the addition of a `License.txt` file in the folder containing the `about.yaml` file.*
@@ -72,6 +75,12 @@ First public version of the \proj available on \pypi.
 
 
 
+> ---------------------------- <
+
+multimd MAJ omplique :
+
+  # - glob: validate/*.md
+  - validate/
 
 
 

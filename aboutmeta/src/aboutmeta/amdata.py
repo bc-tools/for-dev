@@ -391,8 +391,8 @@ class AMData:
 
 ###
 # prototype::
-#     data : the ''tocpath.TOCPath'' list returned by the parser allows
-#            to perform recursive analysis of subfolders, if necessary.
+#     data : the ''tocpath.TOCPath'' list returned by the parser is
+#            used for a recursive analysis of subfolders, if necessary.
 #
 #     :return: the list of files found.
 ###

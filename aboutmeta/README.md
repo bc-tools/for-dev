@@ -58,7 +58,7 @@ This project allows metadata to be defined in `about.yaml` files, making it easi
 Complete list of dependencies <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 -----------------------------
 
-Here are the `Python` libraries used by `aboutmeta`. Version numbers are indicated in brackets.
+Here are the `Python` libraries used by `aboutmeta`. The version numbers in brackets are those used prior to the release of this version of `aboutmeta`.
 
 - `email_validator` **[2.2]**
 - `langcodes` **[3.5]**
