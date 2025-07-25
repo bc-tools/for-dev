@@ -1,4 +1,4 @@
-#### `regex` patterns
+#### regex patterns
 
 A `regex` pattern can be either, for example, `regex: '[^/]*\.md'`, or `r-regex: '[^/]*\.md'` for a recursive search.
 

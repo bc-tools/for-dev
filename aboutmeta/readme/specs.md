@@ -1,5 +1,5 @@
-`YAML` specifications
----------------------
+YAML specifications
+-------------------
 
 In this section, we present all level `1` blocks. In the following fictive example, these blocks are named `block-1`, `block-2`, and `block-3`.
 

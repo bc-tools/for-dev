@@ -6,17 +6,17 @@
   ---------------------------------------------------------------->
 
 
-The `Python` module `aboutmeta`
-===============================
+The Python module aboutmeta
+===========================
 
 This document is a complete tutorial showing all the available features.
 
 **Table of contents**
 
 <a id="MULTIMD-GO-BACK-TO-TOC"></a>
-- [What is `aboutmeta`?](#MULTIMD-TOC-ANCHOR-0)
+- [What is aboutmeta?](#MULTIMD-TOC-ANCHOR-0)
 - [Complete list of dependencies](#MULTIMD-TOC-ANCHOR-1)
-- [`YAML` specifications](#MULTIMD-TOC-ANCHOR-2)
+- [YAML specifications](#MULTIMD-TOC-ANCHOR-2)
     - [The project itself](#MULTIMD-TOC-ANCHOR-3)
         - [Version](#MULTIMD-TOC-ANCHOR-4)
         - [Date](#MULTIMD-TOC-ANCHOR-5)
@@ -29,9 +29,9 @@ This document is a complete tutorial showing all the available features.
         - [Keywords](#MULTIMD-TOC-ANCHOR-12)
     - [Working with files](#MULTIMD-TOC-ANCHOR-13)
         - [Direct paths](#MULTIMD-TOC-ANCHOR-14)
-        - [`glob` patterns](#MULTIMD-TOC-ANCHOR-15)
-        - [`regex` patterns](#MULTIMD-TOC-ANCHOR-16)
-- [The `Python` module `aboutmeta`](#MULTIMD-TOC-ANCHOR-17)
+        - [glob patterns](#MULTIMD-TOC-ANCHOR-15)
+        - [regex patterns](#MULTIMD-TOC-ANCHOR-16)
+- [The Python API](#MULTIMD-TOC-ANCHOR-17)
     - [Data extraction](#MULTIMD-TOC-ANCHOR-18)
     - [Use of data](#MULTIMD-TOC-ANCHOR-19)
         - [The project itself](#MULTIMD-TOC-ANCHOR-20)
@@ -47,8 +47,8 @@ This document is a complete tutorial showing all the available features.
         - [URL](#MULTIMD-TOC-ANCHOR-30)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
-What is `aboutmeta`? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
---------------------
+What is aboutmeta? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+------------------
 
 This project allows metadata to be defined in `about.yaml` files, making it easier for third-party programs to manage digital projects (code projects and document-type projects).
 
@@ -71,8 +71,8 @@ Here are the `Python` libraries used by `aboutmeta`. Version numbers are indicat
 - `semver` **[3.0]**
 
 <a id="MULTIMD-TOC-ANCHOR-2"></a>
-`YAML` specifications <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
----------------------
+YAML specifications <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+-------------------
 
 In this section, we present all level `1` blocks. In the following fictive example, these blocks are named `block-1`, `block-2`, and `block-3`.
 
@@ -303,20 +303,20 @@ You can use a verbatim relative path of either a file, or a folder, with folders
 > ***NOTE.*** *If you want to choose the files kept inside a folder without using an `about.yaml` file, you will have to use a pattern as explained in the upcoming sections.*
 
 <a id="MULTIMD-TOC-ANCHOR-15"></a>
-#### `glob` patterns <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+#### glob patterns <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The `glob` patterns are simply indicated using something like `glob: "*.md"`, or `r-glob: "*.md"` if you need a recursive search.
 
 <a id="MULTIMD-TOC-ANCHOR-16"></a>
-#### `regex` patterns <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+#### regex patterns <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 A `regex` pattern can be either, for example, `regex: '[^/]*\.md'`, or `r-regex: '[^/]*\.md'` for a recursive search.
 
 > ***WARNING!*** *In a `YAML` file, using single quotation marks avoids escaping backslashes. With double quotation marks, we would have had to type `"[^/]*\\.py"` which is less user-friendly.*
 
 <a id="MULTIMD-TOC-ANCHOR-17"></a>
-The `Python` module `aboutmeta` <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
--------------------------------
+The Python API <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+--------------
 
 In addition to providing `YAML` specifications, that can be used in your preferred programming language, `aboutmeta` offers a `Python` module based on a plugin system that handles certain data formats.
 The following sections describe what is available in the current version.
