@@ -1,5 +1,5 @@
 ###
-# This block alows to describe a project from a technical point of
+# This block allows to describe a project from a technical point of
 # view.
 ###
 project*:
@@ -13,8 +13,8 @@ project*:
   date*: date
 
 ###
-# These data helps explaining the meaning of the acronym used for
-# naming the project.
+# This information explains the meaning of the acronym used to name
+# the project.
 ###
   acronym*: str
 ###
@@ -38,7 +38,7 @@ project*:
 #
 #   + ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
 #     are legal titles for a person (the number of first names is
-#     unlitimted).
+#     unlimited).
 #
 #   + ''Krivine [jlk@brain.fr]'' adds an email.
 #
@@ -49,30 +49,30 @@ project*:
 #
 # {authors}
 # For severals authors, just use a YAML list of single authors (see
-# the description of the key author).
+# the description of the key ''author'').
 ###
   author | authors *: person | list(.)
 
 ###
 # {contrib}
 # For a single contributor, the syntaxes allowed are similar to the
-# ones for a single author.
+# ones for a single author (see the key ''author'').
 #
 # {contribs}
 # For severals authors, just use a YAML list of single authors (see
-# the description of the key author).
+# the description of the key ''author'').
 ###
   contrib | contribs *: . | list(.)
 
 ###
-# Three kinds of URL ca be given.
+# Three kinds of URL can be given.
 #
 #   + ''home'' is for the website of the project, the human one.
 #
 #   + ''dev'' is dedicated to the repository of the project, this is
 #     not intended for human beings.
 #
-#   + ''issues'' allows regular users to indicate bugs.
+#   + ''issues'' allows regular users to report bugs.
 ###
   urls*:
     home*  : url
@@ -80,19 +80,19 @@ project*:
     issues*: .
 
 ###
-# Give a license is a good practice.
+# Granting a license is good practice.
 #
 #   + ''code'' is for the code of the project.
 #
-#   + ''manual'' if the manual of the project.
+#   + ''manual'' is for the manual of the project.
 ###
   licenses*:
     code*  : license
     manual*: .
 
 ###
-# You can indicate that the manual and the technical documentations
-# are not in  English.
+# This for the language used to write the manual and the technical
+# documentations.
 ###
   langs*:
     doc*   : lang
@@ -100,11 +100,12 @@ project*:
 
 ###
 # Don't forget to give the list of the required general tools needed
-# to make yur project functional.
+# to make your project functional.
 ###
   require*: list(str)
 
 ###
-# It is possible to provide a list of keywords describing the project.
+# Providing a list of keywords describing the project helps to better
+# understand its usefulness.
 ###
   keywords*: list(.)
