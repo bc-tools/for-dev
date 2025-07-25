@@ -1,1 +1,11 @@
+###
+# Using hard-coded paths, glob patterns or regex patterns, you select
+# a list of absolute paths to existing files. Briefly, these are the
+# features available.
+#
+#   + XXXX
+#   + XXXX
+#   + XXXX
+#   + XXXX
+###
 toc*: list(tocpath) > map_toc

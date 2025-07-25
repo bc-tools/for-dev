@@ -1,28 +1,67 @@
+###
+# Who am I?
+###
 project*:
+###
+# Who am I?
+###
   version*: version
-  date*   : date
+###
+# Who am I?
+###
+  date*: date
 
-  acronym*            : str
+###
+# Who am I?
+###
+  acronym*: str
+###
+# Who am I?
+###
   doctitle | codename*: str | str
-  desc                : str
+###
+# Who am I?
+###
+  desc: str
 
+###
+# Who am I?
+###
   authors | author *: list(person) | person
 
+###
+# Who am I?
+###
   contribs | contrib *: list(person) | person
 
+###
+# Who am I?
+###
   urls*:
     home*  : url
-    dev*   : url
-    issues*: url
+    dev*   : _
+    issues*: _
 
+###
+# Who am I?
+###
   licenses*:
     code*  : license
-    manual*: license
+    manual*: _
 
+###
+# Who am I?
+###
   langs*:
     doc*   : lang
-    manual*: lang
+    manual*: _
 
+###
+# Who am I?
+###
   require*: list(str)
 
-  keywords*: list(str)
+###
+# Who am I?
+###
+  keywords*: _

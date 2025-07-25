@@ -5,17 +5,14 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-list deps : passer via pip freeze qui donne les vrais nums et npn ceux dur pyproject
-
-en profiter vai cofiup pour mettre cette luste quelque part, et ensuite gérer list des deps en md via cofiup
+validation des blocs : parmi ceux autorisés, voir ceux obligatoires, et about.yaml autorisé mae si warning en mode console
 
 
 > ---------------------------- <
 
-Doc
+formattage standard : attention car les mappers doivent être neutralisé dans ce cas ! cette neutraisation est purement intern et caché à l'utilisateur : passser via un attrib __use_maps
 
-    ---> Mode cool ok : cf val par défaut du keep pour build : il faut juste le documenter.
-
+les specs yaml donnent le formattage (analysé par mon script)
 
 
 > ---------------------------- <
@@ -49,10 +46,12 @@ meta.add_license(
 ~~~
 
 
-
 > ---------------------------- <
 
 CLI.
+
+    ---> specs yaml modifié pour aussi décrire la clé : boxplus pour la doc demandé, et si doc absente, on donne celle du 1ier parent qui en a une, ceci évite de tout doculentetr (penser aux licences ou aux urls)
+
     ---> Création/modif guidée
 
     ---> Lecture et validation avec mode complétion
@@ -91,4 +90,4 @@ validate avec arg bool optionnel pour normaliserles données
 
 > ---------------------------- <
 
-formattage standard : attention car les mappers doivent être neutralisé dans ce cas ! cette neutraisation est purement intern et caché à l'utilisateur : passser via un attrib __use_maps
+list deps : via cofiup pour mettre cette luste quelque part, et ensuite gérer list des deps en md via cofiup

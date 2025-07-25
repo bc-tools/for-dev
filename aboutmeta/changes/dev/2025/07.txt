@@ -9,8 +9,22 @@
 :update:
 --------
 
-[[:doc:]]   ??????????
-\Readme: review of all \docu (\refs to the \cli have been removed, as its implementation will come later for the general public).
+[[:doc:]]
+\Readme: review of all \docu (\refs to the \cli have been removed, as its implementation will have a dedicated section).
+
+
+--------
+:fordev:
+--------
+
+[[:tech:]]        ????????????
+Internal \yaml \specs.
+
+    1) ???
+    The undesrscore ''_'' avoids to retype the last type indicated (this only works for keys having the same parent).
+
+    1) ????
+    Magic comments give \attr \descs for the \cli, and the line breaks used ine the \yaml \specs will be used to format the path::''about.yaml'' files.
 
 
 // ---------- //
