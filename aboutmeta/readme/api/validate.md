@@ -14,7 +14,7 @@ if meta.validate():
 else:
     print(
         "Valdation KO: see all the logging infos in the terminal, "
-        "or just the errors in the aboutmeta.validate.log file."
+        "or just the errors in the aboutmeta.log file."
     )
 ~~~
 

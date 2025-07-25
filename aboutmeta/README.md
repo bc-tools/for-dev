@@ -95,7 +95,7 @@ block-3:
 Here are the **conventions used in our explanations**.
 
 1. The concept of attribute will refer to a block, a key, etc.
-2. A virtual pointed path like `block-3.key-1` refers to the key `key-1` of block `block-3`.
+2. A virtual pointed path like `block-3.key-1` refers to the key `key-1` of the block `block-3`.
 3. Optional attributes will be indicated by their name followed by an asterisk `*`.
 4. Sometimes, an attribute can be used either in the singular or plural form, but not both at the same time. In this case, the name will end with `(s)`, as in `author(s)`.
 
@@ -201,14 +201,14 @@ project:
     - Donald, Knuth
 ~~~
 
-The following forms of personal identification are managed by the `Python` module `aboutmeta`.
+The following forms of personal identification are managed.
 
 1. **Title (mandatory):** `Surname`, `First name, Compound surname`, `First name 1, First name 2, Long surname`... Hereinafter, we will refer to one of the above forms as `<title>`.
-2. **Email address (optional):** `<title> [un.id@provider.abc]` uses square brackets for the email.
+2. **Email address (optional):** `<title> [one.id@provider.abc]` uses square brackets for the email.
 3. **Affiliation (optional):** `<title> (Name of institute, Country)` uses parentheses for the affiliation.
 4. **Indicate everything:** only the format `<title> [email] (institute)` is allowed.
 
-> ***NOTE.*** *Emails are not verified.*
+> ***NOTE.*** *Emails are not verified, but they can be validated on demand (technically, this requires an internal connection, so it is not possible to validate an email every time an `about.yaml` file is analyzed).*
 
 <a id="MULTIMD-TOC-ANCHOR-8"></a>
 #### URLs of the project <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -219,6 +219,8 @@ The optional `project.url` block allows to provide hyperlinks via the following 
 2. `dev` is used to point to a repository for managing project development.
 3. `issues` redirects users to the page where they can report bugs or make suggestions.
 
+> ***NOTE.*** *URLs are not verified, but they can be validated on demand (technically, this requires an internal connection, so it is not possible to validate a URL every time an `about.yaml` file is analyzed).*
+
 <a id="MULTIMD-TOC-ANCHOR-9"></a>
 #### Licenses <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
@@ -227,11 +229,7 @@ The optional block `project.licenses` is used to indicate licenses via the follo
 1. `code` is for the license of the code or document relating to the project.
 2. `manual` allows, in the case of a code-type porject, the selection of a license specific to the user manual.
 
-The `Python` module `aboutmeta` takes into account the license names proposed by the [`SPDX` SPDX License List](https://spdx.org/licenses/) with a little felixibity.
-
-The `Python` module `aboutmeta` takes into account the license names proposed by the [`SPDX` SPDX License List](https://spdx.org/licenses/) with a certain degree of flexibility: for example, you can type `gpl 3.0+` and `cc by nc 4.0` instead of `GPL-3.0+` and `CC-BY-NC-4.0`.
-
-> ***NOTE.*** *Using the `Python` API or the CLI, you can request the addition of a `License.txt` file in the folder containing the `about.yaml` file.*
+The license names proposed by the [`SPDX` SPDX License List](https://spdx.org/licenses/) are taken into account, with a certain degree of flexibility: for example, you can type `gpl 3.0+` and `cc by nc 4.0` instead of `GPL-3.0+` and `CC-BY-NC-4.0`.
 
 <a id="MULTIMD-TOC-ANCHOR-10"></a>
 #### Languages <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -300,7 +298,7 @@ toc:
 
 You can use a verbatim relative path of either a file, or a folder, with folders indicated by a slash `/` at the end of the path (the slash `/` also serves as a path separator, even when working with the Windows operating system).
 
-When a folder is specified, it must contain an `about.yaml` file with a `toc` block to be analyzed by `aboutmeta`.
+> ***CAUTION!*** *When a folder is specified, it must contain an `about.yaml` file with a `toc` block to be analyzed by `aboutmeta`.*
 
 > ***NOTE.*** *If you want to choose the files kept inside a folder without using an `about.yaml` file, you will have to use a pattern as explained in the upcoming sections.*
 
@@ -312,9 +310,9 @@ The `glob` patterns are simply indicated using something like `glob: "*.md"`, or
 <a id="MULTIMD-TOC-ANCHOR-16"></a>
 #### `regex` patterns <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-The `regex` patterns can be either `regex: '[^/]*\.md'`, or `r-regex: '[^/]*\.md'` for a recursive saerche.
+A `regex` pattern can be either, for example, `regex: '[^/]*\.md'`, or `r-regex: '[^/]*\.md'` for a recursive search.
 
-> ***WARNING!*** *In a `YAML` file, using single quotation marks avoids escaping backslashes. With double quotation marks, we would have had to type `"[^/]*\\.py"`.*
+> ***WARNING!*** *In a `YAML` file, using single quotation marks avoids escaping backslashes. With double quotation marks, we would have had to type `"[^/]*\\.py"` which is less user-friendly.*
 
 <a id="MULTIMD-TOC-ANCHOR-17"></a>
 The `Python` module `aboutmeta` <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -346,7 +344,7 @@ meta.build(
     keep      = SET_KEEP_ONLY_TOC
 )
 ~~~
-> ***NOTE.*** *By default, `aboutmeta` uses `SET_KEEP_ALL` whcih is teh set of all the main blocks.*
+> ***NOTE.*** *By default, `aboutmeta` uses `SET_KEEP_ALL` which is the set of all the main blocks.*
 
 <a id="MULTIMD-TOC-ANCHOR-19"></a>
 ### Use of data <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -358,14 +356,14 @@ Once the data has been extracted by `aboutmeta.AMData`, the `data` attribute of 
 
 The following sections present the data after digestion.
 
-> ***NOTE.*** *To keep things simple, we will always use access to data processed via the `data` attribute, and work with the `meta` object explained in the previous section.*
+> ***NOTE.*** *To keep things simple, we will always use access to data processed via the `data` attribute, and work with the `meta` object showed in the previous section.*
 
-> ***TIP.*** *To retrieve a standard version of the original `YAML` version of a piece of data, just use the string verison of the corresponding `Python` data as in `str(meta.verbatim.project.version)`.*
+> ***TIP.*** *To retrieve a standard version of the original `YAML` piece of data, just use the string version of the corresponding `Python` data as in `str(meta.verbatim.project.date)`.*
 
 <a id="MULTIMD-TOC-ANCHOR-20"></a>
 #### The project itself <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-We only present digested data that does not reproduce the contents of the `YAML` file.
+We only present digested data that does not reproduce the contents of the `YAML` file as string data.
 
 > ***NOTE.*** *The next sections will use the abbreviation `mdp = meta.data.project`.*
 
@@ -386,13 +384,12 @@ Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build
 <a id="MULTIMD-TOC-ANCHOR-22"></a>
 ##### Date <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-The date is accessible via the attribute `mdp.version.date`.
+The date is accessible via the attribute `mdp.date`.
 
-1. The full date is obtained using `str(mdp.version.date)`
-   If needed, you can use the following sub-attributes.
-2. `mdp.version.date.year` provides the integer value of the year.
-3. `mdp.version.month` provides the integer number of the month.
-4. `mdp.version.day` provides the integer number of the day.
+1. The full date is obtained using `str(mdp.date)`
+2. `mdp.year` provides the integer value of the year.
+3. `mdp.month` provides the integer number of the month.
+4. `mdp.day` provides the integer number of the day.
 
 > ***NOTE*** *Behind the date data is a `datetime.date` object (which provides access to all the methods associated with these type of object).*
 
@@ -409,36 +406,17 @@ In the `YAML` file, the singular forms `project.author` and `project.contrib` wi
 <a id="MULTIMD-TOC-ANCHOR-24"></a>
 ##### Licenses <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-The license abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List](https://spdx.org/licenses/) (internally, we use a local version of the [`licenses.json`](https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json) file).
+The license abbreviations taken into account are those provided in the [`SPDX` SPDX License List](https://spdx.org/licenses/) (internally, we use a local version of the [`licenses.json`](https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json) file), and that are not deprecated.
 To facilitate data entry, lowercase letters may be used, and hyphens may be replaced with spaces: for example, to indicate the *"Creative Commons Attribution Non Commercial 4.0 International"* license, it is possible to use `cc by nc 4.0` instead of `CC-BY-NC-4.0` as expected by the `SPDX` project.
 
-> ***NOTE.*** *In the case of an unknown abbreviation, the error message will provide possible suggestions if simple typos have been made in the `YAML` file.*
+> ***NOTE.*** *In the case of an unknown abbreviation, the error message can indicate possible suggestions if simple typos have been made in the `YAML` file.*
 
 The digested license provides the following information.
 
-1. `mdp.license.std` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.license)` for example.
+1. `mdp.license.std` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(mdp.license)` for example.
 2. `mdp.license.name` is the full title of the license.
 3. `mdp.license.ref` is a URL pointed to the `SPDX` web page describing the license.
 
-> ***NOTE.*** *The CLI allows to request that the full text of the license be put into a file `LICENSE.txt `relatively to the folder containing the `about.yaml` file. You can also do that using codes like the follwing one.*
-
-~~~python
-from aboutmeta import AMData, Path
-
-meta = AMData(Path("/full/path/to/about.yaml"))
-meta.build()
-
-meta.add_license(
-    license_path = "project.licenses.code",
-    erase        = True
-)
-
-meta.add_license(
-    license_path = "project.licenses.manual",
-    dir_relpath  = "readme",
-    erase        = True
-)
-~~~
 <a id="MULTIMD-TOC-ANCHOR-25"></a>
 ##### Languages <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
@@ -470,7 +448,7 @@ if meta.validate():
 else:
     print(
         "Valdation KO: see all the logging infos in the terminal, "
-        "or just the errors in the aboutmeta.validate.log file."
+        "or just the errors in the aboutmeta.log file."
     )
 ~~~
 

@@ -104,15 +104,15 @@ from aboutmeta.data.constants import *
 # [[\regex patterns]]
 #
 # You can use \regexs for more advanced needs. The fist \glob pattern
-# can rewritten as ''data = {'regex': r".*\.md"}'', and the scond one
-# as ''data = {'r-regex': r".*\.md"}''.
+# can be rewritten as ''data = {'regex': r".*\.md"}'', and the second
+# one as ''data = {'r-regex': r".*\.md"}''.
 ###
 def parser(
     parent: Path,
     data  : str | dict
 ) -> tocpath.TOCPath:
 ###
-# Internal function to raise errors.
+# Internal function to raise errors easily.
 ###
     def _raisethis(
         kind: str,
@@ -127,7 +127,9 @@ def parser(
             """.strip()
         )
 
-# -- "Direct" path -- #
+#################
+# "Direct" path #
+#################
     if isinstance(data, str):
         is_dir = bool(data[-1] == "/")
 
@@ -163,8 +165,10 @@ def parser(
             paths = abspath
         )
 
-# -- Pattern -- #
-#
+###########
+# Pattern #
+###########
+
 # We must have a one-key dict!
     if not isinstance(data, dict):
         _raisethis("one dict expected for one glob or regex pattern")
@@ -181,7 +185,7 @@ def parser(
     if not kind in TAG_TOC_PATTERN_KINDS:
         _raisethis(f"illegal pattern kind ''{kind}''")
 
-# User writes an abbreviation.
+# User has used an abbreviation.
     if not kind in data:
         data = {kind: pattern}
 

@@ -1,40 +1,19 @@
 ##### Licenses
 
-The license abbreviations that are taken into account are those provided in the [`SPDX` SPDX License List][1] (internally, we use a local version of the [`licenses.json`][2] file).
+The license abbreviations taken into account are those provided in the [`SPDX` SPDX License List][1] (internally, we use a local version of the [`licenses.json`][2] file), and that are not deprecated.
 To facilitate data entry, lowercase letters may be used, and hyphens may be replaced with spaces: for example, to indicate the *"Creative Commons Attribution Non Commercial 4.0 International"* license, it is possible to use `cc by nc 4.0` instead of `CC-BY-NC-4.0` as expected by the `SPDX` project.
 
 
-> ***NOTE.*** *In the case of an unknown abbreviation, the error message will provide possible suggestions if simple typos have been made in the `YAML` file.*
+> ***NOTE.*** *In the case of an unknown abbreviation, the error message can indicate possible suggestions if simple typos have been made in the `YAML` file.*
 
 
 The digested license provides the following information.
 
-  1) `mdp.license.std` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(meta.data.project.license)` for example.
+  1) `mdp.license.std` is the standard `SPDX` abbreviation. This text is also used for the basic text version obtained via `str(mdp.license)` for example.
 
   1) `mdp.license.name` is the full title of the license.
 
   1) `mdp.license.ref` is a URL pointed to the `SPDX` web page describing the license.
-
-
-> ***NOTE.*** *The CLI allows to request that the full text of the license be put into a file `LICENSE.txt `relatively to the folder containing the `about.yaml` file. You can also do that using codes like the follwing one.*
-
-~~~python
-from aboutmeta import AMData, Path
-
-meta = AMData(Path("/full/path/to/about.yaml"))
-meta.build()
-
-meta.add_license(
-    license_path = "project.licenses.code",
-    erase        = True
-)
-
-meta.add_license(
-    license_path = "project.licenses.manual",
-    dir_relpath  = "readme",
-    erase        = True
-)
-~~~
 
 
 [1]: https://spdx.org/licenses/

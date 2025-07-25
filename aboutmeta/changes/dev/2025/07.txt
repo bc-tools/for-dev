@@ -2,6 +2,21 @@
 
 
 ==
+25  (0.0.0-beta.13)
+==
+
+--------
+:update:
+--------
+
+[[:doc:]]   ??????????
+\Readme: review of all \docu (\refs to the \cli have been removed, as its implementation will come later for the general public).
+
+
+// ---------- //
+
+
+==
 24  (0.0.0-beta.12)
 ==
 

@@ -77,10 +77,9 @@ def parser(content: str) -> license.License:
 
 # The job has been done.
     return license.License(
-        std        = spdx_infos["std"],
-        name       = spdx_infos["name"],
-        ref        = spdx_infos["ref"],
-        deprecated = spdx_infos["deprecated"],
+        std  = spdx_infos["std"],
+        name = spdx_infos["name"],
+        ref  = spdx_infos["ref"],
     )
 
 

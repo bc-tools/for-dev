@@ -11,6 +11,41 @@ Doc
 
     ---> Contribution à compléter avec cas particulier de path qui demande plus d'arguments
 
+    ---> section dédie aux actions en plus !
+
+
+
+
+
+
+
+
+> ***NOTE.*** *Using the `Python` API or the CLI, you can request the addition of a `License.txt` file in the folder containing the `about.yaml` file.*
+
+
+
+
+> ***NOTE.*** *The CLI allows to request that the full text of the license be put into a file `LICENSE.txt `relatively to the folder containing the `about.yaml` file. You can also do that using codes like the follwing one.*
+
+~~~python
+from aboutmeta import AMData, Path
+
+meta = AMData(Path("/full/path/to/about.yaml"))
+meta.build()
+
+meta.add_license(
+    license_path = "project.licenses.code",
+    erase        = True
+)
+
+meta.add_license(
+    license_path = "project.licenses.manual",
+    dir_relpath  = "readme",
+    erase        = True
+)
+~~~
+
+
 
 // ---------- //
 
