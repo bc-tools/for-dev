@@ -1,5 +1,6 @@
 ###
-# Using hard-coded paths, or glob or regex patterns, you select a list
+# Using
+# hard-coded paths, or glob or regex patterns, you select a list
 # of absolute paths of existing files. Here are the available features,
 # with paths searched inside the folder of the ''about.yaml'' file.
 #

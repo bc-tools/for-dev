@@ -86,7 +86,7 @@ def extract_helpers(yaml_file):
 
                     cur_paths.pop(-1)
 
-            last_level =level
+            last_level = level
 
             cur_paths.append(line)
 
@@ -139,11 +139,9 @@ def update_helpers(
 
 # Just one thing, nothing left to do.
     if len(last_keys) == 1:
-        helper_doc = "\n".join(helper_doc)
-
 # Several paths can go to the same last key!
         for p in cur_paths:
-            HELP_CONTENT[p] = helper_doc
+            HELP_CONTENT[p] = helper_content
 
 # Severals docs for different keys.
     else:
