@@ -24,18 +24,17 @@ PROJECT_NAME = PROJECT_DIR.name
 
 SPECS_DIR = PROJECT_DIR / "specs"
 
-SRC_DIR         = PROJECT_DIR / "src" / PROJECT_NAME
-HELPERS_FILE    = SRC_DIR / "helpers.py"
-FORMATTERS_FILE = SRC_DIR / "formatters.py"
+SRC_DIR      = PROJECT_DIR / "src" / PROJECT_NAME
+HELPERS_FILE = SRC_DIR / "helpers.py"
 
-HELP_CONTENT     = {}
-FORMATTING_SPECS = {}
+HELP_CONTENT = {}
 
 MAGIC_COMMENT_HELPER = "#"*3
 
 
 PATTERN_KEEP_BEFORE_SPACES = re.compile(r'^(\s*)(.*)')
 PATTERN_MULTI_SPACES       = re.compile(r'\s{2,}')
+PATTERN_SECTION_TITLE      = re.compile(r'^\{(.*)\}$')
 
 
 # ----------- #
@@ -136,37 +135,78 @@ def update_helpers(
 
 # What is documented?
     cur_paths = build_pointed_paths(cur_paths)
-    last_keys = set(
-        p.split('.')[-1]
-        for p in cur_paths
-    )
+    last_keys = get_last_keys(cur_paths)
 
 # Just one thing, nothing left to do.
     if len(last_keys) == 1:
         helper_doc = "\n".join(helper_doc)
 
+# Several paths can go to the same last key!
         for p in cur_paths:
             HELP_CONTENT[p] = helper_doc
 
-# Severals docs at the same time.
+# Severals docs for different keys.
     else:
-        print(f"{cur_paths=}")
-        print(extract_sub_section(last_keys, helper_doc))
-        exit()
-    # cur_paths = ".".join(cur_paths)
-
-# Do we have the expecetd sections?
-
-# Everything looks good.
+        HELP_CONTENT |= extract_sub_section(cur_paths, helper_doc)
 
 
 def extract_sub_section(
-    keys_expected: Set[str],
-    lines        : List[str]
+    paths: List[str],
+    lines: List[str]
 ) -> Dict[str, str]:
-    print(keys_expected)
-    print(lines)
-    exit()
+# Looking for sections.
+    inter_sections = {}
+
+    last_title   = ''
+    last_content = []
+
+    for l in lines:
+        match = PATTERN_SECTION_TITLE.match(l)
+
+        if match is None:
+            last_content.append(l)
+            continue
+
+        if last_title in inter_sections:
+            TODO
+
+        if last_content:
+            inter_sections[last_title] = gather_content(last_title, last_content)
+
+        last_title   = match.group(1)
+        last_content = []
+
+    inter_sections[last_title] = gather_content(last_title, last_content)
+
+# No extra or unknown sections?
+    titles    = set(inter_sections)
+    last_keys = get_last_keys(paths)
+
+    if titles != last_keys:
+        TODO
+
+# Final sections?
+    sections = {}
+
+    for p in paths:
+        title = p.split('.')[-1]
+
+        sections[p] = inter_sections[title]
+
+    return sections
+
+
+def gather_content(
+    title          : str,
+    section_content: List[str]
+) -> str:
+    section_content = '\n'.join(section_content)
+    section_content = section_content.strip()
+
+    if not section_content:
+        TODO
+
+    return section_content
 
 def build_pointed_paths(pointed_path: str) -> List[str]:
     parts =  [
@@ -176,6 +216,12 @@ def build_pointed_paths(pointed_path: str) -> List[str]:
 
     return _recu_all_paths(parts)
 
+
+def get_last_keys(paths: List[str]) -> Set[str]:
+    return set(
+        p.split('.')[-1]
+        for p in paths
+    )
 
 def _recu_all_paths(parts: List[str]) -> List[str]:
     if not parts:
@@ -218,4 +264,6 @@ def split_path_part(path_part: str) -> List[str]:
 for yaml_file in SPECS_DIR.glob("*.yaml"):
     extract_helpers(yaml_file)
 
-from pprint import pprint;pprint(HELP_CONTENT)
+for k, v in HELP_CONTENT.items():
+    print(f'\n--- {k} ---')
+    print(v)
