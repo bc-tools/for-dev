@@ -15,26 +15,29 @@ from aboutmeta.amdata   import AMData
 
 from aboutmeta.data import helpers
 
-print(helpers.HELPERS)
 
 # --------- #
 # -- CLI -- #
 # --------- #
 
-CLI = typer.Typer()
+CLI = typer.Typer(
+    context_settings={"help_option_names": ["-h", "--help"]}
+)
 
 
 @CLI.command()
 def help(topic: str):
     """
-    Affiche l'aide pour un sujet spécifique.
+ Affiche l'aide pour un sujet spécifique.
     """
     typer.echo(f"Aide sur le sujet : {topic}")
+
 
 @CLI.command()
 def compile(
     file: str = typer.Argument(..., help="Fichier à compiler."),
-    optimize: bool = typer.Option(False, "--opt", "-o", help="Activer l'optimisation."),
+    optimize: bool = typer.Option(False, "--opt", "-o",
+    help="Activer l'optimisation."),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux.")
 ):
     """

@@ -2,8 +2,8 @@ toc:
   - prologue.md
   - about.md
   - deps.md
-  # - cli.md
-  # - cli/
+  - cli.md
+  - cli/
   - specs.md
   - specs/
   - api.md
