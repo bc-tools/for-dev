@@ -80,7 +80,7 @@ project*:
     issues*: .
 
 ###
-# Granting a license is good practice.
+# Granting a license is a good practice.
 #
 #   + ''code'' is for the code of the project.
 #
@@ -91,8 +91,8 @@ project*:
     manual*: .
 
 ###
-# This for the language used to write the manual and the technical
-# documentations.
+# This for the language used to write the manual (manual) and the
+# technical (doc) documentations.
 ###
   langs*:
     doc*   : lang

@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from typing import List
+
 from pathlib import Path
 import              re
 from yaml    import safe_load
@@ -32,14 +34,16 @@ FORMATTING_SPECS = {}
 MAGIC_COMMENT_HELPER = "#"*3
 
 
+PATTERN_KEEP_BEFORE_SPACES = re.compile(r'^(\s*)(.*)')
+PATTERN_MULTI_SPACES       = re.compile(r'\s{2,}')
+
+
 # ----------- #
 # -- TOOLS -- #
 # ----------- #
 
 def extract_helpers(yaml_file):
-    global HELP_CONTENT, FORMATTING_SPECS
-
-    src_code      = yaml_file.read_text()
+    src_code = yaml_file.read_text()
 
     is_helper_doc = False
     helper_doc    = []
@@ -47,10 +51,7 @@ def extract_helpers(yaml_file):
     last_level       = 100 # Too big value!
     cur_pointed_path = []
 
-    for nb, line in enumerate(
-        src_code.splitlines(),
-        start = 1
-    ):
+    for nb, line in enumerate(src_code.split("\n"), start = 1):
         if not line:
             continue
 
@@ -60,6 +61,11 @@ def extract_helpers(yaml_file):
 
         elif line[0] == '#':
             if is_helper_doc:
+                line = line[1:]
+
+                if line:
+                    line = line[1:]
+
                 helper_doc.append(line)
 
         else:
@@ -81,13 +87,50 @@ def extract_helpers(yaml_file):
             cur_pointed_path.append(line)
 
             if helper_doc:
-                helper_doc       = "\n".join(helper_doc)
+                update_helpers(
+                    cur_pointed_path,
+                    helper_doc
+                )
 
-                print(f'-- {".".join(cur_pointed_path)}')
-                print(helper_doc)
-                # exit()
+                helper_doc = []
 
-                helper_doc       = []
+
+def update_helpers(
+    cur_pointed_path: List[str],
+    helper_doc      : List[str]
+) -> None:
+    global HELP_CONTENT
+
+    cur_pointed_path = ".".join(cur_pointed_path)
+
+    helper_content = []
+    block_content  = []
+
+    for line in helper_doc:
+        if line:
+            block_content.append(line)
+
+        else:
+            block_content = ' '.join(block_content)
+
+            match = PATTERN_KEEP_BEFORE_SPACES.match(block_content)
+
+            prespaces = match.group(1)
+            content   = match.group(2)
+
+            content = PATTERN_MULTI_SPACES.sub(' ', content)
+
+            helper_content.append(prespaces + content)
+            helper_content.append('')
+
+            block_content  = []
+
+    if block_content:
+        helper_content.append(' '.join(block_content))
+
+    helper_content = '\n'.join(helper_content)
+
+    HELP_CONTENT[cur_pointed_path] = helper_doc
 
 
 # ------------------------------------- #
@@ -96,3 +139,5 @@ def extract_helpers(yaml_file):
 
 for yaml_file in SPECS_DIR.glob("*.yaml"):
     extract_helpers(yaml_file)
+
+from pprint import pprint;pprint(HELP_CONTENT)
