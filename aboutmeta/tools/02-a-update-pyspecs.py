@@ -341,6 +341,7 @@ SPECS_FILE.write_text(
 # -- Formatting done by the Python project "black".    -- #
 # ------------------------------------------------------- #
 
+
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #

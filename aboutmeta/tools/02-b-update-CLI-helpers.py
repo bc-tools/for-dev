@@ -27,7 +27,7 @@ SPECS_DIR = PROJECT_DIR / "specs"
 SRC_DIR      = PROJECT_DIR / "src" / PROJECT_NAME
 HELPERS_FILE = SRC_DIR / "helpers.py"
 
-HELP_CONTENT = {}
+HELPERS_POINTED_CONTENT = {}
 
 MAGIC_COMMENT_HELPER = "#"*3
 
@@ -103,35 +103,10 @@ def update_helpers(
     cur_paths : List[str],
     helper_doc: List[str]
 ) -> None:
-    global HELP_CONTENT
+    global HELPERS_POINTED_CONTENT
 
 # Helper content.
-    helper_content = []
-    block_content  = []
-
-    for line in helper_doc:
-        if line:
-            block_content.append(line)
-
-        else:
-            block_content = ' '.join(block_content)
-
-            match = PATTERN_KEEP_BEFORE_SPACES.match(block_content)
-
-            prespaces = match.group(1)
-            content   = match.group(2)
-
-            content = PATTERN_MULTI_SPACES.sub(' ', content)
-
-            helper_content.append(prespaces + content)
-            helper_content.append('')
-
-            block_content  = []
-
-    if block_content:
-        helper_content.append(' '.join(block_content))
-
-    helper_content = '\n'.join(helper_content)
+    helper_content = unwrapped_content(helper_doc)
 
 # What is documented?
     cur_paths = build_pointed_paths(cur_paths)
@@ -141,11 +116,42 @@ def update_helpers(
     if len(last_keys) == 1:
 # Several paths can go to the same last key!
         for p in cur_paths:
-            HELP_CONTENT[p] = helper_content
+            HELPERS_POINTED_CONTENT[p] = helper_content
 
 # Severals docs for different keys.
     else:
-        HELP_CONTENT |= extract_sub_section(cur_paths, helper_doc)
+        HELPERS_POINTED_CONTENT |= extract_sub_section(cur_paths, helper_doc)
+
+
+def unwrapped_content(lines: List[str]) -> str:
+    content = []
+    block   = []
+
+    for l in lines:
+        if l:
+            block.append(l)
+
+        else:
+            block = ' '.join(block)
+
+            match = PATTERN_KEEP_BEFORE_SPACES.match(block)
+
+            prespaces  = match.group(1)
+            postspaces = match.group(2)
+
+            postspaces = PATTERN_MULTI_SPACES.sub(' ', postspaces)
+
+            content.append(prespaces + postspaces)
+            content.append('')
+
+            block = []
+
+    if block:
+        content.append(' '.join(block))
+
+    content = '\n'.join(content)
+
+    return content.strip()
 
 
 def extract_sub_section(
@@ -198,8 +204,7 @@ def gather_content(
     title          : str,
     section_content: List[str]
 ) -> str:
-    section_content = '\n'.join(section_content)
-    section_content = section_content.strip()
+    section_content = unwrapped_content(section_content)
 
     if not section_content:
         TODO
@@ -255,6 +260,15 @@ def split_path_part(path_part: str) -> List[str]:
 
     return path_part
 
+
+def build_pyspecs() -> (str, str):
+    global HELPERS_POINTED_CONTENT
+
+
+
+    return "TODO", "TODO"
+
+
 # ------------------------------------- #
 # -- ANALYZING SOURCES OF YAML SPECS -- #
 # ------------------------------------- #
@@ -262,6 +276,39 @@ def split_path_part(path_part: str) -> List[str]:
 for yaml_file in SPECS_DIR.glob("*.yaml"):
     extract_helpers(yaml_file)
 
-for k, v in HELP_CONTENT.items():
-    print(f'\n--- {k} ---')
-    print(v)
+constants, pyspecs = build_pyspecs()
+
+# Nothing left to do.
+HELPERS_FILE.touch()
+HELPERS_FILE.write_text(
+    f"""
+#!/usr/bin/env python3
+
+# ------------------------------------------------------- #
+# -- File created automatically from YAML spec. files. -- #
+# --                                                   -- #
+# -- Formatting done by the Python project "black".    -- #
+# ------------------------------------------------------- #
+
+
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
+{constants}
+
+
+# -------------------------- #
+# -- READY-TO-USE HELPERS -- #
+# -------------------------- #
+
+HELPERS_POINTED_CONTENT = {pyspecs}
+    """.strip() + '\n'
+)
+
+format_file_in_place(
+    HELPERS_FILE,
+    fast       = False,
+    mode       = FileMode(),
+    write_back = WriteBack.YES,
+)
