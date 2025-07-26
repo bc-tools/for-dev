@@ -5,6 +5,6 @@
 ###
 
 
-from .cli import *
+from aboutmeta.cli import *
 
 CLI()
