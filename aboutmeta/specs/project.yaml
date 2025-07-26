@@ -11,7 +11,6 @@ project*:
 # This is the date of the current version of the project.
 ###
   date*: date
-
 ###
 # This information explains the meaning of the acronym used to name
 # the project.
@@ -31,7 +30,6 @@ project*:
 # You need to describe shortly your project.
 ###
   desc: .
-
 ###
 # {author}
 # For a single author, you have the following possible syntaxes.
@@ -78,7 +76,6 @@ project*:
     home*  : url
     dev*   : .
     issues*: .
-
 ###
 # Granting a license is a good practice.
 #
@@ -89,7 +86,6 @@ project*:
   licenses*:
     code*  : license
     manual*: .
-
 ###
 # This for the language used to write the manual (manual) and the
 # technical (doc) documentations.

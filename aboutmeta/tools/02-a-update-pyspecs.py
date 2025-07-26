@@ -22,7 +22,7 @@ PROJECT_DIR  = THIS_DIR.parent
 PROJECT_NAME = PROJECT_DIR.name
 
 SPECS_DIR  = PROJECT_DIR / "specs"
-SPECS_FILE = PROJECT_DIR / "src" / PROJECT_NAME / "specs.py"
+SPECS_FILE = PROJECT_DIR / "src" / PROJECT_NAME / "data" / "specs.py"
 
 MAGIC_GOMMENT_SPECS = f"""
 # ---------------- #

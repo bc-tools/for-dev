@@ -25,7 +25,7 @@ PROJECT_NAME = PROJECT_DIR.name
 SPECS_DIR = PROJECT_DIR / "specs"
 
 SRC_DIR      = PROJECT_DIR / "src" / PROJECT_NAME
-HELPERS_FILE = SRC_DIR / "helpers.py"
+HELPERS_FILE = SRC_DIR / "data" / "helpers.py"
 
 HELPERS_CONTENT = {}
 
@@ -211,6 +211,7 @@ def gather_content(
 
     return section_content
 
+
 def build_pointed_paths(pointed_path: str) -> List[str]:
     parts =  [
         split_path_part(p)
@@ -225,6 +226,7 @@ def get_last_keys(paths: List[str]) -> Set[str]:
         p.split('.')[-1]
         for p in paths
     )
+
 
 def _recu_all_paths(parts: List[str]) -> List[str]:
     if not parts:

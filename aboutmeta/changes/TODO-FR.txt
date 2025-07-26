@@ -5,16 +5,6 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
---------
-:fordev:
---------
-
-[[:tech:]]
-Internal \yaml \specs: magic comments give \attr \descs for the \cli, and the line breaks used ine the \yaml \specs will be used to format the path::''about.yaml'' files.
-
-
-> ---------------------------- <
-
 validation des blocs : parmi ceux autorisés, voir ceux obligatoires, et about.yaml autorisé mae si warning en mode console
 
 

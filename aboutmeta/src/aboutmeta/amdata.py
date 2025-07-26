@@ -12,11 +12,12 @@ from pathlib import Path
 from yaml    import safe_load
 
 from aboutmeta.data.constants import *
+from aboutmeta.data.specs     import *
+from aboutmeta.style          import ALL_STYLES
+
 from aboutmeta.data.boxplus   import BoxPlus
 from aboutmeta.data.license   import License
 from aboutmeta.data.tocpath   import TOCPath
-from aboutmeta.specs          import *
-from aboutmeta.style          import ALL_STYLES
 from aboutmeta.tool.license   import get_licence_text
 
 
