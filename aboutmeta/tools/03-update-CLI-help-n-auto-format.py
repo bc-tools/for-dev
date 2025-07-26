@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from typing import List
+from typing import List, Set, Dict
 
 from pathlib import Path
 import              re
@@ -136,10 +136,10 @@ def update_helpers(
 
 # What is documented?
     cur_paths = build_pointed_paths(cur_paths)
-    last_keys = [
+    last_keys = set(
         p.split('.')[-1]
         for p in cur_paths
-    ]
+    )
 
 # Just one thing, nothing left to do.
     if len(last_keys) == 1:
@@ -151,7 +151,8 @@ def update_helpers(
 # Severals docs at the same time.
     else:
         print(f"{cur_paths=}")
-        print(f"{last_keys=}")
+        print(extract_sub_section(last_keys, helper_doc))
+        exit()
     # cur_paths = ".".join(cur_paths)
 
 # Do we have the expecetd sections?
@@ -159,6 +160,13 @@ def update_helpers(
 # Everything looks good.
 
 
+def extract_sub_section(
+    keys_expected: Set[str],
+    lines        : List[str]
+) -> Dict[str, str]:
+    print(keys_expected)
+    print(lines)
+    exit()
 
 def build_pointed_paths(pointed_path: str) -> List[str]:
     parts =  [
