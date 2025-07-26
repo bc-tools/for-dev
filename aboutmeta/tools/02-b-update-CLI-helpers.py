@@ -27,7 +27,7 @@ SPECS_DIR = PROJECT_DIR / "specs"
 SRC_DIR      = PROJECT_DIR / "src" / PROJECT_NAME
 HELPERS_FILE = SRC_DIR / "helpers.py"
 
-HELPERS_POINTED_CONTENT = {}
+HELPERS_CONTENT = {}
 
 MAGIC_COMMENT_HELPER = "#"*3
 
@@ -103,7 +103,7 @@ def update_helpers(
     cur_paths : List[str],
     helper_doc: List[str]
 ) -> None:
-    global HELPERS_POINTED_CONTENT
+    global HELPERS_CONTENT
 
 # Helper content.
     helper_content = unwrapped_content(helper_doc)
@@ -116,11 +116,11 @@ def update_helpers(
     if len(last_keys) == 1:
 # Several paths can go to the same last key!
         for p in cur_paths:
-            HELPERS_POINTED_CONTENT[p] = helper_content
+            HELPERS_CONTENT[p] = helper_content
 
 # Severals docs for different keys.
     else:
-        HELPERS_POINTED_CONTENT |= extract_sub_section(cur_paths, helper_doc)
+        HELPERS_CONTENT |= extract_sub_section(cur_paths, helper_doc)
 
 
 def unwrapped_content(lines: List[str]) -> str:
@@ -261,22 +261,12 @@ def split_path_part(path_part: str) -> List[str]:
     return path_part
 
 
-def build_pyspecs() -> (str, str):
-    global HELPERS_POINTED_CONTENT
-
-
-
-    return "TODO", "TODO"
-
-
 # ------------------------------------- #
 # -- ANALYZING SOURCES OF YAML SPECS -- #
 # ------------------------------------- #
 
 for yaml_file in SPECS_DIR.glob("*.yaml"):
     extract_helpers(yaml_file)
-
-constants, pyspecs = build_pyspecs()
 
 # Nothing left to do.
 HELPERS_FILE.touch()
@@ -291,18 +281,11 @@ HELPERS_FILE.write_text(
 # ------------------------------------------------------- #
 
 
-# --------------- #
-# -- CONSTANTS -- #
-# --------------- #
-
-{constants}
-
-
 # -------------------------- #
 # -- READY-TO-USE HELPERS -- #
 # -------------------------- #
 
-HELPERS_POINTED_CONTENT = {pyspecs}
+HELPERS_CONTENT = {HELPERS_CONTENT}
     """.strip() + '\n'
 )
 
