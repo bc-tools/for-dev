@@ -48,8 +48,8 @@ def extract_helpers(yaml_file):
     is_helper_doc = False
     helper_doc    = []
 
-    last_level       = 100 # Too big value!
-    cur_pointed_path = []
+    last_level = 100 # Bigger than any real level!
+    cur_paths  = []
 
     for nb, line in enumerate(src_code.split("\n"), start = 1):
         if not line:
@@ -59,7 +59,9 @@ def extract_helpers(yaml_file):
         if line == MAGIC_COMMENT_HELPER:
             is_helper_doc = not is_helper_doc
 
+# Comment...
         elif line[0] == '#':
+# ... giving one line in the helper.
             if is_helper_doc:
                 line = line[1:]
 
@@ -68,6 +70,7 @@ def extract_helpers(yaml_file):
 
                 helper_doc.append(line)
 
+# YAML specs.
         else:
             if is_helper_doc:
                 raise ValueError(
@@ -75,20 +78,22 @@ def extract_helpers(yaml_file):
                     f"See the file:\n{yaml_file}"
                 )
 
-            level = len(line) - len(line.lstrip()) // 2
+            level = (len(line) - len(line.lstrip())) // 2
 
-            if level < last_level:
-                for _ in range(level):
-                    if not cur_pointed_path:
+            if level <= last_level:
+                for _ in range(last_level - level + 1):
+                    if not cur_paths:
                         break
 
-                    cur_pointed_path.pop(-1)
+                    cur_paths.pop(-1)
 
-            cur_pointed_path.append(line)
+            last_level =level
+
+            cur_paths.append(line)
 
             if helper_doc:
                 update_helpers(
-                    cur_pointed_path,
+                    cur_paths,
                     helper_doc
                 )
 
@@ -96,13 +101,12 @@ def extract_helpers(yaml_file):
 
 
 def update_helpers(
-    cur_pointed_path: List[str],
-    helper_doc      : List[str]
+    cur_paths : List[str],
+    helper_doc: List[str]
 ) -> None:
     global HELP_CONTENT
 
-    cur_pointed_path = ".".join(cur_pointed_path)
-
+# Helper content.
     helper_content = []
     block_content  = []
 
@@ -130,8 +134,74 @@ def update_helpers(
 
     helper_content = '\n'.join(helper_content)
 
-    HELP_CONTENT[cur_pointed_path] = helper_doc
+# What is documented?
+    cur_paths = build_pointed_paths(cur_paths)
+    last_keys = [
+        p.split('.')[-1]
+        for p in cur_paths
+    ]
 
+# Just one thing, nothing left to do.
+    if len(last_keys) == 1:
+        helper_doc = "\n".join(helper_doc)
+
+        for p in cur_paths:
+            HELP_CONTENT[p] = helper_doc
+
+# Severals docs at the same time.
+    else:
+        print(f"{cur_paths=}")
+        print(f"{last_keys=}")
+    # cur_paths = ".".join(cur_paths)
+
+# Do we have the expecetd sections?
+
+# Everything looks good.
+
+
+
+def build_pointed_paths(pointed_path: str) -> List[str]:
+    parts =  [
+        split_path_part(p)
+        for p in pointed_path
+    ]
+
+    return _recu_all_paths(parts)
+
+
+def _recu_all_paths(parts: List[str]) -> List[str]:
+    if not parts:
+        return parts
+
+    final_parts = []
+
+    for p in parts[0]:
+        sub_parts = _recu_all_paths(parts[1:])
+
+        if sub_parts:
+            for sp in sub_parts:
+                final_parts.append(f"{p}.{sp}")
+
+        else:
+            final_parts.append(p)
+
+    return final_parts
+
+
+def split_path_part(path_part: str) -> List[str]:
+    path_part = path_part.split(':')[0]
+    path_part = path_part.strip()
+
+    if path_part[-1] == "*":
+        path_part = path_part[:-1]
+        path_part = path_part.strip()
+
+    path_part = [
+        sp.strip()
+        for sp in path_part.split('|')
+    ]
+
+    return path_part
 
 # ------------------------------------- #
 # -- ANALYZING SOURCES OF YAML SPECS -- #
