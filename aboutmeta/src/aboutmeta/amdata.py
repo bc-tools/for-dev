@@ -27,7 +27,7 @@ from aboutmeta.tool.license   import get_licence_text
 
 TAG_STYLE_DEFAULT = 'default'
 
-SET_KEEP_ALL      = set(SPECS_PARSING)
+SET_KEEP_ALL      = set(SPECS)
 SET_KEEP_ONLY_TOC = set(["toc"])
 
 
@@ -133,7 +133,7 @@ class AMData:
         }
 
         self.data = BoxPlus(
-            self.__recu_parse(full_data, SPECS_PARSING)
+            self.__recu_parse(full_data, SPECS)
         )
 
 ###

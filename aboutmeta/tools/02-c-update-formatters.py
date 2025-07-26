@@ -27,7 +27,7 @@ SPECS_DIR = PROJECT_DIR / "specs"
 SRC_DIR      = PROJECT_DIR / "src" / PROJECT_NAME
 FORMATTERS_FILE = SRC_DIR / "data" / "formatters.py"
 
-FORMATTERS_DIRECTIVES = []
+FORMATTERS = []
 
 TAG_EMPTY_LINE = "EMPTY_LINE"
 
@@ -37,7 +37,7 @@ TAG_EMPTY_LINE = "EMPTY_LINE"
 # ----------- #
 
 def extract_formatters(yaml_file):
-    global FORMATTERS_DIRECTIVES
+    global FORMATTERS
 
     src_code = yaml_file.read_text()
 
@@ -91,12 +91,12 @@ def extract_formatters(yaml_file):
 for yaml_file in sorted(SPECS_DIR.glob("*.yaml")):
     directives = extract_formatters(yaml_file)
 
-    if FORMATTERS_DIRECTIVES:
-        FORMATTERS_DIRECTIVES += [TAG_EMPTY_LINE]*2
+    if FORMATTERS:
+        FORMATTERS += [TAG_EMPTY_LINE]*2
 
-    FORMATTERS_DIRECTIVES += directives
+    FORMATTERS += directives
 
-pyspecs = f"{FORMATTERS_DIRECTIVES}"
+pyspecs = f"{FORMATTERS}"
 pyspecs = pyspecs.replace(
     f'{TAG_EMPTY_LINE!r}',
     'TAG_EMPTY_LINE'
@@ -126,7 +126,7 @@ TAG_EMPTY_LINE = {TAG_EMPTY_LINE!r}
 # -- FORMATTING DIRECTIVES -- #
 # --------------------------- #
 
-FORMATTERS_DIRECTIVES = {pyspecs}
+FORMATTERS = {pyspecs}
     """.strip() + '\n'
 )
 

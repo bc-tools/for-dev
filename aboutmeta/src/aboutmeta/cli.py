@@ -10,8 +10,12 @@ from typing import Tuple
 import                        typer
 from typing_extensions import Annotated
 
-from .__init__ import __version__
+from aboutmeta.__init__ import __version__
+from aboutmeta.amdata   import AMData
 
+from aboutmeta.data import helpers
+
+print(helpers.HELPERS)
 
 # --------- #
 # -- CLI -- #

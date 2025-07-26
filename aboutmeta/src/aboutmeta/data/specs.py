@@ -36,7 +36,7 @@ TAG_PARSER_VERSION = "version"
 # -- READY-TO-USE SPECS -- #
 # ------------------------ #
 
-SPECS_PARSING = {
+SPECS = {
     TAG_SPECS_ALT_ALL: (),
     "project": {
         TAG_SPECS_REQUIRED: False,

@@ -27,7 +27,7 @@ SPECS_DIR = PROJECT_DIR / "specs"
 SRC_DIR      = PROJECT_DIR / "src" / PROJECT_NAME
 HELPERS_FILE = SRC_DIR / "data" / "helpers.py"
 
-HELPERS_CONTENT = {}
+HELPERS = {}
 
 MAGIC_COMMENT_HELPER = "#"*3
 
@@ -103,7 +103,7 @@ def update_helpers(
     cur_paths : List[str],
     helper_doc: List[str]
 ) -> None:
-    global HELPERS_CONTENT
+    global HELPERS
 
 # Helper content.
     helper_content = unwrapped_content(helper_doc)
@@ -116,11 +116,11 @@ def update_helpers(
     if len(last_keys) == 1:
 # Several paths can go to the same last key!
         for p in cur_paths:
-            HELPERS_CONTENT[p] = helper_content
+            HELPERS[p] = helper_content
 
 # Severals docs for different keys.
     else:
-        HELPERS_CONTENT |= extract_sub_section(cur_paths, helper_doc)
+        HELPERS |= extract_sub_section(cur_paths, helper_doc)
 
 
 def unwrapped_content(lines: List[str]) -> str:
@@ -287,7 +287,7 @@ HELPERS_FILE.write_text(
 # -- READY-TO-USE HELPERS -- #
 # -------------------------- #
 
-HELPERS_CONTENT = {HELPERS_CONTENT}
+HELPERS = {HELPERS}
     """.strip() + '\n'
 )
 

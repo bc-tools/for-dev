@@ -18,7 +18,7 @@ TAG_EMPTY_LINE = "EMPTY_LINE"
 # -- FORMATTING DIRECTIVES -- #
 # --------------------------- #
 
-FORMATTERS_DIRECTIVES = [
+FORMATTERS = [
     "project",
     "project.version",
     "project.date",

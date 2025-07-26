@@ -355,7 +355,7 @@ SPECS_FILE.write_text(
 # -- READY-TO-USE SPECS -- #
 # ------------------------ #
 
-SPECS_PARSING = {pyspecs}
+SPECS = {pyspecs}
     """.strip() + '\n'
 )
 

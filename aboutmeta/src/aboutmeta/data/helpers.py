@@ -11,7 +11,7 @@
 # -- READY-TO-USE HELPERS -- #
 # -------------------------- #
 
-HELPERS_CONTENT = {
+HELPERS = {
     "project": "This block allows to describe a project from a technical point of view.",
     "project.version": "This is the current version number of the project.",
     "project.date": "This is the date of the current version of the project.",
