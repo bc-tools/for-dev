@@ -60,6 +60,14 @@ ITEM_3 = f"{TAB_3}* "
 
 TAG_WHAT = "what"
 
+TAG_ABORT = "x"
+TAG_NO    = "no"
+
+TAGS_YES = [
+    TAG_YES:= "yes",
+    TAG_YES[0]
+]
+
 
 # ----------- #
 # -- TOOLS -- #
@@ -215,7 +223,7 @@ def create(
         yaml_file.write_text("\n".join(content))
 
         print_lines([
-            f"{FMT_SUCCESS}File with the data indicated created.",
+            f"{FMT_SUCCESS}File created with the expected data.",
             f"{FMT_SUCCESS_XTRA}{file}"
         ])
 
@@ -262,21 +270,35 @@ def recu_create(
             print(f"{FMT_INFO_XTRA}{helper}")
 
         if yaml_type == TAG_SPECS_BLOCK:
-            recu_create(
-                loc_specs = loc_specs[key][TAG_SPECS_CONTENT],
-                relpath   = keypath
-            )
+            if new_data("Add this block ( [y]es / [n]o )").lower() in TAGS_YES:
+                recu_create(
+                    loc_specs = loc_specs[key][TAG_SPECS_CONTENT],
+                    relpath   = keypath
+                )
 
         else:
-            new_data()
+            new_data('test')
+
+        print()
 
 
 ###
 # prototype::
-#     :return: xxxxx
+#     message: explanations about the answer expeceted.
+#
+#     :return: the user's response is analyzed, and if it's equal
+#              to “x” or “X”, it becomes the empty string (this
+#              indicates to stop the data creation in progress).
 ###
-def new_data() -> str:
-    typer.prompt("?")
+def new_data(message: str) -> str:
+    answer = typer.prompt(f"{TAB_1}> {message}")
+    answer = answer.strip()
+
+    if answer.lower() == TAG_ABORT:
+        answer = ""
+
+    print(f"answer: {answer!r}")
+    return answer
 
 
 # -------------------- #
