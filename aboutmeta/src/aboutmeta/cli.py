@@ -17,6 +17,8 @@ from rich              import print
 
 from pathlib import Path
 
+from box import BoxKeyError
+
 from aboutmeta.amdata import (
     AMData,
     LOG_FILE
@@ -236,12 +238,31 @@ def validate(
 # Let “AMData” do its job.
     amdata = AMData()
 
-    amdata.build(yaml_file = file)
+    try:
+        amdata.build(yaml_file = file)
 
-    nb_errors = amdata.validate(
-        what      = what,
-        erase_log = erase_log
-    )
+    except FileNotFoundError as e:
+        print_lines([
+            f"{FMT_ERROR}No such fle:",
+            f"{FMT_ERROR_XTRA}{file}",
+        ])
+
+        exit(1)
+
+    try:
+        nb_errors = amdata.validate(
+            what      = what,
+            erase_log = erase_log
+        )
+
+    except BoxKeyError as e:
+        print_lines([
+            f"{FMT_ERROR}Illegal pointed virtual path ''{what}''.",
+        ])
+
+        exit(1)
+
+
 
 # DEBUG - START
     # nb_errors = 0
@@ -249,10 +270,14 @@ def validate(
 # DEBUG - END
 
 # End of communication.
-    infos = ['']
+    if not amdata.at_least_one_validation:
+        infos = [
+            f"{FMT_SUCCESS}NO DATA TO VALIDATE!",
+        ]
 
-    if nb_errors == 0:
-        infos += [
+    elif nb_errors == 0:
+        infos = [
+            '',
             f"{FMT_SUCCESS}DATA VALIDATED!",
         ]
 
@@ -264,7 +289,8 @@ def validate(
     else:
         plurial = "" if nb_errors == 1 else "S"
 
-        infos += [
+        infos = [
+            '',
             f"{FMT_ERROR}{nb_errors} ERROR{plurial} FOUND. "
              "Look at the log file:",
             f"{FMT_ERROR_XTRA}{LOG_FILE}",

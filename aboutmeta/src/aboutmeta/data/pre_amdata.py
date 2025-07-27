@@ -94,6 +94,8 @@ class PreAMData:
     ) -> None:
         self.style = style
 
+        self.at_least_one_validation = False
+
 ###
 # We define accessors (getters and setters) to add some treatments
 # to be performed when a style change occurs.
@@ -309,6 +311,8 @@ class PreAMData:
         what     : (str | None) = None,
         erase_log: bool = False
     ) -> int:
+        self.at_least_one_validation = False
+
 # Which data to validate?
         if what is None:
             data = self.data
@@ -349,6 +353,8 @@ class PreAMData:
 
 # One data to validate?
         elif hasattr(data, 'validate'):
+            self.at_least_one_validation = True
+
             nb_pbs += data.validate()
 
         return nb_pbs
