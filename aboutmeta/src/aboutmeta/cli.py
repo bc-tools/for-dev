@@ -10,41 +10,67 @@ from typing import Tuple
 import                        typer
 from typing_extensions import Annotated
 
+from pathlib import Path
+
+from aboutmeta.amdata import AMData
+
 from aboutmeta.__init__ import __version__
-from aboutmeta.amdata   import AMData
-
-from aboutmeta.data import helpers
+from aboutmeta.data     import helpers
 
 
-# --------- #
-# -- CLI -- #
-# --------- #
+# ---------------- #
+# -- CLI - INIT -- #
+# ---------------- #
 
 CLI = typer.Typer(
-    context_settings={"help_option_names": ["-h", "--help"]}
+    context_settings = {
+        "help_option_names": ["-h", "--help"]
+    }
 )
 
 
-@CLI.command()
-def help(topic: str):
-    """
- Affiche l'aide pour un sujet spécifique.
-    """
-    typer.echo(f"Aide sur le sujet : {topic}")
-
+# --------------- #
+# -- CLI - NEW -- #
+# --------------- #
 
 @CLI.command()
-def compile(
-    file: str = typer.Argument(..., help="Fichier à compiler."),
-    optimize: bool = typer.Option(False, "--opt", "-o",
-    help="Activer l'optimisation."),
-    verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux.")
+def new():
+    """
+    Step-by-step creation of an ''about.yaml'' file.
+    """
+    typer.echo(f"TODO")
+
+
+# -------------------- #
+# -- CLI - VALIDATE -- #
+# -------------------- #
+
+@CLI.command()
+def validate(
+    file: Annotated[
+        Path,
+        typer.Argument(
+            help = "Path of the ''about.yaml'' file."
+        ),
+    ],
+    what: Annotated[
+        str,
+        typer.Option(
+            "--what",
+            "-w",
+            help = "The pointed path of a specific key to analyze (the key can have a block value).",
+        ),
+    ] = None,
+    erase_log: Annotated[
+        bool,
+        typer.Option(
+            "--erase",
+            "-e",
+            help = "Erasing the log file",
+        ),
+    ] = False,
 ):
     """
-    Compile un fichier source.
+     Validating data from the ''about.yaml'' file: the validation process is detailed in the terminal, but only errors are recorded in the log file.
     """
-    typer.echo(f"Compilation de : {file}")
-    if optimize:
-        typer.echo(" → Optimisation activée.")
-    if verbose:
-        typer.echo(" → Mode verbeux.")
+    typer.echo(f"TODO")
