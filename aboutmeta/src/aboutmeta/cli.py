@@ -9,6 +9,7 @@ from typing import Tuple
 
 import                        typer
 from typing_extensions import Annotated
+from rich              import print as rich_print
 
 from pathlib import Path
 
@@ -73,4 +74,17 @@ def validate(
     """
      Validating data from the ''about.yaml'' file: the validation process is detailed in the terminal, but only errors are recorded in the log file.
     """
-    typer.echo(f"TODO")
+    rich_print("[bold green]Staring validation.")
+
+    for arg, val in locals().items():
+        rich_print(f"[green]  + {arg}: {val}")
+
+    print()
+
+    amdata = AMData()
+
+    amdata.build(yaml_file = file)
+    amdata.validate(
+        what      = what,
+        erase_log = erase_log
+    )
