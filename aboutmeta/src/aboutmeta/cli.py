@@ -22,6 +22,22 @@ from aboutmeta.__init__ import __version__
 from aboutmeta.data     import helpers
 
 
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
+# See: https://rich.readthedocs.io/en/stable/appendix/colors.html
+
+FORMAT_INFO     = "[bold green]"
+FORMAT_SUB_INFO = "[yellow]"
+
+FORMAT_SUCCESS     = "[bold blue]"
+FORMAT_SUB_SUCCESS = "[cyan]"
+
+FORMAT_ERROR     = "[bold bright_red]"
+FORMAT_SUB_ERROR = "[red3]"
+
+
 # ---------------- #
 # -- CLI - INIT -- #
 # ---------------- #
@@ -91,14 +107,14 @@ def validate(
     initial_args = dict(**locals())
 
 # Starting communication.
-    print("[bold green]Starting validation.")
+    print(f"{FORMAT_INFO}Starting validation.")
 
     for arg, val in initial_args.items():
-        print(f"[yellow]  + {arg}: {val}")
+        print(f"{FORMAT_SUB_INFO}  + {arg}: {val}")
 
     print()
 
-# Let's ''AMData'' work.
+# Let ''AMData'' work.
     amdata = AMData()
 
     amdata.build(yaml_file = file)
@@ -109,18 +125,18 @@ def validate(
     )
 
 # DEBUG - START
-#     nb_errors = 0
-#     nb_errors = 1
+    # nb_errors = 0
+    # nb_errors = 1
 # DEBUG - END
 
 # Closing communication.
     if nb_errors == 0:
         infos = [
-            "[bold blue]DATA VALIDATED!",
+            f"{FORMAT_SUCCESS}DATA VALIDATED!",
         ]
 
         infos += [
-            f"[cyan]  + {arg}: {val}"
+            f"{FORMAT_SUB_SUCCESS}  + {arg}: {val}"
             for arg, val in initial_args.items()
         ]
 
@@ -128,9 +144,9 @@ def validate(
         plurial = "" if nb_errors == 1 else "S"
 
         infos = [
-            f"[bold bright_red]{nb_errors} ERROR{plurial} FOUND. "
+            f"{FORMAT_ERROR}{nb_errors} ERROR{plurial} FOUND. "
              "Look at the log file:",
-            f"[red3]{LOG_FILE}",
+            f"{FORMAT_SUB_ERROR}{LOG_FILE}",
         ]
 
     print()
