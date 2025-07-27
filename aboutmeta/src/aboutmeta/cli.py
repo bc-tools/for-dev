@@ -17,6 +17,7 @@ from rich              import print
 
 from copy    import deepcopy
 from pathlib import Path
+from yaml    import dump as yaml_dump
 
 from box import BoxKeyError
 
@@ -188,8 +189,7 @@ def create(
 
         print_lines([
             f"{FMT_ERROR}File must use the ''yaml'' extension{xtra}. ",
-            f"{FMT_ERROR_XTRA}File proposed:",
-            f"{FMT_ERROR_XTRA}{yaml_file}",
+            f"{FMT_ERROR_XTRA}See {yaml_file}",
         ])
 
         exit(1)
@@ -200,8 +200,8 @@ def create(
         yaml_file.is_file()
     ):
         print_lines([
-            f"{FMT_ERROR}File cannot be overwritten:",
-            f"{FMT_ERROR_XTRA}{yaml_file}",
+            f"{FMT_ERROR}File cannot be overwritten.",
+            f"{FMT_ERROR_XTRA}See {yaml_file}",
         ])
 
         exit(1)
@@ -214,23 +214,26 @@ def create(
         xtra = "modified" if yaml_file.is_file() else "created"
 
         print_lines([
-            f"{FMT_IMPORTANT}No content: file below not {xtra}.",
-            f"{FMT_IMPORTANT_XTRA}{file}"
+            f"{FMT_IMPORTANT}Un{xtra} file (no content).",
+            f"{FMT_IMPORTANT_XTRA}See {file}"
         ])
 
     else:
         yaml_file.touch()
-        yaml_file.write_text("\n".join(content))
+
+        with yaml_file.open(mode = 'w') as f:
+            yaml_dump(content, f)
 
         print_lines([
             f"{FMT_SUCCESS}File created with the expected data.",
-            f"{FMT_SUCCESS_XTRA}{file}"
+            f"{FMT_SUCCESS_XTRA}See {file}"
         ])
 
 
 ###
 # prototype::
 #     loc_specs : "local" \specs corresponding to the data analyzed.
+#     relpath   : xxxx
 #
 #     :return: xxxxx
 ###
@@ -238,7 +241,8 @@ def recu_create(
     loc_specs: dict,
     relpath  : List[str] = []
 ) -> List[str]:
-    content      = []
+    content = dict()
+    content = {'TO': "DO"}
 
 # Alternatives?
     all_alts = loc_specs[TAG_SPECS_ALT_ALL]
@@ -251,13 +255,16 @@ def recu_create(
 
 # YAML keys.
     for key, about in loc_specs.items():
+# TODO!
         if key in all_alts:
             print(f"{FMT_ERROR}{key} not managed!")
             continue
 
+# About the key.
         is_required = about[TAG_SPECS_REQUIRED]
         yaml_type   = about[TAG_SPECS_TYPE]
 
+# Helper for the key.
         keypath     = relpath + [key]
         str_keypath = '.'.join(keypath)
 
@@ -269,35 +276,64 @@ def recu_create(
         if helper:
             print(f"{FMT_INFO_XTRA}{helper}")
 
+# Recursive creations for a block.
         if yaml_type == TAG_SPECS_BLOCK:
-            if new_data("Add this block ( [y]es / [n]o )").lower() in TAGS_YES:
-                recu_create(
+            if new_data(
+                message   = "Add this block",
+                choices   = "[y]es / [n]o",
+                can_abort = False
+            ).lower() in TAGS_YES:
+                sub_content = recu_create(
                     loc_specs = loc_specs[key][TAG_SPECS_CONTENT],
                     relpath   = keypath
                 )
 
+                if sub_content:
+                    content[key] = sub_content
+
+            continue
+
+# Data to add.
+        parser = about[TAG_SPECS_PARSER]
+
+# Creation of a list of textual data.
+        if about[TAG_SPECS_LIST_OF]:
+            data = new_data(f"list")
+
+# Creation of a single textual data.
         else:
-            new_data('test')
+            data = new_data(f"single")
 
         print()
+
+# Nothing left to do.
+    return content
 
 
 ###
 # prototype::
-#     message: explanations about the answer expeceted.
+#     message   : explanations about the answer expeceted.
+#     choices   : text explaining the user's actions available.
+#     can_abort : set to ''True'', this \arg alllows to use SPACE,
+#                 x or X to abort the data process in progress.
+#                 Normally, this \arg should be equal to ''False''
+#                 if ''choice'' does not have its default \val.
 #
 #     :return: the user's response is analyzed, and if it's equal
 #              to “x” or “X”, it becomes the empty string (this
 #              indicates to stop the data creation in progress).
 ###
-def new_data(message: str) -> str:
-    answer = typer.prompt(f"{TAB_1}> {message}")
+def new_data(
+    message  : str,
+    choices  : str = "SPACE, x or X to abort",
+    can_abort: bool = True
+) -> str:
+    answer = typer.prompt(f"{TAB_1}> {message}  ( {choices} )")
     answer = answer.strip()
 
-    if answer.lower() == TAG_ABORT:
+    if can_abort and answer.lower() == TAG_ABORT:
         answer = ""
 
-    print(f"answer: {answer!r}")
     return answer
 
 
