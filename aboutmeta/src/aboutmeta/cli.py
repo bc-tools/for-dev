@@ -15,6 +15,7 @@ import                        typer
 from typing_extensions import Annotated
 from rich              import print
 
+from copy    import deepcopy
 from pathlib import Path
 
 from box import BoxKeyError
@@ -38,11 +39,15 @@ from aboutmeta.data.specs   import *
 FMT_INFO      = "[bold green]"
 FMT_INFO_XTRA = "[yellow]"
 
-FMT_ERROR      = "[bold bright_red]"
-FMT_ERROR_XTRA = "[red3]"
+FMT_IMPORTANT      = "[bold orange3]"
+FMT_IMPORTANT_XTRA = "[tan]"
 
 FMT_SUCCESS      = "[bold blue]"
 FMT_SUCCESS_XTRA = "[cyan]"
+
+FMT_ERROR      = "[bold bright_red]"
+FMT_ERROR_XTRA = "[red3]"
+
 
 TAB_1 = "  "
 TAB_2 = TAB_1*2
@@ -52,6 +57,7 @@ ITEM_1 = f"{TAB_1}+ "
 ITEM_2 = f"{TAB_2}- "
 ITEM_3 = f"{TAB_3}* "
 
+
 TAG_WHAT = "what"
 
 
@@ -59,15 +65,37 @@ TAG_WHAT = "what"
 # -- TOOLS -- #
 # ----------- #
 
-
+###
 # prototype::
 #     lines : a list of lines of text that may contain formatting
 #             directives \rich.
 #
 #     :action: printing of text lines formatted as expected.
+###
 def print_lines(lines: List[str]) -> None:
     for l in lines:
         print(l)
+
+
+###
+# prototype::
+#     action_done  : text about the process activated.
+#     initial_args : the list of initial \args.
+#
+#     :action: print the initial \args about the process done.
+###
+def start_communication(
+    action_done : str,
+    initial_args: List[str]
+) -> None:
+    infos  = [f"{FMT_INFO}{action_done}"]
+    infos += [
+        f"{FMT_INFO_XTRA}{ITEM_1}{arg}: {val}"
+        for arg, val in initial_args.items()
+    ]
+    infos += [""]
+
+    print_lines(infos)
 
 
 # ---------------- #
@@ -87,10 +115,11 @@ CLI = typer.Typer(
 
 ###
 # prototype::
-#     file  : the path::''about.yaml'' file to be created from
-#             scratch.
-#     erase : set to ''True'', this \arg allows to erase an
-#             existing path::''about.yaml'' file.
+#     file     : the path::''about.yaml'' file to be created from
+#                scratch.
+#     validate : validations are done interactively.
+#     erase    : set to ''True'', this \arg allows to erase an
+#                existing path::''about.yaml'' file.
 #
 #     :action: creation of the path::''about.yaml'' file containing
 #              all mandatory data and all optional data chosen by
@@ -104,6 +133,17 @@ def create(
             help = "Path of the ''about.yaml'' file."
         ),
     ],
+    validate: Annotated[
+        bool,
+        typer.Option(
+            "--validate",
+            "-v",
+            help = (
+                "Validate parsed data (that have a validator). "
+                "\nWARNING! Some validators require an Internet connection."
+            ),
+        ),
+    ] = False,
     erase: Annotated[
         bool,
         typer.Option(
@@ -116,12 +156,15 @@ def create(
     """
     Step-by-step creation of an ''about.yaml'' file.
     """
+    initial_args = dict(**locals())
+
 # Start of communication.
-    print_lines([
-        f"{FMT_INFO}Step-by-step creation of "
-         "your ''about.yaml'' file.",
-        ""
-    ])
+    start_communication(
+        action_done = (
+            "Step-by-step creation of your ''about.yaml'' file."
+        ),
+        initial_args = initial_args,
+    )
 
 # Validation of the file.
     yaml_file = Path(file)
@@ -156,24 +199,85 @@ def create(
         exit(1)
 
 # We can work recursively.
-    yaml_file.touch()
-
-    content = _recu_create(SPECS)
+    content = recu_create(deepcopy(SPECS))
 
 # End of communication.
+    if not content:
+        xtra = "modified" if yaml_file.is_file() else "created"
+
+        print_lines([
+            f"{FMT_IMPORTANT}No content: file below not {xtra}.",
+            f"{FMT_IMPORTANT_XTRA}{file}"
+        ])
+
+    else:
+        yaml_file.touch()
+        yaml_file.write_text("\n".join(content))
+
+        print_lines([
+            f"{FMT_SUCCESS}File with the data indicated created.",
+            f"{FMT_SUCCESS_XTRA}{file}"
+        ])
 
 
 ###
 # prototype::
-#     XXXX
+#     loc_specs : "local" \specs corresponding to the data analyzed.
+#
+#     :return: xxxxx
 ###
-def _recu_create(
-    loc_specs: Dict[str, str]
+def recu_create(
+    loc_specs: dict,
+    relpath  : List[str] = []
 ) -> List[str]:
-    content = []
+    content      = []
 
-    print(loc_specs)
-    exit()
+# Alternatives?
+    all_alts = loc_specs[TAG_SPECS_ALT_ALL]
+    del loc_specs[TAG_SPECS_ALT_ALL]
+
+    if all_alts:
+        alt_tuples = loc_specs[TAG_SPECS_ALT_TUPLES]
+        del loc_specs[TAG_SPECS_ALT_TUPLES]
+
+
+# YAML keys.
+    for key, about in loc_specs.items():
+        if key in all_alts:
+            print(f"{FMT_ERROR}{key} not managed!")
+            continue
+
+        is_required = about[TAG_SPECS_REQUIRED]
+        yaml_type   = about[TAG_SPECS_TYPE]
+
+        keypath     = relpath + [key]
+        str_keypath = '.'.join(keypath)
+
+        helper = HELPERS.get(str_keypath, "")
+
+        print(f"{FMT_INFO_XTRA}[bold]{str_keypath}  ", end = "")
+        print(f"[white](virtual pointed path given)")
+
+        if helper:
+            print(f"{FMT_INFO_XTRA}{helper}")
+
+        if yaml_type == TAG_SPECS_BLOCK:
+            recu_create(
+                loc_specs = loc_specs[key][TAG_SPECS_CONTENT],
+                relpath   = keypath
+            )
+
+        else:
+            new_data()
+
+
+###
+# prototype::
+#     :return: xxxxx
+###
+def new_data() -> str:
+    typer.prompt("?")
+
 
 # -------------------- #
 # -- CLI - VALIDATE -- #
@@ -226,14 +330,10 @@ def validate(
         initial_args[TAG_WHAT] = "all data"
 
 # Start of communication.
-    infos  = [f"{FMT_INFO}Starting validation."]
-    infos += [
-        f"{FMT_INFO_XTRA}{ITEM_1}{arg}: {val}"
-        for arg, val in initial_args.items()
-    ]
-    infos += [""]
-
-    print_lines(infos)
+    start_communication(
+        action_done = "Starting validation.",
+        initial_args = initial_args,
+    )
 
 # Let “AMData” do its job.
     amdata = AMData()
@@ -261,8 +361,6 @@ def validate(
         ])
 
         exit(1)
-
-
 
 # DEBUG - START
     # nb_errors = 0
