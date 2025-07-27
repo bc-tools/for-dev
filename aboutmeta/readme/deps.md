@@ -12,3 +12,4 @@ Here are the `Python` libraries used by `aboutmeta`. The version numbers in brac
   * `requests`   **[2.32]**
   * `rich`   **[13.9]**
   * `semver`   **[3.0]**
+  * `typer`   **[0.16]**

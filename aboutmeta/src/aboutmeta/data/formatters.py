@@ -48,5 +48,5 @@ FORMATTERS = [
     "project.keywords",
     TAG_EMPTY_LINE,
     TAG_EMPTY_LINE,
-    "toc",
+    "toc+",
 ]

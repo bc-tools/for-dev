@@ -38,9 +38,10 @@ TAG_FILE = "file"
 SPECIAL_TAGS_SPECS = []
 
 TAG_MAGIC_CHAR = "."
+TAG_POST_PROD  = "+"
 
-PATTERN_LIST_OF    = re.compile(r"list\((?P<kind>.*)\)([\t ]*>[\t ]]*(?P<mapper>.*))?")
-PATTERN_LEGAL_LIST = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
+PATTERN_LEGAL_NAME = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
+PATTERN_LIST_OF    = re.compile(r"list\((.*)\)")
 
 PY_TAGS = [
     TAG_SPECS_ALT_ALL   := "ALT_ALL",
@@ -49,7 +50,7 @@ PY_TAGS = [
     TAG_SPECS_CONTENT   := "CONTENT",
     TAG_SPECS_DATA      := "DATA",
     TAG_SPECS_LIST_OF   := "LIST_OF",
-    TAG_SPECS_MAPPER    := "MAPPER",
+    TAG_SPECS_POST_PROD := "POST-PROD",
     TAG_SPECS_PARSER    := "PARSER",
     TAG_SPECS_REQUIRED  := "REQUIRED",
     TAG_SPECS_TYPE      := "TYPE",
@@ -178,14 +179,22 @@ def build_single_pyspec(key, val, extradata, last_parser):
 
 # Key analysis.
     if key[-1] == "*":
-        isrequired = False
-        key        = key[:-1].strip()
+        is_required = False
+        key         = key[:-1].strip()
 
     else:
-        isrequired = True
+        is_required = True
+
+    if key[-1] == TAG_POST_PROD:
+        post_prod = True
+        key       = key[:-1].strip()
+
+    else:
+        post_prod = False
 
     this_specs = {
-        TAG_SPECS_REQUIRED: isrequired
+        TAG_SPECS_REQUIRED : is_required,
+        TAG_SPECS_POST_PROD: post_prod,
     }
 
 # Value analysis.
@@ -203,20 +212,18 @@ def build_single_pyspec(key, val, extradata, last_parser):
 
             # print(val, "???")
 
-        is_list_of, mapper, parser = which_parser(val, extradata)
+        is_list_of, parser = which_parser(val, extradata)
 
         last_parser = parser
 
         # print(parser, "????")
 
         this_specs |= {
-            TAG_SPECS_TYPE   : TAG_SPECS_DATA,
-            TAG_SPECS_LIST_OF: is_list_of,
-            TAG_SPECS_PARSER : parser,
+            TAG_SPECS_TYPE     : TAG_SPECS_DATA,
+            TAG_SPECS_LIST_OF  : is_list_of,
+            TAG_SPECS_PARSER   : parser,
+            TAG_SPECS_POST_PROD: post_prod,
         }
-
-        if is_list_of:
-            this_specs |= {TAG_SPECS_MAPPER: mapper}
 
 
     else:
@@ -228,38 +235,34 @@ def build_single_pyspec(key, val, extradata, last_parser):
     return key, this_specs, last_parser
 
 
-def which_parser(val, extradata):
+def which_parser(kind, extradata):
     global ALL_PARSERS_FOUND
 
     # if TAG_ABBREV in extradata:
     #     for oneabbrev, replacement in extradata[TAG_ABBREV].items():
     #         val = val.replace(f"\\{oneabbrev}", replacement)
 
-    match = PATTERN_LIST_OF.fullmatch(val)
+    match = PATTERN_LIST_OF.fullmatch(kind)
 
     if not match:
         is_list_of = False
-        mapper     = None
 
     else:
         is_list_of = True
-        val        = match.group('kind')
-        mapper     = match.group('mapper')
+        kind       = match.group(1)
 
-        if not PATTERN_LEGAL_LIST.fullmatch(val):
-            raise ValueError(
-                f"illegal type ''list({val})'' in "
-                f"''specs/{extradata[TAG_FILE]}'' file."
-            )
+    if not PATTERN_LEGAL_NAME.fullmatch(kind):
+        if is_list_of:
+            kind =f"list({kind})"
 
-    # if val == 'str':
-    #     return is_list_of, None, "str"
+        raise ValueError(
+            f"illegal type ''{kind}'' in "
+            f"''specs/{extradata[TAG_FILE]}'' file."
+        )
 
+    ALL_PARSERS_FOUND.add(kind)
 
-    if val != TAG_MAGIC_CHAR:
-        ALL_PARSERS_FOUND.add(val)
-
-    return is_list_of, mapper, val
+    return is_list_of, kind
 
 
 # --------------- #

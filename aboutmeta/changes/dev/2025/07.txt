@@ -2,7 +2,26 @@
 
 
 ==
-26  (0.0.0-beta.14)
+27  (0.0.0-beta.14)
+==
+
+--------
+:fordev:
+--------
+
+[[:tech:]]
+Post \prod^o: use of a final ''+'' in the internal \yaml \specs, and the method to use is automatacilly choosen with the prefix ''post_''.
+
+
+[[:facto:]]
+Classes ''PreAMData'' and ''AMData'': the general logic and actual implementation have been separated. This is simpler and more elegant.
+
+
+// ---------- //
+
+
+==
+26
 ==
 
 --------
