@@ -295,8 +295,7 @@ class PreAMData:
 #     erase_log : set to ''True'', this \arg allows to erase an
 #                 existing ''LOG_FILE'' file used to store errors.
 #
-#     :return: ''True'' if all data has been validated, and ''False''
-#              if not.
+#     :return: the number of errors found.
 #
 #     :see: self.__recu_validate
 #
@@ -309,7 +308,7 @@ class PreAMData:
         self,
         what     : (str | None) = None,
         erase_log: bool = False
-    ) -> bool:
+    ) -> int:
 # Which data to validate?
         if what is None:
             data = self.data
@@ -323,7 +322,7 @@ class PreAMData:
             Path(LOG_FILE).write_text("")
 
 # Let's delegate the work to a recursive company.
-        return self.__recu_validate(data) == 0
+        return self.__recu_validate(data)
 
 ###
 # prototype::

@@ -9,11 +9,14 @@ from typing import Tuple
 
 import                        typer
 from typing_extensions import Annotated
-from rich              import print as rich_print
+from rich              import print
 
 from pathlib import Path
 
-from aboutmeta.amdata import AMData
+from aboutmeta.amdata import (
+    AMData,
+    LOG_FILE
+)
 
 from aboutmeta.__init__ import __version__
 from aboutmeta.data     import helpers
@@ -39,13 +42,22 @@ def new():
     """
     Step-by-step creation of an ''about.yaml'' file.
     """
-    typer.echo(f"TODO")
+    print("[bold green]Step-by-step creation of your ''about.yaml'' file.")
+
 
 
 # -------------------- #
 # -- CLI - VALIDATE -- #
 # -------------------- #
 
+###
+# prototype::
+#     file      : :see: data.pre_amdata.PreAMData.build
+#     what      : :see: data.pre_amdata.PreAMData.validate
+#     erase_log : :see: data.pre_amdata.PreAMData.validate
+#
+#     :action: :see: data.pre_amdata.PreAMData.validate
+###
 @CLI.command()
 def validate(
     file: Annotated[
@@ -72,19 +84,56 @@ def validate(
     ] = False,
 ):
     """
-     Validating data from the ''about.yaml'' file: the validation process is detailed in the terminal, but only errors are recorded in the log file.
+    Validating data from the ''about.yaml'' file: the validation
+    process is detailed in the terminal, but only errors are
+    recorded in the log file.
     """
-    rich_print("[bold green]Staring validation.")
+    initial_args = dict(**locals())
 
-    for arg, val in locals().items():
-        rich_print(f"[green]  + {arg}: {val}")
+# Starting communication.
+    print("[bold green]Starting validation.")
+
+    for arg, val in initial_args.items():
+        print(f"[yellow]  + {arg}: {val}")
 
     print()
 
+# Let's ''AMData'' work.
     amdata = AMData()
 
     amdata.build(yaml_file = file)
-    amdata.validate(
+
+    nb_errors = amdata.validate(
         what      = what,
         erase_log = erase_log
     )
+
+# DEBUG - START
+#     nb_errors = 0
+#     nb_errors = 1
+# DEBUG - END
+
+# Closing communication.
+    if nb_errors == 0:
+        infos = [
+            "[bold blue]DATA VALIDATED!",
+        ]
+
+        infos += [
+            f"[cyan]  + {arg}: {val}"
+            for arg, val in initial_args.items()
+        ]
+
+    else:
+        plurial = "" if nb_errors == 1 else "S"
+
+        infos = [
+            f"[bold bright_red]{nb_errors} ERROR{plurial} FOUND. "
+             "Look at the log file:",
+            f"[red3]{LOG_FILE}",
+        ]
+
+    print()
+
+    for i in infos:
+        print(i)
