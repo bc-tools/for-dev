@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 
 ###
-# This module implements the [C]-ommand [L]-ine [I]-nterface of \thisproj.
+# This module implements the [C]-ommand [L]-ine [I]-nterface
+# of \thisproj.
 ###
 
 
-from typing import Tuple
+from typing import (
+    Dict,
+    List,
+)
 
 import                        typer
 from typing_extensions import Annotated
@@ -18,8 +22,9 @@ from aboutmeta.amdata import (
     LOG_FILE
 )
 
-from aboutmeta.__init__ import __version__
-from aboutmeta.data     import helpers
+from aboutmeta.__init__     import __version__
+from aboutmeta.data.helpers import HELPERS
+from aboutmeta.data.specs   import *
 
 
 # --------------- #
@@ -28,14 +33,39 @@ from aboutmeta.data     import helpers
 
 # See: https://rich.readthedocs.io/en/stable/appendix/colors.html
 
-FORMAT_INFO     = "[bold green]"
-FORMAT_SUB_INFO = "[yellow]"
+FMT_INFO      = "[bold green]"
+FMT_INFO_XTRA = "[yellow]"
 
-FORMAT_SUCCESS     = "[bold blue]"
-FORMAT_SUB_SUCCESS = "[cyan]"
+FMT_ERROR      = "[bold bright_red]"
+FMT_ERROR_XTRA = "[red3]"
 
-FORMAT_ERROR     = "[bold bright_red]"
-FORMAT_SUB_ERROR = "[red3]"
+FMT_SUCCESS      = "[bold blue]"
+FMT_SUCCESS_XTRA = "[cyan]"
+
+TAB_1 = "  "
+TAB_2 = TAB_1*2
+TAB_3 = TAB_1*2
+
+ITEM_1 = f"{TAB_1}+ "
+ITEM_2 = f"{TAB_2}- "
+ITEM_3 = f"{TAB_3}* "
+
+TAG_WHAT = "what"
+
+
+# ----------- #
+# -- TOOLS -- #
+# ----------- #
+
+
+# prototype::
+#     lines : a list of lines of text that may contain formatting
+#             directives \rich.
+#
+#     :action: printing of text lines formatted as expected.
+def print_lines(lines: List[str]) -> None:
+    for l in lines:
+        print(l)
 
 
 # ---------------- #
@@ -49,18 +79,99 @@ CLI = typer.Typer(
 )
 
 
-# --------------- #
-# -- CLI - NEW -- #
-# --------------- #
+# ------------------ #
+# -- CLI - CREATE -- #
+# ------------------ #
 
+###
+# prototype::
+#     file  : the path::''about.yaml'' file to be created from
+#             scratch.
+#     erase : set to ''True'', this \arg allows to erase an
+#             existing path::''about.yaml'' file.
+#
+#     :action: creation of the path::''about.yaml'' file containing
+#              all mandatory data and all optional data chosen by
+#              the user.
+###
 @CLI.command()
-def new():
+def create(
+    file: Annotated[
+        Path,
+        typer.Argument(
+            help = "Path of the ''about.yaml'' file."
+        ),
+    ],
+    erase: Annotated[
+        bool,
+        typer.Option(
+            "--erase",
+            "-e",
+            help = "Erase an existing ''about.yaml'' file.",
+        ),
+    ] = False,
+):
     """
     Step-by-step creation of an ''about.yaml'' file.
     """
-    print("[bold green]Step-by-step creation of your ''about.yaml'' file.")
+# Start of communication.
+    print_lines([
+        f"{FMT_INFO}Step-by-step creation of "
+         "your ''about.yaml'' file.",
+        ""
+    ])
+
+# Validation of the file.
+    yaml_file = Path(file)
+
+    if not yaml_file.suffix == ".yaml":
+        ext = yaml_file.suffix
+
+        if ext:
+            ext = ext[1:]
+
+        xtra = f", and not ''{ext}''" if ext else ""
 
 
+        print_lines([
+            f"{FMT_ERROR}File must use the ''yaml'' extension{xtra}. ",
+            f"{FMT_ERROR_XTRA}File proposed:",
+            f"{FMT_ERROR_XTRA}{yaml_file}",
+        ])
+
+        exit(1)
+
+    if (
+        not erase
+        and
+        yaml_file.is_file()
+    ):
+        print_lines([
+            f"{FMT_ERROR}File cannot be overwritten:",
+            f"{FMT_ERROR_XTRA}{yaml_file}",
+        ])
+
+        exit(1)
+
+# We can work recursively.
+    yaml_file.touch()
+
+    content = _recu_create(SPECS)
+
+# End of communication.
+
+
+###
+# prototype::
+#     XXXX
+###
+def _recu_create(
+    loc_specs: Dict[str, str]
+) -> List[str]:
+    content = []
+
+    print(loc_specs)
+    exit()
 
 # -------------------- #
 # -- CLI - VALIDATE -- #
@@ -87,7 +198,10 @@ def validate(
         typer.Option(
             "--what",
             "-w",
-            help = "The pointed path of a specific key to analyze (the key can have a block value).",
+            help = (
+                "The pointed virtual path of a specific key to "
+                "analyze (the key can have a block value)."
+            ),
         ),
     ] = None,
     erase_log: Annotated[
@@ -95,7 +209,7 @@ def validate(
         typer.Option(
             "--erase",
             "-e",
-            help = "Erasing the log file",
+            help = "Erase the log file.",
         ),
     ] = False,
 ):
@@ -106,15 +220,20 @@ def validate(
     """
     initial_args = dict(**locals())
 
-# Starting communication.
-    print(f"{FORMAT_INFO}Starting validation.")
+    if initial_args[TAG_WHAT] is None:
+        initial_args[TAG_WHAT] = "all data"
 
-    for arg, val in initial_args.items():
-        print(f"{FORMAT_SUB_INFO}  + {arg}: {val}")
+# Start of communication.
+    infos  = [f"{FMT_INFO}Starting validation."]
+    infos += [
+        f"{FMT_INFO_XTRA}{ITEM_1}{arg}: {val}"
+        for arg, val in initial_args.items()
+    ]
+    infos += [""]
 
-    print()
+    print_lines(infos)
 
-# Let ''AMData'' work.
+# Let “AMData” do its job.
     amdata = AMData()
 
     amdata.build(yaml_file = file)
@@ -129,27 +248,26 @@ def validate(
     # nb_errors = 1
 # DEBUG - END
 
-# Closing communication.
+# End of communication.
+    infos = ['']
+
     if nb_errors == 0:
-        infos = [
-            f"{FORMAT_SUCCESS}DATA VALIDATED!",
+        infos += [
+            f"{FMT_SUCCESS}DATA VALIDATED!",
         ]
 
         infos += [
-            f"{FORMAT_SUB_SUCCESS}  + {arg}: {val}"
+            f"{FMT_SUCCESS_XTRA}{ITEM_1}{arg}: {val}"
             for arg, val in initial_args.items()
         ]
 
     else:
         plurial = "" if nb_errors == 1 else "S"
 
-        infos = [
-            f"{FORMAT_ERROR}{nb_errors} ERROR{plurial} FOUND. "
+        infos += [
+            f"{FMT_ERROR}{nb_errors} ERROR{plurial} FOUND. "
              "Look at the log file:",
-            f"{FORMAT_SUB_ERROR}{LOG_FILE}",
+            f"{FMT_ERROR_XTRA}{LOG_FILE}",
         ]
 
-    print()
-
-    for i in infos:
-        print(i)
+    print_lines(infos)
