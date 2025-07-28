@@ -8,6 +8,7 @@
 
 from typing import (
     Any,
+    Callable,
     List,
 )
 
@@ -15,7 +16,12 @@ import                        typer
 from typing_extensions import Annotated
 from rich.console      import Console
 
-from copy    import deepcopy
+from copy      import deepcopy
+from itertools import (
+    chain,
+    cycle
+)
+
 from pathlib import Path
 
 from box import BoxKeyError
@@ -74,22 +80,52 @@ TAG_ABORT = "x"
 TXT_SPECIAL_KEY = "Special keys"
 _TAB_SPE_KEY    = " "*(4 + len(TXT_SPECIAL_KEY))
 
-TXT_HOW_ABORT = (
-    f'"{TAG_ABORT.upper()}" / "{TAG_ABORT}" to go out of '
-     'the parent block'
+_ALL_TXTS = [
+    TXT_HOW_ABORT:= (
+        f'"{TAG_ABORT.upper()}" / "{TAG_ABORT}" to go out of '
+        'the parent block'
+    ),
+    TXT_CHOICES_ABORT:= (
+        '"SPACE(S)" to move on to the next step'
+        "\n"
+        f"{_TAB_SPE_KEY}{TXT_HOW_ABORT}"
+
+    ),
+    TXT_CHOICES_YES_NO:= (
+        f'"[{TAG_YES[0]}]{TAG_YES[1:]}" to accept'
+        "\n"
+        f"{_TAB_SPE_KEY}{TXT_HOW_ABORT}"
+    ),
+]
+
+_seq_chars     = "/\\"
+_len_seq_chars = len(_seq_chars)
+
+_maxlen = 2 + max(
+    map(
+        len,
+        chain.from_iterable(
+            map(lambda t: t.split("\n"), _ALL_TXTS)
+        )
+    )
 )
 
-TXT_CHOICES_ABORT = (
-     '"SPACE(S)" to move on to the next step'
-     "\n"
-    f"{_TAB_SPE_KEY}{TXT_HOW_ABORT}"
+if _maxlen // _len_seq_chars != 0:
+    _maxlen += _len_seq_chars - _maxlen % _len_seq_chars
 
-)
-TXT_CHOICES_YES_NO = (
-    f'"[{TAG_YES[0]}]{TAG_YES[1:]}" to accept'
-     "\n"
-    f"{_TAB_SPE_KEY}{TXT_HOW_ABORT}"
-)
+_char_cycle  = cycle(_seq_chars)
+
+TESTING_LINE = []
+
+for _ in range(_maxlen):
+    TESTING_LINE.append(next(_char_cycle))
+
+TESTING_LINE = "".join(TESTING_LINE)
+
+_maxlen     = None
+_seq_chars  = None
+_len_seq_chars = None
+_char_cycle = None
 
 
 # ----------- #
@@ -305,9 +341,17 @@ def create(
     )
 
     fmt_print_lines([
+        f"{FMT_IMPORTANT}IMPORTANT! Due to the automatic, but "
+         "unreliable deletion of certain messages, use a "
+         "sufficiently large terminal. The following slots must "
+         "be on a single line.",
+        f"{FMT_IMPORTANT_XTRA}-- WIDE ENOUGH LINE TEST - START --",
+        f"{FMT_IMPORTANT_XTRA}{TESTING_LINE}",
+        f"{FMT_IMPORTANT_XTRA}-- WIDE ENOUGH LINE TEST - END --",
+        '',
         f"{FMT_INFO}NOTE: we give virtual pointed paths "
          "of blocks and keys.",
-        ''
+        '',
     ])
 
 # Validation of the file.
@@ -342,9 +386,17 @@ def create(
         exit(1)
 
 # We can work recursively.
-    content = recu_create(deepcopy(SPECS))
+    amdata = AMData()
+    amdata._yaml_file_dir = yaml_file.parent
+
+    content = recu_create(
+        parse_val = amdata.parse_val,
+        loc_specs = deepcopy(SPECS)
+    )
 
 # End of communication.
+#
+# No data ==> No file modification!
     if not content:
         xtra = "modified" if yaml_file.is_file() else "created"
 
@@ -353,7 +405,11 @@ def create(
             f"{FMT_ERROR_XTRA}See {file}"
         ])
 
+# We must take care of the order of the \dict.
     else:
+        content = stringify(content)
+
+        from pprint import pprint;pprint(content);exit()
         yaml_file.touch()
 
         with yaml_file.open(mode = 'w') as f:
@@ -374,11 +430,12 @@ def create(
 #     :return: the dict build with data given by the user.
 ###
 def recu_create(
+    parse_val: Callable,
     loc_specs: dict,
     relpath  : List[str] = []
 ) -> dict:
     content = dict()
-    amdata  = AMData()
+
 
 # Alternatives?
     all_alts = loc_specs[TAG_SPECS_ALT_ALL]
@@ -428,6 +485,7 @@ def recu_create(
 
             if answer in TAGS_YES:
                 sub_content = recu_create(
+                    parse_val = parse_val,
                     loc_specs = loc_specs[key][TAG_SPECS_CONTENT],
                     relpath   = keypath
                 )
@@ -455,81 +513,61 @@ def recu_create(
             return content
 
 # Let the user works.
-        parser     = getattr(
-            amdata._parsers,
-            about[TAG_SPECS_PARSER]
-        )
+        remove_lastline(4)
 
-        try:
-            data = process_data(
-                data       = answer,
-                is_list_of = is_list_of,
-                parser     = parser,
-            )
+        if answer:
+            retry = True
 
-        except ValueError as e:
-            fmt_print_lines([
-                '',
-                f"{FMT_ERROR}Data creation has raised an error. See below.",
-            ])
+            while(retry):
+                try:
+                    data = parse_val(
+                        val             = answer,
+                        is_list_of      = is_list_of,
+                        parser_name     = about[TAG_SPECS_PARSER],
+                        use_post_prod   = about[TAG_SPECS_POST_PROD],
+                        allow_post_prod = False
+                    )
 
-            exit(1)
+                    retry = False
 
-        content[key] = data
 
-# Processing the user's information.
-        fmt_print()
+                except ValueError as e:
+                    fmt_print_lines([
+                        '',
+                        f"{FMT_ERROR}Data creation has raised an error. See below.",
+                        f"{FMT_ERROR_XTRA}{e}",
+                    ])
+                    exit(1)
+
+# DEBUG - START
+        # except Exception as e:
+        #     import traceback
+        #     traceback.print_exc()
+        #     exit(1)
+# DEBUG - END
+
+            content[key] = data
 
 # Nothing left to do.
     return content
 
 
-###
+### TODO
 # prototype::
-#     x : y
-#
-#     :return: z
 ###
-def process_data(
-    data      : str,
-    is_list_of: bool,
-    parser    : Any,
-) -> str:
-    if is_list_of:
-        return process_data_list(
-            data   = data,
-            parser = parser
-        )
+def stringify(content: Any) -> Any:
+    if isinstance(content, dict):
+        for k, v in content.items():
+            content[k] = stringify(v)
 
-    return process_data_single(
-        data   = data,
-        parser = parser
-    )
+    elif isinstance(content, list):
+        for i, v in enumerate(i, content):
+            v[i] = stringify(v)
 
+    else:
+        content = str(content)
 
-###
-# prototype::
-#     x : y
-#
-#     :return: z
-###
-def process_data_single(
-    data  : str,
-    parser: Any,
-) -> str:
-    return f"{parser.__name__}"
-
-###
-# prototype::
-#     x : y
-#
-#     :return: z
-###
-def process_data_list(
-    data  : str,
-    parser: Any,
-) -> List[str]:
-    return f"{parser.__name__}"
+    return content
 
 
 # -------------------- #

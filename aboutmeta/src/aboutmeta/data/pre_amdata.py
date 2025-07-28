@@ -162,40 +162,56 @@ class PreAMData:
 
 # List of data needs an iterative parsing.
             else:
-                parser_name = loc_specs[TAG_SPECS_PARSER]
-
-                if parser_name == TAG_PARSER_STR:
-                    _parser = str
-
-                else:
-                    _parser = getattr(
-                        self._parsers,
-                        parser_name
-                    )
-
-                if parser_name == TAG_PARSER_TOCPATH:
-                    parser = lambda x: _parser(
-                        self._yaml_file_dir,
-                        x
-                    )
-
-                else:
-                    parser = lambda x: _parser(x)
-
-                if loc_specs[TAG_SPECS_LIST_OF]:
-                    for i, d in enumerate(val):
-                        val[i] = parser(val[i])
-
-                    if loc_specs[TAG_SPECS_POST_PROD]:
-                        val = self.use_post_prod(key, val)
-
-                    data_parsed[key] = val
-
-                else:
-                    data_parsed[key] = parser(val)
+                data_parsed[key] = self.parse_val(
+                    val           = val,
+                    is_list_of    = loc_specs[TAG_SPECS_LIST_OF],
+                    parser_name   = loc_specs[TAG_SPECS_PARSER],
+                    use_post_prod = loc_specs[TAG_SPECS_POST_PROD],
+                )
 
 # Job done.
         return data_parsed
+
+### TODO
+# prototype::
+###
+    def parse_val(
+        self,
+        val            : str | List[str],
+        is_list_of     : bool,
+        parser_name    : str,
+        use_post_prod  : bool,
+        allow_post_prod: bool = True,
+    ) -> Any:
+        if parser_name == TAG_PARSER_STR:
+            _parser = str
+
+        else:
+            _parser = getattr(
+                self._parsers,
+                parser_name
+            )
+
+        if parser_name == TAG_PARSER_TOCPATH:
+            parser = lambda x: _parser(
+                self._yaml_file_dir,
+                x
+            )
+
+        else:
+            parser = lambda x: _parser(x)
+
+        if is_list_of:
+            for i, d in enumerate(val):
+                val[i] = parser(val[i])
+
+            if (allow_post_prod and use_post_prod):
+                val = self.use_post_prod(key, val)
+
+            return val
+
+        return parser(val)
+
 
 ###
 # prototype::
