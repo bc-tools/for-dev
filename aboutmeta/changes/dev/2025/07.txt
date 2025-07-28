@@ -12,10 +12,10 @@
 [[:tech: & :facto:]]   ???
 Changs for the parsers.
 
-    1) ????
+    1)
     Specific parsing errors must be handled to allow for input errors when creating data via CLI.
 
-    1) ????
+    1)
     Abandonment of the parsing style concept (for example, for new types of date and version number, new parsers will have to be proposed).
 
     1) ????
