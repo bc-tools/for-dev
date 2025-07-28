@@ -7,13 +7,13 @@
 
 
 from typing import (
-    Dict,
+    Any,
     List,
 )
 
 import                        typer
 from typing_extensions import Annotated
-from rich              import print as fmt_print
+from rich.console      import Console
 
 from copy    import deepcopy
 from pathlib import Path
@@ -34,6 +34,8 @@ from aboutmeta.data.specs   import *
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
+
+NO_COLOR = False
 
 # See: https://rich.readthedocs.io/en/stable/appendix/colors.html
 
@@ -69,8 +71,25 @@ TAGS_YES = [
 
 TAG_ABORT = "x"
 
-TXT_CHOICES_ABORT  = f"SPACE to go to the next key / {TAG_ABORT} to go out of the block"
-TXT_CHOICES_YES_NO = f"[{TAG_YES[0]}]{TAG_YES[1:]} / ..."
+TXT_SPECIAL_KEY = "Special keys"
+_TAB_SPE_KEY    = " "*(4 + len(TXT_SPECIAL_KEY))
+
+TXT_HOW_ABORT = (
+    f'"{TAG_ABORT.upper()}" / "{TAG_ABORT}" to go out of '
+     'the parent block'
+)
+
+TXT_CHOICES_ABORT = (
+     '"SPACE(S)" to move on to the next step'
+     "\n"
+    f"{_TAB_SPE_KEY}{TXT_HOW_ABORT}"
+
+)
+TXT_CHOICES_YES_NO = (
+    f'"[{TAG_YES[0]}]{TAG_YES[1:]}" to accept'
+     "\n"
+    f"{_TAB_SPE_KEY}{TXT_HOW_ABORT}"
+)
 
 
 # ----------- #
@@ -79,10 +98,25 @@ TXT_CHOICES_YES_NO = f"[{TAG_YES[0]}]{TAG_YES[1:]} / ..."
 
 ###
 # prototype::
-#     lines : a list of lines of text that may contain formatting
-#             directives \rich.
+#     nb_line : the number of lines to removed.
 #
-#     :action: fmt_printing of text lines formatted as expected.
+#     :action: the last ''nb_line'' terminal lines is removed.
+###
+def remove_lastline(
+    nb_line: int = 1
+) -> None:
+    for _ in range(nb_line):
+        print("\033[F\033[K", end = '')
+
+    print()
+
+
+###
+# prototype::
+#     lines : a list of lines of text that can be formatted using
+#             \rich markup \lang.
+#
+#     :action: printing of text lines formatted as expected.
 ###
 def fmt_print_lines(lines: List[str]) -> None:
     for l in lines:
@@ -92,9 +126,10 @@ def fmt_print_lines(lines: List[str]) -> None:
 ###
 # prototype::
 #     action_done  : text about the process activated.
-#     initial_args : the list of initial \args.
+#     initial_args : the list of initial \args used when calling
+#                    the \cli \cmd.
 #
-#     :action: fmt_print the initial \args about the process done.
+#     :action: print the action done, and its initial \args.
 ###
 def start_communication(
     action_done : str,
@@ -110,8 +145,76 @@ def start_communication(
     fmt_print_lines(infos)
 
 
+###
+# prototype::
+#     message : explanations about the action in progress.
+#     choices : text explaining the user's actions available.
+#
+#     :return: the user's response is analyzed, and if it's equal
+#              to ''x'' or ''X'', it becomes the empty string (this
+#              indicates to stop the data creation in progress).
+###
+def get_answer(
+    message  : str,
+    choices  : str,
+) -> str:
+    answer = typer.prompt(
+        f"> {message}\n"
+        f"  \033[33m{TXT_SPECIAL_KEY}: {choices}\n"
+    )
+    answer = answer.strip()
+
+    return answer
+
+
+###
+# prototype::
+#     answer  : the user's answer (that can be an information that
+#               will be processed later by other functions).
+#     relpath : the list of parent \yaml keys.
+#
+#     :return: ''False'' if the process should not be stopped, and
+#              ''True'' if it should.
+#              In the latter case, the function informs the user of
+#              the imminent interruption of the process.
+###
+def must_abort(
+    answer : str,
+    relpath: List[str]
+ ) -> bool:
+    if answer != TAG_ABORT:
+        return False
+
+    remove_lastline(4)
+
+    if relpath:
+        relpath = '.'.join(relpath)
+
+        xtra_1 = 'intermediate'
+        xtra_2 = (
+            f"{FMT_IMPORTANT_XTRA}We were working on ''{relpath}''."
+        )
+
+    else:
+        xtra_1 = 'main'
+
+
+    lines = [
+        f"{FMT_IMPORTANT}End of {xtra_1} processing!"
+    ]
+
+    if relpath:
+        lines.append(xtra_2)
+
+    lines.append('')
+
+    fmt_print_lines(lines)
+
+    return True
+
+
 # ---------------- #
-# -- CLI - INIT -- #
+# -- CLI - MAIN -- #
 # ---------------- #
 
 CLI = typer.Typer(
@@ -119,6 +222,29 @@ CLI = typer.Typer(
         "help_option_names": ["-h", "--help"]
     }
 )
+
+
+fmt_print = Console(no_color = False).print
+
+###
+# prototype::
+#     no_color : :see: data.logconf.setup_logging
+###
+@CLI.callback()
+def main(
+    no_color: Annotated[
+        bool,
+        typer.Option(
+            "--no-color",
+            "-nc",
+            help = "Disable highlighting messages with colors.",
+        ),
+    ] = False,
+):
+    global fmt_print, NO_COLOR
+
+    NO_COLOR  = no_color
+    fmt_print = Console(no_color = NO_COLOR).print
 
 
 # ------------------ #
@@ -241,16 +367,18 @@ def create(
 
 ###
 # prototype::
-#     loc_specs : "local" \specs corresponding to the data analyzed.
-#     relpath   : xxxx
+#     loc_specs : "local" \specs corresponding to the data being
+#                 analyzed.
+#     relpath   : :see: must_abort
 #
-#     :return: xxxxx
+#     :return: the dict build with data given by the user.
 ###
 def recu_create(
     loc_specs: dict,
     relpath  : List[str] = []
-) -> List[str]:
+) -> dict:
     content = dict()
+    amdata  = AMData()
 
 # Alternatives?
     all_alts = loc_specs[TAG_SPECS_ALT_ALL]
@@ -285,8 +413,8 @@ def recu_create(
 
 # Recursive creations for a block.
         if yaml_type == TAG_SPECS_BLOCK:
-            answer = new_data(
-                message   = "Add this block",
+            answer = get_answer(
+                message   = "Add this block.",
                 choices   = TXT_CHOICES_YES_NO,
             ).lower()
 
@@ -296,7 +424,7 @@ def recu_create(
             ):
                 return content
 
-            remove_lastline()
+            remove_lastline(4)
 
             if answer in TAGS_YES:
                 sub_content = recu_create(
@@ -309,27 +437,45 @@ def recu_create(
 
             continue
 
-# Creation of an information.
-        parser     = about[TAG_SPECS_PARSER]
+# Do we have to create new data.
         is_list_of = about[TAG_SPECS_LIST_OF]
 
-        if is_list_of:
-            message = f"list"
+        xtra = "a list of " if is_list_of else "one"
 
-        else:
-            message = f"single"
-
-        data = new_data(
-            message = message,
+        answer = get_answer(
+            message = f"Creation of {xtra} data.",
             choices = TXT_CHOICES_ABORT
         )
 
 # Go out of this block?
         if must_abort(
-            answer  = data,
+            answer  = answer,
             relpath = relpath
         ):
             return content
+
+# Let the user works.
+        parser     = getattr(
+            amdata._parsers,
+            about[TAG_SPECS_PARSER]
+        )
+
+        try:
+            data = process_data(
+                data       = answer,
+                is_list_of = is_list_of,
+                parser     = parser,
+            )
+
+        except ValueError as e:
+            fmt_print_lines([
+                '',
+                f"{FMT_ERROR}Data creation has raised an error. See below.",
+            ])
+
+            exit(1)
+
+        content[key] = data
 
 # Processing the user's information.
         fmt_print()
@@ -340,70 +486,50 @@ def recu_create(
 
 ###
 # prototype::
-#     message : explanations about the action in progress.
-#     choices : text explaining the user's actions available.
+#     x : y
 #
-#     :return: the user's response is analyzed, and if it's equal
-#              to “x” or “X”, it becomes the empty string (this
-#              indicates to stop the data creation in progress).
+#     :return: z
 ###
-def new_data(
-    message  : str,
-    choices  : str,
+def process_data(
+    data      : str,
+    is_list_of: bool,
+    parser    : Any,
 ) -> str:
-    answer = typer.prompt(f"{TAB_1}> {message}  ( {choices} )")
-    answer = answer.strip()
-
-    return answer
-
-
-###  TODO
-# prototype::
-#     answer  : XXXX
-#     relpath : XXXX
-#
-#     :return: XXXX
-###
-def must_abort(
-    answer : str,
-    relpath: List[str]
- ) -> bool:
-    if answer != TAG_ABORT:
-        return False
-    remove_lastline()
-
-    if relpath:
-        relpath = '.'.join(relpath)
-
-        xtra_1 = 'intermediate'
-        xtra_2 = (
-            f"{FMT_IMPORTANT_XTRA}We were working on ''{relpath}''."
+    if is_list_of:
+        return process_data_list(
+            data   = data,
+            parser = parser
         )
 
-    else:
-        xtra_1 = 'main'
+    return process_data_single(
+        data   = data,
+        parser = parser
+    )
 
 
-    lines = [
-        f"{FMT_IMPORTANT}End of {xtra_1} processing!"
-    ]
-
-    if relpath:
-        lines.append(xtra_2)
-
-    lines.append('')
-
-    fmt_print_lines(lines)
-
-    return True
-
-
-###  TODO
-# prototype::
-#     :action: XXXX
 ###
-def remove_lastline() -> None:
-    print("\033[F\033[K")
+# prototype::
+#     x : y
+#
+#     :return: z
+###
+def process_data_single(
+    data  : str,
+    parser: Any,
+) -> str:
+    return f"{parser.__name__}"
+
+###
+# prototype::
+#     x : y
+#
+#     :return: z
+###
+def process_data_list(
+    data  : str,
+    parser: Any,
+) -> List[str]:
+    return f"{parser.__name__}"
 
 
 # -------------------- #
@@ -451,6 +577,8 @@ def validate(
     process is detailed in the terminal, but only errors are
     recorded in the log file.
     """
+    global NO_COLOR
+
     initial_args = dict(**locals())
 
     if initial_args[TAG_WHAT] is None:
@@ -462,7 +590,7 @@ def validate(
         initial_args = initial_args,
     )
 
-# Let “AMData” do its job.
+# Let ''AMData'' do its job.
     amdata = AMData()
 
     try:
@@ -479,7 +607,8 @@ def validate(
     try:
         nb_errors = amdata.validate(
             what      = what,
-            erase_log = erase_log
+            erase_log = erase_log,
+            no_color  = NO_COLOR,
         )
 
     except BoxKeyError as e:
@@ -516,9 +645,8 @@ def validate(
 
         infos = [
             '',
-            f"{FMT_ERROR}{nb_errors} ERROR{plurial} FOUND. "
-             "Look at the log file:",
-            f"{FMT_ERROR_XTRA}{LOG_FILE}",
+            f"{FMT_ERROR}{nb_errors} ERROR{plurial} FOUND.",
+            f"{FMT_ERROR_XTRA}See: {LOG_FILE}",
         ]
 
     fmt_print_lines(infos)

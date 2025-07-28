@@ -5,12 +5,11 @@ from typing import (
     List
 )
 
-import                   logging
-from rich.logging import RichHandler
-
 from pathlib import Path
 
 from yaml import safe_load
+
+from aboutmeta.data.logconf import *
 
 from aboutmeta.data.constants import *
 from aboutmeta.data.specs     import *
@@ -30,44 +29,6 @@ TAG_STYLE_DEFAULT = 'default'
 
 SET_KEEP_ALL      = set(SPECS)
 SET_KEEP_ONLY_TOC = set(["toc"])
-
-
-# --------------------- #
-# -- LOGGING CONFIG. -- #
-# --------------------- #
-
-LOG_FILE = "aboutmeta.log"
-
-# Terminal settings.
-#
-# ''rich_tracebacks = True'' enables colorful, detailed tracebacks
-# when unhandled exceptions occur, showing code context.
-term_handler = RichHandler(rich_tracebacks = True)
-term_handler.setLevel(logging.INFO)
-
-# File settings.
-file_handler = logging.FileHandler(
-    LOG_FILE,
-    mode = "a"
-)
-file_handler.setLevel(logging.ERROR)
-
-file_formatter = logging.Formatter(
-    "%(asctime)s [%(levelname)s] %(message)s"
-)
-file_handler.setFormatter(file_formatter)
-
-# Global settings.
-logging.basicConfig(
-# Resetting configurations
-    force    = True,
-# Lowest level for taking our levels into account.
-    level    = logging.DEBUG,
-    handlers = [
-        term_handler,
-        file_handler
-    ],
-)
 
 
 # ------------------------------ #
@@ -297,6 +258,7 @@ class PreAMData:
 #                 the data to be validated is performed automatically.
 #     erase_log : set to ''True'', this \arg allows to erase an
 #                 existing ''LOG_FILE'' file used to store errors.
+#     no_color  : :see: data.logconf.setup_logging
 #
 #     :return: the number of errors found.
 #
@@ -310,8 +272,11 @@ class PreAMData:
     def validate(
         self,
         what     : (str | None) = None,
-        erase_log: bool = False
+        erase_log: bool = False,
+        no_color : bool = False
     ) -> int:
+        setup_logging(no_color)
+
         self.at_least_one_validation = False
 
 # Which data to validate?
