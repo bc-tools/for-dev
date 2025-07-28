@@ -2,6 +2,33 @@
 
 
 ==
+28  (0.0.0-beta.15)   ?????
+==
+
+--------
+:fordev:
+--------
+
+[[:tech: & :facto:]]   ???
+Changs for the parsers.
+
+    1) ????
+    Specific parsing errors must be handled to allow for input errors when creating data via CLI.
+
+    1) ????
+    Abandonment of the parsing style concept (for example, for new types of date and version number, new parsers will have to be proposed).
+
+    1) ????
+    New flavour concept: choose which level 1 blocks to manage.
+
+    1) ????
+    ''PreAMData'' and ''AMData'' classes: during initialisation, it is possible to choose a lax mode that tolerates the presence of unmanaged level 1 blocks.
+
+
+// ---------- //
+
+
+==
 27  (0.0.0-beta.14)
 ==
 
@@ -14,7 +41,7 @@ Post \prod^o: use of a final ''+'' in the internal \yaml \specs, and the method 
 
 
 [[:facto:]]
-Classes ''PreAMData'' and ''AMData'': the general logic and actual implementation have been separated. This is simpler and more elegant.
+''PreAMData'' and ''AMData'' classes: the general logic and actual implementation have been separated. This is simpler and more elegant.
 
 
 // ---------- //

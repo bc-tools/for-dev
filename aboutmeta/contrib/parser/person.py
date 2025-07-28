@@ -4,6 +4,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from aboutmeta.data.errors import ParsingError
+
 from aboutmeta.data import constants, person
 from aboutmeta.tool import group
 
@@ -42,7 +44,7 @@ def parser(content: str) -> person.Person:
         and
         content[-1] == constants.TAG_YAML_AFFILIATION_CLOSE
     ):
-        raise ValueError("affiliation must be after email!")
+        raise ParsingError("affiliation must be after email!")
 
 # Titles of the person.
     titles = content.split(',')
@@ -94,7 +96,7 @@ if __name__ == "__main__":
     someone = "AB(C"
     someone = "AB](C)"
     someone = "A[B(C)"
-    someone = "A(B)[C]"
+    # someone = "A(B)[C]"
 
     print(f'---\nPERSON: {someone} --> CORRUPTED!\n---')
 

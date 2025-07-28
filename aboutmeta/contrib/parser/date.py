@@ -4,6 +4,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from aboutmeta.data.errors import ParsingError
+
 from datetime import datetime
 
 
@@ -19,10 +21,16 @@ from datetime import datetime
 #              easily with the date.
 ###
 def parser(content: str) -> datetime.date:
-    return datetime.strptime(
-        content,
-        "%Y-%m-%d"
-    ).date()
+    try:
+        date = datetime.strptime(
+            content,
+            "%Y-%m-%d"
+        ).date()
+
+    except ValueError as e:
+        raise ParsingError(e)
+
+    return date
 
 
 # ----------------- #
@@ -50,6 +58,7 @@ if __name__ == "__main__":
 # Corrupted data.
     onedate = "2.3"
     onedate = "2025-02-30"
+    onedate = "2/3/2025"
 
     print(f'--- ({onedate}) --> CORRUPTED!')
 

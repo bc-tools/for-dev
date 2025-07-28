@@ -4,6 +4,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from aboutmeta.data.errors import ParsingError
+
 from semver import (
     Version,
     VersionInfo,
@@ -22,7 +24,11 @@ from semver import (
 #              easily with the number version.
 ###
 def parser(content: str) -> Version:
-    version = VersionInfo.parse(content)
+    try:
+        version = VersionInfo.parse(content)
+
+    except ValueError as e:
+        raise ParsingError(e)
 
     return version
 

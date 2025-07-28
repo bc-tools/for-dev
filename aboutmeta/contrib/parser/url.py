@@ -4,6 +4,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from aboutmeta.data.errors import ParsingError
+
 from aboutmeta.data import url
 
 
@@ -20,7 +22,7 @@ from aboutmeta.data import url
 #
 # note::
 #     This fake parser greatly simplifies the part that handles
-#     validations.
+#     online validations.
 ###
 def parser(content: str) -> url.URL:
 # We do almost nothing...

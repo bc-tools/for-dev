@@ -2,6 +2,8 @@
 
 from typing import Tuple
 
+from aboutmeta.data.errors import ParsingError
+
 
 # -------------------------------------- #
 # -- DATA FRAMED AT THE END OF A TEXT -- #
@@ -49,7 +51,7 @@ def extract_group(
         and
         opener in content
     ):
-        raise ValueError(
+        raise ParsingError(
             f"missing closing ''{closer}'' for {context}"
         )
 
@@ -62,7 +64,7 @@ def extract_group(
     else:
 # A closing character without its opening friend?
         if not opener in content:
-            raise ValueError(
+            raise ParsingError(
                 f"missing opening ''{opener}'' for {context}"
             )
 

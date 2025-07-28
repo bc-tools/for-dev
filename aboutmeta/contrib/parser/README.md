@@ -39,6 +39,12 @@ Here are the steps to follow.
 ---
 
 
+> ***IMPORTANT!*** *Specific parsing errors must be handled to allow for input errors when creating data via CLI. This needs to use the `aboutmeta.data.errors.ParsingError` exception class.*
+
+
+---
+
+
 > ***CAUTION!*** *If you need external files, as is the case with the parser `contrib/parsers/licences/default.py`, you must use them locally and prefix their name by the parser name followed by an hyphen. These files must be added, or build via functions placed in the `TOOLS` section, which will import the necessary modules.* **This choice allows to provide only files that are permanently stored on the end user's operating system.** *This is a best practice imposed for obvious security reasons.*
 
 
@@ -53,6 +59,8 @@ Here are the steps to follow.
 # ------------- #
 # -- IMPORTS -- #
 # ------------- #
+
+from aboutmeta.data.errors import ParsingError
 
 ...
 

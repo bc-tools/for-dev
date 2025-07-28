@@ -4,6 +4,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from aboutmeta.data.errors import ParsingError
+
 from aboutmeta.data import (
     constants,
     license
@@ -29,7 +31,7 @@ from rapidfuzz import (
 # -- CONSTANTS -- #
 # --------------- #
 
-LICENSES_JSON_FILE = Path(__file__).parent / "default-licenses.json"
+LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 
 
 # -------------------- #
@@ -64,13 +66,13 @@ def parser(content: str) -> license.License:
         else:
             extra = " No match found."
 
-        raise ValueError(
+        raise ParsingError(
             f"unknown license code ''{content}''.{extra}"
         )
 
 # Deprecated?
     if all_licenses[normal_ID]["deprecated"]:
-        raise ValueError(
+        raise ParsingError(
             f"deprecated license code ''{all_licenses[normal_ID]['std']}''."
         )
 

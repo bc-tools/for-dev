@@ -2,6 +2,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from aboutmeta.data.errors import ParsingError
+
 from typing import List
 
 from pathlib import Path
@@ -118,7 +120,7 @@ def parser(
         kind: str,
         xtra: str = ""
     ) -> None:
-        raise ValueError(
+        raise ParsingError(
             f"""
 {kind}.
     + Data     : {data!r}

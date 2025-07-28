@@ -4,6 +4,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from aboutmeta.data.errors import ParsingError
+
 from aboutmeta.data import lang
 
 from langcodes import (
@@ -29,14 +31,17 @@ def parser(content: str) -> lang.Lang:
         onelang = get_langcode(content).maximize()
 
     except LanguageTagError as e:
-        raise ValueError(f"illegal language code ''{content}''")
+        message = str(e)
+        message = message[0].lower() + message[1:]
+
+        raise ParsingError(message)
 
 # Small description of the language code.
     describe = onelang.describe('en')
 
 # Patch for the strange "Unknow language".
     if describe['language'].startswith('Unknown language'):
-        raise ValueError(f"illegal language code ''{content}''")
+        raise ParsingError(f"unknown language code '{content}'")
 
 # The job has been done.
     return lang.Lang(
@@ -70,7 +75,7 @@ if __name__ == "__main__":
 
 # Corrupted data.
     userlang = "XXXXXXXX"
-    userlang = "XXX"
+    # userlang = "XXX"
 
     print(f'--- ({userlang}) --> CORRUPTED!')
 
