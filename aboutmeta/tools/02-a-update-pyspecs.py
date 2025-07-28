@@ -3,7 +3,8 @@
 from copy    import copy
 from pathlib import Path
 import              re
-from yaml    import safe_load
+
+from yaml import safe_load
 
 from black import (
     format_file_in_place,

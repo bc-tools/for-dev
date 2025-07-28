@@ -3,7 +3,8 @@
 from collections import defaultdict
 from pathlib     import Path
 import                  re
-from yaml        import safe_load
+
+from yaml import safe_load
 
 
 # --------------- #

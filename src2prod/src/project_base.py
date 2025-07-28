@@ -10,7 +10,8 @@ from typing import Union, List
 
 from shutil     import copyfile
 from subprocess import run
-from yaml       import safe_load as yaml_load
+
+from yaml import safe_load as yaml_load
 
 from spkpb import (
     FORLOG,

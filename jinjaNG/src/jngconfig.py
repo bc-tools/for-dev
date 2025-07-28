@@ -8,7 +8,8 @@
 from typing import Union
 
 from pathlib import Path
-from yaml    import safe_load as yaml_load
+
+from yaml import safe_load as yaml_load
 
 
 # ---------------------- #

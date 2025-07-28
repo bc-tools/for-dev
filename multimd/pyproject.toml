@@ -32,6 +32,9 @@ classifiers = [
 ]
 
 dependencies = [
+# TODO! Local temp dep.
+  "aboutmeta @ file:../aboutmeta",
+  # "aboutmeta>=1.0",
   "markdown-it-py>=2.2",
   "markdownify>=1.1",
   "natsort>=8.4",
@@ -43,6 +46,10 @@ dependencies = [
 Documentation = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
 Issues        = "https://github.com/bc-tools/for-dev/tree/main/multimd/issues"
 Source        = "https://github.com/bc-tools/for-dev/tree/main/multimd#readme"
+
+# TODO! Local temp dep.
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.hatch.version]
 path    = "about.yaml"

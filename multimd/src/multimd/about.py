@@ -10,9 +10,10 @@
 from typing import List
 
 from pathlib import Path
-from yaml    import safe_load as yaml_load
 
 from natsort import natsorted
+from yaml    import safe_load as yaml_load
+
 
 
 # --------------- #

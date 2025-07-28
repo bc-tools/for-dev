@@ -13,13 +13,13 @@ from typing import (
 
 import                        typer
 from typing_extensions import Annotated
-from rich              import print
+from rich              import print as fmt_print
 
 from copy    import deepcopy
 from pathlib import Path
-from yaml    import dump as yaml_dump
 
 from box import BoxKeyError
+from yaml    import dump as yaml_dump
 
 from aboutmeta.amdata import (
     AMData,
@@ -61,13 +61,16 @@ ITEM_3 = f"{TAB_3}* "
 
 TAG_WHAT = "what"
 
-TAG_ABORT = "x"
-TAG_NO    = "no"
-
+TAG_NO   = "no"
 TAGS_YES = [
     TAG_YES:= "yes",
     TAG_YES[0]
 ]
+
+TAG_ABORT = "x"
+
+TXT_CHOICES_ABORT  = f"SPACE to go to the next key / {TAG_ABORT} to go out of the block"
+TXT_CHOICES_YES_NO = f"[{TAG_YES[0]}]{TAG_YES[1:]} / ..."
 
 
 # ----------- #
@@ -79,11 +82,11 @@ TAGS_YES = [
 #     lines : a list of lines of text that may contain formatting
 #             directives \rich.
 #
-#     :action: printing of text lines formatted as expected.
+#     :action: fmt_printing of text lines formatted as expected.
 ###
-def print_lines(lines: List[str]) -> None:
+def fmt_print_lines(lines: List[str]) -> None:
     for l in lines:
-        print(l)
+        fmt_print(l)
 
 
 ###
@@ -91,7 +94,7 @@ def print_lines(lines: List[str]) -> None:
 #     action_done  : text about the process activated.
 #     initial_args : the list of initial \args.
 #
-#     :action: print the initial \args about the process done.
+#     :action: fmt_print the initial \args about the process done.
 ###
 def start_communication(
     action_done : str,
@@ -104,7 +107,7 @@ def start_communication(
     ]
     infos += [""]
 
-    print_lines(infos)
+    fmt_print_lines(infos)
 
 
 # ---------------- #
@@ -175,6 +178,12 @@ def create(
         initial_args = initial_args,
     )
 
+    fmt_print_lines([
+        f"{FMT_INFO}NOTE: we give virtual pointed paths "
+         "of blocks and keys.",
+        ''
+    ])
+
 # Validation of the file.
     yaml_file = Path(file)
 
@@ -187,7 +196,7 @@ def create(
         xtra = f", and not ''{ext}''" if ext else ""
 
 
-        print_lines([
+        fmt_print_lines([
             f"{FMT_ERROR}File must use the ''yaml'' extension{xtra}. ",
             f"{FMT_ERROR_XTRA}See {yaml_file}",
         ])
@@ -199,7 +208,7 @@ def create(
         and
         yaml_file.is_file()
     ):
-        print_lines([
+        fmt_print_lines([
             f"{FMT_ERROR}File cannot be overwritten.",
             f"{FMT_ERROR_XTRA}See {yaml_file}",
         ])
@@ -213,9 +222,9 @@ def create(
     if not content:
         xtra = "modified" if yaml_file.is_file() else "created"
 
-        print_lines([
-            f"{FMT_IMPORTANT}Un{xtra} file (no content).",
-            f"{FMT_IMPORTANT_XTRA}See {file}"
+        fmt_print_lines([
+            f"{FMT_ERROR}Un{xtra} file (no content created).",
+            f"{FMT_ERROR_XTRA}See {file}"
         ])
 
     else:
@@ -224,7 +233,7 @@ def create(
         with yaml_file.open(mode = 'w') as f:
             yaml_dump(content, f)
 
-        print_lines([
+        fmt_print_lines([
             f"{FMT_SUCCESS}File created with the expected data.",
             f"{FMT_SUCCESS_XTRA}See {file}"
         ])
@@ -242,7 +251,6 @@ def recu_create(
     relpath  : List[str] = []
 ) -> List[str]:
     content = dict()
-    content = {'TO': "DO"}
 
 # Alternatives?
     all_alts = loc_specs[TAG_SPECS_ALT_ALL]
@@ -257,7 +265,7 @@ def recu_create(
     for key, about in loc_specs.items():
 # TODO!
         if key in all_alts:
-            print(f"{FMT_ERROR}{key} not managed!")
+            fmt_print(f"{FMT_ERROR}{key} not managed!")
             continue
 
 # About the key.
@@ -270,19 +278,27 @@ def recu_create(
 
         helper = HELPERS.get(str_keypath, "")
 
-        print(f"{FMT_INFO_XTRA}[bold]{str_keypath}  ", end = "")
-        print(f"[white](virtual pointed path given)")
+        fmt_print(f"{FMT_INFO_XTRA}[bold]{str_keypath}  ")
 
         if helper:
-            print(f"{FMT_INFO_XTRA}{helper}")
+            fmt_print(f"{FMT_INFO_XTRA}{helper}")
 
 # Recursive creations for a block.
         if yaml_type == TAG_SPECS_BLOCK:
-            if new_data(
+            answer = new_data(
                 message   = "Add this block",
-                choices   = "[y]es / [n]o",
-                can_abort = False
-            ).lower() in TAGS_YES:
+                choices   = TXT_CHOICES_YES_NO,
+            ).lower()
+
+            if must_abort(
+                answer  = answer,
+                relpath = relpath
+            ):
+                return content
+
+            remove_lastline()
+
+            if answer in TAGS_YES:
                 sub_content = recu_create(
                     loc_specs = loc_specs[key][TAG_SPECS_CONTENT],
                     relpath   = keypath
@@ -293,18 +309,30 @@ def recu_create(
 
             continue
 
-# Data to add.
-        parser = about[TAG_SPECS_PARSER]
+# Creation of an information.
+        parser     = about[TAG_SPECS_PARSER]
+        is_list_of = about[TAG_SPECS_LIST_OF]
 
-# Creation of a list of textual data.
-        if about[TAG_SPECS_LIST_OF]:
-            data = new_data(f"list")
+        if is_list_of:
+            message = f"list"
 
-# Creation of a single textual data.
         else:
-            data = new_data(f"single")
+            message = f"single"
 
-        print()
+        data = new_data(
+            message = message,
+            choices = TXT_CHOICES_ABORT
+        )
+
+# Go out of this block?
+        if must_abort(
+            answer  = data,
+            relpath = relpath
+        ):
+            return content
+
+# Processing the user's information.
+        fmt_print()
 
 # Nothing left to do.
     return content
@@ -312,12 +340,8 @@ def recu_create(
 
 ###
 # prototype::
-#     message   : explanations about the answer expeceted.
-#     choices   : text explaining the user's actions available.
-#     can_abort : set to ''True'', this \arg alllows to use SPACE,
-#                 x or X to abort the data process in progress.
-#                 Normally, this \arg should be equal to ''False''
-#                 if ''choice'' does not have its default \val.
+#     message : explanations about the action in progress.
+#     choices : text explaining the user's actions available.
 #
 #     :return: the user's response is analyzed, and if it's equal
 #              to “x” or “X”, it becomes the empty string (this
@@ -325,16 +349,61 @@ def recu_create(
 ###
 def new_data(
     message  : str,
-    choices  : str = "SPACE, x or X to abort",
-    can_abort: bool = True
+    choices  : str,
 ) -> str:
     answer = typer.prompt(f"{TAB_1}> {message}  ( {choices} )")
     answer = answer.strip()
 
-    if can_abort and answer.lower() == TAG_ABORT:
-        answer = ""
-
     return answer
+
+
+###  TODO
+# prototype::
+#     answer  : XXXX
+#     relpath : XXXX
+#
+#     :return: XXXX
+###
+def must_abort(
+    answer : str,
+    relpath: List[str]
+ ) -> bool:
+    if answer != TAG_ABORT:
+        return False
+    remove_lastline()
+
+    if relpath:
+        relpath = '.'.join(relpath)
+
+        xtra_1 = 'intermediate'
+        xtra_2 = (
+            f"{FMT_IMPORTANT_XTRA}We were working on ''{relpath}''."
+        )
+
+    else:
+        xtra_1 = 'main'
+
+
+    lines = [
+        f"{FMT_IMPORTANT}End of {xtra_1} processing!"
+    ]
+
+    if relpath:
+        lines.append(xtra_2)
+
+    lines.append('')
+
+    fmt_print_lines(lines)
+
+    return True
+
+
+###  TODO
+# prototype::
+#     :action: XXXX
+###
+def remove_lastline() -> None:
+    print("\033[F\033[K")
 
 
 # -------------------- #
@@ -400,7 +469,7 @@ def validate(
         amdata.build(yaml_file = file)
 
     except FileNotFoundError as e:
-        print_lines([
+        fmt_print_lines([
             f"{FMT_ERROR}No such fle:",
             f"{FMT_ERROR_XTRA}{file}",
         ])
@@ -414,7 +483,7 @@ def validate(
         )
 
     except BoxKeyError as e:
-        print_lines([
+        fmt_print_lines([
             f"{FMT_ERROR}Illegal pointed virtual path ''{what}''.",
         ])
 
@@ -452,4 +521,4 @@ def validate(
             f"{FMT_ERROR_XTRA}{LOG_FILE}",
         ]
 
-    print_lines(infos)
+    fmt_print_lines(infos)

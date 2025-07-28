@@ -9,7 +9,8 @@ import                   logging
 from rich.logging import RichHandler
 
 from pathlib import Path
-from yaml    import safe_load
+
+from yaml import safe_load
 
 from aboutmeta.data.constants import *
 from aboutmeta.data.specs     import *

@@ -3,7 +3,8 @@
 from typing import Tuple, List, Union
 
 from collections import defaultdict
-from yaml        import safe_load as yaml_load
+
+from yaml import safe_load as yaml_load
 
 from cbdevtools.addfindsrc import addfindsrc
 from mistool.os_use        import PPath as Path

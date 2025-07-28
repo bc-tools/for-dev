@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
-from yaml    import safe_load
+
+from yaml import safe_load
 
 
 # ----------------------- #

@@ -4,6 +4,7 @@ import                  black
 from collections import defaultdict
 from datetime    import date
 import re
+
 from yaml import (
     safe_load as yaml_load,
     dump      as yaml_dump,

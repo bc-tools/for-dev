@@ -1,5 +1,5 @@
 project:
-  version: "0.0.0-alpha"
+  version: 0.0.0-alpha
 
   acronym: "[about] [meta]data"
   desc   : This module allows project metadata to be defined in
