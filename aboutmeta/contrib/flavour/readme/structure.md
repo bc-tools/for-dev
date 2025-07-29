@@ -1,2 +1,2 @@
-Structure of the `contrib/flavour` folder
+Structure of the "contrib/flavour" folder
 -----------------------------------------

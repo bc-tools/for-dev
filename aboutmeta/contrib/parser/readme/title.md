@@ -1,2 +1,6 @@
-Add new parsers to `aboutmeta`
-==============================
+Add new parsers to aboutmeta
+============================
+
+**Table of contents**
+
+::TOC::

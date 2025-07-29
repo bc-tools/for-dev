@@ -1,2 +1,6 @@
-Add new falvours to `aboutmeta`
-===============================
+Add new flavours to aboutmeta
+=============================
+
+**Table of contents**
+
+::TOC::
