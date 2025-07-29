@@ -3,20 +3,20 @@
 # view.
 ###
 
-project:
+
 ###
 # This is the current version number of the project.
 ###
-  version*: version
+version*: version
 ###
 # This is the date of the current version of the project.
 ###
-  date*: date
+date*: date
 ###
 # This information explains the meaning of the acronym used to name
 # the project.
 ###
-  acronym*: str
+acronym*: str
 ###
 # {codename}
 # This value, optional for a code-type project, allows to name the
@@ -26,11 +26,11 @@ project:
 # This value is mandatory for a “document” type project: it gives
 # the title of the document.
 ###
-  codename | doctitle *: . | .
+codename | doctitle *: . | .
 ###
 # You need to describe shortly your project.
 ###
-  desc: .
+desc: .
 ###
 # {author}
 # For a single author, you have the following possible syntaxes.
@@ -50,7 +50,7 @@ project:
 # For severals authors, just use a YAML list of single authors (see
 # the description of the key ''author'').
 ###
-  author | authors *: person | list(.)
+author | authors *: person | list(.)
 
 ###
 # {contrib}
@@ -61,7 +61,7 @@ project:
 # For severals authors, just use a YAML list of single authors (see
 # the description of the key ''author'').
 ###
-  contrib | contribs *: . | list(.)
+contrib | contribs *: . | list(.)
 
 ###
 # Three kinds of URL can be given.
@@ -73,10 +73,10 @@ project:
 #
 #   + ''issues'' allows regular users to report bugs.
 ###
-  urls*:
-    home*  : url
-    dev*   : .
-    issues*: .
+urls*:
+  home*  : url
+  dev*   : .
+  issues*: .
 ###
 # Granting a license is a good practice.
 #
@@ -84,25 +84,25 @@ project:
 #
 #   + ''manual'' is for the manual of the project.
 ###
-  licenses*:
-    code*  : license
-    manual*: .
+licenses*:
+  code*  : license
+  manual*: .
 ###
 # This for the language used to write the manual (manual) and the
 # technical (doc) documentations.
 ###
-  langs*:
-    doc*   : lang
-    manual*: .
+langs*:
+  doc*   : lang
+  manual*: .
 
 ###
 # Don't forget to give the list of the required general tools needed
 # to make your project functional.
 ###
-  require*: list(str)
+require*: list(str)
 
 ###
 # Providing a list of keywords describing the project helps to better
 # understand its usefulness.
 ###
-  keywords*: list(.)
+keywords*: list(.)

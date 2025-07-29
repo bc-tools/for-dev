@@ -15,15 +15,15 @@ from datetime import datetime
 
 ###
 # prototype::
-#     content : the date provided in the \yaml file, but stripped.
+#     data : the date provided in the \yaml file, but stripped.
 #
 #     :return: an instance of the class ''datetime.date'' to work
 #              easily with the date.
 ###
-def parser(content: str) -> datetime.date:
+def parser(data: str) -> datetime.date:
     try:
         date = datetime.strptime(
-            content,
+            data,
             "%Y-%m-%d"
         ).date()
 

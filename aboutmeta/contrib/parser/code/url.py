@@ -15,15 +15,15 @@ from aboutmeta.data import url
 
 ###
 # prototype::
-#     content : one \url provided in the \yaml file, but stripped.
+#     data : one \url provided in the \yaml file, but stripped.
 #
-#     :return: an exact copy of the content.
+#     :return: an exact copy of the data.
 #
 #
 # note::
 #     This fake parser greatly simplifies the part that handles
 #     online validations.
 ###
-def parser(content: str) -> url.URL:
+def parser(data: str) -> url.URL:
 # We do almost nothing...
-    return url.URL(url = content)
+    return url.URL(url = data)

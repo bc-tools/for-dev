@@ -18,14 +18,14 @@ from semver import (
 
 ###
 # prototype::
-#     content : the \nbver provided in the \yaml file, but stripped.
+#     data : the \nbver provided in the \yaml file, but stripped.
 #
 #     :return: an instance of the class ''semver.Version'' to work
 #              easily with the number version.
 ###
-def parser(content: str) -> Version:
+def parser(data: str) -> Version:
     try:
-        version = VersionInfo.parse(content)
+        version = VersionInfo.parse(data)
 
     except ValueError as e:
         raise ParsingError(e)

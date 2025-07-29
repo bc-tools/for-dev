@@ -8,8 +8,8 @@ The contributions made are in the `contrib` folder which has the following struc
 
 <!-- FOLDER STRUCT. AUTO - START -->
     + contrib
-      + parser
       + flavour
+      + parser
 <!-- FOLDER STRUCT. AUTO - END -->
 
 

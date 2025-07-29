@@ -43,6 +43,7 @@ folders = [
     for p in CONTRIB_DIR.glob('*')
     if p.is_dir()
 ]
+folders.sort()
 
 # Content updated.
 folders = '\n      + '.join(folders)

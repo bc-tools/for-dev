@@ -40,18 +40,18 @@ LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 
 ###
 # prototype::
-#     content : the \lic code provided in the \yaml file, but stripped.
+#     data : the \lic code provided in the \yaml file, but stripped.
 #
 #     :return: an instance of the class ''license.License'' to work
 #              easily with the license.
 ###
-def parser(content: str) -> license.License:
+def parser(data: str) -> license.License:
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
         all_licenses = json_load(f)
 
 # Normal form found?
-    normal_ID  = _normalize_lic_code(content)
+    normal_ID  = _normalize_lic_code(data)
 
     if normal_ID not in all_licenses:
         extra       = ''
@@ -67,7 +67,7 @@ def parser(content: str) -> license.License:
             extra = " No match found."
 
         raise ParsingError(
-            f"unknown license code ''{content}''.{extra}"
+            f"unknown license code ''{data}''.{extra}"
         )
 
 # Deprecated?
@@ -170,7 +170,7 @@ def license_matches(
 def tool_update_license_json() -> None:
     import requests
 
-    SPDX_URL = "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json"
+    SPDX_URL = "https://raw.githubusercontent.com/spdx/license-list-data/refs/heads/main/json/licenses.json"
 
     TAG_SPDX_LICENSES = 'licenses'
 

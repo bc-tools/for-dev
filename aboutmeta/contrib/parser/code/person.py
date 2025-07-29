@@ -16,23 +16,23 @@ from aboutmeta.tool import group
 
 ###
 # prototype::
-#     content : one person provided in the \yaml file, but stripped.
+#     data : one person provided in the \yaml file, but stripped.
 #
 #     :return: an instance of the class ''person.Person'' to work
 #              easily with the person data.
 ###
-def parser(content: str) -> person.Person:
+def parser(data: str) -> person.Person:
 # One affiliation?
-    content, affiliation = group.extract_group(
-        content = content,
+    data, affiliation = group.extract_group(
+        content = data,
         opener  = constants.TAG_YAML_AFFILIATION_OPEN,
         closer  = constants.TAG_YAML_AFFILIATION_CLOSE,
         context = "affiliation"
     )
 
 # One email?
-    content, email = group.extract_group(
-        content = content,
+    data, email = group.extract_group(
+        content = data,
         opener  = constants.TAG_YAML_EMAIL_OPEN,
         closer  = constants.TAG_YAML_EMAIL_CLOSE,
         context = "email"
@@ -42,12 +42,12 @@ def parser(content: str) -> person.Person:
     if (
         not email is None
         and
-        content[-1] == constants.TAG_YAML_AFFILIATION_CLOSE
+        data[-1] == constants.TAG_YAML_AFFILIATION_CLOSE
     ):
         raise ParsingError("affiliation must be after email!")
 
 # Titles of the person.
-    titles = content.split(',')
+    titles = data.split(',')
 
     if len(titles) == 1:
         firstnames = None

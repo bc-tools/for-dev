@@ -242,18 +242,19 @@ def parser(
 
 if __name__ == "__main__":
     from pprint import pprint
+
     readme_dir = Path(__file__).parent.parent.parent.parent / "readme"
 
     pseudopath = "ap.md"
     pseudopath = ['glob', "*.md"]
     pseudopath = {'glob': "*.md", 'regex': r".*/pr.*\.md"}
     pseudopath = {'glb': "*.md"}
-    pseudopath = {'regex': r".*(pr"}
+    # pseudopath = {'regex': r".*(pr"}
 
-    pseudopath = "api.md"
-    pseudopath = "api/"
-    pseudopath = {'glob': "*.md"}
-    pseudopath = {'rg': "*.md"}
+    # pseudopath = "api.md"
+    # pseudopath = "api/"
+    # pseudopath = {'glob': "*.md"}
+    # pseudopath = {'rg': "*.md"}
     # pseudopath = {'regex': r".*\.md"}
     # pseudopath = {'r-regex': r".*\.md"}
 

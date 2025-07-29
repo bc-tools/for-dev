@@ -20,15 +20,15 @@ from langcodes import (
 
 ###
 # prototype::
-#     content : the \lang provided in the \yaml file, but stripped.
+#     data : the \lang provided in the \yaml file, but stripped.
 #
 #     :return: an instance of the class ''lang.Lang'' to work easily
 #              with the \lang.
 ###
-def parser(content: str) -> lang.Lang:
+def parser(data: str) -> lang.Lang:
 # Getting a normalized code.
     try:
-        onelang = get_langcode(content).maximize()
+        onelang = get_langcode(data).maximize()
 
     except LanguageTagError as e:
         message = str(e)
@@ -41,7 +41,7 @@ def parser(content: str) -> lang.Lang:
 
 # Patch for the strange "Unknow language".
     if describe['language'].startswith('Unknown language'):
-        raise ParsingError(f"unknown language code '{content}'")
+        raise ParsingError(f"unknown language code '{data}'")
 
 # The job has been done.
     return lang.Lang(
