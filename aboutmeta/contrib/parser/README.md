@@ -6,7 +6,7 @@ Structure of the `contrib/parser` folder
 
 ### The `changes` folder
 
-This file is just a communication tool between contributors to indicate important changes.
+This folder is just a communication tool between contributors to indicate important changes.
 
 
 ### The `status` folder
