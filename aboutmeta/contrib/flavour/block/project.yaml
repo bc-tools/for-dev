@@ -2,7 +2,7 @@
 # This block allows to describe a project from a technical point of
 # view.
 ###
-project*:
+project:
 ###
 # This is the current version number of the project.
 ###
