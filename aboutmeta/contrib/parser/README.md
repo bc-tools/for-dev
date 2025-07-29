@@ -11,15 +11,12 @@ This file is just a communication tool between contributors to indicate importan
 
 ### The `status` folder
 
-This folder allows you to know the status of your proposal. Its structure mimics the `contrib/parser` one.
+This folder allows you to know the status of your proposal. Its structure mimics the `contrib/parser/code` one: `YAML` files correspond to `Python` files.
 
 
-### Other folders
+### The `code`folder
 
-The folders correspond to the data structure of the `about.yaml` file. In the deepest subfolders, you will find at least one `Python` file named `default.py` corresponding to the default behavior.
-
-
-> ***NOTE.*** *If you want to create a parser that does not exist by default, simply follow the structure of the `about.yaml` file in the folder structure of `contrib/parser`.*
+This folder contains all the parers. A file named `myparser.py` will correspond to `myparser` in a `YAML` specification file.
 
 
 How to propose a new parser?
@@ -29,29 +26,34 @@ Here are the steps to follow.
 
   1. Start by finding a name to use when calling `aboutmeta` to invoke your parser. *If you're stuck for inspiration, use your surname.*
 
-  1. The name you choose is the name of the `Python` file where you will implement your data digestion function, which must be named `parser` and have only one argument `content` corresponding to the text content as typed in the `about.yaml` file.
-
-  1. If necessary, you can add other processing functions, but be sure to read the caution and warning below carefully.
-
-  1. You are authorised to use the `aboutmeta.data` module. ***Any other use of `aboutmeta` is too risky, as it can create cyclic imports when incorporated into the final project.***
+  1. The name you choose is the name of the `Python` file where you will implement your data digestion function, which must be named `parser` XXX
 
 
----
 
 
-> ***IMPORTANT!*** *Specific parsing errors must be handled to allow for input errors when creating data via CLI. This needs to use the `aboutmeta.data.errors.ParsingError` exception class.*
+  and have only one argument `content` corresponding to the text content as typed in the `about.yaml` file.
 
+  1. If necessary, you can add other processing functions needed for your pasrer to work, but be sure to read the caution and warning below carefully.
 
----
-
-
-> ***CAUTION!*** *If you need external files, as is the case with the parser `contrib/parsers/licences/default.py`, you must use them locally and prefix their name by the parser name followed by an hyphen. These files must be added, or build via functions placed in the `TOOLS` section, which will import the necessary modules.* **This choice allows to provide only files that are permanently stored on the end user's operating system.** *This is a best practice imposed for obvious security reasons.*
+  1. You are authorised to use the modules `aboutmeta.data` and `aboutmeta.tool`. ***Any other use of `aboutmeta` is too risky, as it can create cyclic imports when incorporated into the final project.***
 
 
 ---
 
 
-> ***WARNING!*** *You must follow the template below and use the long and tedious access to constants, functions, and classes of the `Python` `aboutmeta` module. This is necessary for the automation process. But, if you do not need any imports, tools or constants, you can skip the associated sections.* ***In manual tests, don't forget to provide functional examples and corrupted data that will be added to the unit tests!***
+> ***IMPORTANT!*** *Specific parsing errors must be handled to allow for user input errors for CLI creation of data. This needs the use of `aboutmeta.data.errors.ParsingError` exception class.*
+
+
+---
+
+
+> ***CAUTION!*** *If you need external files, as is the case with the parser `contrib/parser/code/licence.py`, you must use them locally and prefix their name by the parser name followed by an hyphen. These files must be added, or build via functions placed in the `TOOLS` section, which will import the necessary modules.* **This choice allows to provide only files that are permanently stored on the end user's operating system.** *This is a best practice imposed for obvious security reasons.*
+
+
+---
+
+
+> ***WARNING!*** *You must follow the template below and use the long and tedious access to constants, functions, and classes of the `Python` `aboutmeta` module. This is necessary for the automation process. But, if you do not need any imports, tools or constants, you can skip the associated sections.* ***In manual tests, don't forget to provide functional examples and corrupted data that can be added to the unit tests!***
 
 ~~~python
 #!/usr/bin/env python3
