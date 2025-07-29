@@ -18,6 +18,8 @@ Here's how to define a main block.
 
      + For a list of values, use a `YAML` list with a single element of type `list(parser_name)`.
 
+     + At present, dynamic dictionaries cannot be used.
+
   1. For lists of values, it may be useful to add post-processing of the entire list of individually parsed values. In this case, simply use `list(parser_name) +` with an additional final plus sign.
 
   1. Finally, you must provide short messages describing data to be entered via magic comments. These texts will be used when creating data via the CLI (see the section *“Syntax for block specifications”* to see how to do this).

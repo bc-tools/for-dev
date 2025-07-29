@@ -16,35 +16,36 @@ This document is a complete tutorial showing all the available features.
 <a id="MULTIMD-GO-BACK-TO-TOC"></a>
 - [What is aboutmeta?](#MULTIMD-TOC-ANCHOR-0)
 - [Complete list of dependencies](#MULTIMD-TOC-ANCHOR-1)
-- [YAML specifications](#MULTIMD-TOC-ANCHOR-2)
-    - [The project itself](#MULTIMD-TOC-ANCHOR-3)
-        - [Version](#MULTIMD-TOC-ANCHOR-4)
-        - [Date](#MULTIMD-TOC-ANCHOR-5)
-        - [Project identity.](#MULTIMD-TOC-ANCHOR-6)
-        - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-7)
-        - [URLs of the project](#MULTIMD-TOC-ANCHOR-8)
-        - [Licenses](#MULTIMD-TOC-ANCHOR-9)
-        - [Languages](#MULTIMD-TOC-ANCHOR-10)
-        - [Technologies required](#MULTIMD-TOC-ANCHOR-11)
-        - [Keywords](#MULTIMD-TOC-ANCHOR-12)
-    - [Working with files](#MULTIMD-TOC-ANCHOR-13)
-        - [Direct paths](#MULTIMD-TOC-ANCHOR-14)
-        - [glob patterns](#MULTIMD-TOC-ANCHOR-15)
-        - [regex patterns](#MULTIMD-TOC-ANCHOR-16)
-- [The Python API](#MULTIMD-TOC-ANCHOR-17)
-    - [Data extraction](#MULTIMD-TOC-ANCHOR-18)
-    - [Use of data](#MULTIMD-TOC-ANCHOR-19)
-        - [The project itself](#MULTIMD-TOC-ANCHOR-20)
-            - [Version](#MULTIMD-TOC-ANCHOR-21)
-            - [Date](#MULTIMD-TOC-ANCHOR-22)
-            - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-23)
-            - [Licenses](#MULTIMD-TOC-ANCHOR-24)
-            - [Languages](#MULTIMD-TOC-ANCHOR-25)
-        - [Working with folders and files](#MULTIMD-TOC-ANCHOR-26)
-    - [Validate data](#MULTIMD-TOC-ANCHOR-27)
-        - [Affiliation](#MULTIMD-TOC-ANCHOR-28)
-        - [Email](#MULTIMD-TOC-ANCHOR-29)
-        - [URL](#MULTIMD-TOC-ANCHOR-30)
+- [Command Line Interface](#MULTIMD-TOC-ANCHOR-2)
+- [YAML specifications](#MULTIMD-TOC-ANCHOR-3)
+    - [The project itself](#MULTIMD-TOC-ANCHOR-4)
+        - [Version](#MULTIMD-TOC-ANCHOR-5)
+        - [Date](#MULTIMD-TOC-ANCHOR-6)
+        - [Project identity.](#MULTIMD-TOC-ANCHOR-7)
+        - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-8)
+        - [URLs of the project](#MULTIMD-TOC-ANCHOR-9)
+        - [Licenses](#MULTIMD-TOC-ANCHOR-10)
+        - [Languages](#MULTIMD-TOC-ANCHOR-11)
+        - [Technologies required](#MULTIMD-TOC-ANCHOR-12)
+        - [Keywords](#MULTIMD-TOC-ANCHOR-13)
+    - [Working with files](#MULTIMD-TOC-ANCHOR-14)
+        - [Direct paths](#MULTIMD-TOC-ANCHOR-15)
+        - [glob patterns](#MULTIMD-TOC-ANCHOR-16)
+        - [regex patterns](#MULTIMD-TOC-ANCHOR-17)
+- [The Python API](#MULTIMD-TOC-ANCHOR-18)
+    - [Data extraction](#MULTIMD-TOC-ANCHOR-19)
+    - [Use of data](#MULTIMD-TOC-ANCHOR-20)
+        - [The project itself](#MULTIMD-TOC-ANCHOR-21)
+            - [Version](#MULTIMD-TOC-ANCHOR-22)
+            - [Date](#MULTIMD-TOC-ANCHOR-23)
+            - [Developers, authors and contributors](#MULTIMD-TOC-ANCHOR-24)
+            - [Licenses](#MULTIMD-TOC-ANCHOR-25)
+            - [Languages](#MULTIMD-TOC-ANCHOR-26)
+        - [Working with folders and files](#MULTIMD-TOC-ANCHOR-27)
+    - [Validate data](#MULTIMD-TOC-ANCHOR-28)
+        - [Affiliation](#MULTIMD-TOC-ANCHOR-29)
+        - [Email](#MULTIMD-TOC-ANCHOR-30)
+        - [URL](#MULTIMD-TOC-ANCHOR-31)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 What is aboutmeta? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -69,8 +70,15 @@ Here are the `Python` libraries used by `aboutmeta`. The version numbers in brac
 - `requests` **[2.32]**
 - `rich` **[13.9]**
 - `semver` **[3.0]**
+- `typer` **[0.16]**
 
 <a id="MULTIMD-TOC-ANCHOR-2"></a>
+Command Line Interface <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+----------------------
+
+TODO
+
+<a id="MULTIMD-TOC-ANCHOR-3"></a>
 YAML specifications <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 -------------------
 
@@ -105,7 +113,7 @@ Here are the **conventions used in our explanations**.
 
 > ***IMPORTANT.*** *Technically, `YAML` files are read securely by treating all values as simple character strings.*
 
-<a id="MULTIMD-TOC-ANCHOR-3"></a>
+<a id="MULTIMD-TOC-ANCHOR-4"></a>
 ### The project itself <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Let's start with a complete description of a fictional code project.
@@ -159,17 +167,17 @@ project*:
 
 The following sections detail the use and meaning of the various attributes shown above.
 
-<a id="MULTIMD-TOC-ANCHOR-4"></a>
+<a id="MULTIMD-TOC-ANCHOR-5"></a>
 #### Version <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The optional `project.version` key allows to specify a version number that complies with ["Semantic Versioning"](https://semver.org/), such as `1.0.0`, `0.0.0-beta.1`, and `0.3.1-beta.1+build.5`.
 
-<a id="MULTIMD-TOC-ANCHOR-5"></a>
+<a id="MULTIMD-TOC-ANCHOR-6"></a>
 #### Date <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The optional `project.date` key allows to give a date in the English format `YYYY-MM-DD` like `2025-07-15`.
 
-<a id="MULTIMD-TOC-ANCHOR-6"></a>
+<a id="MULTIMD-TOC-ANCHOR-7"></a>
 #### Project identity. <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The keys `project.acronym`, `project.codename`, `project.doctitle`, and `project.desc` are used to quickly identify a project.
@@ -187,7 +195,7 @@ Here is how these different keys are used.
 
 > ***NOTE.*** *The last two points show that `aboutmeta` will assume that it is working with a code-type project by default.*
 
-<a id="MULTIMD-TOC-ANCHOR-7"></a>
+<a id="MULTIMD-TOC-ANCHOR-8"></a>
 #### Developers, authors and contributors <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The keys `project.author`, which is mandatory, and `project.contrib`, which is optional, are used either in the singular form to indicate a single person, or in the plural form to indicate a list of people. Here is a fictitious use case.
@@ -210,7 +218,7 @@ The following forms of personal identification are managed.
 
 > ***NOTE.*** *Emails are not verified, but they can be validated on demand (technically, this requires an internal connection, so it is not possible to validate an email every time an `about.yaml` file is analyzed).*
 
-<a id="MULTIMD-TOC-ANCHOR-8"></a>
+<a id="MULTIMD-TOC-ANCHOR-9"></a>
 #### URLs of the project <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The optional `project.url` block allows to provide hyperlinks via the following keys, all of which are optional.
@@ -221,7 +229,7 @@ The optional `project.url` block allows to provide hyperlinks via the following 
 
 > ***NOTE.*** *URLs are not verified, but they can be validated on demand (technically, this requires an internal connection, so it is not possible to validate a URL every time an `about.yaml` file is analyzed).*
 
-<a id="MULTIMD-TOC-ANCHOR-9"></a>
+<a id="MULTIMD-TOC-ANCHOR-10"></a>
 #### Licenses <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The optional block `project.licenses` is used to indicate licenses via the following keys.
@@ -231,7 +239,7 @@ The optional block `project.licenses` is used to indicate licenses via the follo
 
 The license names proposed by the [`SPDX` SPDX License List](https://spdx.org/licenses/) are taken into account, with a certain degree of flexibility: for example, you can type `gpl 3.0+` and `cc by nc 4.0` instead of `GPL-3.0+` and `CC-BY-NC-4.0`.
 
-<a id="MULTIMD-TOC-ANCHOR-10"></a>
+<a id="MULTIMD-TOC-ANCHOR-11"></a>
 #### Languages <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The optional `project.langs` block allows to specify the languages used for the following parts of a code-type project.
@@ -245,7 +253,7 @@ You can specify a language using the [ISO 639 standard](https://en.wikipedia.org
 
 > ***TIP.*** *You can use `_` instead of `-`. This can be useful when pasting external text.*
 
-<a id="MULTIMD-TOC-ANCHOR-11"></a>
+<a id="MULTIMD-TOC-ANCHOR-12"></a>
 #### Technologies required <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Using the optional `project.require` block, it is possible to provide a list of programming languages required for the code to work, or for compiling a document, this depends on the type of project.
@@ -257,7 +265,7 @@ project:
     - python3
     - latex
 ~~~
-<a id="MULTIMD-TOC-ANCHOR-12"></a>
+<a id="MULTIMD-TOC-ANCHOR-13"></a>
 #### Keywords <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Keywords are used to categorise the type of project succinctly: this is done via the optional `project.keywords` key. Here is the example we proposed at the beginning of the document.
@@ -269,7 +277,7 @@ project:
     - coding
     - writing
 ~~~
-<a id="MULTIMD-TOC-ANCHOR-13"></a>
+<a id="MULTIMD-TOC-ANCHOR-14"></a>
 ### Working with files <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Whether for a document written in small sections or for a monorepo project, it is useful to be able to specify a **list of existing files** to explore in a customised order: the optional `toc` block meets this need. Its content must be a list of paths or patterns.
@@ -293,7 +301,7 @@ toc:
 ~~~
 > ***IMPORTANT!*** *The search is always done relatively to the folder containing the `about.yaml` file.*
 
-<a id="MULTIMD-TOC-ANCHOR-14"></a>
+<a id="MULTIMD-TOC-ANCHOR-15"></a>
 #### Direct paths <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 You can use a verbatim relative path of either a file, or a folder, with folders indicated by a slash `/` at the end of the path (the slash `/` also serves as a path separator, even when working with the Windows operating system).
@@ -302,19 +310,19 @@ You can use a verbatim relative path of either a file, or a folder, with folders
 
 > ***NOTE.*** *If you want to choose the files kept inside a folder without using an `about.yaml` file, you will have to use a pattern as explained in the upcoming sections.*
 
-<a id="MULTIMD-TOC-ANCHOR-15"></a>
+<a id="MULTIMD-TOC-ANCHOR-16"></a>
 #### glob patterns <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The `glob` patterns are simply indicated using something like `glob: "*.md"`, or `r-glob: "*.md"` if you need a recursive search.
 
-<a id="MULTIMD-TOC-ANCHOR-16"></a>
+<a id="MULTIMD-TOC-ANCHOR-17"></a>
 #### regex patterns <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 A `regex` pattern can be either, for example, `regex: '[^/]*\.md'`, or `r-regex: '[^/]*\.md'` for a recursive search.
 
 > ***WARNING!*** *In a `YAML` file, using single quotation marks avoids escaping backslashes. With double quotation marks, we would have had to type `"[^/]*\\.py"` which is less user-friendly.*
 
-<a id="MULTIMD-TOC-ANCHOR-17"></a>
+<a id="MULTIMD-TOC-ANCHOR-18"></a>
 The Python API <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 --------------
 
@@ -323,7 +331,7 @@ The following sections describe what is available in the current version.
 
 > ***NOTE.*** *The `contrib/parser` folder contains a `README.md` file explaining how to easily build and suggest new parsers.*
 
-<a id="MULTIMD-TOC-ANCHOR-18"></a>
+<a id="MULTIMD-TOC-ANCHOR-19"></a>
 ### Data extraction <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The analysis of an `about.yaml` file is done simply as follows where `Path` is the class from the `pathlib` module.
@@ -346,7 +354,7 @@ meta.build(
 ~~~
 > ***NOTE.*** *By default, `aboutmeta` uses `SET_KEEP_ALL` which is the set of all the main blocks.*
 
-<a id="MULTIMD-TOC-ANCHOR-19"></a>
+<a id="MULTIMD-TOC-ANCHOR-20"></a>
 ### Use of data <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Once the data has been extracted by `aboutmeta.AMData`, the `data` attribute of the `meta` object, see the previous section, provides access to the digested data in a simple manner.
@@ -360,14 +368,14 @@ The following sections present the data after digestion.
 
 > ***TIP.*** *To retrieve a standard version of the original `YAML` piece of data, just use the string version of the corresponding `Python` data as in `str(meta.verbatim.project.date)`.*
 
-<a id="MULTIMD-TOC-ANCHOR-20"></a>
+<a id="MULTIMD-TOC-ANCHOR-21"></a>
 #### The project itself <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 We only present digested data that does not reproduce the contents of the `YAML` file as string data.
 
 > ***NOTE.*** *The next sections will use the abbreviation `mdp = meta.data.project`.*
 
-<a id="MULTIMD-TOC-ANCHOR-21"></a>
+<a id="MULTIMD-TOC-ANCHOR-22"></a>
 ##### Version <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build.5`. By default, the digest will provide the following information.
@@ -381,7 +389,7 @@ Let's assume that the `YAML` file contains the data `version: 1.2.3-beta.4+build
 
 > ***NOTE*** *Behind the scenes, the version number data is a `semver.version.Version` object which has useful methods. For example, `mdp.version.next_version(part="prerelease")` gives the version `1.2.3-beta.5` with our example above.*
 
-<a id="MULTIMD-TOC-ANCHOR-22"></a>
+<a id="MULTIMD-TOC-ANCHOR-23"></a>
 ##### Date <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The date is accessible via the attribute `mdp.date`.
@@ -393,7 +401,7 @@ The date is accessible via the attribute `mdp.date`.
 
 > ***NOTE*** *Behind the date data is a `datetime.date` object (which provides access to all the methods associated with these type of object).*
 
-<a id="MULTIMD-TOC-ANCHOR-23"></a>
+<a id="MULTIMD-TOC-ANCHOR-24"></a>
 ##### Developers, authors and contributors <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 In the `YAML` file, the singular forms `project.author` and `project.contrib` will produce a single data object, while the plural forms `project.authors` and `project.contribs` will produce a list of instances of `aboutmeta.person.Person` that have the following attributes.
@@ -403,7 +411,7 @@ In the `YAML` file, the singular forms `project.author` and `project.contrib` wi
 3. `email` is to the text written in parentheses.
 4. `affiliation` is to the text written in square brackets.
 
-<a id="MULTIMD-TOC-ANCHOR-24"></a>
+<a id="MULTIMD-TOC-ANCHOR-25"></a>
 ##### Licenses <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The license abbreviations taken into account are those provided in the [`SPDX` SPDX License List](https://spdx.org/licenses/) (internally, we use a local version of the [`licenses.json`](https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json) file), and that are not deprecated.
@@ -417,7 +425,7 @@ The digested license provides the following information.
 2. `mdp.license.name` is the full title of the license.
 3. `mdp.license.ref` is a URL pointed to the `SPDX` web page describing the license.
 
-<a id="MULTIMD-TOC-ANCHOR-25"></a>
+<a id="MULTIMD-TOC-ANCHOR-26"></a>
 ##### Languages <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 A digested language provides the following information in the case of the technical documentation, but the same is true for other contextes.
@@ -426,12 +434,12 @@ A digested language provides the following information in the case of the techni
 2. `mdp.langs.doc.name` is the English name of the language.
 3. `mdp.langs.doc.territory` is the English name of the territory associated with the language.
 
-<a id="MULTIMD-TOC-ANCHOR-26"></a>
+<a id="MULTIMD-TOC-ANCHOR-27"></a>
 #### Working with folders and files <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The paths and patterns are validated during parsing, and a list of `pathlib.Path` objects pointing to files is returned (the absolute paths are used).
 
-<a id="MULTIMD-TOC-ANCHOR-27"></a>
+<a id="MULTIMD-TOC-ANCHOR-28"></a>
 ### Validate data <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 Some data, such as file paths, dates, and version numbers, are validated during parsing. Others are only validated upon request, as this requires more in-depth analysis using online tools. For this data, you will need to explicitly request validation. This can be done easily as follows.
@@ -472,12 +480,12 @@ else:
 
 The following sections present the available validations and explain the checks performed.
 
-<a id="MULTIMD-TOC-ANCHOR-28"></a>
+<a id="MULTIMD-TOC-ANCHOR-29"></a>
 #### Affiliation <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 The validity test for affiliation to an organization or company is based simply on the `OpenStreetMap` API.
 
-<a id="MULTIMD-TOC-ANCHOR-29"></a>
+<a id="MULTIMD-TOC-ANCHOR-30"></a>
 #### Email <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 For an email, the following validity tests are performed.
@@ -485,7 +493,7 @@ For an email, the following validity tests are performed.
 1. Is the email syntax correct?
 2. Does the email domain name exist?
 
-<a id="MULTIMD-TOC-ANCHOR-30"></a>
+<a id="MULTIMD-TOC-ANCHOR-31"></a>
 #### URL <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
 For a URL, the following tests are performed during validation.

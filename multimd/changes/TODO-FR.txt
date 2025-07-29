@@ -5,6 +5,23 @@ multimd - TODO
 
 > ---------------------------- <
 
+markdownify remplacé par https://github.com/Goldziher/html-to-markdown
+
+ATTENTION! tester sui besoin de hacker ou non, reste la gestiond es ttres quoiqu'il arrive!
+
+    ---> HTML 5 mais on s'en fout
+    ---> coe propre par contre !
+
+
+> ---------------------------- <
+
+>>> from pathlib import Path
+>>> Path("/Users/projetmbc/Dropbox/3-macos-dev-3/git[NEW]-macos/coding/bc-tools/for-dev/multimd/../aboutmeta/contrib/parser/README.md").resolve()
+PosixPath('/Users/projetmbc/Dropbox/3-macos-dev-3/git[NEW]-macos/coding/bc-tools/for-dev/aboutmeta/contrib/parser/README.md')
+
+
+> ---------------------------- <
+
 .md n'est plus optionnel (FBI) car toc via aboutmeta devient généraliste donc explicite s'impose !
 
 penser au projets latex par exemple
