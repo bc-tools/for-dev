@@ -14,6 +14,8 @@ from natsort import natsorted
 from aboutmeta.data           import tocpath
 from aboutmeta.data.constants import *
 
+from aboutmeta.amdata import AMData
+
 
 # -------------------- #
 # -- IMPLEMENTATION -- #
@@ -236,17 +238,30 @@ def parse(
     )
 
 
-### TODO
-# prototype::
-#     data_list : ???
-#
-#     :return: ???
-###
+# ### TODO : passer via une saveur dynamique et virer le keep!!!!
+# # prototype::
+# #     data_list : ???
+# #
+# #     :return: ???
+# ###
 
-def map_list(
-    data_list: List[tocpath.TOCPath]
-) -> List[tocpath.TOCPath]:
-    ...
+# def map_list(data_list: List[tocpath.TOCPath]) -> List[tocpath.TOCPath]:
+#     final_paths = []
+#     xtrct       = AMData()
+
+#     for onedata in data:
+#         if onedata.kind == TAG_TOC_PATH_FILES:
+#             final_paths += onedata.paths
+
+#         else:
+#             xtrct.build(
+#                 yaml_file = onedata.paths,
+#                 keep      = SET_KEEP_ONLY_TOC
+#             )
+
+#             final_paths += xtrct.data.toc
+
+#     return final_paths
 
 
 # ----------------- #

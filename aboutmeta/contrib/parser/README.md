@@ -17,9 +17,7 @@ Add new parsers to aboutmeta
     - [The status folder](#MULTIMD-TOC-ANCHOR-2)
     - [The code folder](#MULTIMD-TOC-ANCHOR-3)
 - [How to propose a new parser?](#MULTIMD-TOC-ANCHOR-4)
-- [How to add post-production tools?](#MULTIMD-TOC-ANCHOR-5)
-    - [Basic use case](#MULTIMD-TOC-ANCHOR-6)
-    - [Specific use case](#MULTIMD-TOC-ANCHOR-7)
+- [How to add a post-production tool?](#MULTIMD-TOC-ANCHOR-5)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 Structure of the "contrib/parser" folder <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -107,43 +105,16 @@ if __name__ == "__main__":
     ...
 ~~~
 <a id="MULTIMD-TOC-ANCHOR-5"></a>
-How to add post-production tools? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
----------------------------------
+How to add a post-production tool? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+----------------------------------
 
-XXXX
+Some flavors use lists of data of the same type that require modification as a whole once each piece of data has been parsed: for a real-world use case, see the description of the `map_list` function inside `contrib/parser/code/virtual_path.py`.
 
-indiquer que pour le moment on a juste map\_list à implémnter (choix fait car permetetra , si besoin de proposer map\_dict pour les dict)
+The coding is done in the same folder as the isolated data parser via the `map_list` function, which can only have one of the following signatures.
 
-<a id="MULTIMD-TOC-ANCHOR-6"></a>
-### Basic use case <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+- `map_list(data_list)` only works with the list of parsed data.
+- `map_list(parent, data_list)` also takes into account the folder containing the analyzed `about.yaml` file. The argument `parent` is an instance of `pathlib.Path`.
 
-juste besoin du parser lui-mêem
+---
 
-1. ????
-   Here are **the only possible signatures** for this function.
-
-   - `map_list(data_list)` ????
-   - `map_list(parent, data_list)` ????
-
-<a id="MULTIMD-TOC-ANCHOR-7"></a>
-### Specific use case <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
-
-si besoin d'importer un parser en cours de dev dans les contribs, on passe via quelque chose comme suit où sont utilisés les parser person et sem\_version en cours de dev dans le dossier contrib
-
-~~~python
-# --------------------------------- #
-# -- << DEV >> POST-PROD IMPORTS -- #
-# --------------------------------- #
-
-# Ugly hacks just for the contribution phase.
-#
-# DON'T DO THAT AT HOME!
-
-from pathlib import Path
-import sys
-
-if not str(Path(__file__).parent) in sys.path:
-   sys.path.append(str(Path(__file__).parent.resolve()))
-
-import person, sem_version
-~~~
+> ***CAUTION!*** By design choice, only "simple" data lists are currently allowed (for example, end users cannot create dictionaries with their own keys).
