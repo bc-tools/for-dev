@@ -1,7 +1,7 @@
 How to propose a new parser?
 ----------------------------
 
-> ***CAUTION!*** *A parser works on isolated data, not on lists of data, as these may require complex processing; it will be up to the blocks and flavors to accomplish this work, not the parser.*
+> ***CAUTION!*** *A parser works on isolated data, not on lists of data. As these may require complex processing, it will be up to a post-production tool to accomplish this work, not the parser. The next section explains how to add post-production tools.*
 
 
 ---
@@ -11,15 +11,15 @@ Here are the steps to follow.
 
   1. Start by finding a name to use when asking to `aboutmeta` to invoke your parser. Don't be lacking in inspiration.
 
-  1. The name you choose is the name of the `Python` file where your function for "digesting" isolated data is coded. This function must be named `parser`. Here are the only possible signatures for this function.
+  1. The name you choose is the name of the `Python` file where your function for "digesting" isolated data is coded. This function must be named `parser`. Here are **the only possible signatures** for this function.
 
      + `parser(data)` must be used if only data is to be analyzed, regardless of the location of the `about.yaml` file being analyzed.
 
-     + `parser(parent, data)` also takes into account the folder containing the analyzed `about.yaml` file.
+     + `parser(parent, data)` also takes into account the folder containing the analyzed `about.yaml` file. The argument `parent` is an instance of `pathlib.Path`.
 
-  1. If necessary, you can add other processing functions needed for your pasrer to work, but be sure to ***read the caution and warning below carefully***.
+  1. If necessary, you can add other processing functions needed for your parser to work, but be sure to **read the caution and warning below carefully**.
 
-  1. You are only authorised to use the modules `aboutmeta.data` and `aboutmeta.tool`. ***Any other use of `aboutmeta` is too risky, as it can create cyclic imports when incorporated into the final project.***
+  1. You are only authorised to use the modules `aboutmeta.data` and `aboutmeta.tool`. **Any other use of `aboutmeta` is too risky, as it can create cyclic imports when incorporated validated contributions into the final project.**
 
 
 ---
@@ -50,13 +50,11 @@ from aboutmeta.data.errors import ParsingError
 
 ...
 
-
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
 ...
-
 
 # -------------------- #
 # -- IMPLEMENTATION -- #
@@ -64,13 +62,11 @@ from aboutmeta.data.errors import ParsingError
 
 ...
 
-
 # ----------- #
 # -- TOOLS -- #
 # ----------- #
 
 ...
-
 
 # ----------------- #
 # -- HUMAN TESTS -- #

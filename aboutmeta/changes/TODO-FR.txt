@@ -5,6 +5,10 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+on doit tour- t rendre modifiable dynamiquement via une option booleene : ceci permet alors de cntribuer au post_doc, et aussi à des xtras comme add_licenes
+
+> ---------------------------- <
+
 validation des blocs : parmi ceux autorisés, voir ceux obligatoires, et about.yaml autorisé mae si warning en mode console
 
 
