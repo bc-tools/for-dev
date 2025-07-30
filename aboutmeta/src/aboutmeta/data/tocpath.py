@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from typing import List
-
 from dataclasses import dataclass
 from pathlib     import Path
 
@@ -17,7 +15,7 @@ from pathlib     import Path
 class TOCPath:
     data : str | dict[str, str]
     kind : str
-    paths: Path | List[Path]
+    paths: Path | list[Path]
 
 ###
 # The string representation is the user's data with escaped characters.

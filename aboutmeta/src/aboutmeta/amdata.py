@@ -79,8 +79,8 @@ class AMData(PreAMData):
 ###
     def post_toc(
         self,
-        data : List[TOCPath],
-    ) -> List[Path]:
+        data : list[TOCPath],
+    ) -> list[Path]:
         final_paths = []
         xtrct       = AMData()
 

@@ -4,8 +4,6 @@
 
 from aboutmeta.data.errors import ParsingError
 
-from typing import List
-
 from pathlib import Path
 import              re
 
@@ -21,7 +19,7 @@ from aboutmeta.amdata import AMData
 # -- CONSTANTS -- #
 # --------------- #
 
-TOCPathList = List[tocpath.TOCPath]
+TOCPathList = list[tocpath.TOCPath]
 
 
 # -------------------- #

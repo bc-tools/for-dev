@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
-from typing import (
-    Any,
-    List
-)
+from typing import Any
 
 from pathlib import Path
 
@@ -160,7 +157,7 @@ class PreAMData:
                     loc_specs[TAG_SPECS_CONTENT]
                 )
 
-# List of data needs an iterative parsing.
+# list of data needs an iterative parsing.
             else:
                 data_parsed[key] = self.parse_val(
                     val           = val,
@@ -177,7 +174,7 @@ class PreAMData:
 ###
     def parse_val(
         self,
-        val            : str | List[str],
+        val            : str | list[str],
         is_list_of     : bool,
         parser_name    : str,
         use_post_prod  : bool,

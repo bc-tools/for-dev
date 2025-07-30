@@ -9,7 +9,6 @@
 from typing import (
     Any,
     Callable,
-    List,
 )
 
 import                        typer
@@ -154,7 +153,7 @@ def remove_lastline(
 #
 #     :action: printing of text lines formatted as expected.
 ###
-def fmt_print_lines(lines: List[str]) -> None:
+def fmt_print_lines(lines: list[str]) -> None:
     for l in lines:
         fmt_print(l)
 
@@ -169,7 +168,7 @@ def fmt_print_lines(lines: List[str]) -> None:
 ###
 def start_communication(
     action_done : str,
-    initial_args: List[str]
+    initial_args: list[str]
 ) -> None:
     infos  = [f"{FMT_INFO}{action_done}"]
     infos += [
@@ -216,7 +215,7 @@ def get_answer(
 ###
 def must_abort(
     answer : str,
-    relpath: List[str]
+    relpath: list[str]
  ) -> bool:
     if answer != TAG_ABORT:
         return False
@@ -432,7 +431,7 @@ def create(
 def recu_create(
     parse_val: Callable,
     loc_specs: dict,
-    relpath  : List[str] = []
+    relpath  : list[str] = []
 ) -> dict:
     content = dict()
 

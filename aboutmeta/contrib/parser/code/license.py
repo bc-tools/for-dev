@@ -11,8 +11,6 @@ from aboutmeta.data import (
     license
 )
 
-from typing import List
-
 from json import (
     dumps as json_dumps,
     load  as json_load,
@@ -118,7 +116,7 @@ def _normalize_lic_code(code: str) -> str:
 def license_matches(
     normal_ID      : str,
     max_suggestions: int = 15
-) -> List[str]:
+) -> list[str]:
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
         all_licenses = json_load(f)
@@ -213,7 +211,7 @@ def tool_update_license_json() -> None:
 
         if normal_ID in licenses:
             raise Exception(
-                 "unbijective normal transofrmation of license names:"
+                 "unbijective normal transformation of license names:"
                  "\n"
                 f"{license_ID} --> {normal_ID}. "
                  "BUG!"

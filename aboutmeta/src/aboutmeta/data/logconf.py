@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
-from typing import (
-    Any,
-    List
-)
+from typing import Any
 
 import                   logging
 from rich.logging import RichHandler
