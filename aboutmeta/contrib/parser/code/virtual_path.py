@@ -17,6 +17,13 @@ from aboutmeta.data.constants import *
 from aboutmeta.amdata import AMData
 
 
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
+TOCPathList = List[tocpath.TOCPath]
+
+
 # -------------------- #
 # -- IMPLEMENTATION -- #
 # -------------------- #
@@ -245,7 +252,7 @@ def parse(
 # #     :return: ???
 # ###
 
-# def map_list(data_list: List[tocpath.TOCPath]) -> List[tocpath.TOCPath]:
+# def map_list(data_list: TOCPathList) -> TOCPathList:
 #     final_paths = []
 #     xtrct       = AMData()
 
