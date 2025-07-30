@@ -23,7 +23,7 @@ from semver import (
 #     :return: an instance of the class ''semver.Version'' to work
 #              easily with the number version.
 ###
-def parser(data: str) -> Version:
+def parse(data: str) -> Version:
     try:
         version = VersionInfo.parse(data)
 
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         print()
         print(f'--- ({nbver})')
 
-        version_data = parser(nbver)
+        version_data = parse(nbver)
 
         print(version_data)
         print(repr(version_data))
@@ -67,4 +67,4 @@ if __name__ == "__main__":
 
     print(f'--- ({nbver}) --> CORRUPTED!')
 
-    version_data = parser(nbver)
+    version_data = parse(nbver)

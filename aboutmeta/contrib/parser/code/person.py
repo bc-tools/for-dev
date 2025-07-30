@@ -21,7 +21,7 @@ from aboutmeta.tool import group
 #     :return: an instance of the class ''person.Person'' to work
 #              easily with the person data.
 ###
-def parser(data: str) -> person.Person:
+def parse(data: str) -> person.Person:
 # One affiliation?
     data, affiliation = group.extract_group(
         content = data,
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     ]:
         print(f'---\nPERSON: {someone}')
 
-        someone_data = parser(someone)
+        someone_data = parse(someone)
 
         print(repr(someone_data))
 
@@ -100,4 +100,4 @@ if __name__ == "__main__":
 
     print(f'---\nPERSON: {someone} --> CORRUPTED!\n---')
 
-    someone_data = parser(someone)
+    someone_data = parse(someone)

@@ -17,6 +17,9 @@ Add new parsers to aboutmeta
     - [The status folder](#MULTIMD-TOC-ANCHOR-2)
     - [The code folder](#MULTIMD-TOC-ANCHOR-3)
 - [How to propose a new parser?](#MULTIMD-TOC-ANCHOR-4)
+- [How to add post-production tools?](#MULTIMD-TOC-ANCHOR-5)
+    - [Basic use case](#MULTIMD-TOC-ANCHOR-6)
+    - [Specific use case](#MULTIMD-TOC-ANCHOR-7)
 
 <a id="MULTIMD-TOC-ANCHOR-0"></a>
 Structure of the "contrib/parser" folder <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -41,19 +44,19 @@ This folder contains all the parsers. A file named `myparser.py` will correspond
 How to propose a new parser? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 ----------------------------
 
-> ***CAUTION!*** *A parser works on isolated data, not on lists of data, as these may require complex processing; it will be up to the blocks and flavors to accomplish this work, not the parser.*
+> ***CAUTION!*** *A parser works on isolated data, not on lists of data. As these may require complex processing, it will be up to a post-production tool to accomplish this work, not the parser. The next section explains how to add post-production tools.*
 
 ---
 
 Here are the steps to follow.
 
 1. Start by finding a name to use when asking to `aboutmeta` to invoke your parser. Don't be lacking in inspiration.
-2. The name you choose is the name of the `Python` file where your function for "digesting" isolated data is coded. This function must be named `parser`. Here are the only possible signatures for this function.
+2. The name you choose is the name of the `Python` file where your function for "digesting" isolated data is coded. This function must be named `parser`. Here are **the only possible signatures** for this function.
 
-   - `parser(data)` must be used if only data is to be analyzed, regardless of the location of the `about.yaml` file being analyzed.
-   - `parser(parent, data)` also takes into account the folder containing the analyzed `about.yaml` file.
-3. If necessary, you can add other processing functions needed for your pasrer to work, but be sure to ***read the caution and warning below carefully***.
-4. You are only authorised to use the modules `aboutmeta.data` and `aboutmeta.tool`. ***Any other use of `aboutmeta` is too risky, as it can create cyclic imports when incorporated into the final project.***
+   - `parse(data)` must be used if only data is to be analyzed, regardless of the location of the `about.yaml` file being analyzed.
+   - `parse(parent, data)` also takes into account the folder containing the analyzed `about.yaml` file. The argument `parent` is an instance of `pathlib.Path`.
+3. If necessary, you can add other processing functions needed for your parser to work, but be sure to **read the caution and warning below carefully**.
+4. You are only authorised to use the modules `aboutmeta.data` and `aboutmeta.tool`. **Any other use of `aboutmeta` is too risky, as it can create cyclic imports when incorporated validated contributions into the final project.**
 
 ---
 
@@ -78,13 +81,11 @@ from aboutmeta.data.errors import ParsingError
 
 ...
 
-
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
 ...
-
 
 # -------------------- #
 # -- IMPLEMENTATION -- #
@@ -92,13 +93,11 @@ from aboutmeta.data.errors import ParsingError
 
 ...
 
-
 # ----------- #
 # -- TOOLS -- #
 # ----------- #
 
 ...
-
 
 # ----------------- #
 # -- HUMAN TESTS -- #
@@ -106,4 +105,45 @@ from aboutmeta.data.errors import ParsingError
 
 if __name__ == "__main__":
     ...
+~~~
+<a id="MULTIMD-TOC-ANCHOR-5"></a>
+How to add post-production tools? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+---------------------------------
+
+XXXX
+
+indiquer que pour le moment on a juste map\_list à implémnter (choix fait car permetetra , si besoin de proposer map\_dict pour les dict)
+
+<a id="MULTIMD-TOC-ANCHOR-6"></a>
+### Basic use case <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+juste besoin du parser lui-mêem
+
+1. ????
+   Here are **the only possible signatures** for this function.
+
+   - `map_list(data_list)` ????
+   - `map_list(parent, data_list)` ????
+
+<a id="MULTIMD-TOC-ANCHOR-7"></a>
+### Specific use case <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
+
+si besoin d'importer un parser en cours de dev dans les contribs, on passe via quelque chose comme suit où sont utilisés les parser person et sem\_version en cours de dev dans le dossier contrib
+
+~~~python
+# --------------------------------- #
+# -- << DEV >> POST-PROD IMPORTS -- #
+# --------------------------------- #
+
+# Ugly hacks just for the contribution phase.
+#
+# DON'T DO THAT AT HOME!
+
+from pathlib import Path
+import sys
+
+if not str(Path(__file__).parent) in sys.path:
+   sys.path.append(str(Path(__file__).parent.resolve()))
+
+import person, sem_version
 ~~~

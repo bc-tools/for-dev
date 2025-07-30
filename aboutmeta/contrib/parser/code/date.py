@@ -20,7 +20,7 @@ from datetime import datetime
 #     :return: an instance of the class ''datetime.date'' to work
 #              easily with the date.
 ###
-def parser(data: str) -> datetime.date:
+def parse(data: str) -> datetime.date:
     try:
         date = datetime.strptime(
             data,
@@ -45,7 +45,7 @@ if __name__ == "__main__":
         print()
         print(f'--- ({onedate})')
 
-        date_data = parser(onedate)
+        date_data = parse(onedate)
 
         print(repr(date_data))
 
@@ -62,4 +62,4 @@ if __name__ == "__main__":
 
     print(f'--- ({onedate}) --> CORRUPTED!')
 
-    date_data = parser(onedate)
+    date_data = parse(onedate)

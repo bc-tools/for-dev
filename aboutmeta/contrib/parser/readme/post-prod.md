@@ -10,6 +10,17 @@ indiquer que pour le moment on a juste map_list à implémnter (choix fait car p
 juste besoin du parser lui-mêem
 
 
+
+
+
+  1. ????
+  Here are **the only possible signatures** for this function.
+
+     + `map_list(data_list)` ????
+
+     + `map_list(parent, data_list)` ????
+
+
 ### Specific use case
 
  si besoin d'importer un parser en cours de dev dans les contribs, on passe via quelque chose comme suit où sont utilisés les parser person et sem_version en cours de dev dans le dossier contrib
@@ -19,14 +30,15 @@ juste besoin du parser lui-mêem
 # -- << DEV >> POST-PROD IMPORTS -- #
 # --------------------------------- #
 
-# Here we do very ugly things that will not be reproduced in
-# the final source code. DON'T DO THAT AT HOME!
+# Ugly hacks just for the contribution phase.
+#
+# DON'T DO THAT AT HOME!
 
 from pathlib import Path
 import sys
 
 if not str(Path(__file__).parent) in sys.path:
-    sys.path.append( str(Path(__file__).parent.resolve()) )
+    sys.path.append(str(Path(__file__).parent.resolve()))
 
 import person, sem_version
 ~~~

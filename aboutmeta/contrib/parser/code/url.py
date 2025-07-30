@@ -24,6 +24,6 @@ from aboutmeta.data import url
 #     This fake parser greatly simplifies the part that handles
 #     online validations.
 ###
-def parser(data: str) -> url.URL:
+def parse(data: str) -> url.URL:
 # We do almost nothing...
     return url.URL(url = data)

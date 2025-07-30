@@ -45,7 +45,7 @@ LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 #     :return: an instance of the class ''license.License'' to work
 #              easily with the license.
 ###
-def parser(data: str) -> license.License:
+def parse(data: str) -> license.License:
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
         all_licenses = json_load(f)
@@ -245,7 +245,7 @@ if __name__ == "__main__":
         print()
         print(f'--- ({lic_ID})')
 
-        lic_data = parser(lic_ID)
+        lic_data = parse(lic_ID)
 
         print(lic_data)
         print(repr(lic_data))
@@ -262,4 +262,4 @@ if __name__ == "__main__":
 
     print(f'--- ({lic_ID}) --> CORRUPTED! Possible matches...')
 
-    lic_data = parser(lic_ID)
+    lic_data = parse(lic_ID)

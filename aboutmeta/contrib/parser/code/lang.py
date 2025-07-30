@@ -25,7 +25,7 @@ from langcodes import (
 #     :return: an instance of the class ''lang.Lang'' to work easily
 #              with the \lang.
 ###
-def parser(data: str) -> lang.Lang:
+def parse(data: str) -> lang.Lang:
 # Getting a normalized code.
     try:
         onelang = get_langcode(data).maximize()
@@ -66,7 +66,7 @@ if __name__ == "__main__":
         print()
         print(f'--- ({userlang})')
 
-        onelang = parser(userlang)
+        onelang = parse(userlang)
 
         print(onelang)
         print(repr(onelang))
@@ -79,4 +79,4 @@ if __name__ == "__main__":
 
     print(f'--- ({userlang}) --> CORRUPTED!')
 
-    onelang = parser(userlang)
+    onelang = parse(userlang)

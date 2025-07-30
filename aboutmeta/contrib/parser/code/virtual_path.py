@@ -109,7 +109,7 @@ from aboutmeta.data.constants import *
 # can be rewritten as ''data = {'regex': r".*\.md"}'', and the second
 # one as ''data = {'r-regex': r".*\.md"}''.
 ###
-def parser(
+def parse(
     parent: Path,
     data  : str | dict
 ) -> tocpath.TOCPath:
@@ -236,6 +236,19 @@ def parser(
     )
 
 
+### TODO
+# prototype::
+#     data_list : ???
+#
+#     :return: ???
+###
+
+def map_list(
+    data_list: List[tocpath.TOCPath]
+) -> List[tocpath.TOCPath]:
+    ...
+
+
 # ----------------- #
 # -- HUMAN TESTS -- #
 # ----------------- #
@@ -260,7 +273,7 @@ if __name__ == "__main__":
 
     print(pseudopath)
 
-    tp = parser(readme_dir, pseudopath)
+    tp = parse(readme_dir, pseudopath)
 
     print(tp)
 
