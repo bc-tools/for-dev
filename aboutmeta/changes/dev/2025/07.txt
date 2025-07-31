@@ -1,6 +1,10 @@
 // ---------- //
 
 
+
+// ---------- //
+
+
 ==
 28  (0.0.0-beta.15)   ?????
 ==
@@ -10,7 +14,7 @@
 --------
 
 [[:tech: & :facto:]]   ???
-Changs for the parsers.
+Changes for the parsers.
 
     1) ????
     New flavour concept: choose which level 1 blocks to manage.
@@ -31,7 +35,7 @@ Changs for the parsers.
 --------
 
 [[:tech: & :facto:]]
-Changs for the parsers. To be continued...
+Changes for the parsers. To be continued...
 
     1) Specific parsing errors must be handled to allow for input errors when creating data via CLI.
 

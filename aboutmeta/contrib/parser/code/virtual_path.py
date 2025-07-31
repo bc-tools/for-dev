@@ -9,7 +9,10 @@ import              re
 
 from natsort import natsorted
 
-from aboutmeta.data           import tocpath
+from aboutmeta.data import (
+    tocpath,
+    TOCPathList
+)
 from aboutmeta.data.constants import *
 
 from aboutmeta.amdata import AMData
@@ -20,6 +23,10 @@ from aboutmeta.amdata import AMData
 # --------------- #
 
 TOCPathList = list[tocpath.TOCPath]
+
+# # A dedicated ''AMData'' object for list of ''tocpath'' objects.
+# _AMDATA_TOCPATH_LIST = AMData(flavour = [BLOCK_TOC])
+
 
 
 # -------------------- #
@@ -243,28 +250,25 @@ def parse(
     )
 
 
-# ### TODO : passer via une saveur dynamique et virer le keep!!!!
+# ### TODO
 # # prototype::
-# #     data_list : ???
+# #     data : a ''tocpath.TOCPath'' list.
 # #
-# #     :return: ???
+# #     :return: the list obtained from data, adding any files from
+# #              the analysis of path::''about.yaml'' sub-files (cf.
+# #              the folders indicated in the toc blocks).
 # ###
-
 # def map_list(data_list: TOCPathList) -> TOCPathList:
 #     final_paths = []
-#     xtrct       = AMData()
 
 #     for onedata in data:
 #         if onedata.kind == TAG_TOC_PATH_FILES:
 #             final_paths += onedata.paths
 
 #         else:
-#             xtrct.build(
-#                 yaml_file = onedata.paths,
-#                 keep      = SET_KEEP_ONLY_TOC
-#             )
+#             _AMDATA_TOCPATH_LIST.build(yaml_file = onedata.paths)
 
-#             final_paths += xtrct.data.toc
+#             final_paths += _AMDATA_TOCPATH_LIST.data.toc
 
 #     return final_paths
 

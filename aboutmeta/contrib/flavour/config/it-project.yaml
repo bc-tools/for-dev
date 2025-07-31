@@ -1,8 +1,8 @@
-####
+###
 # This flavor is used to define an IT project, a code or a document,
 # with the option to work with a list of specific files via a "table
 # of contents".
 ###
 
-- project*
-- toc*
+- project *
+- toc *

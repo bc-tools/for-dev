@@ -1,3 +1,15 @@
+### Mandatory magic comments
+
+XXXX
+
+
+POur comprendre ce qu'il faut faire, nous allons exraire une partie du fichier `flavor/block/project.yaml`.
+
+commented real extract from ''project.yaml'' file,
+# version of July 31, 2025.
+
+
+~~~yaml
 ###
 # This block allows to describe a project from a technical point of
 # view.
@@ -99,12 +111,12 @@ langs*:
 # Don't forget to give the list of the required general tools needed
 # to make your project functional.
 ###
-require*:
-  - str
+require*: list(str)
 
 ###
 # Providing a list of keywords describing the project helps to better
 # understand its usefulness.
 ###
-keywords*:
-  - .
+keywords*: list(.)
+
+~~~

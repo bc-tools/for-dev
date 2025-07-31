@@ -14,4 +14,4 @@
 #   + ''regex: ...'' allows to use regex patterns, and ''r-regex: ...''
 #     is available for recursive searches.
 ###
-- list(tocpath) +
+- tocpath +

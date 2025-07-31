@@ -2,5 +2,7 @@ toc:
   - title.md
   - structure.md
   - structure/
-  - how-to.md           ????
-  - block-syntax.md     ??
+  - how-to.md
+  - how-to.md/
+  - block-syntax.md
+  - block-syntax/
