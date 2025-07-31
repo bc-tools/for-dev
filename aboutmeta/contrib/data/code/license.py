@@ -3,6 +3,18 @@
 from dataclasses import dataclass
 from pathlib     import Path
 
+from aboutmeta.tool.web import get_text_from
+
+
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
+URL_TEMPL_SPDX_LICENSE_TEXT = (
+    "https://raw.githubusercontent.com/spdx/"
+    "license-list-data/main/text/{}.txt"
+)
+
 
 # ------------------------ #
 # -- LICENSE DATA CLASS -- #
@@ -59,7 +71,9 @@ class License:
             )
 
 # Everything looks good. Let's get and the license text.
-        license_text = get_licence_text(self.std)
+        license_text = get_text_from(
+            URL_TEMPL_SPDX_LICENSE_TEXT.format(self.std)
+        )
 
         license_file.touch()
         license_file.write_text(license_text)
