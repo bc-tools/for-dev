@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+
+from typing import List
+
+from dataclasses  import dataclass
+import                   logging
+import                   requests
+import                   socket
+from urllib.parse import urlparse
+
+from .constants  import *
+
+
+# -------------------- #
+# -- URL DATA CLASS -- #
+# -------------------- #
+
+###
+# Easy-to-use data class for URLs.
+###
+@dataclass(frozen = True)
+class URL:
+    url: str
+
+###
+# The string representation is be a normalized version using
+# the syntax of the path::''about.yaml''.
+###
+    def __str__(self) -> str:
+        return self.url
+
+###
+# prototype::
+#     :return: the number of errors detectedwhen validating the
+#              URL using DNS and an HTTP technics.
+#
+#
+# note::
+#     As the validation system is not 100% reliable, we can
+#     only print and log the errors detected (with possible
+#     false negatives). This method is best suited for terminal
+#     sessions.
+###
+    def validate(self) -> int:
+        url    = self.url
+        nb_pbs = 0
+
+# Is DNS resolvable?
+        try:
+            hostname = urlparse(url).hostname
+
+            logging.info(f"DNS -> {url}")
+
+            socket.gethostbyname(hostname)
+
+            logging.info("Testing hostname OK.")
+
+        except Exception as e:
+            nb_pbs += 1
+
+            logging.info("Testing hostname KO!")
+
+            logging.error(
+                f"INVALID URL: DNS FAILED for ''{url}'' with "
+                f"the following error message.\n{e}"
+            )
+
+# Is HTTP valid?
+        try:
+            logging.info(f"HTTP -> {url}")
+
+            response = requests.head(
+                url,
+                timeout         = 3,
+                allow_redirects = True
+            )
+
+            if response.status_code < 400:
+                logging.info(" Head status OK.")
+
+            else:
+                nb_pbs += 1
+
+                logging.info(" Head status KO!")
+
+                logging.error(
+                    f"INVALID URL: HTTP FAILED for ''{url}'' with "
+                    f"the REQUESTS STATUS CODE {response.status_code}."
+                )
+
+        except Exception as e:
+            nb_pbs += 1
+
+            logging.info(" Head status KO!")
+
+            logging.error(
+                f"INVALID URL: HTTP FAILED for ''{url}'' with "
+                f"the following EXCEPTION.\n{e}"
+            )
+
+# Tests finished.
+        return nb_pbs

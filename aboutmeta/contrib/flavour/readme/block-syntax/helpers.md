@@ -1,13 +1,11 @@
-### Mandatory magic comments
+### Magic comments
 
-XXXX
+A new block definition must contain a minimum of documentation (these texts will be used as help by the CLI). Here are the situations to be taken into account (using the `project.yaml` file, version July 31, 2025).
 
 
-POur comprendre ce qu'il faut faire, nous allons exraire une partie du fichier `flavor/block/project.yaml`.
+#### General block description
 
-commented real extract from ''project.yaml'' file,
-# version of July 31, 2025.
-
+The following code shows how to succinctly describe the purpose of the block via a comment at the very beginning of the `YAML` specification file.
 
 ~~~yaml
 ###
@@ -15,65 +13,23 @@ commented real extract from ''project.yaml'' file,
 # view.
 ###
 
+...
+~~~
+
+
+#### How certain blocks and keys work
+
+After the general description, it is possible - and strongly recommended - to document blocks or keys, but nothing is imposed. Documentation is added in the comments just before the block or key concerned. Here are a few extracts from the `project.yaml` file, where, in the case of the `urls` block, it should be noted that there is no need to document the `home`, `dev` and `issues` keys.
+
+~~~yaml
+...
 
 ###
 # This is the current version number of the project.
 ###
 version*: version
-###
-# This is the date of the current version of the project.
-###
-date*: date
-###
-# This information explains the meaning of the acronym used to name
-# the project.
-###
-acronym*: str
-###
-# {codename}
-# This value, optional for a code-type project, allows to name the
-# project differently from the folder containing it.
-#
-# {doctitle}
-# This value is mandatory for a “document” type project: it gives
-# the title of the document.
-###
-codename | doctitle *: . | .
-###
-# You need to describe shortly your project.
-###
-desc: .
-###
-# {author}
-# For a single author, you have the following possible syntaxes.
-#
-#   + ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
-#     are legal titles for a person (the number of first names is
-#     unlimited).
-#
-#   + ''Krivine [jlk@brain.fr]'' adds an email.
-#
-#   + ''Krivine (L'Institut du Cerveau, France)'' adds an institute.
-#
-#   + ''Krivine [jlk@brain.fr] (L'Institut du Cerveau, France)''
-#     mixes the previous features.
-#
-# {authors}
-# For severals authors, just use a YAML list of single authors (see
-# the description of the key ''author'').
-###
-author | authors *: person | list(.)
 
-###
-# {contrib}
-# For a single contributor, the syntaxes allowed are similar to the
-# ones for a single author (see the key ''author'').
-#
-# {contribs}
-# For severals authors, just use a YAML list of single authors (see
-# the description of the key ''author'').
-###
-contrib | contribs *: . | list(.)
+...
 
 ###
 # Three kinds of URL can be given.
@@ -89,34 +45,28 @@ urls*:
   home*  : url
   dev*   : .
   issues*: .
+
+...
+~~~
+
+
+#### The special case of alternatives
+
+Documentation of an alternative requires that the various competing keys be documented in sections indicated by magic titles of the form `{key-name}`, as in the following example.
+
+~~~yaml
+...
+
 ###
-# Granting a license is a good practice.
+# {codename}
+# This value, optional for a code-type project, allows to name the
+# project differently from the folder containing it.
 #
-#   + ''code'' is for the code of the project.
-#
-#   + ''manual'' is for the manual of the project.
+# {doctitle}
+# This value is mandatory for a “document” type project: it gives
+# the title of the document.
 ###
-licenses*:
-  code*  : license
-  manual*: .
-###
-# This for the language used to write the manual (manual) and the
-# technical (doc) documentations.
-###
-langs*:
-  doc*   : lang
-  manual*: .
+codename | doctitle *: . | .
 
-###
-# Don't forget to give the list of the required general tools needed
-# to make your project functional.
-###
-require*: list(str)
-
-###
-# Providing a list of keywords describing the project helps to better
-# understand its usefulness.
-###
-keywords*: list(.)
-
+...
 ~~~

@@ -53,7 +53,7 @@ def parse(data: str) -> license.License:
 
     if normal_ID not in all_licenses:
         extra       = ''
-        suggestions = license_matches(normal_ID)
+        suggestions = _license_matches(normal_ID)
 
         if suggestions:
             plurial = '' if len(suggestions) == 1 else 'es'
@@ -97,11 +97,7 @@ def parse(data: str) -> license.License:
 #     normalization does not create any duplicates.
 ###
 def _normalize_lic_code(code: str) -> str:
-    code = re.sub(
-        r"[\s_\-\.]+",
-        "",
-        code.lower()
-    )
+    code = re.sub(r"[\s_\-\.]+", "", code.lower())
 
     return code
 
@@ -113,7 +109,7 @@ def _normalize_lic_code(code: str) -> str:
 #
 #     :return: possible matches for a valid SPDX \lic code.
 ###
-def license_matches(
+def _license_matches(
     normal_ID      : str,
     max_suggestions: int = 15
 ) -> list[str]:

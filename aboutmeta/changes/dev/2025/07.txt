@@ -1,12 +1,8 @@
 // ---------- //
 
 
-
-// ---------- //
-
-
 ==
-28  (0.0.0-beta.15)   ?????
+31  (0.0.0-beta.15)   ?????
 ==
 
 --------
@@ -14,13 +10,16 @@
 --------
 
 [[:tech: & :facto:]]   ???
-Changes for the parsers.
+Changes for parsers: end of documentation before code factorization. To be continued...
 
     1) ????
     New flavour concept: choose which level 1 blocks to manage.
 
     1) ????
-    ''PreAMData'' and ''AMData'' classes: during initialisation, it is possible to choose a lax mode that tolerates the presence of unmanaged level 1 blocks.
+    Any additional functionality relating to a data class must be implemented in the class itself: therefore, add_license is not the responsibility of the ''AMData'' class, but of ''license.License''.
+
+    1) ????
+    ''PreAMData'' becomes ''AMData'' again: this class, which operates dynamically, requires the use of a flavor, as well as CLI helpers (these dictionaries can be built dynamically from an path::''about.cfg.yaml'' file).
 
 
 // ---------- //
@@ -35,7 +34,7 @@ Changes for the parsers.
 --------
 
 [[:tech: & :facto:]]
-Changes for the parsers. To be continued...
+Changes for parsers: the first steps. To be continued...
 
     1) Specific parsing errors must be handled to allow for input errors when creating data via CLI.
 
