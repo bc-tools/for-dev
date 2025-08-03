@@ -5,6 +5,38 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+Data(obj)
+CORE
+TOOL
+
+CONTRIB : mettre leur utilisation. Possible pour parser, et just les deux dernier pour data
+
+
+> ---------------------------- <
+
+revori la doc et passer via des sous md gérer indépendemmant du README car sinon vrament trop long!
+
+
+> ---------------------------- <
+
+request --> httpx
+
++
+
+hypothesis juste pour dev et Test
+
+
+> ---------------------------- <
+
+Tester les refs yaml, normalement c'est ok
+
++
+
+Import Block ou saveur via magic comment : idée de le utiliser dans une société pour les Block, ou d'étendre une saveur
+
+
+> ---------------------------- <
+
 on doit tour- t rendre modifiable dynamiquement via une option booleene : ceci permet alors de cntribuer au post_doc, et aussi à des xtras comme add_licenes
 
 > ---------------------------- <

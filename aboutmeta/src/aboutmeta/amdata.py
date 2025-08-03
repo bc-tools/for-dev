@@ -1,99 +1,339 @@
 #!/usr/bin/env python3
 
-from aboutmeta.data.pre_amdata import *
+from typing import Any
+
+from pathlib import Path
+
+from yaml import safe_load
+
+from aboutmeta.data.logconf import *
+
+from aboutmeta.data.constants import *
+from aboutmeta.data.specs     import *
+from aboutmeta.style          import ALL_STYLES
+
+from aboutmeta.data.boxplus   import BoxPlus
+from aboutmeta.data.license   import License
+from aboutmeta.data.tocpath   import TOCPath
+from aboutmeta.tool.license   import get_licence_text
 
 
-# -------------------------- #
-# -- ABOUTMETA DATA CLASS -- #
-# -------------------------- #
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
+TAG_STYLE_DEFAULT = 'default'
+
+SET_KEEP_ALL      = set(SPECS)
+SET_KEEP_ONLY_TOC = set(["toc"])
+
+
+# ------------------------------ #
+# -- PRE ABOUTMETA DATA CLASS -- #
+# ------------------------------ #
 
 ###
-# The “AMData” class implements the methods needed to actually extract
-# and validate the data.
+# The ''PreAMData'' class implements the main logic for orchestrating
+# data extraction and validation.
+#
+# note::
+#     Specific processes such as adding a license or post-productions
+#     will be handled in the child class ''amdata.AMData''.
 ###
-class AMData(PreAMData):
+class PreAMData:
 ###
 # prototype::
-#     what  : a virtual string path to access the license specified in
-#             the analyzed path::‘'about.yaml’' file.
-#     where : the folder where to add the file path::''LICENSE.txt''.
-#             This folder is indicated using a string path relatively
-#             to the folder containing the file path::‘'about.yaml’'.
-#     erase : set to ''True'', this \arg allows to erase an existing
-#             final file to build a new one.
-#
-#     :action: creation or update of a path::''LICENSE.txt'' file in
-#              the specified folder.
+#     style : this \arg corresponds to the syntax style used by the
+#             path::''about.yaml'' file (for now, this \arg is
+#             useless because there is only one style).
 ###
-    def add_license(
+    def __init__(
         self,
-        what : str,
-        where: str,
-        erase: bool = False
+        style = TAG_STYLE_DEFAULT
     ) -> None:
-# Do we have a license?
-        lic = self.data(what)
+        self.style = style
 
-        if not isinstance(lic, License):
-            raise ValueError(
-                f"not a virtual path to a license: ''{what}''."
-            )
+        self.at_least_one_validation = False
 
-# Text of the license.
-        license_text = get_licence_text(lic.std)
+###
+# We define accessors (getters and setters) to add some treatments
+# to be performed when a style change occurs.
+###
+    @property
+    def style(self) -> str:
+        return self._style
 
-# File for the license.
-        license_file = self._yaml_file_dir
+    @style.setter
+    def style(
+        self,
+        style: str
+    ) -> None:
+        if not style in ALL_STYLES:
+            raise ValueError(f"unknown parser style ''{style}''.")
 
-        for subfolder in where.split('/'):
-            license_file /= subfolder
-
-        license_file /= "LICENSE.txt"
-
-# Can we erase an existing final file?
-        if license_file.is_file() and not erase:
-            raise IOError(
-                f"the class {type(self).__name__} is not allowed "
-                "to erase the LICENSE file:"
-                "\n"
-                f"{license_file}"
-            )
-
-# Missing folder for the license file?
-        if not license_file.parent.is_dir():
-            license_file.parent.mkdir(
-                parents  = True,
-                exist_ok = True
-            )
-
-# Everything looks good. Let's write the license text.
-        license_file.touch()
-        license_file.write_text(license_text)
+        self._parsers = ALL_STYLES[style]
+        self._style   = style
 
 ###
 # prototype::
-#     data : the ''tocpath.TOCPath'' list returned by the parser is
-#            used for a recursive analysis of subfolders, if necessary.
+#     yaml_file : the path of the path::''about.yaml'' file analyzed.
+#     keep      : set of main blocks to analyze.
 #
-#     :return: the list of files found.
+#     :action: build the ''BoxPlus'' version of the data found.
+#
+#     :see: self.__recu_parse.
 ###
-    def post_toc(
+    def build(
         self,
-        data : list[TOCPath],
-    ) -> list[Path]:
-        final_paths = []
-        xtrct       = AMData()
+        yaml_file: Path,
+        keep     : set[str] = SET_KEEP_ALL
+    ) -> None:
+        self._yaml_file_dir = yaml_file.parent
 
-        for onedata in data:
-            if onedata.kind == TAG_TOC_PATH_FILES:
-                final_paths += onedata.paths
+        full_data = {
+            k: v
+            for k, v in safe_load(yaml_file.read_text()).items()
+            if k in keep
+        }
 
-            else:
-                xtrct.build(
-                    yaml_file = onedata.paths,
-                    keep      = SET_KEEP_ONLY_TOC
+        self.data = BoxPlus(
+            self.__recu_parse(full_data, SPECS)
+        )
+
+###
+# prototype::
+#     data  : one piece of data (either a block, a list, or a final
+#             data).
+#     specs : "local" \specs corresponding to the data analyzed.
+#
+#     :action: validate the \yaml data, then build the corresponding
+#              \python version.
+###
+    def __recu_parse(
+        self,
+        data : dict,
+        specs: dict
+    ) -> dict:
+        data_parsed = {}
+
+# Illegal alternatives?
+        self.__no_alt_keys_together(data, specs)
+
+# Let's parse...
+        for key, val in data.items():
+# Legal key?
+            if not key in specs:
+                raise KeyError(f"unknown key ''{key}''.")
+
+            loc_specs = specs[key]
+
+# Good kind of data?
+            key_type = loc_specs[TAG_SPECS_TYPE]
+
+            needed = ""
+
+            match key_type:
+                case "BLOCK":
+                    if not isinstance(val, dict):
+                        needed = "block"
+
+                case "DATA":
+                    if loc_specs[TAG_SPECS_LIST_OF]:
+                        if not isinstance(val, list):
+                            needed = "list of data"
+
+                    elif not isinstance(val, str):
+                        needed = "data"
+
+            if needed:
+                raise ValueError(
+                    f"content of ''{key}'' must be a {needed}."
                 )
 
-                final_paths += xtrct.data.toc
+# Block data needs a recursive work.
+            if key_type == TAG_SPECS_BLOCK:
+                data_parsed[key] = self.__recu_parse(
+                    val,
+                    loc_specs[TAG_SPECS_CONTENT]
+                )
 
-        return final_paths
+# list of data needs an iterative parsing.
+            else:
+                data_parsed[key] = self.parse_val(
+                    val           = val,
+                    is_list_of    = loc_specs[TAG_SPECS_LIST_OF],
+                    parser_name   = loc_specs[TAG_SPECS_PARSER],
+                    use_post_prod = loc_specs[TAG_SPECS_POST_PROD],
+                )
+
+# Job done.
+        return data_parsed
+
+### TODO
+# prototype::
+###
+    def parse_val(
+        self,
+        val            : str | list[str],
+        is_list_of     : bool,
+        parser_name    : str,
+        use_post_prod  : bool,
+        allow_post_prod: bool = True,
+    ) -> Any:
+        if parser_name == TAG_PARSER_STR:
+            _parser = str
+
+        else:
+            _parser = getattr(
+                self._parsers,
+                parser_name
+            )
+
+        if parser_name == TAG_PARSER_TOCPATH:
+            parser = lambda x: _parser(
+                self._yaml_file_dir,
+                x
+            )
+
+        else:
+            parser = lambda x: _parser(x)
+
+        if is_list_of:
+            for i, d in enumerate(val):
+                val[i] = parser(val[i])
+
+            if (allow_post_prod and use_post_prod):
+                val = self.use_post_prod(key, val)
+
+            return val
+
+        return parser(val)
+
+
+###
+# prototype::
+#     data  : one piece of data (either a block, a list, or a final
+#             data).
+#     specs : "local" \specs corresponding to the data analyzed.
+#
+#     :action: verification that two competing keys are not used
+#              simultaneously.
+###
+    def __no_alt_keys_together(
+        self,
+        data : dict,
+        specs: dict
+    ) -> None:
+        if specs[TAG_SPECS_ALT_ALL]:
+            keys_set   = set(data.keys())
+            to_analyze = keys_set.intersection(
+                set(specs[TAG_SPECS_ALT_ALL])
+            )
+
+            if len(to_analyze) > 1:
+                for no_alt in specs[TAG_SPECS_ALT_TUPLES]:
+                    common_keys = keys_set.intersection(no_alt)
+
+                    if len(common_keys) > 1:
+                        common_keys = list(common_keys)
+                        common_keys.sort()
+                        common_keys = [f"''{k}''" for k in common_keys]
+                        common_keys = ', '.join(common_keys)
+
+                        raise ValueError(
+                            f"just use on the keys {common_keys}."
+                        )
+
+###
+# prototype::
+#     key: a \yaml key.
+#     val: the parsed "partial" \val.
+#
+#     :return: the final \val build by a post-production process.
+#
+# caution::
+#     We use this pseudo-method instead of a single ''getattr'' in
+#     order to eliminate the post-production process when formatting
+#     an path::''about.yaml'' file.
+###
+    def use_post_prod(
+        self,
+        key: str,
+        val: Any
+    ) -> Any:
+        return getattr(self, f"post_{key}")(val)
+
+###
+# prototype::
+#     what      : either ''None'' to validate evrything, or a
+#                 virtual path to a block or data to be validated.
+#                 In the case of a block, a recursive search for
+#                 the data to be validated is performed automatically.
+#     erase_log : set to ''True'', this \arg allows to erase an
+#                 existing ''LOG_FILE'' file used to store errors.
+#     no_color  : :see: data.logconf.setup_logging
+#
+#     :return: the number of errors found.
+#
+#     :see: self.__recu_validate
+#
+#
+# note::
+#     The validation process is detailed in the terminal, but only
+#     errors are recorded in the ''LOG_FILE'' file.
+###
+    def validate(
+        self,
+        what     : (str | None) = None,
+        erase_log: bool = False,
+        no_color : bool = False
+    ) -> int:
+        setup_logging(no_color)
+
+        self.at_least_one_validation = False
+
+# Which data to validate?
+        if what is None:
+            data = self.data
+
+        else:
+            data = self.data(what)
+
+# Do we have to erase the log file?
+        if erase_log:
+            Path(LOG_FILE).touch()
+            Path(LOG_FILE).write_text("")
+
+# Let's delegate the work to a recursive company.
+        return self.__recu_validate(data)
+
+###
+# prototype::
+#     data : one piece of data (either a ''BoxPlus'', a list, or a
+#            final data).
+#
+#     :return: the \nb of \pbs found during the validation of ''data''.
+###
+    def __recu_validate(
+        self,
+        data: Any
+    ) -> int:
+        nb_pbs = 0
+
+# One dict?
+        if isinstance(data, BoxPlus):
+            for key, val in data.items():
+                nb_pbs += self.__recu_validate(val)
+
+# One list?
+        elif isinstance(data, list):
+            for val in data:
+                nb_pbs += self.__recu_validate(val)
+
+# One data to validate?
+        elif hasattr(data, 'validate'):
+            self.at_least_one_validation = True
+
+            nb_pbs += data.validate()
+
+        return nb_pbs

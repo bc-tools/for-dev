@@ -24,8 +24,8 @@ from aboutmeta.amdata import AMData
 
 TOCPathList = list[tocpath.TOCPath]
 
-# # A dedicated ''AMData'' object for list of ''tocpath'' objects.
-# _AMDATA_TOCPATH_LIST = AMData(flavour = [BLOCK_TOC])
+# A dedicated ''AMData'' object for list of ''tocpath'' objects.
+_AMDATA_TOCPATH_LIST = AMData(flavour = [BLOCK_TOC])
 
 
 
@@ -250,27 +250,27 @@ def parse(
     )
 
 
-# ### TODO
-# # prototype::
-# #     data : a ''tocpath.TOCPath'' list.
-# #
-# #     :return: the list obtained from data, adding any files from
-# #              the analysis of path::''about.yaml'' sub-files (cf.
-# #              the folders indicated in the toc blocks).
-# ###
-# def map_list(data_list: TOCPathList) -> TOCPathList:
-#     final_paths = []
+### TODO
+# prototype::
+#     data : a ''tocpath.TOCPath'' list.
+#
+#     :return: the list obtained from data, adding any files from
+#              the analysis of path::''about.yaml'' sub-files (cf.
+#              the folders indicated in the toc blocks).
+###
+def map_list(data_list: TOCPathList) -> TOCPathList:
+    final_paths = []
 
-#     for onedata in data:
-#         if onedata.kind == TAG_TOC_PATH_FILES:
-#             final_paths += onedata.paths
+    for onedata in data:
+        if onedata.kind == TAG_TOC_PATH_FILES:
+            final_paths += onedata.paths
 
-#         else:
-#             _AMDATA_TOCPATH_LIST.build(yaml_file = onedata.paths)
+        else:
+            _AMDATA_TOCPATH_LIST.build(yaml_file = onedata.paths)
 
-#             final_paths += _AMDATA_TOCPATH_LIST.data.toc
+            final_paths += _AMDATA_TOCPATH_LIST.data.toc
 
-#     return final_paths
+    return final_paths
 
 
 # ----------------- #

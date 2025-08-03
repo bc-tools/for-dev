@@ -1,0 +1,21 @@
+// ---------- //
+
+
+==
+31  (0.0.0-beta.15)   ?????
+==
+
+--------
+:fordev:
+--------
+
+[[:tech: & :facto:]]   ???
+Changes for parsers: end of documentation before code factorization. To be continued...
+
+    1) New flavour concept: choose which level 1 blocks to manage.
+
+    1) ????
+    Any additional functionality relating to a data class must be implemented in the class itself: therefore, add_license is not the responsibility of the ''AMData'' class, but of ''license.License''.
+
+    1) ???
+    ''PreAMData'' becomes ''AMData'' again: this class, which operates dynamically, will require the use of a flavor, as well as CLI helpers (these dictionaries can be built dynamically from an path::''about.cfg.yaml'' file).
