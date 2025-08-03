@@ -3,16 +3,20 @@
 from dataclasses import dataclass
 from pathlib     import Path
 
+from aboutmeta.core.DataPrinter import *
 
 # ----------------- #
 # -- TOC PATH(S) -- #
 # ----------------- #
 
-###
-# Easy-to-use data class for ''toc'' paths.
+### TODO
+# prototype::
+#     data : str | dict[str, str]
+#     kind : str
+#     paths: Path | list[Path]
 ###
 @dataclass(frozen = True)
-class TOCPath:
+class TOCPath(DataPrinter):
     data : str | dict[str, str]
     kind : str
     paths: Path | list[Path]

@@ -11,18 +11,24 @@ from email_validator import (
     EmailNotValidError
 )
 
-from .constants  import *
+from aboutmeta.core.constants  import *
+from aboutmeta.core.DataPrinter import *
 
 
 # ----------------------- #
 # -- PERSON DATA CLASS -- #
 # ----------------------- #
 
-###
-# Easy-to-use data class for persons.
+### TODO
+# prototype::
+#     firstnames : List[str]
+#     surname    : str
+#     email      : str
+#     affiliation: str
 ###
 @dataclass(frozen = True)
-class Person:
+class Person(DataPrinter):
+    std        : str
     firstnames : List[str]
     surname    : str
     email      : str

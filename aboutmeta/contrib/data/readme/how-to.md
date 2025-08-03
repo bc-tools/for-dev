@@ -3,12 +3,14 @@ How to propose a new data object?
 
 XXX
 
-idée d'avoir des dataclas facile à employer (obligation de rensigner tous les attributs et possibilité d'enrichier le comportement de certains types de données)
+soit onpasse par gestion externe comme date et semver
 
-on peu alors compléter une adataclass existante
+soit vi a des dataclass
 
-indiquer qu'a minima il faut __str__
+    --> obligation de rensigner tous les attributs
 
-on peut aussi ajouter validate pour des validations poussées non faisable par les pareser
+    --> avec std attribut commun, on peut utiliser interface core.DataPrinter
 
-ensuite libre d'ajouter d'autre methode : cf license.License
+    --> méthdoe spécial validate et normalize
+
+    --> possibilité d'enrichier le comportement de certains types de données : cf license.License

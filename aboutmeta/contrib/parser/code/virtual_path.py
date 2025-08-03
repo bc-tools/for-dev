@@ -25,7 +25,7 @@ from aboutmeta.amdata import AMData
 TOCPathList = list[tocpath.TOCPath]
 
 # A dedicated ''AMData'' object for list of ''tocpath'' objects.
-_AMDATA_TOCPATH_LIST = AMData(flavour = [BLOCK_TOC])
+_AMDATA_TOCPATH_LIST = AMData(flavour = BLOCK_TOC)
 
 
 
@@ -143,9 +143,7 @@ def parse(
             """.strip()
         )
 
-#################
-# "Direct" path #
-#################
+# -- "Direct" path -- #
     if isinstance(data, str):
         is_dir = bool(data[-1] == "/")
 
@@ -181,9 +179,7 @@ def parse(
             paths = abspath
         )
 
-###########
-# Pattern #
-###########
+# -- Pattern -- #
 
 # We must have a one-key dict!
     if not isinstance(data, dict):
@@ -201,7 +197,8 @@ def parse(
     if not kind in TAG_TOC_PATTERN_KINDS:
         _raisethis(f"illegal pattern kind ''{kind}''")
 
-# User has used an abbreviation.
+# User has used an abbreviationthat we don't keep in the standard
+# version of the data.
     if not kind in data:
         data = {kind: pattern}
 
@@ -261,12 +258,12 @@ def parse(
 def map_list(data_list: TOCPathList) -> TOCPathList:
     final_paths = []
 
-    for onedata in data:
-        if onedata.kind == TAG_TOC_PATH_FILES:
-            final_paths += onedata.paths
+    for data in data_list:
+        if data.kind == TAG_TOC_PATH_FILES:
+            final_paths += data.paths
 
         else:
-            _AMDATA_TOCPATH_LIST.build(yaml_file = onedata.paths)
+            _AMDATA_TOCPATH_LIST.build(yaml_file = data.paths)
 
             final_paths += _AMDATA_TOCPATH_LIST.data.toc
 

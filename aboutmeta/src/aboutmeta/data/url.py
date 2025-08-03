@@ -8,7 +8,8 @@ import                   requests
 import                   socket
 from urllib.parse import urlparse
 
-from .constants  import *
+from aboutmeta.core.constants import *
+from aboutmeta.core.datacommon import *
 
 
 # -------------------- #
@@ -19,15 +20,14 @@ from .constants  import *
 # Easy-to-use data class for URLs.
 ###
 @dataclass(frozen = True)
-class URL:
+class URL(DataCommon):
+    std: str
     url: str
 
 ###
 # The string representation is be a normalized version using
 # the syntax of the path::''about.yaml''.
 ###
-    def __str__(self) -> str:
-        return self.url
 
 ###
 # prototype::

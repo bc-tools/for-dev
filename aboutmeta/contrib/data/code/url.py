@@ -8,26 +8,22 @@ import                   requests
 import                   socket
 from urllib.parse import urlparse
 
-from .constants  import *
+from aboutmeta.core.constants  import *
+from aboutmeta.core.DataPrinter import *
 
 
 # -------------------- #
 # -- URL DATA CLASS -- #
 # -------------------- #
 
-###
-# Easy-to-use data class for URLs.
+### TODO
+# prototype::
+#     url :
 ###
 @dataclass(frozen = True)
-class URL:
+class URL(DataPrinter):
+    std: str
     url: str
-
-###
-# The string representation is be a normalized version using
-# the syntax of the path::''about.yaml''.
-###
-    def __str__(self) -> str:
-        return self.url
 
 ###
 # prototype::

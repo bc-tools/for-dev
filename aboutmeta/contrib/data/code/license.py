@@ -3,7 +3,9 @@
 from dataclasses import dataclass
 from pathlib     import Path
 
-from aboutmeta.tool.web import get_text_from
+
+from aboutmeta.core.DataPrinter import *
+from aboutmeta.tool.web        import get_text_from
 
 
 # --------------- #
@@ -20,20 +22,17 @@ URL_TEMPL_SPDX_LICENSE_TEXT = (
 # -- LICENSE DATA CLASS -- #
 # ------------------------ #
 
-###
-# Easy-to-use data class for licenses.
+### TODO
+# prototype::
+#     std  : str
+#     name : str
+#     ref  : str
 ###
 @dataclass(frozen = True)
-class License:
+class License(DataPrinter):
     std : str
     name: str
     ref : str
-
-###
-# We want to string print the standard code of the license.
-###
-    def __str__(self) -> str:
-        return self.std
 
 ###
 # prototype::

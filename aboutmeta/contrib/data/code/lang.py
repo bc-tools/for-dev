@@ -7,17 +7,14 @@ from dataclasses import dataclass
 # -- LANGUAGE DATA CLASS -- #
 # ------------------------- #
 
-###
-# Easy-to-use data class for languages.
+### TODO
+# prototype::
+#     std       : the standard version of the yaml version
+#     name      : str
+#     territory :
 ###
 @dataclass(frozen = True)
-class Lang:
+class Lang(DataPrinter):
     std      : str
     name     : str
     territory: str
-
-###
-# We want to string print the standard code of the language.
-###
-    def __str__(self) -> str:
-        return self.std

@@ -4,12 +4,14 @@ Contribute to the `API` of `aboutmeta`
 How to contribute?
 ------------------
 
-The contributions made are in the `contrib` folder which has the following structure.
+The contributions made are in the `contrib` folder which has the following structure where the `readme-common` folder is not a contribution one.
 
 <!-- FOLDER STRUCT. AUTO - START -->
     + contrib
+      + data
       + flavour
       + parser
+      + readme-common
 <!-- FOLDER STRUCT. AUTO - END -->
 
 
