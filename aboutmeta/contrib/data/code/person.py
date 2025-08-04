@@ -12,7 +12,7 @@ from email_validator import (
 )
 
 from aboutmeta.core.constants  import *
-from aboutmeta.core.DataPrinter import *
+from aboutmeta.core.dataprinter import *
 
 
 # ----------------------- #

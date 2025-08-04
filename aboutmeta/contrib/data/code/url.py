@@ -9,7 +9,7 @@ import                   socket
 from urllib.parse import urlparse
 
 from aboutmeta.core.constants  import *
-from aboutmeta.core.DataPrinter import *
+from aboutmeta.core.dataprinter import *
 
 
 # -------------------- #
@@ -23,7 +23,6 @@ from aboutmeta.core.DataPrinter import *
 @dataclass(frozen = True)
 class URL(DataPrinter):
     std: str
-    url: str
 
 ###
 # prototype::
@@ -38,7 +37,7 @@ class URL(DataPrinter):
 #     sessions.
 ###
     def validate(self) -> int:
-        url    = self.url
+        url    = self.std
         nb_pbs = 0
 
 # Is DNS resolvable?

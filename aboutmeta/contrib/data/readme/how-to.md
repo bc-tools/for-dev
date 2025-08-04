@@ -1,16 +1,6 @@
 How to propose a new data object?
 ---------------------------------
 
-XXX
+Before adding a new data type class, make sure that a ready-made solution does not already exist. For reference, see the approaches used by the date and sem_version parsers.
 
-soit onpasse par gestion externe comme date et semver
-
-soit vi a des dataclass
-
-    --> obligation de rensigner tous les attributs
-
-    --> avec std attribut commun, on peut utiliser interface core.DataPrinter
-
-    --> méthdoe spécial validate et normalize
-
-    --> possibilité d'enrichier le comportement de certains types de données : cf license.License
+If no reliable and well-established solution is available, the new data type class must comply with the rules described in the following sections.

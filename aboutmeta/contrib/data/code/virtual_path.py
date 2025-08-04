@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from pathlib     import Path
 
-from aboutmeta.core.DataPrinter import *
+from aboutmeta.core.dataprinter import *
 
 # ----------------- #
 # -- TOC PATH(S) -- #
