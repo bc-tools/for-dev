@@ -13,14 +13,15 @@ class MyDataClass(DataPrinter):
 ~~~
 
 
-XXXX
+Let's explain thos technical choices.
 
-Ceci est imposé pour les raisons suivantes.
+  1. `@dataclass(frozen = True)` is used to make the data produced by a parser immutable.
 
-    1)
+  2. The `std` attribute must always be present. It contains a **standardized version** of the data extracted from the `about.yaml` file.
+  The construction of this standardized value is **the responsibility of the parser**.
 
-    --> obligation de rensigner tous les attributs
+  3. The `DataPrinter` interface implements only the `__str__` magic method, which prints the string attribute `std`.
 
-    --> avec std attribut commun, on peut utiliser interface core.dataprinter
 
-    --> possibilité d'enrichier le comportement de certains types de données : cf license.License, et pou autre éthode ok sauf validate et normalize qui sont bloqués
+Of course, it is entirely possible to add other attributes or methods to the class.
+However, **additional methods must not be named** `__str__`, as this is handled by `DataPrinter`, and methods `normalize` or `validate` because they are special ones (see the following sections): see the `license.License` class for a concrete example of its use.

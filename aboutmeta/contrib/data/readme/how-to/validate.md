@@ -1,6 +1,3 @@
-### XXX
+### Validate a data value
 
-XXX
-
-
-méthdoe spécial  `validate`
+Just like normalization, a data value can also be validated : this is the role of the `validate` method that must return the number of problem found. Each problem found should be inidcated via a log communication: see the `url.URL` class for a concrete example of its use.

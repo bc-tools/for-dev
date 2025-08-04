@@ -2,14 +2,14 @@
 
 
 ==
-????????  (0.0.0-beta.15)
+04  (0.0.0-beta.15)
 ==
 
 --------
 :fordev:
 --------
 
-[[:tech: & :facto:]]   ???
+[[:tech: & :facto:]]
 Changes for parsers: end of documentation before code factorization.
 
     1) New flavour concept: choose which level 1 blocks to manage.
@@ -18,15 +18,12 @@ Changes for parsers: end of documentation before code factorization.
 
         *  Special data classes are part of the path::''contrib'' folder.
 
-        *  ????
-        It's possible to complete a data class with two special methods.
+        *  It's possible to complete a data class with two special methods.
 
             + The ''validate'' method will be used for non-simple validations, such as urls.
 
             + The ''normalize'' method will be used to normalize the user's input.
 
-        *  ????
-        Any additional functionality relating to a data class must be implemented in the class itself (therefore, ''add_license'' is not the responsibility of the ''AMData'' class, but of ''license.License'').
+        * Any additional functionality relating to a data class must be implemented in the class itself (therefore, ''add_license'' is not the responsibility of the ''AMData'' class, but of ''license.License'').
 
-    1) ???
-    ''PreAMData'' becomes ''AMData'' again: this class, which operates dynamically, will require the use of a flavor, as well as CLI helpers (these dictionaries can be built dynamically from an path::''about.cfg.yaml'' file).
+    1) ''PreAMData'' becomes ''AMData'' again: this class, which operates dynamically, will require the use of a flavor, as well as CLI helpers (these dictionaries can be built dynamically from an path::''about.cfg.yaml'' file).
