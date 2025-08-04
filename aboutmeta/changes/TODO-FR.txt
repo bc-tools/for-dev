@@ -5,7 +5,11 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-Data(obj)
+reprise du code contrib et de la doc si besoin
+    Data(obj)   ??????
+    flavour     ????
+    parser      ??
+
 CORE
 TOOL
 
