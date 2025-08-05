@@ -16,14 +16,14 @@ from aboutmeta.core.dataprinter import *
 # -- PERSON DATA CLASS -- #
 # ----------------------- #
 
-### TODO
+###
 # prototype::
 #     std        : the person's complete identity with minimal space
 #                  used.
-#     firstnames : XXXXXX
-#     surname    : XXXXXX
-#     email      : XXXXXX
-#     affiliation: XXXXXX
+#     firstnames : the list of first names.
+#     surname    : the surname.
+#     email      : the email adress.
+#     affiliation: the affiliation adress.
 ###
 @dataclass(frozen = True)
 class Person(DataPrinter):
@@ -69,10 +69,9 @@ class Person(DataPrinter):
                 logging.info("Email OK.")
 
             except Exception as e:
-                nb_pbs = 1
+                nb_pbs += 1
 
                 logging.info("Email KO!")
-
                 logging.error(
                     f"INVALID EMAIL''{email}'' with the following "
                     f"EXCEPTION.\n{e}"
@@ -113,7 +112,6 @@ class Person(DataPrinter):
                     nb_pbs += 1
 
                     logging.info("Affiliation KO!")
-
                     logging.error(
                         f"INVALID AFFILIATION ''{affi}'': "
                          "nothing found by OPENSTREETMAP."
@@ -123,7 +121,6 @@ class Person(DataPrinter):
                 nb_pbs += 1
 
                 logging.info("Affiliation KO!")
-
                 logging.error(
                     f"INVALID AFFILIATION ''{affi}'' with "
                     f"the following EXCEPTION.\n{e}"
@@ -138,9 +135,11 @@ class Person(DataPrinter):
 
 if __name__ == "__main__":
     someone = Person(
-        std         = "",
-        firstnames  = [],
-        surname     = "",
-        email       = "",
-        affiliation = ""
+        std         = "A, B, C [support@openai.com] (Université de la Technologie, France)",
+        firstnames  = ["A", "B"],
+        surname     = "C",
+        email       = "support@openai.com",
+        affiliation = "Université de la Technologie, France"
     )
+
+    print(f"Nb pbs: {someone.validate()}")

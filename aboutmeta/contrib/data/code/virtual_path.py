@@ -12,6 +12,7 @@ from aboutmeta.core.dataprinter import *
 
 ### TODO
 # prototype::
+#     std  :
 #     data : str | dict[str, str]
 #     kind : str
 #     paths: Path | list[Path]

@@ -6,7 +6,6 @@ import                   requests
 import                   socket
 from urllib.parse import urlparse
 
-from aboutmeta.core.constants   import *
 from aboutmeta.core.dataprinter import *
 
 
@@ -24,41 +23,68 @@ class URL(DataPrinter):
 
 ###
 # prototype::
-#     :return: the number of errors detectedwhen validating the
-#              URL using DNS and an HTTP technics.
+#     :return: the number of errors detected during the validation
+#              of the URL using DNS and an HTTP technics.
 #
 #
 # note::
-#     As the validation system is not 100% reliable, we can
-#     only print and log the errors detected (with possible
-#     false negatives). This method is best suited for terminal
-#     sessions.
+#     Since the validation system is not 100% reliable, we can only
+#     print and record the errors detected in a log file (with
+#     possible false negatives). This method is particularly suitable
+#     for terminal sessions.
 ###
     def validate(self) -> int:
+        nb_pbs  = self._validate_DNS()
+        nb_pbs += self._validate_HTTP()
+
+        return nb_pbs
+
+###
+# prototype::
+#     :return: the number of errors detected during the validation
+#              of the URL using DNS technics.
+###
+    def _validate_DNS(self) -> int:
         url    = self.std
         nb_pbs = 0
 
-# Is DNS resolvable?
         try:
-            hostname = urlparse(url).hostname
-
             logging.info(f"DNS -> {url}")
 
-            socket.gethostbyname(hostname)
+            hostname = urlparse(url).hostname
 
-            logging.info("Testing hostname OK.")
+            if hostname is None:
+                nb_pbs += 1
+
+                logging.info("Testing hostname KO!")
+                logging.error("No scheme supplied.")
+
+
+            else:
+                socket.gethostbyname(hostname)
+
+                logging.info("Testing hostname OK.")
 
         except Exception as e:
             nb_pbs += 1
 
             logging.info("Testing hostname KO!")
-
             logging.error(
                 f"INVALID URL: DNS FAILED for ''{url}'' with "
                 f"the following error message.\n{e}"
             )
 
-# Is HTTP valid?
+        return nb_pbs
+
+###
+# prototype::
+#     :return: the number of errors detected during the validation
+#              of the URL using HTTP technics.
+###
+    def _validate_HTTP(self) -> int:
+        url    = self.std
+        nb_pbs = 0
+
         try:
             logging.info(f"HTTP -> {url}")
 
@@ -75,7 +101,6 @@ class URL(DataPrinter):
                 nb_pbs += 1
 
                 logging.info(" Head status KO!")
-
                 logging.error(
                     f"INVALID URL: HTTP FAILED for ''{url}'' with "
                     f"the REQUESTS STATUS CODE {response.status_code}."
@@ -85,11 +110,26 @@ class URL(DataPrinter):
             nb_pbs += 1
 
             logging.info(" Head status KO!")
-
             logging.error(
                 f"INVALID URL: HTTP FAILED for ''{url}'' with "
                 f"the following EXCEPTION.\n{e}"
             )
 
-# Tests finished.
         return nb_pbs
+
+
+# ----------------- #
+# -- HUMAN TESTS -- #
+# ----------------- #
+
+if __name__ == "__main__":
+    for std in [
+        "https://google.com",
+        "google.com"
+    ]:
+        print('---')
+        print(f"Testing {std}")
+
+        url = URL(std = std)
+
+        print(f"Nb pbs: {url.validate()}")
