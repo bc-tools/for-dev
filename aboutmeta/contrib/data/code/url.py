@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 
-from typing import List
-
 from dataclasses  import dataclass
 import                   logging
 import                   requests
 import                   socket
 from urllib.parse import urlparse
 
-from aboutmeta.core.constants  import *
+from aboutmeta.core.constants   import *
 from aboutmeta.core.dataprinter import *
 
 
@@ -16,9 +14,9 @@ from aboutmeta.core.dataprinter import *
 # -- URL DATA CLASS -- #
 # -------------------- #
 
-### TODO
+###
 # prototype::
-#     url :
+#     std : an url.
 ###
 @dataclass(frozen = True)
 class URL(DataPrinter):

@@ -6,12 +6,12 @@
 # ----------------------- #
 
 ###
-# This interface just implements the magic ''__str__'' method to print
-# the string attribute ''std''.
+# This interface just implements the magic ''__str__'' method
+# to print the string attribute ''std''.
 #
 # note::
-#     The ''std'' attribute will be used as a "normalized" version in
-#     the path::''about.yaml'' file.
+#     The ''std'' attribute is a "normalized" version of a data
+#     used in an path::''about.yaml'' file.
 ###
 class DataPrinter:
     def __str__(self) -> str:

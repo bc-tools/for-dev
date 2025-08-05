@@ -144,6 +144,7 @@ def parse(
         )
 
 # -- "Direct" path -- #
+
     if isinstance(data, str):
         is_dir = bool(data[-1] == "/")
 

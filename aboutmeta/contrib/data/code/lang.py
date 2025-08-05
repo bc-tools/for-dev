@@ -2,16 +2,18 @@
 
 from dataclasses import dataclass
 
+from aboutmeta.core.dataprinter import *
+
 
 # ------------------------- #
 # -- LANGUAGE DATA CLASS -- #
 # ------------------------- #
 
-### TODO
+###
 # prototype::
-#     std       : the standard version of the yaml version
-#     name      : str
-#     territory :
+#     std       : the standard language identifier, such as ''en-GB''.
+#     name      : the full language name.
+#     territory : the territory of the language.
 ###
 @dataclass(frozen = True)
 class Lang(DataPrinter):

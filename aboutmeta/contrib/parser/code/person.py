@@ -59,8 +59,28 @@ def parse(data: str) -> person.Person:
 
     surname = titles[-1].lstrip()
 
+# It remains to build the standard version.
+    std = surname
+
+    if firstnames:
+        firstnames = ', '.join(firstnames)
+        std        = f"{firstnames}, {std}"
+
+    if email:
+        std += (
+            f" {constants.TAG_YAML_EMAIL_OPEN}{email}"
+            f"{TAG_YAML_EMAIL_CLOSE}"
+        )
+
+    if affiliation:
+        std += (
+            f" {TAG_YAML_AFFILIATION_OPEN}{affiliation}"
+            f"{TAG_YAML_AFFILIATION_CLOSE}"
+        )
+
 # The job has been done.
     return person.Person(
+        std         = std,
         firstnames  = firstnames,
         surname     = surname,
         email       = email,

@@ -6,12 +6,9 @@ from dataclasses import dataclass
 import                  logging
 import                  requests
 
-from email_validator import (
-    validate_email,
-    EmailNotValidError
-)
+from email_validator import validate_email
 
-from aboutmeta.core.constants  import *
+# from aboutmeta.core.constants   import *
 from aboutmeta.core.dataprinter import *
 
 
@@ -21,10 +18,12 @@ from aboutmeta.core.dataprinter import *
 
 ### TODO
 # prototype::
-#     firstnames : List[str]
-#     surname    : str
-#     email      : str
-#     affiliation: str
+#     std        : the person's complete identity with minimal space
+#                  used.
+#     firstnames : XXXXXX
+#     surname    : XXXXXX
+#     email      : XXXXXX
+#     affiliation: XXXXXX
 ###
 @dataclass(frozen = True)
 class Person(DataPrinter):
@@ -35,40 +34,30 @@ class Person(DataPrinter):
     affiliation: str
 
 ###
-# The string representation must be a normalized version using
-# the syntax of the path::''about.yaml''.
-###
-    def __str__(self) -> str:
-        text = self.surname
-
-        if self.firstnames:
-            firstnames = ', '.join(self.firstnames)
-            text       = f"{firstnames}, {text}"
-
-        if self.email:
-            text += f' {TAG_YAML_EMAIL_OPEN}{self.email}{TAG_YAML_EMAIL_CLOSE}'
-
-        if self.affiliation:
-            text += f' {TAG_YAML_AFFILIATION_OPEN}{self.affiliation}{TAG_YAML_AFFILIATION_CLOSE}'
-
-        return text
-
-###
 # prototype::
-#     :return: the number of errors detected when validating
-#              the email and affiliation adresses is made.
+#     :return: the number of errors detected during the validation
+#              of email and membership addresses.
 #
 #
 # note::
-#     As the validation system is not 100% reliable, we can
-#     only print and log the errors detected (with possible
-#     false negatives). This method is best suited for terminal
-#     sessions.
+#     Since the validation system is not 100% reliable, we can only
+#     print and record the errors detected in a log file (with
+#     possible false negatives). This method is particularly suitable
+#     for terminal sessions.
 ###
     def validate(self) -> int:
+        nb_pbs = self._validate_email() + self._validate_affiliation()
+
+        return nb_pbs
+
+###
+# prototype::
+#     :return: the number of errors detected during the validation
+#              of the email address.
+###
+    def _validate_email(self) -> int:
         nb_pbs = 0
 
-# Valid email address?
         if not self.email is None:
             email = self.email
 
@@ -80,7 +69,7 @@ class Person(DataPrinter):
                 logging.info("Email OK.")
 
             except Exception as e:
-                nb_pbs += 1
+                nb_pbs = 1
 
                 logging.info("Email KO!")
 
@@ -89,7 +78,16 @@ class Person(DataPrinter):
                     f"EXCEPTION.\n{e}"
                 )
 
-# Valid affiliation?
+        return nb_pbs
+
+###
+# prototype::
+#     :return: the number of errors detected during the validation
+#              of the affiliation address.
+###
+    def _validate_affiliation(self) -> int:
+        nb_pbs = 0
+
         if not self.affiliation is None:
             affi = self.affiliation
 
@@ -127,9 +125,22 @@ class Person(DataPrinter):
                 logging.info("Affiliation KO!")
 
                 logging.error(
-                    f"INVALID AFFILIATION ''{affi}'' with the following "
-                    f"EXCEPTION.\n{e}"
+                    f"INVALID AFFILIATION ''{affi}'' with "
+                    f"the following EXCEPTION.\n{e}"
                 )
 
-# Tests finished.
         return nb_pbs
+
+
+# ----------------- #
+# -- HUMAN TESTS -- #
+# ----------------- #
+
+if __name__ == "__main__":
+    someone = Person(
+        std         = "",
+        firstnames  = [],
+        surname     = "",
+        email       = "",
+        affiliation = ""
+    )

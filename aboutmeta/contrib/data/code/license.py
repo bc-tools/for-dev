@@ -3,16 +3,15 @@
 from dataclasses import dataclass
 from pathlib     import Path
 
-
 from aboutmeta.core.dataprinter import *
-from aboutmeta.tool.web        import get_text_from
+from aboutmeta.tool.web         import get_text_from
 
 
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
-URL_TEMPL_SPDX_LICENSE_TEXT = (
+_URL_TEMPL_SPDX_LICENSE_TEXT = (
     "https://raw.githubusercontent.com/spdx/"
     "license-list-data/main/text/{}.txt"
 )
@@ -22,11 +21,12 @@ URL_TEMPL_SPDX_LICENSE_TEXT = (
 # -- LICENSE DATA CLASS -- #
 # ------------------------ #
 
-### TODO
+###
 # prototype::
-#     std  : str
-#     name : str
-#     ref  : str
+#     std  : the short SPDX identifier, such as ''GPL-3.0''.
+#     name : the full license name.
+#     ref  : the URL linking to the SPDX online description of
+#            the license.
 ###
 @dataclass(frozen = True)
 class License(DataPrinter):
@@ -36,11 +36,13 @@ class License(DataPrinter):
 
 ###
 # prototype::
-#     folder : an existing folder where to add the file path::''LICENSE.txt''.
-#     erase  : set to ''True'', this \arg allows to erase an existing
-#              final file to build a new one.
+#     folder : the path to an existing folder in which to add
+#              the path::''LICENSE.txt'' file.
+#     erase  : if this option is set to ''True'', it allows to
+#              delete an existing final file in order to create
+#              a new one.
 #
-#     :action: creation or update of a path::''LICENSE.txt'' file in
+#     :action: create or update a path::''LICENSE.txt'' file in
 #              the specified folder.
 ###
     def add_license(
@@ -49,12 +51,10 @@ class License(DataPrinter):
         erase : bool = False
     ) -> None:
 # Does the folder exist?
-        if folder.is_dir():
+        if not folder.is_dir():
             raise IOError(
                 f"the class {type(self).__name__} can't create "
-                "the folder:"
-                "\n"
-                f"{folder}"
+                f"the folder:\n{folder}"
             )
 
 # File for the license.
@@ -64,14 +64,13 @@ class License(DataPrinter):
         if license_file.is_file() and not erase:
             raise IOError(
                 f"the class {type(self).__name__} is not allowed "
-                "to erase the LICENSE file:"
-                "\n"
-                f"{license_file}"
+                f"to erase the LICENSE file:\n{license_file}"
             )
 
-# Everything looks good. Let's get and the license text.
+# Everything seems to be in order. Let's proceed with the recovery,
+# then add the license text.
         license_text = get_text_from(
-            URL_TEMPL_SPDX_LICENSE_TEXT.format(self.std)
+            _URL_TEMPL_SPDX_LICENSE_TEXT.format(self.std)
         )
 
         license_file.touch()
@@ -83,4 +82,25 @@ class License(DataPrinter):
 # ----------------- #
 
 if __name__ == "__main__":
-    ...
+    lic = License(
+        std  = "GPL-3.0-only",
+        name = "",
+        ref  = ""
+    )
+
+    this_dir = Path(__file__).parent
+    lic_file = this_dir / "LICENSE.txt"
+
+    lic.add_license(
+        folder = this_dir,
+        erase  = True
+    )
+
+    first_2_lines = lic_file.read_text().splitlines()[:2]
+
+    assert first_2_lines == [
+        'GNU GENERAL PUBLIC LICENSE',
+        'Version 3, 29 June 2007'
+    ]
+
+    lic_file.unlink()
