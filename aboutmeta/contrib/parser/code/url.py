@@ -26,4 +26,4 @@ from aboutmeta.data import url
 ###
 def parse(data: str) -> url.URL:
 # We do almost nothing...
-    return url.URL(url = data)
+    return url.URL(std = data)

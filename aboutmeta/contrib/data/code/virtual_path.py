@@ -19,6 +19,7 @@ from aboutmeta.core.dataprinter import *
 ###
 @dataclass(frozen = True)
 class TOCPath(DataPrinter):
+    std  : str
     data : str | dict[str, str]
     kind : str
     paths: Path | list[Path]
