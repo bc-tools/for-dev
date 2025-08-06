@@ -38,7 +38,9 @@ TOCPathList = list[TOCPath]
 #              or \regex syntax, with the patterns provided using
 #              a single-key \dict.
 #
-#     :return: TODO an instance of the class ''TOCPath'' which allows to work easily with the ''toc'' path: initial data, kind and absolute paths build.
+#     :return: an instance of the ''TOCPath'' class that allows
+#              subsequent anlysis of a new path::''about.yaml''
+#              file if necessary.
 #
 #
 # Let's look at some virtual examples where we assume that the
