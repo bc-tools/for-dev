@@ -9,7 +9,6 @@ import                   socket
 from urllib.parse import urlparse
 
 from aboutmeta.core.constants import *
-from aboutmeta.core.datacommon import *
 
 
 # -------------------- #
@@ -20,7 +19,7 @@ from aboutmeta.core.datacommon import *
 # Easy-to-use data class for URLs.
 ###
 @dataclass(frozen = True)
-class URL(DataCommon):
+class URL:
     std: str
     url: str
 

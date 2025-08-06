@@ -11,7 +11,7 @@ from email_validator import (
     EmailNotValidError
 )
 
-from .constants  import *
+from aboutmeta.core.constants import *
 
 
 # ----------------------- #

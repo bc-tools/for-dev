@@ -8,7 +8,6 @@ import                  requests
 
 from email_validator import validate_email
 
-# from aboutmeta.core.constants   import *
 from aboutmeta.core.dataprinter import *
 
 
@@ -18,41 +17,95 @@ from aboutmeta.core.dataprinter import *
 
 ###
 # prototype::
-#     std        : the person's complete identity with minimal space
-#                  used.
-#     firstnames : the list of first names.
-#     surname    : the surname.
-#     email      : the email adress.
-#     affiliation: the affiliation adress.
+#     std         : the person's complete identity with minimal
+#                   space used.
+#     firstnames  : the list of first names (that can be an empty
+#                   list).
+#     surname     : the surname which is the only mandatory value.
+#     email       : the email adress, or ''None'' if no email
+#                   provided.
+#     affiliation : the affiliation adress, or ''None'' if no
+#                   affiliation provided.
 ###
 @dataclass(frozen = True)
 class Person(DataPrinter):
     std        : str
     firstnames : List[str]
     surname    : str
-    email      : str
-    affiliation: str
+    email      : str | None
+    affiliation: str | None
 
 ###
 # prototype::
-#     :return: the number of errors detected during the validation
+#     :return: the only nomralization processe don concern the email adresss.
+#
+#
+# note::
+#     Some valid emails adresses use typographical quirks. For example, ``SuPpOrT@OpeAI.CoM`` is valid, but its normalized version, produced by this method, is ``XXXX``.
+###
+    def normalized(self) -> str:
+        email = self._normalized_email(self.email)
+
+        return email
+
+###
+# prototype::
+#     :return: the only nomralization processe don concern the
+#              email adresss.
+#
+#
+# note::
+#     Some valid emails adresses use typographical quirks. For
+#     example, ``support@OpenAI.CoM`` is valid, but its normalized
+#     version, produced by this method, is ``support@openai.com``.
+#
+#
+# caution::
+#     According to RFC 5321, we have:
+#         + The domain part is case-insensitive, and should be
+#         lowercase.
+#         + The local part ***may** be case-sensitive, but rarely
+#         is.
+###
+    def _normalized_email(
+        self,
+        email: str | None
+    ) -> str | None:
+# Nothing to do.
+        if email is None:
+            return email
+
+# Let's normalize the email.
+        local_part, _, domain_part = email.partition('@')
+
+        normalized_email = f"{local_part}@{domain_part.lower()}"
+
+        return normalized_email
+
+
+
+
+###
+# prototype::
+#     :return: the number of errors by the validation process
 #              of email and membership addresses.
 #
 #
 # note::
-#     Since the validation system is not 100% reliable, we can only
-#     print and record the errors detected in a log file (with
-#     possible false negatives). This method is particularly suitable
-#     for terminal sessions.
+#     Since the validation system is not `100%` reliable, we
+#     can only print and record the errors detected in a log
+#     file with possible false negatives. This method is
+#     suitable for terminal sessions.
 ###
     def validate(self) -> int:
-        nb_pbs = self._validate_email() + self._validate_affiliation()
+        nb_pbs  = self._validate_email()
+        nb_pbs += self._validate_affiliation()
 
         return nb_pbs
 
 ###
 # prototype::
-#     :return: the number of errors detected during the validation
+#     :return: the number of errors by the validation process
 #              of the email address.
 ###
     def _validate_email(self) -> int:
@@ -81,7 +134,7 @@ class Person(DataPrinter):
 
 ###
 # prototype::
-#     :return: the number of errors detected during the validation
+#     :return: the number of errors by the validation process
 #              of the affiliation address.
 ###
     def _validate_affiliation(self) -> int:
@@ -134,12 +187,41 @@ class Person(DataPrinter):
 # ----------------- #
 
 if __name__ == "__main__":
+# GOOD
+    print("----------")
+    print("GOOD CASES")
+    print("----------")
+
     someone = Person(
-        std         = "A, B, C [support@openai.com] (Université de la Technologie, France)",
+        std         = "A, B, C [support@OpenAI.CoM] (Université de la Technologie, France)",
         firstnames  = ["A", "B"],
         surname     = "C",
-        email       = "support@openai.com",
+        email       = "support@OpenAI.CoM",
         affiliation = "Université de la Technologie, France"
     )
 
-    print(f"Nb pbs: {someone.validate()}")
+    print()
+    print(f"--> {someone.std}")
+    print(f"  + Normalized version = {someone.normalized()}")
+
+    print(f"  + Nb pbs = {someone.validate()}")
+
+# BAD
+    exit()
+
+    print()
+    print("---------")
+    print("BAD CASES")
+    print("---------")
+
+    someone = Person(
+        std         = "A, B, C [support@openaicom] (Université de la Techlogie, France)",
+        firstnames  = ["A", "B"],
+        surname     = "C",
+        email       = "support@openaicom",
+        affiliation = "Université de la Techlogie, France"
+    )
+
+    print()
+    print(f"{someone.std}")
+    print(f"  + Nb pbs = {someone.validate()}")

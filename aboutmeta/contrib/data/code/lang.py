@@ -11,9 +11,11 @@ from aboutmeta.core.dataprinter import *
 
 ###
 # prototype::
-#     std       : the standard language identifier, such as ''en-GB''.
-#     name      : the full language name.
-#     territory : the territory of the language.
+#     std       : the standard language identifier which looks
+#                 like ''en-GB''.
+#     name      : the full language name like ''English''.
+#     territory : the territory of the language like ''Great
+#                 Britain''.
 ###
 @dataclass(frozen = True)
 class Lang(DataPrinter):

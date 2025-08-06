@@ -2,20 +2,16 @@
 # -- IMPORTS -- #
 # ------------- #
 
-from aboutmeta.data.errors import ParsingError
+from aboutmeta.core.errors import ParsingError
 
 from pathlib import Path
 import              re
 
 from natsort import natsorted
 
-from aboutmeta.data import (
-    tocpath,
-    TOCPathList
-)
-from aboutmeta.data.constants import *
-
-from aboutmeta.amdata import AMData
+# from aboutmeta.amdata         import AMData
+from aboutmeta.core.constants import *
+from aboutmeta.data           import tocpath
 
 
 # --------------- #
@@ -25,7 +21,7 @@ from aboutmeta.amdata import AMData
 TOCPathList = list[tocpath.TOCPath]
 
 # A dedicated ''AMData'' object for list of ''tocpath'' objects.
-_AMDATA_TOCPATH_LIST = AMData(flavour = BLOCK_TOC)
+# _AMDATA_TOCPATH_LIST = AMData()#flavour = BLOCK_TOC)
 
 
 
@@ -35,28 +31,18 @@ _AMDATA_TOCPATH_LIST = AMData(flavour = BLOCK_TOC)
 
 ###
 # prototype::
-#     parent : the parent directory of the path::''about.yaml’' file
-#              from which the ''data’' \arg comes.
-#     data   : a virtual path that is either a relative path in the
-#              form of a string, a \glob or \regex pattern with the
-#              patterns provided using a single-key \dict.
+#     parent : the parent directory of the path::''about.yaml’' file from which the ''data’' \arg comes.
+#     data   : a virtual path that is either a relative path in the form of a string, a \glob or \regex pattern with the patterns provided using a single-key \dict.
 #
-#     :return: an instance of the class ''tocpath.TOCPath'' to work
-#              easily with the ''toc'' path: initial data, kind and
-#              absolute paths build.
+#     :return: an instance of the class ''tocpath.TOCPath'' to work easily with the ''toc'' path: initial data, kind and absolute paths build.
 #
 #
-# Let's look at some virtual examples where we assume that the parent
-# folder has the absolute path path::“”/abs/path/readme''.
+# Let's look at some virtual examples where we assume that the parent folder has the absolute path path::“”/abs/path/readme''.
 #
 #
 # [[An existing file]]
 #
-# Let's assume that the file path ::''/abs/path/readme/api.md'' exists.
-# In this case, using ''data = "api.md"'' will imply the return of the
-# following ''tocpath.TOCPath''. The use of a list can be understood
-# by looking at the paths returned when using \glob or \regex patterns
-# (see below).
+# Let's assume that the file path ::''/abs/path/readme/api.md'' exists. In this case, using ''data = "api.md"'' will imply the return of the following ''tocpath.TOCPath''. The use of a list can be understood by looking at the paths returned when using \glob or \regex patterns (see below).
 #
 # python::
 #     TOCPath(
@@ -67,10 +53,7 @@ _AMDATA_TOCPATH_LIST = AMData(flavour = BLOCK_TOC)
 #
 # [[An existing folder]]
 #
-# Let's assume that the folder path ::''/abs/path/readme/api'' exists.
-# In this case, using ''data = "api/"'' will imply the return of the
-# following ''tocpath.TOCPath'' indicating that the yaml::''toc''
-# block of an path::''about.yaml'' file need to be analyzed.
+# Let's assume that the folder path ::''/abs/path/readme/api'' exists. In this case, using ''data = "api/"'' will imply the return of the following ''tocpath.TOCPath'' indicating that the yaml::''toc'' block of an path::''about.yaml'' file need to be analyzed.
 #
 # python::
 #     TOCPath(
@@ -81,10 +64,7 @@ _AMDATA_TOCPATH_LIST = AMData(flavour = BLOCK_TOC)
 #
 # [[A "flat" \glob pattern]]
 #
-# If ''data = {'glob': "*.md"}'' is used, and the \glob pattern finds
-# paths, then something like the following ''tocpath.TOCPath'' \obj
-# can be returned, the list being sorted "naturally" via ''natsort''
-# module.
+# If ''data = {'glob': "*.md"}'' is used, and the \glob pattern finds paths, then something like the following ''tocpath.TOCPath'' \obj can be returned, the list being sorted "naturally" via ''natsort'' module.
 #
 # python::
 #     TOCPath(
@@ -97,9 +77,7 @@ _AMDATA_TOCPATH_LIST = AMData(flavour = BLOCK_TOC)
 #
 # [[A "recursive" \glob pattern]]
 #
-# If ''data = {'r-glob': "*.md"}'' is used, and the search will be
-# done recursively giving something like the ''tocpath.TOCPath'' \obj
-# below.
+# If ''data = {'r-glob': "*.md"}'' is used, and the search will be done recursively giving something like the ''tocpath.TOCPath'' \obj below.
 #
 # python::
 #     TOCPath(
@@ -119,65 +97,82 @@ _AMDATA_TOCPATH_LIST = AMData(flavour = BLOCK_TOC)
 #
 # [[\regex patterns]]
 #
-# You can use \regexs for more advanced needs. The fist \glob pattern
-# can be rewritten as ''data = {'regex': r".*\.md"}'', and the second
-# one as ''data = {'r-regex': r".*\.md"}''.
+# You can use \regexs for more advanced needs. The fist \glob pattern can be rewritten as ''data = {'regex': r"[^/]*\.md"}'', and the second one as ''data = {'r-regex': r"[^/]*\.md"}''.
 ###
 def parse(
     parent: Path,
     data  : str | dict
 ) -> tocpath.TOCPath:
 ###
-# Internal function to raise errors easily.
+# Internal function to raise errors easily (the code is the \doc).
 ###
     def _raisethis(
         kind: str,
         xtra: str = ""
     ) -> None:
+        if xtra:
+            xtra = f"    + {xtra}"
+
         raise ParsingError(
             f"""
 {kind}.
-    + Data     : {data!r}
-    + YAML file: {parent}/about.yaml
+    + DATA: {data!r}
+    + FILE: {parent}/about.yaml
 {xtra}
             """.strip()
         )
+
+###
+# The standard value fir the  path::''about.yaml'' file.
+###
+    def _std() -> str:
+# One-key dict used in the initial ''YAML'' file.
+        if isinstance(data, dict):
+            for k, v in data.items():
+                return f"{k}: {v}"
+
+# One string used in the initial ''YAML'' file.
+        return data
+
+###
+# Let's go for the logical implementation.
+###
 
 # -- "Direct" path -- #
 
     if isinstance(data, str):
         is_dir = bool(data[-1] == "/")
 
-# Absolute path is useful.
-        abspath = parent / Path(data)
-        abspath = abspath.resolve()
+# "Full" path resolved is useful.
+        fullpath = parent / Path(data)
+        fullpath = fullpath.resolve()
 
-# File?
-        if not is_dir:
-            if not abspath.is_file():
-                _raisethis("inexistant file")
-
-            kind    = TAG_TOC_PATH_FILES
-            abspath = [abspath]
-
-# Folder?
-        else:
-            if not abspath.is_dir():
+# Folder for an ''about.yaml'' file?
+        if is_dir:
+            if not fullpath.is_dir():
                 _raisethis("inexistant folder")
 
-            sub_yaml_file = abspath / "about.yaml"
+            sub_yaml_file = fullpath / "about.yaml"
 
             if not sub_yaml_file.is_file():
                 _raisethis("missing sub ''about.yaml'' file")
 
-            kind    = TAG_TOC_PATH_ABOUT
-            abspath = sub_yaml_file
+            recusearch = sub_yaml_file
+            paths      = []
+
+# File?
+        else:
+            if not fullpath.is_file():
+                _raisethis("inexistant file")
+
+            recusearch = None
+            paths      = [fullpath]
 
 # "Direct" path looks good.
         return tocpath.TOCPath(
-            data  = data,
-            kind  = kind,
-            paths = abspath
+            std        = _std(),
+            recusearch = recusearch,
+            paths      = paths
         )
 
 # -- Pattern -- #
@@ -210,7 +205,7 @@ def parse(
         if kind == TAG_TOC_PATH_RECU_GLOB:
             _glob = f"r{_glob}"
 
-        all_abspaths = [
+        paths = [
             p
             for p in getattr(parent, _glob)(pattern)
             if p.is_file()
@@ -227,7 +222,7 @@ def parse(
                 xtra = f"REGEX ERROR: {e}"
             )
 
-        all_abspaths = []
+        paths = []
 
         _glob = "glob" if kind == "regex" else "rglob"
 
@@ -235,16 +230,16 @@ def parse(
             relpath = fullpath.relative_to(parent)
 
             if pattern.fullmatch(str(relpath)):
-                all_abspaths.append(fullpath)
+                paths.append(fullpath)
 
 # Winning pattern?
-    if not all_abspaths:
+    if not paths:
         _raisethis(f"no files found with the pattern")
 
     return tocpath.TOCPath(
-        data  = data,
-        kind  = TAG_TOC_PATH_FILES,
-        paths = natsorted(all_abspaths)
+        std        = _std(),
+        recusearch = None,
+        paths      = natsorted(paths)
     )
 
 
@@ -280,23 +275,26 @@ if __name__ == "__main__":
 
     readme_dir = Path(__file__).parent.parent.parent.parent / "readme"
 
+# BAD
     pseudopath = "ap.md"
     pseudopath = ['glob', "*.md"]
-    pseudopath = {'glob': "*.md", 'regex': r".*/pr.*\.md"}
-    pseudopath = {'glb': "*.md"}
+    # pseudopath = {'glob': "*.md", 'regex': r".*/pr.*\.md"}
+    # pseudopath = {'glb': "*.md"}
     # pseudopath = {'regex': r".*(pr"}
 
+# GOOD
     # pseudopath = "api.md"
-    # pseudopath = "api/"
+    pseudopath = "api/"
     # pseudopath = {'glob': "*.md"}
     # pseudopath = {'rg': "*.md"}
-    # pseudopath = {'regex': r".*\.md"}
+    # pseudopath = {'regex': r"[^/]*\.md"}
+    pseudopath = {'regex': '[^/]*\\.md'}
     # pseudopath = {'r-regex': r".*\.md"}
 
     print(pseudopath)
 
     tp = parse(readme_dir, pseudopath)
 
-    print(tp)
+    # print(tp)
 
     pprint(tp)

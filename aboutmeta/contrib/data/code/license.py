@@ -23,8 +23,9 @@ _URL_TEMPL_SPDX_LICENSE_TEXT = (
 
 ###
 # prototype::
-#     std  : the short SPDX identifier, such as ''GPL-3.0''.
-#     name : the full license name.
+#     std  : the short SPDX identifier, such as ''GPL-3.0-only''.
+#     name : the full license name like ''GNU General Public
+#            License v3.0 only''.
 #     ref  : the URL linking to the SPDX online description of
 #            the license.
 ###
@@ -43,7 +44,8 @@ class License(DataPrinter):
 #              a new one.
 #
 #     :action: create or update a path::''LICENSE.txt'' file in
-#              the specified folder.
+#              the specified folder with the complete text of
+#              the license.
 ###
     def add_license(
         self,
@@ -67,8 +69,8 @@ class License(DataPrinter):
                 f"to erase the LICENSE file:\n{license_file}"
             )
 
-# Everything seems to be in order. Let's proceed with the recovery,
-# then add the license text.
+# Everything seems to be in order. Let's proceed with the
+# recovery, then add the license text.
         license_text = get_text_from(
             _URL_TEMPL_SPDX_LICENSE_TEXT.format(self.std)
         )

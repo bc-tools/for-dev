@@ -6,16 +6,15 @@ from pathlib import Path
 
 from yaml import safe_load
 
-from aboutmeta.data.logconf import *
-
-from aboutmeta.data.constants import *
-from aboutmeta.data.specs     import *
+from aboutmeta.core.constants import *
+from aboutmeta.core.log_conf  import *
+from aboutmeta.flavour.specs  import *
 from aboutmeta.style          import ALL_STYLES
 
-from aboutmeta.data.boxplus   import BoxPlus
-from aboutmeta.data.license   import License
-from aboutmeta.data.tocpath   import TOCPath
-from aboutmeta.tool.license   import get_licence_text
+# from aboutmeta.data.boxplus   import BoxPlus
+# from aboutmeta.data.license   import License
+# from aboutmeta.data.tocpath   import TOCPath
+# from aboutmeta.tool.license   import get_licence_text
 
 
 # --------------- #
@@ -40,7 +39,7 @@ SET_KEEP_ONLY_TOC = set(["toc"])
 #     Specific processes such as adding a license or post-productions
 #     will be handled in the child class ''amdata.AMData''.
 ###
-class PreAMData:
+class AMData:
 ###
 # prototype::
 #     style : this \arg corresponds to the syntax style used by the

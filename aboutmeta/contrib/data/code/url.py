@@ -4,7 +4,10 @@ from dataclasses  import dataclass
 import                   logging
 import                   requests
 import                   socket
-from urllib.parse import urlparse
+from urllib.parse import (
+    urlparse,
+    urlunparse,
+)
 
 from aboutmeta.core.dataprinter import *
 
@@ -15,7 +18,8 @@ from aboutmeta.core.dataprinter import *
 
 ###
 # prototype::
-#     std : an url.
+#     std : an url (no processing has been performed, the URL
+#           is recorded verabtim).
 ###
 @dataclass(frozen = True)
 class URL(DataPrinter):
@@ -23,15 +27,45 @@ class URL(DataPrinter):
 
 ###
 # prototype::
-#     :return: the number of errors detected during the validation
+#     :return: a normalized version of the URL.
+#
+#
+# note::
+#     Some valid URLs use typographical quirks. For example,
+#     ``HTTPS://QwAnT.com`` is valid, but its normalized version,
+#     produced by this method, is ``https://qwant.com``.
+#     However, this method doesn't handle the HTML encoding of
+#     special characters. For example,
+#     ``http://example.com/Dôssier Testé.html``
+#     doesn't become
+#     ``http://example.com/D%C3%B4ssier%20Test%C3%A9.html``.
+#     This will produce human-readable path::''about.yaml'' files.
+###
+    def normalized(self) -> str:
+        parsed_url = urlparse(self.std)
+
+        normalized_url = urlunparse((
+            parsed_url.scheme,          # http, https
+            parsed_url.netloc.lower(),  # Domain
+            parsed_url.path,            # No HTML encoding!
+            parsed_url.params,          # Keep params.
+            parsed_url.query,           # Keep query string.
+            parsed_url.fragment         # Keep fragment (#...).
+        ))
+
+        return normalized_url
+
+###
+# prototype::
+#     :return: the number of errors by the validation process
 #              of the URL using DNS and an HTTP technics.
 #
 #
 # note::
-#     Since the validation system is not 100% reliable, we can only
-#     print and record the errors detected in a log file (with
-#     possible false negatives). This method is particularly suitable
-#     for terminal sessions.
+#     Since the validation system is not `100%` reliable, we
+#     can only print and record the errors detected in a log
+#     file with possible false negatives. This method is
+#     suitable for terminal sessions.
 ###
     def validate(self) -> int:
         nb_pbs  = self._validate_DNS()
@@ -41,7 +75,7 @@ class URL(DataPrinter):
 
 ###
 # prototype::
-#     :return: the number of errors detected during the validation
+#     :return: the number of errors by the validation process
 #              of the URL using DNS technics.
 ###
     def _validate_DNS(self) -> int:
@@ -78,7 +112,7 @@ class URL(DataPrinter):
 
 ###
 # prototype::
-#     :return: the number of errors detected during the validation
+#     :return: the number of errors by the validation process
 #              of the URL using HTTP technics.
 ###
     def _validate_HTTP(self) -> int:
@@ -124,12 +158,17 @@ class URL(DataPrinter):
 
 if __name__ == "__main__":
     for std in [
-        "https://google.com",
-        "google.com"
+        "HTTPS://QwAnT.com",
+        "qwant.com",
+        "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html"
     ]:
         print('---')
         print(f"Testing {std}")
 
         url = URL(std = std)
 
-        print(f"Nb pbs: {url.validate()}")
+        print(f"NORMALIZED: {url.normalized()}")
+
+        nb_pbs = url.validate()
+
+        print(f"NB PBS: {url.validate()}")

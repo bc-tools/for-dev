@@ -2,6 +2,21 @@
 
 
 ==
+06
+==
+
+--------
+:fordev:
+--------
+
+[[:tech: & :facto:]]
+The path::''contrib/data'' folder is ready for use.
+
+
+// ---------- //
+
+
+==
 04  (0.0.0-beta.15)
 ==
 
