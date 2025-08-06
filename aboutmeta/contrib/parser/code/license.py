@@ -4,12 +4,9 @@
 # -- IMPORTS -- #
 # ------------- #
 
-from aboutmeta.core.errors import ParsingError
-
-from aboutmeta.data import (
-    constants,
-    license
-)
+from aboutmeta.core.constants import *
+from aboutmeta.core.errors    import ParsingError
+from aboutmeta.data.license   import License
 
 from json import (
     dumps as json_dumps,
@@ -38,12 +35,13 @@ LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 
 ###
 # prototype::
-#     data : the \lic code provided in the \yaml file, but stripped.
+#     data : the \lic code provided in the \yaml file, but
+#            stripped.
 #
-#     :return: an instance of the class ''license.License'' to work
+#     :return: an instance of the class ''License'' to work
 #              easily with the license.
 ###
-def parse(data: str) -> license.License:
+def parse(data: str) -> License:
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
         all_licenses = json_load(f)
@@ -57,12 +55,11 @@ def parse(data: str) -> license.License:
 
         if suggestions:
             plurial = '' if len(suggestions) == 1 else 'es'
-            extra   = f"\nPossible match{plurial} found.\n" + '\n'.join(
-                f"  * {s}" for s in suggestions
-            )
+            extra   = f"\nPossible match{plurial} found.\n"
+            extra  += '\n'.join(f"  * {s}" for s in suggestions)
 
         else:
-            extra = " No match found."
+            extra = "\nNo match found."
 
         raise ParsingError(
             f"unknown license code ''{data}''.{extra}"
@@ -71,14 +68,15 @@ def parse(data: str) -> license.License:
 # Deprecated?
     if all_licenses[normal_ID]["deprecated"]:
         raise ParsingError(
-            f"deprecated license code ''{all_licenses[normal_ID]['std']}''."
+             "deprecated license code "
+            f"''{all_licenses[normal_ID]['std']}''."
         )
 
 # Living license found.
     spdx_infos = all_licenses[normal_ID]
 
 # The job has been done.
-    return license.License(
+    return License(
         std  = spdx_infos["std"],
         name = spdx_infos["name"],
         ref  = spdx_infos["ref"],
@@ -164,7 +162,8 @@ def _license_matches(
 def tool_update_license_json() -> None:
     import requests
 
-    SPDX_URL = "https://raw.githubusercontent.com/spdx/license-list-data/refs/heads/main/json/licenses.json"
+    SPDX_URL  = "https://raw.githubusercontent.com/spdx/"
+    SPDX_URL += "license-list-data/refs/heads/main/json/licenses.json"
 
     TAG_SPDX_LICENSES = 'licenses'
 
@@ -242,18 +241,20 @@ if __name__ == "__main__":
         lic_data = parse(lic_ID)
 
         print(lic_data)
-        print(repr(lic_data))
+        print(f"lic_data = {lic_data!r}")
 
     print()
 
 # Corrupted data.
+    exit()
+
     lic_ID = "gpl  3.0 +"
 
     # lic_ID = "gpl"
-    # lic_ID = "cc nc"
-    # lic_ID = "cc"
+    lic_ID = "cc nc"
+    lic_ID = "cc"
     # lic_ID = " "
 
     print(f'--- ({lic_ID}) --> CORRUPTED! Possible matches...')
 
-    lic_data = parse(lic_ID)
+    parse(lic_ID)

@@ -5,9 +5,9 @@ from typing import Any
 from box import Box
 
 
-# ---------------------- #
-# -- BETTER BOX CLASS -- #
-# ---------------------- #
+# ------------------------ #
+# -- ENHANCED BOX CLASS -- #
+# ------------------------ #
 
 ###
 # We make the class ''Box'' callable to allow the use of virtual

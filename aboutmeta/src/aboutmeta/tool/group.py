@@ -157,6 +157,11 @@ def extract_group(
 #     )
 #     'Someone [email@test.org] (Institute, Galaxy)'
 #     > gather_groups(
+#         ["Someone", "", "Institute, Galaxy"],
+#         ["", "[]", "()"]
+#     )
+#     'Someone (Institute, Galaxy)'
+#     > gather_groups(
 #         ["Someone", "email@test.org", "Institute, Galaxy"],
 #         ["", "[", "()"]
 #     )
@@ -180,13 +185,19 @@ def gather_groups(
 # Same sizes?
     if len(groups) != len(delims):
         raise ValueError(
-            "lists ''groups'' and ''delims'' must have the same length."
+            "lists ''groups'' and ''delims'' "
+            "must have the same length."
         )
 
 # Let's apply the delimiters.
     content = []
 
     for grp, dlm in zip(groups, delims):
+# No group.
+        if not grp:
+            continue
+
+# A new group.
         if dlm != "":
 # We need two delimiters.
             if len(dlm) != 2:

@@ -16,9 +16,13 @@ from aboutmeta.core.dataprinter import DataPrinter
 #     name      : the full language name like ''English''.
 #     territory : the territory of the language like ''Great
 #                 Britain''.
+#
+#
+# note::
+#     The ''std'' attribute is part of the frozen dataclass
+#     ''DataPrinter''.
 ###
 @dataclass(frozen = True)
 class Lang(DataPrinter):
-    std      : str
     name     : str
     territory: str

@@ -20,11 +20,14 @@ from aboutmeta.core.dataprinter import DataPrinter
 # prototype::
 #     std : an url (no processing has been performed, the URL
 #           is recorded verabtim).
+#
+#
+# note::
+#     The ''std'' attribute is part of the frozen dataclass
+#     ''DataPrinter''.
 ###
 @dataclass(frozen = True)
 class URL(DataPrinter):
-    std: str
-
 ###
 # prototype::
 #     :return: a normalized version of the URL.
@@ -38,7 +41,8 @@ class URL(DataPrinter):
 # ''http://example.com/Dôssier Testé.html''
 # doesn't become
 # ''http://example.com/D%C3%B4ssier%20Test%C3%A9.html''.
-# This will produce human-readable path::''about.yaml'' files.
+# Why? This is to obtain human-readable path::''about.yaml''
+# files.
 ###
     def normalized(self) -> str:
         parsed_url = urlparse(self.std)

@@ -10,7 +10,7 @@
 --------
 
 [[:tech: & :facto:]]
-The path::''contrib/data'' folder is ready for use with the following new features.
+The path::''contrib'' folder is ready for use with the following new features.
 
     1) Normalizations added for url and person data (naming, email and affiliation).
 

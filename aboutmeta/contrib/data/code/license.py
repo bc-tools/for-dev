@@ -28,10 +28,14 @@ _URL_TEMPL_SPDX_LICENSE_TEXT = (
 #            License v3.0 only''.
 #     ref  : the URL linking to the SPDX online description of
 #            the license.
+#
+#
+# note::
+#     The ''std'' attribute is part of the frozen dataclass
+#     ''DataPrinter''.
 ###
 @dataclass(frozen = True)
 class License(DataPrinter):
-    std : str
     name: str
     ref : str
 

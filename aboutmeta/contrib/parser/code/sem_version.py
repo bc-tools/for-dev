@@ -50,7 +50,7 @@ if __name__ == "__main__":
         version_data = parse(nbver)
 
         print(version_data)
-        print(repr(version_data))
+        print(f"version_data = {version_data!r}")
 
         print(f"major             = {version_data.major}")
         print(f"minor             = {version_data.minor}")
@@ -63,6 +63,8 @@ if __name__ == "__main__":
     print()
 
 # Corrupted data.
+    # exit()
+
     nbver = "2.3"
 
     print(f'--- ({nbver}) --> CORRUPTED!')

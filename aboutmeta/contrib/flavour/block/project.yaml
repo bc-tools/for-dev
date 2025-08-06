@@ -1,6 +1,6 @@
 ###
-# This block allows to describe a project from a technical point of
-# view.
+# This block allows to describe a project from a technical point
+# of view.
 ###
 
 
@@ -13,14 +13,14 @@ version*: version
 ###
 date*: date
 ###
-# This information explains the meaning of the acronym used to name
-# the project.
+# This information explains the meaning of the acronym used to
+# name the project.
 ###
 acronym*: str
 ###
 # {codename}
-# This value, optional for a code-type project, allows to name the
-# project differently from the folder containing it.
+# This value, optional for a code-type project, allows to name
+# the project differently from the folder containing it.
 #
 # {doctitle}
 # This value is mandatory for a “document” type project: it gives
@@ -41,25 +41,26 @@ desc: .
 #
 #   + ''Krivine [jlk@brain.fr]'' adds an email.
 #
-#   + ''Krivine (L'Institut du Cerveau, France)'' adds an institute.
+#   + ''Krivine (L'Institut du Cerveau, France)'' adds an
+#     affiliation.
 #
 #   + ''Krivine [jlk@brain.fr] (L'Institut du Cerveau, France)''
 #     mixes the previous features.
 #
 # {authors}
-# For severals authors, just use a YAML list of single authors (see
-# the description of the key ''author'').
+# For severals authors, just use a YAML list of single authors
+# (see the description of the key ''author'').
 ###
 author | authors *: person | list(.)
 
 ###
 # {contrib}
-# For a single contributor, the syntaxes allowed are similar to the
-# ones for a single author (see the key ''author'').
+# For a single contributor, the syntaxes allowed are similar to
+# the ones for a single author (see the key ''author'').
 #
 # {contribs}
-# For severals authors, just use a YAML list of single authors (see
-# the description of the key ''author'').
+# For severals authors, just use a YAML list of single authors
+# (see the description of the key ''author'').
 ###
 contrib | contribs *: . | list(.)
 
@@ -68,8 +69,8 @@ contrib | contribs *: . | list(.)
 #
 #   + ''home'' is for the website of the project, the human one.
 #
-#   + ''dev'' is dedicated to the repository of the project, this is
-#     not intended for human beings.
+#   + ''dev'' is dedicated to the repository of the project, this
+#     is not intended for human beings.
 #
 #   + ''issues'' allows regular users to report bugs.
 ###
@@ -88,23 +89,23 @@ licenses*:
   code*  : license
   manual*: .
 ###
-# This for the language used to write the manual (manual) and the
-# technical (doc) documentations.
+# This for the language used to write the manual (manual) and
+# the technical (doc) documentations.
 ###
 langs*:
   doc*   : lang
   manual*: .
 
 ###
-# Don't forget to give the list of the required general tools needed
-# to make your project functional.
+# Don't forget to give the list of the required general tools
+# needed to make your project functional.
 ###
 require*:
   - str
 
 ###
-# Providing a list of keywords describing the project helps to better
-# understand its usefulness.
+# Providing a list of keywords describing the project helps to
+# better understand its usefulness.
 ###
 keywords*:
   - .

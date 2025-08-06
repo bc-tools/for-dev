@@ -5,10 +5,16 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-reprise du code contrib et de la doc si besoin
+AMData pour  contrib/parser/virtual_path.py  !!!
+
+
+> ---------------------------- <
+
+reprise du doc pour  contrib
     Data(obj)   ??????
     flavour     ????
     parser      ??
+
 
 CORE
 TOOL

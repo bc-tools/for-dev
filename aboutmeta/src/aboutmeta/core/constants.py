@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
-# ---------- #
-# -- TAGS -- #
-# ---------- #
 
-TAG_TOC_PATH_ABOUT = "about"
-TAG_TOC_PATH_FILES = "files"
+# --------- #
+# -- TOC -- #
+# --------- #
 
 TAG_TOC_GLOB_PATTERNS = [
     TAG_TOC_PATH_GLOB       := "glob",
@@ -17,12 +15,17 @@ TAG_TOC_PATTERN_KINDS = TAG_TOC_GLOB_PATTERNS + [
     TAG_TOC_PATH_RECU_REGEX := "r-regex",
 ]
 
-TAG_TOC_PATTERN_ABBREV = {
-    'g' : TAG_TOC_PATH_GLOB,
-    'rg': TAG_TOC_PATH_RECU_GLOB,
-    'r' : TAG_TOC_PATH_REGEX,
-    'rr': TAG_TOC_PATH_RECU_REGEX
-}
+TAG_TOC_PATTERN_ABBREV = {}
+
+for t in TAG_TOC_PATTERN_KINDS:
+    if '-' in t:
+        a = t[:3]
+        a = a.replace('-', '')
+
+    else:
+        a = t[0]
+
+    TAG_TOC_PATTERN_ABBREV[a] = t
 
 
 # ---------------- #

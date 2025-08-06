@@ -1,6 +1,20 @@
 #!/usr/bin/env python3
 
 from dataclasses import dataclass
+from pathlib     import Path
+
+from aboutmeta.core.dataprinter import DataPrinter
+from aboutmeta.tool.web         import get_text_from
+
+
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
+_URL_TEMPL_SPDX_LICENSE_TEXT = (
+    "https://raw.githubusercontent.com/spdx/"
+    "license-list-data/main/text/{}.txt"
+)
 
 
 # ------------------------ #
@@ -8,75 +22,62 @@ from dataclasses import dataclass
 # ------------------------ #
 
 ###
-# Easy-to-use data class for licenses.
+# prototype::
+#     std  : the short SPDX identifier, such as ''GPL-3.0-only''.
+#     name : the full license name like ''GNU General Public
+#            License v3.0 only''.
+#     ref  : the URL linking to the SPDX online description of
+#            the license.
+#
+#
+# note::
+#     The ''std'' attribute is part of the frozen dataclass
+#     ''DataPrinter''.
 ###
 @dataclass(frozen = True)
-class License:
-    std : str
+class License(DataPrinter):
     name: str
     ref : str
 
 ###
-# We want to string print the standard code of the license.
-###
-    def __str__(self) -> str:
-        return self.std
-
-
-###
 # prototype::
-#     what  : a virtual string path to access the license specified in
-#             the analyzed path::‘'about.yaml’' file.
-#     where : the folder where to add the file path::''LICENSE.txt''.
-#             This folder is indicated using a string path relatively
-#             to the folder containing the file path::‘'about.yaml’'.
-#     erase : set to ''True'', this \arg allows to erase an existing
-#             final file to build a new one.
+#     folder : the path to an existing folder in which to add
+#              the path::''LICENSE.txt'' file.
+#     erase  : if this option is set to ''True'', it allows to
+#              delete an existing final file in order to create
+#              a new one.
 #
-#     :action: creation or update of a path::''LICENSE.txt'' file in
-#              the specified folder.
+#     :action: create or update a path::''LICENSE.txt'' file in
+#              the specified folder with the complete text of
+#              the license.
 ###
     def add_license(
         self,
-        what : str,
-        where: str,
-        erase: bool = False
+        folder: Path,
+        erase : bool = False
     ) -> None:
-# Do we have a license?
-        lic = self.data(what)
-
-        if not isinstance(lic, License):
-            raise ValueError(
-                f"not a virtual path to a license: ''{what}''."
+# Does the folder exist?
+        if not folder.is_dir():
+            raise IOError(
+                f"the class {type(self).__name__} can't create "
+                f"the folder:\n{folder}"
             )
 
-# Text of the license.
-        license_text = get_licence_text(lic.std)
-
 # File for the license.
-        license_file = self._yaml_file_dir
-
-        for subfolder in where.split('/'):
-            license_file /= subfolder
-
-        license_file /= "LICENSE.txt"
+        license_file = folder /  "LICENSE.txt"
 
 # Can we erase an existing final file?
         if license_file.is_file() and not erase:
             raise IOError(
                 f"the class {type(self).__name__} is not allowed "
-                "to erase the LICENSE file:"
-                "\n"
-                f"{license_file}"
+                f"to erase the LICENSE file:\n{license_file}"
             )
 
-# Missing folder for the license file?
-        if not license_file.parent.is_dir():
-            license_file.parent.mkdir(
-                parents  = True,
-                exist_ok = True
-            )
+# Everything seems to be in order. Let's proceed with the
+# recovery, then add the license text.
+        license_text = get_text_from(
+            _URL_TEMPL_SPDX_LICENSE_TEXT.format(self.std)
+        )
 
-# Everything looks good. Let's write the license text.
         license_file.touch()
         license_file.write_text(license_text)

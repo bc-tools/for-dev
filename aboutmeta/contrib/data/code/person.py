@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
 import                  logging
 import                  requests
 
 from email_validator import validate_email
 
 from aboutmeta.core.constants   import *
-from aboutmeta.core.dataprinter import DataPrinter
-from aboutmeta.tool.group       import gather_groups
-from aboutmeta.tool.misc        import (
+from aboutmeta.core.dataprinter import (
+    dataclass,
+    DataPrinter
+)
+from aboutmeta.tool.group import gather_groups
+from aboutmeta.tool.misc  import (
     no_space_around,
     single_spaces
 )
@@ -33,10 +35,14 @@ from aboutmeta.tool.misc        import (
 #                   provided.
 #     affiliation : the affiliation adress, or ''None'' if no
 #                   affiliation provided.
+#
+#
+# note::
+#     The ''std'' attribute is part of the frozen dataclass
+#     ''DataPrinter''.
 ###
 @dataclass(frozen = True)
 class Person(DataPrinter):
-    std        : str
     firstnames : list[str]
     surname    : tuple[str | None, str]
     email      : str | None
@@ -44,19 +50,29 @@ class Person(DataPrinter):
 
 ###
 # prototype::
-#     :return: the normalization process concern firstnames, surname,
-#              and email adress.
+#     :return: the normalization process concern firstnames,
+#              surname, and email adress.
 #
 #
 # Here are the normalizations performed.
 #
-#     +
+#     + All names are written in "titlecase", and the particle
+#     is in lowercase. Spaces around the hyphen are removed.
+#     For example,
+#     ''ALIce,  MarIE   -  LiSe,   {DE}   Charlène'' becomes
+#     ''Alice,  Marie-Lise, {de} Charlène''.
 #
 #     + Some valid emails adresses use typographical quirks.
-#       For example, ''SuPpOrT@OpeAI.CoM'' is valid, but its
-#       normalized version, produced by this method, is
-#       ''SuPpOrT@openai.com''. See the ''_normalized_email''
-#       method for technical details.
+#     For example, ''SuPpOrT@OpeAI.CoM'' is valid, but its
+#     normalized version, produced by this method, is
+#     ''SuPpOrT@openai.com''. See the ''_normalized_email''
+#     method for technical details.
+#
+#     + The normalization of the affiliation address is limited
+#     to not having consecutive spaces.
+#     For example,
+#     ''Université   de   la Technologie,    France'' becomes
+#     ''Université de la Technologie, France''.
 ###
     def normalized(self) -> str:
         titles = self._normalized_titles()
@@ -82,7 +98,8 @@ class Person(DataPrinter):
 
 ###
 # prototype::
-#     :return:
+#     :return: the CSV list of names in "titlecase", except the
+#              particle which is lowercase.
 ###
     def _normalized_titles(self) -> str:
 # First names.
@@ -92,11 +109,16 @@ class Person(DataPrinter):
         ]
 
 # Particle?
-        if not self.surname[0] is None:
-            titles.append(f"{{{self.surname[0].lower()}}}")
+        if self.surname[0] is None:
+            particle = ''
+
+        else:
+            particle = f"{{{self.surname[0].lower()}}} "
 
 # Main name.
-        self._normalized_name(self.surname[1])
+        titles.append(
+            particle + self._normalized_name(self.surname[1])
+        )
 
 # Just gather all the parts.
         titles = ', '.join(titles)
@@ -105,7 +127,9 @@ class Person(DataPrinter):
 
 ###
 # prototype::
-#     :return:
+#     name : a name to be normalized.
+#
+#     :return: name in "titlecase" without unnecessary spaces.
 ###
     def _normalized_name(
         self,
@@ -114,8 +138,8 @@ class Person(DataPrinter):
         name = single_spaces(name)
         name = name.title()
         name = no_space_around(
-            content = name,
-            part    = '-'
+            text = name,
+            part = '-'
         )
 
         return name
@@ -147,7 +171,8 @@ class Person(DataPrinter):
         return norm_email
 ###
 # prototype::
-#     :return:
+#     :return: ''None'', or the affiliation adresss without
+#              unnecessary spaces.
 ###
     def _normalized_affiliation(self) -> str | None:
         affiliation = self.affiliation

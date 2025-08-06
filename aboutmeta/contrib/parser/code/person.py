@@ -43,23 +43,25 @@ def parse(data: str) -> Person:
     titles = data.split(',')
 
     if len(titles) == 1:
-        firstnames = None
+        firstnames = []
 
     else:
-        firstnames = [
-            n.strip() for n in titles[:-1]
-        ]
+        firstnames = [n.strip() for n in titles[:-1]]
 
 # Surname.
     main_name, particle = extract_group(
         content   = titles[-1].strip(),
         delims    = DELIMS_PARTICLE,
-        context   = "email",
+        context   = "surname",
         left_most = False
     )
 
 # It remains to build the standard version.
-    std = f"{{{particle}}} {main_name}"
+    if particle is None:
+        std = f"{main_name}"
+
+    else:
+        std = f"{{{particle}}} {main_name}"
 
     if firstnames:
         firstnames = ', '.join(firstnames)
@@ -91,24 +93,23 @@ def parse(data: str) -> Person:
 if __name__ == "__main__":
 # Working examples.
     for someone in [
-        "ALIce,    MarIE-LiSe,   {DE} Charlène [a.b.c@d.e](fgh)",
-        # "A  ,  B   , C     [  a.b.c@d.e  ]    (  fgh  )",
-        # "A,B,C[a.b.c@d.e]",
-        # "A,B,C(fgh)",
-        # "A,B,C",
-        # "A,B",
-        # "A",
+        "ALIce,    MarIE-LiSe,   {DE}    Charlène   [   a.b.c@d.e ](fgh  )",
+        "A  ,  B   , C     [  a.b.c@d.e  ]    (  fgh  )",
+        "A,B,C[a.b.c@d.e]",
+        "A,B,C(fgh)",
+        "A,B,{von   }  C",
+        "A,B",
+        "A",
     ]:
         print(f'---\nPERSON: {someone}')
 
         someone_data = parse(someone)
 
-        print(repr(someone_data))
-
-        print(f"{someone_data.std = }")
+        print(someone_data)
+        print(f"someone_data = {someone_data!r}")
 
 # Corrupted data.
-    exit()
+    # exit()
 
     someone = "ABC)"
     someone = "AB(C"
@@ -118,4 +119,4 @@ if __name__ == "__main__":
 
     print(f'---\nPERSON: {someone} --> CORRUPTED!\n---')
 
-    someone_data = parse(someone)
+    parse(someone)

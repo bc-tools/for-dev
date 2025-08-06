@@ -6,7 +6,7 @@
 
 from aboutmeta.core.errors import ParsingError
 
-from aboutmeta.data import lang
+from aboutmeta.data.lang import Lang
 
 from langcodes import (
     get as get_langcode,
@@ -22,10 +22,10 @@ from langcodes import (
 # prototype::
 #     data : the \lang provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the class ''lang.Lang'' to work easily
+#     :return: an instance of the class ''Lang'' to work easily
 #              with the \lang.
 ###
-def parse(data: str) -> lang.Lang:
+def parse(data: str) -> Lang:
 # Getting a normalized code.
     try:
         onelang = get_langcode(data).maximize()
@@ -44,7 +44,7 @@ def parse(data: str) -> lang.Lang:
         raise ParsingError(f"unknown language code '{data}'")
 
 # The job has been done.
-    return lang.Lang(
+    return Lang(
         std       = f"{onelang.language}-{onelang.territory}",
         name      = describe["language"],
         territory = describe["territory"]
@@ -66,17 +66,19 @@ if __name__ == "__main__":
         print()
         print(f'--- ({userlang})')
 
-        onelang = parse(userlang)
+        lang_data = parse(userlang)
 
-        print(onelang)
-        print(repr(onelang))
+        print(lang_data)
+        print(f"lang_data = {lang_data!r}")
 
     print()
 
 # Corrupted data.
+    # exit()
+
     userlang = "XXXXXXXX"
-    # userlang = "XXX"
+    userlang = "XXX"
 
     print(f'--- ({userlang}) --> CORRUPTED!')
 
-    onelang = parse(userlang)
+    parse(userlang)

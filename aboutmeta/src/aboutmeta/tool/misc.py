@@ -31,15 +31,15 @@ def no_space_around(
     text: str,
     part: str
 ) -> str:
-    content = [
+    text = [
         p.strip()
-        for p in content.split(part)
+        for p in text.split(part)
         if p
     ]
 
-    content = part.join(content)
+    text = part.join(text)
 
-    return content
+    return text
 
 
 ###
@@ -64,4 +64,4 @@ def no_space_around(
 #     ''
 ###
 def single_spaces(text: str) -> str:
-    return no_space_around(content, " ")
+    return no_space_around(text, " ")

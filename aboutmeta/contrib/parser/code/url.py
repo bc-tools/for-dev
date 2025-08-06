@@ -4,9 +4,7 @@
 # -- IMPORTS -- #
 # ------------- #
 
-from aboutmeta.core.errors import ParsingError
-
-from aboutmeta.data import url
+from aboutmeta.data.url import URL
 
 
 # -------------------- #
@@ -21,9 +19,10 @@ from aboutmeta.data import url
 #
 #
 # note::
-#     This fake parser greatly simplifies the part that handles
-#     online validations.
+#     The sole purpose of this fake parser is to generate an
+#     internal ''URL'' class that can be used to validate
+#     and normalize a URL.
 ###
-def parse(data: str) -> url.URL:
-# We do almost nothing...
-    return url.URL(std = data)
+def parse(data: str) -> URL:
+# We do almost nothing... But what we do is great!
+    return URL(std = data)
