@@ -19,6 +19,10 @@ from aboutmeta.data.tocpath   import TOCPath
 
 TOCPathList = list[TOCPath]
 
+# A dedicated ''AMData'' object for list of ''tocpath'' objects.
+# _AMDATA_TOCPATH_LIST = AMData(flavour = BLOCK_TOC)
+
+
 
 # -------------------- #
 # -- IMPLEMENTATION -- #
@@ -193,8 +197,8 @@ def _std(data: str | dict[str, str]) -> str:
 
 ###
 # prototype::
-#     parent : :see: parse
-#     data   : :see: parse
+#     parent  : :see: parse
+#     data    : :see: parse
 #
 #     :return: :see: parse
 ###
@@ -332,97 +336,3 @@ def _parse_pattern(
         postsearch = None,
         paths      = natsorted(paths)
     )
-
-
-###
-# prototype::
-#     amdata_cls : the ''AMData'' class, which will be instantiated
-#                  to search recursively for files.
-#     data_list  : a ''TOCPath'' list.
-#
-#     :return: the list obtained from ''data_list'' by adding any
-#              files from the analysis of path::''about.yaml'' files
-#              (cf. the folders indicated in the ''toc'' blocks).
-###
-def map_list(
-    amdata_cls: object,
-    data_list : TOCPathList
-) -> TOCPathList:
-    final_paths = []
-
-    for data in data_list:
-        if data.paths:
-            final_paths += data.paths
-
-        else:
-            _amdata = amdata_cls(flavour = "toc")
-            _amdata.build(yaml_file = data.postsearch)
-
-            final_paths += _amdata.data.toc
-
-    return final_paths
-
-
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
-
-if __name__ == "__main__":
-    from pprint import pprint
-    # pprint = lambda t: None
-
-    readme_dir = Path(__file__).parent.parent / "readme"
-
-# GOOD
-    for pseudopath in [
-        # "api.md",
-        # "api/",
-        # {'g': "*.md"},
-        # {'r': r"[^/]*\.md"},
-        # {'r': r".*\.md"},
-        # {'rg': "*.md"},
-        # {'rr': r".*\.md"},
-    ]:
-        print('---')
-        print(pseudopath)
-
-        tp = parse(readme_dir, pseudopath)
-
-        print(tp)
-
-        print(f"Nb paths = {len(tp.paths)}")
-
-        pprint(tp)
-
-# BAD
-    BAD = True
-    BAD = False
-
-    if BAD:
-        pseudopath = "../../../"
-        pseudopath = "ap.md"
-        pseudopath = ['glob', "*.md"]
-        pseudopath = {'glob': "*.md", 'regex': r".*/pr.*\.md"}
-        pseudopath = {'glb': "*.md"}
-        pseudopath = {'regex': r".*(pr"}
-
-        parse(readme_dir, pseudopath)
-
-# MAP LIST
-    from aboutmeta.amdata import AMData
-
-    folder = readme_dir.parent
-    folder = readme_dir.parent.parent.parent
-
-    paths = map_list(
-        AMData,
-        [parse(folder, "readme/")]
-    )
-
-    for p in paths:
-        try:
-            p = p.relative_to(folder)
-        except:
-            ...
-
-        print(f"+ {p}")

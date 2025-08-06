@@ -3,5 +3,4 @@ toc:
   - use.md
   - use/
   - validate.md
-  # - glob: validate/*.md
   - validate/

@@ -27,9 +27,9 @@ TAG_PARSER_LANG = "lang"
 TAG_PARSER_LICENSE = "license"
 TAG_PARSER_PERSON = "person"
 TAG_PARSER_STR = "str"
-TAG_PARSER_TOCPATH = "tocpath"
+TAG_PARSER_TOCPATH = "virtual_path"
 TAG_PARSER_URL = "url"
-TAG_PARSER_VERSION = "version"
+TAG_PARSER_VERSION = "sem_version"
 
 
 # ------------------------ #

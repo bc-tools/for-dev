@@ -6,25 +6,19 @@ from pathlib import Path
 
 from yaml import safe_load
 
+from aboutmeta.core.boxplus   import BoxPlus
 from aboutmeta.core.constants import *
 from aboutmeta.core.log_conf  import *
 from aboutmeta.flavour.specs  import *
-from aboutmeta.style          import ALL_STYLES
-
-# from aboutmeta.data.boxplus   import BoxPlus
-# from aboutmeta.data.license   import License
-# from aboutmeta.data.tocpath   import TOCPath
-# from aboutmeta.tool.license   import get_licence_text
+from aboutmeta.parser         import ALL_PARSERS
+from aboutmeta.mapper         import ALL_MAPPERS
 
 
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
-TAG_STYLE_DEFAULT = 'default'
-
-SET_KEEP_ALL      = set(SPECS)
-SET_KEEP_ONLY_TOC = set(["toc"])
+ALL_BLOCKS = set(SPECS) - set([TAG_SPECS_ALT_ALL])
 
 
 # ------------------------------ #
@@ -40,17 +34,15 @@ SET_KEEP_ONLY_TOC = set(["toc"])
 #     will be handled in the child class ''amdata.AMData''.
 ###
 class AMData:
-###
+### TODO
 # prototype::
-#     style : this \arg corresponds to the syntax style used by the
-#             path::''about.yaml'' file (for now, this \arg is
-#             useless because there is only one style).
+#     flavour : TODO
 ###
     def __init__(
         self,
-        style = TAG_STYLE_DEFAULT
+        flavour: str | list[str]
     ) -> None:
-        self.style = style
+        self.flavour = flavour
 
         self.at_least_one_validation = False
 
@@ -59,19 +51,27 @@ class AMData:
 # to be performed when a style change occurs.
 ###
     @property
-    def style(self) -> str:
-        return self._style
+    def flavour(self) -> str:
+        return self._flavour
 
-    @style.setter
-    def style(
+    @flavour.setter
+    def flavour(
         self,
-        style: str
+        flavour: str | list[str]
     ) -> None:
-        if not style in ALL_STYLES:
-            raise ValueError(f"unknown parser style ''{style}''.")
+        if isinstance(flavour, str):
+            flavour = [flavour]
 
-        self._parsers = ALL_STYLES[style]
-        self._style   = style
+        if not isinstance(flavour, list):
+            raise ValueError("flavour must be a list of block names.")
+
+        for block in flavour:
+            if not block in ALL_BLOCKS:
+                raise ValueError(
+                    f"unknown block ''{block}'' for the flavour."
+                )
+
+        self._flavour = flavour
 
 ###
 # prototype::
@@ -85,14 +85,13 @@ class AMData:
     def build(
         self,
         yaml_file: Path,
-        keep     : set[str] = SET_KEEP_ALL
     ) -> None:
         self._yaml_file_dir = yaml_file.parent
 
         full_data = {
             k: v
             for k, v in safe_load(yaml_file.read_text()).items()
-            if k in keep
+            if k in self.flavour
         }
 
         self.data = BoxPlus(
@@ -177,16 +176,13 @@ class AMData:
         is_list_of     : bool,
         parser_name    : str,
         use_post_prod  : bool,
-        allow_post_prod: bool = True,
+        allow_post_prod: bool = True,\
     ) -> Any:
         if parser_name == TAG_PARSER_STR:
             _parser = str
 
         else:
-            _parser = getattr(
-                self._parsers,
-                parser_name
-            )
+            _parser = ALL_PARSERS[parser_name]
 
         if parser_name == TAG_PARSER_TOCPATH:
             parser = lambda x: _parser(
@@ -202,7 +198,7 @@ class AMData:
                 val[i] = parser(val[i])
 
             if (allow_post_prod and use_post_prod):
-                val = self.use_post_prod(key, val)
+                val = ALL_MAPPERS[parser_name](AMData, val)
 
             return val
 
@@ -242,25 +238,6 @@ class AMData:
                         raise ValueError(
                             f"just use on the keys {common_keys}."
                         )
-
-###
-# prototype::
-#     key: a \yaml key.
-#     val: the parsed "partial" \val.
-#
-#     :return: the final \val build by a post-production process.
-#
-# caution::
-#     We use this pseudo-method instead of a single ''getattr'' in
-#     order to eliminate the post-production process when formatting
-#     an path::''about.yaml'' file.
-###
-    def use_post_prod(
-        self,
-        key: str,
-        val: Any
-    ) -> Any:
-        return getattr(self, f"post_{key}")(val)
 
 ###
 # prototype::

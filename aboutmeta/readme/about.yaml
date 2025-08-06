@@ -3,7 +3,7 @@ toc:
   - about.md
   - deps.md
   - cli.md
-  - cli/
+  # - cli/
   - specs.md
   - specs/
   - api.md
