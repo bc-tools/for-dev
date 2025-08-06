@@ -29,20 +29,29 @@ TOCPathList = list[TOCPath]
 # -- IMPLEMENTATION -- #
 # -------------------- #
 
-### TODO
+###
 # prototype::
-#     parent : the parent directory of the path::''about.yaml’' file from which the ''data’' \arg comes.
-#     data   : a virtual path that is either a relative path in the form of a string, a \glob or \regex pattern with the patterns provided using a single-key \dict.
+#     parent : the parent directory of the path::''about.yaml’'
+#              file from which the ''data’' \arg comes.
+#     data   : a virtual path that is either a relative path in
+#              the form of a string, or a pattern, using the \glob
+#              or \regex syntax, with the patterns provided using
+#              a single-key \dict.
 #
 #     :return: TODO an instance of the class ''TOCPath'' which allows to work easily with the ''toc'' path: initial data, kind and absolute paths build.
 #
 #
-# Let's look at some virtual examples where we assume that the parent folder has the absolute path path::“”/abs/path/readme''.
+# Let's look at some virtual examples where we assume that the
+# parent folder has the absolute path path::''/abs/path/readme''.
 #
 #
 # [[An existing file]]
 #
-# Let's assume that the file path ::''/abs/path/readme/api.md'' exists. In this case, using ''data = "api.md"'' will imply the return of the following ''TOCPath''. The use of a list can be understood by looking at the paths returned when using \glob or \regex patterns (see below).
+# Let's assume that the file path ::''/abs/path/readme/api.md''
+# exists. In this case, using ''data = "api.md"'' will imply the
+# return of the following ''TOCPath''. The use of a list can be
+# understood by looking at the paths returned when using \glob or
+# \regex patterns (see below).
 #
 # python::
 #     TOCPath(
@@ -53,7 +62,11 @@ TOCPathList = list[TOCPath]
 #
 # [[An existing folder]]
 #
-# Let's assume that the folder path ::''/abs/path/readme/api'' exists. In this case, using ''data = "api/"'' will imply the return of the following ''TOCPath'' indicating that the yaml::''toc'' block of an path::''about.yaml'' file need to be analyzed.
+# Let's assume that the folder path ::''/abs/path/readme/api''
+# exists. In this case, using ''data = "api/"'' will imply the
+# return of the following ''TOCPath'' indicating that the
+# yaml::''toc'' block of an path::''about.yaml'' file need to
+# be analyzed during of post action.
 #
 # python::
 #     TOCPath(
@@ -64,7 +77,10 @@ TOCPathList = list[TOCPath]
 #
 # [[A "flat" \glob pattern]]
 #
-# If ''data = {'glob': "*.md"}'' is used, and the \glob pattern finds paths, then something like the following ''TOCPath'' \obj can be returned, the list being sorted "naturally" via ''natsort'' module.
+# If ''data = {'glob': "*.md"}'' is used, and the \glob pattern
+# finds paths, then something like the following ''TOCPath''
+# \obj can be returned, the list being sorted "naturally" via
+# ''natsort'' module.
 #
 # python::
 #     TOCPath(
@@ -77,7 +93,9 @@ TOCPathList = list[TOCPath]
 #
 # [[A "recursive" \glob pattern]]
 #
-# If ''data = {'r-glob': "*.md"}'' is used, and the search will be done recursively giving something like the ''TOCPath'' \obj below.
+# If ''data = {'r-glob': "*.md"}'' is used, and the search will
+# be done recursively giving something like the ''TOCPath'' \obj
+# below.
 #
 # python::
 #     TOCPath(
@@ -97,7 +115,9 @@ TOCPathList = list[TOCPath]
 #
 # [[\regex patterns]]
 #
-# You can use \regexs for more advanced needs. The fist \glob pattern can be rewritten as ''data = {'regex': r"[^/]*\.md"}'', and the second one as either ''data = {'r-regex': r"[^/]*\.md"}'', or ''data = {'regex': r".*\.md"}''.
+# You can use \regexs for more advanced needs. The first \glob
+# pattern can be rewritten as ''data = {'regex': r".*\.md"}'',
+# and the second one as ''data = {'r-regex': r".*\.md"}''.
 ###
 def parse(
     parent: Path,
@@ -107,49 +127,49 @@ def parse(
     if isinstance(data, str):
         return _parse_direct_path(parent, data)
 
-# Pattern must be a one-key dict!
+# A legal pattern?
     if not isinstance(data, dict):
         _raisethis(
-            parent = parent,
-            data   = data,
-            kind   = "one dict expected for one glob or regex pattern"
+            parent  = parent,
+            data    = data,
+            message = "one dict expected for one glob or regex pattern."
         )
 
     if not len(data.keys()) == 1:
         _raisethis(
-            parent = parent,
-            data   = data,
-            kind   = "one single key expected for a pattern dict"
+            parent  = parent,
+            data    = data,
+            message = "one single key expected for a pattern dict."
         )
 
+# Let's work with a pattern.
     for kind, pattern in data.items(): # Python is funny...
         ...
 
-# Let's delegate the final work.
     return _parse_pattern(parent, data, kind, pattern)
 
 
-### TODO
+###
 # prototype::
 #     parent : :see: parse
 #     data   : :see: parse
-#     kind   :
-#     xtra   :
+#     kind   : the main error message.
+#     xtra   : complementary information printed as an item.
 #
 #     :action: raise errors.
 ###
 def _raisethis(
-    parent: Path,
-    data  : str | dict[str, str],
-    kind  : str,
-    xtra  : str = ""
+    parent : Path,
+    data   : str | dict[str, str],
+    message: str,
+    xtra   : str = ""
 ) -> None:
     if xtra:
         xtra = f"    + {xtra}"
 
     raise ParsingError(
         f"""
-{kind}.
+{message}
     + DATA: {data!r}
     + FILE: {parent}/about.yaml
 {xtra}
@@ -161,7 +181,8 @@ def _raisethis(
 # prototype::
 #     data : :see: parse
 #
-#     :return: the standard value for the path::''about.yaml'' file.
+#     :return: the standard value for the path::''about.yaml''
+#              file.
 ###
 def _std(data: str | dict[str, str]) -> str:
 # One-key dict used in the initial ''YAML'' file.
@@ -175,11 +196,10 @@ def _std(data: str | dict[str, str]) -> str:
 
 ###
 # prototype::
-#     parent : :see: parse
-#     data   : :see: parse
+#     parent  : :see: parse
+#     data    : :see: parse
 #
-#
-# Here, we only work with a path.
+#     :return: :see: parse
 ###
 def _parse_direct_path(
     parent: Path,
@@ -195,20 +215,20 @@ def _parse_direct_path(
     if is_dir:
         if not fullpath.is_dir():
             _raisethis(
-                parent = parent,
-                data   = data,
-                kind   = "inexistant folder",
-                xtra   = f"FOLDER: {fullpath}"
+                parent  = parent,
+                data    = data,
+                message = "inexistant folder.",
+                xtra    = f"FOLDER: {fullpath}"
             )
 
         sub_yaml_file = fullpath / "about.yaml"
 
         if not sub_yaml_file.is_file():
             _raisethis(
-                parent = parent,
-                data   = data,
-                kind   = "folder without an ''about.yaml'' file",
-                xtra   = f"FOLDER: {fullpath}"
+                parent  = parent,
+                data    = data,
+                message = "folder without an ''about.yaml'' file.",
+                xtra    = f"FOLDER: {fullpath}"
             )
 
         postsearch = sub_yaml_file
@@ -218,9 +238,9 @@ def _parse_direct_path(
     else:
         if not fullpath.is_file():
             _raisethis(
-                parent = parent,
-                data   = data,
-                kind   = "path not pointing to a file"
+                parent  = parent,
+                data    = data,
+                message = "path not pointing to a file."
             )
 
         postsearch = None
@@ -234,7 +254,7 @@ def _parse_direct_path(
     )
 
 
-### TODO
+###
 # prototype::
 #     parent  : :see: parse
 #     data    : :see: parse
@@ -242,8 +262,7 @@ def _parse_direct_path(
 #             @ kind in ["glob", "r-glob", "regex", "r-regex"]
 #     pattern : the pattern.
 #
-#
-# Here, we only work with a pattern.
+#     :return: :see: parse
 ###
 def _parse_pattern(
     parent : Path,
@@ -256,9 +275,9 @@ def _parse_pattern(
 
     if not kind in TAG_TOC_PATTERN_KINDS:
         _raisethis(
-            parent = parent,
-            data   = data,
-            kind   = f"illegal pattern kind ''{kind}''"
+            parent  = parent,
+            data    = data,
+            message = f"illegal pattern kind ''{kind}''."
         )
 
 # User has used an abbreviationthat we don't keep in the standard
@@ -286,10 +305,10 @@ def _parse_pattern(
 
         except re.error as e:
             _raisethis(
-                parent = parent,
-                data   = data,
-                kind   = f"regex compilation failed for {pattern!r}",
-                xtra   = f"REGEX ERROR: {e}"
+                parent  = parent,
+                data    = data,
+                message = f"regex compilation failed for {pattern!r}.",
+                xtra    = f"REGEX ERROR: {e}"
             )
 
         paths = []
@@ -305,9 +324,9 @@ def _parse_pattern(
 # Loosing pattern?
     if not paths:
         _raisethis(
-            parent = parent,
-            data   = data,
-            kind   = f"no files found with the pattern"
+            parent  = parent,
+            data    = data,
+            message = f"no files found with the pattern."
         )
 
 # Winning pattern.
@@ -316,7 +335,6 @@ def _parse_pattern(
         postsearch = None,
         paths      = natsorted(paths)
     )
-
 
 
 ### TODO
@@ -348,16 +366,17 @@ def map_list(data_list: TOCPathList) -> TOCPathList:
 
 if __name__ == "__main__":
     from pprint import pprint
-    # pprint = lambda t: None
+    pprint = lambda t: None
 
     readme_dir = Path(__file__).parent.parent.parent.parent / "readme"
 
 # GOOD
     for pseudopath in [
-        # "api.md",
-        # "api/",
-        # {'g': "*.md"},
-        # {'r': r"[^/]*\.md"},
+        "api.md",
+        "api/",
+        {'g': "*.md"},
+        {'r': r"[^/]*\.md"},
+        {'r': r".*\.md"},
         # {'rg': "*.md"},
         # {'rr': r".*\.md"},
     ]:
@@ -373,7 +392,7 @@ if __name__ == "__main__":
         pprint(tp)
 
 # BAD
-    # exit()
+    exit()
 
     pseudopath = "../../../"
     pseudopath = "ap.md"
