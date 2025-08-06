@@ -1,20 +1,3 @@
-#!/usr/bin/env python3
-
-from collections import defaultdict
-from pathlib     import Path
-import                  re
-
-from yaml import safe_load
-
-
-# --------------- #
-# -- CONSTANTS -- #
-# --------------- #
-
-THIS_DIR     = Path(__file__).parent
-PROJECT_DIR  = THIS_DIR.parent.parent
-PROJECT_NAME = PROJECT_DIR.name
-
 PARSER_DIR = PROJECT_DIR / "contrib" / "parser"
 STATUS_DIR = PARSER_DIR / "status"
 SRC_DIR    = PROJECT_DIR / "src" / PROJECT_NAME / "parser"

@@ -21,4 +21,4 @@
 #   + ''regex: ...'' allows to use regex patterns, and
 #     ''r-regex: ...'' is available for recursive searches.
 ###
-- tocpath+
+- virtual_path+

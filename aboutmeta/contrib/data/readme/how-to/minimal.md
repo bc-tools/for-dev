@@ -5,23 +5,30 @@ At the very least, your class must be structured as follows.
 ~~~python
 from dataclasses  import dataclass
 
-from aboutmeta.core.dataprinter import *
+from aboutmeta.core.dataprinter import DataPrinter
 
 @dataclass(frozen = True)
 class MyDataClass(DataPrinter):
-    std : str
+    ...
 ~~~
 
 
-Let's explain thos technical choices.
+Let's explain these technical choices.
 
   1. `@dataclass(frozen = True)` is used to make the data produced by a parser immutable.
 
-  2. The `std` attribute must always be present. It contains a **standardized version** of the data extracted from the `about.yaml` file.
-  The construction of this standardized value is **the responsibility of the parser**.
+  2. The `std` attribute must always be present, and it is managed by the `DataPrinter` class. This attribute is a **standardized version** of the data extracted from the `about.yaml` file, the construction of this standardized value being **the responsibility of the parser**.
 
-  3. The `DataPrinter` interface implements only the `__str__` magic method, which prints the string attribute `std`.
+  3. The `DataPrinter` interface implements the `__str__` magic method, which just prints the string attribute `std`.
 
 
-Of course, it is entirely possible to add other attributes or methods to the class.
-However, **additional methods must not be named** `__str__`, as this is handled by `DataPrinter`, and methods `normalize` or `validate` because they are special ones (see the following sections): see the `license.License` class for a concrete example of its use.
+Of course, it is entirely possible to add other attributes or methods to the class *(see `license.License` for an example of use)*. However, **the following methods are special ones**.
+
+  1. `__str__` is handled by the `DataPrinter` interface. **You don't have to implment it!**
+
+  2. `normalized` is needed to normalize some data.
+
+  3. `validate` is used for validation processes.
+
+
+> ***NOTE.*** *The following sections explain how to implement the special methods `normalized` and `validate`.*

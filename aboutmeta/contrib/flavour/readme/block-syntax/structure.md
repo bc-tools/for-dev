@@ -1,13 +1,13 @@
 ### Structure
 
-The structure of the specifications mimics those that the user will be able to use, with the exception of lists, which require the use of a single element list. In concrete terms, here's how it looks with a simplified extract from of the `project` block (in its July 31, 2025 version).
+The structure of the specifications mimics those that the user will be able to use, with the exception of lists, which require the use of a single element list. In concrete terms, here's how it looks with a simplified extract from of the `project` block (in its August 7, 2025 version).
 
 
 ~~~yaml
 # Simplified extract from ''project.yaml'' file,
-# version of July 31, 2025.
+# version of August 7, 2025.
 
-version: version
+version: sem_version
 desc: str
 urls:
   home  : url
@@ -18,7 +18,7 @@ require:
 ~~~
 
 
-This code allows you to use data such as the following, where the version will be analyzed by the `version` parser, and URLs by the `url` parser. The `desc` data and the ones of the `require` list are kept as string values.
+This code allows to use data such as the following, where the version will be analyzed by the `sem_version` parser, and URLs by the `url` parser. The `desc` data and the ones of the `require` list are kept as string values.
 
 ~~~yaml
 # Fake example.

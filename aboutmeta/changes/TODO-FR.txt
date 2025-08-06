@@ -5,26 +5,16 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-AMData pour  contrib/parser/virtual_path.py  !!!
+new tools ???
+
+new tests ????
 
 
 > ---------------------------- <
 
-reprise du doc pour  contrib
-    Data(obj)   ??????
-    flavour     ????
-    parser      ??  mapper à reprendre!!!
+revori la doc :
 
-
-CORE
-TOOL
-
-CONTRIB : mettre leur utilisation. Possible pour parser, et just les deux dernier pour data
-
-
-> ---------------------------- <
-
-revori la doc et passer via des sous md gérer indépendemmant du README car sinon vrament trop long!
+    + passer via des sous md gérer indépendemmant du README car sinon vrament trop long!
 
 
 > ---------------------------- <

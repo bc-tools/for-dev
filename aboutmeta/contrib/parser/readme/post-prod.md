@@ -5,10 +5,10 @@ Some flavors use data lists that must be modified as a whole once each piece of 
 
   + `map_list(data_list)` only works with the list of parsed data.
 
-  + `map_list(parent, data_list)` also takes into account the folder containing the analyzed `about.yaml` file. The argument `parent` is an instance of `pathlib.Path`.
+  + `map_list(amdata_cls, data_list)` also takes into account the class `amdata.AMData` to be instanciated.
 
 
 ---
 
 
-> ***CAUTION!*** By design choice, only "simple" data lists are currently allowed (for example, end users cannot create dictionaries with their own keys).
+> ***CAUTION!*** *By design choice, only "simple" data lists are currently allowed (for example, end users cannot create dictionaries with their own keys).*
