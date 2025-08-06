@@ -4,7 +4,7 @@
 # -- IMPORTS -- #
 # ------------- #
 
-from aboutmeta.data.errors import ParsingError
+from aboutmeta.core.errors import ParsingError
 
 from aboutmeta.data import url
 

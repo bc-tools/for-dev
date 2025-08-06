@@ -9,7 +9,7 @@ from urllib.parse import (
     urlunparse,
 )
 
-from aboutmeta.core.dataprinter import *
+from aboutmeta.core.dataprinter import DataPrinter
 
 
 # -------------------- #
@@ -30,21 +30,20 @@ class URL(DataPrinter):
 #     :return: a normalized version of the URL.
 #
 #
-# note::
-#     Some valid URLs use typographical quirks. For example,
-#     ``HTTPS://QwAnT.com`` is valid, but its normalized version,
-#     produced by this method, is ``https://qwant.com``.
-#     However, this method doesn't handle the HTML encoding of
-#     special characters. For example,
-#     ``http://example.com/Dôssier Testé.html``
-#     doesn't become
-#     ``http://example.com/D%C3%B4ssier%20Test%C3%A9.html``.
-#     This will produce human-readable path::''about.yaml'' files.
+# Some valid URLs use typographical quirks. For example,
+# ''HTTPS://QwAnT.com'' is valid, but its normalized version,
+# produced by this method, is ''https://qwant.com''.
+# However, this method doesn't handle the HTML encoding of
+# special characters. For example,
+# ''http://example.com/Dôssier Testé.html''
+# doesn't become
+# ''http://example.com/D%C3%B4ssier%20Test%C3%A9.html''.
+# This will produce human-readable path::''about.yaml'' files.
 ###
     def normalized(self) -> str:
         parsed_url = urlparse(self.std)
 
-        normalized_url = urlunparse((
+        norm_url = urlunparse((
             parsed_url.scheme,          # http, https
             parsed_url.netloc.lower(),  # Domain
             parsed_url.path,            # No HTML encoding!
@@ -53,7 +52,7 @@ class URL(DataPrinter):
             parsed_url.fragment         # Keep fragment (#...).
         ))
 
-        return normalized_url
+        return norm_url
 
 ###
 # prototype::
@@ -61,7 +60,7 @@ class URL(DataPrinter):
 #              of the URL using DNS and an HTTP technics.
 #
 #
-# note::
+# important::
 #     Since the validation system is not `100%` reliable, we
 #     can only print and record the errors detected in a log
 #     file with possible false negatives. This method is

@@ -4,10 +4,13 @@
 # -- IMPORTS -- #
 # ------------- #
 
-from aboutmeta.data.errors import ParsingError
-
-from aboutmeta.data import constants, person
-from aboutmeta.tool import group
+from aboutmeta.core.constants import *
+from aboutmeta.core.errors    import ParsingError
+from aboutmeta.data.person    import Person
+from aboutmeta.tool.group     import (
+    extract_group,
+    gather_groups
+)
 
 
 # -------------------- #
@@ -18,35 +21,25 @@ from aboutmeta.tool import group
 # prototype::
 #     data : one person provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the class ''person.Person'' to work
-#              easily with the person data.
+#     :return: an instance of the class ''Person'' to work easily
+#              with the person data.
 ###
-def parse(data: str) -> person.Person:
+def parse(data: str) -> Person:
 # One affiliation?
-    data, affiliation = group.extract_group(
+    data, affiliation = extract_group(
         content = data,
-        opener  = constants.TAG_YAML_AFFILIATION_OPEN,
-        closer  = constants.TAG_YAML_AFFILIATION_CLOSE,
+        delims  = DELIMS_AFFILIATION,
         context = "affiliation"
     )
 
 # One email?
-    data, email = group.extract_group(
+    data, email = extract_group(
         content = data,
-        opener  = constants.TAG_YAML_EMAIL_OPEN,
-        closer  = constants.TAG_YAML_EMAIL_CLOSE,
+        delims  = DELIMS_EMAIL,
         context = "email"
     )
 
-# Affiliation before email?
-    if (
-        not email is None
-        and
-        data[-1] == constants.TAG_YAML_AFFILIATION_CLOSE
-    ):
-        raise ParsingError("affiliation must be after email!")
-
-# Titles of the person.
+# First names.
     titles = data.split(',')
 
     if len(titles) == 1:
@@ -57,32 +50,35 @@ def parse(data: str) -> person.Person:
             n.strip() for n in titles[:-1]
         ]
 
-    surname = titles[-1].lstrip()
+# Surname.
+    main_name, particle = extract_group(
+        content   = titles[-1].strip(),
+        delims    = DELIMS_PARTICLE,
+        context   = "email",
+        left_most = False
+    )
 
 # It remains to build the standard version.
-    std = surname
+    std = f"{{{particle}}} {main_name}"
 
     if firstnames:
         firstnames = ', '.join(firstnames)
         std        = f"{firstnames}, {std}"
 
-    if email:
-        std += (
-            f" {constants.TAG_YAML_EMAIL_OPEN}{email}"
-            f"{TAG_YAML_EMAIL_CLOSE}"
-        )
-
-    if affiliation:
-        std += (
-            f" {TAG_YAML_AFFILIATION_OPEN}{affiliation}"
-            f"{TAG_YAML_AFFILIATION_CLOSE}"
-        )
+    std = gather_groups(
+        groups = [
+            std,
+            "" if email is None else email,
+            "" if affiliation is None else affiliation,
+        ],
+        delims = DELIMS_PERSON,
+    )
 
 # The job has been done.
-    return person.Person(
+    return Person(
         std         = std,
         firstnames  = firstnames,
-        surname     = surname,
+        surname     = (particle, main_name),
         email       = email,
         affiliation = affiliation
     )
@@ -95,13 +91,13 @@ def parse(data: str) -> person.Person:
 if __name__ == "__main__":
 # Working examples.
     for someone in [
-        "A,B,C[a.b.c@d.e](fgh)",
-        "A  ,  B   , C   [  a.b.c@d.e  ]  (  fgh  )",
-        "A,B,C[a.b.c@d.e]",
-        "A,B,C(fgh)",
-        "A,B,C",
-        "A,B",
-        "A",
+        "ALIce,    MarIE-LiSe,   {DE} Charlène [a.b.c@d.e](fgh)",
+        # "A  ,  B   , C     [  a.b.c@d.e  ]    (  fgh  )",
+        # "A,B,C[a.b.c@d.e]",
+        # "A,B,C(fgh)",
+        # "A,B,C",
+        # "A,B",
+        # "A",
     ]:
         print(f'---\nPERSON: {someone}')
 
@@ -109,9 +105,11 @@ if __name__ == "__main__":
 
         print(repr(someone_data))
 
-        print(someone_data)
+        print(f"{someone_data.std = }")
 
 # Corrupted data.
+    exit()
+
     someone = "ABC)"
     someone = "AB(C"
     someone = "AB](C)"

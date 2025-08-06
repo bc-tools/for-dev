@@ -9,10 +9,9 @@ import requests
 
 ###
 # prototype::
-#     url : XXXX
+#     url : a URL pointing to an online text file.
 #
-#     :return: the full text of the license downloaded from the SPDX
-#              website.
+#     :return: the text of the file found online.
 ###
 def get_text_from(url: str) -> str:
 # Let's try to get the text.
@@ -37,5 +36,5 @@ def get_text_from(url: str) -> str:
     except requests.exceptions.RequestException as e:
         raise e
 
-# Success implies to return the text.
+# Success implies the return the text (and not the space cowboy).
     return text

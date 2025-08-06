@@ -23,6 +23,7 @@ from aboutmeta.core.constants import *
 ###
 @dataclass(frozen = True)
 class Person:
+    std        : str
     firstnames : List[str]
     surname    : str
     email      : str

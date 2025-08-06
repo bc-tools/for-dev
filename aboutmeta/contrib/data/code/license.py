@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from pathlib     import Path
 
-from aboutmeta.core.dataprinter import *
+from aboutmeta.core.dataprinter import DataPrinter
 from aboutmeta.tool.web         import get_text_from
 
 

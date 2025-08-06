@@ -2,7 +2,7 @@
 
 
 ==
-06
+06  (0.0.0-beta.16)
 ==
 
 --------
@@ -10,7 +10,11 @@
 --------
 
 [[:tech: & :facto:]]
-The path::''contrib/data'' folder is ready for use.
+The path::''contrib/data'' folder is ready for use with the following new features.
+
+    1) Normalizations added for url and person data (naming, email and affiliation).
+
+    1) Name particle can be explicitly indicated using curly braces.
 
 
 // ---------- //

@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 
-from typing import List
-
 from dataclasses import dataclass
 import                  logging
 import                  requests
 
 from email_validator import validate_email
 
-from aboutmeta.core.dataprinter import *
+from aboutmeta.core.constants   import *
+from aboutmeta.core.dataprinter import DataPrinter
+from aboutmeta.tool.group       import gather_groups
+from aboutmeta.tool.misc        import (
+    no_space_around,
+    single_spaces
+)
 
 
 # ----------------------- #
@@ -21,7 +25,10 @@ from aboutmeta.core.dataprinter import *
 #                   space used.
 #     firstnames  : the list of first names (that can be an empty
 #                   list).
-#     surname     : the surname which is the only mandatory value.
+#     surname     : the surname consists of an optional particle,
+#                   with the special value ''None'' indicating its
+#                   absence, and a mandatory main surname, which
+#                   is required for any person record.
 #     email       : the email adress, or ''None'' if no email
 #                   provided.
 #     affiliation : the affiliation adress, or ''None'' if no
@@ -30,34 +37,92 @@ from aboutmeta.core.dataprinter import *
 @dataclass(frozen = True)
 class Person(DataPrinter):
     std        : str
-    firstnames : List[str]
-    surname    : str
+    firstnames : list[str]
+    surname    : tuple[str | None, str]
     email      : str | None
     affiliation: str | None
 
 ###
 # prototype::
-#     :return: the only nomralization processe don concern the email adresss.
+#     :return: the normalization process concern firstnames, surname,
+#              and email adress.
 #
 #
-# note::
-#     Some valid emails adresses use typographical quirks. For example, ``SuPpOrT@OpeAI.CoM`` is valid, but its normalized version, produced by this method, is ``XXXX``.
+# Here are the normalizations performed.
+#
+#     +
+#
+#     + Some valid emails adresses use typographical quirks.
+#       For example, ''SuPpOrT@OpeAI.CoM'' is valid, but its
+#       normalized version, produced by this method, is
+#       ''SuPpOrT@openai.com''. See the ''_normalized_email''
+#       method for technical details.
 ###
     def normalized(self) -> str:
-        email = self._normalized_email(self.email)
+        titles = self._normalized_titles()
 
-        return email
+        email = (
+            ""
+            if self.email is None else
+            self._normalized_email()
+        )
+
+        affiliation = (
+            ""
+            if self.affiliation is None else
+            self._normalized_affiliation()
+        )
+
+        norm_person = gather_groups(
+            groups = [titles, email, affiliation],
+            delims = DELIMS_PERSON,
+        )
+
+        return norm_person
 
 ###
 # prototype::
-#     :return: the only nomralization processe don concern the
-#              email adresss.
-#
-#
-# note::
-#     Some valid emails adresses use typographical quirks. For
-#     example, ``support@OpenAI.CoM`` is valid, but its normalized
-#     version, produced by this method, is ``support@openai.com``.
+#     :return:
+###
+    def _normalized_titles(self) -> str:
+# First names.
+        titles = [
+            self._normalized_name(n)
+            for n in self.firstnames
+        ]
+
+# Particle?
+        if not self.surname[0] is None:
+            titles.append(f"{{{self.surname[0].lower()}}}")
+
+# Main name.
+        self._normalized_name(self.surname[1])
+
+# Just gather all the parts.
+        titles = ', '.join(titles)
+
+        return titles
+
+###
+# prototype::
+#     :return:
+###
+    def _normalized_name(
+        self,
+        name: str
+    ) -> str:
+        name = single_spaces(name)
+        name = name.title()
+        name = no_space_around(
+            content = name,
+            part    = '-'
+        )
+
+        return name
+
+###
+# prototype::
+#     :return: ''None'', or a normalized email adresss.
 #
 #
 # caution::
@@ -67,10 +132,9 @@ class Person(DataPrinter):
 #         + The local part ***may** be case-sensitive, but rarely
 #         is.
 ###
-    def _normalized_email(
-        self,
-        email: str | None
-    ) -> str | None:
+    def _normalized_email(self) -> str | None:
+        email = self.email
+
 # Nothing to do.
         if email is None:
             return email
@@ -78,12 +142,24 @@ class Person(DataPrinter):
 # Let's normalize the email.
         local_part, _, domain_part = email.partition('@')
 
-        normalized_email = f"{local_part}@{domain_part.lower()}"
+        norm_email = f"{local_part}@{domain_part.lower()}"
 
-        return normalized_email
+        return norm_email
+###
+# prototype::
+#     :return:
+###
+    def _normalized_affiliation(self) -> str | None:
+        affiliation = self.affiliation
 
+# Nothing to do.
+        if affiliation is None:
+            return affiliation
 
+# Let's normalize the affiliation.
+        norm_affiliation = single_spaces(affiliation)
 
+        return norm_affiliation
 
 ###
 # prototype::
@@ -91,7 +167,7 @@ class Person(DataPrinter):
 #              of email and membership addresses.
 #
 #
-# note::
+# important::
 #     Since the validation system is not `100%` reliable, we
 #     can only print and record the errors detected in a log
 #     file with possible false negatives. This method is
@@ -193,11 +269,11 @@ if __name__ == "__main__":
     print("----------")
 
     someone = Person(
-        std         = "A, B, C [support@OpenAI.CoM] (Université de la Technologie, France)",
-        firstnames  = ["A", "B"],
-        surname     = "C",
+        std         = "ALIce,    MarIE   -  LiSe,   {DE}   Charlène  [  support@OpenAI.CoM  ]     (Université   de   la Technologie,    France)",
+        firstnames  = ["ALIce", "MarIE  -  LiSe"],
+        surname     = ("DE", "Charlène"),
         email       = "support@OpenAI.CoM",
-        affiliation = "Université de la Technologie, France"
+        affiliation = "Université   de   la Technologie,    France"
     )
 
     print()
@@ -215,7 +291,7 @@ if __name__ == "__main__":
     print("---------")
 
     someone = Person(
-        std         = "A, B, C [support@openaicom] (Université de la Techlogie, France)",
+        std         = "A, B, C [  support@openaicom ] (Université de la Techlogie, France)",
         firstnames  = ["A", "B"],
         surname     = "C",
         email       = "support@openaicom",

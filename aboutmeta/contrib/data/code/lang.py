@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from aboutmeta.core.dataprinter import *
+from aboutmeta.core.dataprinter import DataPrinter
 
 
 # ------------------------- #
