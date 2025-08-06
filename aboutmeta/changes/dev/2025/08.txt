@@ -16,6 +16,8 @@ The path::''contrib'' folder is ready for use with the following new features.
 
     1) Name particle can be explicitly indicated using curly braces.
 
+    1) Mapping concept is ready for production!
+
 
 // ---------- //
 

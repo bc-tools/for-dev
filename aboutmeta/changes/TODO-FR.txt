@@ -13,7 +13,7 @@ AMData pour  contrib/parser/virtual_path.py  !!!
 reprise du doc pour  contrib
     Data(obj)   ??????
     flavour     ????
-    parser      ??
+    parser      ??  mapper à reprendre!!!
 
 
 CORE
