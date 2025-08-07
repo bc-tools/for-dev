@@ -14,3 +14,9 @@ The following sections outline the steps to follow when proposing new parsing to
 
 
 > ***CAUTION.*** *Regarding `aboutmeta`, you are only authorised to use the modules `aboutmeta.core` and `aboutmeta.tool`.* ***Any other use of `aboutmeta` is too risky, as it can create cyclic imports*** *when incorporated validated contributions into the final project.*
+
+
+---
+
+
+> ***WARNING.*** *Although it seems more than likely,* ***it is not possible to code a new data class at the same time as new parsing tools.*** *You will therefore have to improvise if you find yourself in this type of situation. That being said, you should always propose your data class first!*
