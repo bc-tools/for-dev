@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import                  logging
-import                  requests
+import logging
+import requests
 
 from email_validator import validate_email
 
@@ -10,6 +10,7 @@ from aboutmeta.core.dataprinter import (
     dataclass,
     DataPrinter
 )
+
 from aboutmeta.tool.group import gather_groups
 from aboutmeta.tool.misc  import (
     no_space_around,
