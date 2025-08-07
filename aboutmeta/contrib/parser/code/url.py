@@ -7,9 +7,9 @@
 from aboutmeta.data.url import URL
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::

@@ -2,6 +2,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+# ~~ PARSER ~~ #
+
 from aboutmeta.core.errors import ParsingError
 
 from pathlib import Path
@@ -20,9 +22,9 @@ from aboutmeta.data.tocpath   import TOCPath
 TOCPathList = list[TOCPath]
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::
@@ -334,6 +336,10 @@ def _parse_pattern(
     )
 
 
+# ------------ #
+# -- MAPPER -- #
+# ------------ #
+
 ###
 # prototype::
 #     amdata_cls : the ''AMData'' class, which will be instantiated
@@ -363,9 +369,9 @@ def map_list(
     return final_paths
 
 
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
+# ----------- #
+# -- TESTS -- #
+# ----------- #
 
 if __name__ == "__main__":
     from pprint import pprint

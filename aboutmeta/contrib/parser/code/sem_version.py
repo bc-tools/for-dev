@@ -12,9 +12,9 @@ from semver import (
 )
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::
@@ -33,9 +33,9 @@ def parse(data: str) -> Version:
     return version
 
 
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
+# ----------- #
+# -- TESTS -- #
+# ----------- #
 
 if __name__ == "__main__":
 # Working examples.

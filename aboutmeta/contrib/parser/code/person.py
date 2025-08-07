@@ -13,9 +13,9 @@ from aboutmeta.tool.group     import (
 )
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::
@@ -86,9 +86,9 @@ def parse(data: str) -> Person:
     )
 
 
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
+# ----------- #
+# -- TESTS -- #
+# ----------- #
 
 if __name__ == "__main__":
 # Working examples.

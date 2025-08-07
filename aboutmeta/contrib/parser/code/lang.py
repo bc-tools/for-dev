@@ -14,9 +14,9 @@ from langcodes import (
 )
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::
@@ -51,9 +51,9 @@ def parse(data: str) -> Lang:
     )
 
 
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
+# ----------- #
+# -- TESTS -- #
+# ----------- #
 
 if __name__ == "__main__":
 # Working examples.

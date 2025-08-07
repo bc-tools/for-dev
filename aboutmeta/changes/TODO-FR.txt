@@ -5,6 +5,18 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+ajout d'un bolc MAPPER
+
+et implmentation deviant PARSER
+
+vesoin aussi de savoir ce qui doit être importé pour parser et pour mapper
+
+    --> si différents, on passse via sousection magiques
+
+    --> reprendre ograisatiod e la doc avec dossier dédier à a matodokogie !!!
+
+> ---------------------------- <
+
 new tools ???
 
 new tests ????

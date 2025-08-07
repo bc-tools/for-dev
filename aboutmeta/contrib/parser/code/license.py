@@ -29,9 +29,9 @@ from rapidfuzz import (
 LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::
@@ -222,9 +222,9 @@ def tool_update_license_json() -> None:
     LICENSES_JSON_FILE.write_text(json_dumps(licenses))
 
 
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
+# ----------- #
+# -- TESTS -- #
+# ----------- #
 
 if __name__ == "__main__":
 # Update the license data.

@@ -9,9 +9,9 @@ from aboutmeta.core.errors import ParsingError
 from datetime import datetime
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::
@@ -43,9 +43,9 @@ def parse(data: str) -> datetime.date:
     return date
 
 
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
+# ----------- #
+# -- TESTS -- #
+# ----------- #
 
 if __name__ == "__main__":
 # Working examples.
