@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# ~~ PARSER ~~ #
+
 from aboutmeta.core.errors import ParsingError
 
 from pathlib import Path
@@ -17,14 +19,10 @@ from aboutmeta.data.tocpath   import TOCPath
 
 TOCPathList = list[TOCPath]
 
-# A dedicated ''AMData'' object for list of ''tocpath'' objects.
-# _AMDATA_TOCPATH_LIST = AMData(flavour = BLOCK_TOC)
 
-
-
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::
@@ -195,8 +193,8 @@ def _std(data: str | dict[str, str]) -> str:
 
 ###
 # prototype::
-#     parent  : :see: parse
-#     data    : :see: parse
+#     parent : :see: parse
+#     data   : :see: parse
 #
 #     :return: :see: parse
 ###

@@ -9,9 +9,9 @@ from aboutmeta.tool.group     import (
 )
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::
@@ -80,41 +80,3 @@ def parse(data: str) -> Person:
         email       = email,
         affiliation = affiliation
     )
-
-
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
-
-if __name__ == "__main__":
-# Working examples.
-    for someone in [
-        "ALIce,    MarIE-LiSe,   {DE}    Charlène   [   a.b.c@d.e ](fgh  )",
-        "A  ,  B   , C     [  a.b.c@d.e  ]    (  fgh  )",
-        "A,B,C[a.b.c@d.e]",
-        "A,B,C(fgh)",
-        "A,B,{von   }  C",
-        "A,B",
-        "A",
-    ]:
-        print(f'---\nPERSON: {someone}')
-
-        someone_data = parse(someone)
-
-        print(someone_data)
-        print(f"someone_data = {someone_data!r}")
-
-# Corrupted data.
-    BAD = True
-    BAD = False
-
-    if BAD:
-        someone = "ABC)"
-        someone = "AB(C"
-        someone = "AB](C)"
-        someone = "A[B(C)"
-        # someone = "A(B)[C]"
-
-        print(f'---\nPERSON: {someone} --> CORRUPTED!\n---')
-
-        parse(someone)

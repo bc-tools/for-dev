@@ -7,7 +7,7 @@ from utilities import *
 # -- CONSTANTS -- #
 # --------------- #
 
-CONTRIB_CTXT    = CTXT_DATA
+CONTRIB_CTXT    = CTXT_MAPPER
 CONTRIB_NB_TEST = Path(__file__).name.split('-')[0]
 
 THIS_DIR = Path(__file__).parent

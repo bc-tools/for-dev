@@ -10,9 +10,9 @@ from langcodes import (
 )
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::
@@ -45,38 +45,3 @@ def parse(data: str) -> Lang:
         name      = describe["language"],
         territory = describe["territory"]
     )
-
-
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
-
-if __name__ == "__main__":
-# Working examples.
-    for userlang in [
-        "fr",
-        "es",
-        "en",
-        "en-GB",
-    ]:
-        print()
-        print(f'--- ({userlang})')
-
-        lang_data = parse(userlang)
-
-        print(lang_data)
-        print(f"lang_data = {lang_data!r}")
-
-    print()
-
-# Corrupted data.
-    BAD = True
-    BAD = False
-
-    if BAD:
-        userlang = "XXXXXXXX"
-        userlang = "XXX"
-
-        print(f'--- ({userlang}) --> CORRUPTED!')
-
-        parse(userlang)

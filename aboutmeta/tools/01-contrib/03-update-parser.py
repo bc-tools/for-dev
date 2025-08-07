@@ -1,16 +1,26 @@
 #!/usr/bin/env python3
 
-from collections import defaultdict
-from pathlib     import Path
-import                  re
-
-from yaml import safe_load
+from utilities import *
 
 
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
-THIS_DIR     = Path(__file__).parent
-PROJECT_DIR  = THIS_DIR.parent.parent
-PROJECT_NAME = PROJECT_DIR.name
+CONTRIB_CTXT    = CTXT_PARSER
+CONTRIB_NB_TEST = Path(__file__).name.split('-')[0]
+
+THIS_DIR = Path(__file__).parent
+
+
+# ----------------- #
+# -- LET'S WORK! -- #
+# ----------------- #
+
+print(f"{ITEM_1} Creation/update of source code...")
+
+copy_paste_files(
+    this_dir = THIS_DIR,
+    context  = CONTRIB_CTXT,
+    nb_test  = CONTRIB_NB_TEST
+)

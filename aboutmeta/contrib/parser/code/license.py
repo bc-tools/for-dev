@@ -22,7 +22,7 @@ from rapidfuzz import (
 # -- CONSTANTS -- #
 # --------------- #
 
-LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
+LICENSES_JSON_FILE = Path(__file__).parent / "parser-license-spdx.json"
 
 
 # ------------ #

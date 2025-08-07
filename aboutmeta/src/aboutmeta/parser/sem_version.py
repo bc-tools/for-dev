@@ -8,9 +8,9 @@ from semver import (
 )
 
 
-# -------------------- #
-# -- IMPLEMENTATION -- #
-# -------------------- #
+# ------------ #
+# -- PARSER -- #
+# ------------ #
 
 ###
 # prototype::
@@ -27,44 +27,3 @@ def parse(data: str) -> Version:
         raise ParsingError(e)
 
     return version
-
-
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
-
-if __name__ == "__main__":
-# Working examples.
-    for nbver in [
-        "1.2.3-beta.4+build.5",
-        "2.3.4-beta.1",
-        "4.5.6",
-    ]:
-        print()
-        print(f'--- ({nbver})')
-
-        version_data = parse(nbver)
-
-        print(version_data)
-        print(f"version_data = {version_data!r}")
-
-        print(f"major             = {version_data.major}")
-        print(f"minor             = {version_data.minor}")
-        print(f"patch             = {version_data.patch}")
-        print(f"prerelease        = {version_data.prerelease}")
-        print(f"build             = {version_data.build}")
-
-        print(f"next (prerelease) = {version_data.next_version(part="prerelease")}")
-
-    print()
-
-# Corrupted data.
-    BAD = True
-    BAD = False
-
-    if BAD:
-        nbver = "2.3"
-
-        print(f'--- ({nbver}) --> CORRUPTED!')
-
-        version_data = parse(nbver)
