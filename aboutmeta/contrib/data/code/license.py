@@ -83,9 +83,9 @@ class License(DataPrinter):
         license_file.write_text(license_text)
 
 
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
+# ----------- #
+# -- TESTS -- #
+# ----------- #
 
 if __name__ == "__main__":
     lic = License(
