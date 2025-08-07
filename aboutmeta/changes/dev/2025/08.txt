@@ -2,15 +2,21 @@
 
 
 ==
-07  (0.0.0-beta.18)    ???
+07  (0.0.0-beta.18)
 ==
 
 --------
-:fordev:   ???
+:fordev:
 --------
 
 [[:tech:]]
-\Contribs: magic comments have changed for parsing tools to also take into account the mappers.
+\Contribs: magic comments have changed.
+
+    1) For parsing tools, it is possible to target imports and constants (parser or mapper), and the human testing block is simply called `TESTS`.
+
+    1) ????
+
+    For data classes, there is only the `TESTS` section. This is necessary due to the new validation and standardization responsibilities assigned to data classes.
 
 
 // ---------- //
