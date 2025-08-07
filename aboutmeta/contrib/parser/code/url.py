@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-# ------------- #
-# -- IMPORTS -- #
-# ------------- #
-
 from aboutmeta.data.url import URL
 
 

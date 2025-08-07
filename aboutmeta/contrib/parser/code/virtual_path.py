@@ -1,6 +1,4 @@
-# ------------- #
-# -- IMPORTS -- #
-# ------------- #
+#!/usr/bin/env python3
 
 # ~~ PARSER ~~ #
 

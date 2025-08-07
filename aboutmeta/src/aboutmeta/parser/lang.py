@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-# ------------- #
-# -- IMPORTS -- #
-# ------------- #
-
 from aboutmeta.core.errors import ParsingError
 
 from aboutmeta.data.lang import Lang

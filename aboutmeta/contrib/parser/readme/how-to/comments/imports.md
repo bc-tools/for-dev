@@ -1,6 +1,6 @@
-#### IMPORTS section (mandatory)
+#### Imports
 
-This section imports the libraries needed for the parser to work. It's mandatory, because you need to use at least `from aboutmeta.data.errors import ParsingError`. You can refine the imports like this.
+The beginning of the code is where imports are made, with at least the use of `from aboutmeta.data.errors import ParsingError`. You can refine the imports like this.
 
   1. Before the comments `# ~~ PARSER ~~ #` and `# ~~ MAPPER ~~ #`, the imports cover all the coded functions.
 

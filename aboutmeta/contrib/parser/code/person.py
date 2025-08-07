@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-# ------------- #
-# -- IMPORTS -- #
-# ------------- #
-
 from aboutmeta.core.constants import *
 from aboutmeta.core.errors    import ParsingError
 from aboutmeta.data.person    import Person
