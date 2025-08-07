@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 
-from pprint import pprint
-
-from collections import defaultdict
-from pathlib     import Path
-import                  re
+# from pprint import pprint
 
 from yaml import safe_load
+
+from .common import *
 
 
 # --------------- #
@@ -17,36 +15,34 @@ INIT_FILE    = "__init__.py"
 INIT_CONTENT = "#!/usr/bin/env python3\n"
 
 
-TAB_1 = ' '*2
-TAB_2 = TAB_1*2
-TAB_3 = TAB_1*3
-
-ITEM_1 = '+'
-ITEM_2 = f'{TAB_1}*'
-ITEM_3 = f'{TAB_2}-'
-ITEM_4 = f'{TAB_3}-->'
-
-
 TAG_STATUS = "status"
 TAG_OK     = "ok"
 
 
-PATTERN_MAGIC_COMMENT = re.compile(
+PATTERN_SECTION_COMMENT = re.compile(
     r"#\s+-+\s+#\n# --(.*)-- #\n# -+ #\n"
 )
 
-PATTERN_TEST_NAME =re.compile(r"test_.*_\d+_(?P<syntax>.+)")
+PATTERN_SUB_SECTION_COMMENT = re.compile(
+    r"# ~~(.*)~~ #\n"
+)
 
 
-CTXT_DATA   = "data"
-CTXT_PARSER = "parser"
-CTXT_MAPPER = "mapper"
+CTXT_DATA = "data"
 
-SECTION_MAIN = "MAIN"
+CTXTS_AS_SECTIONS = [
+    (CTXT_PARSER:= "parser"),
+    (CTXT_MAPPER:= "mapper"),
+]
+
+SECTIONS_WITH_SUB_ONES = [
+    (SECTION_CONSTANTS:= "CONSTANTS"),
+    (SECTION_MAIN     := "MAIN"),
+]
 
 COMMON_SECTIONS_IGNORED = [
-    (SECTION_TESTS := "TESTS"),
-    (SECTION_TOOLS := "TOOLS"),
+    (SECTION_TESTS:= "TESTS"),
+    (SECTION_TOOLS:= "TOOLS"),
 ]
 
 SECTIONS_IGNORED = {
@@ -63,30 +59,6 @@ SECTIONS_IGNORED = {
 # ----------- #
 # -- PATHS -- #
 # ----------- #
-
-def get_folders(
-    this_dir,
-    contrib_dir,
-    context,
-    nbtest,
-):
-    projdir  = this_dir.parent.parent
-    projname = projdir.name
-
-    contribdir = projdir / "contrib" / contrib_dir / "code"
-    statusdir  = contribdir.parent / "status"
-    src     = projdir / "src" / projname / context
-    tests   = projdir / "tests" / f"{nbtest}-{context}"
-
-    return (
-        projdir,
-        projname,
-        contribdir,
-        statusdir,
-        src,
-        tests
-    )
-
 
 # WARNING!
 # "No status" ==> "No parser to add"
@@ -122,20 +94,21 @@ def copy_paste_files(
     this_dir,
     contrib_dir,
     context,
-    nb_test,
 ):
+    print(f"{ITEM_1} Source code creation or update.")
+
     (
         projdir,
         projname,
         contribdir,
         statusdir,
-        src,
-        tests
+        srcdir,
+        _
     ) = get_folders(
         this_dir,
         contrib_dir,
         context,
-        nb_test,
+        0, # <--- Unused here!
     )
 
     allfiles = get_accepted_paths(
@@ -146,20 +119,24 @@ def copy_paste_files(
     if not allfiles:
         print(f"{ITEM_2} No file found!")
 
-        return None
+        return []
+
+    contexts_added = set()
 
     for file in allfiles:
-        print(f"{ITEM_2} [{context}]  {file.name}")
-
 # Source code parts.
         code_parts = get_code_parts(
-            file    = file,
-            context = context
+            file             = file,
+            context          = context,
+            sections_ignored = SECTIONS_IGNORED[context]
         )
 
-# Tools used?
-        if code_parts.get(SECTION_TOOLS, ""):
-            print(f"{ITEM_3} Dev tools available.")
+        if not code_parts:
+            continue
+
+        something_done = True
+
+        print(f"{ITEM_2} [{context}]  {file.name}")
 
 # Final source code.
         final_code = get_final_code(
@@ -168,7 +145,7 @@ def copy_paste_files(
         )
 
 # Lets's update the source code.
-        src_file = src / file.name
+        src_file = srcdir / file.name
 
         src_file.parent.mkdir(
             parents  = True,
@@ -177,6 +154,8 @@ def copy_paste_files(
 
         src_file.touch()
         src_file.write_text(final_code + "\n")
+
+        contexts_added.add(file.stem)
 
 # Extra files?
         xtra_files = get_xtra_files(file, context)
@@ -189,35 +168,93 @@ def copy_paste_files(
             for xfile in xtra_files:
                 print(f"{ITEM_4} {xfile.name}")
 
-                src_file = src / xfile.name
+                src_file = srcdir / xfile.name
                 src_file.touch()
                 src_file.write_text(xfile.read_text() + "\n")
 
 # Nothing left expect the addition of an ''__init__.py'' file.
-    initfile = src / INIT_FILE
+    initfile = srcdir / INIT_FILE
 
     initfile.touch()
     initfile.write_text(INIT_CONTENT)
 
+# Need of list of the source file names for unit test management.
+    return contexts_added
 
-def get_code_parts(file, context):
+
+def get_code_parts(file, context, sections_ignored):
     content = file.read_text()
 
+# 1st paring.
     parts   = dict()
     section = SECTION_MAIN
 
     for i, piece in enumerate(
-        PATTERN_MAGIC_COMMENT.split(content)
+        PATTERN_SECTION_COMMENT.split(content)
     ):
         piece = piece.strip()
 
         if i % 2 == 1:
             section = piece
 
-        else:
+        elif not section in sections_ignored:
             parts[section] = piece
 
+    all_sections = list(parts)
+
+# Missing mandatory "context" section?
+    if (
+        context in CTXTS_AS_SECTIONS
+        and
+        not context.upper() in all_sections
+    ):
+        return {}
+
+# We have to clean MAIN and CONSTANTS secrtion by taking care
+# of sub sections. This can make empty these sections.
+    section_to_remove = []
+
+    for section in parts:
+        if section in SECTIONS_WITH_SUB_ONES:
+            part = cleaned_part(
+                parts[section],
+                sections_ignored,
+            )
+
+            if part:
+                parts[section] = part
+
+            else:
+                section_to_remove.append(section)
+
+    for section in section_to_remove:
+        del parts[section]
+
+# Nothing left to do.
     return parts
+
+
+def cleaned_part(
+    part,
+    sections_ignored,
+):
+    cleaned_part = []
+    section      = SECTION_MAIN
+
+    for i, piece in enumerate(
+        PATTERN_SUB_SECTION_COMMENT.split(part)
+    ):
+        piece = piece.strip()
+
+        if i % 2 == 1:
+            section = piece
+
+        elif not section in sections_ignored:
+            cleaned_part.append(piece.strip())
+
+    cleaned_part = '\n\n'.join(cleaned_part)
+
+    return cleaned_part
 
 
 def get_final_code(code_parts, sections_ignored):

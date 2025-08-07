@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
 
-# ~~ PARSER ~~ #
-
-from aboutmeta.core.errors import ParsingError
-
-from pathlib import Path
-import              re
-
-from natsort import natsorted
-
-from aboutmeta.core.constants import *
-from aboutmeta.data.tocpath   import TOCPath
-
 
 # --------------- #
 # -- CONSTANTS -- #

@@ -101,7 +101,8 @@ fi
 
 cd "$THIS_DIR"
 
-find . -type f -name "*.py" | sort | while read -r builderfile
+# find . -type f -name "*.py" | sort | while read -r builderfile
+find . -type f -name "*.py" ! -path "*/utilities/*" | sort | while read -r builderfile
 do
     echo ""
 
