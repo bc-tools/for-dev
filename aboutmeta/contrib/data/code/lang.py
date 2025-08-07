@@ -6,10 +6,6 @@ from aboutmeta.core.dataprinter import DataPrinter
 
 
 # ------------------------- #
-# -- TOOLS -- #
-# ------------------------- #
-
-# ------------------------- #
 # -- LANGUAGE DATA CLASS -- #
 # ------------------------- #
 

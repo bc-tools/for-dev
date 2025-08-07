@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-# ~~ PARSER ~~ #
+from aboutmeta.data.tocpath   import TOCPath
 
-from aboutmeta.core.errors import ParsingError
+
+# ~~ PARSER ~~ #
 
 from pathlib import Path
 import              re
@@ -10,7 +11,7 @@ import              re
 from natsort import natsorted
 
 from aboutmeta.core.constants import *
-from aboutmeta.data.tocpath   import TOCPath
+from aboutmeta.core.errors    import ParsingError
 
 
 # --------------- #

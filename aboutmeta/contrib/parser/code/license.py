@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-from aboutmeta.core.constants import *
-from aboutmeta.core.errors    import ParsingError
-from aboutmeta.data.license   import License
-
 from json import (
     dumps as json_dumps,
     load  as json_load,
@@ -16,6 +12,10 @@ from rapidfuzz import (
     process as fuzz_process,
     fuzz
 )
+
+from aboutmeta.core.constants import *
+from aboutmeta.core.errors    import ParsingError
+from aboutmeta.data.license   import License
 
 
 # --------------- #
