@@ -66,13 +66,14 @@ SECTIONS_IGNORED = {
 
 def get_folders(
     this_dir,
+    contrib_dir,
     context,
     nbtest,
 ):
     projdir  = this_dir.parent.parent
     projname = projdir.name
 
-    contribdir = projdir / "contrib" / context / "code"
+    contribdir = projdir / "contrib" / contrib_dir / "code"
     statusdir  = contribdir.parent / "status"
     src     = projdir / "src" / projname / context
     tests   = projdir / "tests" / f"{nbtest}-{context}"
@@ -119,6 +120,7 @@ def get_accepted_paths(
 
 def copy_paste_files(
     this_dir,
+    contrib_dir,
     context,
     nb_test,
 ):
@@ -131,6 +133,7 @@ def copy_paste_files(
         tests
     ) = get_folders(
         this_dir,
+        contrib_dir,
         context,
         nb_test,
     )
