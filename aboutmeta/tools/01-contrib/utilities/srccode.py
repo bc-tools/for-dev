@@ -86,11 +86,11 @@ def get_accepted_paths(
     return files
 
 
-# ------------ #
-# -- SOURCE -- #
-# ------------ #
+# ------------------ #
+# -- CODE TO CODE -- #
+# ------------------ #
 
-def copy_paste_files(
+def copy_paste_codes(
     this_dir,
     contrib_dir,
     context,
