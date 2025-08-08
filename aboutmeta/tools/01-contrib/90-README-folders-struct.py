@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from pathlib import Path
+from utilities.common import *
 
 
 # --------------- #
@@ -8,7 +8,8 @@ from pathlib import Path
 # --------------- #
 
 THIS_DIR    = Path(__file__).parent
-CONTRIB_DIR = THIS_DIR.parent.parent / "contrib"
+SRC_DIR     = THIS_DIR.parent.parent
+CONTRIB_DIR = SRC_DIR / "contrib"
 README_FILE = CONTRIB_DIR / "README.md"
 
 
@@ -21,6 +22,11 @@ TAG_STRUCT_END   = TEMPL_TAG_STRUCT.format("END")
 # ----------------- #
 # -- LET'S WORK! -- #
 # ----------------- #
+
+print(f"{ITEM_1} Update ''{README_FILE.relative_to(SRC_DIR)}''.")
+
+print(f"{ITEM_2} Contrib. treeview.")
+
 
 content = README_FILE.read_text()
 

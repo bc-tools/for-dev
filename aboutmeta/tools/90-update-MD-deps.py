@@ -30,6 +30,8 @@ Here are the `Python` libraries used by `aboutmeta`. The version numbers in brac
 # -- LET'S GO! -- #
 # --------------- #
 
+print(f"+ Update ''{MD_DEPS_FILE.relative_to(SRC_DIR)}''.")
+
 with TOML_PYPROJ_FILE.open("rb") as f:
     data = tomli.load(f)
 

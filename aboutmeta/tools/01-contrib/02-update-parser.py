@@ -18,7 +18,7 @@ THIS_DIR = Path(__file__).parent
 # -- LET'S WORK! -- #
 # ----------------- #
 
-contexts_added = copy_paste_files(
+contexts_added = copy_paste_codes(
     this_dir    = THIS_DIR,
     contrib_dir = CONTRIB_FOLDER,
     context     = CONTRIB_CTXT,

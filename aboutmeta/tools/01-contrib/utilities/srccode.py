@@ -2,8 +2,6 @@
 
 # from pprint import pprint
 
-from yaml import safe_load
-
 from .common import *
 
 
@@ -56,36 +54,6 @@ SECTIONS_IGNORED = {
 }
 
 
-# ----------- #
-# -- PATHS -- #
-# ----------- #
-
-# WARNING!
-# "No status" ==> "No parser to add"
-def get_accepted_paths(
-    contribdir,
-    statusdir,
-):
-    files = []
-
-    for yaml_file in statusdir.glob("*.yaml"):
-        statusdata = safe_load(yaml_file.read_text())
-
-        if statusdata[TAG_STATUS] != TAG_OK:
-            continue
-
-        file = contribdir / f"{yaml_file.stem}.py"
-
-        if not file.is_file():
-            raise IOError(f"missing file:\n{file}")
-
-        files.append(file)
-
-    files.sort()
-
-    return files
-
-
 # ------------------ #
 # -- CODE TO CODE -- #
 # ------------------ #
@@ -95,7 +63,7 @@ def copy_paste_codes(
     contrib_dir,
     context,
 ):
-    print(f"{ITEM_1} Source code creation or update.")
+    print(f"{ITEM_1} Source code: creation or update.")
 
     (
         projdir,

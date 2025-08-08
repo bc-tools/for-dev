@@ -1,36 +1,51 @@
 #!/usr/bin/env python3
 
-from utilities.srccode   import *
-from utilities.needtests import *
+from utilities.common import *
 
 
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
-CONTRIB_CTXT    = CTXT_MAPPER
-CONTRIB_FOLDER  = CTXT_PARSER
+
+CONTRIB_CTXT    = "block"
+CONTRIB_FOLDER  = "block-n-flavour"
 CONTRIB_NB_TEST = Path(__file__).name.split('-')[0]
 
 THIS_DIR    = Path(__file__).parent
 CONTRIB_DIR = Path(__file__).parent
 
 
-# ----------------- #
-# -- LET'S WORK! -- #
-# ----------------- #
+# ------------------ #
+# -- YAML TO CODE -- #
+# ------------------ #
 
-# contexts_added = copy_paste_codes(
-#     this_dir    = THIS_DIR,
-#     contrib_dir = CONTRIB_FOLDER,
-#     context     = CONTRIB_CTXT,
-# )
+print(f"{ITEM_1} Codes for block: creation or update.")
 
-# if contexts_added:
-#     missing_unit_tests(
-#         this_dir       = THIS_DIR,
-#         contrib_dir    = CONTRIB_FOLDER,
-#         context        = CONTRIB_CTXT,
-#         nb_test        = CONTRIB_NB_TEST,
-#         contexts_added = contexts_added
-#     )
+(
+    projdir,
+    projname,
+    contribdir,
+    statusdir,
+    srcdir,
+    testsdir
+) = get_folders(
+    this_dir    = THIS_DIR,
+    contrib_dir = CONTRIB_FOLDER,
+    context     = CONTRIB_CTXT,
+    nbtest      = CONTRIB_NB_TEST,
+    subfolder   = CONTRIB_CTXT,
+)
+
+
+allfiles = get_accepted_paths(
+    contribdir,
+    statusdir,
+    subfolder = CONTRIB_CTXT,
+    ext       = 'yaml',
+)
+
+for p in allfiles:
+    print(f"{ITEM_2} [{CONTRIB_CTXT}]  {p.stem}")
+
+exit()
