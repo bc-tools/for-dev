@@ -2,6 +2,21 @@
 
 
 ==
+08  (0.0.0-beta.19)   ???
+==
+
+--------
+:fordev:
+--------
+
+[[:tech:]]   ???
+\Contribs for flavours: tools have been implemneted.
+
+
+// ---------- //
+
+
+==
 07  (0.0.0-beta.18)
 ==
 
@@ -10,11 +25,15 @@
 --------
 
 [[:tech:]]
-\Contribs: magic comments have changed.
+\Contribs for parsing tools.
 
-    1) For parsing tools, it is possible to target imports and constants (parser or mapper), and the human testing block is simply called `TESTS`.
+    1) Magic comments have changed.
 
-    1) For data classes, only the section `TESTS` is available. This is necessary due to the new responsibilities assigned to data classes, such as validation and normalization.
+        * For parsing tools, it is possible to target imports and constants (parser or mapper), and the human testing block is simply called `TESTS`.
+
+        * For data classes, only the section `TESTS` is available. This is necessary due to the new responsibilities assigned to data classes, such as validation and normalization.
+
+    1) Tools have been updated.
 
 
 // ---------- //

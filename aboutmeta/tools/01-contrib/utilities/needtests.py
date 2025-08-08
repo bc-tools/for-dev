@@ -18,8 +18,6 @@ def missing_unit_tests(
     nb_test,
     contexts_added
 ):
-    print(f"{ITEM_1} Unit test analysis.")
-
     (
         projdir,
         projname,
@@ -33,6 +31,10 @@ def missing_unit_tests(
         context,
         nb_test,
     )
+
+    testsdir_rel = testsdir.relative_to(projdir)
+
+    print(f"{ITEM_1} Verification of ''{testsdir_rel}''.")
 
 # Test files implemented.
     contexts_added  = contexts_added
