@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# from pprint import pprint
+# Rich colors: python -m rich.color
 
 from typing import Any
 
@@ -19,22 +19,16 @@ from yaml import safe_load
 # -- CONSTANTS -- #
 # --------------- #
 
-# TAB_1 = ' '*2
-# TAB_2 = TAB_1*2
-# TAB_3 = TAB_1*3
-
-# ITEM_1 = '+'
-# ITEM_2 = f'{TAB_1}*'
-# ITEM_3 = f'{TAB_2}-'
-# ITEM_4 = f'{TAB_3}-->'
-
-
 INIT_FILE    = "__init__.py"
 INIT_CONTENT = "#!/usr/bin/env python3\n"
 
 
 TAG_STATUS = "status"
 TAG_OK     = "ok"
+
+
+TAG_CRITICAL = "critical"
+TAG_WARNING  = "warning"
 
 
 # ------------------------------- #
@@ -97,6 +91,100 @@ def setup_logging(no_color = False) -> None:
     )
 
 
+
+
+
+
+
+class FileFormatter(logging.Formatter):
+    def format(self, record):
+        original_message = record.getMessage()
+        cleaned_message = re.sub(r'\[.*?\]', '', original_message)
+
+        record.msg = cleaned_message
+
+        formatted_message = super().format(record)
+
+        record.msg = original_message
+
+        return formatted_message
+
+
+class ColorFilter(logging.Filter):
+    def render_level(self, record):
+        # Colorer uniquement le niveau
+        levelname = record.levelname
+        if levelname == "INFO":
+            return f"[red][{levelname}][/red]"
+        elif levelname in ("ERROR", "CRITICAL"):
+            return f"[orange1][{levelname}][/orange1]"
+        else:
+            return f"[{levelname}]"
+
+    def filter(self, record):
+        original_levelname = record.levelname
+
+        if record.levelno >= logging.CRITICAL:
+            record.msg = f"[black on orange1]{record.msg}[/black on orange1]"
+
+        elif record.levelno >= logging.ERROR:
+            record.msg = f"[bright_red]{record.msg}[/bright_red]"
+
+        elif record.levelno >= logging.WARNING:
+            record.msg = f"[dark_goldenrod]{record.msg}[/dark_goldenrod]"
+
+        return True
+
+
+
+def setup_logging(no_color=False) -> None:
+    # Terminal handler
+    console = Console(
+        stderr=True,
+        color_system=None if no_color else "auto"
+    )
+
+    # File handler
+    file_handler = logging.FileHandler(
+        LOG_FILE,
+        mode="a"
+    )
+    file_handler.setLevel(logging.ERROR)
+
+    # Utilise le nouveau formateur personnalisé pour le fichier
+    file_formatter = FileFormatter(
+        "%(asctime)s [%(levelname)s] %(message)s"
+    )
+    file_handler.setFormatter(file_formatter)
+
+    term_handler = RichHandler(
+        console=console,
+        rich_tracebacks=True,
+        markup=True
+    )
+    term_handler.setLevel(logging.INFO)
+
+    # Apply global config
+    logging.basicConfig(
+        force=True,
+        level=logging.DEBUG,
+        handlers=[term_handler, file_handler],
+    )
+
+
+    # Appliquer le filtre UNIQUEMENT au gestionnaire de la console
+    term_handler.addFilter(ColorFilter())
+
+
+
+
+
+
+
+
+
+
+
 setup_logging()
 
 
@@ -104,7 +192,7 @@ def log_title(
     title,
     desc,
 ):
-    return f"{{{title.upper()}}}  {desc}"
+    return f"{title.upper()} - {desc}"
 
 
 # ----------- #
@@ -167,3 +255,16 @@ def get_accepted_paths(
     files.sort()
 
     return files
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+    setup_logging()
+    logging.info("One information.")
+    # logging.debug("Debugging?")
+    logging.warning("One warning!")
+    logging.error("An error!")
+    logging.critical("A critical error!")

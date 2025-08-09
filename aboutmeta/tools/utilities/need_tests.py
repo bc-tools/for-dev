@@ -39,7 +39,7 @@ def missing_unit_tests(
 # Test files implemented.
     contexts_added  = contexts_added
     contexts_tested = {
-        tf.parent.name
+        tf.name
         for tf in testsdir.glob("**/test_*.py")
     }
 
@@ -52,31 +52,40 @@ def missing_unit_tests(
         print_pbs(
             context = context,
             tests   = contexts_added - contexts_tested,
-            kind    = "missing"
+            kind    = "missing",
+            level   = TAG_CRITICAL,
         )
 
 # Extra tests?
         print_pbs(
             context = context,
             tests   = contexts_tested - contexts_added,
-            kind    = "extra"
+            kind    = "extra",
+            level   = TAG_WARNING,
         )
 
 
 def print_pbs(
     context,
     tests,
-    kind
+    kind,
+    level
 ):
     if tests:
+        log_print = (
+            logging.warning
+            if level == TAG_WARNING else
+            logging.critical
+        )
+
         plurial = '' if len(tests) == 1 else 's'
 
-        logging.error(
+        log_print(
             log_title(
-                title = context,
-                desc  = f"{kind.title()} test{plurial}."
+                title = f"{context} testing",
+                desc  = f"{kind.title()} one{plurial}."
             )
         )
 
         for t in sorted(list(tests)):
-            logging.error(f"{t}.")
+            log_print(f"{t}.")

@@ -136,10 +136,10 @@ def copy_paste_codes(
         if xtra_files:
             plurial = "s" if len(xtra_files) != 1 else ""
 
-            logging.info(f"Extra file{plurial} used.")
+            logging.warning(f"Extra file{plurial} used.")
 
             for xfile in xtra_files:
-                logging.info(f"{xfile.name}")
+                logging.warning(f"{xfile.name}")
 
                 src_file = srcdir / xfile.name
                 src_file.touch()

@@ -52,6 +52,11 @@ allfiles = get_accepted_paths(
 
 
 for p in allfiles:
-     logging.info(f"{{{CONTRIB_CTXT}}}  {p.stem}")
+     logging.info(
+        log_title(
+            title = CONTRIB_CTXT,
+            desc  = p.stem
+        )
+    )
 
 exit()
