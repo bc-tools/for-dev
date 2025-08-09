@@ -145,14 +145,22 @@ def copy_paste_codes(
                 src_file.touch()
                 src_file.write_text(xfile.read_text() + "\n")
 
-# Nothing left expect the addition of an ''__init__.py'' file.
-    initfile = srcdir / INIT_FILE
-
-    initfile.touch()
-    initfile.write_text(INIT_CONTENT)
+# Nothing left expect the possible addition of an ''__init__.py'' file.
+    add_missing_init(srcdir)
 
 # Need of list of the source file names for unit test management.
     return contexts_added
+
+
+def add_missing_init(srcdir):
+    # Nothing left expect the addition of an ''__init__.py'' file.
+    initfile = srcdir / INIT_FILE
+
+    if not initfile.is_file():
+        initfile.touch()
+        initfile.write_text(INIT_CONTENT)
+
+        logging.info("__init__.py file added.")
 
 
 def get_code_parts(file, context, sections_ignored):

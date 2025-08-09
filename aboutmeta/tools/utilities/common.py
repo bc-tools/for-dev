@@ -14,6 +14,12 @@ import                  re
 import           tomli
 from yaml import safe_load
 
+from black import (
+    format_file_in_place,
+    FileMode,
+    WriteBack
+)
+
 
 # --------------- #
 # -- CONSTANTS -- #
@@ -39,88 +45,24 @@ LOG_FILE = "tools.log"
 
 
 ###
-# prototype::
-#     no_color  : set to ''False'', the log information will be
-#                 printed in color; otherwise, it will be printed
-#                 in black and white.
-#
-#     :action: the function lives up to its name...
+# XXXXXXX
 ###
-def setup_logging(no_color = False) -> None:
-# Terminal handler
-#
-# ''color_system = "quto"'' detects whether the output is a real
-# terminal. If not—such as when output is redirected via a pipe—no
-# color is used.
-    console = Console(
-        stderr       = True,
-        color_system = None if no_color else "auto"
-    )
-
-# ''markup = True'' allows to use the formatting markup language
-# of rich.
-    term_handler = RichHandler(
-        console         = console,
-        rich_tracebacks = True,
-        markup          = True
-    )
-    term_handler.setLevel(logging.INFO)
-
-# File handler
-    file_handler = logging.FileHandler(
-        LOG_FILE,
-        mode = "a"
-    )
-    file_handler.setLevel(logging.ERROR)
-
-    file_formatter = logging.Formatter(
-        "%(asctime)s [%(levelname)s] %(message)s"
-    )
-    file_handler.setFormatter(file_formatter)
-
-# Apply global config
-    logging.basicConfig(
-# Resetting configurations
-        force    = True,
-# Lowest level for taking our levels into account.
-        level    = logging.DEBUG,
-        handlers = [
-            term_handler,
-            file_handler
-        ],
-    )
-
-
-
-
-
-
-
 class FileFormatter(logging.Formatter):
     def format(self, record):
         original_message = record.getMessage()
-        cleaned_message = re.sub(r'\[.*?\]', '', original_message)
+        cleaned_message  = re.sub(r'\[.*?\]', '', original_message)
 
-        record.msg = cleaned_message
-
+        record.msg        = cleaned_message
         formatted_message = super().format(record)
-
-        record.msg = original_message
+        record.msg        = original_message
 
         return formatted_message
 
 
+###
+# XXXXXXX
+###
 class ColorFilter(logging.Filter):
-    def render_level(self, record):
-        # Colorer uniquement le niveau
-        levelname = record.levelname
-        if levelname == "INFO":
-            return f"[red][{levelname}][/red]"
-        elif levelname in ("ERROR", "CRITICAL"):
-            return f"[orange1][{levelname}][/orange1]"
-        else:
-            return f"[{levelname}]"
-
     def filter(self, record):
         original_levelname = record.levelname
 
@@ -136,27 +78,38 @@ class ColorFilter(logging.Filter):
         return True
 
 
-
-def setup_logging(no_color=False) -> None:
-    # Terminal handler
+###
+# prototype::
+#     no_color  : set to ''False'', the log information will be
+#                 printed in color; otherwise, it will be printed
+#                 in black and white.
+#
+#     :action: the function lives up to its name...
+###
+def setup_logging(no_color = False) -> None:
+# Terminal handler
+#
+# ''color_system = "quto"'' detects whether the output is a real
+# terminal. If not—such as when output is redirected via a pipe—no
+# color is used
     console = Console(
         stderr=True,
         color_system=None if no_color else "auto"
     )
 
-    # File handler
+# File handler
     file_handler = logging.FileHandler(
         LOG_FILE,
         mode="a"
     )
     file_handler.setLevel(logging.ERROR)
 
-    # Utilise le nouveau formateur personnalisé pour le fichier
     file_formatter = FileFormatter(
         "%(asctime)s [%(levelname)s] %(message)s"
     )
     file_handler.setFormatter(file_formatter)
 
+# Terminal handler
     term_handler = RichHandler(
         console=console,
         rich_tracebacks=True,
@@ -164,30 +117,28 @@ def setup_logging(no_color=False) -> None:
     )
     term_handler.setLevel(logging.INFO)
 
-    # Apply global config
+# Apply global config
     logging.basicConfig(
+# Resetting configurations
         force=True,
-        level=logging.DEBUG,
+        level=logging.INFO,
         handlers=[term_handler, file_handler],
     )
 
-
-    # Appliquer le filtre UNIQUEMENT au gestionnaire de la console
+# Appliquer le filtre UNIQUEMENT au gestionnaire de la console
     term_handler.addFilter(ColorFilter())
 
 
 
-
-
-
-
-
-
-
-
+###
+# XXXXXXX
+###
 setup_logging()
 
 
+###
+# XXXXXXX
+###
 def log_title(
     title,
     desc,

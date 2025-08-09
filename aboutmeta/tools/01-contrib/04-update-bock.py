@@ -5,9 +5,8 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from utilities.cnp_code   import *
-from utilities.need_tests import *
-
+from utilities.cnp_code  import *
+from utilities.yaml2code import *
 
 # --------------- #
 # -- CONSTANTS -- #
@@ -42,7 +41,6 @@ logging.info("Codes for block: creation or update.")
     subfolder   = CONTRIB_CTXT,
 )
 
-
 allfiles = get_accepted_paths(
     contribdir,
     statusdir,
@@ -50,13 +48,8 @@ allfiles = get_accepted_paths(
     ext       = 'yaml',
 )
 
-
-for p in allfiles:
-     logging.info(
-        log_title(
-            title = CONTRIB_CTXT,
-            desc  = p.stem
-        )
-    )
-
-exit()
+build_python_block_codes(
+    context    = CONTRIB_CTXT,
+    srcdir     = srcdir,
+    yaml_files = allfiles,
+)
