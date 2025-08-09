@@ -63,7 +63,7 @@ def copy_paste_codes(
     contrib_dir,
     context,
 ):
-    print(f"{ITEM_1} Source code: creation or update.")
+    logging.info("Source code: creation or update.")
 
     (
         projdir,
@@ -85,7 +85,7 @@ def copy_paste_codes(
     )
 
     if not allfiles:
-        print(f"{ITEM_2} No file found!")
+        logging.warning("No file found!")
 
         return []
 
@@ -104,7 +104,12 @@ def copy_paste_codes(
 
         something_done = True
 
-        print(f"{ITEM_2} [{context}]  {file.name}")
+        logging.info(
+            log_title(
+                title = context,
+                desc  = file.name
+            )
+        )
 
 # Final source code.
         final_code = get_final_code(
@@ -131,10 +136,10 @@ def copy_paste_codes(
         if xtra_files:
             plurial = "s" if len(xtra_files) != 1 else ""
 
-            print(f"{ITEM_3} Extra file{plurial} used.")
+            logging.info(f"Extra file{plurial} used.")
 
             for xfile in xtra_files:
-                print(f"{ITEM_4} {xfile.name}")
+                logging.info(f"{xfile.name}")
 
                 src_file = srcdir / xfile.name
                 src_file.touch()

@@ -34,7 +34,7 @@ def missing_unit_tests(
 
     testsdir_rel = testsdir.relative_to(projdir)
 
-    print(f"{ITEM_1} Verification of ''{testsdir_rel}''.")
+    logging.info(f"Verification of ''{testsdir_rel}''.")
 
 # Test files implemented.
     contexts_added  = contexts_added
@@ -45,7 +45,7 @@ def missing_unit_tests(
 
 # No problem.
     if contexts_added == contexts_tested:
-        print(f"{ITEM_2} Nothing to declare.")
+        logging.info(f"Nothing to declare.")
 
     else:
 # Missing tests?
@@ -71,7 +71,12 @@ def print_pbs(
     if tests:
         plurial = '' if len(tests) == 1 else 's'
 
-        print(f"{ITEM_2} [{context}]  {kind.title()} test{plurial}.")
+        logging.error(
+            log_title(
+                title = context,
+                desc  = f"{kind.title()} test{plurial}."
+            )
+        )
 
         for t in sorted(list(tests)):
-            print(f"{ITEM_3} {t}.")
+            logging.error(f"{t}.")

@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 
-from utilities.common import *
+from pathlib import Path
+import              sys
+
+sys.path.append(str(Path(__file__).parent.parent))
+
+from utilities.cnp_code   import *
+from utilities.need_tests import *
 
 
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
-
 
 CONTRIB_CTXT    = "block"
 CONTRIB_FOLDER  = "block-n-flavour"
@@ -20,7 +25,7 @@ CONTRIB_DIR = Path(__file__).parent
 # -- YAML TO CODE -- #
 # ------------------ #
 
-print(f"{ITEM_1} Codes for block: creation or update.")
+logging.info("Codes for block: creation or update.")
 
 (
     projdir,
@@ -45,7 +50,8 @@ allfiles = get_accepted_paths(
     ext       = 'yaml',
 )
 
+
 for p in allfiles:
-    print(f"{ITEM_2} [{CONTRIB_CTXT}]  {p.stem}")
+     logging.info(f"{{{CONTRIB_CTXT}}}  {p.stem}")
 
 exit()

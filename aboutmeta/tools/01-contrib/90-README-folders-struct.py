@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 
-from utilities.common import *
+from pathlib import Path
+import              sys
+
+sys.path.append(str(Path(__file__).parent.parent))
+
+from utilities.cnp_code   import *
+from utilities.need_tests import *
 
 
 # --------------- #
@@ -23,9 +29,9 @@ TAG_STRUCT_END   = TEMPL_TAG_STRUCT.format("END")
 # -- LET'S WORK! -- #
 # ----------------- #
 
-print(f"{ITEM_1} Update ''{README_FILE.relative_to(SRC_DIR)}''.")
+logging.info(f"Update ''{README_FILE.relative_to(SRC_DIR)}''.")
 
-print(f"{ITEM_2} Contrib. treeview.")
+logging.info(f"Contrib. treeview.")
 
 
 content = README_FILE.read_text()

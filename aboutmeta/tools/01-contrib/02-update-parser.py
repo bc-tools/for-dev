@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
-from utilities.srccode   import *
-from utilities.needtests import *
+from pathlib import Path
+import              sys
+
+sys.path.append(str(Path(__file__).parent.parent))
+
+from utilities.cnp_code   import *
+from utilities.need_tests import *
 
 
 # --------------- #
