@@ -5,8 +5,9 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from utilities.cnp_code  import *
-from utilities.yaml2code import *
+from utilities.cnp_code   import *
+from utilities.need_tests import *
+from utilities.yaml2code  import *
 
 # --------------- #
 # -- CONSTANTS -- #
@@ -48,8 +49,17 @@ allfiles = get_accepted_paths(
     ext       = 'yaml',
 )
 
-build_python_block_codes(
+codes_added = build_block_pycodes(
     context    = CONTRIB_CTXT,
     srcdir     = srcdir,
     yaml_files = allfiles,
 )
+
+if codes_added:
+    missing_unit_tests(
+        this_dir    = THIS_DIR,
+        contrib_dir = CONTRIB_FOLDER,
+        context     = CONTRIB_CTXT,
+        nbtest      = CONTRIB_NB_TEST,
+        codes_added = codes_added
+    )

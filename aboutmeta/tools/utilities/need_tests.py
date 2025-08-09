@@ -15,8 +15,8 @@ def missing_unit_tests(
     this_dir,
     contrib_dir,
     context,
-    nb_test,
-    contexts_added
+    nbtest,
+    codes_added
 ):
     (
         projdir,
@@ -29,7 +29,7 @@ def missing_unit_tests(
         this_dir,
         contrib_dir,
         context,
-        nb_test,
+        nbtest,
     )
 
     testsdir_rel = testsdir.relative_to(projdir)
@@ -37,21 +37,21 @@ def missing_unit_tests(
     logging.info(f"Verification of ''{testsdir_rel}''.")
 
 # Test files implemented.
-    contexts_added  = contexts_added
+    codes_added  = codes_added
     contexts_tested = {
         tf.name
         for tf in testsdir.glob("**/test_*.py")
     }
 
 # No problem.
-    if contexts_added == contexts_tested:
+    if codes_added == contexts_tested:
         logging.info(f"Nothing to declare.")
 
     else:
 # Missing tests?
         print_pbs(
             context = context,
-            tests   = contexts_added - contexts_tested,
+            tests   = codes_added - contexts_tested,
             kind    = "missing",
             level   = TAG_CRITICAL,
         )
@@ -59,7 +59,7 @@ def missing_unit_tests(
 # Extra tests?
         print_pbs(
             context = context,
-            tests   = contexts_tested - contexts_added,
+            tests   = contexts_tested - codes_added,
             kind    = "extra",
             level   = TAG_WARNING,
         )

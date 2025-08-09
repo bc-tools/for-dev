@@ -23,17 +23,17 @@ THIS_DIR = Path(__file__).parent
 # -- LET'S WORK! -- #
 # ----------------- #
 
-contexts_added = copy_paste_codes(
+codes_added = copy_paste_codes(
     this_dir    = THIS_DIR,
     contrib_dir = CONTRIB_FOLDER,
     context     = CONTRIB_CTXT,
 )
 
-if contexts_added:
+if codes_added:
     missing_unit_tests(
-        this_dir       = THIS_DIR,
-        contrib_dir    = CONTRIB_FOLDER,
-        context        = CONTRIB_CTXT,
-        nb_test        = CONTRIB_NB_TEST,
-        contexts_added = contexts_added
+        this_dir    = THIS_DIR,
+        contrib_dir = CONTRIB_FOLDER,
+        context     = CONTRIB_CTXT,
+        nbtest      = CONTRIB_NB_TEST,
+        codes_added = codes_added
     )

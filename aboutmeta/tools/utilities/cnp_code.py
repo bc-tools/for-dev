@@ -89,7 +89,7 @@ def copy_paste_codes(
 
         return []
 
-    contexts_added = set()
+    codes_added = set()
 
     for file in allfiles:
 # Source code parts.
@@ -128,7 +128,7 @@ def copy_paste_codes(
         src_file.touch()
         src_file.write_text(final_code + "\n")
 
-        contexts_added.add(file.stem)
+        codes_added.add(file.stem)
 
 # Extra files?
         xtra_files = get_xtra_files(file, context)
@@ -149,7 +149,7 @@ def copy_paste_codes(
     add_missing_init(srcdir)
 
 # Need of list of the source file names for unit test management.
-    return contexts_added
+    return codes_added
 
 
 def add_missing_init(srcdir):
