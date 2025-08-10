@@ -476,6 +476,7 @@ def build_block_pycodes(
             add_block_pyfile(
                 srcdir / pfile,
                 specs,
+                all_keys
             )
 
 # Nothing left expect the possible addition of an ''__init__.py'' file.
@@ -599,6 +600,7 @@ def add_csts_files(
 def add_block_pyfile(
     pfile,
     specs,
+    all_keys
 ):
     allvars         = copy(globals())
 
@@ -620,5 +622,8 @@ def add_block_pyfile(
         lambda m: f"TAG_SPECS_PARSER: {m.group(2)}_parse",
         code
     )
+
+    for k in all_keys:
+        code = code.replace(f"'{k}'", f"TAG_KEY_{k}")
 
     add_black_pyfile(code, pfile)

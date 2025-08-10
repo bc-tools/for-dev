@@ -17,107 +17,107 @@ SPECS = {
     TAG_SPECS_TYPE: TAG_SPECS_BLOCK,
     TAG_SPECS_CONTENT: {
         TAG_SPECS_ALT_ALL: (
-            "author",
-            "authors",
-            "codename",
-            "contrib",
-            "contribs",
-            "doctitle",
+            TAG_KEY_author,
+            TAG_KEY_authors,
+            TAG_KEY_codename,
+            TAG_KEY_contrib,
+            TAG_KEY_contribs,
+            TAG_KEY_doctitle,
         ),
         TAG_SPECS_ALT_TUPLES: (
-            ("author", "authors"),
-            ("codename", "doctitle"),
-            ("contrib", "contribs"),
+            (TAG_KEY_author, TAG_KEY_authors),
+            (TAG_KEY_codename, TAG_KEY_doctitle),
+            (TAG_KEY_contrib, TAG_KEY_contribs),
         ),
-        "version": {
+        TAG_KEY_version: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: False,
             TAG_SPECS_PARSER: sem_version_parse,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: False,
         },
-        "date": {
+        TAG_KEY_date: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: False,
             TAG_SPECS_PARSER: date_parse,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: False,
         },
-        "acronym": {
+        TAG_KEY_acronym: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: False,
             TAG_SPECS_PARSER: None,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: False,
         },
-        "codename": {
+        TAG_KEY_codename: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: False,
             TAG_SPECS_PARSER: None,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: False,
         },
-        "doctitle": {
+        TAG_KEY_doctitle: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: False,
             TAG_SPECS_PARSER: None,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: False,
         },
-        "desc": {
+        TAG_KEY_desc: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: False,
             TAG_SPECS_PARSER: None,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: True,
         },
-        "author": {
+        TAG_KEY_author: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: False,
             TAG_SPECS_PARSER: person_parse,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: False,
         },
-        "authors": {
+        TAG_KEY_authors: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: True,
             TAG_SPECS_PARSER: person_parse,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: False,
         },
-        "contrib": {
+        TAG_KEY_contrib: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: False,
             TAG_SPECS_PARSER: person_parse,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: False,
         },
-        "contribs": {
+        TAG_KEY_contribs: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: True,
             TAG_SPECS_PARSER: person_parse,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: False,
         },
-        "urls": {
+        TAG_KEY_urls: {
             TAG_SPECS_TYPE: TAG_SPECS_BLOCK,
             TAG_SPECS_CONTENT: {
                 TAG_SPECS_ALT_ALL: None,
-                "home": {
+                TAG_KEY_home: {
                     TAG_SPECS_TYPE: TAG_SPECS_DATA,
                     TAG_SPECS_LIST_OF: False,
                     TAG_SPECS_PARSER: url_parse,
                     TAG_SPECS_POST_PROD: False,
                     TAG_SPECS_REQUIRED: False,
                 },
-                "dev": {
+                TAG_KEY_dev: {
                     TAG_SPECS_TYPE: TAG_SPECS_DATA,
                     TAG_SPECS_LIST_OF: False,
                     TAG_SPECS_PARSER: url_parse,
                     TAG_SPECS_POST_PROD: False,
                     TAG_SPECS_REQUIRED: False,
                 },
-                "issues": {
+                TAG_KEY_issues: {
                     TAG_SPECS_TYPE: TAG_SPECS_DATA,
                     TAG_SPECS_LIST_OF: False,
                     TAG_SPECS_PARSER: url_parse,
@@ -127,18 +127,18 @@ SPECS = {
             },
             TAG_SPECS_REQUIRED: False,
         },
-        "licenses": {
+        TAG_KEY_licenses: {
             TAG_SPECS_TYPE: TAG_SPECS_BLOCK,
             TAG_SPECS_CONTENT: {
                 TAG_SPECS_ALT_ALL: None,
-                "code": {
+                TAG_KEY_code: {
                     TAG_SPECS_TYPE: TAG_SPECS_DATA,
                     TAG_SPECS_LIST_OF: False,
                     TAG_SPECS_PARSER: license_parse,
                     TAG_SPECS_POST_PROD: False,
                     TAG_SPECS_REQUIRED: False,
                 },
-                "manual": {
+                TAG_KEY_manual: {
                     TAG_SPECS_TYPE: TAG_SPECS_DATA,
                     TAG_SPECS_LIST_OF: False,
                     TAG_SPECS_PARSER: license_parse,
@@ -148,18 +148,18 @@ SPECS = {
             },
             TAG_SPECS_REQUIRED: False,
         },
-        "langs": {
+        TAG_KEY_langs: {
             TAG_SPECS_TYPE: TAG_SPECS_BLOCK,
             TAG_SPECS_CONTENT: {
                 TAG_SPECS_ALT_ALL: None,
-                "doc": {
+                TAG_KEY_doc: {
                     TAG_SPECS_TYPE: TAG_SPECS_DATA,
                     TAG_SPECS_LIST_OF: False,
                     TAG_SPECS_PARSER: lang_parse,
                     TAG_SPECS_POST_PROD: False,
                     TAG_SPECS_REQUIRED: False,
                 },
-                "manual": {
+                TAG_KEY_manual: {
                     TAG_SPECS_TYPE: TAG_SPECS_DATA,
                     TAG_SPECS_LIST_OF: False,
                     TAG_SPECS_PARSER: lang_parse,
@@ -169,14 +169,14 @@ SPECS = {
             },
             TAG_SPECS_REQUIRED: False,
         },
-        "require": {
+        TAG_KEY_require: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: True,
             TAG_SPECS_PARSER: None,
             TAG_SPECS_POST_PROD: False,
             TAG_SPECS_REQUIRED: False,
         },
-        "keywords": {
+        TAG_KEY_keywords: {
             TAG_SPECS_TYPE: TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF: True,
             TAG_SPECS_PARSER: None,
