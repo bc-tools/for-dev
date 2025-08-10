@@ -629,8 +629,6 @@ def add_block_pyfile(
     ]:
         code = code.replace(old, new)
 
-    print(code)
-
     code = PATTERN_PARSER_IN_PYSPECS.sub(
         lambda m: f"TAG_SPECS_PARSER: {m.group(2)}_parse",
         code

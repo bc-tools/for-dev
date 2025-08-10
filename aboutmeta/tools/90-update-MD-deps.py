@@ -36,6 +36,8 @@ logging.info(
     )
 )
 
+logging.info(f"Update deps.")
+
 with TOML_PYPROJ_FILE.open("rb") as f:
     data = tomli.load(f)
 
