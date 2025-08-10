@@ -5,6 +5,11 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+gestiond es helpers
+
+
+> ---------------------------- <
+
 magic comment aussi pour les dataclass ????
 
 just tests qui sera virer dans le code src

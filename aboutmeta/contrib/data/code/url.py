@@ -155,9 +155,9 @@ class URL(DataPrinter):
         return nb_pbs
 
 
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
+# ----------- #
+# -- TESTS -- #
+# ----------- #
 
 if __name__ == "__main__":
     for std in [
