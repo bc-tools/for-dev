@@ -17,9 +17,15 @@ def missing_unit_tests(
     projdir,
     testsdir,
 ):
-    testsdir_rel = testsdir.relative_to(projdir)
+    logging.info(f"{context.upper()} Tests needed.")
 
-    logging.info(f"Verification of '{testsdir_rel}'.")
+# Inexistent folder.
+    if not testsdir.is_dir():
+        logging.critical(f"Missing folder: '{testsdir}'")
+
+        add_missing_dir(testsdir)
+
+        return
 
 # Test files implemented.
     codes_added  = codes_added

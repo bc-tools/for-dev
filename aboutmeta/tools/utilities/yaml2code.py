@@ -455,6 +455,10 @@ def build_block_pycodes(
     yaml_files,
     srcdir,
 ):
+    logging.info(
+       f"{context.upper()} - Validating YAML contribs."
+    )
+
 # All the existent parsing tools.
     parsing_tools = get_all_parsing_tools(srcdir.parent)
 
@@ -466,17 +470,17 @@ def build_block_pycodes(
     for yfile in yaml_files:
         yfile_stem = yfile.stem
 
-        if yfile_stem == TAG_CONSTANTS:
+        if yfile_stem in ILLEGAL_MAIN_BLOCK_NAMES:
             raise_validation_error(
                 '',
                 yfile.name,
-                "illegal name for a block."
+                "illegal name for a main block."
             )
 
         logging.info(
             log_title(
                 title = context,
-                desc  = yfile_stem
+                desc  = yfile.name
             )
         )
 
@@ -493,26 +497,20 @@ def build_block_pycodes(
 
         codes_added.add(yfile_stem)
 
-# Creation/update ''constants.py'' file.
-    logging.info(
-        message_creation_update([
-            CONSTANTS_FILE,
-            SIGNS_FILE
-        ])
-    )
+# Let's build Python codes.
+    logging.info(message_creation_update(context))
 
     add_missing_dir(srcdir)
 
+# Creation/update ''constants.py'' & ''signatures.py'' files.
     add_csts_file(
         parsing_tools,
-        srcdir / CONSTANTS_FILE,
+        srcdir,
     )
 
 # Creation/update block Python files.
     for pfile, specs in specs.items():
-        logging.info(
-            message_creation_update(pfile)
-        )
+        logging.info(f"{context.upper()} - {pfile}")
 
         add_block_pyfile(
             srcdir / pfile,
@@ -537,9 +535,9 @@ def get_metatags(vals = META_TAGS):
 
 def add_csts_file(
     parsing_tools,
-    constants_file,
+    srcdir,
 ):
-    proj_srcdir = constants_file.parent.parent
+    proj_srcdir = srcdir.parent
 
 # Specific tags.
     metatags_code = [
@@ -600,16 +598,26 @@ def add_csts_file(
             vname
         )
 
-
+# ''constants.py'' file.
     code = TEMPL_CSTS.format(
         imports_code      = '\n'.join(imports_code),
         metatags_code     = '\n'.join(metatags_code),
-        signs_dict_code   = signs_dict_code,
     )
 
+    add_black_pyfile(
+        code,
+        srcdir / CONSTANTS_FILE
+    )
 
+# ''signatures.py'' file.
+    code = TEMPL_SIGNS.format(
+        signs_dict_code = signs_dict_code,
+    )
 
-    add_black_pyfile(code, constants_file)
+    add_black_pyfile(
+        code,
+        srcdir / SIGNS_FILE
+    )
 
 
 def add_block_pyfile(

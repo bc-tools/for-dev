@@ -48,16 +48,22 @@ allfiles = get_accepted_paths(
     ext        = 'yaml',
 )
 
-codes_added = build_block_pycodes(
-    context    = CONTRIB_CTXT,
-    srcdir     = srcdir,
-    yaml_files = allfiles,
-)
+# Nothing added...
+if not allfiles:
+    logging.warning("No file found!")
 
-if codes_added:
-    missing_unit_tests(
-        context     = CONTRIB_CTXT,
-        codes_added = codes_added,
-        projdir     = projdir,
-        testsdir    = testsdir,
+# We have to work.
+else:
+    codes_added = build_block_pycodes(
+        context    = CONTRIB_CTXT,
+        srcdir     = srcdir,
+        yaml_files = allfiles,
     )
+
+    if codes_added:
+        missing_unit_tests(
+            context     = CONTRIB_CTXT,
+            codes_added = codes_added,
+            projdir     = projdir,
+            testsdir    = testsdir,
+        )

@@ -13,8 +13,6 @@ from utilities.need_tests import *
 # -- CONSTANTS -- #
 # --------------- #
 
-CONTRIB_NB_TEST = Path(__file__).name.split('-')[0]
-
 THIS_DIR = Path(__file__).parent
 
 CONTRIBS_INFOS = [
@@ -41,5 +39,5 @@ for nbtest, (context, contrib_dir_name) in enumerate(
         this_dir         = THIS_DIR,
         contrib_dir_name = contrib_dir_name,
         check_tests      = True,
-        nbtest           = CONTRIB_NB_TEST,
+        nbtest           = nbtest,
     )

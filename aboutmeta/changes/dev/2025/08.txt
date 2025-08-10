@@ -2,15 +2,15 @@
 
 
 ==
-??????????  (0.0.0-beta.20)
+10  (0.0.0-beta.20)
 ==
 
 --------
 :fordev:
 --------
 
-[[:tech:]]      ??????????
-\Contribs for flavours: tools have been implemented.
+[[:tech:]]
+\Contribs for blocks: a path::''signatures.py'' file gives the signatures of all the parsers and the mappers.
 
 
 // ---------- //

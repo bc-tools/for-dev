@@ -65,10 +65,6 @@ def copy_paste_codes(
     check_tests = False,
     nbtest      = 0,
 ):
-    logging.info(
-        message_creation_update(f"{context.upper()} codes")
-    )
-
     (
         projdir,
         projname,
@@ -92,7 +88,12 @@ def copy_paste_codes(
     if not allfiles:
         logging.warning("No file found!")
 
-        return []
+        return
+
+# Let's build Python codes.
+    logging.info(message_creation_update(context))
+
+    add_missing_dir(srcdir)
 
     codes_added = set()
 
@@ -123,8 +124,6 @@ def copy_paste_codes(
         )
 
 # Lets's update the source code.
-        add_missing_dir(srcdir)
-
         src_file = srcdir / file.name
         src_file.touch()
         src_file.write_text(final_code + "\n")

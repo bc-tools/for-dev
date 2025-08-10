@@ -30,11 +30,13 @@ from black import (
 INIT_FILE    = "__init__.py"
 INIT_CONTENT = "#!/usr/bin/env python3\n"
 
-TAG_CONSTANTS  = "constants"
-CONSTANTS_FILE = f"{TAG_CONSTANTS}.py"
+ILLEGAL_MAIN_BLOCK_NAMES = set([
+    TAG_CONSTANTS:= "constants",
+    TAG_SIGNS    := "signatures",
+])
 
-TAG_SIGNS  = "signatures"
-SIGNS_FILE = f"{TAG_SIGNS}.py"
+CONSTANTS_FILE = f"{TAG_CONSTANTS}.py"
+SIGNS_FILE     = f"{TAG_SIGNS}.py"
 
 TAG_STATUS = "status"
 TAG_OK     = "ok"
@@ -88,7 +90,7 @@ class ColorFilter(logging.Filter):
         original_levelname = record.levelname
 
         if record.levelno >= logging.CRITICAL:
-            record.msg = f"[black on orange1]{record.msg}[/black on orange1]"
+            record.msg = f"[black on wheat1]{record.msg}[/black on wheat1]"
 
         elif record.levelno >= logging.ERROR:
             record.msg = f"[bright_red]{record.msg}[/bright_red]"
@@ -172,15 +174,8 @@ def log_title(
 ###
 # XXXXXXX
 ###
-def message_creation_update(files):
-    if isinstance(files, str):
-        what = files
-
-    else:
-        what = ','.join(f"'{f}'" for f in files[:-1])
-        what = f' & {files[-1]}'
-
-    return f"{what}: creation or update."
+def message_creation_update(context):
+    return f"{context.upper()} codes: creation or update."
 
 
 # ----------- #
@@ -200,7 +195,7 @@ def get_folders(
     contribdir = projdir / "contrib" / contrib_dir_name / subfolder
     statusdir  = contribdir.parent / "status"
     srcdir     = projdir / "src" / projname / context
-    testsdir   = projdir / "tests" / f"{nbtest}-{context}"
+    testsdir   = projdir / "tests" / f"{nbtest:02d}-{context}"
 
     return (
         projdir,
@@ -250,15 +245,18 @@ def get_accepted_paths(
     return files
 
 
-# ----------- #
-# -- FILES -- #
-# ----------- #
+# --------------------- #
+# -- FOLDERS / FILES -- #
+# --------------------- #
 
 def add_missing_dir(dirpath):
-    dirpath.mkdir(
-        parents  = True,
-        exist_ok = True
-    )
+    if not dirpath.is_dir():
+        dirpath.mkdir(
+            parents  = True,
+            exist_ok = True
+        )
+
+        logging.warning(f"Folder added: '{dirpath}'")
 
 
 def add_missing_init(srcdir):
