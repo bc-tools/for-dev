@@ -41,6 +41,8 @@ PARSING_FOLDERS = [
 
 PATTERN_PARSER_IN_PYSPECS = re.compile(r"TAG_SPECS_PARSER: ('([a-zA-Z_]+)')")
 
+PATTERN_MAPPER_IN_PYSPECS = re.compile(r"TAG_SPECS_MAPPER: ('([a-zA-Z_]+)')")
+
 
 # --------------- #
 # -- TEMPLATES -- #
@@ -311,11 +313,13 @@ def build_single_pyspec(
 
         last_parser = val_not_list
 
+        use_post_prod = last_parser if use_post_prod else ''
+
         this_specs = {
             TAG_SPECS_TYPE     : TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF  : is_list_of,
             TAG_SPECS_PARSER   : last_parser,
-            TAG_SPECS_POST_PROD: use_post_prod,
+            TAG_SPECS_MAPPER: use_post_prod,
         }
 
 # A sub block.
@@ -374,7 +378,7 @@ def validate_pyspecs(
             )
 
         if (
-            pyspecs[TAG_SPECS_POST_PROD]
+            pyspecs[TAG_SPECS_MAPPER]
             and
             parser not in parsing_tools[MAPPER_SUBDIR]
         ):
@@ -613,17 +617,31 @@ def add_block_pyfile(
     for vname in get_metatags(allvars):
         code = code.replace(f"{allvars[vname]!r}", vname)
 
-    code = code.replace(
-        "TAG_SPECS_PARSER: 'str'",
-        "TAG_SPECS_PARSER: None",
-    )
+    for old, new in [
+        (
+            "TAG_SPECS_PARSER: 'str'",
+            "TAG_SPECS_PARSER: None",
+        ),
+        (
+            "TAG_SPECS_MAPPER: ''",
+            "TAG_SPECS_MAPPER: None",
+        ),
+    ]:
+        code = code.replace(old, new)
+
+    print(code)
 
     code = PATTERN_PARSER_IN_PYSPECS.sub(
         lambda m: f"TAG_SPECS_PARSER: {m.group(2)}_parse",
         code
     )
 
+    code = PATTERN_MAPPER_IN_PYSPECS.sub(
+        lambda m: f"TAG_SPECS_MAPPER: {m.group(2)}_map",
+        code
+    )
+
     for k in all_keys:
-        code = code.replace(f"'{k}'", f"TAG_KEY_{k}")
+        code = code.replace(f"'{k}'", f"TAG_KEY_{k.upper()}")
 
     add_black_pyfile(code, pfile)

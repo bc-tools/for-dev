@@ -17,5 +17,5 @@ SPECS = {
     TAG_SPECS_TYPE: TAG_SPECS_DATA,
     TAG_SPECS_LIST_OF: True,
     TAG_SPECS_PARSER: virtual_path_parse,
-    TAG_SPECS_POST_PROD: True,
+    TAG_SPECS_MAPPER: virtual_path_map,
 }
