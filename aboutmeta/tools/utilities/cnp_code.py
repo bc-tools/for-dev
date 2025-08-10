@@ -152,17 +152,6 @@ def copy_paste_codes(
     return codes_added
 
 
-def add_missing_init(srcdir):
-    # Nothing left expect the addition of an ''__init__.py'' file.
-    initfile = srcdir / INIT_FILE
-
-    if not initfile.is_file():
-        initfile.touch()
-        initfile.write_text(INIT_CONTENT)
-
-        logging.info("__init__.py file added.")
-
-
 def get_code_parts(file, context, sections_ignored):
     content = file.read_text()
 

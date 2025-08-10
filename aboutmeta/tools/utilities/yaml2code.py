@@ -10,11 +10,12 @@ from .common import *
 # --------------- #
 
 # We are giving ourselves the option in the future to use special
-# ''__name__'' for specific treatments in YAML specs.
+# '__name__' for specific treatments in YAML specs.
 
 PATTERN_SPECIAL_TAGS_SPECS = re.compile(r'__[a-z]+__')
 
 SPECIAL_TAGS_SPECS = []
+
 
 # Standard features.
 TAG_BAD_VALIDATION = "bad validation"
@@ -26,9 +27,9 @@ TAG_OPTIONAL   = '*'
 TAG_MAGIC_CHAR = '.'
 
 PATTERN_LEGAL_NAME = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
-PATTERN_LIST_OF    = re.compile(r"list\(\s*(.*)\s*\)")
+PATTERN_LIST_OF    = re.compile(r"list\s*\(\s*(.*?)\s*\)")
 
-PY_TAGS = [
+META_TAGS = [
     TAG_SPECS_ALT_ALL   := "__ALT_ALL__",
     TAG_SPECS_ALT_TUPLES:= "__ALT_TUPLES__",
     TAG_SPECS_BLOCK     := "__BLOCK__",
@@ -41,6 +42,61 @@ PY_TAGS = [
     TAG_SPECS_TYPE      := "__TYPE__",
 ]
 
+# Python codes.
+
+ARG_TAGS = [
+    TAG_ARG_AMDATA_CLS:= "amdata_cls",
+    TAG_ARG_DATA      := "data",
+    TAG_ARG_DATA_LIST := "data_list",
+    TAG_ARG_PARENT    := "parent",
+]
+
+PARSING_FOLDERS = [
+    PARSER_SUBDIR:= "parser",
+    MAPPER_SUBDIR:= "mapper",
+]
+
+PATTERN_PARSER_IN_PYSPECS = re.compile(r"TAG_SPECS_PARSER: ('([a-zA-Z_]+)')")
+
+
+# --------------- #
+# -- TEMPLATES -- #
+# --------------- #
+
+TEMPL_CSTS = f"""
+{TEMPL_BLACK_HEADER}
+
+{{imports_code}}
+
+
+# --------------- #
+# -- META TAGS -- #
+# --------------- #
+
+{{metatags_code}}
+
+
+# ---------------- #
+# -- SIGNATURES -- #
+# ---------------- #
+
+SIGNATURES = {{signs_dict_code}}
+""".strip() + '\n'
+
+
+TEMPL_BLOCK = f"""
+{TEMPL_BLACK_HEADER}
+
+from aboutmeta.block.{TAG_CONSTANTS} import *
+
+
+# ----------- #
+# -- SPECS -- #
+# ----------- #
+
+SPECS = {{specs_dict_code}}
+""".strip() + '\n'
+
 
 # -------------- #
 # -- EASY LOG -- #
@@ -52,7 +108,10 @@ def raise_validation_error(
     desc,
     xtra = ""
 ):
-    desc = f"See ''{key}'' key in ''{yfile_name}'' file: {desc}"
+    if key:
+        key = f"'{key}' key in "
+
+    desc = f"See {key}'{yfile_name}' file: {desc}"
 
     logging.error(
         log_title(
@@ -60,6 +119,9 @@ def raise_validation_error(
             desc = desc
         )
     )
+
+    if xtra:
+        xtra = f" {xtra}"
 
     raise ValueError(f"{desc}{xtra}")
 
@@ -161,15 +223,15 @@ def digested_specs(yaml_file):
 
     specs = safe_load(yaml_file.read_text())
 
-# Legal extra tags?
+# Extra tags?
     extradata = dict()
 
     for k in specs:
         if PATTERN_SPECIAL_TAGS_SPECS.fullmatch(k):
             if not k in SPECIAL_TAGS_SPECS:
                 raise ValueError(
-                    f"illegal special key ''{k}'' in "
-                    f"''specs/{yfile_name}'' file."
+                    f"illegal special key '{k}' in "
+                    f"'specs/{yfile_name}' file."
                 )
 
             extradata[k] = specs[k]
@@ -202,23 +264,6 @@ def build_pyspecs(specs, extradata):
     last_parser = None
 
     for key, val in specs.items():
-        is_list_of, use_post_prod, val = normalize_val(
-            key,
-            val,
-            extradata
-        )
-
-        if (
-            use_post_prod
-            and
-            not is_list_of
-        ):
-            raise_validation_error(
-                key        = key,
-                yfile_name = extradata[TAG_FILE],
-                desc       = "post prod only for lists.",
-            )
-
         (
             is_required,
             splitted_keys,
@@ -235,6 +280,24 @@ def build_pyspecs(specs, extradata):
             pyspecs[TAG_SPECS_ALT_TUPLES].append(tuple(splitted_keys))
 
         for k, v in zip(splitted_keys, splitted_vals):
+            is_list_of, use_post_prod, v = normalize_val(
+                k,
+                v,
+                extradata
+            )
+
+            if (
+                use_post_prod
+                and
+                not is_list_of
+            ):
+                raise_validation_error(
+                    key        = key,
+                    yfile_name = extradata[TAG_FILE],
+                    desc       = "post prod only for lists.",
+                    xtra       = f"See the value of '{k}'.",
+                )
+
             thispsec, last_parser = build_single_pyspec(
                 k,
                 v,
@@ -315,6 +378,68 @@ def build_single_pyspec(
     return this_specs, last_parser
 
 
+# -------------------------------- #
+# -- VALIDATE PARSERS & MAPPERS -- #
+# -------------------------------- #
+
+def get_all_parsing_tools(poject_srcdir):
+    parsing_tools = {}
+
+    for kind in PARSING_FOLDERS:
+        parsing_tools[kind] = sorted([
+            p.stem
+            for p in (poject_srcdir / kind).glob("*.py")
+            if p.name != INIT_FILE
+        ])
+
+    return parsing_tools
+
+
+def validate_pyspecs(
+    key,
+    yaml_file_name,
+    parsing_tools,
+    pyspecs,
+):
+# Data.
+    if pyspecs[TAG_SPECS_TYPE] == TAG_SPECS_DATA:
+        parser = pyspecs[TAG_SPECS_PARSER]
+
+        if parser == "str":
+            return
+
+        if parser not in parsing_tools[PARSER_SUBDIR]:
+            raise_validation_error(
+                key        = key,
+                yfile_name = yaml_file_name,
+                desc       = f"unknown parser '{parser}'.",
+            )
+
+        if (
+            pyspecs[TAG_SPECS_POST_PROD]
+            and
+            parser not in parsing_tools[MAPPER_SUBDIR]
+        ):
+            raise_validation_error(
+                key        = key,
+                yfile_name = yaml_file_name,
+                desc       = f"no mapper for '{parser}'.",
+            )
+
+# Recursive analysis.
+    else:
+        for k, v in pyspecs[TAG_SPECS_CONTENT].items():
+            if k[:2] == '__':
+                continue
+
+            validate_pyspecs(
+                k,
+                yaml_file_name,
+                parsing_tools,
+                v,
+            )
+
+
 # ------------- #
 # -- PY CODE -- #
 # ------------- #
@@ -324,34 +449,176 @@ def build_block_pycodes(
     yaml_files,
     srcdir,
 ):
+# All the existent parsing tools.
+    parsing_tools = get_all_parsing_tools(srcdir.parent)
+
+# Specs validations.
     codes_added = set()
 
+    specs = {}
+
     for yfile in yaml_files:
-        codes_added.add(yfile.stem)
+        yfile_stem = yfile.stem
+
+        if yfile_stem == TAG_CONSTANTS:
+            raise_validation_error(
+                '',
+                yfile.name,
+                "illegal name for a block."
+            )
 
         logging.info(
             log_title(
                 title = context,
-                desc  = yfile.stem
+                desc  = yfile_stem
             )
         )
 
-        build_single_block_pycode(
-            yaml_file = yfile,
-            pyspecs = digested_specs(yfile)
+        pyspecs = digested_specs(yfile)
+
+        validate_pyspecs(
+            key            = '',
+            yaml_file_name = yfile.name,
+            parsing_tools  = parsing_tools,
+            pyspecs        = pyspecs,
+        )
+
+        specs[f"{yfile_stem}.py"] = pyspecs
+
+        codes_added.add(yfile_stem)
+
+# Creation/update ''constants.py'' file.
+    logging.info(f"'{CONSTANTS_FILE}' creation or update.")
+
+    add_csts_file(
+        parsing_tools,
+        srcdir / CONSTANTS_FILE,
+    )
+
+# Creation/update block Python files.
+    for pfile, specs in specs.items():
+        add_block_pyfile(
+            srcdir / pfile,
+            specs,
         )
 
 
+
+# Nothing left expect the possible addition of an ''__init__.py'' file.
+    add_missing_init(srcdir)
 
     return codes_added
 
 
-def build_single_block_pycode(
-    yaml_file,
-    pyspecs
-):
-    from rich import print
-    print(yaml_file)
-    print(pyspecs)
+def get_metatags(vals = META_TAGS):
+    allvars = copy(globals())
 
-    exit()
+    return [
+        vname
+        for vname in allvars
+        if globals()[vname] in vals
+    ]
+
+
+def add_csts_file(
+    parsing_tools,
+    constants_file,
+):
+    proj_srcdir = constants_file.parent.parent
+
+# Specific tags.
+    metatags_code = [
+        f"{vname} = {globals()[vname]!r}"
+        for vname in get_metatags()
+    ]
+
+    metatags_code.append('')
+
+    metatags_code += [
+        f"{vname} = {globals()[vname]!r}"
+        for vname in get_metatags(ARG_TAGS)
+    ]
+
+# Easy access to all parsers and mappers.
+    imports_code = []
+    signs_dict   = {}
+
+    for kind, names in parsing_tools.items():
+        module = kind
+
+        if kind == PARSER_SUBDIR:
+            fcname = alias = "parse"
+
+        else:
+            alias  = "map"
+            fcname = "map_list"
+
+        for name in names:
+            alias_func = f"{name}_{alias}"
+
+            imports_code.append(
+                f"from aboutmeta.{module}.{name} import {fcname} as {alias_func}"
+            )
+
+            pyfile = proj_srcdir / kind / f"{name}.py"
+
+            signature = get_parse_signature(
+                file      = pyfile,
+                func_name = fcname
+            )
+
+            for a in signature:
+                if not a in ARG_TAGS:
+                    raise_validation_error(
+                        '',
+                        pyfile.relative_to(proj_srcdir),
+                        f"illegal argument '{a}' for '{fcname}'."
+                    )
+
+            signs_dict[alias_func] = signature
+
+    signs_dict_code = repr(signs_dict)
+
+    for vname in get_metatags(ARG_TAGS):
+        signs_dict_code = signs_dict_code.replace(
+            f"{globals()[vname]!r}",
+            vname
+        )
+
+
+    code = TEMPL_CSTS.format(
+        imports_code      = '\n'.join(imports_code),
+        metatags_code     = '\n'.join(metatags_code),
+        signs_dict_code   = signs_dict_code,
+    )
+
+
+
+    add_black_pyfile(code, constants_file)
+
+
+
+def add_block_pyfile(
+    pfile,
+    specs,
+):
+    specs_dict_code = repr(specs)
+
+    code = TEMPL_BLOCK.format(
+        specs_dict_code = specs_dict_code,
+    )
+
+    for vname in get_metatags():
+        code = code.replace(f"{globals()[vname]!r}", vname)
+
+    code = code.replace(
+        "TAG_SPECS_PARSER: 'str'",
+        "TAG_SPECS_PARSER: None",
+    )
+
+    code = PATTERN_PARSER_IN_PYSPECS.sub(
+        lambda m: f"TAG_SPECS_PARSER: {m.group(2)}_parse",
+        code
+    )
+
+    add_black_pyfile(code, pfile)

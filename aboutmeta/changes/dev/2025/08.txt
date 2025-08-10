@@ -2,15 +2,15 @@
 
 
 ==
-08  (0.0.0-beta.19)   ???
+08  (0.0.0-beta.19)
 ==
 
 --------
 :fordev:
 --------
 
-[[:tech:]]   ???
-\Contribs for flavours: tools have been implemneted.
+[[:tech:]]
+\Contribs for blocks: tools have been implemented.
 
 
 // ---------- //

@@ -8,8 +8,10 @@ import                   logging
 from rich.logging import RichHandler
 from rich.console import Console
 
-from pathlib     import Path
-import                  re
+import              ast
+from copy    import copy
+from pathlib import Path
+import              re
 
 import           tomli
 from yaml import safe_load
@@ -28,13 +30,31 @@ from black import (
 INIT_FILE    = "__init__.py"
 INIT_CONTENT = "#!/usr/bin/env python3\n"
 
+TAG_CONSTANTS  = "constants"
+CONSTANTS_FILE = f"{TAG_CONSTANTS}.py"
 
 TAG_STATUS = "status"
 TAG_OK     = "ok"
 
-
 TAG_CRITICAL = "critical"
 TAG_WARNING  = "warning"
+
+
+# --------------- #
+# -- TEMPLATES -- #
+# --------------- #
+
+TEMPL_BLACK_HEADER = """
+#!/usr/bin/env python3
+
+# ------------------------------------------------------- #
+# -- File created automatically from YAML spec. files. -- #
+# --                                                   -- #
+# -- Formatting done by the Python project "black".    -- #
+# ------------------------------------------------------- #
+""".strip()
+
+
 
 
 # ------------------------------- #
@@ -89,7 +109,7 @@ class ColorFilter(logging.Filter):
 def setup_logging(no_color = False) -> None:
 # Terminal handler
 #
-# ''color_system = "quto"'' detects whether the output is a real
+# ''color_system = "auto"'' detects whether the output is a real
 # terminal. If not—such as when output is redirected via a pipe—no
 # color is used
     console = Console(
@@ -206,6 +226,63 @@ def get_accepted_paths(
     files.sort()
 
     return files
+
+
+# ----------- #
+# -- FILES -- #
+# ----------- #
+
+def add_missing_init(srcdir):
+    # Nothing left expect the addition of an ''__init__.py'' file.
+    initfile = srcdir / INIT_FILE
+
+    if not initfile.is_file():
+        initfile.touch()
+        initfile.write_text(INIT_CONTENT)
+
+        logging.info("__init__.py file added.")
+
+
+def add_black_pyfile(
+    code,
+    file
+):
+    file.write_text(code)
+
+    format_file_in_place(
+        file,
+        fast       = False,
+        mode       = FileMode(),
+        write_back = WriteBack.YES,
+    )
+
+
+# ------------------- #
+# -- CODE ANALYSIS -- #
+# ------------------- #
+
+def get_parse_signature(
+    file,
+    func_name
+):
+    src_code  = Path(file).read_text()
+    tree      = ast.parse(src_code)
+    arguments = []
+
+    for node in ast.walk(tree):
+        if (
+            isinstance(node, ast.FunctionDef)
+            and
+            node.name == func_name
+        ):
+            args = [arg.arg for arg in node.args.args]
+
+            # for i, default in enumerate(node.args.defaults, start=len(args)-len(node.args.defaults)):
+            #     args[i] += f"={ast.unparse(default)}"
+
+            return args
+
+    return None
 
 
 # ----------- #

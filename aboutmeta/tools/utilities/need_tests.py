@@ -34,7 +34,7 @@ def missing_unit_tests(
 
     testsdir_rel = testsdir.relative_to(projdir)
 
-    logging.info(f"Verification of ''{testsdir_rel}''.")
+    logging.info(f"Verification of '{testsdir_rel}'.")
 
 # Test files implemented.
     codes_added  = codes_added
