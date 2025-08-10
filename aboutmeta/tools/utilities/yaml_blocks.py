@@ -451,6 +451,8 @@ def build_block_pycodes(
 
         pyspecs = digested_specs(yfile)
 
+        all_keys.add(yfile.stem)
+
         all_keys = all_keys.union(
             validate_pyspecs(
                 key            = '',

@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 
-# from rich import print
+from rich import print
 
 from utilities.cnp_code import *
+
+
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
+PATTERN_CLEAN_TAG_SPECS = re.compile(r"TAG_FLAVOUR_[A-Z][_A-Z]*: ([_a-z]+)_specs")
 
 
 # --------------- #
@@ -12,7 +19,7 @@ from utilities.cnp_code import *
 TEMPL_FLAVOURS = f"""
 {TEMPL_CODE_HEADER}
 
-from aboutmeta.specs.constants import *
+{{imports_code}}
 
 
 # --------------- #
@@ -50,6 +57,7 @@ def build_flavour_pycodes(
 
     specs        = dict()
     flavour_tags = dict()
+    blocks_used  = set()
 
     for yfile in yaml_files:
         logging.info(
@@ -90,14 +98,25 @@ def build_flavour_pycodes(
 
 # No problem.
         locspecs = {
-            TAG_SPECS_OPTIONAL: set(),
-            TAG_SPECS_REQUIRED: set(),
+            TAG_SPECS_OPTIONAL: [],
+            TAG_SPECS_REQUIRED: [],
+            TAG_SPECS_TOOLS   : dict()
         }
 
         for block_name, is_required in pre_locspecs.items():
+            blocks_used.add(block_name)
+
             kind = TAG_SPECS_REQUIRED if is_required else TAG_SPECS_OPTIONAL
 
-            locspecs[kind].add(block_name)
+            locspecs[kind].append(block_name)
+
+            locspecs[TAG_SPECS_TOOLS][block_name] = f"{block_name}_specs"
+
+        for kind in [
+            TAG_SPECS_REQUIRED,
+            TAG_SPECS_OPTIONAL
+        ]:
+            locspecs[kind].sort()
 
         specs[yfile.stem] = locspecs
 
@@ -118,6 +137,11 @@ def build_flavour_pycodes(
             )
         )
 
+        imports_code = '\n'.join([
+            f"from aboutmeta.specs.block.{n} import SPECS as {n}_specs"
+            for n in blocks_used
+        ])
+
         flavour_tags_code = '\n'.join([
             f"{p} = {y!r}"
             for p, y in flavour_tags.items()
@@ -134,8 +158,20 @@ def build_flavour_pycodes(
         for p, y in flavour_tags.items():
             specs_code = specs_code.replace(f"{y!r}:", f"{p}:")
 
+        for n in blocks_used:
+            specs_code = specs_code.replace(f"'{n}_specs'", f"{n}_specs")
+
+        specs_code = PATTERN_CLEAN_TAG_SPECS.sub(
+            lambda m: f"'{m.group(1)}': {m.group(1)}_specs",
+            specs_code
+        )
+
+        for n in blocks_used:
+            specs_code = specs_code.replace(f"'{n}'", f"TAG_KEY_{n.upper()}")
+
         code = TEMPL_FLAVOURS.format(
-            specs_code = specs_code,
+            imports_code = imports_code,
+            specs_code   = specs_code,
         )
 
         add_black_pyfile(

@@ -15,9 +15,9 @@ from utilities.yaml_2_code import *
 THIS_DIR = Path(__file__).parent
 
 CONTRIBS_INFOS = [
-#   (context    , contrib_dir_name)
+#   (context  , contrib_dir_name)
     ("block"  , "block-n-flavour"),
-    ("flavour"  , "block-n-flavour"),
+    ("flavour", "block-n-flavour"),
 ]
 
 NBTEST_START = 4

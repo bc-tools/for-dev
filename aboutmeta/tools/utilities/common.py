@@ -53,7 +53,6 @@ TAG_FILE           = "file"
 TAG_CRITICAL = "critical"
 TAG_WARNING  = "warning"
 
-
 META_TAGS = [
     TAG_SPECS_ALT_ALL   := "__ALT_ALL__",
     TAG_SPECS_ALT_TUPLES:= "__ALT_TUPLES__",
@@ -65,6 +64,7 @@ META_TAGS = [
     TAG_SPECS_PARSER    := "__PARSER__",
     TAG_SPECS_REQUIRED  := "__REQUIRED__",
     TAG_SPECS_OPTIONAL  := "__OPTIONAL__",
+    TAG_SPECS_TOOLS     := "__TOOLS__",
     TAG_SPECS_TYPE      := "__TYPE__",
 ]
 
