@@ -3,29 +3,6 @@ aboutmeta - TODO
 =========
 
 
-// ---------- //
-
-
-==
-??????????  (0.0.0-beta.21)
-==
-
---------
-:fordev:
---------
-
-[[:tech:]]      ??????????
-\Contribs for flavours: tools have been implemented.
-
-    1)
-
-
-
-
-
-
-
-
 > ---------------------------- <
 
 new tools

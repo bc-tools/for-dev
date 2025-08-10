@@ -72,7 +72,7 @@ def copy_paste_codes(
         statusdir,
         srcdir,
         testsdir
-    ) = get_folders(
+    ) = get_specs_folders(
         context          = context,
         this_dir         = this_dir,
         contrib_dir_name = contrib_dir_name,

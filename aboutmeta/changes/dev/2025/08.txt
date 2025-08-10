@@ -10,7 +10,13 @@
 --------
 
 [[:tech:]]
-\Contribs for blocks: a path::''signatures.py'' file gives the signatures of all the parsers and the mappers.
+\Contribs.
+
+    1) For blocks: a path::''signatures.py'' file gives the signatures of all the parsers and the mappers.
+
+    1) For flavours: tools have been implemented.
+
+    1) In the \src code, the \contribs are put inside the path::''specs'' fodler.
 
 
 // ---------- //

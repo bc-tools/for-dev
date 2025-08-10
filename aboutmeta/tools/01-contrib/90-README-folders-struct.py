@@ -29,7 +29,13 @@ TAG_STRUCT_END   = TEMPL_TAG_STRUCT.format("END")
 # -- LET'S WORK! -- #
 # ----------------- #
 
-logging.info(f"Update ''{README_FILE.relative_to(SRC_DIR)}''.")
+logging.info(
+    message_creation_update(
+        context = f"'{README_FILE.relative_to(SRC_DIR)}'",
+        upper   = False,
+        plurial = False,
+    )
+)
 
 logging.info(f"Contrib. treeview.")
 

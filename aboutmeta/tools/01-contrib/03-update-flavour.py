@@ -31,7 +31,7 @@ CONTRIB_DIR = Path(__file__).parent
     statusdir,
     srcdir,
     testsdir
-) = get_folders(
+) = get_specs_folders(
     context          = CONTRIB_CTXT,
     this_dir         = THIS_DIR,
     contrib_dir_name = CONTRIB_FOLDER,

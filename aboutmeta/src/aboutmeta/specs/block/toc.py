@@ -6,7 +6,7 @@
 # -- Formatting done by the Python project "black".    -- #
 # ------------------------------------------------------- #
 
-from aboutmeta.block.constants import *
+from aboutmeta.specs.constants import *
 
 
 # ----------- #

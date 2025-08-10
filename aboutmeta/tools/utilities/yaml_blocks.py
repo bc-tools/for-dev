@@ -18,29 +18,12 @@ SPECIAL_TAGS_SPECS = []
 
 
 # Standard features.
-TAG_BAD_VALIDATION = "bad validation"
-TAG_FILE           = "file"
-
 TAG_ALT_SEP    = '|'
 TAG_POST_PROD  = '+'
-TAG_OPTIONAL   = '*'
 TAG_MAGIC_CHAR = '.'
 
 PATTERN_LEGAL_NAME = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
 PATTERN_LIST_OF    = re.compile(r"list\s*\(\s*(.*?)\s*\)")
-
-META_TAGS = [
-    TAG_SPECS_ALT_ALL   := "__ALT_ALL__",
-    TAG_SPECS_ALT_TUPLES:= "__ALT_TUPLES__",
-    TAG_SPECS_BLOCK     := "__BLOCK__",
-    TAG_SPECS_CONTENT   := "__CONTENT__",
-    TAG_SPECS_DATA      := "__DATA__",
-    TAG_SPECS_LIST_OF   := "__LIST_OF__",
-    TAG_SPECS_POST_PROD := "__POST-PROD__",
-    TAG_SPECS_PARSER    := "__PARSER__",
-    TAG_SPECS_REQUIRED  := "__REQUIRED__",
-    TAG_SPECS_TYPE      := "__TYPE__",
-]
 
 # Python codes.
 
@@ -63,8 +46,8 @@ PATTERN_PARSER_IN_PYSPECS = re.compile(r"TAG_SPECS_PARSER: ('([a-zA-Z_]+)')")
 # -- TEMPLATES -- #
 # --------------- #
 
-TEMPL_CSTS = f"""
-{TEMPL_BLACK_HEADER}
+TEMPL_CSTS_BLOCK = f"""
+{TEMPL_CODE_HEADER}
 
 {{imports_code}}
 
@@ -77,9 +60,9 @@ TEMPL_CSTS = f"""
 """.strip() + '\n'
 
 TEMPL_SIGNS = f"""
-{TEMPL_BLACK_HEADER}
+{TEMPL_CODE_HEADER}
 
-from aboutmeta.block.{TAG_CONSTANTS} import *
+from aboutmeta.specs.{TAG_CONSTANTS} import *
 
 
 # ---------------- #
@@ -91,9 +74,9 @@ SIGNATURES = {{signs_dict_code}}
 
 
 TEMPL_BLOCK = f"""
-{TEMPL_BLACK_HEADER}
+{TEMPL_CODE_HEADER}
 
-from aboutmeta.block.{TAG_CONSTANTS} import *
+from aboutmeta.specs.{TAG_CONSTANTS} import *
 
 
 # ----------- #
@@ -102,34 +85,6 @@ from aboutmeta.block.{TAG_CONSTANTS} import *
 
 SPECS = {{specs_dict_code}}
 """.strip() + '\n'
-
-
-# -------------- #
-# -- EASY LOG -- #
-# -------------- #
-
-def raise_validation_error(
-    key,
-    yfile_name,
-    desc,
-    xtra = ""
-):
-    if key:
-        key = f"'{key}' key in "
-
-    desc = f"See {key}'{yfile_name}' file: {desc}"
-
-    logging.error(
-        log_title(
-            TAG_BAD_VALIDATION,
-            desc = desc
-        )
-    )
-
-    if xtra:
-        xtra = f" {xtra}"
-
-    raise ValueError(f"{desc}{xtra}")
 
 
 # --------------- #
@@ -179,13 +134,7 @@ def split_key_val(
     extradata
 ):
 # About the key(s).
-    if key[-1] == TAG_OPTIONAL:
-        is_required = False
-        real_key    = key[:-1].strip()
-
-    else:
-        is_required = True
-        real_key    = key
+    real_key, is_required = get_name_required(key)
 
 # Single key used.
     if not TAG_ALT_SEP in real_key:
@@ -235,9 +184,10 @@ def digested_specs(yaml_file):
     for k in specs:
         if PATTERN_SPECIAL_TAGS_SPECS.fullmatch(k):
             if not k in SPECIAL_TAGS_SPECS:
-                raise ValueError(
-                    f"illegal special key '{k}' in "
-                    f"'specs/{yfile_name}' file."
+                raise_validation_error(
+                    key        = k,
+                    yfile_name = yfile_name,
+                    desc       = "illegal special key."
                 )
 
             extradata[k] = specs[k]
@@ -470,15 +420,6 @@ def build_block_pycodes(
     specs = {}
 
     for yfile in yaml_files:
-        yfile_stem = yfile.stem
-
-        if yfile_stem in ILLEGAL_MAIN_BLOCK_NAMES:
-            raise_validation_error(
-                '',
-                yfile.name,
-                "illegal name for a main block."
-            )
-
         logging.info(
             log_title(
                 title = context,
@@ -495,9 +436,9 @@ def build_block_pycodes(
             pyspecs        = pyspecs,
         )
 
-        specs[f"{yfile_stem}.py"] = pyspecs
+        specs[f"{yfile.stem}.py"] = pyspecs
 
-        codes_added.add(yfile_stem)
+        codes_added.add(yfile.stem)
 
     if codes_added:
 # Let's build Python codes.
@@ -506,9 +447,9 @@ def build_block_pycodes(
         add_missing_dir(srcdir)
 
 # Creation/update ''constants.py'' & ''signatures.py'' files.
-        add_csts_file(
+        add_csts_files(
             parsing_tools,
-            srcdir,
+            srcdir.parent,
         )
 
 # Creation/update block Python files.
@@ -534,36 +475,28 @@ def build_block_pycodes(
 # Nothing left to do.
     return codes_added
 
-# Tests validations.
 
-
-def get_metatags(vals = META_TAGS):
-    allvars = copy(globals())
-
-    return [
-        vname
-        for vname in allvars
-        if globals()[vname] in vals
-    ]
-
-
-def add_csts_file(
+def add_csts_files(
     parsing_tools,
     srcdir,
 ):
+    print(srcdir)
+
+    allvars     = copy(globals())
     proj_srcdir = srcdir.parent
 
 # Specific tags.
     metatags_code = [
-        f"{vname} = {globals()[vname]!r}"
-        for vname in get_metatags()
+        f"{vname} = {allvars[vname]!r}"
+        for vname in get_metatags(allvars)
     ]
 
     metatags_code.append('')
 
     metatags_code += [
-        f"{vname} = {globals()[vname]!r}"
-        for vname in get_metatags(ARG_TAGS)
+        f"{vname} = {allvars[vname]!r}"
+        for vname in get_metatags(allvars, ARG_TAGS)
+        if vname[:4] == 'TAG_'
     ]
 
 # Easy access to all parsers and mappers.
@@ -584,10 +517,10 @@ def add_csts_file(
             alias_func = f"{name}_{alias}"
 
             imports_code.append(
-                f"from aboutmeta.{module}.{name} import {fcname} as {alias_func}"
+                f"from aboutmeta.specs.{module}.{name} import {fcname} as {alias_func}"
             )
 
-            pyfile = proj_srcdir / kind / f"{name}.py"
+            pyfile = proj_srcdir / TAG_SPECS / kind / f"{name}.py"
 
             signature = get_parse_signature(
                 file      = pyfile,
@@ -604,16 +537,14 @@ def add_csts_file(
 
             signs_dict[alias_func] = signature
 
-    signs_dict_code = repr(signs_dict)
-
-    for vname in get_metatags(ARG_TAGS):
-        signs_dict_code = signs_dict_code.replace(
-            f"{globals()[vname]!r}",
-            vname
-        )
+    signs_dict_code = code_with_metatags(
+        allvars  = allvars,
+        metavars = get_metatags(allvars, ARG_TAGS),
+        code     = repr(signs_dict)
+    )
 
 # ''constants.py'' file.
-    code = TEMPL_CSTS.format(
+    code = TEMPL_CSTS_BLOCK.format(
         imports_code      = '\n'.join(imports_code),
         metatags_code     = '\n'.join(metatags_code),
     )
@@ -633,19 +564,24 @@ def add_csts_file(
         srcdir / SIGNS_FILE
     )
 
+# Nothing left expect the possible addition of an ''__init__.py'' file.
+    add_missing_init(srcdir)
+
 
 def add_block_pyfile(
     pfile,
     specs,
 ):
+    allvars         = copy(globals())
+
     specs_dict_code = repr(specs)
 
     code = TEMPL_BLOCK.format(
         specs_dict_code = specs_dict_code,
     )
 
-    for vname in get_metatags():
-        code = code.replace(f"{globals()[vname]!r}", vname)
+    for vname in get_metatags(allvars):
+        code = code.replace(f"{allvars[vname]!r}", vname)
 
     code = code.replace(
         "TAG_SPECS_PARSER: 'str'",

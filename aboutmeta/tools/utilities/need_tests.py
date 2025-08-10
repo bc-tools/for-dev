@@ -17,7 +17,7 @@ def missing_unit_tests(
     projdir,
     testsdir,
 ):
-    logging.info(f"{context.upper()} Tests needed.")
+    logging.info(f"{context.upper()} Tests needed?")
 
 # Inexistent folder.
     if not testsdir.is_dir():

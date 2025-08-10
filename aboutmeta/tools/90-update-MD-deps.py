@@ -28,7 +28,13 @@ Here are the `Python` libraries used by `aboutmeta`. The version numbers in brac
 # -- LET'S GO! -- #
 # --------------- #
 
-logging.info(f"Update ''{MD_DEPS_FILE.relative_to(SRC_DIR)}''.")
+logging.info(
+    message_creation_update(
+        context = f"'{MD_DEPS_FILE.relative_to(SRC_DIR)}'",
+        upper   = False,
+        plurial = False,
+    )
+)
 
 with TOML_PYPROJ_FILE.open("rb") as f:
     data = tomli.load(f)

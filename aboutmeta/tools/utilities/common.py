@@ -27,29 +27,51 @@ from black import (
 # -- CONSTANTS -- #
 # --------------- #
 
-INIT_FILE    = "__init__.py"
+TAG_INIT     = "__init__"
+INIT_FILE    = f"{TAG_INIT}.py"
 INIT_CONTENT = "#!/usr/bin/env python3\n"
 
-ILLEGAL_MAIN_BLOCK_NAMES = set([
-    TAG_CONSTANTS:= "constants",
-    TAG_SIGNS    := "signatures",
-])
+TAG_CONSTANTS = "constants"
+TAG_SIGNS     = "signatures"
+TAG_SPECS     = "specs"
+TAG_FLAVOURS  = "flavours"
 
 CONSTANTS_FILE = f"{TAG_CONSTANTS}.py"
 SIGNS_FILE     = f"{TAG_SIGNS}.py"
+SPECS_FILE     = f"{TAG_SPECS}.py"
+FLAVOURS_FILE  = f"{TAG_FLAVOURS}.py"
+
+TAG_OPTIONAL   = '*'
 
 TAG_STATUS = "status"
 TAG_OK     = "ok"
+
+TAG_BAD_VALIDATION = "bad validation"
+TAG_FILE           = "file"
 
 TAG_CRITICAL = "critical"
 TAG_WARNING  = "warning"
 
 
+META_TAGS = [
+    TAG_SPECS_ALT_ALL   := "__ALT_ALL__",
+    TAG_SPECS_ALT_TUPLES:= "__ALT_TUPLES__",
+    TAG_SPECS_BLOCK     := "__BLOCK__",
+    TAG_SPECS_CONTENT   := "__CONTENT__",
+    TAG_SPECS_DATA      := "__DATA__",
+    TAG_SPECS_LIST_OF   := "__LIST_OF__",
+    TAG_SPECS_POST_PROD := "__POST-PROD__",
+    TAG_SPECS_PARSER    := "__PARSER__",
+    TAG_SPECS_REQUIRED  := "__REQUIRED__",
+    TAG_SPECS_OPTIONAL  := "__OPTIONAL__",
+    TAG_SPECS_TYPE      := "__TYPE__",
+]
+
 # --------------- #
 # -- TEMPLATES -- #
 # --------------- #
 
-TEMPL_BLACK_HEADER = """
+TEMPL_CODE_HEADER = """
 #!/usr/bin/env python3
 
 # ------------------------------------------------------- #
@@ -174,15 +196,48 @@ def log_title(
 ###
 # XXXXXXX
 ###
-def message_creation_update(context):
-    return f"{context.upper()} codes: creation or update."
+def message_creation_update(
+    context,
+    upper   = True,
+    plurial = True,
+):
+    if upper:
+        context = context.upper()
+
+    plurial = 's' if plurial else ''
+
+    return f"{context} code{plurial}: creation or update."
+
+
+def raise_validation_error(
+    key,
+    yfile_name,
+    desc,
+    xtra = ""
+):
+    if key:
+        key = f"'{key}' key in "
+
+    desc = f"See {key}'{yfile_name}' file: {desc}"
+
+    logging.error(
+        log_title(
+            TAG_BAD_VALIDATION,
+            desc = desc
+        )
+    )
+
+    if xtra:
+        xtra = f" {xtra}"
+
+    raise ValueError(f"{desc}{xtra}")
 
 
 # ----------- #
 # -- PATHS -- #
 # ----------- #
 
-def get_folders(
+def get_specs_folders(
     context,
     this_dir,
     contrib_dir_name,
@@ -194,7 +249,7 @@ def get_folders(
 
     contribdir = projdir / "contrib" / contrib_dir_name / subfolder
     statusdir  = contribdir.parent / "status"
-    srcdir     = projdir / "src" / projname / context
+    srcdir     = projdir / "src" / projname / TAG_SPECS / context
     testsdir   = projdir / "tests" / f"{nbtest:02d}-{context}"
 
     return (
@@ -284,9 +339,9 @@ def add_black_pyfile(
     )
 
 
-# ------------------- #
-# -- CODE ANALYSIS -- #
-# ------------------- #
+# --------------------- #
+# -- PYTHON ANALYSIS -- #
+# --------------------- #
 
 def get_parse_signature(
     file,
@@ -310,6 +365,56 @@ def get_parse_signature(
             return args
 
     return None
+
+
+def get_metatags(
+    allvars,
+    vals = META_TAGS
+):
+    return [
+        vname
+        for vname in allvars
+        if allvars[vname] in vals
+    ]
+
+
+def code_with_metatags(
+    allvars,
+    metavars,
+    code
+):
+    for name in metavars:
+        code = code.replace(f"{allvars[name]!r}", name)
+
+    return code
+
+
+def get_pyname(yaml_name):
+    pyname = yaml_name
+
+    for (old, new) in [
+        ('-', '_'),
+    ]:
+        pyname = pyname.replace(old, new)
+
+    return pyname
+
+
+# --------------------- #
+# -- YAML ANALYSIS -- #
+# --------------------- #
+
+def get_name_required(name):
+    if name[-1] == TAG_OPTIONAL:
+        is_required = False
+        name        = name[:-1].strip()
+
+    else:
+        is_required = True
+        name        = name
+
+    return name, is_required
+
 
 
 # ----------- #
