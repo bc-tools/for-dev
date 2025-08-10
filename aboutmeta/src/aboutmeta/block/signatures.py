@@ -14,12 +14,12 @@ from aboutmeta.block.constants import *
 # ---------------- #
 
 SIGNATURES = {
-    "date_parse": [TAG_ARG_DATA],
-    "lang_parse": [TAG_ARG_DATA],
-    "license_parse": [TAG_ARG_DATA],
-    "person_parse": [TAG_ARG_DATA],
-    "sem_version_parse": [TAG_ARG_DATA],
-    "url_parse": [TAG_ARG_DATA],
-    "virtual_path_parse": [TAG_ARG_PARENT, TAG_ARG_DATA],
+    "date_parse": [CTXT_DATA],
+    "lang_parse": [CTXT_DATA],
+    "license_parse": [CTXT_DATA],
+    "person_parse": [CTXT_DATA],
+    "sem_version_parse": [CTXT_DATA],
+    "url_parse": [CTXT_DATA],
+    "virtual_path_parse": [TAG_ARG_PARENT, CTXT_DATA],
     "virtual_path_map": [TAG_ARG_AMDATA_CLS, TAG_ARG_DATA_LIST],
 }

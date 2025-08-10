@@ -5,6 +5,7 @@
 from .common     import *
 from .need_tests import *
 
+
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
@@ -62,8 +63,7 @@ def copy_paste_codes(
     context,
     this_dir,
     contrib_dir_name,
-    check_tests = False,
-    nbtest      = 0,
+    nbtest,
 ):
     (
         projdir,
@@ -148,8 +148,8 @@ def copy_paste_codes(
 # Nothing left expect the possible addition of an ''__init__.py'' file.
     add_missing_init(srcdir)
 
-# Check tests?
-    if check_tests and codes_added:
+# Checking tests?
+    if codes_added:
         missing_unit_tests(
             context,
             codes_added,

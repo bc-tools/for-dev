@@ -31,6 +31,7 @@ TAG_SPECS_PARSER = "__PARSER__"
 TAG_SPECS_REQUIRED = "__REQUIRED__"
 TAG_SPECS_TYPE = "__TYPE__"
 
+CTXT_DATA = "data"
 TAG_ARG_AMDATA_CLS = "amdata_cls"
 TAG_ARG_DATA = "data"
 TAG_ARG_DATA_LIST = "data_list"

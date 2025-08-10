@@ -5,8 +5,7 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from utilities.cnp_code  import *
-from utilities.yaml2code import *
+from utilities.yaml_blocks import *
 
 
 # --------------- #
@@ -15,7 +14,7 @@ from utilities.yaml2code import *
 
 CONTRIB_CTXT    = "block"
 CONTRIB_FOLDER  = "block-n-flavour"
-CONTRIB_NB_TEST = 4
+CONTRIB_NB_TEST = 2 + int(Path(__file__).name.split('-')[0])
 
 THIS_DIR    = Path(__file__).parent
 CONTRIB_DIR = Path(__file__).parent
@@ -54,16 +53,10 @@ if not allfiles:
 
 # We have to work.
 else:
-    codes_added = build_block_pycodes(
+    build_block_pycodes(
         context    = CONTRIB_CTXT,
         srcdir     = srcdir,
         yaml_files = allfiles,
+        projdir    = projdir,
+        testsdir   = testsdir,
     )
-
-    if codes_added:
-        missing_unit_tests(
-            context     = CONTRIB_CTXT,
-            codes_added = codes_added,
-            projdir     = projdir,
-            testsdir    = testsdir,
-        )

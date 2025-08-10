@@ -38,6 +38,5 @@ for nbtest, (context, contrib_dir_name) in enumerate(
         context          = context,
         this_dir         = THIS_DIR,
         contrib_dir_name = contrib_dir_name,
-        check_tests      = True,
         nbtest           = nbtest,
     )

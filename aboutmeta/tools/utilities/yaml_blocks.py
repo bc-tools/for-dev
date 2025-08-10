@@ -2,7 +2,7 @@
 
 # from pprint import pprint
 
-from .common import *
+from utilities.cnp_code import *
 
 
 # --------------- #
@@ -452,8 +452,10 @@ def validate_pyspecs(
 
 def build_block_pycodes(
     context,
-    yaml_files,
     srcdir,
+    yaml_files,
+    projdir,
+    testsdir,
 ):
     logging.info(
        f"{context.upper()} - Validating YAML contribs."
@@ -497,30 +499,42 @@ def build_block_pycodes(
 
         codes_added.add(yfile_stem)
 
+    if codes_added:
 # Let's build Python codes.
-    logging.info(message_creation_update(context))
+        logging.info(message_creation_update(context))
 
-    add_missing_dir(srcdir)
+        add_missing_dir(srcdir)
 
 # Creation/update ''constants.py'' & ''signatures.py'' files.
-    add_csts_file(
-        parsing_tools,
-        srcdir,
-    )
-
-# Creation/update block Python files.
-    for pfile, specs in specs.items():
-        logging.info(f"{context.upper()} - {pfile}")
-
-        add_block_pyfile(
-            srcdir / pfile,
-            specs,
+        add_csts_file(
+            parsing_tools,
+            srcdir,
         )
 
-# Nothing left expect the possible addition of an ''__init__.py'' file.
-    add_missing_init(srcdir)
+# Creation/update block Python files.
+        for pfile, specs in specs.items():
+            logging.info(f"{context.upper()} - {pfile}")
 
+            add_block_pyfile(
+                srcdir / pfile,
+                specs,
+            )
+
+# Nothing left expect the possible addition of an ''__init__.py'' file.
+        add_missing_init(srcdir)
+
+# Checking tests?
+        missing_unit_tests(
+            context,
+            codes_added,
+            projdir,
+            testsdir,
+        )
+
+# Nothing left to do.
     return codes_added
+
+# Tests validations.
 
 
 def get_metatags(vals = META_TAGS):
