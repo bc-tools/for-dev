@@ -5,8 +5,8 @@ from langcodes import (
     LanguageTagError
 )
 
-from aboutmeta.core.errors import ParsingError
-from aboutmeta.data.lang   import Lang
+from aboutmeta.core.errors     import ParsingError
+from aboutmeta.specs.data.lang import Lang
 
 
 # ------------ #

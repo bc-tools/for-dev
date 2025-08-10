@@ -5,6 +5,13 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+contribs
+
+    ---> refeaire les bons imports!
+
+
+> ---------------------------- <
+
 new tools
 
     + gestion des helpers

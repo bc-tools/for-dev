@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from aboutmeta.data.url import URL
+from aboutmeta.specs.data.url import URL
 
 
 # ------------ #

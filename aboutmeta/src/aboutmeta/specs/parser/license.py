@@ -13,16 +13,16 @@ from rapidfuzz import (
     fuzz
 )
 
-from aboutmeta.core.constants import *
-from aboutmeta.core.errors    import ParsingError
-from aboutmeta.data.license   import License
+from aboutmeta.core.constants     import *
+from aboutmeta.core.errors        import ParsingError
+from aboutmeta.specs.data.license import License
 
 
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
 
-LICENSES_JSON_FILE = Path(__file__).parent / "parser-license-spdx.json"
+LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 
 
 # ------------ #

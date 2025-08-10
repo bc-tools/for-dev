@@ -131,7 +131,7 @@ def copy_paste_codes(
         codes_added.add(file.stem)
 
 # Extra files?
-        xtra_files = get_xtra_files(file, context)
+        xtra_files = get_xtra_files(file)
 
         if xtra_files:
             plurial = "s" if len(xtra_files) != 1 else ""
@@ -272,11 +272,11 @@ def magic_comment(section):
     return section
 
 
-def get_xtra_files(file, context):
+def get_xtra_files(file):
     xtra_files = [
         p
         for p in file.parent.glob(
-            f"{context}-{file.stem}-*"
+            f"{file.stem}-*"
         )
         if p != file
     ]
