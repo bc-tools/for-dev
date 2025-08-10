@@ -137,6 +137,8 @@ def build_flavour_pycodes(
             )
         )
 
+        blocks_used = sorted(list(blocks_used))
+
         imports_code = '\n'.join([
             f"from aboutmeta.specs.block.{n} import SPECS as {n}_specs"
             for n in blocks_used
