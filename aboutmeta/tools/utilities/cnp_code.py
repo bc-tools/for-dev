@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# from pprint import pprint
+# from rich import print
 
 from .common     import *
 from .need_tests import *

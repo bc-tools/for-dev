@@ -31,14 +31,11 @@ TAG_STRUCT_END   = TEMPL_TAG_STRUCT.format("END")
 
 logging.info(
     message_creation_update(
-        context = f"'{README_FILE.relative_to(SRC_DIR)}'",
+        context = f"'{README_FILE.relative_to(SRC_DIR)}' (contribs treeview)",
         upper   = False,
         plurial = False,
     )
 )
-
-logging.info(f"Contrib. treeview.")
-
 
 content = README_FILE.read_text()
 

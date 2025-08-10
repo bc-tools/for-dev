@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# from pprint import pprint
+# from rich import print
 
 from utilities.cnp_code import *
 
@@ -319,8 +319,10 @@ def build_single_pyspec(
             TAG_SPECS_TYPE     : TAG_SPECS_DATA,
             TAG_SPECS_LIST_OF  : is_list_of,
             TAG_SPECS_PARSER   : last_parser,
-            TAG_SPECS_MAPPER: use_post_prod,
         }
+
+        if is_list_of:
+            this_specs[TAG_SPECS_MAPPER] = use_post_prod
 
 # A sub block.
     else:
@@ -378,6 +380,8 @@ def validate_pyspecs(
             )
 
         if (
+            pyspecs[TAG_SPECS_LIST_OF]
+            and
             pyspecs[TAG_SPECS_MAPPER]
             and
             parser not in parsing_tools[MAPPER_SUBDIR]

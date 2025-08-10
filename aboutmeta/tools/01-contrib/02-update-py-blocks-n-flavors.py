@@ -29,7 +29,7 @@ NBTEST_START = 4
 
 for nbtest, (context, contrib_dir_name) in enumerate(
     CONTRIBS_INFOS,
-    start = 3
+    start = NBTEST_START
 ):
     if nbtest != NBTEST_START:
         print()
