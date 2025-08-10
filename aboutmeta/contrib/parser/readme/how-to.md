@@ -13,7 +13,7 @@ The following sections outline the steps to follow when proposing new parsing to
 ---
 
 
-> ***CAUTION.*** *Regarding `aboutmeta`, you are only authorised to use the modules `aboutmeta.core` and `aboutmeta.tool`.* ***Any other use of `aboutmeta` is too risky, as it can create cyclic imports*** *when incorporated validated contributions into the final project.*
+> ***CAUTION.*** *Regarding `aboutmeta`, you are only authorised to use the modules `aboutmeta.core`, `aboutmeta.tool` and `aboutmeta.specs.data`.* ***Any other use of `aboutmeta` is too risky, as it can create cyclic imports*** *when incorporated validated contributions into the final project.*
 
 
 ---
