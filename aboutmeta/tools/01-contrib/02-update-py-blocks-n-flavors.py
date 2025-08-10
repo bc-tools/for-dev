@@ -5,7 +5,7 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from utilities.cnp_code import *
+from utilities.yaml_2_code import *
 
 
 # --------------- #
@@ -16,12 +16,11 @@ THIS_DIR = Path(__file__).parent
 
 CONTRIBS_INFOS = [
 #   (context    , contrib_dir_name)
-    (CTXT_DATA  , CTXT_DATA),
-    (CTXT_PARSER, CTXT_PARSER),
-    (CTXT_MAPPER, CTXT_PARSER),
+    ("block"  , "block-n-flavour"),
+    ("flavour"  , "block-n-flavour"),
 ]
 
-NBTEST_START = 1
+NBTEST_START = 4
 
 
 # ----------------- #
@@ -30,14 +29,15 @@ NBTEST_START = 1
 
 for nbtest, (context, contrib_dir_name) in enumerate(
     CONTRIBS_INFOS,
-    start = NBTEST_START
+    start = 3
 ):
     if nbtest != NBTEST_START:
         print()
 
-    copy_paste_codes(
+    create_codes_from_yaml(
         context          = context,
         this_dir         = THIS_DIR,
         contrib_dir_name = contrib_dir_name,
         nbtest           = nbtest,
+        subfolder        = context,
     )
