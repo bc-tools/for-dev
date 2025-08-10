@@ -33,6 +33,9 @@ INIT_CONTENT = "#!/usr/bin/env python3\n"
 TAG_CONSTANTS  = "constants"
 CONSTANTS_FILE = f"{TAG_CONSTANTS}.py"
 
+TAG_SIGNS  = "signatures"
+SIGNS_FILE = f"{TAG_SIGNS}.py"
+
 TAG_STATUS = "status"
 TAG_OK     = "ok"
 
@@ -53,8 +56,6 @@ TEMPL_BLACK_HEADER = """
 # -- Formatting done by the Python project "black".    -- #
 # ------------------------------------------------------- #
 """.strip()
-
-
 
 
 # ------------------------------- #
@@ -149,12 +150,15 @@ def setup_logging(no_color = False) -> None:
     term_handler.addFilter(ColorFilter())
 
 
-
 ###
 # XXXXXXX
 ###
 setup_logging()
 
+
+# ---------------------- #
+# -- LOGGING MESSAGES -- #
+# ---------------------- #
 
 ###
 # XXXXXXX
@@ -165,22 +169,35 @@ def log_title(
 ):
     return f"{title.upper()} - {desc}"
 
+###
+# XXXXXXX
+###
+def message_creation_update(files):
+    if isinstance(files, str):
+        what = files
+
+    else:
+        what = ','.join(f"'{f}'" for f in files[:-1])
+        what = f' & {files[-1]}'
+
+    return f"{what}: creation or update."
+
 
 # ----------- #
 # -- PATHS -- #
 # ----------- #
 
 def get_folders(
-    this_dir,
-    contrib_dir,
     context,
+    this_dir,
+    contrib_dir_name,
     nbtest,
     subfolder = "code",
 ):
     projdir  = this_dir.parent.parent
     projname = projdir.name
 
-    contribdir = projdir / "contrib" / contrib_dir / subfolder
+    contribdir = projdir / "contrib" / contrib_dir_name / subfolder
     statusdir  = contribdir.parent / "status"
     srcdir     = projdir / "src" / projname / context
     testsdir   = projdir / "tests" / f"{nbtest}-{context}"
@@ -198,11 +215,16 @@ def get_folders(
 # WARNING!
 # "No status" ==> "No parser to add"
 def get_accepted_paths(
+    context,
     contribdir,
     statusdir,
     subfolder = "",
     ext       = 'py',
 ):
+    logging.info(
+        f"{context.upper()} - Looking for accepted contribs."
+    )
+
     files = []
 
     if subfolder:
@@ -231,6 +253,13 @@ def get_accepted_paths(
 # ----------- #
 # -- FILES -- #
 # ----------- #
+
+def add_missing_dir(dirpath):
+    dirpath.mkdir(
+        parents  = True,
+        exist_ok = True
+    )
+
 
 def add_missing_init(srcdir):
     # Nothing left expect the addition of an ''__init__.py'' file.

@@ -2,8 +2,8 @@
 
 # from pprint import pprint
 
-from .common import *
-
+from .common     import *
+from .need_tests import *
 
 # --------------- #
 # -- CONSTANTS -- #
@@ -59,11 +59,15 @@ SECTIONS_IGNORED = {
 # ------------------ #
 
 def copy_paste_codes(
-    this_dir,
-    contrib_dir,
     context,
+    this_dir,
+    contrib_dir_name,
+    check_tests = False,
+    nbtest      = 0,
 ):
-    logging.info("Source code: creation or update.")
+    logging.info(
+        message_creation_update(f"{context.upper()} codes")
+    )
 
     (
         projdir,
@@ -71,17 +75,18 @@ def copy_paste_codes(
         contribdir,
         statusdir,
         srcdir,
-        _
+        testsdir
     ) = get_folders(
-        this_dir,
-        contrib_dir,
-        context,
-        0, # <--- Unused here!
+        context          = context,
+        this_dir         = this_dir,
+        contrib_dir_name = contrib_dir_name,
+        nbtest           = nbtest,
     )
 
     allfiles = get_accepted_paths(
-        contribdir,
-        statusdir,
+        context    = context,
+        contribdir = contribdir,
+        statusdir  = statusdir,
     )
 
     if not allfiles:
@@ -118,13 +123,9 @@ def copy_paste_codes(
         )
 
 # Lets's update the source code.
+        add_missing_dir(srcdir)
+
         src_file = srcdir / file.name
-
-        src_file.parent.mkdir(
-            parents  = True,
-            exist_ok = True
-        )
-
         src_file.touch()
         src_file.write_text(final_code + "\n")
 
@@ -148,8 +149,14 @@ def copy_paste_codes(
 # Nothing left expect the possible addition of an ''__init__.py'' file.
     add_missing_init(srcdir)
 
-# Need of list of the source file names for unit test management.
-    return codes_added
+# Check tests?
+    if check_tests and codes_added:
+        missing_unit_tests(
+            context,
+            codes_added,
+            projdir,
+            testsdir,
+        )
 
 
 def get_code_parts(file, context, sections_ignored):

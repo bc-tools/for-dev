@@ -5,9 +5,8 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from utilities.cnp_code   import *
-from utilities.need_tests import *
-from utilities.yaml2code  import *
+from utilities.cnp_code  import *
+from utilities.yaml2code import *
 
 
 # --------------- #
@@ -16,7 +15,7 @@ from utilities.yaml2code  import *
 
 CONTRIB_CTXT    = "block"
 CONTRIB_FOLDER  = "block-n-flavour"
-CONTRIB_NB_TEST = Path(__file__).name.split('-')[0]
+CONTRIB_NB_TEST = 4
 
 THIS_DIR    = Path(__file__).parent
 CONTRIB_DIR = Path(__file__).parent
@@ -26,8 +25,6 @@ CONTRIB_DIR = Path(__file__).parent
 # -- YAML TO CODE -- #
 # ------------------ #
 
-logging.info(f"Codes for {CONTRIB_CTXT}: creation or update.")
-
 (
     projdir,
     projname,
@@ -36,18 +33,19 @@ logging.info(f"Codes for {CONTRIB_CTXT}: creation or update.")
     srcdir,
     testsdir
 ) = get_folders(
-    this_dir    = THIS_DIR,
-    contrib_dir = CONTRIB_FOLDER,
-    context     = CONTRIB_CTXT,
-    nbtest      = CONTRIB_NB_TEST,
-    subfolder   = CONTRIB_CTXT,
+    context          = CONTRIB_CTXT,
+    this_dir         = THIS_DIR,
+    contrib_dir_name = CONTRIB_FOLDER,
+    nbtest           = CONTRIB_NB_TEST,
+    subfolder        = CONTRIB_CTXT,
 )
 
 allfiles = get_accepted_paths(
-    contribdir,
-    statusdir,
-    subfolder = CONTRIB_CTXT,
-    ext       = 'yaml',
+    context    = CONTRIB_CTXT,
+    contribdir = contribdir,
+    statusdir  = statusdir,
+    subfolder  = CONTRIB_CTXT,
+    ext        = 'yaml',
 )
 
 codes_added = build_block_pycodes(
@@ -58,9 +56,8 @@ codes_added = build_block_pycodes(
 
 if codes_added:
     missing_unit_tests(
-        this_dir    = THIS_DIR,
-        contrib_dir = CONTRIB_FOLDER,
         context     = CONTRIB_CTXT,
-        nbtest      = CONTRIB_NB_TEST,
-        codes_added = codes_added
+        codes_added = codes_added,
+        projdir     = projdir,
+        testsdir    = testsdir,
     )

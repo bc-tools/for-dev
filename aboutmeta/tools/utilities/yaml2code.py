@@ -74,6 +74,12 @@ TEMPL_CSTS = f"""
 # --------------- #
 
 {{metatags_code}}
+""".strip() + '\n'
+
+TEMPL_SIGNS = f"""
+{TEMPL_BLACK_HEADER}
+
+from aboutmeta.block.{TAG_CONSTANTS} import *
 
 
 # ---------------- #
@@ -488,7 +494,14 @@ def build_block_pycodes(
         codes_added.add(yfile_stem)
 
 # Creation/update ''constants.py'' file.
-    logging.info(f"'{CONSTANTS_FILE}' creation or update.")
+    logging.info(
+        message_creation_update([
+            CONSTANTS_FILE,
+            SIGNS_FILE
+        ])
+    )
+
+    add_missing_dir(srcdir)
 
     add_csts_file(
         parsing_tools,
@@ -497,12 +510,14 @@ def build_block_pycodes(
 
 # Creation/update block Python files.
     for pfile, specs in specs.items():
+        logging.info(
+            message_creation_update(pfile)
+        )
+
         add_block_pyfile(
             srcdir / pfile,
             specs,
         )
-
-
 
 # Nothing left expect the possible addition of an ''__init__.py'' file.
     add_missing_init(srcdir)
@@ -595,7 +610,6 @@ def add_csts_file(
 
 
     add_black_pyfile(code, constants_file)
-
 
 
 def add_block_pyfile(

@@ -153,25 +153,3 @@ class URL(DataPrinter):
             )
 
         return nb_pbs
-
-
-# ----------------- #
-# -- HUMAN TESTS -- #
-# ----------------- #
-
-if __name__ == "__main__":
-    for std in [
-        "HTTPS://QwAnT.com",
-        "qwant.com",
-        "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html"
-    ]:
-        print('---')
-        print(f"Testing {std}")
-
-        url = URL(std = std)
-
-        print(f"NORMALIZED: {url.normalized()}")
-
-        nb_pbs = url.validate()
-
-        print(f"NB PBS: {url.validate()}")

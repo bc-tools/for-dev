@@ -12,26 +12,11 @@ from .common import *
 # --------------------------- #
 
 def missing_unit_tests(
-    this_dir,
-    contrib_dir,
     context,
-    nbtest,
-    codes_added
+    codes_added,
+    projdir,
+    testsdir,
 ):
-    (
-        projdir,
-        projname,
-        contribdir,
-        statusdir,
-        srcdir,
-        testsdir
-    ) = get_folders(
-        this_dir,
-        contrib_dir,
-        context,
-        nbtest,
-    )
-
     testsdir_rel = testsdir.relative_to(projdir)
 
     logging.info(f"Verification of '{testsdir_rel}'.")

@@ -5,21 +5,16 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-gestiond es helpers
+new tools
+
+    + gestion des helpers
 
 
 > ---------------------------- <
 
-magic comment aussi pour les dataclass ????
+new tests
 
-just tests qui sera virer dans le code src
-
-
-> ---------------------------- <
-
-new tools ???
-
-new tests ????
+    + on garde les m^mee et on joute des nouveaux!
 
 
 > ---------------------------- <
