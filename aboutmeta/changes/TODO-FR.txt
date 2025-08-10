@@ -5,14 +5,9 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-contribs
-
-    ---> refeaire les bons imports!
-
-
-> ---------------------------- <
-
 new tools
+
+    + facto des codes block et flavour!
 
     + gestion des helpers
 
