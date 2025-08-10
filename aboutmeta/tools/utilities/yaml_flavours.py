@@ -16,13 +16,6 @@ from aboutmeta.specs.constants import *
 
 
 # --------------- #
-# -- EASY TAGS -- #
-# --------------- #
-
-{{easy_tags_code}}
-
-
-# --------------- #
 # -- ALL SPECS -- #
 # --------------- #
 
@@ -55,8 +48,8 @@ def build_flavour_pycodes(
 # Specs validations.
     codes_added = set()
 
-    specs     = dict()
-    easy_tags = dict()
+    specs        = dict()
+    flavour_tags = dict()
 
     for yfile in yaml_files:
         logging.info(
@@ -112,7 +105,7 @@ def build_flavour_pycodes(
 
         codes_added.add(flavour_pyname)
 
-        easy_tags[f"TAG_FLAVOUR_{flavour_pyname.upper()}"] = yfile.stem
+        flavour_tags[f"TAG_FLAVOUR_{flavour_pyname.upper()}"] = yfile.stem
 
     if specs:
 # Let's build the code.
@@ -125,9 +118,9 @@ def build_flavour_pycodes(
             )
         )
 
-        easy_tags_code = '\n'.join([
+        flavour_tags_code = '\n'.join([
             f"{p} = {y!r}"
-            for p, y in easy_tags.items()
+            for p, y in flavour_tags.items()
         ])
 
         allvars = copy(globals())
@@ -138,17 +131,22 @@ def build_flavour_pycodes(
             code     = repr(specs)
         )
 
-        for p, y in easy_tags.items():
-            specs_code = specs_code.replace(f"{y!r}", p)
+        for p, y in flavour_tags.items():
+            specs_code = specs_code.replace(f"{y!r}:", f"{p}:")
 
         code = TEMPL_FLAVOURS.format(
-            easy_tags_code = easy_tags_code,
-            specs_code     = specs_code,
+            specs_code = specs_code,
         )
 
         add_black_pyfile(
             code,
             srcdir.parent / FLAVOURS_FILE
+        )
+
+# Add new tags in 'contants.py' file.
+        append_black_pyfile(
+            flavour_tags_code,
+            srcdir.parent / CONSTANTS_FILE
         )
 
 # Checking tests?

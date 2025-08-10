@@ -10,21 +10,13 @@ from aboutmeta.specs.constants import *
 
 
 # --------------- #
-# -- EASY TAGS -- #
-# --------------- #
-
-TAG_FLAVOUR_IT_PROJECT = "it-project"
-TAG_FLAVOUR_TOC = "toc"
-
-
-# --------------- #
 # -- ALL SPECS -- #
 # --------------- #
 
 SPECS = {
     TAG_FLAVOUR_IT_PROJECT: {
-        TAG_SPECS_OPTIONAL: {"project", TAG_FLAVOUR_TOC},
+        TAG_SPECS_OPTIONAL: {"project", "toc"},
         TAG_SPECS_REQUIRED: set(),
     },
-    TAG_FLAVOUR_TOC: {TAG_SPECS_OPTIONAL: set(), TAG_SPECS_REQUIRED: {TAG_FLAVOUR_TOC}},
+    TAG_FLAVOUR_TOC: {TAG_SPECS_OPTIONAL: set(), TAG_SPECS_REQUIRED: {"toc"}},
 }

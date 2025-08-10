@@ -17,6 +17,7 @@ import           tomli
 from yaml import safe_load
 
 from black import (
+    format_str,
     format_file_in_place,
     FileMode,
     WriteBack
@@ -337,6 +338,21 @@ def add_black_pyfile(
         mode       = FileMode(),
         write_back = WriteBack.YES,
     )
+
+
+def append_black_pyfile(
+    code,
+    file,
+    nbempty = 1
+):
+    code = format_str(
+        code,
+        mode = FileMode()
+    )
+    code = '\n' * nbempty + code
+    code = file.read_text() + code
+
+    file.write_text(code)
 
 
 # --------------------- #

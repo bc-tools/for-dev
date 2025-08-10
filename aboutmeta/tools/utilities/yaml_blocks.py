@@ -52,11 +52,11 @@ TEMPL_CSTS_BLOCK = f"""
 {{imports_code}}
 
 
-# --------------- #
-# -- META TAGS -- #
-# --------------- #
+# ---------- #
+# -- TAGS -- #
+# ---------- #
 
-{{metatags_code}}
+{{tags_code}}
 """.strip() + '\n'
 
 TEMPL_SIGNS = f"""
@@ -69,7 +69,7 @@ from aboutmeta.specs.{TAG_CONSTANTS} import *
 # -- SIGNATURES -- #
 # ---------------- #
 
-SIGNATURES = {{signs_dict_code}}
+SPECS = {{signs_dict_code}}
 """.strip() + '\n'
 
 
@@ -361,8 +361,10 @@ def validate_pyspecs(
     if pyspecs[TAG_SPECS_TYPE] == TAG_SPECS_DATA:
         parser = pyspecs[TAG_SPECS_PARSER]
 
+        all_keys = set([key]) if key else set()
+
         if parser == "str":
-            return
+            return all_keys
 
         if parser not in parsing_tools[PARSER_SUBDIR]:
             raise_validation_error(
@@ -382,18 +384,30 @@ def validate_pyspecs(
                 desc       = f"no mapper for '{parser}'.",
             )
 
+        return all_keys
+
 # Recursive analysis.
     else:
+        all_keys = set()
+
         for k, v in pyspecs[TAG_SPECS_CONTENT].items():
             if k[:2] == '__':
                 continue
 
-            validate_pyspecs(
-                k,
-                yaml_file_name,
-                parsing_tools,
-                v,
+            all_keys = all_keys.union(
+                validate_pyspecs(
+                    k,
+                    yaml_file_name,
+                    parsing_tools,
+                    v,
+                )
             )
+
+            all_keys.add(k)
+
+# Keys will be used for tags.
+        return all_keys
+
 
 
 # ------------- #
@@ -416,8 +430,8 @@ def build_block_pycodes(
 
 # Specs validations.
     codes_added = set()
-
-    specs = {}
+    all_keys    = set()
+    specs       = {}
 
     for yfile in yaml_files:
         logging.info(
@@ -429,11 +443,13 @@ def build_block_pycodes(
 
         pyspecs = digested_specs(yfile)
 
-        validate_pyspecs(
-            key            = '',
-            yaml_file_name = yfile.name,
-            parsing_tools  = parsing_tools,
-            pyspecs        = pyspecs,
+        all_keys = all_keys.union(
+            validate_pyspecs(
+                key            = '',
+                yaml_file_name = yfile.name,
+                parsing_tools  = parsing_tools,
+                pyspecs        = pyspecs,
+            )
         )
 
         specs[f"{yfile.stem}.py"] = pyspecs
@@ -450,6 +466,7 @@ def build_block_pycodes(
         add_csts_files(
             parsing_tools,
             srcdir.parent,
+            all_keys,
         )
 
 # Creation/update block Python files.
@@ -479,29 +496,40 @@ def build_block_pycodes(
 def add_csts_files(
     parsing_tools,
     srcdir,
+    all_keys,
 ):
-    print(srcdir)
-
-    allvars     = copy(globals())
     proj_srcdir = srcdir.parent
 
+    _allvars = copy(globals())
+    allvars  = {
+        k: v
+        for k, v in _allvars.items()
+        if k[:4] == "TAG_"
+    }
+
 # Specific tags.
-    metatags_code = [
+    tags_code = [
         f"{vname} = {allvars[vname]!r}"
         for vname in get_metatags(allvars)
     ]
 
-    metatags_code.append('')
+    tags_code.append('')
 
-    metatags_code += [
+    tags_code += [
         f"{vname} = {allvars[vname]!r}"
         for vname in get_metatags(allvars, ARG_TAGS)
-        if vname[:4] == 'TAG_'
+    ]
+
+    tags_code.append('')
+
+    tags_code += [
+        f"TAG_KEY_{k.upper()} = {k!r}"
+        for k in sorted(list(all_keys))
     ]
 
 # Easy access to all parsers and mappers.
     imports_code = []
-    signs_dict   = {}
+    signs_dict   = dict()
 
     for kind, names in parsing_tools.items():
         module = kind
@@ -545,8 +573,8 @@ def add_csts_files(
 
 # ''constants.py'' file.
     code = TEMPL_CSTS_BLOCK.format(
-        imports_code      = '\n'.join(imports_code),
-        metatags_code     = '\n'.join(metatags_code),
+        imports_code = '\n'.join(imports_code),
+        tags_code    = '\n'.join(tags_code),
     )
 
     add_black_pyfile(
