@@ -2,32 +2,31 @@
 for-dev (monorepo) - ROADMAP
 ==================
 
-This file is a roadmap, in the short term.
+-------------
+TOUJOURS FAIT
+-------------
+
+    + Tester l'utilisation de hatch afin de l'utiliser uniquement à l'avenir (très facile à utiliser)
+
+    + utiliser https://github.com/copier-org/copier
 
 
------------
-ALWAYS DONE
------------
+-----------------
+PROCHAINES ÉTAPES
+-----------------
 
-    + Test hatch use to sue only it in the future (so easy to use)
+    + un fichier bash pour lancer BLACK uniquement sur le produit, puis publier via poetry
 
+    + aboutmeta  : prochaine étape importante !
 
-----------
-NEXT STEPS
-----------
-
-    + one bash file to launch BLACK on product only, and then publish via poetry
-
-    + aboutmeta  : next major step!
-
-    + multimd : maj relative à aboutmeta + hatch + tests done ===> 1st rc
+    + multimd : maj relative à aboutmeta + hatch + tests effectués ===> 1ère rc
 
     + cofiup
 
     + suaver basé sur cofiup
 
-    + src2prod: tests done ===> 1st rc
+    + src2prod : tests effectués ===> 1ère rc
 
-    + yavya   : next major step!
+    + yavya   : prochaine étape majeure !
 
-    + all tests launchable to verify interoperability of the packages: passer via un hatch sur un projet bidon pour ne créer que les déps perso.
+    + tous les tests lançables pour vérifier l'interopérabilité des paquets : passer via un hatch sur un projet bidon pour ne créer que les déps perso.

@@ -1,6 +1,6 @@
-====================
-Monoreop ''for-dev'' - TODO
-====================
+==================
+for-dev (monorepo) - ROADMAP
+==================
 
 
 > ---------------------------- <
@@ -10,7 +10,7 @@ outils polyglote de distribution via yaml config : pour moi partir de src2prod, 
 
 > ---------------------------- <
 
-third-party-imports  /cbdevtools
+third-party-imports  /cbdevtools à virer !!!
 
 
 > ---------------------------- <

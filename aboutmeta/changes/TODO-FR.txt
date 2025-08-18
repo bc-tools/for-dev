@@ -5,6 +5,18 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+Map et parser dans le même fichier car de toute façon l'appel du parser fait des imports quon souhaitait éviter.
+
+De plus, code complets de taille raisonnable donc pas de sous module non plus (envisageable plus tard si besoin).
+
+
+> ---------------------------- <
+
+Parser et pots-tools: deux signatures data et amd;data.
+
+
+> ---------------------------- <
+
 new tools
 
     + facto des codes block et flavour!
@@ -55,6 +67,7 @@ Import Block ou saveur via magic comment : idée de le utiliser dans une sociét
 > ---------------------------- <
 
 on doit tour- t rendre modifiable dynamiquement via une option booleene : ceci permet alors de cntribuer au post_doc, et aussi à des xtras comme add_licenes
+
 
 > ---------------------------- <
 
