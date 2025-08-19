@@ -1,7 +1,7 @@
 toc:
   - prologue.md
   - about.md
-  - py-dev.md
-  - py-dev/
-  - tex-dev.md
-  - tex-dev/
+  - cb-py-dev.md
+  - cb-py-dev/
+  - cb-tex-dev.md
+  - cb-tex-dev/
