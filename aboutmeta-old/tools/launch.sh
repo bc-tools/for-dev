@@ -103,8 +103,7 @@ cd "$THIS_DIR"
 
 rm -f tools.log
 
-# find . -type f -name "*.py" | sort | while read -r builderfile
-find . -type f -name "*.py" ! -path "*/utilities/*" | sort | while read -r builderfile
+find . -type f -name "*.py" ! -path "./utilities/*" | sort | while read -r builderfile
 do
     echo ""
 
