@@ -6,7 +6,7 @@ import              sys
 TOOLS_DIR = Path(__file__).parent.parent
 sys.path.append(str(TOOLS_DIR))
 
-from cbutils.cnp_code import *
+from cbutils.core import *
 
 
 # --------------- #
@@ -35,7 +35,6 @@ logging.info(
     msg_creation_update(
         context = f"'{README_FILE.relative_to(SRC_DIR)}' (contribs treeview)",
         upper   = False,
-        plurial = False,
     )
 )
 

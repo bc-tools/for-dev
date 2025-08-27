@@ -5,7 +5,7 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from utilities.cnp_code import *
+from cbutils.core import *
 
 
 # --------------- #
@@ -21,23 +21,23 @@ CONTRIBS_INFOS = [
     (CTXT_MAPPER, CTXT_PARSER),
 ]
 
-NBTEST_START = 1
+NB_STEP_START = 1
 
 
 # ----------------- #
 # -- LET'S WORK! -- #
 # ----------------- #
 
-for nbtest, (context, contrib_dir_name) in enumerate(
+for nb_step, (context, contrib_dir_name) in enumerate(
     CONTRIBS_INFOS,
-    start = NBTEST_START
+    start = NB_STEP_START
 ):
-    if nbtest != NBTEST_START:
+    if nb_step != NB_STEP_START:
         print()
 
     copy_paste_codes(
         context          = context,
         this_dir         = THIS_DIR,
         contrib_dir_name = contrib_dir_name,
-        nbtest           = nbtest,
+        nb_step           = nb_step,
     )
