@@ -2,7 +2,7 @@
 
 # from rich import print
 
-from utilities.cnp_code import *
+from cbutils.cnp_code import *
 
 
 # --------------- #

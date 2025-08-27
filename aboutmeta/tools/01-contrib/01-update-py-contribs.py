@@ -7,6 +7,8 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 from cbutils.core import *
 
+from cbutils.cnp_code import *
+
 
 # --------------- #
 # -- CONSTANTS -- #

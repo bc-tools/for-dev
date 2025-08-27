@@ -2,8 +2,8 @@
 
 # from rich import print
 
-from .yaml_blocks   import *
-from .yaml_flavours import *
+from cbutils.yaml_blocks   import *
+from cbutils.yaml_flavours import *
 
 
 # ----------------- #
@@ -14,7 +14,7 @@ def create_codes_from_yaml(
     context,
     this_dir,
     contrib_dir_name,
-    nbtest,
+    nb_step,
     subfolder,
 ):
     (
@@ -28,7 +28,7 @@ def create_codes_from_yaml(
         context          = context,
         this_dir         = this_dir,
         contrib_dir_name = contrib_dir_name,
-        nbtest           = nbtest,
+        nb_step           = nb_step,
         subfolder        = subfolder,
     )
 

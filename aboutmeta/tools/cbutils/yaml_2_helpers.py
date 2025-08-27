@@ -2,7 +2,7 @@
 
 from rich import print
 
-from utilities.cnp_code import *
+from cbutils.cnp_code import *
 
 
 # --------------- #
@@ -24,7 +24,7 @@ def build_helpers(
     context,
     this_dir,
     contrib_dir_name,
-    nbtest,
+    nb_step,
     subfolder,
 ):
     (
@@ -38,7 +38,7 @@ def build_helpers(
         context          = context,
         this_dir         = this_dir,
         contrib_dir_name = contrib_dir_name,
-        nbtest           = nbtest,
+        nb_step           = nb_step,
         subfolder        = subfolder,
     )
 

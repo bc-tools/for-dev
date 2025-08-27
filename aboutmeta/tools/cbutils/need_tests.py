@@ -4,7 +4,7 @@
 
 from collections import defaultdict
 
-from .common import *
+from cbutils.common import *
 
 
 # --------------------------- #

@@ -242,7 +242,7 @@ def get_specs_folders(
     context,
     this_dir,
     contrib_dir_name,
-    nbtest,
+    nb_step,
     subfolder = "code",
 ):
     projdir  = this_dir.parent.parent
@@ -251,7 +251,7 @@ def get_specs_folders(
     contribdir = projdir / "contrib" / contrib_dir_name / subfolder
     statusdir  = contribdir.parent / "status"
     srcdir     = projdir / "src" / projname / TAG_SPECS / context
-    testsdir   = projdir / "tests" / f"{nbtest:02d}-{context}"
+    testsdir   = projdir / "tests" / f"{nb_step:02d}-{context}"
 
     return (
         projdir,

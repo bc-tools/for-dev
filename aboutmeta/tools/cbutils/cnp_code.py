@@ -2,8 +2,9 @@
 
 # from rich import print
 
-from .common     import *
-from .need_tests import *
+from cbutils.core import *
+
+from cbutils.need_tests import *
 
 
 # --------------- #
@@ -63,7 +64,7 @@ def copy_paste_codes(
     context,
     this_dir,
     contrib_dir_name,
-    nbtest,
+    nb_step,
 ):
     (
         projdir,
@@ -76,7 +77,7 @@ def copy_paste_codes(
         context          = context,
         this_dir         = this_dir,
         contrib_dir_name = contrib_dir_name,
-        nbtest           = nbtest,
+        nb_step          = nb_step,
     )
 
     allfiles = get_accepted_paths(
