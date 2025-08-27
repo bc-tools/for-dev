@@ -2,7 +2,7 @@
 
 Here's how to define a main block.
 
-  1. Add a `YAML` file inside the `contrib/flavour/block` folder. The name of the `YAML` file is the name of the block that will be usable by flavors. **This name follows the same rules as non-private Python variable names, except that the hyphen replaces the underscore** (because it's easier to type).
+  1. Add a `YAML` file inside the `contrib/flavour/block/config` folder. The name of the `YAML` file is the name of the block that will be usable by flavors. **This name follows the same rules as non-private Python variable names, except that the hyphen replaces the underscore** (because it's easier to type).
 
   1. A magic comment at the beginning of the file briefly describes the flavor. **This text will be used by the CLI as help.**
 

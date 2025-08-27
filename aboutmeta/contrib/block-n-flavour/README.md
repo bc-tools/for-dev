@@ -46,12 +46,12 @@ This folder allows you to know the status of your proposal. Its structure mimics
 <a id="MULTIMD-TOC-ANCHOR-3"></a>
 ### The block folder <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-This folder contains `YAML` files specifying main blocks, which serve as building blocks for creating flavours.
+This folder contains `YAML` files specifying main blocks, which serve as building blocks for creating flavours. See the `config` sub folder.
 
 <a id="MULTIMD-TOC-ANCHOR-4"></a>
 ### The flavour folder <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
 
-This folder contains `YAML` configuration files defining flavours.
+This folder contains `YAML` configuration files defining flavours.See the `config` sub folder.
 
 <a id="MULTIMD-TOC-ANCHOR-5"></a>
 How to propose a new flavour? <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: none;"><span style="margin-left: 0.25em; font-weight: bold; position: relative; top: -.5pt;">&#x2191;</span></a>
@@ -64,7 +64,7 @@ A flavor is defined using aromas which are for us the main blocks. You can there
 
 Here are the steps to follow.
 
-1. Add a `YAML` file inside the `contrib/block-n-flavour/flavour` folder. The file name is the flavor name. **This name follows the same rules as non-private Python variable names, except that the hyphen replaces the underscore** (because it's easier to type).
+1. Add a `YAML` file inside the `contrib/block-n-flavour/flavour/config` folder. The file name is the flavor name. **This name follows the same rules as non-private Python variable names, except that the hyphen replaces the underscore** (because it's easier to type).
 2. A magic comment at the beginning of the file briefly describes the flavor. **This text will be used by the CLI as help.**
 3. The flavor definition is an unordered `YAML` list of unique main block names. Don't forget that blocks are dictionary keys. There are two kinds of block.
 
@@ -88,7 +88,7 @@ Here is the code used for the `it-project` flavour.
 
 Here's how to define a main block.
 
-1. Add a `YAML` file inside the `contrib/flavour/block` folder. The name of the `YAML` file is the name of the block that will be usable by flavors. **This name follows the same rules as non-private Python variable names, except that the hyphen replaces the underscore** (because it's easier to type).
+1. Add a `YAML` file inside the `contrib/flavour/block/config` folder. The name of the `YAML` file is the name of the block that will be usable by flavors. **This name follows the same rules as non-private Python variable names, except that the hyphen replaces the underscore** (because it's easier to type).
 2. A magic comment at the beginning of the file briefly describes the flavor. **This text will be used by the CLI as help.**
 3. The structure of the `YAML` file reflects the structure that the user will need to use in the main block.
 4. You can use two types of key.
