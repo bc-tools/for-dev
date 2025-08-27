@@ -62,8 +62,19 @@ def get_accepted_paths(projdir: Path) -> dict[Path, str]:
             if p.is_file() and p.parent.name != TAG_STATUS
         ]
 
+# Nothing found.
+        if not(is_folder or files):
+            log_raise_error(
+                exception = IOError,
+                desc      = f"No contrib. found for '{stem}'.",
+            )
+
 # Ambiguity?
-        if is_folder and files:
+        if (
+            is_folder and files
+            or
+            len(files) > 1
+        ):
             desc = "Several acceptable contribs."
 
             xtra = []
@@ -82,19 +93,8 @@ def get_accepted_paths(projdir: Path) -> dict[Path, str]:
                 xtra      = xtra,
             )
 
-# Nothing found.
-        if not(is_folder or files):
-            log_raise_error(
-                exception = IOError,
-                desc      = f"No contrib. found for '{stem}'.",
-            )
-
 # Contrib. found.
-        if is_folder:
-            path = parent / stem
-
-        else:
-            path = files[0]
+        path = parent / stem if is_folder else files[0]
 
         accepted_paths[path.parent].append(path.name)
 
