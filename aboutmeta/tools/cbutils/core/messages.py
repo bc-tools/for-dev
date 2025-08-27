@@ -40,7 +40,7 @@ def msg_creation_update(
     if upper:
         context = context.upper()
 
-    plurial = 's' if plurial else ''
+    plurial = 's' if several else ''
 
     return f"{context} code{plurial}: creation or update."
 
