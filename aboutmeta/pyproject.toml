@@ -1,0 +1,92 @@
+[build-system]
+requires      = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+dynamic         = ["version"]
+name            = "aboutmeta"
+description     = ''
+readme          = "README.md"
+authors         = [
+  { name = "Christophe BAL", email = "projetmbc@gmail.com" },
+]
+
+requires-python = ">=3.12"
+
+license = "GPL-3.0-only"
+
+keywords = [
+  "metada",
+  "project",
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+dependencies = [
+  "email_validator>=2.2",
+  "langcodes>=3.5",
+  "natsort>=8.4",
+  "python-box>=7.3",
+  "pyyaml>=6.0",
+  "rapidfuzz>=3.13",
+  "requests>=2.32",
+  "rich>=13.9",
+  "semver>=3.0",
+  "typer>=0.16",
+]
+
+[project.urls]
+Documentation = "https://github.com/bc-tools/for-dev/tree/main/@-bout-meta#readme"
+Issues        = "https://github.com/bc-tools/for-dev/tree/main/@-bout-meta/issues"
+Source        = "https://github.com/bc-tools/for-dev/tree/main/@-bout-meta"
+
+[tool.hatch.version]
+path    = "about.yaml"
+pattern = 'version:\s*"(?P<version>.*)"'
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/aboutmeta tests}"
+
+[tool.coverage.run]
+source_pkgs = [
+  "aboutmeta",
+  "tests"
+]
+branch   = true
+parallel = true
+# omit     = []
+
+[tool.coverage.paths]
+aboutmeta = [
+  "src/aboutmeta",
+  "*/aboutmeta/src/aboutmeta"
+]
+tests = [
+  "tests",
+  "*/aboutmeta/tests"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.hatch.build]
+sources = ["src"]
+include = []
+
+[tool.hatch.envs.debug]
+dependencies = []

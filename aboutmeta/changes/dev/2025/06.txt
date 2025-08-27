@@ -1,0 +1,8 @@
+// ---------- //
+
+
+==
+24
+==
+
+This \proj will allow to use files named path::''about.yaml'' to provide certain metadata that will be made available to third-party codes for various processing tasks. A plugin system allows to choose semantic data formats that are easy to read and write.

@@ -6,3 +6,9 @@ toc:
   - about.md
   - technical.md
   - deps.md
+  # - cli.md
+  # - cli/
+  - specs.md
+  - specs/
+  - api.md
+  - api/
