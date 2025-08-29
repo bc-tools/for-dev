@@ -14,8 +14,8 @@ from cbutils.core import *
 
 THIS_DIR    = Path(__file__).parent
 PROJECT_DIR = THIS_DIR.parent.parent
-CONTRIB_DIR = PROJECT_DIR / "contrib"
 SRC_DIR     = PROJECT_DIR / "src" / "aboutmeta" / "specs"
+CONTRIB_DIR = PROJECT_DIR / "contrib"
 
 PYCODE_CONTRIB_DIRS = [
     CONTRIB_DIR / "parser",
@@ -74,11 +74,13 @@ for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
             headers_ignored = HEADERS_IGNORED
         )
 
-        if final_code:
+        if not final_code:
             log_raise_error(
                 exception = ValueError,
                 context   = "contrib",
-                desc      = f"Empty file validated:\n'{contrib_file}'.",
+                desc      = (
+                    f"Empty file validated: "
+                    f"'{contrib_file.relative_to(PROJECT_DIR)}'."),
             )
 
         create_update_file(

@@ -5,7 +5,7 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from cbutils.core import *
+from cbutils.core    import *
 from cbutils.yaml2py import *
 
 
@@ -15,8 +15,8 @@ from cbutils.yaml2py import *
 
 THIS_DIR    = Path(__file__).parent
 PROJECT_DIR = THIS_DIR.parent.parent
-CONTRIB_DIR = PROJECT_DIR / "contrib" / "block-n-flavour" / "block" / "config"
 SRC_DIR     = PROJECT_DIR / "src" / "aboutmeta" / "specs"
+CONTRIB_DIR = PROJECT_DIR / "contrib" / "block-n-flavour" / "block" / "config"
 
 
 # ----------------- #
