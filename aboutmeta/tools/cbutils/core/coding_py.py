@@ -9,7 +9,8 @@ from black import (
     WriteBack,
 )
 
-from cbutils.core.coding import *
+from cbutils.core.coding  import *
+from cbutils.core.logconf import *
 
 
 # --------------- #
@@ -31,13 +32,21 @@ PATTERN_LEGAL_NAME = re.compile(
 PATTERN_PYSUGLIFY = re.compile(r'[\s\-\.]+')
 
 
-PATTERN_COMMENT_HD_1 = re.compile(
-    r"#\s+-+\s+#\n# --(.*)-- #\n# -+ #\n"
-)
+PATTERNS_HEADERS = [
+    PATTERN_COMMENT_HD_1:= re.compile(
+        r"#\s+-+\s+#\n# --(.*)-- #\n# -+ #\n"
+    ),
+    # PATTERN_COMMENT_HD_2:= re.compile(
+    #     r"# ~~(.*)~~ #\n"
+    # ),
+]
 
-PATTERN_COMMENT_HD_2 = re.compile(
-    r"# ~~(.*)~~ #\n"
-)
+
+# ------------ #
+# -- TYPING -- #
+# ------------ #
+
+type DictSplittedCode = dict[str, Path]
 
 
 # ----------------------- #
@@ -76,7 +85,9 @@ def add_missing_init(folder: Path) -> None:
         initfile.touch()
         initfile.write_text(SHEBANG_PYTHON)
 
-        logging.info(f"{INIT_FILE} file added.")
+        logging.info(
+            f"'{folder.name}/{INIT_FILE}' file added."
+        )
 
 
 ###
@@ -178,6 +189,37 @@ def get_parse_signature(
 # -- EXTRACT PYTHON CODE -- #
 # ------------------------- #
 
+
+###
+# prototype::
+#     file            : :see: ./coding.hd_split_file
+#     headers_ignored : XXX
+#
+#     :return: GGGG
+###
+def finalize_pycode(
+    file           : Path,
+    headers_ignored: list[str]
+) -> str:
+    code = []
+
+    for header, content in hd_split_pyfile(file).items():
+        if header in headers_ignored:
+            continue
+
+        code.append(
+            f"""
+{magic_comment(header)}
+
+{content}
+            """.strip()
+        )
+
+    code = '\n\n\n'.join(code) + '\n'
+
+    return code
+
+
 ###
 # prototype::
 #     file : :see: ./coding.hd_split_file
@@ -185,28 +227,27 @@ def get_parse_signature(
 #     :return: :see: ./coding.hd_split_file
 #
 #
-# Here is a fictive content with the two kinds of section available.
+# Here is a fictive content with the singme kind of section available.
 #
 # python::
 #     ...
 #
 #     # ------------- #
-#     # -- LEVEL 1 -- #
+#     # -- TITLE 1 -- #
 #     # ------------- #
 #
 #     ...
 #
-#     # ~~ LEVEL 2 ~~ #
+#     # ------------- #
+#     # -- TITLE 2 -- #
+#     # ------------- #
 #
 #     ...
 ###
-def hd_split_pyfile(file: Path) -> dict[str, dict[str, Path]]:
+def hd_split_pyfile(file: Path) -> DictSplittedCode:
     return hd_split_file(
         file        = file,
-        pat_headers = [
-            PATTERN_COMMENT_HD_1,
-            PATTERN_COMMENT_HD_2
-        ],
+        pat_headers = PATTERNS_HEADERS,
     )
 
 

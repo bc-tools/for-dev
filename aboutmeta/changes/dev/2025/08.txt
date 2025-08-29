@@ -2,6 +2,21 @@
 
 
 ==
+29  (0.0.0-beta.21)   ?????
+==
+
+--------
+:fordev:
+--------
+
+[[:tech:]]      ?????
+\Contribs: parser and mappers are put inside the same \python file.
+
+
+// ---------- //
+
+
+==
 27
 ==
 
@@ -37,7 +52,7 @@
 
     1) For flavours: tools have been implemented.
 
-    1) In the \src code, the \contribs are put inside the path::''specs'' fodler.
+    1) In the \src code, the \contribs are put inside the path::''specs'' folder.
 
 
 // ---------- //

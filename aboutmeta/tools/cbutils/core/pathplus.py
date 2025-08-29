@@ -72,3 +72,21 @@ def empty_dir(folder : Path) -> None:
 # The empty dirs are now removable.
             for name in dirs:
                 (root / name).rmdir()
+
+
+###
+# prototype::
+#     file    : a file path.
+#     content : content of the file.
+#
+#     :action: the file with the content expected is created.
+###
+def create_update_file(
+    file     : Path,
+    content  : str,
+    log_level: str = TAG_INFO
+) -> None:
+    LOG_PRINTERS[log_level](f"Creation or update: '{file.name}'.")
+
+    file.touch()
+    file.write_text(content)

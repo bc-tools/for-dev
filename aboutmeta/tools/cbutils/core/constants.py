@@ -15,12 +15,3 @@ TAG_README = 'readme'
 # ------------------- #
 
 TAG_FILE  = "file"
-
-
-# ----------------- #
-# -- ERROR & CO. -- #
-# ----------------- #
-
-TAG_WARNING  = "warning"
-TAG_CRITICAL = "critical"
-TAG_ERROR    = "error"

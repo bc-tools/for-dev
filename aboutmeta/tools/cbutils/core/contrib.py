@@ -19,8 +19,6 @@ TAG_CONTRIB_DIR = "contrib"
 TAG_STATUS = "status"
 TAG_OK     = "ok"
 
-TAG_BAD_VALIDATION = "bad validation"
-
 
 # ----------------------- #
 # -- ACCEPTED CONTRIB. -- #

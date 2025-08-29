@@ -51,13 +51,14 @@ def msg_creation_update(
 
 def log_raise_error(
     exception: Exception,
+    context  : str,
     desc     : str,
     xtra     : str = '',
 ) -> None:
     logging.error(
         msg_title(
-            TAG_BAD_VALIDATION,
-            desc = desc
+            title = context,
+            desc  = desc
         )
     )
 

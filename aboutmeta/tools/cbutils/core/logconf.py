@@ -20,6 +20,13 @@ FSTR_COLOR_WARNING  = "[dark_goldenrod]{}[/dark_goldenrod]"
 FSTR_COLOR_CRITICAL = "[black on wheat1]{}[/black on wheat1]"
 FSTR_COLOR_ERROR    = "[bright_red]{}[/bright_red]"
 
+LOG_PRINTERS = {
+    (TAG_INFO    := "info")    : logging.info,
+    (TAG_WARNING := "warning") : logging.warning,
+    (TAG_CRITICAL:= "critical"): logging.critical,
+    (TAG_ERROR   := "error")   : logging.error,
+}
+
 
 # ---------------- #
 # -- FORMATTING -- #
