@@ -76,6 +76,18 @@ for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
 # New Python code.
         contrib_file = folder / one_contrib
 
+# Human tests?
+        if not SECTION_TESTS in hd_split_pyfile(contrib_file):
+            log_raise_error(
+                context = "contrib",
+                desc    = (
+                    f"No unit tests validated: "
+                    f"'{contrib_file}'."
+                ),
+                exception = ValueError,
+            )
+
+# Look at the code.
         final_code = finalize_pycode(
             file        = contrib_file,
             hds_ignored = HEADERS_IGNORED
@@ -83,10 +95,10 @@ for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
 
         if not final_code:
             log_raise_error(
-                context   = "contrib",
-                desc      = (
+                context = "contrib",
+                desc    = (
                     f"Empty file validated: "
-                    f"'{contrib_file.relative_to(PROJECT_DIR)}'."
+                    f"'{contrib_file}'."
                 ),
                 exception = ValueError,
             )

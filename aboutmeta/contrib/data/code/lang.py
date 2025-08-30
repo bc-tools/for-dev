@@ -26,3 +26,12 @@ from aboutmeta.core.dataprinter import DataPrinter
 class Lang(DataPrinter):
     name     : str
     territory: str
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+# Nothing to test!
+    ...

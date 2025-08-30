@@ -1,6 +1,6 @@
 ### Minimum requirements
 
-At the very least, your class must be structured as follows.
+At the very least, your class must be structured as follows. We imagine here that no tests are needed.
 
 ~~~python
 from dataclasses  import dataclass
@@ -14,6 +14,15 @@ from aboutmeta.core.dataprinter import DataPrinter
 
 @dataclass(frozen = True)
 class MyDataClass(DataPrinter):
+    ...
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+# Nothing to test!
     ...
 ~~~
 

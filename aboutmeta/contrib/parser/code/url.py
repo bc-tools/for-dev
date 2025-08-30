@@ -22,3 +22,12 @@ from aboutmeta.specs.data.url import URL
 def parse(data: str) -> URL:
 # We do almost nothing... But what we do is great!
     return URL(std = data)
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+# Nothing to test!
+    ...

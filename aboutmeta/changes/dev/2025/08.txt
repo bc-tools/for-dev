@@ -2,14 +2,14 @@
 
 
 ==
-????????  (0.0.0-beta.21)
+30  (0.0.0-beta.21)
 ==
 
 -------
 :break:
 -------
 
-[[:api:]]      ?????
+[[:api:]]
 Parsers and mappers are put inside the same \python file.
 
 
@@ -20,17 +20,15 @@ Parsers and mappers are put inside the same \python file.
 [[:tech:]]      ?????
 Here are the canges done.
 
-    1)???
-    Magic comments have been simplified (this has been made possible by the fact that parsers and mappers are put inside the same \python file).
+    1) Magic comments have been simplified a lot(this has been made possible by the fact that parsers and mappers are put inside the same \python file).
 
     1) ???
     Factorisation of tools for a cleaner code.
 
-        * ???
-        All tool \funcs use typing annotations.
+        * All tool \funcs use typing annotations.
 
         * ???
-        Tests for contributions: igf no unit test has been written, a file is created with cmmments containing human tests using in the conrrib initial file.
+        Tests for contributions: if no unit test has been written in the path::''tests'' folder, a file is created with comments containing human tests used in the \contrib file.
 
 
 // ---------- //

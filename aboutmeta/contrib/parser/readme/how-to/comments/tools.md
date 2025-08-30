@@ -3,4 +3,4 @@
 This part of the `Python` file contains tools for development, such as file creation, but not tools needed by the functions `parse` and `map_list`.
 
 
-> ***WARNING!*** *Remember that each development tool must make its imports internally.*
+> ***WARNING!*** *Each development tool must make its imports internally.*

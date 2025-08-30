@@ -29,3 +29,12 @@ from aboutmeta.core.dataprinter import DataPrinter
 class TOCPath(DataPrinter):
     postsearch: Path | None
     paths     : list[Path]
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+# Nothing to test!
+    ...
