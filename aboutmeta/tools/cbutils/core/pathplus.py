@@ -5,24 +5,6 @@ from pathlib import Path
 from cbutils.core.logconf import *
 
 
-# ----------- #
-# -- PATHS -- #
-# ----------- #
-
-###
-# prototype::
-#     subpath  : a \1st path
-#     mainpath : a \2nd path
-#
-#     :return: the path of ''subpath'' relative to ''mainpath''.
-###
-def get_relpath(
-    subpath : Path,
-    mainpath: Path
-) -> Path:
-    return subpath.relative_to(mainpath)
-
-
 # ------------------------------ #
 # -- CREATION, DELETION & CO. -- #
 # ------------------------------ #

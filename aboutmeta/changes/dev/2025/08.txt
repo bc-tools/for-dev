@@ -2,15 +2,35 @@
 
 
 ==
-29  (0.0.0-beta.21)   ?????
+????????  (0.0.0-beta.21)
 ==
+
+-------
+:break:
+-------
+
+[[:api:]]      ?????
+Parsers and mappers are put inside the same \python file.
+
 
 --------
 :fordev:
 --------
 
 [[:tech:]]      ?????
-\Contribs: parser and mappers are put inside the same \python file.
+Here are the canges done.
+
+    1)???
+    Magic comments have been simplified (this has been made possible by the fact that parsers and mappers are put inside the same \python file).
+
+    1) ???
+    Factorisation of tools for a cleaner code.
+
+        * ???
+        All tool \funcs use typing annotations.
+
+        * ???
+        Tests for contributions: igf no unit test has been written, a file is created with cmmments containing human tests using in the conrrib initial file.
 
 
 // ---------- //

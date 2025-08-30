@@ -23,7 +23,7 @@ TOCPathList = list[TOCPath]
 
 ###
 # prototype::
-#     parent : the parent directory of the path::''about.yaml’'
+#     yaml_file_dir : the yaml_file_dir directory of the path::''about.yaml’'
 #              file from which the ''data’' \arg comes.
 #     data   : a virtual path that is either a relative path in
 #              the form of a string, or a pattern, using the \glob
@@ -36,7 +36,7 @@ TOCPathList = list[TOCPath]
 #
 #
 # Let's look at some virtual examples where we assume that the
-# parent folder has the absolute path path::''/abs/path/readme''.
+# yaml_file_dir folder has the absolute path path::''/abs/path/readme''.
 #
 #
 # [[An existing file]]
@@ -114,24 +114,26 @@ TOCPathList = list[TOCPath]
 # and the second one as ''data = {'r-regex': r".*\.md"}''.
 ###
 def parse(
-    parent: Path,
-    data  : str | dict[str, str]
+    amdata_cls: object,
+    data      : str | dict[str, str]
 ) -> TOCPath:
+    yaml_file_dir = amdata_cls.yaml_file_dir
+
 # A "direct" path?
     if isinstance(data, str):
-        return _parse_direct_path(parent, data)
+        return _parse_direct_path(yaml_file_dir, data)
 
 # A legal pattern?
     if not isinstance(data, dict):
         _raisethis(
-            parent  = parent,
+            yaml_file_dir  = yaml_file_dir,
             data    = data,
             message = "one dict expected for one glob or regex pattern."
         )
 
     if not len(data.keys()) == 1:
         _raisethis(
-            parent  = parent,
+            yaml_file_dir  = yaml_file_dir,
             data    = data,
             message = "one single key expected for a pattern dict."
         )
@@ -140,12 +142,12 @@ def parse(
     for kind, pattern in data.items(): # Python is funny...
         ...
 
-    return _parse_pattern(parent, data, kind, pattern)
+    return _parse_pattern(yaml_file_dir, data, kind, pattern)
 
 
 ###
 # prototype::
-#     parent : :see: parse
+#     yaml_file_dir : :see: parse
 #     data   : :see: parse
 #     kind   : the main error message.
 #     xtra   : complementary information printed as an item.
@@ -153,7 +155,7 @@ def parse(
 #     :action: raise errors.
 ###
 def _raisethis(
-    parent : Path,
+    yaml_file_dir : Path,
     data   : str | dict[str, str],
     message: str,
     xtra   : str = ""
@@ -165,7 +167,7 @@ def _raisethis(
         f"""
 {message}
     + DATA: {data!r}
-    + FILE: {parent}/about.yaml
+    + FILE: {yaml_file_dir}/about.yaml
 {xtra}
         """.strip()
     )
@@ -190,26 +192,26 @@ def _std(data: str | dict[str, str]) -> str:
 
 ###
 # prototype::
-#     parent : :see: parse
+#     yaml_file_dir : :see: parse
 #     data   : :see: parse
 #
 #     :return: :see: parse
 ###
 def _parse_direct_path(
-    parent: Path,
+    yaml_file_dir: Path,
     data  : str | dict[str, str]
 ) -> TOCPath:
     is_dir = bool(data[-1] == "/")
 
 # Just a "full" path resolved is useful.
-    fullpath = parent / Path(data)
+    fullpath = yaml_file_dir / Path(data)
     fullpath = fullpath.resolve()
 
 # Folder for an ''about.yaml'' file?
     if is_dir:
         if not fullpath.is_dir():
             _raisethis(
-                parent  = parent,
+                yaml_file_dir  = yaml_file_dir,
                 data    = data,
                 message = "inexistant folder.",
                 xtra    = f"FOLDER: {fullpath}"
@@ -219,7 +221,7 @@ def _parse_direct_path(
 
         if not sub_yaml_file.is_file():
             _raisethis(
-                parent  = parent,
+                yaml_file_dir  = yaml_file_dir,
                 data    = data,
                 message = "folder without an ''about.yaml'' file.",
                 xtra    = f"FOLDER: {fullpath}"
@@ -232,7 +234,7 @@ def _parse_direct_path(
     else:
         if not fullpath.is_file():
             _raisethis(
-                parent  = parent,
+                yaml_file_dir  = yaml_file_dir,
                 data    = data,
                 message = "path not pointing to a file."
             )
@@ -250,7 +252,7 @@ def _parse_direct_path(
 
 ###
 # prototype::
-#     parent  : :see: parse
+#     yaml_file_dir  : :see: parse
 #     data    : :see: parse
 #     kind    : the kind of pattern.
 #             @ kind in ["glob", "r-glob", "regex", "r-regex"]
@@ -259,7 +261,7 @@ def _parse_direct_path(
 #     :return: :see: parse
 ###
 def _parse_pattern(
-    parent : Path,
+    yaml_file_dir : Path,
     data   : str | dict[str, str],
     kind   : str,
     pattern: str
@@ -269,7 +271,7 @@ def _parse_pattern(
 
     if not kind in TAG_TOC_PATTERN_KINDS:
         _raisethis(
-            parent  = parent,
+            yaml_file_dir  = yaml_file_dir,
             data    = data,
             message = f"illegal pattern kind ''{kind}''."
         )
@@ -288,7 +290,7 @@ def _parse_pattern(
 
         paths = [
             p
-            for p in getattr(parent, _glob)(pattern)
+            for p in getattr(yaml_file_dir, _glob)(pattern)
             if p.is_file()
         ]
 
@@ -299,7 +301,7 @@ def _parse_pattern(
 
         except re.error as e:
             _raisethis(
-                parent  = parent,
+                yaml_file_dir  = yaml_file_dir,
                 data    = data,
                 message = f"regex compilation failed for {pattern!r}.",
                 xtra    = f"REGEX ERROR: {e}"
@@ -309,8 +311,8 @@ def _parse_pattern(
 
         _glob = "glob" if kind == "regex" else "rglob"
 
-        for fullpath in getattr(parent, _glob)("*"):
-            relpath = fullpath.relative_to(parent)
+        for fullpath in getattr(yaml_file_dir, _glob)("*"):
+            relpath = fullpath.relative_to(yaml_file_dir)
 
             if pattern.fullmatch(str(relpath)):
                 paths.append(fullpath)
@@ -318,7 +320,7 @@ def _parse_pattern(
 # Loosing pattern?
     if not paths:
         _raisethis(
-            parent  = parent,
+            yaml_file_dir  = yaml_file_dir,
             data    = data,
             message = f"no files found with the pattern."
         )

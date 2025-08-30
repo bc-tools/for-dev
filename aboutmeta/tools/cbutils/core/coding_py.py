@@ -144,23 +144,21 @@ def append_black_pyfile(
 
 ###
 # prototype::
-#     file         : a file path.
+#     code         : a \python code.
 #     func_name    : a \func name.
-#     ignore_error : set to ''True'', this indicates to return
+#     is_mandatory : set to ''False'', this indicates to return
 #                    ''None'' if no \func has the given name;
 #                    otherwise, a ''ValueError'' is raised.
 #
-#     :return: the list of its \args in case of success; otherwise,
+#     :return: the set of its \args in case of success; otherwise,
 #              see the \desc of the \arg ''ignore_error''.
 ###
 def get_parse_signature(
-    file        : Path,
+    code        : str,
     func_name   : str,
-    ignore_error: bool = False,
-) -> list[str] | None:
-    src_code  = Path(file).read_text()
-    tree      = ast.parse(src_code)
-    arguments = []
+    is_mandatory: bool = True,
+) -> set[str] | None:
+    tree = ast.parse(code)
 
     for node in ast.walk(tree):
         if (
@@ -168,7 +166,7 @@ def get_parse_signature(
             and
             node.name == func_name
         ):
-            args = [arg.arg for arg in node.args.args]
+            args = set(arg.arg for arg in node.args.args)
 
 # Not use but useful to get the default values.
 #             for i, default in enumerate(
@@ -179,9 +177,9 @@ def get_parse_signature(
 
             return args
 
-    if not ignore_error:
+    if is_mandatory:
         raise ValueError(
-            f"'{func_name}' is not a function of the file:\n{file}"
+            f"Missing '{func_name}' function in the code."
         )
 
 
@@ -189,13 +187,12 @@ def get_parse_signature(
 # -- EXTRACT PYTHON CODE -- #
 # ------------------------- #
 
-
 ###
 # prototype::
-#     file            : :see: ./coding.hd_split_file
-#     headers_ignored : XXX
+#     file            : a file to normalize.
+#     headers_ignored : a list of header titles to ignore some sections.
 #
-#     :return: GGGG
+#     :return: the code of the file without the unwanted section contents.
 ###
 def finalize_pycode(
     file           : Path,

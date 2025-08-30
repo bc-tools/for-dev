@@ -86,7 +86,7 @@ class AMData:
         self,
         yaml_file: Path,
     ) -> None:
-        self._yaml_file_dir = yaml_file.parent
+        self.yaml_file_dir = yaml_file.parent
 
         full_data = {
             k: v
@@ -186,7 +186,7 @@ class AMData:
 
         if parser_name == TAG_PARSER_TOCPATH:
             parser = lambda x: _parser(
-                self._yaml_file_dir,
+                self.yaml_file_dir,
                 x
             )
 

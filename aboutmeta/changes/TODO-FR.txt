@@ -5,9 +5,9 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-Map et parser dans le même fichier car de toute façon l'appel du parser fait des imports quon souhaitait éviter.
-
-De plus, code complets de taille raisonnable donc pas de sous module non plus (envisageable plus tard si besoin).
+yaml2py à reprendre via un code structuré simple
++
+test manquants à indiquer mais facile
 
 
 > ---------------------------- <

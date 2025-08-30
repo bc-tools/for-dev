@@ -26,7 +26,7 @@ TAG_OK     = "ok"
 
 ###
 # prototype::
-#     projdir : the path of the project folder.
+#     project_dir : the path of the project folder.
 #
 #     :return: the key are folders containing accpeted contributions,
 #              and values are list of file or folder names.
@@ -35,10 +35,10 @@ TAG_OK     = "ok"
 #     It is the responsibility of the user code to optimise the paths
 #     for humanly useful rendering.
 ###
-def get_accepted_paths(projdir: Path) -> dict[Path, str]:
+def get_accepted_paths(project_dir: Path) -> dict[Path, str]:
     logging.info("Looking for accepted contribs.")
 
-    contrib_dir    = projdir / TAG_CONTRIB_DIR
+    contrib_dir    = project_dir / TAG_CONTRIB_DIR
     accepted_paths = defaultdict(list)
 
     for yaml_file in contrib_dir.rglob("status/*.yaml"):
