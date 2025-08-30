@@ -13,18 +13,20 @@ from cbutils.yaml2py import *
 # -- CONSTANTS -- #
 # --------------- #
 
-THIS_DIR    = Path(__file__).parent
-PROJECT_DIR = THIS_DIR.parent.parent
-SRC_DIR     = PROJECT_DIR / "src" / "aboutmeta" / "specs"
-CONTRIB_DIR = PROJECT_DIR / "contrib" / "block-n-flavour" / "block" / "config"
+THIS_DIR          = Path(__file__).parent
+PROJECT_DIR       = THIS_DIR.parent.parent
+SRC_DIR           = PROJECT_DIR / "src" / "aboutmeta" / "specs"
+BLOCK_CONTRIB_DIR = PROJECT_DIR / "contrib" / "block-n-flavour" / "block" / "config"
 
 
 # ----------------- #
 # -- LET'S WORK! -- #
 # ----------------- #
 
+add_missing_init(SRC_DIR)
+
 for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
-    if folder != CONTRIB_DIR:
+    if folder != BLOCK_CONTRIB_DIR:
         continue
 
     print(contribs)

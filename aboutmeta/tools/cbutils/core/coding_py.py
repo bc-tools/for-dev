@@ -9,8 +9,9 @@ from black import (
     WriteBack,
 )
 
-from cbutils.core.coding  import *
-from cbutils.core.logconf import *
+from cbutils.core.coding   import *
+from cbutils.core.logconf  import *
+from cbutils.core.messages import *
 
 
 # --------------- #
@@ -48,6 +49,13 @@ PATTERNS_HEADERS = [
 
 type DictSplittedCode = dict[str, Path]
 
+type LegalSigns = dict[
+    str,
+    tupe[
+        bool,
+        list[set[str]]
+    ]
+]
 
 # ----------------------- #
 # -- BUILD PYTHON CODE -- #
@@ -144,6 +152,94 @@ def append_black_pyfile(
 
 ###
 # prototype::
+#     file        : the \python file to analyse.
+#     legal_signs : a dictionary whose keys correspond to function
+#                   names and whose values are pairs ''(is_mandatory,
+#                   authorised_signs)'' indicating whether the
+#                   function must be present and what its possible
+#                   signatures are (use of a list of sets of \arg
+#                   names).
+#     ctxt        : the current context.
+#     desc        : short \desc to complement the ''ctxt'' \arg.
+#     code        : set to ''None'', this \arg requests that the
+#                   entire file code be used; otherwise, the ''code''
+#                   value is used (this allows only a useful part of
+#                   the file to be analysed).
+#
+#     :action: verify that special functions have an authorised
+#              signature (see the \arg ''legal_signs'').
+#
+#
+# note::
+#     Here is a possible value ofr the special \arg ''legal_signs''.
+#
+#     python::
+#         LEGAL_SIGNS = {
+#             'parse'   : (
+#                 True,
+#                 [set(['data']),
+#                  set(['amdata_cls', 'data'])]
+#             ),
+#             'map_list': (
+#                 False,
+#                 [set(['data_list']),
+#                  set(['amdata_cls', 'data_list'])]
+#             ),
+#         }
+###
+def validate_signatures(
+    file       : Path,
+    legal_signs: LegalSigns,
+    ctxt       : str,
+    desc       : str,
+    code       : str | None,
+) -> None:
+    if code is None:
+        code = file.read_text()
+
+    for func_name, (
+        is_mandatory,
+        authorised_signs
+    ) in legal_signs.items():
+        sign = get_parse_signature(
+            code         = code,
+            func_name    = func_name,
+            is_mandatory = is_mandatory,
+        )
+
+        if sign is None:
+            continue
+
+        if not sign in authorised_signs:
+            if len(authorised_signs) == 1:
+                helper = ["One authorised signature."]
+
+            else:
+                helper = ["Authorised signatures."]
+
+            helper += [
+                f"  + {func_name}({', '.join(sorted(s))})" for s in authorised_signs
+            ]
+
+            helper = '\n'.join(helper)
+
+            sign = f"({', '.join(sorted(sign))})"
+
+            log_raise_error(
+                context = ctxt,
+                desc    = (
+                    f"{desc}: "
+                    f"unauthorised signature '{sign}' for "
+                    f"'{func_name}' function in file: "
+                    f"'{file}'"
+                ),
+                exception = ValueError,
+                xtra      = f"\n\n{helper}",
+            )
+
+
+###
+# prototype::
 #     code         : a \python code.
 #     func_name    : a \func name.
 #     is_mandatory : set to ''False'', this indicates to return
@@ -189,19 +285,19 @@ def get_parse_signature(
 
 ###
 # prototype::
-#     file            : a file to normalize.
-#     headers_ignored : a list of header titles to ignore some sections.
+#     file        : a file to normalize.
+#     hds_ignored : a list of header titles to ignore some sections.
 #
 #     :return: the code of the file without the unwanted section contents.
 ###
 def finalize_pycode(
-    file           : Path,
-    headers_ignored: list[str]
+    file       : Path,
+    hds_ignored: list[str]
 ) -> str:
     code = []
 
     for header, content in hd_split_pyfile(file).items():
-        if header in headers_ignored:
+        if header in hds_ignored:
             continue
 
         code.append(

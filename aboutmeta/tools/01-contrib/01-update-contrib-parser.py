@@ -34,7 +34,7 @@ HEADERS_IGNORED = [
 ]
 
 
-SIGNATURES = {
+LEGAL_SIGNS = {
     'parse'   : (
 # is_mandatory, authorised_signs
         True,
@@ -51,80 +51,6 @@ SIGNATURES = {
         ]
     ),
 }
-
-
-# ----------- #
-# -- TOOLS -- #
-# ----------- #
-
-###
-# prototype::
-#     file : XXX
-#
-#     :return: XXX
-###
-def get_xtra_files(file: Path) -> list[Path]:
-    xtra_files = [
-        p
-        for p in file.parent.glob(
-            f"{file.stem}-*"
-        )
-        if p != file
-    ]
-
-    return xtra_files
-
-###
-# prototype::
-#     ctxt : XXX
-#     code : XXX
-#
-#     :action: XXX
-###
-def validate_signatures(
-    ctxt: str,
-    code: str,
-) -> None:
-    if ctxt == CTXT_PARSER:
-        for func_name, (
-            is_mandatory,
-            authorised_signs
-        ) in SIGNATURES.items():
-            sign = get_parse_signature(
-                code         = code,
-                func_name    = func_name,
-                is_mandatory = is_mandatory,
-            )
-
-            if sign is None:
-                continue
-
-            if not sign in authorised_signs:
-                if len(authorised_signs) == 1:
-                    helper = ["One authorised signature."]
-
-                else:
-                    helper = ["Authorised signatures."]
-
-                helper += [
-                    f"  + {func_name}({', '.join(sorted(s))})" for s in authorised_signs
-                ]
-
-                helper = '\n'.join(helper)
-
-                sign = f"({', '.join(sorted(sign))})"
-
-                log_raise_error(
-                    context = f"Contrib. {ctxt}",
-                    desc    = (
-                            "Illegal contrib. validation: "
-                        f"unauthorised signature '{sign}' for "
-                        f"'{func_name}' function in file: "
-                        f"'{contrib_file}'"
-                    ),
-                    exception = ValueError,
-                    xtra      = f"\n\n{helper}",
-                )
 
 
 # ----------------- #
@@ -151,24 +77,29 @@ for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
         contrib_file = folder / one_contrib
 
         final_code = finalize_pycode(
-            file            = contrib_file,
-            headers_ignored = HEADERS_IGNORED
+            file        = contrib_file,
+            hds_ignored = HEADERS_IGNORED
         )
 
         if not final_code:
             log_raise_error(
-                exception = ValueError,
                 context   = "contrib",
                 desc      = (
                     f"Empty file validated: "
-                    f"'{contrib_file.relative_to(PROJECT_DIR)}'."),
+                    f"'{contrib_file.relative_to(PROJECT_DIR)}'."
+                ),
+                exception = ValueError,
             )
 
 # Good signatures?
-        validate_signatures(
-            ctxt = ctxt,
-            code = final_code,
-        )
+        if ctxt == CTXT_PARSER:
+            validate_signatures(
+                ctxt        = f"Contrib. {ctxt}",
+                desc        = "Illegal contrib validation",
+                legal_signs = LEGAL_SIGNS,
+                file        = contrib_file,
+                code        = final_code,
+            )
 
 # We can create / update the source file.
         create_update_file(
