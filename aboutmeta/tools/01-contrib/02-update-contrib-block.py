@@ -29,4 +29,9 @@ for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
     if folder != BLOCK_CONTRIB_DIR:
         continue
 
-    print(contribs)
+    for one_contrib in contribs:
+        logging.info(f"Working on '{one_contrib}'.")
+
+        contrib_file = folder / one_contrib
+
+        from pprint import pprint;pprint(digested_specs(contrib_file))
