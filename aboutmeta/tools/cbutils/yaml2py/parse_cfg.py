@@ -2,8 +2,13 @@
 
 from pathlib import Path
 import              re
+import              sys
 
 from yaml import safe_load
+
+sys.path.append(str(Path(__file__).parent.parent))
+
+from cbutils.core import *
 
 
 # --------------- #
@@ -37,18 +42,25 @@ PATTERN_SPECIAL_TAGS_SPECS = re.compile(r'__[a-z]+__')
 SPECIAL_TAGS_SPECS = []
 
 # Standard features.
-TAG_OPTIONAL   = '*'
-TAG_ALT_SEP    = '|'
-TAG_POST_PROD  = '+'
+TAG_FINAL_OPTIONAL = '*'
+TAG_FINAL_POSTPROD = '+'
+
+TAG_SEP_ALTERNATIVE = '|'
+# TAG_SEP_CONJUNCTION = ','
+
 TAG_MAGIC_CHAR = '.'
 
 PATTERN_LEGAL_NAME = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
 PATTERN_LIST_OF    = re.compile(r"list\s*\(\s*(.*?)\s*\)")
 
+MSG_ERROR_BAD_VALIDATION = "Bad contrib. validation"
+
+
 # ------------ #
 # -- TYPING -- #
 # ------------ #
 
+type NestedYAMLDic     = dict[str, str | list[str] | NestedYAMLDic]
 type NestedDictBoolStr = dict[str, bool | str | NestedDictBoolStr]
 
 
@@ -60,10 +72,10 @@ type NestedDictBoolStr = dict[str, bool | str | NestedDictBoolStr]
 # prototype::
 #     key : XXX
 #
-#     :return: XXX
+#     :return: ''(name, is_required)'' XXX
 ###
-def get_name_required(key: str) -> tuple[str, bool]:
-    if key[-1] == TAG_OPTIONAL:
+def get_name_n_isrequired(key: str) -> tuple[str, bool]:
+    if key[-1] == TAG_FINAL_OPTIONAL:
         is_required = False
         name        = key[:-1]
 
@@ -88,8 +100,7 @@ def get_name_required(key: str) -> tuple[str, bool]:
 #     :return: XXX
 ###
 def digested_yaml_specs(file: Path) -> NestedDictBoolStr:
-    file_name = file.name
-    specs     = safe_load(file.read_text())
+    specs = safe_load(file.read_text())
 
 # Extra tags?
     extradata = dict()
@@ -97,10 +108,12 @@ def digested_yaml_specs(file: Path) -> NestedDictBoolStr:
     for k in specs:
         if PATTERN_SPECIAL_TAGS_SPECS.fullmatch(k):
             if not k in SPECIAL_TAGS_SPECS:
-                raise_validation_error(
-                    key        = k,
-                    yfile_name = file_name,
-                    desc       = "illegal special key."
+                log_raise_error(
+                    context = MSG_ERROR_BAD_VALIDATION,
+                    desc    = (
+                        f"Illegal special key '{k}' in '{file}'."
+                    ),
+                    exception = ValueError,
                 )
 
             extradata[k] = specs[k]
@@ -110,13 +123,13 @@ def digested_yaml_specs(file: Path) -> NestedDictBoolStr:
 
     extradata[SPECIAL_TAG_FILE] = file
 
-# Let's work recursively with a fake dict.
-    fake_specs = build_pyspecs(
+# Let us work recursively, starting with a fake initial key.
+    specs = build_pyspecs(
         {_TAG_FAKE: specs},
         extradata,
     )
 
-    specs = fake_specs[_TAG_FAKE]
+    specs = specs[_TAG_FAKE]
 
 # Not need to know requirement value at the very first level.
     del specs[TAG_SPECS_REQUIRED]
@@ -125,11 +138,17 @@ def digested_yaml_specs(file: Path) -> NestedDictBoolStr:
     return specs
 
 
-
+###
+# prototype::
+#     specs    : XXX
+#     extradata: XXX
+#
+#     :return: XXX
+###
 def build_pyspecs(
-    specs,
-    extradata
-):
+    specs    : NestedYAMLDic,
+    extradata: dict[str, str]
+) -> NestedDictBoolStr:
     pyspecs = {
         TAG_SPECS_ALT_ALL   : [],
         TAG_SPECS_ALT_TUPLES: [],
@@ -148,6 +167,10 @@ def build_pyspecs(
             val,
             extradata
         )
+
+
+
+
 
         if len(splitted_keys) > 1:
             pyspecs[TAG_SPECS_ALT_ALL].extend(splitted_keys)
@@ -205,7 +228,12 @@ def build_pyspecs(
     return pyspecs
 
 
-
+###
+# prototype::
+#     file : XXX
+#
+#     :return: XXX
+###
 def build_single_pyspec(
     key,
     val_not_list,
@@ -265,6 +293,90 @@ def build_single_pyspec(
 # -- KEY / VAL -- #
 # --------------- #
 
+###
+# prototype::
+#     file : XXX
+#
+#     :return: XXX
+###
+def split_key_val(
+    key      : str,
+    val      : str | list[str] | NestedYAMLDic,
+    extradata: dict[str, str],
+):
+    TODO
+# List used.
+    if isinstance(val, list):
+        raise_validation_error(
+            key        = key,
+            yfile_name = extradata[TAG_FILE],
+            desc       = "value can't be a dict.",
+        )
+        log_raise_error(
+            context = MSG_ERROR_BAD_VALIDATION,
+            desc    = (
+                f"Illegal value for the key '{k}' in "
+                f"'{extradata[TAG_FILE]}'."
+            ),
+            exception = ValueError,
+        )
+
+# Multiple keys used.
+    if isinstance(val, dict):
+        raise_validation_error(
+            key        = key,
+            yfile_name = extradata[TAG_FILE],
+            desc       = "value can't be a dict.",
+        )
+        log_raise_error(
+            context = MSG_ERROR_BAD_VALIDATION,
+            desc    = (
+                f"Illegal special key '{k}' in '{file}'."
+            ),
+            exception = ValueError,
+        )
+
+# About the key(s).
+    real_key, is_required = get_name_n_isrequired(key)
+
+# Single key used.
+    if not TAG_SEP_ALTERNATIVE in real_key:
+        if TAG_SEP_ALTERNATIVE in val_not_list:
+            raise_validation_error(
+                key        = key,
+                yfile_name = extradata[TAG_FILE],
+                desc       = "different numbers of pipe.",
+            )
+
+        return is_required, [real_key], [val_not_list]
+
+
+
+# Let's split together.
+    splitted_keys = [k.strip() for k in real_key.split('|')]
+    splitted_vals = [v.strip() for v in val_not_list.split('|')]
+
+    if len(splitted_keys) != len(splitted_vals):
+        raise_validation_error(
+            key        = key,
+            yfile_name = extradata[TAG_FILE],
+            desc       = "different numbers of pipe.",
+        )
+
+    return is_required, splitted_keys, splitted_vals
+
+
+
+
+
+
+
+###
+# prototype::
+#     file : XXX
+#
+#     :return: XXX
+###
 def normalize_val(
     key,
     val,
@@ -294,50 +406,9 @@ def normalize_val(
             val        = match.group(1)
 
 # Post prod?
-        if val[-1] == TAG_POST_PROD:
+        if val[-1] == TAG_FINAL_POSTPROD:
             use_post_prod = True
             val           = val[:-1].strip()
 
 # Nothing left to do.
     return is_list_of, use_post_prod, val
-
-
-def split_key_val(
-    key,
-    val_not_list,
-    extradata
-):
-# About the key(s).
-    real_key, is_required = get_name_required(key)
-
-# Single key used.
-    if not TAG_ALT_SEP in real_key:
-        if TAG_ALT_SEP in val_not_list:
-            raise_validation_error(
-                key        = key,
-                yfile_name = extradata[TAG_FILE],
-                desc       = "different numbers of pipe.",
-            )
-
-        return is_required, [real_key], [val_not_list]
-
-# Multiple keys used.
-    if isinstance(val_not_list, dict):
-        raise_validation_error(
-            key        = key,
-            yfile_name = extradata[TAG_FILE],
-            desc       = "value can't be a dict.",
-        )
-
-# Let's split together.
-    splitted_keys = [k.strip() for k in real_key.split('|')]
-    splitted_vals = [v.strip() for v in val_not_list.split('|')]
-
-    if len(splitted_keys) != len(splitted_vals):
-        raise_validation_error(
-            key        = key,
-            yfile_name = extradata[TAG_FILE],
-            desc       = "different numbers of pipe.",
-        )
-
-    return is_required, splitted_keys, splitted_vals
