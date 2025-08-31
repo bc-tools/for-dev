@@ -34,4 +34,4 @@ for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
 
         contrib_file = folder / one_contrib
 
-        from pprint import pprint;pprint(digested_specs(contrib_file))
+        from pprint import pprint;pprint(digested_yaml_specs(contrib_file))

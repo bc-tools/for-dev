@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import re
+from pathlib import Path
+import              re
 
 from yaml import safe_load
 
@@ -44,19 +45,33 @@ TAG_MAGIC_CHAR = '.'
 PATTERN_LEGAL_NAME = re.compile(r"[a-zA-Z_]+(\.[a-zA-Z_]+)*")
 PATTERN_LIST_OF    = re.compile(r"list\s*\(\s*(.*?)\s*\)")
 
+# ------------ #
+# -- TYPING -- #
+# ------------ #
 
-# --------------------- #
+type NestedDictBoolStr = dict[str, bool | str | NestedDictBoolStr]
+
+
+# ------------------- #
 # -- YAML ANALYSIS -- #
-# --------------------- #
+# ------------------- #
 
-def get_name_required(name):
-    if name[-1] == TAG_OPTIONAL:
+###
+# prototype::
+#     key : XXX
+#
+#     :return: XXX
+###
+def get_name_required(key: str) -> tuple[str, bool]:
+    if key[-1] == TAG_OPTIONAL:
         is_required = False
-        name        = name[:-1].strip()
+        name        = key[:-1]
 
     else:
         is_required = True
-        name        = name
+        name        = key
+
+    name = name.strip()
 
     return name, is_required
 
@@ -65,9 +80,16 @@ def get_name_required(name):
 # -- YAML DICT TO PY DICT -- #
 # -------------------------- #
 
-def digested_specs(yaml_file):
-    yfile_name = yaml_file.name
-    specs      = safe_load(yaml_file.read_text())
+
+###
+# prototype::
+#     file : XXX
+#
+#     :return: XXX
+###
+def digested_yaml_specs(file: Path) -> NestedDictBoolStr:
+    file_name = file.name
+    specs     = safe_load(file.read_text())
 
 # Extra tags?
     extradata = dict()
@@ -77,7 +99,7 @@ def digested_specs(yaml_file):
             if not k in SPECIAL_TAGS_SPECS:
                 raise_validation_error(
                     key        = k,
-                    yfile_name = yfile_name,
+                    yfile_name = file_name,
                     desc       = "illegal special key."
                 )
 
@@ -86,7 +108,7 @@ def digested_specs(yaml_file):
     for k in extradata:
         del specs[k]
 
-    extradata[SPECIAL_TAG_FILE] = yaml_file
+    extradata[SPECIAL_TAG_FILE] = file
 
 # Let's work recursively with a fake dict.
     fake_specs = build_pyspecs(
@@ -96,11 +118,18 @@ def digested_specs(yaml_file):
 
     specs = fake_specs[_TAG_FAKE]
 
+# Not need to know requirement value at the very first level.
+    del specs[TAG_SPECS_REQUIRED]
+
+# Nothing left to do!
     return specs
 
 
 
-def build_pyspecs(specs, extradata):
+def build_pyspecs(
+    specs,
+    extradata
+):
     pyspecs = {
         TAG_SPECS_ALT_ALL   : [],
         TAG_SPECS_ALT_TUPLES: [],
