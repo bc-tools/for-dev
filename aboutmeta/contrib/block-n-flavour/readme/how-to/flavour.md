@@ -22,6 +22,6 @@ Here is the code used for the `it-project` flavour.
 # a "table of contents".
 ###
 
-- project*
-- toc*
+- project *
+- toc *
 ~~~

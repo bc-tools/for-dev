@@ -20,6 +20,8 @@ Parsers and mappers are put inside the same \python file.
 [[:tech:]]      ?????
 Here are the canges done.
 
+    1) \yaml \cfg: it is possible to use key alternatives without having alternatives for  values.
+
     1) Magic comments have been simplified a lot(this has been made possible by the fact that parsers and mappers are put inside the same \python file).
 
     1) ???

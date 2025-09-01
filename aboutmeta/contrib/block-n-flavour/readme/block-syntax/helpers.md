@@ -66,7 +66,7 @@ Documentation of an alternative requires that the various competing keys be docu
 # This value is mandatory for a “document” type project: it gives
 # the title of the document.
 ###
-codename | doctitle *: . | .
+codename | doctitle *: .
 
 ...
 ~~~

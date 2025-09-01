@@ -29,6 +29,8 @@ for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
     if folder != BLOCK_CONTRIB_DIR:
         continue
 
+
+# Gérer codename | doctitle *: . car doctitle disparait
     for one_contrib in contribs:
         logging.info(f"Working on '{one_contrib}'.")
 

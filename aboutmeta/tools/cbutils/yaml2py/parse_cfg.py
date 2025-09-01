@@ -60,32 +60,9 @@ MSG_ERROR_BAD_VALIDATION = "Bad contrib. validation"
 # -- TYPING -- #
 # ------------ #
 
+type NestedStrDic      = dict[str, str | NestedYAMLDic]
 type NestedYAMLDic     = dict[str, str | list[str] | NestedYAMLDic]
 type NestedDictBoolStr = dict[str, bool | str | NestedDictBoolStr]
-
-
-# ------------------- #
-# -- YAML ANALYSIS -- #
-# ------------------- #
-
-###
-# prototype::
-#     key : XXX
-#
-#     :return: ''(name, is_required)'' XXX
-###
-def get_name_n_isrequired(key: str) -> tuple[str, bool]:
-    if key[-1] == TAG_FINAL_OPTIONAL:
-        is_required = False
-        name        = key[:-1]
-
-    else:
-        is_required = True
-        name        = key
-
-    name = name.strip()
-
-    return name, is_required
 
 
 # -------------------------- #
@@ -157,57 +134,50 @@ def build_pyspecs(
 # Recursive analysis.
     last_parser = None
 
-    for key, val in specs.items():
+    for k, v in specs.items():
+# Split regarding splitting characters.
         (
-            is_required,
-            splitted_keys,
-            splitted_vals
-        ) = split_key_val(
-            key,
-            val,
+            keys, vals,
+            is_required
+        ) = split_keys_vals(
+            k, v,
             extradata
         )
 
+# Alternative keys used.
+        if len(keys) > 1:
+            pyspecs[TAG_SPECS_ALT_ALL].extend(keys)
 
+            pyspecs[TAG_SPECS_ALT_TUPLES].append(tuple(keys))
 
-
-
-        if len(splitted_keys) > 1:
-            pyspecs[TAG_SPECS_ALT_ALL].extend(splitted_keys)
-
-            pyspecs[TAG_SPECS_ALT_TUPLES].append(tuple(splitted_keys))
-
-        for k, v in zip(splitted_keys, splitted_vals):
-            is_list_of, use_post_prod, v = normalize_val(
-                k,
-                v,
+# Normalisation of the keys and the values.
+        for sk, sv in zip(keys, vals):
+            sv, is_list_of, use_post_prod = normalize_val(
+                sk, sv,
                 extradata
             )
 
-            if (
-                use_post_prod
-                and
-                not is_list_of
-            ):
-                raise_validation_error(
-                    key        = key,
-                    yfile_name = extradata[TAG_FILE],
-                    desc       = "post prod only for lists.",
-                    xtra       = f"See the value of '{k}'.",
+            if use_post_prod and not is_list_of:
+                log_raise_error(
+                    context = MSG_ERROR_BAD_VALIDATION,
+                    desc    = (
+                        f"Post prod only allowed for lists. See key "
+                        f"'{k}' in '{extradata[SPECIAL_TAG_FILE]}'."
+                    ),
+                    exception = ValueError,
                 )
 
-            thispsec, last_parser = build_single_pyspec(
-                k,
-                v,
+            this_spec, last_parser = build_single_pyspec(
+                sk, sv,
                 is_list_of,
                 use_post_prod,
                 extradata,
                 last_parser
             )
 
-            thispsec[TAG_SPECS_REQUIRED] = is_required
+            this_spec[TAG_SPECS_REQUIRED] = is_required
 
-            pyspecs[k] = thispsec
+            pyspecs[sk] = this_spec
 
 # Alternatives?
     if pyspecs[TAG_SPECS_ALT_ALL]:
@@ -235,29 +205,31 @@ def build_pyspecs(
 #     :return: XXX
 ###
 def build_single_pyspec(
-    key,
-    val_not_list,
-    is_list_of,
-    use_post_prod,
-    extradata,
-    last_parser
-):
+    key          : str,
+    val          : NestedStrDic,
+    is_list_of   : bool,
+    use_post_prod: bool,
+    extradata    : dict[str, str],
+    last_parser  : str
+) -> NestedDictBoolStr:
+    print(f"{val = }")
 # A parser.
-    if isinstance(val_not_list, str):
-        if val_not_list == TAG_MAGIC_CHAR:
+    if isinstance(val, str):
+        if val == TAG_MAGIC_CHAR:
             if last_parser is None:
-                raise_validation_error(
-                    key        = key,
-                    yfile_name = extradata[TAG_FILE],
-                    desc       = (
-                        "illegal use of the '.' alias "
-                        "(no parser used at this time)"
+                log_raise_error(
+                    context = MSG_ERROR_BAD_VALIDATION,
+                    desc    = (
+                         "Illegal use of the '.' alias (no parser "
+                        f"used at this time). See key '{key}' in "
+                        f"'{extradata[SPECIAL_TAG_FILE]}'."
                     ),
+                    exception = ValueError,
                 )
 
-            val_not_list = last_parser
+            val = last_parser
 
-        last_parser = val_not_list
+        last_parser = val
 
         use_post_prod = last_parser if use_post_prod else ''
 
@@ -277,7 +249,7 @@ def build_single_pyspec(
         this_specs = {
             TAG_SPECS_TYPE   : TAG_SPECS_BLOCK,
             TAG_SPECS_CONTENT: build_pyspecs(
-                val_not_list,
+                val,
                 extradata,
             )
         }
@@ -286,113 +258,105 @@ def build_single_pyspec(
     return this_specs, last_parser
 
 
-
-
-
 # --------------- #
 # -- KEY / VAL -- #
 # --------------- #
 
 ###
 # prototype::
-#     file : XXX
+#     key       :
+#     val       :
+#     extradata :
 #
 #     :return: XXX
 ###
-def split_key_val(
+def split_keys_vals(
     key      : str,
     val      : str | list[str] | NestedYAMLDic,
     extradata: dict[str, str],
 ):
-    TODO
-# List used.
-    if isinstance(val, list):
-        raise_validation_error(
-            key        = key,
-            yfile_name = extradata[TAG_FILE],
-            desc       = "value can't be a dict.",
-        )
-        log_raise_error(
-            context = MSG_ERROR_BAD_VALIDATION,
-            desc    = (
-                f"Illegal value for the key '{k}' in "
-                f"'{extradata[TAG_FILE]}'."
-            ),
-            exception = ValueError,
-        )
-
-# Multiple keys used.
-    if isinstance(val, dict):
-        raise_validation_error(
-            key        = key,
-            yfile_name = extradata[TAG_FILE],
-            desc       = "value can't be a dict.",
-        )
-        log_raise_error(
-            context = MSG_ERROR_BAD_VALIDATION,
-            desc    = (
-                f"Illegal special key '{k}' in '{file}'."
-            ),
-            exception = ValueError,
-        )
-
-# About the key(s).
+# Let's split together.
     real_key, is_required = get_name_n_isrequired(key)
 
-# Single key used.
-    if not TAG_SEP_ALTERNATIVE in real_key:
-        if TAG_SEP_ALTERNATIVE in val_not_list:
-            raise_validation_error(
-                key        = key,
-                yfile_name = extradata[TAG_FILE],
-                desc       = "different numbers of pipe.",
-            )
+    splitted_keys = [
+        k.strip()
+        for k in real_key.split(TAG_SEP_ALTERNATIVE)
+    ]
 
-        return is_required, [real_key], [val_not_list]
+    if isinstance(val, str):
+        splitted_vals = [
+            v.strip()
+            for v in val.split(TAG_SEP_ALTERNATIVE)
+        ]
 
+    else:
+        splitted_vals = [val]
 
-
-# Let's split together.
-    splitted_keys = [k.strip() for k in real_key.split('|')]
-    splitted_vals = [v.strip() for v in val_not_list.split('|')]
-
-    if len(splitted_keys) != len(splitted_vals):
-        raise_validation_error(
-            key        = key,
-            yfile_name = extradata[TAG_FILE],
-            desc       = "different numbers of pipe.",
+# Same numbers of alternatives, or a list of values of length 1.
+    if (
+        len(splitted_keys) != len(splitted_vals)
+        and
+        len(splitted_vals) !=1
+    ):
+        log_raise_error(
+            context = MSG_ERROR_BAD_VALIDATION,
+            desc    = (
+                 "Different number of pipes, or not one parser used. "
+                f"See key '{key}' in '{extradata[SPECIAL_TAG_FILE]}'."
+            ),
+            exception = ValueError,
         )
 
-    return is_required, splitted_keys, splitted_vals
-
-
-
-
-
+# Nothing more to do here.
+    return splitted_keys, splitted_vals, is_required
 
 
 ###
 # prototype::
-#     file : XXX
+#     key : XXX
+#
+#     :return: ''(name, is_required)'' XXX
+###
+def get_name_n_isrequired(key: str) -> tuple[str, bool]:
+    if key[-1] == TAG_FINAL_OPTIONAL:
+        is_required = False
+        name        = key[:-1]
+
+    else:
+        is_required = True
+        name        = key
+
+    name = name.strip()
+
+    return name, is_required
+
+
+###
+# prototype::
+#     key       :
+#     val       :
+#     extradata :
 #
 #     :return: XXX
 ###
 def normalize_val(
-    key,
-    val,
-    extradata
-):
+    key      : str,
+    val      : str | list[str] | NestedYAMLDic,
+    extradata: dict[str, str],
+) -> tuple[NestedYAMLDic, bool, bool]:
     use_post_prod = False
+    is_list_of    = (isinstance(val, list))
 
 # YAML list used.
-    is_list_of = (isinstance(val, list))
-
     if is_list_of:
         if len(val) != 1:
-            raise_validation_error(
-                key        = key,
-                yfile_name = extradata[TAG_FILE],
-                desc       = "not a single element list value.",
+            log_raise_error(
+                context = MSG_ERROR_BAD_VALIDATION,
+                desc    = (
+                    f"Key '{key}' needs a single element list value. "
+                    f"See in '{extradata[SPECIAL_TAG_FILE]}'."
+                ),
+                exception = ValueError,
             )
 
         val = val[0]
@@ -411,4 +375,4 @@ def normalize_val(
             val           = val[:-1].strip()
 
 # Nothing left to do.
-    return is_list_of, use_post_prod, val
+    return val, is_list_of, use_post_prod
