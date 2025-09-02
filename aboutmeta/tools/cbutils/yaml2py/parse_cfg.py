@@ -46,7 +46,7 @@ TAG_FINAL_OPTIONAL = '*'
 TAG_FINAL_POSTPROD = '+'
 
 TAG_SEP_ALTERNATIVE = '|'
-# TAG_SEP_CONJUNCTION = ','
+TAG_SEP_SIMILAR     = ','
 
 TAG_MAGIC_CHAR = '.'
 
@@ -212,7 +212,6 @@ def build_single_pyspec(
     extradata    : dict[str, str],
     last_parser  : str
 ) -> NestedDictBoolStr:
-    print(f"{val = }")
 # A parser.
     if isinstance(val, str):
         if val == TAG_MAGIC_CHAR:
@@ -292,20 +291,20 @@ def split_keys_vals(
     else:
         splitted_vals = [val]
 
-# Same numbers of alternatives, or a list of values of length 1.
-    if (
-        len(splitted_keys) != len(splitted_vals)
-        and
-        len(splitted_vals) !=1
-    ):
-        log_raise_error(
-            context = MSG_ERROR_BAD_VALIDATION,
-            desc    = (
-                 "Different number of pipes, or not one parser used. "
-                f"See key '{key}' in '{extradata[SPECIAL_TAG_FILE]}'."
-            ),
-            exception = ValueError,
-        )
+# We needthe same numbers of alternatives.
+    if len(splitted_keys) != len(splitted_vals):
+        if len(splitted_vals) !=1:
+            log_raise_error(
+                context = MSG_ERROR_BAD_VALIDATION,
+                desc    = (
+                    "Different number of pipes, or not one parser used. "
+                    f"See key '{key}' in '{extradata[SPECIAL_TAG_FILE]}'."
+                ),
+                exception = ValueError,
+            )
+
+        splitted_vals = splitted_vals*len(splitted_keys)
+
 
 # Nothing more to do here.
     return splitted_keys, splitted_vals, is_required

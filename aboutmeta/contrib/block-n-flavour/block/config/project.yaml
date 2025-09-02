@@ -75,9 +75,7 @@ contrib | contribs *: . | list(.)
 #   + ''issues'' allows regular users to report bugs.
 ###
 urls*:
-  home*  : url
-  dev*   : .
-  issues*: .
+  home, dev, issues*: url
 ###
 # Granting a license is a good practice.
 #
@@ -86,15 +84,13 @@ urls*:
 #   + ''manual'' is for the manual of the project.
 ###
 licenses*:
-  code*  : license
-  manual*: .
+  code, manual*: license
 ###
 # This for the language used to write the manual (manual) and
 # the technical (doc) documentations.
 ###
 langs*:
-  doc*   : lang
-  manual*: .
+  doc, manual*: lang
 
 ###
 # Don't forget to give the list of the required general tools

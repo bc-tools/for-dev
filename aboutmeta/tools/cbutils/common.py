@@ -28,10 +28,6 @@ from black import (
 # -- CONSTANTS -- #
 # --------------- #
 
-TAG_INIT     = "__init__"
-INIT_FILE    = f"{TAG_INIT}.py"
-INIT_CONTENT = "#!/usr/bin/env python3\n"
-
 TAG_CONSTANTS = "constants"
 TAG_SIGNS     = "signatures"
 TAG_SPECS     = "specs"
