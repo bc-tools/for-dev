@@ -108,7 +108,7 @@ def digested_yaml_specs(file: Path) -> NestedDictBoolStr:
 
     specs = specs[_TAG_FAKE]
 
-# Not need to know requirement value at the very first level.
+# Unuseful requirement value at the very first level.
     del specs[TAG_SPECS_REQUIRED]
 
 # Nothing left to do!
@@ -177,7 +177,21 @@ def build_pyspecs(
 
             this_spec[TAG_SPECS_REQUIRED] = is_required
 
-            pyspecs[sk] = this_spec
+            for conjkey in sk.split(','):
+                conjkey = conjkey.strip()
+
+                if not conjkey:
+                    log_raise_error(
+                        context = MSG_ERROR_BAD_VALIDATION,
+                        desc    = (
+                             "Illegal use of the conjunction operator ','. "
+                            f"See YAML key '{sk}' in "
+                            f"'{extradata[SPECIAL_TAG_FILE]}'."
+                        ),
+                        exception = ValueError,
+                    )
+
+                pyspecs[conjkey] = this_spec
 
 # Alternatives?
     if pyspecs[TAG_SPECS_ALT_ALL]:
