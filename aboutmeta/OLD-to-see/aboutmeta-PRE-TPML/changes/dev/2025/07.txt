@@ -1,0 +1,340 @@
+// ---------- //
+
+
+==
+28
+==
+
+--------
+:fordev:
+--------
+
+[[:tech: & :facto:]]
+Changes for parsers: the first steps. To be continued...
+
+    1) Specific parsing errors must be handled to allow for input errors when creating data via CLI.
+
+    1) Abandonment of the parsing style concept (for example, for new types of date and version number, new parsers will have to be proposed).
+
+
+// ---------- //
+
+
+==
+27  (0.0.0-beta.14)
+==
+
+--------
+:fordev:
+--------
+
+[[:tech:]]
+Post \prod^o: use of a final ''+'' in the internal \yaml \specs, and the method to use is automatacilly choosen with the prefix ''post_''.
+
+
+[[:facto:]]
+''PreAMData'' and ''AMData'' classes: the general logic and actual implementation have been separated. This is simpler and more elegant.
+
+
+// ---------- //
+
+
+==
+26
+==
+
+--------
+:fordev:
+--------
+
+[[:tech:]]
+Internal \yaml \specs: magic comments give \attr \descs for the \cli, and the line breaks used ine the \yaml \specs will be used to format the path::''about.yaml'' files.
+
+
+// ---------- //
+
+
+==
+25  (0.0.0-beta.13)
+==
+
+--------
+:update:
+--------
+
+[[:doc:]]
+\Readme: review of all \docu (\refs to the \cli have been removed, as its implementation will have a dedicated section).
+
+
+--------
+:fordev:
+--------
+
+[[:tech:]]
+Internal \yaml \specs: ''.'' avoids to retype the last basic parser indicated (this only works for keys having the same parent).
+
+
+// ---------- //
+
+
+==
+24  (0.0.0-beta.12)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+\Toc: \r-glob patterns have been added.
+
+
+--------
+:update:
+--------
+
+[[:doc:]]
+\Readme: we are ready to publish the first version of \thisproj.
+
+
+// ---------- //
+
+
+==
+23  (0.0.0-beta.11)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+\Toc: the five kinds of paths are fully functional now.
+
+
+--------
+:fordev:
+--------
+
+[[:tech:]]
+\specs: the \dev \yaml file can also indicate "mapping" methods for list of parsed data, those methods being implemented in the ''amdata.AMData'' class.
+
+
+
+// ---------- //
+
+
+==
+22  (0.0.0-beta.10)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+\Toc: five kinds of paths can be indicated. Only the parser is functional at the moment.
+
+    1) A relative path to a file.
+
+    1) A relative path to a folder with an path::''about.yaml'' file to indicate a sub yaml::''toc'' block to use.
+
+    1) A \glob pattern to obtain a list of file paths sorted "naturally" by the ''natsort'' module.
+
+    1) A \regex pattern to obtain a list of file paths directly inside the parent folder, the list being sorted "naturally".
+
+    1) A \regex pattern with a recursive search can also be used.
+
+
+--------
+:update:
+--------
+
+[[:doc:]]
+\Readme: explanations about how the new yaml::''toc'' works now.
+
+
+--------
+:fordev:
+--------
+
+[[:test:]]
+Tests for the new ''toc'' parser has been build.
+
+
+// ---------- //
+
+
+==
+21  (0.0.0-beta.9)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+Here are the new \feats.
+
+    1) Some top-level blocks can be ignored.
+
+    1) New validations.
+
+         * Email adresses can be validated: syntax and MX/DNS technic.
+
+         * Affiliations can be validated using \openstreetmap.
+
+
+--------
+:fordev:
+--------
+
+[[:test:]]
+Folders named like glob::''*-SLOW'' contains slow tests that could be ignore when testing.
+
+
+// ---------- //
+
+
+==
+20  (0.0.0-beta.8)
+==
+
+--------
+:update:
+--------
+
+[[:api:]]
+Two new features.
+
+    1) Licenses: a license file can be added easily now.
+
+    1) Validation: urls can be validated using an hostanme and a DNS technic.
+
+
+[[:format:]]
+Licenses: obsolete licenses are no longer permitted.
+
+
+[[:doc:]]
+\Readme: the full list of \deps is automatically added.
+
+
+// ---------- //
+
+
+==
+15  (0.0.0-beta.7)
+==
+
+--------
+:update:
+--------
+
+[[:doc:]]
+\Readme has been rewritted a little, and at the same time the tiny parsers have been tested.
+
+
+// ---------- //
+
+
+==
+15  (0.0.0-beta.6)
+==
+
+--------
+:update:
+--------
+
+[[:api:]]
+Date and version: these two pieces of information are independent of each other.
+
+// ---------- //
+
+
+==
+14  (0.0.0-beta.5)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+Parsing: first version that needs to be stressed.
+
+
+// ---------- //
+
+
+==
+12  (0.0.0-beta.4)
+==
+
+--------
+:fordev:
+--------
+
+[[:flow:]]
+\Contrib: tools for parser \contribs is functionnal.
+
+
+[[:fix:]]
+Default \lang parser: patch for the strange "Unknow language" feature of ''langcodes''.
+
+
+// ---------- //
+
+
+==
+10  (0.0.0-beta.3)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+\Lic: implementation of license text download.
+
+
+// ---------- //
+
+
+==
+08  (0.0.0-beta.2)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+Two new features.
+
+    1) \Doc before code: the \api has been explained.
+
+    2) All default parsers have been coded in the path::''contrib/parsers'' folder.
+
+
+-----
+:fix:
+-----
+
+[[:bug:]]   ????,
+Réparé pour parser de person : pas de gestion des tags fermants absents bien qu'un ouvrant soit laà
+
+
+// ---------- //
+
+
+==
+06  (0.0.0-beta.1)
+==
+
+-----
+:new:
+-----
+
+[[:api:]]
+\Doc before code: the blocks yaml::''project'' and yaml::''toc'' have been documented.

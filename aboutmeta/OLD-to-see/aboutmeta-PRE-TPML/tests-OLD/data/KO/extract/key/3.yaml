@@ -1,0 +1,5 @@
+project:
+  author: Person 1
+
+  licenses:
+    cde: gpl 3.0+

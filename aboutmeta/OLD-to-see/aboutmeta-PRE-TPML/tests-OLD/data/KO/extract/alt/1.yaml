@@ -1,0 +1,6 @@
+project:
+  author: Person 1
+
+  authors:
+    - Person 2
+    - Person 3

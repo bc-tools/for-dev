@@ -1,0 +1,124 @@
+// ---------- //
+
+
+==
+10  (0.0.0-beta.20)
+==
+
+--------
+:fordev:
+--------
+
+[[:tech:]]
+\Contribs.
+
+    1) For blocks: a path::''signatures.py'' file gives the signatures of all the parsers and the mappers.
+
+    1) For flavours: tools have been implemented.
+
+    1) In the \src code, the \contribs are put inside the path::''specs'' fodler.
+
+
+// ---------- //
+
+
+==
+10  (0.0.0-beta.19)
+==
+
+--------
+:fordev:
+--------
+
+[[:tech:]]
+\Contribs for blocks: tools have been implemented.
+
+
+// ---------- //
+
+
+==
+07  (0.0.0-beta.18)
+==
+
+--------
+:fordev:
+--------
+
+[[:tech:]]
+\Contribs for parsing tools.
+
+    1) Magic comments have changed.
+
+        * For parsing tools, it is possible to target imports and constants (parser or mapper), and the human testing block is simply called `TESTS`.
+
+        * For data classes, only the section `TESTS` is available. This is necessary due to the new responsibilities assigned to data classes, such as validation and normalization.
+
+    1) Tools have been updated.
+
+
+// ---------- //
+
+
+==
+07  (0.0.0-beta.17)
+==
+
+--------
+:update:
+--------
+
+[[:doc:]]
+All the \tech \docs have been updated.
+
+
+// ---------- //
+
+
+==
+06  (0.0.0-beta.16)
+==
+
+--------
+:fordev:
+--------
+
+[[:tech: & :facto:]]
+The path::''contrib'' folder is ready for use with the following new features.
+
+    1) Normalizations added for url and person data (naming, email and affiliation).
+
+    1) Name particle can be explicitly indicated using curly braces.
+
+    1) Mapping concept is ready for production!
+
+
+// ---------- //
+
+
+==
+04  (0.0.0-beta.15)
+==
+
+--------
+:fordev:
+--------
+
+[[:tech: & :facto:]]
+Changes for parsers: end of documentation before code factorization.
+
+    1) New flavour concept: choose which level 1 blocks to manage.
+
+    1) Data classes.
+
+        *  Special data classes are part of the path::''contrib'' folder.
+
+        *  It's possible to complete a data class with two special methods.
+
+            + The ''validate'' method will be used for non-simple validations, such as urls.
+
+            + The ''normalize'' method will be used to normalize the user's input.
+
+        * Any additional functionality relating to a data class must be implemented in the class itself (therefore, ''add_license'' is not the responsibility of the ''AMData'' class, but of ''license.License'').
+
+    1) ''PreAMData'' becomes ''AMData'' again: this class, which operates dynamically, will require the use of a flavor, as well as CLI helpers (these dictionaries can be built dynamically from an path::''about.cfg.yaml'' file).
