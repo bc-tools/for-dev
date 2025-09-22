@@ -3,11 +3,27 @@ aboutmeta - TODO
 =========
 
 
+
+> ---------------------------- <
+
+def de bloc avec des trucs en commun project / monorepo
+
+    ---> commencer par définir proprement monorepo à partir de project et voir comment automatiser les cper-coller : un truc du genr boc magique
+        __import__
+           from: project
+           what:
+              struct mimant celle de project avce juste ce qu el'on veur
+
 > ---------------------------- <
 
 yaml2py à reprendre via un code structuré simple
 +
 test manquants à indiquer mais facile
+
+
+> ---------------------------- <
+
+le parser des yaml est publiable, quitte à indiquer ses limitatioiions, tout en vendant le cpote sûr car on ne lit que des strings!!!
 
 
 > ---------------------------- <
