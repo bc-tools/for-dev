@@ -208,7 +208,7 @@ def _std(data: str | dict[str, str]) -> str:
 ###
 def _parse_direct_path(
     about_file_dir: Path,
-    data          : str | dict[str, str]
+    data          : str
 ) -> TOCPath:
     is_dir = bool(data[-1] == "/")
 
@@ -263,17 +263,20 @@ def _parse_direct_path(
 
 ###
 # prototype::
-#     about_file_dir  : :see: parse
-#     data    : :see: parse
-#     kind    : the kind of pattern.
-#             @ kind in ["glob", "r-glob", "regex", "r-regex"]
-#     pattern : the pattern.
+#     about_file_dir : :see: parse
+#     data           : :see: parse
+#     kind           : the kind of pattern.
+#                    @ kind in [
+#                          "glob", "r-glob",
+#                          "regex", "r-regex"
+#                      ]
+#     pattern        : the pattern.
 #
 #     :return: :see: parse
 ###
 def _parse_pattern(
     about_file_dir: Path,
-    data          : str | dict[str, str],
+    data          : dict[str, str],
     kind          : str,
     pattern       : str
 ) -> TOCPath:
@@ -387,7 +390,7 @@ if __name__ == "__main__":
     from pprint import pprint
     # pprint = lambda t: None
 
-    readme_dir = Path(__file__).dir.dir / "readme"
+    readme_dir = Path(__file__).parent.parent / "readme"
 
 # GOOD
     for pseudopath in [
@@ -427,8 +430,7 @@ if __name__ == "__main__":
 # MAP LIST
     from aboutmeta.amdata import AMData
 
-    folder = readme_dir.dir
-    folder = readme_dir.dir.dir.about_file_dir
+    folder = readme_dir.parent
 
     paths = map_list(
         AMData,
