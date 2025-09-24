@@ -1,3 +1,6 @@
+TOUT REPRENDRE ! CHGTS VIA DICT PATTERNS MAL PRIS EN COMPTE + CHGT BRUTALE DE parent
+
+
 #!/usr/bin/env python3
 
 from pathlib import Path
@@ -141,18 +144,22 @@ def parse(
     if not isinstance(data, dict):
         _raisethis(
             yaml_file_dir  = yaml_file_dir,
-            data    = data,
-            message = "one dict expected for one glob or regex pattern."
+            data           = data,
+            message        = (
+                "one dict expected for one glob or regex pattern."
+            )
         )
 
     if not len(data.keys()) == 1:
         _raisethis(
             yaml_file_dir  = yaml_file_dir,
-            data    = data,
-            message = "one single key expected for a pattern dict."
+            data           = data,
+            message        = (
+                "one single key expected for a pattern dict."
+            )
         )
 
-# Let's work with a pattern.
+# Let's work with a single pattern.
     for kind, pattern in data.items(): # Python is funny...
         ...
 
@@ -161,10 +168,11 @@ def parse(
 
 ###
 # prototype::
-#     yaml_file_dir : :see: parse
-#     data   : :see: parse
-#     kind   : the main error message.
-#     xtra   : complementary information printed as an item.
+#     yaml_file_dir : a well named \arg.
+#     data          : :see: parse
+#     kind          : the main error message.
+#     xtra          : complementary information printed as an
+#                     item.
 #
 #     :action: raise errors.
 ###
@@ -191,8 +199,7 @@ def _raisethis(
 # prototype::
 #     data : :see: parse
 #
-#     :return: the standard value for the path::''about.yaml''
-#              file.
+#     :return: the \std value for the path::''about.yaml'' file.
 ###
 def _std(data: str | dict[str, str]) -> str:
 # One-key dict used in the initial ''YAML'' file.
@@ -206,14 +213,14 @@ def _std(data: str | dict[str, str]) -> str:
 
 ###
 # prototype::
-#     yaml_file_dir : :see: parse
-#     data   : :see: parse
+#     yaml_file_dir : a well named \arg.
+#     data          : :see: parse
 #
 #     :return: :see: parse
 ###
 def _parse_direct_path(
     yaml_file_dir: Path,
-    data  : str | dict[str, str]
+    data         : str | dict[str, str]
 ) -> TOCPath:
     is_dir = bool(data[-1] == "/")
 
@@ -225,10 +232,10 @@ def _parse_direct_path(
     if is_dir:
         if not fullpath.is_dir():
             _raisethis(
-                yaml_file_dir  = yaml_file_dir,
-                data    = data,
-                message = "inexistant folder.",
-                xtra    = f"FOLDER: {fullpath}"
+                yaml_file_dir = yaml_file_dir,
+                data          = data,
+                message       = "inexistant folder.",
+                xtra          = f"FOLDER: {fullpath}"
             )
 
         sub_yaml_file = fullpath / "about.yaml"
@@ -236,9 +243,9 @@ def _parse_direct_path(
         if not sub_yaml_file.is_file():
             _raisethis(
                 yaml_file_dir  = yaml_file_dir,
-                data    = data,
-                message = "folder without an ''about.yaml'' file.",
-                xtra    = f"FOLDER: {fullpath}"
+                data          = data,
+                message       = "folder without an ''about.yaml'' file.",
+                xtra          = f"FOLDER: {fullpath}"
             )
 
         postsearch = sub_yaml_file
@@ -286,8 +293,8 @@ def _parse_pattern(
     if not kind in TAG_TOC_PATTERN_KINDS:
         _raisethis(
             yaml_file_dir  = yaml_file_dir,
-            data    = data,
-            message = f"illegal pattern kind ''{kind}''."
+            data          = data,
+            message       = f"illegal pattern kind ''{kind}''."
         )
 
 # User has used an abbreviationthat we don't keep in the standard
@@ -335,8 +342,8 @@ def _parse_pattern(
     if not paths:
         _raisethis(
             yaml_file_dir  = yaml_file_dir,
-            data    = data,
-            message = f"no files found with the pattern."
+            data          = data,
+                   = f"no files found with the pattern."
         )
 
 # Winning pattern.
