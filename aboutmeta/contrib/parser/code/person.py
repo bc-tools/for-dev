@@ -95,7 +95,7 @@ if __name__ == "__main__":
         "A,B,C(fgh)",
         "A,B,{von   }  C",
         "A,B",
-        "A",
+        "{mac} A",
     ]:
         print(f'---\nPERSON: {someone}')
 

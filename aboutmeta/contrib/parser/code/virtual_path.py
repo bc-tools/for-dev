@@ -23,20 +23,34 @@ TOCPathList = list[TOCPath]
 
 ###
 # prototype::
-#     yaml_file_dir : the yaml_file_dir directory of the path::''about.yaml’'
-#              file from which the ''data’' \arg comes.
-#     data   : a virtual path that is either a relative path in
-#              the form of a string, or a pattern, using the \glob
-#              or \regex syntax, with the patterns provided using
-#              a single-key \dict.
+#     amdata_cls : an instance of the class ''amdata.AMData''
+#                  (this is needed to access to the folder of
+#                  the path::''about.yaml'' file).
+#     data       : a virtual path that is either a relative path
+#                  in the form of a string, or a pattern, using
+#                  the \glob or \regex syntax, with the patterns
+#                  provided using a single-key \dict.
 #
 #     :return: an instance of the ''TOCPath'' class that allows
 #              subsequent anlysis of a new path::''about.yaml''
 #              file if necessary.
 #
 #
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Let's look at some virtual examples where we assume that the
-# yaml_file_dir folder has the absolute path path::''/abs/path/readme''.
+# yaml file folder has absolute path path::''/abs/path/readme''.
 #
 #
 # [[An existing file]]
@@ -374,7 +388,7 @@ if __name__ == "__main__":
     from pprint import pprint
     # pprint = lambda t: None
 
-    readme_dir = Path(__file__).yaml_file_dir.yaml_file_dir / "readme"
+    readme_dir = Path(__file__).dir.dir / "readme"
 
 # GOOD
     for pseudopath in [
@@ -414,8 +428,8 @@ if __name__ == "__main__":
 # MAP LIST
     from aboutmeta.amdata import AMData
 
-    folder = readme_dir.yaml_file_dir
-    folder = readme_dir.yaml_file_dir.yaml_file_dir.yaml_file_dir
+    folder = readme_dir.dir
+    folder = readme_dir.dir.dir.yaml_file_dir
 
     paths = map_list(
         AMData,
