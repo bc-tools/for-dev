@@ -76,6 +76,7 @@ contrib | contribs *: . | list(.)
 ###
 urls*:
   home, dev, issues*: url
+
 ###
 # Granting a license is a good practice.
 #
@@ -85,6 +86,7 @@ urls*:
 ###
 licenses*:
   code, manual*: license
+
 ###
 # This for the language used to write the manual (manual) and
 # the technical (doc) documentations.

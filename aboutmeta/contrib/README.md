@@ -62,15 +62,15 @@ Directory structure <a href="#MULTIMD-GO-BACK-TO-TOC" style="text-decoration: no
 
 The library `tools/cbutils/core` provides tools for managing contributions that comply with the specifications presented in this section.
 
-The directory structure must be done as follows, where we note a similarity between the `one_api` folder, which here would correspond to various contributions, and the `status` content folder of the `YAML` files indicating the status of each contribution (we will come back to these files shortly).
+The directory structure must be done as follows, where we note a similarity between the `one_feature` folder, which here would correspond to various contributions, and the `status` content folder of the `YAML` files indicating the status of each contribution (we will come back to these files shortly).
 
 ~~~
 - contrib
     * README.md
     * LICENSE.txt
-    - parser
+    - one_api
         + changes
-        - one_api
+        - one_feature
             * one_file.ext
             + one_module
         - status

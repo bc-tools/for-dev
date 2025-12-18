@@ -1,3 +1,7 @@
+#####################################
+# TOUT REPRENDRE ! CHGTS VIA DICT PATTERNS MAL PRIS EN COMPTE + CHGT BRUTALE DE parent
+
+
 #!/usr/bin/env python3
 
 from pathlib import Path
@@ -23,12 +27,13 @@ TOCPathList = list[TOCPath]
 
 ###
 # prototype::
-#     yaml_file_dir : the yaml_file_dir directory of the path::''about.yaml’'
-#              file from which the ''data’' \arg comes.
-#     data   : a virtual path that is either a relative path in
-#              the form of a string, or a pattern, using the \glob
-#              or \regex syntax, with the patterns provided using
-#              a single-key \dict.
+#     amdata_cls : an instance of the class ''amdata.AMData''
+#                  (this is needed to access to the folder of
+#                  the path::''about.yaml'' file).
+#     data       : a virtual path that is either a relative path
+#                  in the form of a string, or a pattern, using
+#                  the \glob or \regex syntax, with the patterns
+#                  provided using a single-key \dict.
 #
 #     :return: an instance of the ''TOCPath'' class that allows
 #              subsequent anlysis of a new path::''about.yaml''
@@ -36,16 +41,16 @@ TOCPathList = list[TOCPath]
 #
 #
 # Let's look at some virtual examples where we assume that the
-# yaml_file_dir folder has the absolute path path::''/abs/path/readme''.
+# yaml file folder has absolute path path::''/abs/path/readme''.
 #
 #
 # [[An existing file]]
 #
 # Let's assume that the file path ::''/abs/path/readme/api.md''
 # exists. In this case, using ''data = "api.md"'' will imply the
-# return of the following ''TOCPath''. The use of a list can be
-# understood by looking at the paths returned when using \glob or
-# \regex patterns (see below).
+# return of the following ''TOCPath'' \obj. The use of a list
+# can be understood by looking at the paths returned when using
+# \glob or \regex patterns (see below).
 #
 # python::
 #     TOCPath(
@@ -58,7 +63,7 @@ TOCPathList = list[TOCPath]
 #
 # Let's assume that the folder path ::''/abs/path/readme/api''
 # exists. In this case, using ''data = "api/"'' will imply the
-# return of the following ''TOCPath'' indicating that the
+# return of the following ''TOCPath'' \obj indicating that the
 # yaml::''toc'' block of an path::''about.yaml'' file need to
 # be analyzed during of post action.
 #
@@ -117,48 +122,53 @@ def parse(
     amdata_cls: object,
     data      : str | dict[str, str]
 ) -> TOCPath:
-    yaml_file_dir = amdata_cls.yaml_file_dir
+    about_file_dir = amdata_cls.yaml_file_dir
 
 # A "direct" path?
     if isinstance(data, str):
-        return _parse_direct_path(yaml_file_dir, data)
+        return _parse_direct_path(about_file_dir, data)
 
 # A legal pattern?
     if not isinstance(data, dict):
         _raisethis(
-            yaml_file_dir  = yaml_file_dir,
-            data    = data,
-            message = "one dict expected for one glob or regex pattern."
+            about_file_dir  = about_file_dir,
+            data            = data,
+            message         = (
+                "one dict expected for one glob or regex pattern."
+            )
         )
 
     if not len(data.keys()) == 1:
         _raisethis(
-            yaml_file_dir  = yaml_file_dir,
-            data    = data,
-            message = "one single key expected for a pattern dict."
+            about_file_dir  = about_file_dir,
+            data            = data,
+            message         = (
+                "one single key expected for a pattern dict."
+            )
         )
 
-# Let's work with a pattern.
+# Let's work with a single pattern.
     for kind, pattern in data.items(): # Python is funny...
         ...
 
-    return _parse_pattern(yaml_file_dir, data, kind, pattern)
+    return _parse_pattern(about_file_dir, data, kind, pattern)
 
 
 ###
 # prototype::
-#     yaml_file_dir : :see: parse
-#     data   : :see: parse
-#     kind   : the main error message.
-#     xtra   : complementary information printed as an item.
+#     about_file_dir : a well named \arg.
+#     data           : :see: parse
+#     kind           : the main error message.
+#     xtra           : complementary information printed as an
+#                      item.
 #
 #     :action: raise errors.
 ###
 def _raisethis(
-    yaml_file_dir : Path,
-    data   : str | dict[str, str],
-    message: str,
-    xtra   : str = ""
+    about_file_dir: Path,
+    data          : str | dict[str, str],
+    message       : str,
+    xtra          : str = ""
 ) -> None:
     if xtra:
         xtra = f"    + {xtra}"
@@ -167,7 +177,7 @@ def _raisethis(
         f"""
 {message}
     + DATA: {data!r}
-    + FILE: {yaml_file_dir}/about.yaml
+    + FILE: {about_file_dir}/about.yaml
 {xtra}
         """.strip()
     )
@@ -177,8 +187,7 @@ def _raisethis(
 # prototype::
 #     data : :see: parse
 #
-#     :return: the standard value for the path::''about.yaml''
-#              file.
+#     :return: the \std value for the path::''about.yaml'' file.
 ###
 def _std(data: str | dict[str, str]) -> str:
 # One-key dict used in the initial ''YAML'' file.
@@ -192,39 +201,41 @@ def _std(data: str | dict[str, str]) -> str:
 
 ###
 # prototype::
-#     yaml_file_dir : :see: parse
-#     data   : :see: parse
+#     about_file_dir : a well named \arg.
+#     data           : :see: parse
 #
 #     :return: :see: parse
 ###
 def _parse_direct_path(
-    yaml_file_dir: Path,
-    data  : str | dict[str, str]
+    about_file_dir: Path,
+    data          : str
 ) -> TOCPath:
     is_dir = bool(data[-1] == "/")
 
 # Just a "full" path resolved is useful.
-    fullpath = yaml_file_dir / Path(data)
+    fullpath = about_file_dir / Path(data)
     fullpath = fullpath.resolve()
 
 # Folder for an ''about.yaml'' file?
     if is_dir:
         if not fullpath.is_dir():
             _raisethis(
-                yaml_file_dir  = yaml_file_dir,
-                data    = data,
-                message = "inexistant folder.",
-                xtra    = f"FOLDER: {fullpath}"
+                about_file_dir = about_file_dir,
+                data           = data,
+                message        = "inexistant folder.",
+                xtra           = f"FOLDER: {fullpath}"
             )
 
         sub_yaml_file = fullpath / "about.yaml"
 
         if not sub_yaml_file.is_file():
             _raisethis(
-                yaml_file_dir  = yaml_file_dir,
-                data    = data,
-                message = "folder without an ''about.yaml'' file.",
-                xtra    = f"FOLDER: {fullpath}"
+                about_file_dir = about_file_dir,
+                data           = data,
+                message        = (
+                    "folder without an ''about.yaml'' file."
+                ),
+                xtra           = f"FOLDER: {fullpath}"
             )
 
         postsearch = sub_yaml_file
@@ -234,9 +245,9 @@ def _parse_direct_path(
     else:
         if not fullpath.is_file():
             _raisethis(
-                yaml_file_dir  = yaml_file_dir,
-                data    = data,
-                message = "path not pointing to a file."
+                about_file_dir  = about_file_dir,
+                data            = data,
+                message         = "path not pointing to a file."
             )
 
         postsearch = None
@@ -252,28 +263,31 @@ def _parse_direct_path(
 
 ###
 # prototype::
-#     yaml_file_dir  : :see: parse
-#     data    : :see: parse
-#     kind    : the kind of pattern.
-#             @ kind in ["glob", "r-glob", "regex", "r-regex"]
-#     pattern : the pattern.
+#     about_file_dir : :see: parse
+#     data           : :see: parse
+#     kind           : the kind of pattern.
+#                    @ kind in [
+#                          "glob", "r-glob",
+#                          "regex", "r-regex"
+#                      ]
+#     pattern        : the pattern.
 #
 #     :return: :see: parse
 ###
 def _parse_pattern(
-    yaml_file_dir : Path,
-    data   : str | dict[str, str],
-    kind   : str,
-    pattern: str
+    about_file_dir: Path,
+    data          : dict[str, str],
+    kind          : str,
+    pattern       : str
 ) -> TOCPath:
 # Legal key?
     kind = TAG_TOC_PATTERN_ABBREV.get(kind, kind)
 
     if not kind in TAG_TOC_PATTERN_KINDS:
         _raisethis(
-            yaml_file_dir  = yaml_file_dir,
-            data    = data,
-            message = f"illegal pattern kind ''{kind}''."
+            about_file_dir = about_file_dir,
+            data           = data,
+            message        = f"illegal pattern kind ''{kind}''."
         )
 
 # User has used an abbreviationthat we don't keep in the standard
@@ -290,7 +304,7 @@ def _parse_pattern(
 
         paths = [
             p
-            for p in getattr(yaml_file_dir, _glob)(pattern)
+            for p in getattr(about_file_dir, _glob)(pattern)
             if p.is_file()
         ]
 
@@ -301,18 +315,20 @@ def _parse_pattern(
 
         except re.error as e:
             _raisethis(
-                yaml_file_dir  = yaml_file_dir,
-                data    = data,
-                message = f"regex compilation failed for {pattern!r}.",
-                xtra    = f"REGEX ERROR: {e}"
+                about_file_dir = about_file_dir,
+                data           = data,
+                message        = (
+                    f"regex compilation failed for {pattern!r}."
+                ),
+                xtra           = f"REGEX ERROR: {e}"
             )
 
         paths = []
 
         _glob = "glob" if kind == "regex" else "rglob"
 
-        for fullpath in getattr(yaml_file_dir, _glob)("*"):
-            relpath = fullpath.relative_to(yaml_file_dir)
+        for fullpath in getattr(about_file_dir, _glob)("*"):
+            relpath = fullpath.relative_to(about_file_dir)
 
             if pattern.fullmatch(str(relpath)):
                 paths.append(fullpath)
@@ -320,9 +336,9 @@ def _parse_pattern(
 # Loosing pattern?
     if not paths:
         _raisethis(
-            yaml_file_dir  = yaml_file_dir,
-            data    = data,
-            message = f"no files found with the pattern."
+            about_file_dir = about_file_dir,
+            data           = data,
+            message        = f"no files found with the pattern."
         )
 
 # Winning pattern.
