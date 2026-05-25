@@ -4,7 +4,7 @@ YAML specifications for digital projects
 In this section, we present level `1` blocks and keys useful for managing digital projects.
 
 
-In the following fictive example, the level `1` blocks are named `block-1`, `block-2`, and `block-3`, and `main-key` is a level `1` key.
+In the following fictive example, the level `1` blocks are named `block-1`, `block-2`, and `block-3`, whereas `main-key` is a level `1` key.
 
 ~~~yaml
 main-key: Not only level 1 blocks!
