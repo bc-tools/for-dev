@@ -2,7 +2,7 @@
 
 
 ==
-???????  (0.0.0-beta.21)
+??????  (0.0.0-beta.21)
 ==
 
 -------
@@ -10,7 +10,15 @@
 -------
 
 [[:api:]]
-Parsers and mappers are put inside the same \python file.
+Restarted coding using a mix of old and new paradigms. Please note: this implies a break in the changelog history.
+
+
+--------
+:update:
+--------
+
+[[:doc:]]      ?????
+The \doc will be typed according to the \tns syntax from now on (we initially use French for efficient \dev). The \readme file will only provide a short overview of the \proj.
 
 
 --------
@@ -18,7 +26,7 @@ Parsers and mappers are put inside the same \python file.
 --------
 
 [[:tech:]]      ?????
-Here are the canges done.
+Here are the changes done.
 
     1) \yaml \cfg \api enhanced.
 

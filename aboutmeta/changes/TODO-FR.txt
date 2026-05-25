@@ -3,7 +3,6 @@ aboutmeta - TODO
 =========
 
 
-
 > ---------------------------- <
 
 def de bloc avec des trucs en commun project / monorepo

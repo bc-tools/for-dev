@@ -1,0 +1,20 @@
+﻿this::
+    title  = ???
+    author = Christophe, BAL [projetmbc@gmail.com]
+    lang   = fr
+
+    license = cc by nc sa 4.0
+    out     = html, pdf
+
+    lexic = python
+
+
+abbrev::
+    thisproj = cf::''jinjaNG ;
+                     https://github.com/bc-tools/for-dev/tree/main/aboutmeta''
+
+    content = content
+
+
+content::
+    ¨content/intro.txt   ???
