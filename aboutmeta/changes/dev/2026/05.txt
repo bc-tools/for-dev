@@ -29,6 +29,9 @@ The \readme file will only provide a short overview of the \proj, focusing its e
 [[:tech:]]      ?????
 Here are the changes done.
 
+    1) ???
+    Full \doc and short \readme: the \contrib \docs are now automatically integraed (this avoids \doc overhead when updating a \contrib). This implies precise \doc in all \contribs (localizing \docs is key to real efficiency).
+
     1) \yaml \cfg \api enhanced.
 
         + ???

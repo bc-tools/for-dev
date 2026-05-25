@@ -1,109 +1,241 @@
 ###
-# This block allows to describe a project from a technical point
-# of view.
+# This block allows to describe a numerical project from a technical
+# point of view.
+#
+#
+# We will explain how to identify a code project by using the
+# following fictional example (the case of a document-type project
+# is similar)."
+#
+# yaml::
+#     project:
+#       version: 0.0.0-beta.1
+#       date   : 2025-06-27
+#
+#       acronym : "[@]bout [Desc]ription"
+#       codename: a_desc
+#       desc    : Let's explain what is the project ''@Desc''...
+#
+#       authors:
+#         - Ada, Lovelace  [ada.babbage.computer@paper.org]
+#           (Victorian Institute of Applied Mechanical Informatic)
+#         - Jean, Louis, Krivine  [jl-krivine@compile.brain]
+#         - Torvalds
+#           (Department of Sacred Kernels)
+#         - William, Justme
+#
+#       contribs:
+#         - Alan, Turing  [alan.turing@enigma.uk]
+#           (Institut de Cryptographie Avancée)
+#         - Donald, Knuth  [donald.knuth@texmath.net]
+#           (Université de la Typographie du TeX-as)
+#
+#       urls:
+#         home  : https://github.com/bc-tools/for-dev
+#         dev   : https://github.com/bc-tools/for-dev/tree/main/aboutmeta
+#         issues: https://github.com/bc-tools/for-dev/issues
+#
+#       licenses:
+#         code  : gpl 3.0+
+#         manual: cc by nc 4.0
+#
+#       langs:
+#         doc   : fr
+#         manual: fr
+#
+#       require:
+#         - python3
+#         - latex
+#
+#       keywords:
+#         - metadata
+#         - coding
+#         - writing
+#
+#
+# note::
+#     In the case of a document-type project, the ''project.codename''
+#     key is no longer usable and must be replaced by ''project.doctitle''
+#     (a document must have a title). By default, the project will be
+#     considered a code project.
 ###
 
 
 ###
-# This is the current version number of the project.
+# This key allows to specify a version number that complies with cf::''Semantic Versioning ; https://semver.org/'', such as ''1.0.0'', ''0.0.0-beta.1'', and ''0.3.1-beta.1+build.5''.
 ###
 version*: sem_version
+
+
 ###
-# This is the date of the current version of the project.
+# This key allows to give a date in the English format ''YYYY-MM-DD'' like ''2025-07-15''.
 ###
 date*: date
+
+
 ###
-# This information explains the meaning of the acronym used to
-# name the project.
+# This key allows to explain the origin of an acronym: for example, ''"[@]bout [Desc]ription"'' explains the choice for the project name ''@Desc''.
 ###
 acronym*: str
+
+
 ###
-# {codename}
-# This value, optional for a code-type project, allows to name
-# the project differently from the folder containing it.
+# The key ''codename'' allows you to specify the name of a code-type project if it differs from that of the project folder.
 #
-# {doctitle}
-# This value is mandatory for a “document” type project: it gives
-# the title of the document.
+#
+# The ''doctitle'' must be used for a document-type project. This is because such a project must have a title.
+#
+#
+# note::
+#     Note that ''aboutmeta'' will assume it is working with a code-type project by default.
 ###
 codename | doctitle *: .
+
+
 ###
-# You need to describe shortly your project.
+# This key must be used to quickly describe the project.
 ###
 desc: .
+
+
 ###
-# {author}
-# For a single author, you have the following possible syntaxes.
+# The block ''authors'' allows to indicate several authors, just by using a ''YAML'' list of single authors (see the description of the key ''author'' below).
 #
-#   + ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
-#     are legal titles for a person (the number of first names is
-#     unlimited).
 #
-#   + ''Krivine [jlk@brain.fr]'' adds an email.
+# The key ''author'' is for identifing a single author using one of the following possible syntaxes.
 #
-#   + ''Krivine (L'Institut du Cerveau, France)'' adds an
-#     affiliation.
+#     + **Title (mandatory):**
+#       ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine'' are legal titles for a person (the number of first names is unlimited).
+#       Hereinafter, we will refer to one of the above forms as ''<title>''.
 #
-#   + ''Krivine [jlk@brain.fr] (L'Institut du Cerveau, France)''
-#     mixes the previous features.
+#     + **Email address (optional):**
+#       ''Jean, Louis, Krivine  [jl-krivine@compile.brain]'' adds an email using square brackets.
 #
-# {authors}
-# For severals authors, just use a YAML list of single authors
-# (see the description of the key ''author'').
+#     + **Affiliation (optional):**
+#       ''Torvalds (Department of Sacred Kernels)'' adds an affiliation using parentheses.
+#
+#     + **Indicate everything:**
+#       only the format ''<title> [email] (institute)'' is allowed like in ''Ada, Lovelace  [ada.babbage.computer@paper.org] (Victorian Institute of Applied Mechanical Informatic)''.
+#
+#
+# note::
+#     Emails are never verified automatically, but they can be validated on demand (technically, this requires an internet connection, so it is not possible to validate an email every time an ''about.yaml'' file is analyzed).
 ###
 author | authors *: person | list(.)
 
+
 ###
-# {contrib}
-# For a single contributor, the syntaxes allowed are similar to
-# the ones for a single author (see the key ''author'').
-#
-# {contribs}
-# For severals authors, just use a YAML list of single authors
-# (see the description of the key ''author'').
+# The ''contribs'' block and ''contrib'' key follow the same syntax as ''authors'' and ''author'', except they indicate contributors instead.
 ###
 contrib | contribs *: . | list(.)
 
+
 ###
-# Three kinds of URL can be given.
+# This block allows to provide hyperlinks via the following keys, all of which are optional.
 #
-#   + ''home'' is for the website of the project, the human one.
+#   1. ''home'' allows to specify the address of a website dedicated to the project.
 #
-#   + ''dev'' is dedicated to the repository of the project, this
-#     is not intended for human beings.
+#   1. ''dev'' is used to point to a repository for managing project development.
 #
-#   + ''issues'' allows regular users to report bugs.
+#   1. ''issues'' redirects users to the page where they can report bugs or make suggestions.
+#
+#
+# note::
+#     URLs are never verified automatically, but they can be validated on demand (technically, this requires an internet connection, so it is not possible to validate a URL every time an ''about.yaml'' file is analyzed).*
+#
+#
+# For the record, we reproduce the fictitious example presented at the beginning of this section.
+#
+# yaml::
+#     urls:
+#       home  : https://github.com/bc-tools/for-dev
+#       dev   : https://github.com/bc-tools/for-dev/tree/main/aboutmeta
+#       issues: https://github.com/bc-tools/for-dev/issues
 ###
 urls*:
   home, dev, issues*: url
 
+
 ###
-# Granting a license is a good practice.
+# This key serves to grant a license (which represents best practice). You can used the folowing keys.
 #
-#   + ''code'' is for the code of the project.
+#     1. ''code'' is for the license of the code or document relating to the project.
 #
-#   + ''manual'' is for the manual of the project.
+#     1. ''manual'' allows, in the case of a code-type project, the selection of a license specific to the user manual.
+#
+#
+# note::
+#     The license names proposed by the cf::''''SPDX'' SPDX License List ; https://spdx.org/licenses/'' are taken into account, with a certain degree of flexibility: for example, you can type ''gpl 3.0+'' and ''cc by nc 4.0'' instead of ''GPL-3.0+'' and ''CC-BY-NC-4.0''.
+#
+#
+# For the record, we reproduce the fictitious example presented at the beginning of this section.
+#
+# yaml::
+#     code  : gpl 3.0+
+#     manual: cc by nc 4.0
 ###
 licenses*:
   code, manual*: license
 
+
 ###
-# This for the language used to write the manual (manual) and
-# the technical (doc) documentations.
+# This block allows to specify the languages used for the following parts of a code-type project.
+#
+#     1. The ''doc'' key is for the language used to write the technical documentation.
+#
+#     1. The ''manual'' key is for the language used to write the user manual.
+#
+#
+# note::
+#     You can specify a language using the cf::''ISO 639 standard ; https://en.wikipedia.org/wiki/ISO_639''', then, if necessary, add a country using the cf::''ISO 3166 standard ; https://en.wikipedia.org/wiki/ISO_3166''': for example, you can type either ''fr'' if you do not wish to specify France, or ''fr-BE'' to indicate Belgian French.
+#
+#
+# important::
+#     The default language is ''en-US'' for US English.
+#
+#
+# tip::
+#     You can use ''_'' instead of ''-''. This can be useful when pasting external text.
+#
+#
+# For the record, we reproduce the fictitious example presented at the beginning of this section.
+#
+# yaml::
+#     doc   : fr
+#     manual: fr
 ###
 langs*:
   doc, manual*: lang
 
+
 ###
-# Don't forget to give the list of the required general tools
-# needed to make your project functional.
+# This block allows to provide a list of programming languages required for the code to work, or for compiling a document, this depends on the type of project.
+#
+#
+# For the record, we reproduce the fictitious example presented at the beginning of this section.
+#
+# yaml::
+#     project:
+#       require:
+#         - python3
+#         - latex
 ###
 require*:
   - str
 
+
 ###
-# Providing a list of keywords describing the project helps to
-# better understand its usefulness.
+# This block allows to specify a list of keywords that succinctly categorize the project type.
+#
+#
+# For the record, we reproduce the fictitious example presented at the beginning of this section.
+#
+# yaml::
+#     project:
+#       keywords:
+#         - metadata
+#         - coding
+#         - writing
 ###
 keywords*:
   - .

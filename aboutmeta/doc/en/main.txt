@@ -19,4 +19,4 @@ abbrev::
 content::
     \content/intro.txt
     \content/deps.txt
-    \content/yaml-specs.txt    ????
+    \content/yaml-specs/    ????

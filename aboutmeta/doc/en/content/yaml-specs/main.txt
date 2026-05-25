@@ -50,10 +50,9 @@ important::
     Technically, \yaml files are read securely by treating all \vals as simple character strings.
 
 
+// -- ABOUTMETA CONFIG - AUTO - START -- //
+
 content::
     \content/XX.txt
-    \content/XX.txt
-    \content/XX.txt
-    \content/XX.txt
-    \content/XX.txt
-    \content/XX.txt
+
+// -- ABOUTMETA CONFIG - AUTO - END -- //
