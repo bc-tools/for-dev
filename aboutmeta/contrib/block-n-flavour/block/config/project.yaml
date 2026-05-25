@@ -62,32 +62,40 @@
 
 
 ###
-# This key allows to specify a version number that complies with cf::''Semantic Versioning ; https://semver.org/'', such as ''1.0.0'', ''0.0.0-beta.1'', and ''0.3.1-beta.1+build.5''.
+# This key allows to specify a version number that complies with
+# cf::''Semantic Versioning ; https://semver.org/'', such as ''1.0.0'',
+# ''0.0.0-beta.1'', and ''0.3.1-beta.1+build.5''.
 ###
 version*: sem_version
 
 
 ###
-# This key allows to give a date in the English format ''YYYY-MM-DD'' like ''2025-07-15''.
+# This key allows to give a date in the English format ''YYYY-MM-DD''
+# like ''2025-07-15''.
 ###
 date*: date
 
 
 ###
-# This key allows to explain the origin of an acronym: for example, ''"[@]bout [Desc]ription"'' explains the choice for the project name ''@Desc''.
+# This key allows to explain the origin of an acronym: for example,
+# ''"[@]bout [Desc]ription"'' explains the choice for the project
+# name ''@Desc''.
 ###
 acronym*: str
 
 
 ###
-# The key ''codename'' allows you to specify the name of a code-type project if it differs from that of the project folder.
+# The key ''codename'' allows you to specify the name of a code-type
+# project if it differs from that of the project folder.
 #
 #
-# The ''doctitle'' must be used for a document-type project. This is because such a project must have a title.
+# The ''doctitle'' must be used for a document-type project. This is
+# because such a project must have a title.
 #
 #
 # note::
-#     Note that ''aboutmeta'' will assume it is working with a code-type project by default.
+#     Note that ''aboutmeta'' will assume it is working with a code-type
+#     project by default.
 ###
 codename | doctitle *: .
 
@@ -99,52 +107,74 @@ desc: .
 
 
 ###
-# The block ''authors'' allows to indicate several authors, just by using a ''YAML'' list of single authors (see the description of the key ''author'' below).
+# The block ''authors'' allows to indicate several authors, just by
+# using a ''YAML'' list of single authors (see the description of
+# the key ''author'' below).
 #
 #
-# The key ''author'' is for identifing a single author using one of the following possible syntaxes.
+# The key ''author'' is for identifing a single author using one of
+# the following possible syntaxes.
 #
 #     + **Title (mandatory):**
-#       ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine'' are legal titles for a person (the number of first names is unlimited).
-#       Hereinafter, we will refer to one of the above forms as ''<title>''.
+#       ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
+#       are legal titles for a person (the number of first names is
+#       unlimited).
+#       Hereinafter, we will refer to one of the above forms as
+#       ''<title>''.
 #
 #     + **Email address (optional):**
-#       ''Jean, Louis, Krivine  [jl-krivine@compile.brain]'' adds an email using square brackets.
+#       ''Jean, Louis, Krivine  [jl-krivine@compile.brain]'' adds
+#       an email using square brackets.
 #
 #     + **Affiliation (optional):**
-#       ''Torvalds (Department of Sacred Kernels)'' adds an affiliation using parentheses.
+#       ''Torvalds (Department of Sacred Kernels)'' adds an affiliation
+#       using parentheses.
 #
 #     + **Indicate everything:**
-#       only the format ''<title> [email] (institute)'' is allowed like in ''Ada, Lovelace  [ada.babbage.computer@paper.org] (Victorian Institute of Applied Mechanical Informatic)''.
+#       only the format ''<title> [email] (institute)'' is allowed like
+#       in ''Ada, Lovelace  [ada.babbage.computer@paper.org] (Victorian
+#       Institute of Applied Mechanical Informatic)''.
 #
 #
 # note::
-#     Emails are never verified automatically, but they can be validated on demand (technically, this requires an internet connection, so it is not possible to validate an email every time an ''about.yaml'' file is analyzed).
+#     Emails are never verified automatically, but they can be validated
+#     on demand (technically, this requires an internet connection, so it
+#     is not possible to validate an email every time an ''about.yaml''
+#     file is analyzed).
 ###
 author | authors *: person | list(.)
 
 
 ###
-# The ''contribs'' block and ''contrib'' key follow the same syntax as ''authors'' and ''author'', except they indicate contributors instead.
+# The ''contribs'' block and ''contrib'' key follow the same syntax as
+# ''authors'' and ''author'', except they indicate contributors instead.
 ###
 contrib | contribs *: . | list(.)
 
 
 ###
-# This block allows to provide hyperlinks via the following keys, all of which are optional.
+# This block allows to provide hyperlinks via the following keys, all
+# of which are optional.
 #
-#   1. ''home'' allows to specify the address of a website dedicated to the project.
+#   1. ''home'' allows to specify the address of a website dedicated to
+#      the project.
 #
-#   1. ''dev'' is used to point to a repository for managing project development.
+#   1. ''dev'' is used to point to a repository for managing project
+#      development.
 #
-#   1. ''issues'' redirects users to the page where they can report bugs or make suggestions.
+#   1. ''issues'' redirects users to the page where they can report bugs
+#      or make suggestions.
 #
 #
 # note::
-#     URLs are never verified automatically, but they can be validated on demand (technically, this requires an internet connection, so it is not possible to validate a URL every time an ''about.yaml'' file is analyzed).*
+#     URLs are never verified automatically, but they can be validated
+#     on demand (technically, this requires an internet connection, so
+#     it is not possible to validate a URL every time an ''about.yaml''
+#     file is analyzed).*
 #
 #
-# For the record, we reproduce the fictitious example presented at the beginning of this section.
+# For the record, we reproduce the fictitious example presented at the
+# beginning of this section.
 #
 # yaml::
 #     urls:
@@ -157,18 +187,26 @@ urls*:
 
 
 ###
-# This key serves to grant a license (which represents best practice). You can used the folowing keys.
+# This key serves to grant a license (which represents best practice).
+# You can used the folowing keys.
 #
-#     1. ''code'' is for the license of the code or document relating to the project.
+#     1. ''code'' is for the license of the code or document relating
+#        to the project.
 #
-#     1. ''manual'' allows, in the case of a code-type project, the selection of a license specific to the user manual.
+#     1. ''manual'' allows, in the case of a code-type project, the
+#        selection of a license specific to the user manual.
 #
 #
 # note::
-#     The license names proposed by the cf::''''SPDX'' SPDX License List ; https://spdx.org/licenses/'' are taken into account, with a certain degree of flexibility: for example, you can type ''gpl 3.0+'' and ''cc by nc 4.0'' instead of ''GPL-3.0+'' and ''CC-BY-NC-4.0''.
+#     The license names proposed by the cf::''''SPDX'' SPDX License
+#     List ; https://spdx.org/licenses/'' are taken into account, with
+#     a certain degree of flexibility: for example, you can type
+#     ''gpl 3.0+'' and ''cc by nc 4.0'' instead of ''GPL-3.0+'' and
+#     ''CC-BY-NC-4.0''.
 #
 #
-# For the record, we reproduce the fictitious example presented at the beginning of this section.
+# For the record, we reproduce the fictitious example presented at
+# the beginning of this section.
 #
 # yaml::
 #     code  : gpl 3.0+
@@ -179,15 +217,23 @@ licenses*:
 
 
 ###
-# This block allows to specify the languages used for the following parts of a code-type project.
+# This block allows to specify the languages used for the following
+# parts of a code-type project.
 #
-#     1. The ''doc'' key is for the language used to write the technical documentation.
+#     1. The ''doc'' key is for the language used to write the technical
+#        documentation.
 #
-#     1. The ''manual'' key is for the language used to write the user manual.
+#     1. The ''manual'' key is for the language used to write the user
+#        manual.
 #
 #
 # note::
-#     You can specify a language using the cf::''ISO 639 standard ; https://en.wikipedia.org/wiki/ISO_639''', then, if necessary, add a country using the cf::''ISO 3166 standard ; https://en.wikipedia.org/wiki/ISO_3166''': for example, you can type either ''fr'' if you do not wish to specify France, or ''fr-BE'' to indicate Belgian French.
+#     You can specify a language using the cf::''ISO 639 standard ;
+#     https://en.wikipedia.org/wiki/ISO_639''', then, if necessary,
+#     add a country using the cf::''ISO 3166 standard ;
+#     https://en.wikipedia.org/wiki/ISO_3166''': for example, you can
+#     type either ''fr'' if you do not wish to specify France, or
+#     ''fr-BE'' to indicate Belgian French.
 #
 #
 # important::
@@ -195,10 +241,12 @@ licenses*:
 #
 #
 # tip::
-#     You can use ''_'' instead of ''-''. This can be useful when pasting external text.
+#     You can use ''_'' instead of ''-''. This can be useful when
+#     pasting external text.
 #
 #
-# For the record, we reproduce the fictitious example presented at the beginning of this section.
+# For the record, we reproduce the fictitious example presented at
+# the beginning of this section.
 #
 # yaml::
 #     doc   : fr
@@ -209,10 +257,13 @@ langs*:
 
 
 ###
-# This block allows to provide a list of programming languages required for the code to work, or for compiling a document, this depends on the type of project.
+# This block allows to provide a list of programming languages required
+# for the code to work, or for compiling a document, this depends on
+# the type of project.
 #
 #
-# For the record, we reproduce the fictitious example presented at the beginning of this section.
+# For the record, we reproduce the fictitious example presented at the
+# beginning of this section.
 #
 # yaml::
 #     project:
@@ -225,10 +276,12 @@ require*:
 
 
 ###
-# This block allows to specify a list of keywords that succinctly categorize the project type.
+# This block allows to specify a list of keywords that succinctly
+# categorize the project type.
 #
 #
-# For the record, we reproduce the fictitious example presented at the beginning of this section.
+# For the record, we reproduce the fictitious example presented at
+# the beginning of this section.
 #
 # yaml::
 #     project:

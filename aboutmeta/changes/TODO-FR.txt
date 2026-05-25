@@ -12,8 +12,6 @@ aboutmeta - TODO
 
         + Key alternatives without value alternatives is now possible.
 
-    1) Magic comments have been simplified a lot(this has been made possible by the fact that parsers and mappers are put inside the same \python file).
-
     1) ???
     Factorisation of tools for a cleaner code.
 
