@@ -5,6 +5,26 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+    1) \yaml \cfg \api enhanced.
+
+        + ???
+        Similar keys can be defined using a comma-separated list (alternative has priority to similarity).
+
+        + Key alternatives without value alternatives is now possible.
+
+    1) Magic comments have been simplified a lot(this has been made possible by the fact that parsers and mappers are put inside the same \python file).
+
+    1) ???
+    Factorisation of tools for a cleaner code.
+
+        * All tool \funcs use typing annotations.
+
+        * ???
+        Tests for contributions: if no unit test has been written in the path::''tests'' folder, a file is created with comments containing human tests used in the \contrib file.
+
+
+> ---------------------------- <
+
 def de bloc avec des trucs en commun project / monorepo
 
     ---> commencer par définir proprement monorepo à partir de project et voir comment automatiser les cper-coller : un truc du genr boc magique

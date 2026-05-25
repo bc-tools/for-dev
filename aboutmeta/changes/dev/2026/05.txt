@@ -18,8 +18,11 @@ Restarted coding using a mix of old and new paradigms. Please note: this implies
 --------
 
 [[:doc:]]      ?????
-The \doc will be typed according to the \tns syntax from now on.
-The \readme file will only provide a short overview of the \proj, focusing its examples on digital project management.
+Here the importnat \chges.
+
+    * The \doc will be typed according to the \tns syntax from now on.
+
+    * The \readme file will only provide a short overview of the \proj, focusing its examples on digital project management.
 
 
 --------
@@ -27,24 +30,4 @@ The \readme file will only provide a short overview of the \proj, focusing its e
 --------
 
 [[:tech:]]      ?????
-Here are the changes done.
-
-    1) ???
-    Full \doc and short \readme: the \contrib \docs are now automatically integraed (this avoids \doc overhead when updating a \contrib). This implies precise \doc in all \contribs (localizing \docs is key to real efficiency).
-
-    1) \yaml \cfg \api enhanced.
-
-        + ???
-        Similar keys can be defined using a comma-separated list (alternative has priority to similarity).
-
-        + Key alternatives without value alternatives is now possible.
-
-    1) Magic comments have been simplified a lot(this has been made possible by the fact that parsers and mappers are put inside the same \python file).
-
-    1) ???
-    Factorisation of tools for a cleaner code.
-
-        * All tool \funcs use typing annotations.
-
-        * ???
-        Tests for contributions: if no unit test has been written in the path::''tests'' folder, a file is created with comments containing human tests used in the \contrib file.
+Full \doc and short \readme: the \contrib \docs are now automatically integrated (this avoids \doc overhead when updating a \contrib). This implies precise \doc in all \contribs (localizing \docs is key to real efficiency).
