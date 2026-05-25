@@ -1,0 +1,20 @@
+﻿this::
+    date = 2026-05-25
+
+
+============
+Dependencies
+============
+
+Here are the \python \pack used. The \numvers in brackets correspond to those used prior to the release of this \ver of the \proj.
+
+    * \email_validator [numver::''2.2'']
+    * \langcodes [numver::''3.5'']
+    * \natsort [numver::''8.4'']
+    * \python-box [numver::''7.3'']
+    * \pyyaml [numver::''6.0'']
+    * \rapidfuzz [numver::''3.13'']
+    * \requests [numver::''2.32'']
+    * \rich [numver::''13.9'']
+    * \semver [numver::''3.0'']
+    * \typer [numver::''0.16'']

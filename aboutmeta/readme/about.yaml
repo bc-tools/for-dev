@@ -8,7 +8,6 @@ toc:
   - deps.md
   # - cli.md
   # - cli/
-  - specs.md
-  - specs/
-  - api.md
-  - api/
+  - yaml-specs/    ??????
+  - api.md         ????
+  - api/           ??

@@ -3,7 +3,7 @@
 
 
 abbrev::
-    content = /python
+    content = :this.name:
 
 
 =======================
@@ -17,6 +17,6 @@ Cette section explique le pilotage de ¨jinjang depuis ¨python directement ; ce
 
 
 content::
-    ¨content/files2files.txt
-    ¨content/str2str.txt
-    ¨content/config.txt
+    \content/files2files.txt
+    \content/str2str.txt
+    \content/config.txt

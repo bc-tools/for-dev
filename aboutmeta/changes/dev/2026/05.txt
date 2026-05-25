@@ -18,7 +18,8 @@ Restarted coding using a mix of old and new paradigms. Please note: this implies
 --------
 
 [[:doc:]]      ?????
-The \doc will be typed according to the \tns syntax from now on (we initially use French for efficient \dev). The \readme file will only provide a short overview of the \proj.
+The \doc will be typed according to the \tns syntax from now on.
+The \readme file will only provide a short overview of the \proj, focusing its examples on digital project management.
 
 
 --------

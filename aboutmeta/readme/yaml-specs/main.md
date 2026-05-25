@@ -1,7 +1,10 @@
-YAML specifications
--------------------
+YAML specifications for digital projects
+----------------------------------------
 
-In this section, we present all level `1` blocks. In the following fictive example, these blocks are named `block-1`, `block-2`, and `block-3`.
+In this section, we present level `1` blocks useful for managing digital projects.
+
+
+In the following fictive example, the level `1` blocks are named `block-1`, `block-2`, and `block-3`.
 
 ~~~yaml
 block-1:
@@ -20,7 +23,7 @@ block-3:
 ~~~
 
 
-Here are the **conventions used in our explanations**.
+Here are the **conventions that will be used in our explanations**.
 
   1. The concept of attribute will refer to a block, a key, etc.
 

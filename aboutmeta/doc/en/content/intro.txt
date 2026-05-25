@@ -1,0 +1,13 @@
+﻿this::
+    date = 2026-05-25
+
+
+==================
+What is \thisproj?
+==================
+
+This \proj allows metadata to be defined via path::''about.yaml'' files, making it easier for third-party \progs to manage digital \projs (code \projs and \docu-type \projs).
+
+
+note::
+    A digital \proj is simply a folder containing content, some of which is only useful during \dev (tools and tests), while other content is used to create the final \prod (a computer \prog or a \docu to read). In other words, \thisproj is agnostic.
