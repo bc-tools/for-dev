@@ -10,7 +10,10 @@
 -------
 
 [[:api:]]
-Restarted coding using a mix of old and new paradigms. Please note: this implies a break in the changelog history.
+Restarted coding using a mix of old and new paradigms.
+
+note::
+    This implies a break in the changelog history.
 
 
 --------
@@ -18,11 +21,11 @@ Restarted coding using a mix of old and new paradigms. Please note: this implies
 --------
 
 [[:doc:]]      ?????
-Here the importnat \chges.
+Here the new workflow.
 
-    * The \doc will be typed according to the \tns syntax from now on.
+    * The \doc is typed according to the \tns syntax from now on.
 
-    * The \readme file will only provide a short overview of the \proj, focusing its examples on digital project management.
+    * The \readme file only provides a short overview of the \proj, focusing its examples on digital project management.
 
 
 --------
