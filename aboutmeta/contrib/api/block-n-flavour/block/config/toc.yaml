@@ -1,8 +1,8 @@
 ###
 # Whether for a document written in small sections or for a monorepo
 # project, it is useful to be able to specify a **list of existing
-# files** to explore in a customised order: the optional ''toc'' block
-# meets this need. Its content must be a list of paths or patterns.
+# files** to explore in a customised order: the ''toc'' block meets
+# this need. Its content must be a list of paths or patterns.
 #
 #
 # Here is a fictitious example showing the functionalities available.
@@ -44,8 +44,7 @@
 #
 # tip::
 #     In a ''YAML'' file, using single quotation marks avoids escaping
-#     backslashes. With double quotation marks, we would have had to
-#     type ''"[^/]*\\.py"'' which is less user-friendly.
+#     backslashes: for example,  {{'[^/]*\.py'}} and ''"[^/]*\\.py"''
+#     are equal.
 ###
-toc:
-  - virtual_path+
+- virtual_path+
