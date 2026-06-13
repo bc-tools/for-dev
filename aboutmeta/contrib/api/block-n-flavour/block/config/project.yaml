@@ -85,12 +85,14 @@ acronym*: str
 
 
 ###
-# The key ''codename'' allows you to specify the name of a code-type
-# project if it differs from that of the project folder.
+# [[doctitle]]
+# This key must be used for a document-type project. This is because
+# such a project must have a title.
 #
 #
-# The ''doctitle'' must be used for a document-type project. This is
-# because such a project must have a title.
+# [[codename]]
+# This key allows you to specify the name of a code-type project if
+# it differs from that of the project folder.
 #
 #
 # note::
@@ -107,13 +109,15 @@ desc: .
 
 
 ###
-# The block ''authors'' allows to indicate several authors, just by
-# using a ''YAML'' list of single authors (see the description of
-# the key ''author'' below).
+# [[authors]]
+# This block allows to indicate several authors, just by using
+# a ''YAML'' list of single ''author'' keys. The following section
+# describes how to use a single ''author'' key.
 #
 #
-# The key ''author'' is for identifing a single author using one of
-# the following possible syntaxes.
+# [[author]]
+# The key ''author'' is for identifing a single author using one
+# of the following possible syntaxes.
 #
 #     + **Title (mandatory):**
 #       ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
@@ -187,7 +191,7 @@ urls*:
 
 
 ###
-# This key serves to grant a license (which represents best practice).
+# This block serves to grant a license (which represents best practice).
 # You can used the folowing keys.
 #
 #     1. ''code'' is for the license of the code or document relating

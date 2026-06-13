@@ -47,4 +47,5 @@
 #     backslashes. With double quotation marks, we would have had to
 #     type ''"[^/]*\\.py"'' which is less user-friendly.
 ###
-- virtual_path+
+toc:
+  - virtual_path+
