@@ -1,6 +1,5 @@
 // ---------- //
 
-tocar
 
 ==
 ??????  (0.0.0-beta.21)
@@ -13,8 +12,8 @@ tocar
 [[:api:]]
 Restarted coding using a mix of old and new paradigms.
 
-note::
-    This implies a break in the changelog history.
+caution::
+    There is a break in the changelog history.
 
 
 --------
