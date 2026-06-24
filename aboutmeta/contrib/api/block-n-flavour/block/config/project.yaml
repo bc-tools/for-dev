@@ -66,14 +66,14 @@
 # cf::''Semantic Versioning ; https://semver.org/'', such as ''1.0.0'',
 # ''0.0.0-beta.1'', and ''0.3.1-beta.1+build.5''.
 ###
-version*: sem_version
+version *: sem_version
 
 
 ###
 # This key allows to give a date in the English format ''YYYY-MM-DD''
 # like ''2025-07-15''.
 ###
-date*: date
+date *: date
 
 
 ###
@@ -81,7 +81,7 @@ date*: date
 # ''"[@]bout [Desc]ription"'' explains the choice for the project
 # name ''@Desc''.
 ###
-acronym*: str
+acronym *: str
 
 
 ###
@@ -186,8 +186,8 @@ contrib | contribs *: . | list(.)
 #       dev   : https://github.com/bc-tools/for-dev/tree/main/aboutmeta
 #       issues: https://github.com/bc-tools/for-dev/issues
 ###
-urls*:
-  home, dev, issues*: url
+urls *:
+  home, dev, issues *: url
 
 
 ###
@@ -216,8 +216,8 @@ urls*:
 #     code  : gpl 3.0+
 #     manual: cc by nc 4.0
 ###
-licenses*:
-  code, manual*: license
+licenses *:
+  code, manual *: license
 
 
 ###
@@ -256,8 +256,8 @@ licenses*:
 #     doc   : fr
 #     manual: fr
 ###
-langs*:
-  doc, manual*: lang
+langs *:
+  doc, manual *: lang
 
 
 ###
@@ -275,7 +275,7 @@ langs*:
 #         - python3
 #         - latex
 ###
-require*:
+require *:
   - str
 
 
@@ -294,5 +294,5 @@ require*:
 #         - coding
 #         - writing
 ###
-keywords*:
+keywords *:
   - .

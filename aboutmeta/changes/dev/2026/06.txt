@@ -21,15 +21,13 @@ caution::
 --------
 
 [[:doc:]]      ?????
-Here the new workflow.
+Here is the new workflow.
 
     *  ????
-
-    The \doc is typed according to the \tns syntax from now on.
+    The \docs are typed according to the \tns syntax from now on.
 
     *  ????
-
-    The \readme file only provides a short overview of the \proj, focusing its examples on digital project management.
+    The main \readme file only provides a short overview of the \proj, focusing its examples on digital project management.
 
 
 --------
@@ -39,10 +37,9 @@ Here the new workflow.
 [[:tech:]]      ?????
 Here are the \chges made.
 
+    1)  \yaml \cfg files: magic decorators ''*'' (zero or more) and ''+'' (at least one) must end the names and be preceded by a space.
+
+    1)  \python data and parser files: magic comments have been simplified a lot (this has been made possible by the fact that parsers and mappers are put inside the same \python file).
+
     1)  ????
-
-    Full \doc and short \readme: the \contrib \docs are now automatically integrated (this avoids \doc overhead when updating a \contrib). This implies precise \doc in all \contribs (localizing \docs is key to real efficiency).
-
-    1) ????
-
-    Magic comments have been simplified a lot (this has been made possible by the fact that parsers and mappers are put inside the same \python file).
+    Full \docs and \readme files: the \contrib \docs are now automatically integrated (this avoids \doc overhead when updating a \contrib). This implies precise \doc in all \contribs.
