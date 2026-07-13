@@ -1,5 +1,5 @@
 ﻿this::
-    title  = ???
+    title  = Indiquer des métadonnées pour un projet numérique
     author = Christophe, BAL [projetmbc@gmail.com]
     lang   = fr
 
@@ -10,7 +10,7 @@
 
 
 abbrev::
-    thisproj = cf::''jinjaNG ;
+    thisproj = cf::''aboutmeta ;
                      https://github.com/bc-tools/for-dev/tree/main/aboutmeta''
 
     content = content
