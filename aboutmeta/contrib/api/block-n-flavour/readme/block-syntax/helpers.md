@@ -1,6 +1,16 @@
+
+
+
+
+
+
+XXXXXX
+
+
+
 ### Magic comments
 
-A new block definition must contain a minimum of documentation (these texts will be used as help by the CLI). Here are the situations to be taken into account (using the `project.yaml` file as an example, version August 7, 2025).
+A new block definition must contain a minimum of documentation (these texts will be used as help by the CLI). Here are the situations to be taken into account (using the `project.yaml` file as an example, in its July 22, 2026 version).
 
 
 #### General block description
@@ -27,7 +37,7 @@ After the general description, it is possible - and strongly recommended - to do
 ###
 # This is the current version number of the project.
 ###
-version*: sem_version
+version *: sem_version
 
 ...
 
@@ -41,10 +51,8 @@ version*: sem_version
 #
 #   + ''issues'' allows regular users to report bugs.
 ###
-urls*:
-  home*  : url
-  dev*   : .
-  issues*: .
+urls *:
+  home, dev, issues *: url
 
 ...
 ~~~

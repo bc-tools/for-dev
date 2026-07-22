@@ -1,17 +1,17 @@
 ### Structure
 
-The structure of the specifications mimics those that the user will be able to use, with the exception of lists, which require the use of a single element list. In concrete terms, here's how it looks with a simplified extract from of the `project` block (in its August 7, 2025 version).
+The structure of the specifications mimics those that the user will be able to use, with the exception of lists, which require the use of a single element list. In concrete terms, here's how it looks with a simplified extract from of the `project` block.
 
 
 ~~~yaml
-# Simplified extract from ''project.yaml'' file,
-# version of August 7, 2025.
+# Simplified extract from ''project.yaml'' file
+# in its July 22, 2026 version.
 
 version: sem_version
 desc: str
 urls:
-  home  : url
-  dev   : url
+  home: url
+  dev: url
   issues: url
 require:
   - str
