@@ -1,3 +1,8 @@
+### Magic comments
+
+A new block definition must contain a minimum of documentation (these texts will be used as help by the CLI and in documentaion).
+
+
 
 
 
@@ -8,9 +13,7 @@ XXXXXX
 
 
 
-### Magic comments
 
-A new block definition must contain a minimum of documentation (these texts will be used as help by the CLI). Here are the situations to be taken into account (using the `project.yaml` file as an example, in its July 22, 2026 version).
 
 
 #### General block description

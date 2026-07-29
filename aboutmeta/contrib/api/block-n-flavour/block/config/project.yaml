@@ -3,9 +3,8 @@
 # point of view.
 #
 #
-# We will explain how to identify a code project by using the
-# following fictional example (the case of a document-type project
-# is similar)."
+# Here is a fictional example identifying a code project (the case of
+# a document-type project is similar)."
 #
 # yaml::
 #     project:
@@ -81,7 +80,7 @@ date *: date
 # ''"[@]bout [Desc]ription"'' explains the choice for the project
 # name ''@Desc''.
 ###
-acronym *: str
+acronym *: str +
 
 
 ###
@@ -96,10 +95,10 @@ acronym *: str
 #
 #
 # note::
-#     Note that ''aboutmeta'' will assume it is working with a code-type
-#     project by default.
+#     If neither the ''codename'' nor ''doctitle'' key is used, the
+#     project will be considered to be of code type.
 ###
-codename | doctitle *: .
+codename | doctitle *: . +
 
 
 ###
@@ -123,8 +122,6 @@ desc: .
 #       ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
 #       are legal titles for a person (the number of first names is
 #       unlimited).
-#       Hereinafter, we will refer to one of the above forms as
-#       ''<title>''.
 #
 #     + **Email address (optional):**
 #       ''Jean, Louis, Krivine  [jl-krivine@compile.brain]'' adds
@@ -177,8 +174,7 @@ contrib | contribs *: . | list(.)
 #     file is analyzed).*
 #
 #
-# For the record, we reproduce the fictitious example presented at the
-# beginning of this section.
+# Here is a fictitious example.
 #
 # yaml::
 #     urls:
@@ -194,8 +190,7 @@ urls *:
 # This block serves to grant a license (which represents best practice).
 # You can used the folowing keys.
 #
-#     1. ''code'' is for the license of the code or document relating
-#        to the project.
+#     1. ''code'' is for the license of the code or document project.
 #
 #     1. ''manual'' allows, in the case of a code-type project, the
 #        selection of a license specific to the user manual.
@@ -209,8 +204,7 @@ urls *:
 #     ''CC-BY-NC-4.0''.
 #
 #
-# For the record, we reproduce the fictitious example presented at
-# the beginning of this section.
+# Here is a fictitious example.
 #
 # yaml::
 #     code  : gpl 3.0+
@@ -249,8 +243,7 @@ licenses *:
 #     pasting external text.
 #
 #
-# For the record, we reproduce the fictitious example presented at
-# the beginning of this section.
+# Here is a fictitious example.
 #
 # yaml::
 #     doc   : fr
@@ -266,8 +259,7 @@ langs *:
 # the type of project.
 #
 #
-# For the record, we reproduce the fictitious example presented at the
-# beginning of this section.
+# Here is a fictitious example.
 #
 # yaml::
 #     project:
@@ -284,8 +276,7 @@ require *:
 # categorize the project type.
 #
 #
-# For the record, we reproduce the fictitious example presented at
-# the beginning of this section.
+# Here is a fictitious example.
 #
 # yaml::
 #     project:
