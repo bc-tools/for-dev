@@ -4,22 +4,12 @@ There's a shortcut to avoid typing the same parser name several times in success
 
 
 ~~~yaml
-# Uncommented extract from ''project.yaml'' file
+# Simplified version of the ''project.yaml'' file
 # in its August 21, 2026 version.
 
-version *: sem_version
-date *: date
-
-acronym *: acronym
 codename | doctitle *: str +
 desc: .
 
 author | authors *: person | list(.)
 contrib | contribs *: . | list(.)
-
-urls *:
-  home, dev, issues *: url
-
-require *:
-  - str
 ~~~

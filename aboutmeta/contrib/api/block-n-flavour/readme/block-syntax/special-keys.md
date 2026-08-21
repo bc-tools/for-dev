@@ -12,20 +12,12 @@ A little DSL allows you to define some special features for keys. Here's what yo
 > ***NOTE.*** *With an alternative choice, if one of the key is a list of data, just use `list(parser_name)`.*
 
 
-Here is almost real extract from of the `project`.
+Here is a realistic extract of the `project` section, where all keys shown are optional. The user can specify either `author` or `authors`. Within the `urls` sub-block, all keys `home`, `dev`, and `issues` are available.
 
 
 ~~~yaml
-# Uncommented extract from ''project.yaml'' file
+# Simplified version of the ''project.yaml'' file
 # in its August 21, 2026 version.
-
-version *: sem_version
-date *: date
-
-acronym *: acronym
-desc: str
-
-codename | doctitle *: str
 
 author | authors *: person | list(person)
 
