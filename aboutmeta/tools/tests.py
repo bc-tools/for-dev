@@ -71,7 +71,7 @@ def transform_structure(text: str) -> str:
                     for cl in pending_comment[1]:
                         output.append(f"{indent_str}  {cl.strip()}")
                     pending_comment = None
-                output.append("")
+                # output.append("")
 
         i += 1
 
