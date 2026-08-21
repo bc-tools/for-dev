@@ -1,2 +1,2 @@
-Structure of the "contrib/block-n-flavour" folder
--------------------------------------------------
+Structure of the "contrib/api/block-n-flavour" folder
+-----------------------------------------------------
