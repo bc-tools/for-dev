@@ -96,7 +96,8 @@ while TOOLS_DIR.name != "tools":
 
 sys.path.append(str(TOOLS_DIR))
 
-from cbutils.core import *
+from cbutils.core   import *
+from data.constants import *
 
 from ruamel.yaml import YAML
 
@@ -126,13 +127,9 @@ CONFIG_DIRS = [
 ]
 
 
-TAG_MAIN_DOC = "..main.."
+print(TAG_MAIN_DOC)
 
-
-TAG_ALTERNATIVE = "..alternative.."
-TAG_CHOICES     = "..choices.."
-
-
+exit()
 # ----------- #
 # -- TOOLS -- #
 # ----------- #
