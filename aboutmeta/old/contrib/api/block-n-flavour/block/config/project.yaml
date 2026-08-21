@@ -80,7 +80,7 @@ date *: date
 # ''"[@]bout [Desc]ription"'' explains the choice for the project
 # name ''@Desc''.
 ###
-acronym *: str +
+acronym *: acronym
 
 
 ###

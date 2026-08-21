@@ -3,7 +3,7 @@
 At the very least, your class must be structured as follows. We imagine here that no tests are needed.
 
 ~~~python
-from dataclasses  import dataclass
+from dataclasses import dataclass
 
 from aboutmeta.core.dataprinter import DataPrinter
 
@@ -38,9 +38,9 @@ Let's explain these technical choices.
 
 Of course, it is entirely possible to add other attributes or methods to the class *(see `license.License` for an example of use)*. However, **the following methods are special ones**.
 
-  1. `__str__` is handled by the `DataPrinter` interface. **You don't have to implment it!**
+  1. `__str__` is handled by the `DataPrinter` interface. **You don't have to implement it!**
 
-  2. `normalized` is needed to normalize some data.
+  2. `normalized` is used to normalize some data.
 
   3. `validate` is used for validation processes.
 

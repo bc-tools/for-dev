@@ -5,85 +5,14 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-contrib doc !!!
+parsers
+
+    --> accronym au lieu de str +
 
 
 > ---------------------------- <
 
-from ruamel.yaml import YAML
-
-def get_global_comment(mapping):
-    """Récupère le commentaire global situé tout en haut du fichier YAML."""
-    if not hasattr(mapping, 'ca') or not mapping.ca.comment:
-        return None
-
-    comment_list = mapping.ca.comment[1]
-    if comment_list:
-        lines = [token.value.strip() for token in comment_list if token is not None]
-        return "\n".join(lines)
-    return None
-
-def get_comment_for_key(mapping, key):
-    """Récupère le commentaire associé à une clé (au-dessus ou en fin de ligne)."""
-    if not hasattr(mapping, 'ca') or key not in mapping.ca.items:
-        return None
-
-    item = mapping.ca.items[key]
-
-    # 1. Priorité au commentaire en fin de ligne (Inline comment: ex: port: 8080 # text)
-    if item[2] is not None:
-        return item[2].value.strip()
-
-    # 2. Sinon, commentaire sur la/les ligne(s) précédente(s) (Block comment)
-    if item[1] is not None:
-        lines = [token.value.strip() for token in item[1] if token is not None]
-        return "\n".join(lines)
-
-    return None
-
-# ==========================================
-# EXEMPLE D'UTILISATION CONCRET
-# ==========================================
-
-# 1. Création d'un fichier de test
-yaml_content = """# ==========================================
-# CONFIGURATION DE L'APPLICATION (Global)
-# ==========================================
-server:
-  # L'adresse IP de liaison
-  host: 127.0.0.1
-  port: 8080 # Port d'écoute par défaut
-"""
-
-with open('app_config.yaml', 'w', encoding='utf-8') as f:
-    f.write(yaml_content)
-
-# 2. Lecture et Analyse avec ruamel.yaml
-yaml = YAML(typ='rt') # Mode Round-Trip requis
-with open('app_config.yaml', 'r', encoding='utf-8') as f:
-    config_data = yaml.load(f)
-
-# 3. Extraction et affichage de tous les commentaires
-print("=== EXTRACTION DES COMMENTAIRES ===\n")
-
-# Extraction globale
-global_comment = get_global_comment(config_data)
-print(f"1. COMMENTAIRE GLOBAL :\n{global_comment}\n")
-print("-" * 40)
-
-# On descend dans la section 'server'
-server_section = config_data['server']
-
-# Extraction pour 'host'
-host_comment = get_comment_for_key(server_section, 'host')
-print(f"2. CLÉ 'host' (Valeur: {server_section['host']})")
-print(f"   Commentaire associé : {host_comment}\n")
-print("-" * 40)
-
-# Extraction pour 'port'
-port_comment = get_comment_for_key(server_section, 'port')
-print(f"3. CLÉ 'port' (Valeur: {server_section['port']})")
-print(f"   Commentaire associé : {port_comment}")
+contrib doc !!!
 
 
 > ---------------------------- <
