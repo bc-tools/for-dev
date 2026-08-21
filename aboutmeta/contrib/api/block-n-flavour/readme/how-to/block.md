@@ -22,4 +22,4 @@ Here's how to define a main block.
 
   1. It may be useful to add post-processing to a parsed value. In this case, simply use `parser_name +` with an additional final plus sign.
 
-  1. Finally, magic comments must describe shortly the keys and their data. **These texts will be used for helps and documentations.**
+  1. If helpful, you can add magic comments to explain the blocks used.

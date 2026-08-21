@@ -4,8 +4,8 @@ The structure of the specifications mimics those that the user will be able to u
 
 
 ~~~yaml
-# Simplified extract from ''project.yaml'' file
-# in its July 22, 2026 version.
+# Simplified version of the ''project.yaml'' file
+# in its August 21, 2026 version.
 
 version: sem_version
 desc: str

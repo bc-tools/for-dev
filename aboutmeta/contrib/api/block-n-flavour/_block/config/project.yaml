@@ -98,7 +98,7 @@ acronym *: acronym
 #     If neither the ''codename'' nor ''doctitle'' key is used, the
 #     project will be considered to be of code type.
 ###
-codename | doctitle *: . +
+codename | doctitle *: str +
 
 
 ###

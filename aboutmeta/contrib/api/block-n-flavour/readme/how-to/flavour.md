@@ -11,3 +11,5 @@ Here are the steps to follow.
      + `block-name` indicates a mandatory block.
 
      + `block-name *` indicates an optional block.
+
+  1. If helpful, you can add magic comments to explain the blocks used.

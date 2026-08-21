@@ -3,46 +3,32 @@
 A new block definition must contain a minimum of documentation (these texts will be used as help by the CLI and in documentaion).
 
 
-
-
-
-
-
-
-XXXXXX
-
-
-
-
-
-
 #### General block description
 
 The following code shows how to succinctly describe the purpose of the block via a comment at the very beginning of the `YAML` specification file.
 
 ~~~yaml
 ###
-# This block allows to describe a project from a technical point
-# of view.
+# This 1st block describes a project from a technical point
+# of view. Make sure to explain the purpose of the block!
 ###
 
-...
+# Next comes the content of the file.
 ~~~
 
 
 #### How certain blocks and keys work
 
-After the general description, it is possible - and strongly recommended - to document blocks or keys, but nothing is imposed. Documentation is added in the comments just before the block or key concerned. Here are a few extracts from the `project.yaml` file, where, in the case of the `urls` block, it should be noted that there is no need to document the `home`, `dev` and `issues` keys.
+After the general description, it is possible - and strongly recommended - to document blocks or keys, but nothing is imposed. Documentation is added in the comments just before the block or key concerned. Here are a few extracts from the `project.yaml` file, where, in the case of the `urls` block, it should be noted that the `home`, `dev`, and `issues` keys are not documented.
 
 ~~~yaml
-...
+# Real extract from ''project.yaml'' file in its July 22,
+# 2026 version.
 
 ###
 # This is the current version number of the project.
 ###
 version *: sem_version
-
-...
 
 ###
 # Three kinds of URL can be given.
@@ -56,8 +42,6 @@ version *: sem_version
 ###
 urls *:
   home, dev, issues *: url
-
-...
 ~~~
 
 

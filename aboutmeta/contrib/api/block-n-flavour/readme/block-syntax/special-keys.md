@@ -16,13 +16,13 @@ Here is almost real extract from of the `project`.
 
 
 ~~~yaml
-# Almost real uncommented extract from ''project.yaml'' file
-# in its July 22, 2026 version.
+# Uncommented extract from ''project.yaml'' file
+# in its August 21, 2026 version.
 
 version *: sem_version
 date *: date
 
-acronym *: str
+acronym *: acronym
 desc: str
 
 codename | doctitle *: str
