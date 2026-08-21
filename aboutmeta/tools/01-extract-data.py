@@ -1,5 +1,45 @@
 #!/usr/bin/env python3
 
+from pathlib import Path
+import              sys
+
+TOOLS_DIR = Path(__file__).parent
+
+while TOOLS_DIR.name != "tools":
+    TOOLS_DIR = TOOLS_DIR.parent
+
+sys.path.append(str(TOOLS_DIR))
+
+from cbutils.core        import *
+from projutils.constants import *
+
+from ruamel.yaml import YAML
+
+ruamel_load = YAML().load
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # from ruamel.yaml import YAML
@@ -86,22 +126,6 @@
 
 
 
-from pathlib import Path
-import              sys
-
-TOOLS_DIR = Path(__file__).parent
-
-while TOOLS_DIR.name != "tools":
-    TOOLS_DIR = TOOLS_DIR.parent
-
-sys.path.append(str(TOOLS_DIR))
-
-from cbutils.core   import *
-from data.constants import *
-
-from ruamel.yaml import YAML
-
-ruamel_load = YAML().load
 
 
 # --------------- #
@@ -130,6 +154,12 @@ CONFIG_DIRS = [
 print(TAG_MAIN_DOC)
 
 exit()
+
+
+
+
+
+
 # ----------- #
 # -- TOOLS -- #
 # ----------- #
