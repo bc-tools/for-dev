@@ -8,11 +8,14 @@
 MAGIC_COMMENT_DELIM = "###"
 
 
-# -------------------- #
-# -- YYY -- #
-# -------------------- #
+# ------------- #
+# -- TNS DOC -- #
+# ------------- #
 
-TAG_MAIN_DOC = "..main.."
+TAG_MAIN_DOC = "..main-doc.."
+TAG_SUB_DOC  = "..sub-doc.."
+
+TAG_VAL = "..val.."
 
 
 # -------------------- #
