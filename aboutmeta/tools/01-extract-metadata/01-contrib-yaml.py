@@ -14,8 +14,9 @@ while TOOLS_DIR.name != "tools":
 
 sys.path.append(str(TOOLS_DIR))
 
-from cbutils.core        import *
-from projutils.constants import *
+from cbutils.core          import *
+from projutils.constants   import *
+from projutils.fake_tnsdoc import *
 
 
 from collections.abc import Iterator
@@ -23,7 +24,32 @@ from collections.abc import Iterator
 
 from ruamel.yaml import YAML
 
-ruamel_load = YAML().load
+
+# ---------------------- #
+# -- RUAMEL SAFE MODE -- #
+# ---------------------- #
+
+from ruamel.yaml.constructor import RoundTripConstructor
+
+class AllStrRoundTripConstructor(RoundTripConstructor):
+    pass
+
+def construct_yaml_str(self, node):
+    return self.construct_scalar(node)
+
+for tag in (
+    'tag:yaml.org,2002:int',
+    'tag:yaml.org,2002:float',
+    'tag:yaml.org,2002:bool',
+    'tag:yaml.org,2002:timestamp',
+    'tag:yaml.org,2002:null',
+):
+    AllStrRoundTripConstructor.add_constructor(tag, construct_yaml_str)
+
+yaml = YAML(typ='rt')
+yaml.Constructor = AllStrRoundTripConstructor
+
+ruamel_load = yaml.load
 
 
 # --------------- #
@@ -114,53 +140,66 @@ def tnsdoc_2_ruamel(content: str) -> str:
     return ruamel_content
 
 
+# ------------------------------ #
+# -- TOOLS - RUAMEL SAFE MODE -- #
+# ------------------------------ #
+
 # ------------------------------- #
 # -- TOOLS - RUAMEL EXTRACTION -- #
 # ------------------------------- #
 
-def comment_2_tnsdoc(comment):
-    lines = [
-        x.value.lstrip("# ").rstrip()
-        for x in comment
-    ]
+def ruamel_comment_2_tnsdoc(ruamel_comment: str) -> str:
+    comment = comment_2_tnsdoc(
+        '\n'.join([
+            x.value
+            for x in ruamel_comment
+        ])
+    )
 
-    comment = '\n'.join(lines)
-    comment = comment.strip() + '\n'
+    comment = comment.strip()
 
     return comment
 
 
-def extract_metadata(data):
+def extract_metadata(
+    data   : dict[str],
+    maindoc: bool = True
+ ) -> dict[str]:
+    print(repr(data))
     metadata = dict()
 
 # 1st comments = Main comment + Eventually 1st key comment.
-    start_comment = comment_2_tnsdoc(
-        data.ca.comment[1]
-    )
+    if maindoc:
+        start_comment = ruamel_comment_2_tnsdoc(
+            data.ca.comment[1]
+        )
 
-    print('-- START')
-    print(start_comment)
-    input('?')
+        print('-- START')
+        print(start_comment)
+        input('?')
 
 # Key comments for keys.
     for k, v in data.items():
         print(f'-- {k}')
 
-        comment = data.ca.items.get(k, '')
+        if isinstance(v, str):
+            comment = data.ca.items.get(k, '')
 
-        if comment:
-            comment = comment_2_tnsdoc(
-                comment[3]
-            )
+            if comment:
+                comment = ruamel_comment_2_tnsdoc(
+                    comment[3]
+                )
 
-        print(comment)
+            print(comment)
 
-        input('?')
+            input('?')
+
+        else:
+            extract_metadata(v, False)
 
 
 
 
-    exit()
 
 
 
@@ -181,6 +220,11 @@ if DEBUG:
 ###
 # T
 #
+
+
+
+
+
 # S'
 ###
 
@@ -188,7 +232,7 @@ if DEBUG:
 ###
 # A
 ###
-a: val-a
+a: 1234
 
 ###
 # B
