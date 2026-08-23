@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-DEBUG = True
-# DEBUG = False
-
-
 from pathlib import Path
 import              sys
 
@@ -145,6 +141,9 @@ def tnsdoc_2_ruamel(content: str) -> str:
 # ------------------------------- #
 
 def ruamel_comment_2_tnsdoc(ruamel_comment: str) -> str:
+    if ruamel_comment is None:
+        return ''
+
     comment = comment_2_tnsdoc(
         '\n'.join([
             x.value
@@ -180,19 +179,19 @@ def extract_metadata(
                 comment[3]
             )
 
+        if isinstance(v, dict):
+            v = extract_metadata(
+                data    = v,
+                maindoc = False,
+            )
 
         metadata[k] = {
             TAG_SUB_DOC: comment,
-            TAG_VAL    :(
-                v
-                if isinstance(v, str) else
-                extract_metadata(v, False)
-            ),
+            TAG_VAL    : v,
         }
 
 # Nothing left to keep...
     return metadata
-
 
 
 # ----------------- #
@@ -215,85 +214,14 @@ for onedir in CONFIG_DIRS:
     for p in onedir.glob('*.yaml'):
         logging.info(f"Analysing {kind}: '{p.name}'.")
 
-        data = tnsdoc_2_ruamel(p.read_text())
+        data = ruamel_load(
+            tnsdoc_2_ruamel(content = p.read_text())
+        )
 
-        print(data)
-
-        SUB_METADATA[p.stem] = extract_metadata(data)
+        SUB_METADATA[p.stem] = extract_metadata(data = data)
 
     METADATA[kind] = SUB_METADATA
 
-
-from pprint import pprint
-
-for k, v in METADATA.items():
-    print(f'-- {k} --')
-    pprint(v)
-
-
-
-
-
-
-
-
-
-
-
-# ----------- #
-# -- TESTS -- #
-# ----------- #
-
-if DEBUG:
-    content =  """
-###
-# T
-#
-# S'
-###
-
-
-###
-# A
-###
-a: 1234
-
-###
-# B
-###
-
-
-b: val-b
-
-
-###
-# C::
-#     cccccc
-###
-c:
-  x:
-###
-# XX
-#
-# XX
-###
-    xc: val-xc
-
-
-###
-# IGNORED
-###
-    """
-
-    print('--- tnsdoc_2_ruamel ---')
-
-    content = tnsdoc_2_ruamel(content)
-
-    print(content)
-
-
-    print('--- Extract ---')
-
-    data = ruamel_load(content)
-
-    print(repr(extract_metadata(data)))
+# -- DEBUG - START -- #
+from pprint import pprint;pprint(METADATA['block']['toc'])
+# -- DEBUG - END -- #
