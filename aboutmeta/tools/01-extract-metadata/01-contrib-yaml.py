@@ -194,9 +194,28 @@ def extract_metadata(
     return metadata
 
 
-# ----------------- #
-# -- LET'S WORK! -- #
-# ----------------- #
+# -- DEBUG - START -- #
+content =  """
+###
+# T
+#
+# S'
+###
+- x
+"""
+print('--- tnsdoc_2_ruamel ---')
+content = tnsdoc_2_ruamel(content)
+print(content)
+print('--- Extract ---')
+data = ruamel_load(content)
+print(repr(extract_metadata(data)))
+exit()
+# -- DEBUG - END -- #
+
+
+# ----------------------------- #
+# -- LET'S EXTRACT METADATA! -- #
+# ----------------------------- #
 
 METADATA = dict()
 
@@ -223,5 +242,5 @@ for onedir in CONFIG_DIRS:
     METADATA[kind] = SUB_METADATA
 
 # -- DEBUG - START -- #
-from pprint import pprint;pprint(METADATA['block']['toc'])
+from pprint import pprint;pprint(METADATA)
 # -- DEBUG - END -- #
