@@ -123,7 +123,7 @@ cd "$THIS_DIR"
 rm -f tools.log
 
 # We ignore any Python file inside the `cbutils` folder.
-find . -type f -name "*.py" ! -path "./cbutils/*" | sort | while read -r builderfile
+find . -type f -regex '.*/[0-9]\{1,3\}-.*\.py' | sort | while read -r builderfile
 do
     echo ""
 

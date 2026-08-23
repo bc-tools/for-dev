@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+DEBUG = True
+# DEBUG = False
+
+
 from pathlib import Path
 import              sys
 
@@ -13,11 +17,150 @@ sys.path.append(str(TOOLS_DIR))
 from cbutils.core        import *
 from projutils.constants import *
 
+
+from collections.abc import Iterator
+
+
 from ruamel.yaml import YAML
 
 ruamel_load = YAML().load
 
 
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
+
+SRC_DIR     = TOOLS_DIR.parent
+CONTRIB_DIR = SRC_DIR / "contrib" / "api" / "block-n-flavour"
+
+
+CONFIG_DIRS = [
+    p / "config"
+    for p in CONTRIB_DIR.glob('*')
+    if (
+        p.name not in [
+            'changes',
+            'readme',
+        ]
+        and
+        p.name[0] != '.'
+    )
+]
+
+
+# ----------------------------- #
+# -- TOOLS - RUAMEL FRIENDLY -- #
+# ----------------------------- #
+
+def _extract_block(line_iter : Iterator[str]) -> list[str]:
+    block = [MAGIC_COMMENT_DELIM]
+
+    for line in line_iter:
+        line = line.strip()
+
+        block.append(line)
+
+        if line == MAGIC_COMMENT_DELIM:
+            break
+
+    return block
+
+
+def tnsdoc_2_ruamel(content: str) -> str:
+    lines_iter      = iter(content.strip().splitlines())
+    output          = []
+    pending_comment = None
+
+    for line in lines_iter:
+        line = line.rstrip()
+
+# Magic comments.
+        if line == MAGIC_COMMENT_DELIM:
+            block = _extract_block(lines_iter)
+
+            if not output:
+                output.extend(block)
+
+            else:
+                pending_comment = block
+
+            continue
+
+# YAML key/val.
+        if ":" in line:
+            indent = " " * (len(line) - len(line.lstrip()))
+
+            key, _, val = line.partition(":")
+            key, val    = key.strip(), val.strip()
+
+            output.append(f"{indent}{key}:")
+
+            if pending_comment:
+                for cl in pending_comment:
+                    output.append(f"{indent}  {cl}")
+
+                pending_comment = None
+
+            if val:
+                output.append(f"{indent}  {val}")
+
+# Basic lines.
+        else:
+            output.append(line)
+
+# Nothing left to keep...
+    ruamel_content = '\n'.join(output)
+
+    return ruamel_content
+
+
+# ------------------------------- #
+# -- TOOLS - RUAMEL EXTRACTION -- #
+# ------------------------------- #
+
+def comment_2_tnsdoc(comment):
+    lines = [
+        x.value.lstrip("# ").rstrip()
+        for x in comment
+    ]
+
+    comment = '\n'.join(lines)
+    comment = comment.strip() + '\n'
+
+    return comment
+
+
+def extract_metadata(data):
+    metadata = dict()
+
+# 1st comments = Main comment + Eventually 1st key comment.
+    start_comment = comment_2_tnsdoc(
+        data.ca.comment[1]
+    )
+
+    print('-- START')
+    print(start_comment)
+    input('?')
+
+# Key comments for keys.
+    for k, v in data.items():
+        print(f'-- {k}')
+
+        comment = data.ca.items.get(k, '')
+
+        if comment:
+            comment = comment_2_tnsdoc(
+                comment[3]
+            )
+
+        print(comment)
+
+        input('?')
+
+
+
+
+    exit()
 
 
 
@@ -27,6 +170,68 @@ ruamel_load = YAML().load
 
 
 
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if DEBUG:
+    content =  """
+###
+# T
+#
+# S'
+###
+
+
+###
+# A
+###
+a: val-a
+
+###
+# B
+###
+
+
+b: val-b
+
+
+###
+# C::
+#     cccccc
+###
+c:
+  x:
+###
+# XX
+#
+# XX
+###
+    xc: val-xc
+
+
+###
+# IGNORED
+###
+    """
+
+    print('--- tnsdoc_2_ruamel ---')
+
+    content = tnsdoc_2_ruamel(content)
+
+    print(content)
+
+
+    print('--- Extract ---')
+
+    data = ruamel_load(content)
+
+    print(extract_metadata(data))
+
+
+exit()
 
 
 
@@ -52,7 +257,7 @@ ruamel_load = YAML().load
 #         # 1. Commentaire de haut de bloc / section (placé sous '..main..')
 #         if hasattr(node, "ca") and node.ca.comment and len(node.ca.comment) > 1 and node.ca.comment[1]:
 #             main_lines = [t.value.strip() for t in node.ca.comment[1]]
-#             result["..main.."] = "\n".join(main_lines)
+#             result["..main.."] = '\n'.join(main_lines)
 
 #         # 2. Parcours des éléments
 #         for key, value in node.items():
@@ -74,8 +279,8 @@ ruamel_load = YAML().load
 #             if isinstance(value, CommentedMap):
 #                 sub_dict = extract_yaml_structure(value)
 #                 if pre_comments:
-#                     existing_main = sub_dict.get("..main..", "")
-#                     new_main = "\n".join(pre_comments)
+#                     existing_main = sub_dict.get("..main..", '')
+#                     new_main = '\n'.join(pre_comments)
 #                     sub_dict["..main.."] = f"{new_main}\n{existing_main}".strip() if existing_main else new_main
 #                 result[key] = sub_dict
 
@@ -87,7 +292,7 @@ ruamel_load = YAML().load
 #                 if all_comments:
 #                     result[key] = {
 #                         "value": extracted_val,
-#                         "..comment..": "\n".join(all_comments)
+#                         "..comment..": '\n'.join(all_comments)
 #                     }
 #                 else:
 #                     result[key] = extracted_val
@@ -100,7 +305,7 @@ ruamel_load = YAML().load
 #     else:
 #         return node
 
-# yaml_text = """\
+# yaml_text = ''"\
 # # Commentaire général en haut du fichier
 # # Deuxième ligne du header
 # serveur:
@@ -110,7 +315,7 @@ ruamel_load = YAML().load
 
 # bdd:
 #   nom: app_db
-# """
+# ''"
 
 # yaml = YAML()
 # data = yaml.load(yaml_text)
@@ -128,35 +333,6 @@ ruamel_load = YAML().load
 
 
 
-# --------------- #
-# -- CONSTANTS -- #
-# --------------- #
-
-THIS_DIR    = Path(__file__).parent
-PROJECT_DIR = TOOLS_DIR.parent
-SRC_DIR     = PROJECT_DIR / "src" / "aboutmeta" / "specs"
-CONTRIB_DIR = PROJECT_DIR / "contrib" / "api" / "block-n-flavour"
-
-CONFIG_DIRS = [
-    p / "config"
-    for p in CONTRIB_DIR.glob('*')
-    if (
-        p.name not in [
-            'changes',
-            'readme',
-        ]
-        and
-        p.name[0] != '.'
-    )
-]
-
-
-print(TAG_MAIN_DOC)
-
-exit()
-
-
-
 
 
 
@@ -164,54 +340,7 @@ exit()
 # -- TOOLS -- #
 # ----------- #
 
-def normalize(data):
-# 1st comments = Main comment + Eventually 1st key comment.
-    start_comment = ruamel_comment_2_content(
-        data.ca.comment[1]
-    )
 
-    print('-- START')
-    print('')
-    print(start_comment)
-    input('?')
-
-# Key comments for keys.
-    for k, v in data.items():
-        print(f'-- {k}')
-
-        comment = data.ca.items.get(k, '')
-
-        if comment:
-            comment = ruamel_comment_2_content(
-                comment[3]
-            )
-
-        print('')
-        print(comment)
-
-        input('?')
-
-
-
-
-    exit()
-
-
-def ruamel_comment_2_content(ruamel_comment):
-    return '\n'.join(
-        x.value.strip()
-        for x in ruamel_comment
-    )
-
-def comment_2_doc(comment):
-    lines = [
-        l.strip().lstrip("#").strip()
-        for l in comment.splitlines()
-    ]
-
-    comment = "\n".join(lines)
-
-    return comment
 
 
 
@@ -238,7 +367,7 @@ for onedir in CONFIG_DIRS:
 
         this_data = ruamel_load(p.read_text())
 
-        subdata[p.stem] = normalize(this_data)
+        subdata[p.stem] = extract_metadata(this_data)
 
     data[kind] = subdata
 
