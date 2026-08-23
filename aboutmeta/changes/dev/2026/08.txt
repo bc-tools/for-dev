@@ -24,10 +24,18 @@ caution::
 Here is the new workflow.
 
     *  ????
-    The \docs are typed according to the \tns syntax from now on.
+    The \docs are typed using the \tns syntax from now on, and are then automatically converted into \readme and \pdf files.
 
     *  ????
     The main \readme file only provides a short overview of the \proj, focusing its examples on digital project management.
+
+
+-----
+:new:
+-----
+
+[[:doc:]]      ?????
+The \docs and manual can be easily translated in the path::''contrib/translate'' folder.
 
 
 --------

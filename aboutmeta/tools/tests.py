@@ -78,7 +78,8 @@ def transform_structure(text: str) -> str:
     return "\n".join(output)
 
 # --- Test ---
-text_input = """###
+text_input = """
+###
 # S
 #
 # S'
@@ -104,6 +105,7 @@ c:
 ###
 # CC
 ###
-    cc: val-cc"""
+    cc: val-cc
+"""
 
 print(transform_structure(text_input))

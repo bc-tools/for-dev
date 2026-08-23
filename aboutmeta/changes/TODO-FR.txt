@@ -5,7 +5,9 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-parsers
+parsers + data
+
+    --> doc au tout dbt du gfichier qui décrit, mais on ignore les docs technqiues !
 
     --> accronym au lieu de str +
 
