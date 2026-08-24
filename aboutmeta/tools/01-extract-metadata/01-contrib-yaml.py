@@ -282,6 +282,8 @@ def ruamel_comment_2_tns(ruamel_comment: None | list[Any]) -> str:
 content =  """
 ###
 # MAIN
+#
+#DOC
 ###
 a:
 ###
@@ -289,59 +291,29 @@ a:
 # X
 ###
   x:ok
+
+b: dac
+
+c:
+###
+# A
+###
+  - lll
 """
 
-# content =  """
-# ###
-# # MAIN
-# #
-# #DOC
-# ###
-
-# ###
-# # A
-# ###
-# - a
-# """
-
-# content =  """
-# ###
-# # MAIN
-# #
-# #DOC
-# ###
-
-# ###
-# # A
-# ###
-# a:
-#   - b
-# """
-
-# content =  """
-# ###
-# # MAIN
-# #
-# #DOC
-# ###
-
-# ###
-# # A
-# ###
-# a:
-#   - b
-# """
-
 print('--- tnsdoc_2_ruamel ---')
-maindoc, content = tnsdoc_2_ruamel(content)
+maindoc, ruamel_content = tnsdoc_2_ruamel(content)
 print(maindoc)
 print('~~~')
 print('~~~')
-print(content)
-print('--- data ---')
-data = ruamel_load(content)
-print(type(data))
-print(repr(data))
+print(ruamel_content)
+
+data = ruamel_load(ruamel_content)
+
+# print('--- data ---')
+# print(type(data))
+# print(repr(data))
+
 print('--- Extract ---')
 from pprint import pprint
 pprint(extract_metadata(data))

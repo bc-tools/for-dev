@@ -12,12 +12,18 @@ MAGIC_COMMENT_DELIM = "###"
 # -- AUTODOC & DATA -- #
 # -------------------- #
 
-TAG_DOC = "..doc.."
+TAG_DOC = "::doc::"
 
 
-# -------------------- #
-# -- XX -- #
-# -------------------- #
+TAG_TYPE = "::type::"
 
-TAG_ALTERNATIVE = "..alternative.."
-TAG_CHOICES     = "..choices.."
+TAG_DICT = "::dict::"
+TAG_KEYS = "::keys::"
+
+TAG_LIST = "::list::"
+
+TAG_PARSER = "::parser::"
+
+
+TAG_ALTERNATIVE = "::alternative::"
+TAG_CHOICES     = "::choices::"
