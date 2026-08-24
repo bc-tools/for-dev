@@ -239,19 +239,10 @@ def extract_metadata(data: dict[str]) -> dict[str]:
 
 # Case 2: list
     elif isinstance(data, CommentedSeq):
-        metadata[TAG_TYPE] = TAG_LIST
-
-        comment = data.ca.comment
-
-        if comment:
-            comment = ruamel_comment_2_tns(comment[1])
-
-        else:
-            comment = ''
-
         metadata[TAG_VAL] = {
-            TAG_DOC: comment,
-            TAG_VAL: data,
+            TAG_TYPE: TAG_LIST,
+            TAG_DOC : '',
+            TAG_VAL : data[0],
         }
 
 # Case 3: unsupported type
@@ -269,6 +260,9 @@ def extract_metadata(data: dict[str]) -> dict[str]:
 
 
 def ruamel_comment_2_tns(ruamel_comment: None | list[Any]) -> str:
+    if ruamel_comment is None:
+        return ''
+
     return comment_2_tnsdoc(
             '\n'.join([
             x.value
@@ -277,53 +271,70 @@ def ruamel_comment_2_tns(ruamel_comment: None | list[Any]) -> str:
     )
 
 
-
-
 # -- DEBUG - START -- #
-content =  """
-###
-# MAIN
-###
-a:
-###
-# X
-# X
-###
-  x:ok
-"""
-content =  """
-###
-# MAIN
-#
-#DOC
-###
+# content =  """
+# ###
+# # MAIN
+# ###
+# a:
+# ###
+# # X
+# # X
+# ###
+#   x:ok
+# """
+# content =  """
+# ###
+# # MAIN
+# #
+# #DOC
+# ###
 
-###
-# A
-###
-- a
-"""
-print('--- tnsdoc_2_ruamel ---')
-maindoc, content = tnsdoc_2_ruamel(content)
-print(maindoc)
-print('~~~')
-print('~~~')
-print(content)
-print('--- data ---')
-data = ruamel_load(content)
-print(type(data))
-print(repr(data))
-print('--- Extract ---')
-print(repr(extract_metadata(data)))
-exit()
+# ###
+# # A
+# ###
+# - a
+# """
+# content =  """
+# ###
+# # MAIN
+# #
+# #DOC
+# ###
+
+# ###
+# # A
+# ###
+# a:
+#   - b
+# """
+# content =  """
+# ###
+# # MAIN
+# #
+# #DOC
+# ###
+
+# ###
+# # A
+# ###
+# a:
+#   - b
+# """
+# print('--- tnsdoc_2_ruamel ---')
+# maindoc, content = tnsdoc_2_ruamel(content)
+# print(maindoc)
+# print('~~~')
+# print('~~~')
+# print(content)
+# print('--- data ---')
+# data = ruamel_load(content)
+# print(type(data))
+# print(repr(data))
+# print('--- Extract ---')
+# print(repr(extract_metadata(data)))
+# exit()
 # -- DEBUG - END -- #
-
-
-
-
-
-
-
 
 
 # ----------------------------- #
@@ -340,17 +351,19 @@ for onedir in CONFIG_DIRS:
 
     SUB_METADATA = dict()
 
-
     logging.info(f"Working on '{kind}'.")
 
     for p in onedir.glob('*.yaml'):
         logging.info(f"Analysing {kind}: '{p.name}'.")
 
-        data = ruamel_load(
-            tnsdoc_2_ruamel(content = p.read_text())
-        )
+        maindoc, content = tnsdoc_2_ruamel(content = p.read_text())
 
-        SUB_METADATA[p.stem] = extract_metadata(data = data)
+        data = ruamel_load(content)
+
+        SUB_METADATA[p.stem] = {
+            TAG_MAIN_DOC: maindoc,
+            TAG_DATA    : extract_metadata(data = data),
+        }
 
     METADATA[kind] = SUB_METADATA
 

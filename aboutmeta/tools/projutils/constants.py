@@ -16,10 +16,12 @@ TAG_MAIN_DOC = "..main.doc.."
 TAG_DOC      = "..doc.."
 
 
+TAG_DATA = "..data.."
 TAG_TYPE = "..type.."
 
 TAG_DICT = "..dict.."
 TAG_LIST = "..list.."
+TAG_STR  = "..str.."
 
 TAG_VAL = "..val.."
 
