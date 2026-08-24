@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from typing import Any
+
 from pathlib import Path
 import              sys
 
@@ -78,68 +80,37 @@ CONFIG_DIRS = [
 # -- TOOLS - RUAMEL FRIENDLY -- #
 # ----------------------------- #
 
-def _extract_block(line_iter : Iterator[str]) -> list[str]:
-    block = [MAGIC_COMMENT_DELIM]
+def tnsdoc_2_ruamel(content: str) -> (str, str):
+    lines_iter = iter(content.strip().splitlines())
 
-    for line in line_iter:
-        line = line.strip()
+# Main mandatory doc extraction.
+    line = next(lines_iter)
 
-        if(
-            not line
-            or
-            line[0] != '#'
-        ):
-            raise ValueError('Illegal magic comment!')
+    if line != MAGIC_COMMENT_DELIM:
+        raise ValueError('Missing mandatory main doc via magic comment')
 
-        block.append(line)
+    main_doc = comment_2_tnsdoc(
+        '\n'.join(
+            extract_magic_comment(lines_iter)
+        )
+    )
 
-        if line == MAGIC_COMMENT_DELIM:
-            break
-
-    if(
-        len(block) == 1
-        or
-        block[-1] != MAGIC_COMMENT_DELIM
-    ):
-        raise ValueError('Illegal magic comment!')
-
-    return block
-
-
-def get_indent(line: str) -> str:
-    return " " * (len(line) - len(line.lstrip()))
-
-
-def add_comment(
-    output         : list[str],
-    pending_comment: list[str],
-    indent         : str,
-) -> None :
-    if pending_comment:
-        for cl in pending_comment:
-            output.append(f"{indent}{cl}")
-
-
-def tnsdoc_2_ruamel(content: str) -> str:
-    lines_iter      = iter(content.strip().splitlines())
+# Let's prepare other magic comments for ruamel.
     output          = []
     pending_comment = None
 
     for line in lines_iter:
-        line = line.rstrip()
-
-# Magic comments.
-        if line == MAGIC_COMMENT_DELIM:
-            block = _extract_block(lines_iter)
+# One new magic comment.
+        if line.rstrip() == MAGIC_COMMENT_DELIM:
+            magic_comment = extract_magic_comment(lines_iter)
 
             if not output:
-                output.extend(block)
+                output.extend(magic_comment)
 
             else:
-                pending_comment = block
+                pending_comment = magic_comment
 
             continue
-
 # YAML key/val.
         if ":" in line:
             indent = get_indent(line)
@@ -186,48 +157,64 @@ def tnsdoc_2_ruamel(content: str) -> str:
 
 # Nothing left to keep...
     ruamel_content = '\n'.join(output)
+    ruamel_content = ruamel_content.strip()
 
-    return ruamel_content
+    return main_doc, ruamel_content
+
+
+def extract_magic_comment(line_iter : Iterator[str]) -> list[str]:
+    block = [MAGIC_COMMENT_DELIM]
+
+    for line in line_iter:
+        line = line.strip()
+
+        if(
+            not line
+            or
+            line[0] != '#'
+        ):
+            raise ValueError('Illegal magic comment!')
+
+        block.append(line)
+
+        if line == MAGIC_COMMENT_DELIM:
+            break
+
+    if(
+        len(block) == 1
+        or
+        block[-1] != MAGIC_COMMENT_DELIM
+    ):
+        raise ValueError('Illegal magic comment!')
+
+    return block
+
+
+def get_indent(line: str) -> str:
+    return " " * (len(line) - len(line.lstrip()))
+
+
+def add_comment(
+    output         : list[str],
+    pending_comment: list[str],
+    indent         : str,
+) -> None :
+    if pending_comment:
+        for cl in pending_comment:
+            output.append(f"{indent}{cl}")
 
 
 # ------------------------------- #
 # -- TOOLS - RUAMEL EXTRACTION -- #
 # ------------------------------- #
 
-def ruamel_comment_2_tns(ruamel_comment: str) -> str:
-    if ruamel_comment is None:
-        return ''
-
-    comment = comment_2_tnsdoc(
-        '\n'.join([
-            x.value
-            for x in ruamel_comment
-        ])
-    )
-
-    comment = comment.strip()
-
-    return comment
-
-
-def extract_metadata(
-    data   : dict[str],
-    maindoc: bool = True
- ) -> dict[str]:
+def extract_metadata(data: dict[str]) -> dict[str]:
 # Nothing to do.
     if isinstance(data, str):
         return data
 
 # We have some work to do.
     metadata = dict()
-
-# 1st comments = Main comment + Eventually 1st key comment.
-    if maindoc:
-        comment = ruamel_comment_2_tns(
-            data.ca.comment[1]
-        )
-
-        metadata[TAG_MAIN_DOC] = comment
 
 # Case 1: dict
     if isinstance(data, CommentedMap):
@@ -241,10 +228,7 @@ def extract_metadata(
             if comment:
                 comment = ruamel_comment_2_tns(comment[3])
 
-            v = extract_metadata(
-                data    = v,
-                maindoc = False,
-            )
+            v = extract_metadata(v)
 
             submetadata[k] = {
                 TAG_DOC: comment,
@@ -280,37 +264,50 @@ def extract_metadata(
             f"  > Value: '{data}'"
         )
 
-
 # Nothing left to keep...
     return metadata
 
 
+def ruamel_comment_2_tns(ruamel_comment: None | list[Any]) -> str:
+    return comment_2_tnsdoc(
+            '\n'.join([
+            x.value
+            for x in ruamel_comment
+        ])
+    )
+
+
+
+
 # -- DEBUG - START -- #
-# content =  """
-# ###
-# # A
-# ###
-# a:
-# ###
-# # C
-# # C
-# # C
-# # C
-# ###
-#   - c
-# """
 content =  """
 ###
-# A
+# MAIN
+###
+a:
+###
+# X
+# X
+###
+  x:ok
+"""
+content =  """
+###
+# MAIN
+#
+#DOC
 ###
 
 ###
-# B
+# A
 ###
 - a
 """
 print('--- tnsdoc_2_ruamel ---')
-content = tnsdoc_2_ruamel(content)
+maindoc, content = tnsdoc_2_ruamel(content)
+print(maindoc)
+print('~~~')
+print('~~~')
 print(content)
 print('--- data ---')
 data = ruamel_load(content)
@@ -320,6 +317,13 @@ print('--- Extract ---')
 print(repr(extract_metadata(data)))
 exit()
 # -- DEBUG - END -- #
+
+
+
+
+
+
+
 
 
 # ----------------------------- #
