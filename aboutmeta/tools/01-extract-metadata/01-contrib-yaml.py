@@ -18,7 +18,11 @@ from projutils.fake_tnsdoc import *
 from collections.abc import Iterator
 
 
-from ruamel.yaml import YAML
+from ruamel.yaml          import YAML
+from ruamel.yaml.comments import (
+    CommentedSeq,
+    CommentedMap,
+)
 
 
 # ---------------------- #
@@ -80,12 +84,40 @@ def _extract_block(line_iter : Iterator[str]) -> list[str]:
     for line in line_iter:
         line = line.strip()
 
+        if(
+            not line
+            or
+            line[0] != '#'
+        ):
+            raise ValueError('Illegal magic comment!')
+
         block.append(line)
 
         if line == MAGIC_COMMENT_DELIM:
             break
 
+    if(
+        len(block) == 1
+        or
+        block[-1] != MAGIC_COMMENT_DELIM
+    ):
+        raise ValueError('Illegal magic comment!')
+
     return block
+
+
+def get_indent(line: str) -> str:
+    return " " * (len(line) - len(line.lstrip()))
+
+
+def add_comment(
+    output         : list[str],
+    pending_comment: list[str],
+    indent         : str,
+) -> None :
+    if pending_comment:
+        for cl in pending_comment:
+            output.append(f"{indent}{cl}")
 
 
 def tnsdoc_2_ruamel(content: str) -> str:
@@ -110,21 +142,43 @@ def tnsdoc_2_ruamel(content: str) -> str:
 
 # YAML key/val.
         if ":" in line:
-            indent = " " * (len(line) - len(line.lstrip()))
+            indent = get_indent(line)
 
             key, _, val = line.partition(":")
             key, val    = key.strip(), val.strip()
 
             output.append(f"{indent}{key}:")
 
-            if pending_comment:
-                for cl in pending_comment:
-                    output.append(f"{indent}  {cl}")
+            indent += ' '*2
 
-                pending_comment = None
+            add_comment(
+                output          = output,
+                pending_comment = pending_comment,
+                indent          = indent,
+            )
+
+            pending_comment = None
 
             if val:
-                output.append(f"{indent}  {val}")
+                output.append(f"{indent}{val}")
+
+# YAML list.
+        elif (
+            line
+            and
+            line.lstrip()[0] == '-'
+        ):
+            indent = get_indent(line)
+
+            add_comment(
+                output          = output,
+                pending_comment = pending_comment,
+                indent          = indent,
+            )
+
+            pending_comment = None
+
+            output.append(line)
 
 # Basic lines.
         else:
@@ -140,7 +194,7 @@ def tnsdoc_2_ruamel(content: str) -> str:
 # -- TOOLS - RUAMEL EXTRACTION -- #
 # ------------------------------- #
 
-def ruamel_comment_2_tnsdoc(ruamel_comment: str) -> str:
+def ruamel_comment_2_tns(ruamel_comment: str) -> str:
     if ruamel_comment is None:
         return ''
 
@@ -160,54 +214,109 @@ def extract_metadata(
     data   : dict[str],
     maindoc: bool = True
  ) -> dict[str]:
+# Nothing to do.
+    if isinstance(data, str):
+        return data
+
+# We have some work to do.
     metadata = dict()
 
 # 1st comments = Main comment + Eventually 1st key comment.
     if maindoc:
-        comment = ruamel_comment_2_tnsdoc(
+        comment = ruamel_comment_2_tns(
             data.ca.comment[1]
         )
 
         metadata[TAG_MAIN_DOC] = comment
 
-# Key comments for keys.
-    for k, v in data.items():
-        comment = data.ca.items.get(k, '')
+# Case 1: dict
+    if isinstance(data, CommentedMap):
+        metadata[TAG_TYPE] = TAG_DICT
 
-        if comment:
-            comment = ruamel_comment_2_tnsdoc(
-                comment[3]
-            )
+        submetadata = dict()
 
-        if isinstance(v, dict):
+        for k, v in data.items():
+            comment = data.ca.items.get(k, '')
+
+            if comment:
+                comment = ruamel_comment_2_tns(comment[3])
+
             v = extract_metadata(
                 data    = v,
                 maindoc = False,
             )
 
-        metadata[k] = {
-            TAG_SUB_DOC: comment,
-            TAG_VAL    : v,
+            submetadata[k] = {
+                TAG_DOC: comment,
+                TAG_VAL: v,
+            }
+
+        metadata[TAG_VAL] = submetadata
+
+# Case 2: list
+    elif isinstance(data, CommentedSeq):
+        metadata[TAG_TYPE] = TAG_LIST
+
+        comment = data.ca.comment
+
+        if comment:
+            comment = ruamel_comment_2_tns(comment[1])
+
+        else:
+            comment = ''
+
+        metadata[TAG_VAL] = {
+            TAG_DOC: comment,
+            TAG_VAL: data,
         }
+
+# Case 3: unsupported type
+    else:
+        raise TypeError(
+             "Only dicts and lists are supporetd."
+             "\n"
+            f"  > Type : '{type(data)}'"
+             "\n"
+            f"  > Value: '{data}'"
+        )
+
 
 # Nothing left to keep...
     return metadata
 
 
 # -- DEBUG - START -- #
+# content =  """
+# ###
+# # A
+# ###
+# a:
+# ###
+# # C
+# # C
+# # C
+# # C
+# ###
+#   - c
+# """
 content =  """
 ###
-# T
-#
-# S'
+# A
 ###
-- x
+
+###
+# B
+###
+- a
 """
 print('--- tnsdoc_2_ruamel ---')
 content = tnsdoc_2_ruamel(content)
 print(content)
-print('--- Extract ---')
+print('--- data ---')
 data = ruamel_load(content)
+print(type(data))
+print(repr(data))
+print('--- Extract ---')
 print(repr(extract_metadata(data)))
 exit()
 # -- DEBUG - END -- #
