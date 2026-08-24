@@ -209,6 +209,10 @@ def add_comment(
 # ------------------------------- #
 
 def extract_metadata(data: dict[str]) -> dict[str]:
+    TODO
+
+
+
 # Nothing to do.
     if isinstance(data, str):
         return data
@@ -218,31 +222,34 @@ def extract_metadata(data: dict[str]) -> dict[str]:
 
 # Case 1: dict
     if isinstance(data, CommentedMap):
-        metadata[TAG_TYPE] = TAG_DICT
-
         submetadata = dict()
 
         for k, v in data.items():
+            submetadata[k] = dict()
+
             comment = data.ca.items.get(k, '')
 
             if comment:
                 comment = ruamel_comment_2_tns(comment[3])
 
+                if comment:
+                    submetadata[k][TAG_DOC] = comment
+
             v = extract_metadata(v)
 
-            submetadata[k] = {
-                TAG_DOC: comment,
-                TAG_VAL: v,
+            submetadata[k] |= {
+                TAG_IS_LOF: False,
+                TAG_DATA  : v,
             }
 
-        metadata[TAG_VAL] = submetadata
+
+        metadata[TAG_DATA] = submetadata
 
 # Case 2: list
     elif isinstance(data, CommentedSeq):
-        metadata[TAG_VAL] = {
-            TAG_TYPE: TAG_LIST,
-            TAG_DOC : '',
-            TAG_VAL : data[0],
+        metadata[TAG_DATA] = {
+            TAG_IS_LOF: True,
+            TAG_VAL   : data[0],
         }
 
 # Case 3: unsupported type
@@ -272,17 +279,18 @@ def ruamel_comment_2_tns(ruamel_comment: None | list[Any]) -> str:
 
 
 # -- DEBUG - START -- #
-# content =  """
-# ###
-# # MAIN
-# ###
-# a:
-# ###
-# # X
-# # X
-# ###
-#   x:ok
-# """
+content =  """
+###
+# MAIN
+###
+a:
+###
+# X
+# X
+###
+  x:ok
+"""
+
 # content =  """
 # ###
 # # MAIN
@@ -295,6 +303,7 @@ def ruamel_comment_2_tns(ruamel_comment: None | list[Any]) -> str:
 # ###
 # - a
 # """
+
 # content =  """
 # ###
 # # MAIN
@@ -308,6 +317,7 @@ def ruamel_comment_2_tns(ruamel_comment: None | list[Any]) -> str:
 # a:
 #   - b
 # """
+
 # content =  """
 # ###
 # # MAIN
@@ -321,19 +331,21 @@ def ruamel_comment_2_tns(ruamel_comment: None | list[Any]) -> str:
 # a:
 #   - b
 # """
-# print('--- tnsdoc_2_ruamel ---')
-# maindoc, content = tnsdoc_2_ruamel(content)
-# print(maindoc)
-# print('~~~')
-# print('~~~')
-# print(content)
-# print('--- data ---')
-# data = ruamel_load(content)
-# print(type(data))
-# print(repr(data))
-# print('--- Extract ---')
-# print(repr(extract_metadata(data)))
-# exit()
+
+print('--- tnsdoc_2_ruamel ---')
+maindoc, content = tnsdoc_2_ruamel(content)
+print(maindoc)
+print('~~~')
+print('~~~')
+print(content)
+print('--- data ---')
+data = ruamel_load(content)
+print(type(data))
+print(repr(data))
+print('--- Extract ---')
+from pprint import pprint
+pprint(extract_metadata(data))
+exit()
 # -- DEBUG - END -- #
 
 
