@@ -46,8 +46,8 @@ CONFIG_DIRS = [
 # -- TOOLS -- #
 # ----------- #
 
-def get_indent(line: str) -> str:
-    return " " * (len(line) - len(line.lstrip()))
+def get_level(line: str) -> str:
+    return (len(line) - len(line.lstrip())) // 2
 
 
 def yaml_comment_2_tnsdoc(line_iter : Iterator[str]) -> str:
@@ -77,7 +77,10 @@ def yaml_comment_2_tnsdoc(line_iter : Iterator[str]) -> str:
 
 
 def extract_tnsdoc(content: str) -> dict[Any]:
-    all_docs = dict()
+    all_docs = {
+        TAG_MAIN_DOC: '',
+        TAG_SUB_DOCS: dict()
+    }
 
     lines_iter = iter(content.strip().splitlines())
 
@@ -96,7 +99,7 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             'Missing mandatory main doc via magic comment'
         )
 
-    all_docs[TAG_DOC] = magic_comment
+    all_docs[TAG_MAIN_DOC] = magic_comment
 
 # Optional key docs extraction.
     last_keys     = []
@@ -109,13 +112,13 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 
 # YAML key/val.
         elif ":" in l:
-            indent = get_indent(l)
+            level = get_level(l)
 
             key, _ , _ = l.partition(":")
             key        = key.strip()
 
             if magic_comment:
-                all_docs[key] = magic_comment
+                all_docs[TAG_SUB_DOCS][(key, level)] = magic_comment
 
             magic_comment = ''
 
@@ -145,11 +148,13 @@ a:
 
 b: dac
 
-###
-# C
-###
 c:
-  - lll
+  d:
+###
+# E
+###
+    e:
+      - lll
 """
 
 all_docs = extract_tnsdoc(content)

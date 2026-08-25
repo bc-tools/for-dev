@@ -12,7 +12,8 @@ MAGIC_COMMENT_DELIM = "###"
 # -- AUTODOC & DATA -- #
 # -------------------- #
 
-TAG_DOC = "::doc::"
+TAG_MAIN_DOC = "::main:doc::"
+TAG_SUB_DOCS = "::sub:docs::"
 
 
 TAG_TYPE = "::type::"
