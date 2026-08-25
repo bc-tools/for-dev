@@ -50,7 +50,7 @@ def get_indent(line: str) -> str:
     return " " * (len(line) - len(line.lstrip()))
 
 
-def extract_tnsdoc(line_iter : Iterator[str]) -> str:
+def yaml_comment_2_tnsdoc(line_iter : Iterator[str]) -> str:
     lines = [MAGIC_COMMENT_DELIM]
 
     for l in line_iter:
@@ -89,7 +89,7 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             'Missing mandatory main doc via magic comment'
         )
 
-    magic_comment = extract_tnsdoc(lines_iter)
+    magic_comment = yaml_comment_2_tnsdoc(lines_iter)
 
     if magic_comment == '':
         raise ValueError(
@@ -105,15 +105,24 @@ def extract_tnsdoc(content: str) -> dict[Any]:
     for l in lines_iter:
 # One new magic comment.
         if l.rstrip() == MAGIC_COMMENT_DELIM:
-            magic_comment = extract_tnsdoc(lines_iter)
+            magic_comment = yaml_comment_2_tnsdoc(lines_iter)
 
 # YAML key/val.
         elif ":" in l:
             indent = get_indent(l)
 
-            key, _, val = l.partition(":")
-            key, val    = key.strip(), val.strip()
+            key, _ , _ = l.partition(":")
+            key        = key.strip()
 
+            if magic_comment:
+                all_docs[key] = magic_comment
+
+            magic_comment = ''
+
+
+# Other content clears the docs.
+        else:
+            magic_comment = ''
 
 # Nothing left to do.
     return all_docs
@@ -123,9 +132,9 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 # -- DEBUG - START -- #
 content =  """
 ###
+# MAIN
 #
-#
-#
+#DOC
 ###
 a:
 ###
@@ -136,10 +145,10 @@ a:
 
 b: dac
 
+###
+# C
+###
 c:
-###
-# A
-###
   - lll
 """
 
@@ -151,6 +160,14 @@ pprint(all_docs)
 exit()
 # -- DEBUG - END -- #
 # ----------------- #
+
+
+
+
+
+
+
+
 
 
 # ----------------------------- #
