@@ -170,11 +170,6 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             magic_comment = ''
 
 # Let's store all the full paths.
-    allpaths = []
-
-    print(allpaths)
-    exit()
-
     alldocs[TAG_FULL_PATHS] = tuple(
         tuple(p)
         for p in prepaths

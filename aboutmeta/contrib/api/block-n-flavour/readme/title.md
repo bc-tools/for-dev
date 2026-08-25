@@ -1,5 +1,5 @@
-Add new flavours to aboutmeta
-=============================
+Add new flavours
+================
 
 **Table of contents**
 
