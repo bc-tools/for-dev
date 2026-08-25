@@ -77,13 +77,13 @@ def yaml_comment_2_tnsdoc(line_iter : Iterator[str]) -> str:
 
 
 def is_bigger_path(
-    all_paths = list[list[str]],
-    one_path  = list[str]
+    prepaths = list[list[str]],
+    one_path = list[str]
 ) -> bool:
-    if not all_paths:
+    if not prepaths:
         return False
 
-    last_path = all_paths[-1]
+    last_path = prepaths[-1]
 
     if(
         len(one_path) <= len(last_path)
@@ -96,7 +96,7 @@ def is_bigger_path(
 
 
 def extract_tnsdoc(content: str) -> dict[Any]:
-    all_docs = {
+    alldocs = {
         TAG_FULL_PATHS: [],
         TAG_MAIN_DOC  : '',
         TAG_SUB_DOCS  : dict()
@@ -119,10 +119,10 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             'Missing mandatory main doc via magic comment'
         )
 
-    all_docs[TAG_MAIN_DOC] = magic_comment
+    alldocs[TAG_MAIN_DOC] = magic_comment
 
 # Optional key docs extraction.
-    all_paths     = []
+    prepaths      = []
     last_keys     = []
     magic_comment = ''
 
@@ -149,24 +149,17 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 
             last_keys.append(key)
 
-            print('---')
-            print(f'         {last_keys = }')
-            print(f'BEFORE - {all_paths = }')
-
             if is_bigger_path(
-                all_paths = all_paths,
-                one_path  = last_keys
+                prepaths = prepaths,
+                one_path = last_keys
             ):
-                print(f'BIG {last_keys}')
-                all_paths[-1] = last_keys[:]
+                prepaths[-1] = last_keys[:]
 
             else:
-                all_paths.append(last_keys[:])
-
-            print(f' AFTER - {all_paths = }')
+                prepaths.append(last_keys[:])
 
             if magic_comment:
-                all_docs[TAG_SUB_DOCS][
+                alldocs[TAG_SUB_DOCS][
                     '.'.join(last_keys)
                 ] = magic_comment
 
@@ -177,13 +170,18 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             magic_comment = ''
 
 # Let's store all the full paths.
-    all_docs[TAG_FULL_PATHS] = tuple(
+    allpaths = []
+
+    print(allpaths)
+    exit()
+
+    alldocs[TAG_FULL_PATHS] = tuple(
         tuple(p)
-        for p in all_paths
+        for p in prepaths
     )
 
 # Nothing left to do.
-    return all_docs
+    return alldocs
 
 
 # ------------------- #
@@ -214,10 +212,10 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 #       - lll
 # """
 
-# all_docs = extract_tnsdoc(content)
+# alldocs = extract_tnsdoc(content)
 
 # from pprint import pprint
-# pprint(all_docs)
+# pprint(alldocs)
 
 # exit()
 # -- DEBUG - END -- #
@@ -241,9 +239,9 @@ for onedir in CONFIG_DIRS:
     for p in onedir.glob('*.yaml'):
         logging.info(f"Doc of {kind}: '{p.name}'.")
 
-        all_docs = extract_tnsdoc(content = p.read_text())
+        alldocs = extract_tnsdoc(content = p.read_text())
 
 # -- DEBUG - START -- #
-        del all_docs[TAG_MAIN_DOC]
-        from pprint import pprint;pprint(all_docs)
+        del alldocs[TAG_MAIN_DOC]
+        from pprint import pprint;pprint(alldocs)
 # -- DEBUG - END -- #
