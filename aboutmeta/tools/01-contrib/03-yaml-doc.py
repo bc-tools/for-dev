@@ -76,11 +76,20 @@ def yaml_comment_2_tnsdoc(line_iter : Iterator[str]) -> str:
     return tnsdoc
 
 
-def bigger_path(
-    all_paths     = list[list[str]],
-    one_path = list[str]
+def is_bigger_path(
+    all_paths = list[list[str]],
+    one_path  = list[str]
 ) -> bool:
     if not all_paths:
+        return False
+
+    last_path = all_paths[-1]
+
+    if(
+        len(one_path) <= len(last_path)
+        and
+        one_path != last_path
+    ):
         return False
 
     return True
@@ -138,10 +147,11 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             print(f'         {last_keys = }')
             print(f'BEFORE - {all_paths = }')
 
-            if bigger_path(
+            if is_bigger_path(
                 all_paths = all_paths,
                 one_path  = last_keys
             ):
+                print(f'BIG {last_keys}')
                 all_paths[-1] = last_keys
 
             else:
@@ -156,12 +166,11 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 
             magic_comment = ''
 
-
-# Other content clears the docs.
+# Other content clears the last doc.
         else:
             magic_comment = ''
 
-# All the full paths.
+# Let's store all the full paths.
     all_docs[TAG_FULL_PATHS] = [
         tuple(p)
         for p in all_paths
