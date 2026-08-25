@@ -47,7 +47,7 @@ CONFIG_DIRS = [
 # ----------- #
 
 def get_level(line: str) -> str:
-    return (len(line) - len(line.lstrip())) // 2
+    return 1 + (len(line) - len(line.lstrip())) // 2
 
 
 def yaml_comment_2_tnsdoc(line_iter : Iterator[str]) -> str:
@@ -76,10 +76,21 @@ def yaml_comment_2_tnsdoc(line_iter : Iterator[str]) -> str:
     return tnsdoc
 
 
+def bigger_path(
+    all_paths     = list[list[str]],
+    one_path = list[str]
+) -> bool:
+    if not all_paths:
+        return False
+
+    return True
+
+
 def extract_tnsdoc(content: str) -> dict[Any]:
     all_docs = {
-        TAG_MAIN_DOC: '',
-        TAG_SUB_DOCS: dict()
+        TAG_FULL_PATHS: [],
+        TAG_MAIN_DOC  : '',
+        TAG_SUB_DOCS  : dict()
     }
 
     lines_iter = iter(content.strip().splitlines())
@@ -102,6 +113,7 @@ def extract_tnsdoc(content: str) -> dict[Any]:
     all_docs[TAG_MAIN_DOC] = magic_comment
 
 # Optional key docs extraction.
+    all_paths    = []
     last_keys     = []
     magic_comment = ''
 
@@ -117,8 +129,30 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             key, _ , _ = l.partition(":")
             key        = key.strip()
 
+            while(len(last_keys) >= level):
+                last_keys.pop()
+
+            last_keys.append(key)
+
+            print('---')
+            print(f'         {last_keys = }')
+            print(f'BEFORE - {all_paths = }')
+
+            if bigger_path(
+                all_paths = all_paths,
+                one_path  = last_keys
+            ):
+                all_paths[-1] = last_keys
+
+            else:
+                all_paths.append(last_keys)
+
+            print(f' AFTER - {all_paths = }')
+
             if magic_comment:
-                all_docs[TAG_SUB_DOCS][(key, level)] = magic_comment
+                all_docs[TAG_SUB_DOCS][
+                    '.'.join(last_keys)
+                ] = magic_comment
 
             magic_comment = ''
 
@@ -126,6 +160,12 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 # Other content clears the docs.
         else:
             magic_comment = ''
+
+# All the full paths.
+    all_docs[TAG_FULL_PATHS] = [
+        tuple(p)
+        for p in all_paths
+    ]
 
 # Nothing left to do.
     return all_docs
