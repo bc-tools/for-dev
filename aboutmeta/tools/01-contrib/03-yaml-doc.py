@@ -25,7 +25,7 @@ from collections.abc import Iterator
 # --------------- #
 
 SRC_DIR     = TOOLS_DIR.parent
-CONTRIB_DIR = SRC_DIR / "contrib" / "api" / "lines-n-flavour"
+CONTRIB_DIR = SRC_DIR / "contrib" / "api" / "block-n-flavour"
 
 
 CONFIG_DIRS = [
@@ -122,7 +122,7 @@ def extract_tnsdoc(content: str) -> dict[Any]:
     all_docs[TAG_MAIN_DOC] = magic_comment
 
 # Optional key docs extraction.
-    all_paths    = []
+    all_paths     = []
     last_keys     = []
     magic_comment = ''
 
@@ -152,10 +152,10 @@ def extract_tnsdoc(content: str) -> dict[Any]:
                 one_path  = last_keys
             ):
                 print(f'BIG {last_keys}')
-                all_paths[-1] = last_keys
+                all_paths[-1] = last_keys[:]
 
             else:
-                all_paths.append(last_keys)
+                all_paths.append(last_keys[:])
 
             print(f' AFTER - {all_paths = }')
 
@@ -171,10 +171,10 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             magic_comment = ''
 
 # Let's store all the full paths.
-    all_docs[TAG_FULL_PATHS] = [
+    all_docs[TAG_FULL_PATHS] = tuple(
         tuple(p)
         for p in all_paths
-    ]
+    )
 
 # Nothing left to do.
     return all_docs
@@ -182,53 +182,45 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 
 # ------------------- #
 # -- DEBUG - START -- #
-content =  """
-###
-# MAIN
-#
-#DOC
-###
-a:
-###
-# X
-# X
-###
-  x:ok
+# content =  """
+# ###
+# # MAIN
+# #
+# #DOC
+# ###
+# a:
+# ###
+# # X
+# # X
+# ###
+#   x:ok
 
-b: dac
+#   y: ko?
 
-c:
-  d:
-###
-# E
-###
-    e:
-      - lll
-"""
+# b: dac
 
-all_docs = extract_tnsdoc(content)
+# c:
+#   d:
+# ###
+# # E
+# ###
+#     e:
+#       - lll
+# """
 
-from pprint import pprint
-pprint(all_docs)
+# all_docs = extract_tnsdoc(content)
 
-exit()
+# from pprint import pprint
+# pprint(all_docs)
+
+# exit()
 # -- DEBUG - END -- #
 # ----------------- #
-
-
-
-
-
-
-
-
 
 
 # ----------------------------- #
 # -- LET'S EXTRACT METADATA! -- #
 # ----------------------------- #
-
-METADATA = dict()
 
 for onedir in CONFIG_DIRS:
     kind = onedir.parent.name
@@ -236,7 +228,7 @@ for onedir in CONFIG_DIRS:
     if kind == 'flavour':
         continue
 
-    SUB_METADATA = dict()
+    sub_metadata = dict()
 
     logging.info(f"Working on '{kind}'.")
 
@@ -245,10 +237,6 @@ for onedir in CONFIG_DIRS:
 
         all_docs = extract_tnsdoc(content = p.read_text())
 
-        SUB_METADATA[p.stem] = all_docs
-
-    METADATA[kind] = SUB_METADATA
-
 # -- DEBUG - START -- #
-from pprint import pprint;pprint(METADATA)
+        from pprint import pprint;pprint(all_docs)
 # -- DEBUG - END -- #
