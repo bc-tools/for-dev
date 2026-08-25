@@ -132,7 +132,13 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             magic_comment = yaml_comment_2_tnsdoc(lines_iter)
 
 # YAML key/val.
-        elif ":" in l:
+        elif(
+            l.strip()
+            and
+            l.strip()[0] != '#'
+            and
+            ":" in l
+        ):
             level = get_level(l)
 
             key, _ , _ = l.partition(":")
@@ -238,5 +244,6 @@ for onedir in CONFIG_DIRS:
         all_docs = extract_tnsdoc(content = p.read_text())
 
 # -- DEBUG - START -- #
+        del all_docs[TAG_MAIN_DOC]
         from pprint import pprint;pprint(all_docs)
 # -- DEBUG - END -- #
