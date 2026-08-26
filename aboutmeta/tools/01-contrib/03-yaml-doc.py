@@ -31,11 +31,11 @@ from collections.abc import Iterator
 # --------------- #
 
 SRC_DIR     = TOOLS_DIR.parent
-CONTRIB_DIR = SRC_DIR / "contrib" / "api" / "block-n-flavour"
+CONTRIB_DIR = SRC_DIR / "contribute" / "api" / "block-n-flavour"
 
 
-CONFIG_DIRS = [
-    p / "config"
+CONTRIB_DIRS = [
+    p
     for p in CONTRIB_DIR.glob('*')
     if (
         p.name not in [
@@ -208,43 +208,35 @@ def extract_tnsdoc(
 # -- LET'S EXTRACT METADATA! -- #
 # ----------------------------- #
 
-for onedir in CONFIG_DIRS:
-    kind = onedir.parent.name
-
-    print('----')
-    print(onedir)
-    print(get_accepted_paths(onedir))
-
-    continue
-
-    if kind == 'flavour':
-        continue
-
-    sub_metadata = dict()
+for onedir in CONTRIB_DIRS:
+    kind = onedir.name
 
     logging.info(f"Working on '{kind}'.")
 
-    for p in onedir.glob('*.yaml'):
-        name = p.name
 
-        logging.info(f"Doc of {kind}: '{name}'.")
+    for folder, filenames in get_accepted_paths(onedir).items():
+        for n in filenames:
+            logging.info(f"Doc of {kind}: '{n}'.")
 
+            p = folder / n
 
-        alldocs = extract_tnsdoc(
-            blockname = p.stem,
-            content   = p.read_text()
-        )
+            alldocs = extract_tnsdoc(
+                blockname = p.stem,
+                content   = p.read_text()
+            )
 
 # # -- DEBUG - START -- #
-#         del alldocs[TAG_DOC]
+#             print(alldocs[TAG_DOC])
 
-#         for k, v in alldocs.items():
-#             print(f'--- {k} ---')
+#             del alldocs[TAG_DOC]
 
-#             if k != TAG_YAML_SPECS:
-#                 v = v[TAG_DOC]
+#             for k, v in alldocs.items():
+#                 print(f'--- {k} ---')
 
-#             print(v)
+#                 if k != TAG_YAML_SPECS:
+#                     v = v[TAG_DOC]
 
-#             input('')
+#                 print(v)
+
+#                 input('')
 # # -- DEBUG - END -- #
