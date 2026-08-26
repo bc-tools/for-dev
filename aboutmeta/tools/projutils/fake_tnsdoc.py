@@ -7,6 +7,10 @@ from .constants import *
 # -- YYY -- #
 # -------------------- #
 
+def get_level(line: str) -> str:
+    return 1 + (len(line) - len(line.lstrip())) // 2
+
+
 def comment_2_tnsdoc(comment):
     lines = []
 

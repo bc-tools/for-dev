@@ -134,6 +134,27 @@ les specs yaml donnent le formattage (analysé par mon script)
 
 > ---------------------------- <
 
+def is_bigger_path(
+    prepaths = list[list[str]],
+    one_path = list[str]
+) -> bool:
+    if not prepaths:
+        return False
+
+    last_path = prepaths[-1]
+
+    if(
+        len(one_path) <= len(last_path)
+        and
+        one_path != last_path
+    ):
+        return False
+
+    return True
+
+
+> ---------------------------- <
+
 Doc - Section dédie aux actions en plus !
 
 

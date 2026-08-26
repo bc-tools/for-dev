@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+# IMPORTANT.
+#
+# The data analyzed was previously validated by a script used
+# to build the final spec validators. Therefore, we can trust
+# the structure of the YAML files analyzed.
+
 from typing import Any
 
 from pathlib import Path
@@ -46,10 +52,6 @@ CONFIG_DIRS = [
 # -- TOOLS -- #
 # ----------- #
 
-def get_level(line: str) -> str:
-    return 1 + (len(line) - len(line.lstrip())) // 2
-
-
 def yaml_comment_2_tnsdoc(line_iter : Iterator[str]) -> str:
     lines = [MAGIC_COMMENT_DELIM]
 
@@ -74,26 +76,6 @@ def yaml_comment_2_tnsdoc(line_iter : Iterator[str]) -> str:
     tnsdoc = comment_2_tnsdoc('\n'.join(lines))
 
     return tnsdoc
-
-
-def is_bigger_path(
-    prepaths = list[list[str]],
-    one_path = list[str]
-) -> bool:
-    if not prepaths:
-        return False
-
-    last_path = prepaths[-1]
-
-    if(
-        len(one_path) <= len(last_path)
-        and
-        one_path != last_path
-    ):
-        return False
-
-    return True
-
 
 def extract_tnsdoc(
     blockname: str,

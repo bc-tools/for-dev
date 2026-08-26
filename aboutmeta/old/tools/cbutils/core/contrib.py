@@ -27,7 +27,7 @@ TAG_OK     = "ok"
 # prototype::
 #     project_dir : the path of the project folder.
 #
-#     :return: the key are folders containing accepted contributions,
+#     :return: the key are folders containing accpeted contributions,
 #              and values are list of file or folder names.
 #
 # caution::
@@ -35,7 +35,7 @@ TAG_OK     = "ok"
 #     for humanly useful rendering.
 ###
 def get_accepted_paths(project_dir: Path) -> dict[Path, str]:
-    logging.info("Looking for accepted contribs")
+    logging.info("Looking for accepted contribs.")
 
     contrib_dir    = project_dir / TAG_CONTRIB_DIR
     accepted_paths = defaultdict(list)
@@ -62,7 +62,6 @@ def get_accepted_paths(project_dir: Path) -> dict[Path, str]:
 # Nothing found.
         if not(is_folder or files):
             log_raise_error(
-                context   = "Looking for contribs",
                 exception = IOError,
                 desc      = f"No contrib. found for '{stem}'.",
             )
@@ -81,7 +80,7 @@ def get_accepted_paths(project_dir: Path) -> dict[Path, str]:
                 xtra.append('One folder.')
 
             for p in files:
-                xtra.append(f"File: '{p.name}'")
+                xtra.append(f"File: '{p.name}'.")
 
             xtra = f'\n{TAB_ITEM_1}' + TAB_ITEM_1.join(xtra)
 
@@ -92,7 +91,7 @@ def get_accepted_paths(project_dir: Path) -> dict[Path, str]:
             )
 
 # Contrib. found.
-        path = locdir / stem if is_folder else files[0]
+        path = parent / stem if is_folder else files[0]
 
         accepted_paths[path.parent].append(path.name)
 

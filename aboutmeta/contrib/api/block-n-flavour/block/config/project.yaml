@@ -148,8 +148,8 @@ author | authors *: person | list(.)
 
 
 ###
-# The ''contribs'' block and ''contrib'' key follow the same syntax as
-# ''authors'' and ''author'', except they indicate contributors instead.
+# The ''contribs'' and ''contrib'' key follow the same syntax as ''authors''
+# and ''author'', except they indicate contributors instead.
 ###
 contrib | contribs *: . | list(.)
 

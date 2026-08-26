@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
 import ast
-import sys
 import re
-
-import                            importlib.util
-from   importlib.machinery import ModuleSpec
 
 from black import (
     FileMode,
@@ -19,24 +15,15 @@ from cbutils.core.logconf  import *
 from cbutils.core.messages import *
 
 
-# ------------ #
-# -- TYPING -- #
-# ------------ #
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
 
-type DictSplittedCode = dict[str, Path]
+TAG_INIT     = "__init__"
+INIT_FILE    = f"{TAG_INIT}.py"
 
-type LegalSigns = dict[
-    str,
-    tupe[
-        bool,
-        list[set[str]]
-    ]
-]
+SHEBANG_PYTHON = "#!/usr/bin/env python3\n"
 
-
-# ------------------ #
-# -- CONSTANTS #1 -- #
-# ------------------ #
 
 PATTERN_LEGAL_NAME = re.compile(
     r'^[A-Za-z _.-][A-Za-z0-9 _.-]*$',
@@ -57,49 +44,19 @@ PATTERNS_HEADERS = [
 ]
 
 
-# ------------------ #
-# -- CONSTANTS #2 -- #
-# ------------------ #
+# ------------ #
+# -- TYPING -- #
+# ------------ #
 
-SHEBANG_PYTHON = "#!/usr/bin/env python3\n"
-TAG_INIT       = "__init__"
-INIT_FILE      = f"{TAG_INIT}.py"
+type DictSplittedCode = dict[str, Path]
 
-
-# ----------------------- #
-# -- BUILD PYTHON CODE -- #
-# ----------------------- #
-
-###
-# prototype::
-#     module_name : the name of the module from the \python point
-#                   of view (see ''__name__'')
-#     file_path   : the path of a \python file.
-#
-#     :return: a virtual module that allows to work with the code
-#              contained in the file specified as an \arg.
-#
-#
-# src::
-#     url = https://docs.python.org/3/library/importlib.html#importing-a-source-file-directly
-###
-def import_from_path(
-    module_name: str,
-    file_path  : str | Path
-) -> ModuleSpec:
-    spec = importlib.util.spec_from_file_location(
-        module_name,
-        file_path
-    )
-
-    module = importlib.util.module_from_spec(spec)
-
-    sys.modules[module_name] = module
-
-    spec.loader.exec_module(module)
-
-    return module
-
+type LegalSigns = dict[
+    str,
+    tupe[
+        bool,
+        list[set[str]]
+    ]
+]
 
 # ----------------------- #
 # -- BUILD PYTHON CODE -- #
@@ -364,7 +321,7 @@ def finalize_pycode(
 #     :return: :see: ./coding.hd_split_file
 #
 #
-# Here is a fictive content with the single kind of section available.
+# Here is a fictive content with the singme kind of section available.
 #
 # python::
 #     ...
