@@ -95,7 +95,10 @@ def is_bigger_path(
     return True
 
 
-def extract_tnsdoc(content: str) -> dict[Any]:
+def extract_tnsdoc(
+    blockname: str,
+    content  : str
+) -> dict[Any]:
     alldocs = {
         TAG_DOC       : '',
         TAG_YAML_SPECS: '',
@@ -122,7 +125,7 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 
 # Optional key docs extraction.
     magic_comment = ''
-    yaml_specs    = []
+    yaml_specs    = [f"{blockname}:"]
     last_keys     = []
 
     for l in lines_iter:
@@ -135,45 +138,43 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             l.strip()
             and
             l.strip()[0] != '#'
-            and
-            ":" in l
         ):
-            level = get_level(l)
+            if not ":" in l:
+                yaml_specs.append('  ' + l.rstrip())
 
-            key, _ , val = l.partition(":")
-            key, val     = key.strip(), val.strip()
+            else:
+                level = get_level(l)
 
-            indent = ' '*(level - 1)*2
+                key, _ , val = l.partition(":")
+                key, val     = key.strip(), val.strip()
 
-            if level == 1 and yaml_specs:
-                yaml_specs.append('')
+                indent = ' '*level*2
 
-            yaml_specs.append(f"{indent}{key}:")
+                if level == 1 and len(yaml_specs) != 1:
+                    yaml_specs.append('')
 
-            if val:
-                yaml_specs.append(f"{indent}  {val}")
+                yaml_specs.append(f"{indent}{key}:")
 
+                if val:
+                    yaml_specs.append(f"{indent}  {val}")
 
-            while(len(last_keys) >= level):
-                last_keys.pop()
+                while(len(last_keys) >= level):
+                    last_keys.pop()
 
-            last_keys.append(key)
+                last_keys.append(key)
 
-            if magic_comment:
-                data = alldocs
+                if magic_comment:
+                    data = alldocs
 
-                for k in last_keys:
-                    if not k in data:
-                        data[k] = dict()
+                    for k in last_keys:
+                        if not k in data:
+                            data[k] = dict()
 
-                    data = data[k]
+                        data = data[k]
 
-                data[TAG_DOC] = magic_comment
+                    data[TAG_DOC] = magic_comment
 
-            magic_comment = ''
-
-# Other content clears the last doc.
-        else:
+# Any content clears the last doc.
             magic_comment = ''
 
 # Simplified YAML specs.
@@ -185,38 +186,38 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 
 # ------------------- #
 # -- DEBUG - START -- #
-content =  """
-###
-# MAIN
-#
-#DOC
-###
-a:
-###
-# X
-# X
-###
-  x:ok
+# content =  """
+# ###
+# # MAIN
+# #
+# #DOC
+# ###
+# a:
+# ###
+# # X
+# # X
+# ###
+#   x:ok
 
-  y: ko?
+#   y: ko?
 
-b: dac
+# b: dac
 
-c:
-  d:
-###
-# E
-###
-    e:
-      - lll
-"""
+# c:
+#   d:
+# ###
+# # E
+# ###
+#     e:
+#       - lll
+# """
 
-alldocs = extract_tnsdoc(content)
+# alldocs = extract_tnsdoc(content)
 
-from pprint import pprint
-pprint(alldocs)
+# from pprint import pprint
+# pprint(alldocs)
 
-exit()
+# exit()
 # -- DEBUG - END -- #
 # ----------------- #
 
@@ -236,11 +237,26 @@ for onedir in CONFIG_DIRS:
     logging.info(f"Working on '{kind}'.")
 
     for p in onedir.glob('*.yaml'):
-        logging.info(f"Doc of {kind}: '{p.name}'.")
+        name = p.name
 
-        alldocs = extract_tnsdoc(content = p.read_text())
+        logging.info(f"Doc of {kind}: '{name}'.")
+
+
+        alldocs = extract_tnsdoc(
+            blockname = p.stem,
+            content   = p.read_text()
+        )
 
 # -- DEBUG - START -- #
         del alldocs[TAG_DOC]
-        from pprint import pprint;pprint(alldocs)
+
+        for k, v in alldocs.items():
+            print(f'--- {k} ---')
+
+            if k != TAG_YAML_SPECS:
+                v = v[TAG_DOC]
+
+            print(v)
+
+            input('')
 # -- DEBUG - END -- #
