@@ -97,9 +97,7 @@ def is_bigger_path(
 
 def extract_tnsdoc(content: str) -> dict[Any]:
     alldocs = {
-        TAG_FULL_PATHS: [],
-        TAG_MAIN_DOC  : '',
-        TAG_SUB_DOCS  : dict()
+        TAG_DOC: '',
     }
 
     lines_iter = iter(content.strip().splitlines())
@@ -119,12 +117,11 @@ def extract_tnsdoc(content: str) -> dict[Any]:
             'Missing mandatory main doc via magic comment'
         )
 
-    alldocs[TAG_MAIN_DOC] = magic_comment
+    alldocs[TAG_DOC] = magic_comment
 
 # Optional key docs extraction.
-    prepaths      = []
-    last_keys     = []
     magic_comment = ''
+    last_keys     = []
 
     for l in lines_iter:
 # One new magic comment.
@@ -149,19 +146,16 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 
             last_keys.append(key)
 
-            if is_bigger_path(
-                prepaths = prepaths,
-                one_path = last_keys
-            ):
-                prepaths[-1] = last_keys[:]
-
-            else:
-                prepaths.append(last_keys[:])
-
             if magic_comment:
-                alldocs[TAG_SUB_DOCS][
-                    '.'.join(last_keys)
-                ] = magic_comment
+                data = alldocs
+
+                for k in last_keys:
+                    if not k in data:
+                        data[k] = dict()
+
+                    data = data[k]
+
+                data[TAG_DOC] = magic_comment
 
             magic_comment = ''
 
@@ -169,50 +163,44 @@ def extract_tnsdoc(content: str) -> dict[Any]:
         else:
             magic_comment = ''
 
-# Let's store all the full paths.
-    alldocs[TAG_FULL_PATHS] = tuple(
-        tuple(p)
-        for p in prepaths
-    )
-
 # Nothing left to do.
     return alldocs
 
 
 # ------------------- #
 # -- DEBUG - START -- #
-# content =  """
-# ###
-# # MAIN
-# #
-# #DOC
-# ###
-# a:
-# ###
-# # X
-# # X
-# ###
-#   x:ok
+content =  """
+###
+# MAIN
+#
+#DOC
+###
+a:
+###
+# X
+# X
+###
+  x:ok
 
-#   y: ko?
+  y: ko?
 
-# b: dac
+b: dac
 
-# c:
-#   d:
-# ###
-# # E
-# ###
-#     e:
-#       - lll
-# """
+c:
+  d:
+###
+# E
+###
+    e:
+      - lll
+"""
 
-# alldocs = extract_tnsdoc(content)
+alldocs = extract_tnsdoc(content)
 
-# from pprint import pprint
-# pprint(alldocs)
+from pprint import pprint
+pprint(alldocs)
 
-# exit()
+exit()
 # -- DEBUG - END -- #
 # ----------------- #
 
@@ -237,6 +225,6 @@ for onedir in CONFIG_DIRS:
         alldocs = extract_tnsdoc(content = p.read_text())
 
 # -- DEBUG - START -- #
-        del alldocs[TAG_MAIN_DOC]
+        del alldocs[TAG_DOC]
         from pprint import pprint;pprint(alldocs)
 # -- DEBUG - END -- #
