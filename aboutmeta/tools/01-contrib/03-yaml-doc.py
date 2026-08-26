@@ -18,7 +18,7 @@ while TOOLS_DIR.name != "tools":
 
 sys.path.append(str(TOOLS_DIR))
 
-from cbutils.core          import *
+from cbutils               import *
 from projutils.constants   import *
 from projutils.fake_tnsdoc import *
 

@@ -5,8 +5,8 @@ from pathlib     import Path
 
 from yaml import safe_load
 
-from cbutils.core.logconf  import *
-from cbutils.core.messages import *
+from cbutils.logconf  import *
+from cbutils.messages import *
 
 
 # --------------- #

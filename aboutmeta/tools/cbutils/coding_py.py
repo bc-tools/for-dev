@@ -14,9 +14,9 @@ from black import (
     WriteBack,
 )
 
-from cbutils.core.coding   import *
-from cbutils.core.logconf  import *
-from cbutils.core.messages import *
+from cbutils.coding   import *
+from cbutils.logconf  import *
+from cbutils.messages import *
 
 
 # ------------ #

@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from cbutils.core.logconf import *
+from cbutils.logconf import *
 
 
 # ------------------------------ #
