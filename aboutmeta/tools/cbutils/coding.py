@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# XXX
+# This file contains common tools for manipulating code.
 ###
 
 from pathlib import Path

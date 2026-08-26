@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 ###
-# XXX
+# This file configures the formatting of log messages generated
+# via the `logging` module.
 ###
 
 import re

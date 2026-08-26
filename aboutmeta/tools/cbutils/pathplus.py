@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# XXX
+# This file provides tools for working with folders and files.
 ###
 
 from pathlib import Path

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 ###
-# XXX
+# This file is dedicated to the creation and manipulation
+# of `Python` codes.
 ###
 
 import ast

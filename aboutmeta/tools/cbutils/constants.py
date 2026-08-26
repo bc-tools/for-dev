@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# XXX
+# This file aggregates useful constants.
 ###
 
 import re

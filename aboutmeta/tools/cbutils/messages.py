@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# XXX
+# This file standardises the use of certain common messages.
 ###
 
 from cbutils.logconf import *

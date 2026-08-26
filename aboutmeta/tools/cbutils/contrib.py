@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 ###
-# XXX
+# This file provides tools to facilitate the management
+# of contributions.
 ###
 
 from collections import defaultdict
