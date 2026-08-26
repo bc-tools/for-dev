@@ -225,6 +225,8 @@ for onedir in CONTRIB_DIRS:
                 content   = p.read_text()
             )
 
+            STORING_TODO
+
 # # -- DEBUG - START -- #
 #             print(alldocs[TAG_DOC])
 
