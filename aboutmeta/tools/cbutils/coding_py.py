@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+###
+# XXX
+###
+
 import ast
 import sys
 import re
