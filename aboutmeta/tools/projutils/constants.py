@@ -12,9 +12,8 @@ MAGIC_COMMENT_DELIM = "###"
 # -- AUTO DOCS -- #
 # --------------- #
 
-TAG_DOC = "::doc::"
-
-TAG_FULL_PATHS = "::full:paths::"
+TAG_DOC        = "::doc::"
+TAG_YAML_SPECS = "::yaml:specs::"
 
 
 # ---------- #

@@ -97,7 +97,8 @@ def is_bigger_path(
 
 def extract_tnsdoc(content: str) -> dict[Any]:
     alldocs = {
-        TAG_DOC: '',
+        TAG_DOC       : '',
+        TAG_YAML_SPECS: '',
     }
 
     lines_iter = iter(content.strip().splitlines())
@@ -121,6 +122,7 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 
 # Optional key docs extraction.
     magic_comment = ''
+    yaml_specs    = []
     last_keys     = []
 
     for l in lines_iter:
@@ -138,8 +140,19 @@ def extract_tnsdoc(content: str) -> dict[Any]:
         ):
             level = get_level(l)
 
-            key, _ , _ = l.partition(":")
-            key        = key.strip()
+            key, _ , val = l.partition(":")
+            key, val     = key.strip(), val.strip()
+
+            indent = ' '*(level - 1)*2
+
+            if level == 1 and yaml_specs:
+                yaml_specs.append('')
+
+            yaml_specs.append(f"{indent}{key}:")
+
+            if val:
+                yaml_specs.append(f"{indent}  {val}")
+
 
             while(len(last_keys) >= level):
                 last_keys.pop()
@@ -162,6 +175,9 @@ def extract_tnsdoc(content: str) -> dict[Any]:
 # Other content clears the last doc.
         else:
             magic_comment = ''
+
+# Simplified YAML specs.
+    alldocs[TAG_YAML_SPECS] = '\n'.join(yaml_specs)
 
 # Nothing left to do.
     return alldocs
