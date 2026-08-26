@@ -211,6 +211,12 @@ def extract_tnsdoc(
 for onedir in CONFIG_DIRS:
     kind = onedir.parent.name
 
+    print('----')
+    print(onedir)
+    print(get_accepted_paths(onedir))
+
+    continue
+
     if kind == 'flavour':
         continue
 
@@ -229,16 +235,16 @@ for onedir in CONFIG_DIRS:
             content   = p.read_text()
         )
 
-# -- DEBUG - START -- #
-        del alldocs[TAG_DOC]
+# # -- DEBUG - START -- #
+#         del alldocs[TAG_DOC]
 
-        for k, v in alldocs.items():
-            print(f'--- {k} ---')
+#         for k, v in alldocs.items():
+#             print(f'--- {k} ---')
 
-            if k != TAG_YAML_SPECS:
-                v = v[TAG_DOC]
+#             if k != TAG_YAML_SPECS:
+#                 v = v[TAG_DOC]
 
-            print(v)
+#             print(v)
 
-            input('')
-# -- DEBUG - END -- #
+#             input('')
+# # -- DEBUG - END -- #

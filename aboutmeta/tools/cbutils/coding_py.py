@@ -132,8 +132,8 @@ def pysuglify(name: str) -> str:
 # prototype::
 #     folder : a folder path.
 #
-#     :action: add an path::''init__.py'' file to the folder if one
-#              does not already exist.
+#     :action: add an path::''__init__.py'' file to the folder if
+#              one does not already exist.
 ###
 def add_missing_init(folder: Path) -> None:
     initfile = folder / INIT_FILE
@@ -153,7 +153,7 @@ def add_missing_init(folder: Path) -> None:
 #     file : a file path.
 #
 #     :action: creation of the file with the \python code given as
-#              a parameter as its content, formatted by the \black
+#              a parameter, its content is formatted by the \black
 #              package.
 ###
 def add_black_pyfile(
@@ -220,7 +220,7 @@ def append_black_pyfile(
 #
 #
 # note::
-#     Here is a possible value ofr the special \arg ''legal_signs''.
+#     Here is a possible value for the special \arg ''legal_signs''.
 #
 #     python::
 #         LEGAL_SIGNS = {

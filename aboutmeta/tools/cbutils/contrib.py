@@ -105,36 +105,36 @@ def get_accepted_paths(project_dir: Path) -> dict[Path, str]:
     return accepted_paths
 
 
-# ------------------- #
-# -- (E)XTRA FILES -- #
-# ------------------- #
+# # ------------------- #
+# # -- (E)XTRA FILES -- #
+# # ------------------- #
 
-###
-# prototype::
-#     file : a \contrib file.
-#
-#     :return: the list of possible extra files associated to the \contrib file.
-#
-#
-# note::
-#     Additional files must have names prefixed by the given file. Here are some examples.
-#
-#         + path::''my_script_cgf.yaml'' is an aditional file for
-#         path::''my_script.py''.
-#
-#         + path::''my_cfg_tool.py'' is an aditional file for
-#         path::''my_cfg.yaml''.
-#
-#         + path::''my_tool.py'' is not an aditional file for
-#         path::''my_cfg.toml''.
-###
-def get_xtra_files(file: Path) -> list[Path]:
-    xtra_files = [
-        p
-        for p in file.parent.glob(
-            f"{file.stem}-*"
-        )
-        if p != file
-    ]
+# ###
+# # prototype::
+# #     file : a \contrib file.
+# #
+# #     :return: the list of possible extra files associated to the \contrib file.
+# #
+# #
+# # note::
+# #     Additional files must have names prefixed by the given file. Here are some examples.
+# #
+# #         + path::''my_script_cgf.yaml'' is an aditional file for
+# #         path::''my_script.py''.
+# #
+# #         + path::''my_cfg_tool.py'' is an aditional file for
+# #         path::''my_cfg.yaml''.
+# #
+# #         + path::''my_tool.py'' is not an aditional file for
+# #         path::''my_cfg.toml''.
+# ###
+# def get_xtra_files(file: Path) -> list[Path]:
+#     xtra_files = [
+#         p
+#         for p in file.parent.glob(
+#             f"{file.stem}_*"
+#         )
+#         if p != file
+#     ]
 
-    return xtra_files
+#     return xtra_files
