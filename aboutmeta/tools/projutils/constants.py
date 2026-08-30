@@ -12,7 +12,7 @@ MAGIC_COMMENT_DELIM = "###"
 # -- AUTO DOCS -- #
 # --------------- #
 
-TAG_MAIN_DOC = "::main.doc::"
+TAG_MAIN_DOC = "__main__.doc"
 
 
 # ---------- #

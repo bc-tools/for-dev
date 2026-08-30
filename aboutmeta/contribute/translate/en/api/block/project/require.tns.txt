@@ -1,0 +1,11 @@
+This block allows to provide a list of programming languages required
+for the code to work, or for compiling a document, this depends on
+the type of project.
+
+
+Here is a fictitious example.
+
+yaml::
+    require:
+      - python3
+      - latex

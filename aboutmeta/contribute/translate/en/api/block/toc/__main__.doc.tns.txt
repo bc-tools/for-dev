@@ -1,0 +1,47 @@
+Whether for a document written in small sections or for a monorepo
+project, it is useful to be able to specify a **list of existing
+files** to explore in a customised order: the ''toc'' block meets
+this need. Its content must be a list of paths or patterns.
+
+
+Here is a fictitious example showing the functionalities available.
+
+yaml::
+    toc:
+    # Hard coded file.
+      - relative/path/to/one/file.txt
+    # Hard coded folder with an ''about.yaml'' to follow.
+      - relative/path/to/one/folder/with/another/toc/
+    # Non recursive glob pattern for files.
+      - glob: "*.md"
+    # Recursive glob pattern for files.
+      - r-glob: "*.md"
+    # Non recursive Python regex pattern for files.
+      - regex: '.*\.py'
+    # Recursive Python regex pattern for files.
+      - r-regex: '[^/]*\.py'
+
+
+important::
+    The search is always done relatively to the folder containing
+    the ''about.yaml'' file.
+
+
+Here is a summary of the available features.
+
+    + ''hard/coded/path/one/file.ext'' indicates a specific file.
+
+    + ''hard/coded/path/about/subfolder/'' indicates a specific folder
+      **containing its own ''about.yaml'' file** to be analyzed.
+
+    + ''glob: ...'' allows to use the glob syntax, and for a recursive
+      search, there is ''r-glob: ...''.
+
+    + ''regex: ...'' allows to use regex patterns, and ''r-regex: ...''
+      is available for recursive searches.
+
+
+tip::
+    In a ''YAML'' file, using single quotation marks avoids escaping
+    backslashes: for example,  {{'[^/]*\.py'}} and ''"[^/]*\\.py"''
+    are equal.

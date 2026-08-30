@@ -1,0 +1,23 @@
+This block serves to grant a license (which represents best practice).
+You can used the folowing keys.
+
+    1. ''code'' is for the license of the code or document project.
+
+    1. ''manual'' allows, in the case of a code-type project, the
+       selection of a license specific to the user manual.
+
+
+note::
+    The license names proposed by the cf::''''SPDX'' SPDX License
+    List ; https://spdx.org/licenses/'' are taken into account, with
+    a certain degree of flexibility: for example, you can type
+    ''gpl 3.0+'' and ''cc by nc 4.0'' instead of ''GPL-3.0+'' and
+    ''CC-BY-NC-4.0''.
+
+
+Here is a fictitious example.
+
+yaml::
+    licenses:
+      code  : gpl 3.0+
+      manual: cc by nc 4.0

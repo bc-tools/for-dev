@@ -21,9 +21,12 @@ sys.path.append(str(TOOLS_DIR))
 from cbutils               import *
 from projutils.constants   import *
 from projutils.fake_tnsdoc import *
+from projutils.keymgr      import *
 
 
 from collections.abc import Iterator
+
+from shutil import rmtree
 
 
 # --------------- #
@@ -31,11 +34,14 @@ from collections.abc import Iterator
 # --------------- #
 
 SRC_DIR        = TOOLS_DIR.parent
-CONTRIBUTE_DIR = SRC_DIR / "contribute" / "api" / "block-n-flavour"
+CONTRIBUTE_DIR = SRC_DIR / "contribute"
+EN_API_DIR     = CONTRIBUTE_DIR / "translate" / "en" / "api"
+
+BLOCK_FLAVOUR_SPEC_DIR = CONTRIBUTE_DIR / "api" / "block-n-flavour"
 
 CONTRIB_DIRS = [
     p
-    for p in CONTRIBUTE_DIR.glob('*')
+    for p in BLOCK_FLAVOUR_SPEC_DIR.glob('*')
     if (
         p.name not in [
             'changes',
@@ -121,7 +127,9 @@ def extract_tnsdoc(
             level = get_level(l)
 
             key, _ , val = l.partition(":")
-            key, val     = key.strip(), val.strip()
+
+            key = get_mainkey(key)
+            val =val.strip()
 
             while(len(last_keys) >= level):
                 last_keys.pop()
@@ -177,6 +185,18 @@ def extract_tnsdoc(
 # ----------------- #
 
 
+# ---------------------------- #
+# -- REMOVE ALL EN API DOCS -- #
+# ---------------------------- #
+
+if not EN_API_DIR.is_dir():
+    EN_API_DIR.mkdir()
+
+else:
+    for p in EN_API_DIR.glob("*"):
+        p.unlink() if p.is_file() else rmtree(p)
+
+
 # ----------------------------- #
 # -- LET'S EXTRACT METADATA! -- #
 # ----------------------------- #
@@ -186,30 +206,30 @@ for onedir in CONTRIB_DIRS:
 
     logging.info(f"Working on '{kind}'.")
 
-    for folder, filenames in get_accepted_paths(onedir).items():
-        for n in filenames:
-            logging.info(f"Doc of {kind}: '{n}'.")
+    kind_dir = EN_API_DIR / kind
 
-            p = folder / n
+    if not kind_dir.is_dir():
+        kind_dir.mkdir()
+
+    for folder, filenames in get_accepted_paths(onedir).items():
+        for fname in filenames:
+            logging.info(f"Doc of {kind}: '{fname}'.")
+
+            contrib_path = folder / fname
+            kind_name    = contrib_path.stem
 
             alldocs = extract_tnsdoc(
-                blockname = p.stem,
-                content   = p.read_text()
+                blockname = kind_name,
+                content   = contrib_path.read_text()
             )
 
-            # STORING_TODO
+            api_en_dir = kind_dir / kind_name
 
-# -- DEBUG - START -- #
-            print(f'--- MAIN DOC ---')
-            print(alldocs[TAG_MAIN_DOC])
+            if not api_en_dir.is_dir():
+                api_en_dir.mkdir()
 
-            input('')
+            for vpapth, doc in alldocs.items():
+                apifile = api_en_dir / f"{vpapth}.tns.txt"
 
-            del alldocs[TAG_MAIN_DOC]
-
-            for p, d in alldocs.items():
-                print(f'--- {p} ---')
-                print(d)
-
-                input('')
-# -- DEBUG - END -- #
+                apifile.touch()
+                apifile.write_text(doc)

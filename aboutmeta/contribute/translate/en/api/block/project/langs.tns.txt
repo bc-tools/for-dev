@@ -1,0 +1,34 @@
+This block allows to specify the languages used for the following
+parts of a code-type project.
+
+    1. The ''doc'' key is for the language used to write the technical
+       documentation.
+
+    1. The ''manual'' key is for the language used to write the user
+       manual.
+
+
+note::
+    You can specify a language using the cf::''ISO 639 standard ;
+    https://en.wikipedia.org/wiki/ISO_639''', then, if necessary,
+    add a country using the cf::''ISO 3166 standard ;
+    https://en.wikipedia.org/wiki/ISO_3166''': for example, you can
+    type either ''fr'' if you do not wish to specify France, or
+    ''fr-BE'' to indicate Belgian French.
+
+
+important::
+    The default language is ''en-US'' for US English.
+
+
+tip::
+    You can use ''_'' instead of ''-''. This can be useful when
+    pasting external text.
+
+
+Here is a fictitious example.
+
+yaml::
+    langs:
+      doc   : fr
+      manual: fr

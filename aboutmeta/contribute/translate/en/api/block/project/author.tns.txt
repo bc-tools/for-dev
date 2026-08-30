@@ -1,0 +1,34 @@
+[[authors]]
+This block allows to indicate several authors, just by using
+a ''YAML'' list of single ''author'' values. The following section
+describes how to use a single ''author'' key.
+
+
+[[author]]
+The key ''author'' is for identifing a single author using one
+of the following possible syntaxes.
+
+    + **Title (mandatory):**
+      ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
+      are legal titles for a person (the number of first names is
+      unlimited).
+
+    + **Email address (optional):**
+      ''Jean, Louis, Krivine  [jl-krivine@compile.brain]'' adds
+      an email using square brackets.
+
+    + **Affiliation (optional):**
+      ''Torvalds (Department of Sacred Kernels)'' adds an affiliation
+      using parentheses.
+
+    + **Indicate everything:**
+      only the format ''<title> [email] (institute)'' is allowed like
+      in ''Ada, Lovelace  [ada.babbage.computer@paper.org] (Victorian
+      Institute of Applied Mechanical Informatic)''.
+
+
+note::
+    Emails are never verified automatically, but they can be validated
+    on demand (technically, this requires an internet connection, so it
+    is not possible to validate an email every time an ''about.yaml''
+    file is analyzed).

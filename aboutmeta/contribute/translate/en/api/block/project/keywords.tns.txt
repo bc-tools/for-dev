@@ -1,0 +1,11 @@
+This block allows to specify a list of keywords that succinctly
+categorize the project type.
+
+
+Here is a fictitious example.
+
+yaml::
+    keywords:
+      - metadata
+      - coding
+      - writing

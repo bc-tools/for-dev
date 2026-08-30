@@ -1,0 +1,13 @@
+[[doctitle]]
+This key must be used for a document-type project. This is because
+such a project must have a title.
+
+
+[[codename]]
+This key allows you to specify the name of a code-type project if
+it differs from that of the project folder.
+
+
+note::
+    If neither the ''codename'' nor ''doctitle'' key is used, the
+    project will be considered to be of code type.
