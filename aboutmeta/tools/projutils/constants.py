@@ -12,8 +12,7 @@ MAGIC_COMMENT_DELIM = "###"
 # -- AUTO DOCS -- #
 # --------------- #
 
-TAG_DOC        = "::doc::"
-TAG_YAML_SPECS = "::yaml:specs::"
+TAG_MAIN_DOC = "::main.doc::"
 
 
 # ---------- #

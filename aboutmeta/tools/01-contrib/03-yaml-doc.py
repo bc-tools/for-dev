@@ -30,13 +30,12 @@ from collections.abc import Iterator
 # -- CONSTANTS -- #
 # --------------- #
 
-SRC_DIR     = TOOLS_DIR.parent
-CONTRIB_DIR = SRC_DIR / "contribute" / "api" / "block-n-flavour"
-
+SRC_DIR        = TOOLS_DIR.parent
+CONTRIBUTE_DIR = SRC_DIR / "contribute" / "api" / "block-n-flavour"
 
 CONTRIB_DIRS = [
     p
-    for p in CONTRIB_DIR.glob('*')
+    for p in CONTRIBUTE_DIR.glob('*')
     if (
         p.name not in [
             'changes',
@@ -80,10 +79,9 @@ def yaml_comment_2_tnsdoc(line_iter : Iterator[str]) -> str:
 def extract_tnsdoc(
     blockname: str,
     content  : str
-) -> dict[Any]:
+) -> dict[str, Any]:
     alldocs = {
-        TAG_DOC       : '',
-        TAG_YAML_SPECS: '',
+        TAG_MAIN_DOC: '',
     }
 
     lines_iter = iter(content.strip().splitlines())
@@ -103,11 +101,10 @@ def extract_tnsdoc(
             'Missing mandatory main doc via magic comment'
         )
 
-    alldocs[TAG_DOC] = magic_comment
+    alldocs[TAG_MAIN_DOC] = magic_comment
 
 # Optional key docs extraction.
     magic_comment = ''
-    yaml_specs    = [f"{blockname}:"]
     last_keys     = []
 
     for l in lines_iter:
@@ -121,46 +118,22 @@ def extract_tnsdoc(
             and
             l.strip()[0] != '#'
         ):
-            if not ":" in l:
-                yaml_specs.append('  ' + l.rstrip())
+            level = get_level(l)
 
-            else:
-                level = get_level(l)
+            key, _ , val = l.partition(":")
+            key, val     = key.strip(), val.strip()
 
-                key, _ , val = l.partition(":")
-                key, val     = key.strip(), val.strip()
+            while(len(last_keys) >= level):
+                last_keys.pop()
 
-                indent = ' '*level*2
+            last_keys.append(key)
 
-                if level == 1 and len(yaml_specs) != 1:
-                    yaml_specs.append('')
+            if magic_comment:
+                p = '.'.join(last_keys)
 
-                yaml_specs.append(f"{indent}{key}:")
+                alldocs[p] = magic_comment
 
-                if val:
-                    yaml_specs.append(f"{indent}  {val}")
-
-                while(len(last_keys) >= level):
-                    last_keys.pop()
-
-                last_keys.append(key)
-
-                if magic_comment:
-                    data = alldocs
-
-                    for k in last_keys:
-                        if not k in data:
-                            data[k] = dict()
-
-                        data = data[k]
-
-                    data[TAG_DOC] = magic_comment
-
-# Any content clears the last doc.
             magic_comment = ''
-
-# Simplified YAML specs.
-    alldocs[TAG_YAML_SPECS] = '\n'.join(yaml_specs)
 
 # Nothing left to do.
     return alldocs
@@ -213,7 +186,6 @@ for onedir in CONTRIB_DIRS:
 
     logging.info(f"Working on '{kind}'.")
 
-
     for folder, filenames in get_accepted_paths(onedir).items():
         for n in filenames:
             logging.info(f"Doc of {kind}: '{n}'.")
@@ -225,20 +197,19 @@ for onedir in CONTRIB_DIRS:
                 content   = p.read_text()
             )
 
-            STORING_TODO
+            # STORING_TODO
 
-# # -- DEBUG - START -- #
-#             print(alldocs[TAG_DOC])
+# -- DEBUG - START -- #
+            print(f'--- MAIN DOC ---')
+            print(alldocs[TAG_MAIN_DOC])
 
-#             del alldocs[TAG_DOC]
+            input('')
 
-#             for k, v in alldocs.items():
-#                 print(f'--- {k} ---')
+            del alldocs[TAG_MAIN_DOC]
 
-#                 if k != TAG_YAML_SPECS:
-#                     v = v[TAG_DOC]
+            for p, d in alldocs.items():
+                print(f'--- {p} ---')
+                print(d)
 
-#                 print(v)
-
-#                 input('')
-# # -- DEBUG - END -- #
+                input('')
+# -- DEBUG - END -- #
