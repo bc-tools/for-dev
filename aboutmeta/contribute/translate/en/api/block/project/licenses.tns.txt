@@ -1,4 +1,4 @@
-This block serves to grant a license (which represents best practice).
+This block serves to give a license (which is a best practice).
 You can used the folowing keys.
 
     1. ''code'' is for the license of the code or document project.
@@ -9,8 +9,8 @@ You can used the folowing keys.
 
 note::
     The license names proposed by the cf::''''SPDX'' SPDX License
-    List ; https://spdx.org/licenses/'' are taken into account, with
-    a certain degree of flexibility: for example, you can type
+    List ; https://spdx.org/licenses/'' are taken into account,
+    with a certain degree of flexibility: for example, you can type
     ''gpl 3.0+'' and ''cc by nc 4.0'' instead of ''GPL-3.0+'' and
     ''CC-BY-NC-4.0''.
 

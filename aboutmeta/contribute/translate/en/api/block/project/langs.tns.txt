@@ -1,11 +1,9 @@
 This block allows to specify the languages used for the following
 parts of a code-type project.
 
-    1. The ''doc'' key is for the language used to write the technical
-       documentation.
+    1. The ''doc'' key is for the documentation language.
 
-    1. The ''manual'' key is for the language used to write the user
-       manual.
+    1. The ''manual'' key is for the user manual language.
 
 
 note::

@@ -1,3 +1,3 @@
-This flavor allows to define an IT project (code or document),
-with the option of working with a list of specific files via
-a "table of contents" block (this can be useful for a monorepo).
+This flavor allows to define an IT project (code or document), with
+the option of working with a list of specific files via a "table of
+contents" block (this can be useful for a monorepo).

@@ -1,5 +1,5 @@
 ###
-# This flavor is just for working with a list of specific files
-# via a "table of contents" block.
+# This flavor is just for working with a list of specific files via
+# a "table of contents" block.
 ###
 - toc

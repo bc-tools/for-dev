@@ -1,11 +1,11 @@
 ###
-# Whether for a document written in small sections or for a monorepo
-# project, it is useful to be able to specify a **list of existing
-# files** to explore in a customised order: the ''toc'' block meets
-# this need. Its content must be a list of paths or patterns.
+# The ''toc'' block lets you specify an ordered list of existing
+# files to explore, whether for a document split into small
+# sections or a monorepo project. Its content must be a list of
+# paths or patterns.
 #
 #
-# Here is a fictitious example showing the functionalities available.
+# Here is a fictitious example.
 #
 # yaml::
 #     toc:
@@ -24,27 +24,28 @@
 #
 #
 # important::
-#     The search is always done relatively to the folder containing
-#     the ''about.yaml'' file.
+#     The search is done relatively to the folder containing the
+#     ''about.yaml'' file.
 #
 #
 # Here is a summary of the available features.
 #
 #     + ''hard/coded/path/one/file.ext'' indicates a specific file.
 #
-#     + ''hard/coded/path/about/subfolder/'' indicates a specific folder
-#       **containing its own ''about.yaml'' file** to be analyzed.
+#     + ''hard/coded/path/about/subfolder/'' indicates a specific
+#       folder **containing its own ''about.yaml'' file** to be
+#       analyzed.
 #
-#     + ''glob: ...'' allows to use the glob syntax, and for a recursive
-#       search, there is ''r-glob: ...''.
+#     + ''glob: ...'' allows to use the glob syntax, and for a
+#       recursive search, there is ''r-glob: ...''.
 #
-#     + ''regex: ...'' allows to use regex patterns, and ''r-regex: ...''
-#       is available for recursive searches.
+#     + ''regex: ...'' and ''r-regex: ...'' allow to use regex
+#       patterns, without or with recursive searches.
 #
 #
 # tip::
-#     In a ''YAML'' file, using single quotation marks avoids escaping
-#     backslashes: for example,  {{'[^/]*\.py'}} and ''"[^/]*\\.py"''
-#     are equal.
+#     In a ''YAML'' file, using single quotation marks avoids
+#     escaping backslashes: for example,  {{'[^/]*\.py'}} and
+#     ''"[^/]*\\.py"'' are equal.
 ###
 - virtual_path +

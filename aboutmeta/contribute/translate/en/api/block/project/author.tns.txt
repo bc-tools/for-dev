@@ -1,12 +1,12 @@
 [[authors]]
-This block allows to indicate several authors, just by using
-a ''YAML'' list of single ''author'' values. The following section
+This block allows to indicate several authors, just by using a
+''YAML'' list of single ''author'' values. The following section
 describes how to use a single ''author'' key.
 
 
 [[author]]
-The key ''author'' is for identifing a single author using one
-of the following possible syntaxes.
+The key ''author'' is for identifing a single author using one of
+the following possible syntaxes.
 
     + **Title (mandatory):**
       ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
@@ -14,21 +14,19 @@ of the following possible syntaxes.
       unlimited).
 
     + **Email address (optional):**
-      ''Jean, Louis, Krivine  [jl-krivine@compile.brain]'' adds
-      an email using square brackets.
+      ''Jean, Louis, Krivine  [jl-krivine@compile.brain]'' adds an
+      email using square brackets.
 
     + **Affiliation (optional):**
-      ''Torvalds (Department of Sacred Kernels)'' adds an affiliation
+      ''Torvalds (Sacred Kernels Department)'' adds an affiliation
       using parentheses.
 
     + **Indicate everything:**
-      only the format ''<title> [email] (institute)'' is allowed like
-      in ''Ada, Lovelace  [ada.babbage.computer@paper.org] (Victorian
-      Institute of Applied Mechanical Informatic)''.
+      only the format ''<title> [email] (institute)'' is allowed
+      like in ''Ada, Lovelace  [ada.babbage.computer@paper.org]
+      (Victorian Applied Mechanical Informatic Institute)''.
 
 
 note::
-    Emails are never verified automatically, but they can be validated
-    on demand (technically, this requires an internet connection, so it
-    is not possible to validate an email every time an ''about.yaml''
-    file is analyzed).
+    Emails and affiliations are validated on demand rather than
+    automatically, as an active internet connection is required.

@@ -1,6 +1,6 @@
-This block allows to provide a list of programming languages required
-for the code to work, or for compiling a document, this depends on
-the type of project.
+This block allows to provide a list of programming languages
+required for the code to work, or for compiling a document, this
+depends on the type of project.
 
 
 Here is a fictitious example.
