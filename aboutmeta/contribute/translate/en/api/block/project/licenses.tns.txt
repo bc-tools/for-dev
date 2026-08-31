@@ -1,10 +1,10 @@
 This block serves to give a license (which is a best practice).
 You can used the folowing keys.
 
-    1. ''code'' is for the license of the code or document project.
+    1. ''code'' is for the project license.
 
     1. ''manual'' allows, in the case of a code-type project, the
-       selection of a license specific to the user manual.
+       selection of a specific user manual license.
 
 
 note::
