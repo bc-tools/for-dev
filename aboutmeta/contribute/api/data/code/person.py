@@ -11,8 +11,8 @@ from aboutmeta.core.dataprinter import (
     DataPrinter
 )
 
-from aboutmeta.tool.group import gather_groups
-from aboutmeta.tool.misc  import (
+from aboutmeta.tools.group import gather_groups
+from aboutmeta.tools.misc  import (
     no_space_around,
     single_spaces
 )
