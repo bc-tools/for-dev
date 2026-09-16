@@ -17,17 +17,17 @@ from box import Box
 class BoxPlus(Box):
 ###
 # prototype::
-#     content : a pointed path instead of sequence of attributes.
+#     attrs : a pointed path instead of sequence of attributes.
 #
 #     :return: the expected value (if it exists).
 ###
     def __call__(
         self,
-        str_attrs: str
+        attrs: str
     ) -> Any:
         val = self
 
-        for n in str_attrs.split('.'):
-            val = getattr(val, n)
+        for oneattr in attrs.split('.'):
+            val = getattr(val, oneattr)
 
         return val

@@ -22,7 +22,7 @@ LOG_FILE = "aboutmeta.log"
 #
 #     :action: the function lives up to its name...
 ###
-def setup_logging(no_color = False) -> None:
+def setup_logging(no_color: bool = False) -> None:
 # Terminal handler
 #
 # ''color_system = "quto"'' detects whether the output is a real

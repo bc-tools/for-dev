@@ -25,6 +25,8 @@ for t in TAG_TOC_PATTERN_KINDS:
     else:
         a = t[0]
 
+    assert not a in TAG_TOC_PATTERN_ABBREV
+
     TAG_TOC_PATTERN_ABBREV[a] = t
 
 
