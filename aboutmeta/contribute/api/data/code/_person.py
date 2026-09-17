@@ -36,11 +36,6 @@ from aboutmeta.tools.misc  import (
 #                   provided.
 #     affiliation : the affiliation adress, or ''None'' if no
 #                   affiliation provided.
-#
-#
-# note::
-#     The ''std'' attribute is part of the frozen dataclass
-#     ''DataPrinter''.
 ###
 @dataclass(frozen = True)
 class Person(DataPrinter):
@@ -170,6 +165,7 @@ class Person(DataPrinter):
         norm_email = f"{local_part}@{domain_part.lower()}"
 
         return norm_email
+
 ###
 # prototype::
 #     :return: ''None'', or the affiliation adresss without

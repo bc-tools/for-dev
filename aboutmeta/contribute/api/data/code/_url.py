@@ -20,14 +20,10 @@ from aboutmeta.core.dataprinter import DataPrinter
 # prototype::
 #     std : an url (no processing has been performed, the URL
 #           is recorded verabtim).
-#
-#
-# note::
-#     The ''std'' attribute is part of the frozen dataclass
-#     ''DataPrinter''.
 ###
 @dataclass(frozen = True)
 class URL(DataPrinter):
+
 ###
 # prototype::
 #     :return: a normalized version of the URL.

@@ -9,9 +9,24 @@ from aboutmeta.core.dataprinter import DataPrinter
 # -- MY DATA CLASS -- #
 # ------------------- #
 
+###
+# prototype::
+#     std : xxx
+#     xxx  : yyyy
+###
 @dataclass(frozen = True)
 class MyDataClass(DataPrinter):
-    ...
+    xxx : list[str]
+    surname    : tuple[str | None, str]
+    email      : str | None
+    affiliation: str | None
+
+###
+# prototype::
+#     :return: ???
+###
+    def normalized(self) -> str:
+        ...
 
 
 # ----------- #
@@ -19,5 +34,19 @@ class MyDataClass(DataPrinter):
 # ----------- #
 
 if __name__ == "__main__":
-# Nothing to test!
+# GOOD
+    print("----------")
+    print("GOOD CASES")
+    print("----------")
+
+    ...
+
+# BAD
+    exit()
+
+    print()
+    print("---------")
+    print("BAD CASES")
+    print("---------")
+
     ...

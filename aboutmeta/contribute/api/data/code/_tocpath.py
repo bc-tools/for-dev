@@ -21,11 +21,6 @@ from aboutmeta.core.dataprinter import DataPrinter
 #     paths      : a list of paths, even if only one file has been
 #                  specified (this will simplify future processing).
 #                @ postsearch != None <==> paths == []
-#
-#
-# note::
-#     The ''std'' attribute is part of the frozen dataclass
-#     ''DataPrinter''.
 ###
 @dataclass(frozen = True)
 class TOCPath(DataPrinter):
