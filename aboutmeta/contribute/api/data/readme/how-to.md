@@ -5,3 +5,5 @@ How to propose a new data object?
 
 
 ???
+
+> ***WARNING.*** *but de grer les données extraites, pas de parsing mais de la normalisation*

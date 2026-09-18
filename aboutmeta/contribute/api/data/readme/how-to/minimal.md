@@ -1,6 +1,12 @@
 ### Minimum requirements
 
-At the very least, your class must be structured as follows. We imagine here that no tests are needed.
+
+XXXX
+
+
+prototype est là pour détailler ala signature, met ensuite on doit détaillé à destination des docs l'utilité : cf ce qui permet de comprendre / concevoir les saveiurs facilement
+
+At the very least, your class must be structured as follows. We imagine here that no tests are needed, and the data class has only one attribute `value`.
 
 ~~~python
 from dataclasses import dataclass

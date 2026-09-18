@@ -1,5 +1,12 @@
 ### Validate a data parsed
 
+
+XXXX
+
+prototype et explications comme pour la classe
+
+
+
 The special zero-argument method `validate` is used to validate a data. It must return the number of problem found, and each problem found should be indicated using a log communication: see the `url.URL` class for a concrete example of its use.
 
 
