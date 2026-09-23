@@ -1,26 +1,18 @@
 ### Minimum requirements
 
-
-XXXX
-
-
-prototype est là pour détailler ala signature, met ensuite on doit détaillé à destination des docs l'utilité : cf ce qui permet de comprendre / concevoir les saveiurs facilement
-
-At the very least, your class must be structured as follows. We imagine here that no tests are needed, and the data class has only one attribute `value`.
+Let’s start with a minimal example of a data type class that only stores height and weight data. This is done as follows.
 
 ~~~python
-from dataclasses import dataclass
-
 from aboutmeta.core.dataprinter import DataPrinter
 
 
-# ------------------- #
-# -- MY DATA CLASS -- #
-# ------------------- #
+# -------------------------- #
+# -- BIOMETRIC DATA CLASS -- #
+# -------------------------- #
 
-@dataclass(frozen = True)
-class MyDataClass(DataPrinter):
-    ...
+class Biometric(DataPrinter):
+    height: float
+    weight: float
 
 
 # ----------- #
@@ -28,27 +20,28 @@ class MyDataClass(DataPrinter):
 # ----------- #
 
 if __name__ == "__main__":
-# Nothing to test!
+# Doing tests is the best!
     ...
 ~~~
 
 
-Let's explain these technical choices.
+Here are the key points regarding attributes.
 
-  1. `@dataclass(frozen = True)` is used to make the data produced by a parser immutable.
+  1. `aboutmeta.core.dataprinter.DataPrinter` uses the `XXX` attribute to store user-input data coming from an `about.yaml` file. In our case, this could be `"1m80, 80kg"`, converted to `1.8` and `80.0` by the parser.
 
-  2. The `std` attribute must always be present, and it is managed by the `DataPrinter` class. This attribute is a **standardized version** of the data extracted from the `about.yaml` file, the construction of this standardized value being **the responsibility of the parser**.
-
-  3. The `DataPrinter` interface implements the `__str__` magic method, which just prints the string attribute `std`.
+  1. `aboutmeta.core.dataprinter.DataPrinter` is an abstract class that produces a frozen instance using `@dataclass(frozen=True)`.
 
 
-Of course, it is entirely possible to add other attributes or methods to the class *(see `license.License` for an example of use)*. However, **the following methods are special ones**.
-
-  1. `__str__` is handled by the `DataPrinter` interface. **You don't have to implement it!**
-
-  2. `normalized` is used to normalize some data.
-
-  3. `validate` is used for validation processes.
+> ***WARNING.*** *Never use the `XXX` attribute to store data!*
 
 
-> ***NOTE.*** *The following sections explain how to implement the special methods `normalized` and `validate`.*
+Here are the methodological constraints to follow.
+
+  1. `__str__` is managed by the `DataPrinter` interface to display the `XXX` string attribute. **You do not need to implement it.**
+
+  2. The optional `normalize` normalizes the `XXX` string attribute.
+
+  3. The optional `validate` handles data validation logic.
+
+
+> ***NOTE:*** You can, of course, add additional methods to the class if needed *(see `license.License` for an example)*.

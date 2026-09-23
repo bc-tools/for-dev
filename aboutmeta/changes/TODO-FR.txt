@@ -5,6 +5,75 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+std ---> XXXXXX
+
+
+> ---------------------------- <
+
+auto-frozen !!!
+
+from abc import ABC
+from dataclasses import FrozenInstanceError, dataclass
+
+
+class DataPrinter(ABC):
+    """Classe abstraite d'origine.
+
+    Toute sous-classe devient automatiquement une dataclass immuable (frozen=True)
+    sans avoir besoin d'ajouter le décorateur @dataclass.
+    """
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        # Transforme automatiquement la sous-classe en dataclass frozen
+        dataclass(frozen=True)(cls)
+
+    def print_data(self) -> None:
+        """Affiche les données de l'objet."""
+        print(f"=== {self.__class__.__name__} ===")
+        for field_name, value in self.__dict__.items():
+            print(f"  {field_name}: {value}")
+
+
+# ==========================================
+# Ta classe s'écrit maintenant ainsi :
+# ==========================================
+
+
+class Biometric(DataPrinter):
+    height: int
+    weight: float
+
+
+# ==========================================
+# Démonstration / Tests
+# ==========================================
+
+if __name__ == "__main__":
+    # 1. Instanciation
+    bio = Biometric(height=180, weight=75.5)
+
+    # 2. Utilisation de la méthode d'affichage
+    bio.print_data()
+    # Sortie :
+    # === Biometric ===
+    #   height: 180
+    #   weight: 75.5
+
+    # 3. Test de représentation (__repr__ fourni par la dataclass)
+    print("\nReprésentation :", bio)
+    # Sortie : Biometric(height=180, weight=75.5)
+
+    # 4. Test d'immuabilité (frozen)
+    print("\nTentative de modification...")
+    try:
+        bio.height = 185
+    except FrozenInstanceError:
+        print("-> Succès : L'objet est bien immuable (FrozenInstanceError levée) !")
+
+
+> ---------------------------- <
+
 parsers + data
 
     --> doc au tout dbt du gfichier qui décrit, mais on ignore les docs technqiues !
