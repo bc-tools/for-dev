@@ -5,8 +5,7 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-std         ---> std_value
-dataprinter.DataPrinter ---> data_manager.DataManager
+std ---> std_value
 
 
 > ---------------------------- <

@@ -1,5 +1,7 @@
-### Normalize a `YAML` data
+### Normalize data
 
+
+on nomrmalise les données et non std_value
 
 XXXX
 
