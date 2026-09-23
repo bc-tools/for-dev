@@ -22,11 +22,11 @@ from dataclasses import dataclass
 ###
 @dataclass(frozen = True)
 class DataPrinter:
-    std: str
+    std_value: str
 
 ###
 # The magic method ''__str__'' should just display the string
 # attribute ''std''.
 ###
     def __str__(self) -> str:
-        return self.std
+        return self.std_value

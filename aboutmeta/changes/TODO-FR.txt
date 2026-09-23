@@ -5,7 +5,8 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-std ---> XXXXXX
+std         ---> std_value
+DataPrinter ---> YYY
 
 
 > ---------------------------- <

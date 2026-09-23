@@ -41,7 +41,7 @@ class URL(DataPrinter):
 # files.
 ###
     def normalized(self) -> str:
-        parsed_url = urlparse(self.std)
+        parsed_url = urlparse(self.std_value)
 
         norm_url = urlunparse((
             parsed_url.scheme,          # http, https
