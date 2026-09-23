@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from aboutmeta.core.dataprinter import DataPrinter
+from aboutmeta.core.data_manager import DataManager
 
 
 # ------------------- #
@@ -15,7 +15,7 @@ from aboutmeta.core.dataprinter import DataPrinter
 #     xxx  : yyyy
 ###
 @dataclass(frozen = True)
-class MyDataClass(DataPrinter):
+class MyDataClass(DataManager):
     xxx : list[str]
     surname    : tuple[str | None, str]
     email      : str | None

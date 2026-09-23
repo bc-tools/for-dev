@@ -6,9 +6,9 @@ import requests
 from email_validator import validate_email
 
 from aboutmeta.core.constants   import *
-from aboutmeta.core.dataprinter import (
+from aboutmeta.core.data_manager import (
     dataclass,
-    DataPrinter
+    DataManager
 )
 
 from aboutmeta.tools.group import gather_groups
@@ -38,7 +38,7 @@ from aboutmeta.tools.misc  import (
 #                   affiliation provided.
 ###
 @dataclass(frozen = True)
-class Person(DataPrinter):
+class Person(DataManager):
     firstnames : list[str]
     surname    : tuple[str | None, str]
     email      : str | None

@@ -5,7 +5,7 @@
 from dataclasses import dataclass
 from pathlib     import Path
 
-from aboutmeta.core.dataprinter import DataPrinter
+from aboutmeta.core.data_manager import DataManager
 
 
 # ---------------------------- #
@@ -23,7 +23,7 @@ from aboutmeta.core.dataprinter import DataPrinter
 #                @ postsearch != None <==> paths == []
 ###
 @dataclass(frozen = True)
-class TOCPath(DataPrinter):
+class TOCPath(DataManager):
     postsearch: Path | None
     paths     : list[Path]
 

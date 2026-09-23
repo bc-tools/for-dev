@@ -6,7 +6,7 @@ aboutmeta - TODO
 > ---------------------------- <
 
 std         ---> std_value
-DataPrinter ---> YYY
+dataprinter.DataPrinter ---> data_manager.DataManager
 
 
 > ---------------------------- <
@@ -17,7 +17,7 @@ from abc import ABC
 from dataclasses import FrozenInstanceError, dataclass
 
 
-class DataPrinter(ABC):
+class DataManager(ABC):
     """Classe abstraite d'origine.
 
     Toute sous-classe devient automatiquement une dataclass immuable (frozen=True)
@@ -41,7 +41,7 @@ class DataPrinter(ABC):
 # ==========================================
 
 
-class Biometric(DataPrinter):
+class Biometric(DataManager):
     height: int
     weight: float
 

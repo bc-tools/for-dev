@@ -3,8 +3,8 @@
 from dataclasses import dataclass
 from pathlib     import Path
 
-from aboutmeta.core.dataprinter import DataPrinter
-from aboutmeta.tool.web         import get_text_from
+from aboutmeta.core.data_manager import DataManager
+from aboutmeta.tool.web          import get_text_from
 
 
 # --------------- #
@@ -32,10 +32,10 @@ _URL_TEMPL_SPDX_LICENSE_TEXT = (
 #
 # note::
 #     The ''std'' attribute is part of the frozen dataclass
-#     ''DataPrinter''.
+#     ''DataManager''.
 ###
 @dataclass(frozen = True)
-class License(DataPrinter):
+class License(DataManager):
     name: str
     ref : str
 

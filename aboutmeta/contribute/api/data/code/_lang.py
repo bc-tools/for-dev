@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from aboutmeta.core.dataprinter import DataPrinter
+from aboutmeta.core.data_manager import DataManager
 
 
 # ------------------------- #
@@ -18,7 +18,7 @@ from aboutmeta.core.dataprinter import DataPrinter
 #                 Britain''.
 ###
 @dataclass(frozen = True)
-class Lang(DataPrinter):
+class Lang(DataManager):
     name     : str
     territory: str
 

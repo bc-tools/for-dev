@@ -9,7 +9,7 @@ from urllib.parse import (
     urlunparse,
 )
 
-from aboutmeta.core.dataprinter import DataPrinter
+from aboutmeta.core.data_manager import DataManager
 
 
 # -------------------- #
@@ -22,7 +22,7 @@ from aboutmeta.core.dataprinter import DataPrinter
 #           is recorded verabtim).
 ###
 @dataclass(frozen = True)
-class URL(DataPrinter):
+class URL(DataManager):
 
 ###
 # prototype::
