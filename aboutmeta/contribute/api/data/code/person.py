@@ -19,22 +19,22 @@ from aboutmeta.tools.misc  import (
 
 ###
 # prototype::
+#     surname     : the surname without a particle is mandatory.
+#     particle    : the particle of a surname, or ''None'' if no
+#                   particle is needed.
 #     firstnames  : the list of first names (that can be an empty
 #                   list).
-#     surname     : the surname consists of an optional particle,
-#                   with the special value ''None'' indicating its
-#                   absence, and a mandatory main surname, which
-#                   is required for any person record.
 #     email       : the email adress, or ''None'' if no email
 #                   provided.
 #     affiliation : the affiliation adress, or ''None'' if no
 #                   affiliation provided.
 ###
 class Person(DataManager):
-    firstnames : list[str]
-    surname    : tuple[str | None, str]
-    email      : str | None
-    affiliation: str | None
+    surname    : str
+    particle   : str | None = None,
+    firstnames : list[str]  = []
+    email      : str | None = None
+    affiliation: str | None = None
 
 ###
 # prototype::
@@ -86,11 +86,11 @@ class Person(DataManager):
         )
 
 # Particle?
-        if not self.surname[0] is None:
-            self.surname[0] = self.surname[0].lower()
+        if not self.particle is None:
+            self.particle = self.particle.lower()
 
 # Main name.
-        self.surname[1] = self._normalize_name(self.surname[1])
+        self.surname = self._normalize_name(self.surname)
 
 ###
 # prototype::
@@ -240,22 +240,23 @@ if __name__ == "__main__":
     print("GOOD CASES")
     print("----------")
 
-    someone = Person(
+    mydata = Person(
         firstnames  = ["ALIce", "MarIE  -  LiSe"],
-        surname     = ("DE", "Charlène"),
+        particle    = "DE",
+        surname     = "Charlène",
         email       = "support@OpenAI.CoM",
         affiliation = "Université   de   la Technologie,    France"
     )
 
     print("Original data")
-    print(someone)
+    print(mydata)
 
     print("Normalization")
-    someone.normalize()
-    print(someone)
+    mydata.normalize()
+    print(mydata)
 
     print(f"Validation process")
-    someone.validate()
+    mydata.validate()
 
 # BAD
     exit()
@@ -265,7 +266,7 @@ if __name__ == "__main__":
     print("BAD CASES")
     print("---------")
 
-    someone = Person(
+    mydata = Person(
         firstnames  = ["A", "B"],
         surname     = "C",
         email       = "support@openaicom",
@@ -273,7 +274,7 @@ if __name__ == "__main__":
     )
 
     print("Original data")
-    print(someone)
+    print(mydata)
 
     print(f"Validation process")
-    someone.validate()
+    mydata.validate()

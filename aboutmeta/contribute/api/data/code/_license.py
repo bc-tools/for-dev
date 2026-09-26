@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
-from pathlib     import Path
+from pathlib import Path
 
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.tool.web          import get_text_from
@@ -34,7 +33,6 @@ _URL_TEMPL_SPDX_LICENSE_TEXT = (
 #     The ''std'' attribute is part of the frozen dataclass
 #     ''DataManager''.
 ###
-@dataclass(frozen = True)
 class License(DataManager):
     name: str
     ref : str

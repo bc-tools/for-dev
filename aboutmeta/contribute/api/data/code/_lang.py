@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
-
 from aboutmeta.core.data_manager import DataManager
 
 
@@ -17,7 +15,6 @@ from aboutmeta.core.data_manager import DataManager
 #     territory : the territory of the language like ''Great
 #                 Britain''.
 ###
-@dataclass(frozen = True)
 class Lang(DataManager):
     name     : str
     territory: str

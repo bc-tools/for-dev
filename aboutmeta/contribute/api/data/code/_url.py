@@ -128,14 +128,14 @@ if __name__ == "__main__":
     ]:
         print('---')
 
-        url = URL(url = url)
+        mydata = URL(url = url)
 
         print("Original data")
-        print(url)
+        print(mydata)
 
         print("Normalization")
-        url.normalize()
-        print(url)
+        mydata.normalize()
+        print(mydata)
 
         print(f"Validation process")
-        url.validate()
+        mydata.validate()
