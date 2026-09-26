@@ -24,6 +24,14 @@ gestion des pbs via la classe `DataPB` de méthodes...
 ```python
 # Extract of Person class code.
 # Version 2026-09-26
+
+from email_validator import validate_email
+
+from aboutmeta.core.data_manager import (
+    DataManager,
+    DataPB
+)
+
 class Person(DataManager):
     ...
 
@@ -32,6 +40,32 @@ class Person(DataManager):
 
         self._validate_email(data_pb)
         self._validate_affiliation(data_pb)
+
+        return data_pb
+
+    def _validate_email(
+        self,
+        data_pb: DataPB
+    ) -> None:
+        if self.email is None:
+            return data_pb
+
+        email = self.email
+
+        try:
+            data_pb.what(
+                desc  = "EMAIL"
+                value = email
+            )
+
+            validate_email(email)
+
+            data_pb.success()
+
+        except Exception as e:
+            data_pb.failure(
+                desc = f"EXCEPTION:\n{e}"
+            )
 
         return data_pb
 

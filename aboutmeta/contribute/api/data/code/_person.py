@@ -188,25 +188,23 @@ class Person(DataManager):
         self,
         data_pb: DataPB
     ) -> None:
-        nb_pbs = 0
-
         if self.email is None:
-            return nb_pbs
+            return data_pb
 
         email = self.email
 
         try:
-            logging.info(f"EMAIL -> {email}")
+            data_pb.what(
+                desc  = "EMAIL"
+                value = email
+            )
 
             validate_email(email)
 
-            logging.info("Email OK.")
+            data_pb.success()
 
         except Exception as e:
-            nb_pbs += 1
-
-            logging.info("Email KO!")
-            logging.error(
+            data_pb.failure(
                 f"INVALID EMAIL''{email}'' with the following "
                 f"EXCEPTION.\n{e}"
             )
