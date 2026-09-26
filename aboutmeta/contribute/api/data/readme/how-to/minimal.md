@@ -27,21 +27,23 @@ if __name__ == "__main__":
 
 Here are the key points regarding attributes.
 
-  1. `aboutmeta.core.data_manager.DataManager` uses the `yaml_val` attribute to store a standard user-input data coming from an `about.yaml` file. In our case, this could be `"1m80, 80kg"`, converted to `1.8` and `80.0` by the parser to feed a `Biometric` instance.
+  1. `DataManager` uses the `yaml_val` attribute to store a standard user-input data coming from an `about.yaml` file. In our case, this could be `"1m80, 80kg"`, converted to `1.8` and `80.0` by the parser to feed a `Biometric` instance.
 
-  1. `aboutmeta.core.data_manager.DataManager` is an abstract class that produces frozen classes using `@dataclass(frozen=True)`.
+  1. `DataManager` proposes the `data_pb` attribute to store validation problems (see the  `validate` method below).
+
+  1. `DataManager` is an abstract class that produces frozen classes using `@dataclass(frozen=True)`.
 
 
-> ***WARNING.*** *Never use the `yaml_val` attribute to store data!*
+> ***WARNING.*** *Never use the attributes  `yaml_val` and `data_pb` to store data!*
 
 
 Here are the constraints to follow for methods.
 
   1. `__str__` is managed by the `DataManager` interface to display the `yaml_val` string attribute. **You do not need to implement it.**
 
-  2. The optional `normalize` normalizes data.
+  2. The optional `normalize` must be used to normalize data.
 
-  3. The optional `validate` handles data validation logic.
+  3. The optional `validate` must be used for data validation.
 
 
 > ***NOTE:*** You can, of course, add additional methods to the class if needed *(see the method `add_license` of `license.License` for an example)*.

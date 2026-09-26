@@ -5,8 +5,176 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-std ---> std_value
 
+> ---------------------------- <
+
+pour Person parsing
+
+
+from aboutmeta.tools.group import gather_groups
+
+
+    def normalized(self) -> str:
+        titles = self._normalized_titles()
+
+        email = (
+            ""
+            if self.email is None else
+            self._normalized_email()
+        )
+
+        affiliation = (
+            ""
+            if self.affiliation is None else
+            self._normalized_affiliation()
+        )
+
+        norm_person = gather_groups(
+            groups = [titles, email, affiliation],
+            delims = DELIMS_PERSON,
+        )
+
+        return norm_person
+
+
+###
+# prototype::
+#     :return: the normalization process concern firstnames,
+#              surname, and email adress.
+#
+#
+# Here are the normalizations performed.
+#
+#     + All names are written in "titlecase", and the particle
+#     is in lowercase. Spaces around the hyphen are removed.
+#     For example,
+#     ''ALIce,  MarIE   -  LiSe,   {DE}   Charlène'' becomes
+#     ''Alice,  Marie-Lise, {de} Charlène''.
+#
+#     + Some valid emails adresses use typographical quirks.
+#     For example, ''SuPpOrT@OpeAI.CoM'' is valid, but its
+#     normalized version, produced by this method, is
+#     ''SuPpOrT@openai.com''. See the ''_normalized_email''
+#     method for technical details.
+#
+#     + The normalization of the affiliation address is limited
+#     to not having consecutive spaces.
+#     For example,
+#     ''Université   de   la Technologie,    France'' becomes
+#     ''Université de la Technologie, France''.
+###
+    def normalized(self) -> str:
+        titles = self._normalized_titles()
+
+        email = (
+            ""
+            if self.email is None else
+            self._normalized_email()
+        )
+
+        affiliation = (
+            ""
+            if self.affiliation is None else
+            self._normalized_affiliation()
+        )
+
+        norm_person = gather_groups(
+            groups = [titles, email, affiliation],
+            delims = DELIMS_PERSON,
+        )
+
+        return norm_person
+
+###
+# prototype::
+#     :return: the CSV list of names in "titlecase", except the
+#              particle which is lowercase.
+###
+    def _normalized_titles(self) -> str:
+# First names.
+        titles = [
+            self._normalized_name(n)
+            for n in self.firstnames
+        ]
+
+# Particle?
+        if self.surname[0] is None:
+            particle = ''
+
+        else:
+            particle = f"{{{self.surname[0].lower()}}} "
+
+# Main name.
+        titles.append(
+            particle + self._normalized_name(self.surname[1])
+        )
+
+# Just gather all the parts.
+        titles = ', '.join(titles)
+
+        return titles
+
+###
+# prototype::
+#     name : a name to be normalized.
+#
+#     :return: name in "titlecase" without unnecessary spaces.
+###
+    def _normalized_name(
+        self,
+        name: str
+    ) -> str:
+        name = single_spaces(name)
+        name = name.title()
+        name = no_space_around(
+            text = name,
+            part = '-'
+        )
+
+        return name
+
+###
+# prototype::
+#     :return: ''None'', or a normalized email adresss.
+#
+#
+# caution::
+#     According to RFC 5321, we have:
+#         + The domain part is case-insensitive, and should be
+#         lowercase.
+#         + The local part ***may** be case-sensitive, but rarely
+#         is.
+###
+    def _normalized_email(self) -> str | None:
+        email = self.email
+
+# Nothing to do.
+        if email is None:
+            return email
+
+# Let's normalize the email.
+        local_part, _, domain_part = email.partition('@')
+
+        norm_email = f"{local_part}@{domain_part.lower()}"
+
+        return norm_email
+
+###
+# prototype::
+#     :return: ''None'', or the affiliation adresss without
+#              unnecessary spaces.
+###
+    def _normalized_affiliation(self) -> str | None:
+        affiliation = self.affiliation
+
+# Nothing to do.
+        if affiliation is None:
+            return affiliation
+
+# Let's normalize the affiliation.
+        norm_affiliation = single_spaces(affiliation)
+
+        return norm_affiliation
 
 > ---------------------------- <
 
