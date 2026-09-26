@@ -36,38 +36,28 @@ class Person(DataManager):
     ...
 
     def validate(self) -> DataPB:
-        data_pb = DataPB(self)
+        self._validate_email()
+        self._validate_affiliation()
 
-        self._validate_email(data_pb)
-        self._validate_affiliation(data_pb)
-
-        return data_pb
-
-    def _validate_email(
-        self,
-        data_pb: DataPB
-    ) -> None:
+    def _validate_email(self) -> None:
         if self.email is None:
-            return data_pb
+            return
 
         email = self.email
 
         try:
-            data_pb.what(
-                desc  = "EMAIL"
-                value = email
-            )
+            self.data_pb.what("EMAIL")
+            self.data_pb.msg(f"Checking {email}")
 
             validate_email(email)
 
-            data_pb.success()
+            self.data_pb.success()
 
         except Exception as e:
-            data_pb.failure(
-                desc = f"EXCEPTION:\n{e}"
-            )
+            self.data_pb.exception(e)
 
-        return data_pb
+    def _validate_affiliation(self) -> None:
+        ...
 
     ...
 ```

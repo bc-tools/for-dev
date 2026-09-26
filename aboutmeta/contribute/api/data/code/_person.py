@@ -189,46 +189,38 @@ class Person(DataManager):
         data_pb: DataPB
     ) -> None:
         if self.email is None:
-            return data_pb
+            return
 
         email = self.email
 
         try:
-            data_pb.what(
-                desc  = "EMAIL"
-                value = email
-            )
+            self.data_pb.what("EMAIL")
+            self.data_pb.msg(f"Checking {email}")
 
             validate_email(email)
 
-            data_pb.success()
+            self.data_pb.success()
 
         except Exception as e:
-            data_pb.failure(
-                f"INVALID EMAIL''{email}'' with the following "
-                f"EXCEPTION.\n{e}"
-            )
-
-        return nb_pbs
+            self.data_pb.failure(f"EXCEPTION:\n{e}")
 
 ###
 # prototype::
 #     :return: the number of errors found by the validation
 #              process of the affiliation address.
 ###
-    def _validate_affiliation(
-        self,
-        data_pb: DataPB
-    ) -> None:
-        nb_pbs = 0
+    def _validate_affiliation(self) -> None:
+        self.data_pb.what("AFFILIATION")
 
         if self.affiliation is None:
-            return nb_pbs
+            self.data_pb.msg(f"No affiliation.")
+
+            return
 
         affi = self.affiliation
 
         try:
-            logging.info(f"AFFILIATION -> {affi}")
+            self.data_pb.msg(f"Checking {affi}")
 
             response = requests.get(
                 "https://nominatim.openstreetmap.org/search",
@@ -243,27 +235,15 @@ class Person(DataManager):
             )
 
             if response.ok and len(response.json()) > 0:
-                logging.info("Affiliation OK.")
+                self.data_pb.success()
 
             else:
-                nb_pbs += 1
-
-                logging.info("Affiliation KO!")
-                logging.error(
-                    f"INVALID AFFILIATION ''{affi}'': "
-                     "nothing found by OPENSTREETMAP."
+                self.data_pb.failure(
+                    "Nothing found by OPENSTREETMAP."
                 )
 
         except Exception as e:
-            nb_pbs += 1
-
-            logging.info("Affiliation KO!")
-            logging.error(
-                f"INVALID AFFILIATION ''{affi}'' with "
-                f"the following EXCEPTION.\n{e}"
-            )
-
-        return nb_pbs
+            self.data_pb.exception(e)
 
 
 # ----------- #
