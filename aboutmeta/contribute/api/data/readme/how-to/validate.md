@@ -1,10 +1,14 @@
 ### Validate data
 
 
+
+
+
+
 XXXX
 
 
-gestion des pbs via un atribut `data_pb` de méthodes...
+gestion des pbs via la classe `DataPB` de méthodes...
 
     ... la data validée
 
@@ -17,7 +21,22 @@ gestion des pbs via un atribut `data_pb` de méthodes...
     ... besoin de init dans cas cas pour initialiser data_pb au type de données, le reste étant utilisé par le validate
 
 
+```python
+# Extract of Person class code.
+# Version 2026-09-26
+class Person(DataManager):
+    ...
 
+    def validate(self) -> DataPB:
+        data_pb = DataPB(self)
+
+        self._validate_email(data_pb)
+        self._validate_affiliation(data_pb)
+
+        return data_pb
+
+    ...
+```
 
 
 The special zero-argument method `validate` is used to validate data. It must return the number of problem found, and each problem found should be indicated using a log communication: see the `url.URL` class for a concrete example of its use.

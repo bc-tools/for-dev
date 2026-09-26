@@ -6,7 +6,10 @@ import requests
 from email_validator import validate_email
 
 from aboutmeta.core.constants    import *
-from aboutmeta.core.data_manager import DataManager
+from aboutmeta.core.data_manager import (
+    DataManager,
+    DataPB
+)
 
 from aboutmeta.tools.misc  import (
     no_space_around,
@@ -30,7 +33,6 @@ from aboutmeta.tools.misc  import (
 #     affiliation : the affiliation adress, or ''None'' if no
 #                   affiliation provided.
 ###
-@dataclass(frozen = True)
 class Person(DataManager):
     firstnames : list[str]
     surname    : tuple[str | None, str]
@@ -168,19 +170,24 @@ class Person(DataManager):
 #     can only print and record the errors detected in a log
 #     file with possible false negatives. This method is
 #     suitable for terminal sessions.
-###    data_pb
-    def validate(self) -> int:
-        nb_pbs  = self._validate_email()
-        nb_pbs += self._validate_affiliation()
+###
+    def validate(self) -> DataPB:
+        data_pb = DataPB(self)
 
-        return nb_pbs
+        self._validate_email(data_pb)
+        self._validate_affiliation(data_pb)
+
+        return data_pb
 
 ###
 # prototype::
 #     :return: the number of errors found by the validation
 #              process of the email address.
 ###
-    def _validate_email(self) -> int:
+    def _validate_email(
+        self,
+        data_pb: DataPB
+    ) -> None:
         nb_pbs = 0
 
         if self.email is None:
@@ -211,7 +218,10 @@ class Person(DataManager):
 #     :return: the number of errors found by the validation
 #              process of the affiliation address.
 ###
-    def _validate_affiliation(self) -> int:
+    def _validate_affiliation(
+        self,
+        data_pb: DataPB
+    ) -> None:
         nb_pbs = 0
 
         if self.affiliation is None:
