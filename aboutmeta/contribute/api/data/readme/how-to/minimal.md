@@ -29,7 +29,7 @@ Here are the key points regarding attributes.
 
   1. `DataManager` uses the `yaml_val` attribute to store a standard user-input data coming from an `about.yaml` file. In our case, this could be `"1m80, 80kg"`, converted to `1.8` and `80.0` by the parser to feed a `Biometric` instance.
 
-  1. `DataManager` proposes the `data_pb` attribute to store validation problems (see the  `validate` method below).
+  1. `DataManager` exposes the `data_pb` attribute for validation information (see the `validate` method below).
 
   1. `DataManager` is an abstract class that produces frozen classes using `@dataclass(frozen=True)`.
 

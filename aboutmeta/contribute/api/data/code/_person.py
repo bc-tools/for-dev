@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
 
-import logging
 import requests
 
 from email_validator import validate_email
 
 from aboutmeta.core.constants    import *
-from aboutmeta.core.data_manager import (
-    DataManager,
-    DataPB
-)
+from aboutmeta.core.data_manager import DataManager
 
 from aboutmeta.tools.misc  import (
     no_space_around,
     single_spaces
 )
+
 
 # ----------------------- #
 # -- PERSON DATA CLASS -- #
@@ -42,7 +39,7 @@ class Person(DataManager):
 ###
 # prototype::
 #     :action: the normalization process concern firstnames,
-#              surname, and email adress.
+#              surname, email adress, and affiliation.
 #
 #     :see: self._normalize_titles,
 #           self._normalize_email,
@@ -55,7 +52,7 @@ class Person(DataManager):
 #     is in lowercase. Spaces around the hyphen are removed.
 #     For example,
 #     ''ALIce,  MarIE   -  LiSe,   {DE}   Charlène'' becomes
-#     ''Alice,  Marie-Lise, {de} Charlène''.
+#     ''Alice, Marie-Lise, {de} Charlène''.
 #
 #     + Some valid emails adresses use typographical quirks.
 #     For example, ''SuPpOrT@OpeAI.CoM'' is valid, but its
@@ -140,7 +137,7 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     :action: unnecessary spaces are rempved from the
+#     :action: unnecessary spaces are removed from the
 #              affiliation adresss.
 ###
     def _normalize_affiliation(self) -> None:
@@ -151,50 +148,35 @@ class Person(DataManager):
 # Let's normalize the affiliation.
         self.affiliation = single_spaces(affiliation)
 
-
-
-
-
-
 ###
 # prototype::
-#     :return: the number of errors found by the validation
-#              process of email and membership addresses.
+#     :action: checking the email and affiliation validities.
 #
 #     :see: self._validate_email,
 #           self._validate_affiliation
-#
-#
-# important::
-#     Since the validation system is not `100%` reliable, we
-#     can only print and record the errors detected in a log
-#     file with possible false negatives. This method is
-#     suitable for terminal sessions.
 ###
-    def validate(self) -> DataPB:
-        data_pb = DataPB(self)
-
-        self._validate_email(data_pb)
-        self._validate_affiliation(data_pb)
-
-        return data_pb
+    def validate(self) -> None:
+        self._validate_email()
+        self._validate_affiliation()
 
 ###
 # prototype::
-#     :return: the number of errors found by the validation
-#              process of the email address.
+#     :action: ''email_validator.validate_email'' checks the email
+#              validity.
 ###
-    def _validate_email(
-        self,
-        data_pb: DataPB
-    ) -> None:
+    def _validate_email(self) -> None:
+        self.data_pb.what("EMAIL")
+
+# Nothing to do.
         if self.email is None:
+            self.data_pb.msg(f"No email.")
+
             return
 
+# Let's validate the email.
         email = self.email
 
         try:
-            self.data_pb.what("EMAIL")
             self.data_pb.msg(f"Checking {email}")
 
             validate_email(email)
@@ -202,21 +184,23 @@ class Person(DataManager):
             self.data_pb.success()
 
         except Exception as e:
-            self.data_pb.failure(f"EXCEPTION:\n{e}")
+            self.data_pb.exception(e)
 
 ###
 # prototype::
-#     :return: the number of errors found by the validation
-#              process of the affiliation address.
+#     :action: OpenStreetMap is used to check the affiliation
+#              validity.
 ###
     def _validate_affiliation(self) -> None:
         self.data_pb.what("AFFILIATION")
 
+# Nothing to do.
         if self.affiliation is None:
             self.data_pb.msg(f"No affiliation.")
 
             return
 
+# Let's validate the affiliation.
         affi = self.affiliation
 
         try:
@@ -239,7 +223,7 @@ class Person(DataManager):
 
             else:
                 self.data_pb.failure(
-                    "Nothing found by OPENSTREETMAP."
+                    "OPENSTREETMAP: nothing found."
                 )
 
         except Exception as e:
@@ -263,15 +247,15 @@ if __name__ == "__main__":
         affiliation = "Université   de   la Technologie,    France"
     )
 
-    print("someone - BEFORE")
+    print("Original data")
     print(someone)
 
+    print("Normalization")
     someone.normalize()
-
-    print("someone - AFTER")
     print(someone)
 
-    print(f"Nb validation pbs = {someone.validate()}")
+    print(f"Validation process")
+    someone.validate()
 
 # BAD
     exit()
@@ -288,5 +272,8 @@ if __name__ == "__main__":
         affiliation = "Université de la Techlogie, France"
     )
 
-    print()
-    print(f"  + Nb validation pbs = {someone.validate()}")
+    print("Original data")
+    print(someone)
+
+    print(f"Validation process")
+    someone.validate()

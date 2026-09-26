@@ -14,8 +14,7 @@ from aboutmeta.core.data_manager import DataManager
 
 ###
 # prototype::
-#     std        : the standard version of the given \yaml data.
-#     postsearch : ''None'', or the path to a folder containing
+#     postsearch : ''None'', or a path to a folder containing
 #                  an path::''about.yaml'' file to be analyzed
 #                  during the post-production.
 #     paths      : a list of paths, even if only one file has been
