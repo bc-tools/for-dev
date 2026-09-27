@@ -13,7 +13,7 @@ from aboutmeta.core.data_manager import DataManager
 # ---------------------------- #
 
 ###
-# prototype::
+# prototype::  A  REVOIR
 #     postsearch : ''None'', or a path to a folder containing
 #                  an path::''about.yaml'' file to be analyzed
 #                  during the post-production.

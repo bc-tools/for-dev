@@ -5,6 +5,11 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+Tester les nouvelles données validés car cela implique la maj du core code !
+
+
+> ---------------------------- <
+
 liecense text fait par outil externe et non data object, ne mélangeons pas les responsabilités!!!!
 
 
