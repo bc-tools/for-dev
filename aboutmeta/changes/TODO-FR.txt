@@ -7,6 +7,22 @@ aboutmeta - TODO
 
 Tester les nouvelles données validés car cela implique la maj du core code !
 
+    + person.py   ??????
+
+    + lang.py     ????
+    + license.py  ??
+
+
+
+
+
+
+> ---------------------------- <
+
+pour lang on migre lextraction depuis en-GB  de la langue t du territoire dans validate via extract rendu publique et utilisable par le parser
+
+de même pour license
+
 
 > ---------------------------- <
 
