@@ -9,15 +9,16 @@ from aboutmeta.core.data_manager import DataManager
 
 ###
 # prototype::
-#     std       : the standard language identifier which looks
-#                 like ''en-GB''.
-#     name      : the full language name like ''English''.
-#     territory : the territory of the language like ''Great
-#                 Britain''.
+#     identifier : the standard language identifier which looks
+#                  like ''en-GB''.
+#     name       : the full language name like ''English''.
+#     territory  : the territory of the language like ''Great
+#                  Britain''.
 ###
 class Lang(DataManager):
-    name     : str
-    territory: str
+    identifier: str
+    name      : str
+    territory : str
 
 
 # ----------- #

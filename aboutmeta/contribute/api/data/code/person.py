@@ -4,7 +4,6 @@ import requests
 
 from email_validator import validate_email
 
-from aboutmeta.core.constants    import *
 from aboutmeta.core.data_manager import DataManager
 
 from aboutmeta.tools.misc  import (
@@ -20,21 +19,21 @@ from aboutmeta.tools.misc  import (
 ###
 # prototype::
 #     surname     : the surname without a particle is mandatory.
-#     particle    : the particle of a surname, or ''None'' if no
+#     particle    : the particle of a surname, or ''""'' if no
 #                   particle is needed.
 #     firstnames  : the list of first names (that can be an empty
 #                   list).
-#     email       : the email adress, or ''None'' if no email
+#     email       : the email adress, or ''""'' if no email
 #                   provided.
-#     affiliation : the affiliation adress, or ''None'' if no
+#     affiliation : the affiliation adress, or ''""'' if no
 #                   affiliation provided.
 ###
 class Person(DataManager):
     surname    : str
-    particle   : str | None = None,
+    particle   : str        = ''
     firstnames : list[str]  = []
-    email      : str | None = None
-    affiliation: str | None = None
+    email      : str        = ''
+    affiliation: str        = ''
 
 ###
 # prototype::
@@ -85,9 +84,8 @@ class Person(DataManager):
             self.firstnames
         )
 
-# Particle?
-        if not self.particle is None:
-            self.particle = self.particle.lower()
+# Particle.
+        self.particle = self.particle.lower()
 
 # Main name.
         self.surname = self._normalize_name(self.surname)
@@ -126,14 +124,10 @@ class Person(DataManager):
 #         rarely is.
 ###
     def _normalize_email(self) -> None:
-# Nothing to do.
-        if self.email is None:
-            return
+        if self.email:
+            local_part, _ , domain_part = self.email.partition('@')
 
-# Let's normalize the email.
-        local_part, _ , domain_part = self.email.partition('@')
-
-        self.email = f"{local_part}@{domain_part.lower()}"
+            self.email = f"{local_part}@{domain_part.lower()}"
 
 ###
 # prototype::
@@ -141,16 +135,12 @@ class Person(DataManager):
 #              affiliation adresss.
 ###
     def _normalize_affiliation(self) -> None:
-# Nothing to do.
-        if self.affiliation is None:
-            return
-
-# Let's normalize the affiliation.
-        self.affiliation = single_spaces(affiliation)
+        if self.affiliation:
+            self.affiliation = single_spaces(affiliation)
 
 ###
 # prototype::
-#     :action: checking the email and affiliation validities.
+#     :action: email and affiliation checking.
 #
 #     :see: self._validate_email,
 #           self._validate_affiliation
@@ -168,7 +158,7 @@ class Person(DataManager):
         self.data_pb.what("EMAIL")
 
 # Nothing to do.
-        if self.email is None:
+        if not self.email:
             self.data_pb.msg(f"No email.")
 
             return
@@ -188,14 +178,13 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     :action: OpenStreetMap is used to check the affiliation
-#              validity.
+#     :action: OpenStreetMap verifies the affiliation.
 ###
     def _validate_affiliation(self) -> None:
         self.data_pb.what("AFFILIATION")
 
 # Nothing to do.
-        if self.affiliation is None:
+        if not self.affiliation:
             self.data_pb.msg(f"No affiliation.")
 
             return

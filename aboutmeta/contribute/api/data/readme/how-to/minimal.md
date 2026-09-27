@@ -34,7 +34,7 @@ Here are the key points regarding attributes.
   1. `DataManager` is an abstract class that produces frozen classes using `@dataclass(frozen=True)`.
 
 
-> ***WARNING.*** *Never use the attributes  `yaml_val` and `data_pb` to store data!*
+> ***WARNING.*** *Never use the attributes `yaml_val` and `data_pb` to store data!*
 
 
 Here are the constraints to follow for methods.
@@ -46,4 +46,4 @@ Here are the constraints to follow for methods.
   3. The optional `validate` must be used for data validation.
 
 
-> ***NOTE:*** You can, of course, add additional methods to the class if needed *(see the method `add_license` of `license.License` for an example)*.
+> ***IMPORTANT.*** *Providing a few tests is essential; they will be integrated into the final project's unit test suite.*

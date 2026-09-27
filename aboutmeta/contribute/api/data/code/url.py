@@ -53,7 +53,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: checking the URL using DNS and an HTTP technics.
+#     :action: URL check using DNS and HTTP technics.
 ###
     def validate(self) -> None:
         self._validate_DNS()
@@ -61,8 +61,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action:   XXXX the number of errors by the validation process
-#              of the URL using DNS technics.
+#     :action: DNS check of the hostname.
 ###
     def _validate_DNS(self) -> None:
         self.data_pb.what("DNS")
@@ -87,8 +86,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action:   XXXX the number of errors by the validation process
-#              of the URL using HTTP technics.
+#     :action: HTTP URL availability check.
 ###
     def _validate_HTTP(self) -> None:
         self.data_pb.what("HTTP STATUS")
