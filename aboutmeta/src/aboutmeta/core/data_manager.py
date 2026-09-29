@@ -18,7 +18,22 @@ class DataPB:
         self.dataname = dataname
 
 ###
-# XXXX
+# prototype::
+#     text : XXXX
+#
+#     :action: XXXX
+###
+    def _added_prefix(
+        self,
+        text: str,
+    ):
+        return f"[{self.dataname}] {text}"
+
+###
+# prototype::
+#     text : XXXX
+#
+#     :action: XXXX
 ###
     def msg(
         self,
@@ -27,46 +42,69 @@ class DataPB:
         logging.info(text)
 
 ###
-# XXXX
+# prototype::
+#     text : XXXX
+#
+#     :action: XXXX
 ###
     def what(
         self,
         text: str,
     ):
-        logging.info(text)
+        self.msg(
+            self._added_prefix(text)
+        )
 
 ###
-# XXXX
+# prototype::
+#     :action: XXXX
 ###
     def success(self):
-        logging.info("OK")
+        logging.info(
+            self._added_prefix("Sucessfull process")
+        )
 
 ###
-# XXXX
-###
-    def pb(
-        self,
-        text: str,
-    ):
-        logging.warning(text)
-
-###
-# XXXX
+# prototype::
+#     text : XXXX
+#
+#     :action: XXXX
 ###
     def failure(
         self,
         text: str,
     ):
-        logging.critical(text)
+        logging.critical(
+            self._added_prefix(f"Process failure\n{text}")
+        )
 
 ###
-# XXXX
+# prototype::
+#     text : XXXX
+#
+#     :action: XXXX
 ###
     def exception(
         self,
         text: str,
     ):
-        logging.error(text)
+        logging.error(
+            self._added_prefix(f"Exception catched\n{text}")
+        )
+
+###
+# prototype::
+#     text : XXXX
+#
+#     :action: XXXX
+###
+    def pb(
+        self,
+        text: str,
+    ):
+        logging.error(
+            self._added_prefix(f"Problem found\n{text}")
+        )
 
 
 # ---------------------------- #
@@ -127,8 +165,10 @@ if __name__ == "__main__":
     mydata.data_pb.what("what")
     mydata.data_pb.msg("msg")
     mydata.data_pb.success()
-    mydata.data_pb.failure("failure")
-    mydata.data_pb.exception("exception")
+
+    mydata.data_pb.failure("fail")
+    mydata.data_pb.pb("pb")
+    mydata.data_pb.exception("e")
 
 # BAD
     print()
