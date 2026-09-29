@@ -73,9 +73,9 @@ def parse(data: str) -> License:
 
 # The job has been done.
     return License(
-        std  = spdx_infos["std"],
-        name = spdx_infos["name"],
-        ref  = spdx_infos["ref"],
+        identifier = spdx_infos["std"],
+        name       = spdx_infos["name"],
+        url        = spdx_infos["ref"],
     )
 
 

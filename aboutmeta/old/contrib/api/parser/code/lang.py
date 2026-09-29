@@ -40,9 +40,9 @@ def parse(data: str) -> Lang:
 
 # The job has been done.
     return Lang(
-        std       = f"{onelang.language}-{onelang.territory}",
-        name      = describe["language"],
-        territory = describe["territory"]
+        identifier = f"{onelang.language}-{onelang.territory}",
+        name       = describe["language"],
+        territory  = describe["territory"]
     )
 
 

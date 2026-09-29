@@ -3,30 +3,65 @@
 from dataclasses import dataclass
 
 
-# ----------------------- #
-# -- PRINTER INTERFACE -- #
-# ----------------------- #
+# -------------------------- #
+# -- DATA PB COMMUNICATOR -- #
+# -------------------------- #
+
+class DataPB:
+    def __init__(self, dataname):
+        print(dataname)
+
+
+# ---------------------------- #
+# -- DATA MANAGER INTERFACE -- #
+# ---------------------------- #
 
 ###
 # prototype::
-#     std : this attribute will be used to store a "standard"
-#           version of the data in the path::''about.yaml'' file.
-#           This attribute is also used for basing printing.
-#
-#
-# important::
-#     Do not confuse standard version with normalized version.
-#     In some cases, data can be validated in an atypical form
-#     and then normalized. See, for example, the ''data.url.URL''
-#     class.
+#     yaml_val : this attribute will be used to store a "standard"
+#                version of the data in the path::''about.yaml''
+#                file. This attribute is also used for basing
+#                printing.
 ###
-@dataclass(frozen = True)
-class DataPrinter:
-    std_value: str
+class DataManager:
+    yaml_val: str
+    data_pb : DataPB
+
+###
+# We make the class instance immutable and initiate its DataPB
+# instance.
+###
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+
+        cls.data_pb = DataPB(cls.__name__)
+
+        dataclass(frozen=True)(cls)
 
 ###
 # The magic method ''__str__'' should just display the string
-# attribute ''std''.
+# attribute ''yaml_val''.
 ###
     def __str__(self) -> str:
-        return self.std_value
+        return self.yaml_val
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+    class MyData(DataManager):
+        foo: None
+
+    mydata = MyData(foo = 'OK')
+
+    print(mydata.foo)
+
+    data_pb.what("what")
+    data_pb.msg("msg")
+    data_pb.success()
+    data_pb.failure("failure")
+    data_pb.exception("exception")
+
+    mydata.foo = "KO"
