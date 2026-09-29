@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
+from aboutmeta.core.log_conf import *
+
 from dataclasses import dataclass
+from pathlib     import Path
 
 
 # -------------------------- #
@@ -8,8 +11,62 @@ from dataclasses import dataclass
 # -------------------------- #
 
 class DataPB:
-    def __init__(self, dataname):
-        print(dataname)
+    def __init__(
+        self,
+        dataname: str,
+    ):
+        self.dataname = dataname
+
+###
+# XXXX
+###
+    def msg(
+        self,
+        text: str,
+    ):
+        logging.info(text)
+
+###
+# XXXX
+###
+    def what(
+        self,
+        text: str,
+    ):
+        logging.info(text)
+
+###
+# XXXX
+###
+    def success(self):
+        logging.info("OK")
+
+###
+# XXXX
+###
+    def pb(
+        self,
+        text: str,
+    ):
+        logging.warning(text)
+
+###
+# XXXX
+###
+    def failure(
+        self,
+        text: str,
+    ):
+        logging.critical(text)
+
+###
+# XXXX
+###
+    def exception(
+        self,
+        text: str,
+    ):
+        logging.error(text)
 
 
 # ---------------------------- #
@@ -22,6 +79,8 @@ class DataPB:
 #                version of the data in the path::''about.yaml''
 #                file. This attribute is also used for basing
 #                printing.
+#     data_pb : XXXX
+#     YYY : XXXX
 ###
 class DataManager:
     yaml_val: str
@@ -51,17 +110,30 @@ class DataManager:
 # ----------- #
 
 if __name__ == "__main__":
+    setup_logging()
+
     class MyData(DataManager):
         foo: None
+
+# GOOD
+    print("----------")
+    print("GOOD CASES")
+    print("----------")
 
     mydata = MyData(foo = 'OK')
 
     print(mydata.foo)
 
-    data_pb.what("what")
-    data_pb.msg("msg")
-    data_pb.success()
-    data_pb.failure("failure")
-    data_pb.exception("exception")
+    mydata.data_pb.what("what")
+    mydata.data_pb.msg("msg")
+    mydata.data_pb.success()
+    mydata.data_pb.failure("failure")
+    mydata.data_pb.exception("exception")
+
+# BAD
+    print()
+    print("---------")
+    print("BAD CASES")
+    print("---------")
 
     mydata.foo = "KO"

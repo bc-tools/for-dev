@@ -248,8 +248,6 @@ if __name__ == "__main__":
     mydata.validate()
 
 # BAD
-    exit()
-
     print()
     print("---------")
     print("BAD CASES")
