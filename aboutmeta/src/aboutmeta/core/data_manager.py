@@ -29,6 +29,18 @@ class DataPB:
 #
 #     :action: XXXX
 ###
+    def what(
+        self,
+        text: str,
+    ):
+        self.__what = text
+
+###
+# prototype::
+#     text : XXXX
+#
+#     :action: XXXX
+###
     def _added_prefix(
         self,
         text: str,
@@ -41,7 +53,7 @@ class DataPB:
 #
 #     :action: XXXX
 ###
-    def msg(
+    def info(
         self,
         text: str,
     ):
@@ -55,11 +67,13 @@ class DataPB:
 #
 #     :action: XXXX
 ###
-    def what(
+    def critical(
         self,
         text: str,
     ):
-        self.__what = text
+        logging.critical(
+            self._added_prefix(text)
+        )
 
 ###
 # prototype::
@@ -67,12 +81,12 @@ class DataPB:
 #
 #     :action: XXXX
 ###
-    def failure(
+    def error(
         self,
         text: str,
     ):
-        logging.critical(
-            self._added_prefix(f"Process failure\n{text}")
+        logging.error(
+            self._added_prefix(text)
         )
 
 ###
@@ -87,20 +101,6 @@ class DataPB:
     ):
         logging.error(
             self._added_prefix(f"Exception catched\n{text}")
-        )
-
-###
-# prototype::
-#     text : XXXX
-#
-#     :action: XXXX
-###
-    def pb(
-        self,
-        text: str,
-    ):
-        logging.error(
-            self._added_prefix(f"Problem found\n{text}")
         )
 
 
@@ -160,10 +160,10 @@ if __name__ == "__main__":
     print(repr(mydata))
 
     mydata.data_pb.what("What I test")
-    mydata.data_pb.msg("My personal info")
+    mydata.data_pb.info("My personal info")
     mydata.data_pb.success()
 
-    mydata.data_pb.failure("Validation done has failed")
+    mydata.data_pb.critical("Validation done has failed")
     mydata.data_pb.pb("My problem")
 
     try:

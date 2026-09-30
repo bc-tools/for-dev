@@ -16,19 +16,21 @@ class URL(DataManager):
     ...
 
     def validate(self) -> None:
+        self._errors_found = []
+
         self._validate_DNS()
         self._validate_HTTP()
 
-        def _validate_DNS(self) -> None:
-            ...
+    def _validate_DNS(self) -> None:
+        ...
 
     def _validate_HTTP(self) -> None:
-        self.data_pb.what("HTTP STATUS")
+        self.data_pb.what("HTTP status")
 
         url = self.url
 
         try:
-            self.data_pb.msg(f"Checking {url}")
+            self.data_pb.info(f"Checking '{url}'")
 
             response = requests.head(
                 url,
@@ -37,15 +39,23 @@ class URL(DataManager):
             )
 
             if response.status_code < 400:
-                self.data_pb.success()
+                self.data_pb.info("OK: HTTP status validated.")
+
+                return
 
             else:
-                self.data_pb.failure(
-                    f"REQUESTS STATUS CODE: {response.status_code}."
-                )
+                msg = f"'{url}': Requests status code = {response.status_code}."
+
+                self.data_pb.error(msg)
+                self._errors_found.append(msg)
 
         except Exception as e:
-            self.data_pb.exception(e)
+            msg = f"'{url}': {e}"
+
+            self.data_pb.exception(msg)
+            self._errors_found.append(msg)
+
+        self.data_pb.info("KO: HTTP status unvalid.")
 
     ...
 ```

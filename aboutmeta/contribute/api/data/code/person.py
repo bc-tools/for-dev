@@ -149,6 +149,8 @@ class Person(DataManager):
 #           self._validate_affiliation
 ###
     def validate(self) -> None:
+        self._errors_found = []
+
         self._validate_email()
         self._validate_affiliation()
 
@@ -158,11 +160,11 @@ class Person(DataManager):
 #              validity.
 ###
     def _validate_email(self) -> None:
-        self.data_pb.what("EMAIL")
+        self.data_pb.what("email")
 
 # Nothing to do.
         if not self.email:
-            self.data_pb.msg(f"No email.")
+            self.data_pb.info(f"No email to check.")
 
             return
 
@@ -170,25 +172,30 @@ class Person(DataManager):
         email = self.email
 
         try:
-            self.data_pb.msg(f"Checking '{email}'")
+            self.data_pb.info(f"Checking '{email}'")
 
             validate_email(email)
 
+            self.data_pb.info("OK: Email validated.")
+
         except Exception as e:
-            self.data_pb.exception(
-                f"'{email}': {e}"
-            )
+            msg = f"'{email}': {e}"
+
+            self.data_pb.exception(msg)
+            self._errors_found.append(msg)
+
+            self.data_pb.info("KO: Email unvalid.")
 
 ###
 # prototype::
 #     :action: OpenStreetMap verifies the affiliation.
 ###
     def _validate_affiliation(self) -> None:
-        self.data_pb.what("AFFILIATION")
+        self.data_pb.what("affiliation")
 
 # Nothing to do.
         if not self.affiliation:
-            self.data_pb.msg(f"No affiliation.")
+            self.data_pb.info(f"No affiliation to check.")
 
             return
 
@@ -196,7 +203,7 @@ class Person(DataManager):
         affi = self.affiliation
 
         try:
-            self.data_pb.msg(f"Checking '{affi}'")
+            self.data_pb.info(f"Checking '{affi}'")
 
             response = requests.get(
                 "https://nominatim.openstreetmap.org/search",
@@ -210,15 +217,24 @@ class Person(DataManager):
                 }
             )
 
-            if not response.ok or len(response.json()) == 0:
-                self.data_pb.failure(
-                    "OPENSTREETMAP: nothing found."
-                )
+            if response.ok and len(response.json()) != 0:
+                self.data_pb.info("OK: Affiliation validated.")
+
+                return
+
+            else:
+                msg = f"'{affi}': Nothing found by OpenStreetMap."
+
+                self.data_pb.error(msg)
+                self._errors_found.append(msg)
 
         except Exception as e:
-            self.data_pb.exception(
-                f"'{affi}': {e}"
-            )
+            msg = f"'{affi}': {e}"
+
+            self.data_pb.exception(msg)
+            self._errors_found.append(msg)
+
+        self.data_pb.info("KO: Affiliation unvalid.")
 
 
 # ----------- #
@@ -291,3 +307,6 @@ if __name__ == "__main__":
     print()
     print(f"Validation process")
     mydata.validate()
+
+    for m in mydata._errors_found:
+        print(f"    > {m}")

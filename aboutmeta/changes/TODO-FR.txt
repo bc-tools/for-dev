@@ -5,6 +5,12 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+valodation échoue, on doit le savoir
+
+    --> on stocke les messages d'erreur dans une liste accessible via Python ne doublon du log
+
+> ---------------------------- <
+
 Tester les nouvelles données validés car cela implique la maj du core code !
 
     + person.py
