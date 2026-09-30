@@ -7,7 +7,7 @@ aboutmeta - TODO
 
 Tester les nouvelles données validés car cela implique la maj du core code !
 
-    + person.py   ??????
+    + person.py
 
     + lang.py     ????
     + license.py  ??

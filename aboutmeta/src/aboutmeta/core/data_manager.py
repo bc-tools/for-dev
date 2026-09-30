@@ -3,13 +3,19 @@
 from aboutmeta.core.log_conf import *
 
 from dataclasses import dataclass
-from pathlib     import Path
 
 
 # -------------------------- #
 # -- DATA PB COMMUNICATOR -- #
 # -------------------------- #
 
+###
+# prototype::
+#     dataname : XXXX
+#
+#
+# LLLLL
+###
 class DataPB:
     def __init__(
         self,
@@ -120,19 +126,21 @@ class DataPB:
 #     data_pb  : XXXX class MyData(DataManager) --> attribute data_pb is equal to DataPB('MyData')
 ###
 class DataManager:
-    yaml_val: str
-    data_pb : DataPB
 
+###
+# XXXX
+###
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            self.__setattr__(k, v)
 ###
 # We make the class instance immutable and initiate its DataPB
 # instance.
 ###
     def __init_subclass__(cls, **kwargs):
-        super().__init_subclass__(**kwargs)
-
         cls.data_pb = DataPB(cls.__name__)
 
-        dataclass(frozen=True)(cls)
+        dataclass()(cls)
 
 ###
 # The magic method ''__str__'' should just display the string
@@ -150,16 +158,15 @@ if __name__ == "__main__":
     setup_logging()
 
     class MyData(DataManager):
-        foo: None
+        yaml_val: str
+        foo     : str
 
-# GOOD
-    print("----------")
-    print("GOOD CASES")
-    print("----------")
+    mydata = MyData(
+        yaml_val = '> OK',
+        foo      = 'OK',
+    )
 
-    mydata = MyData(foo = 'OK')
-
-    print(mydata.foo)
+    print(repr(mydata))
 
     mydata.data_pb.what("What I test")
     mydata.data_pb.msg("My personal info")
@@ -173,11 +180,3 @@ if __name__ == "__main__":
 
     except Exception as e:
         mydata.data_pb.exception(e)
-
-# BAD
-    print()
-    print("---------")
-    print("BAD CASES")
-    print("---------")
-
-    mydata.foo = "KO"

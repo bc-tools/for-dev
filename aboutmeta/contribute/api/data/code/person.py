@@ -29,9 +29,10 @@ from aboutmeta.tools.misc  import (
 #                   affiliation provided.
 ###
 class Person(DataManager):
+    yaml_val   : str
     surname    : str
     particle   : str        = ''
-    firstnames : list[str]  = []
+    firstnames : tuple[str] = tuple()
     email      : str        = ''
     affiliation: str        = ''
 
@@ -79,9 +80,11 @@ class Person(DataManager):
 ###
     def _normalize_titles(self) -> None:
 # First names.
-        self.firstnames = map(
-            self._normalize_name,
-            self.firstnames
+        self.firstnames = tuple(
+            map(
+                self._normalize_name,
+                self.firstnames
+            )
         )
 
 # Particle.
@@ -136,7 +139,7 @@ class Person(DataManager):
 ###
     def _normalize_affiliation(self) -> None:
         if self.affiliation:
-            self.affiliation = single_spaces(affiliation)
+            self.affiliation = single_spaces(self.affiliation)
 
 ###
 # prototype::
@@ -224,12 +227,21 @@ class Person(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
+    from aboutmeta.core.log_conf import *
+
+    setup_logging()
+
 # GOOD
     print("----------")
     print("GOOD CASES")
     print("----------")
 
     mydata = Person(
+        yaml_val    = (
+            "ALIce, MarIE  -  LiSe, "
+            "DE Charlène [support@OpenAI.CoM] "
+            "(Université   de   la Technologie,    France)"
+        ),
         firstnames  = ["ALIce", "MarIE  -  LiSe"],
         particle    = "DE",
         surname     = "Charlène",
@@ -237,23 +249,37 @@ if __name__ == "__main__":
         affiliation = "Université   de   la Technologie,    France"
     )
 
+    print()
     print("Original data")
     print(mydata)
 
+    print()
     print("Normalization")
     mydata.normalize()
-    print(mydata)
 
+    for n, v in vars(mydata).items():
+        if n == 'yaml_val':
+            continue
+
+        print(f"{n}: {v}")
+
+    print()
     print(f"Validation process")
     mydata.validate()
 
 # BAD
+    # exit()
+
     print()
     print("---------")
     print("BAD CASES")
     print("---------")
 
     mydata = Person(
+        yaml_val    = (
+            "A, B, C [support@openaicom] "
+            "(Université de la Techlogie, France)"
+        ),
         firstnames  = ["A", "B"],
         surname     = "C",
         email       = "support@openaicom",
@@ -263,5 +289,6 @@ if __name__ == "__main__":
     print("Original data")
     print(mydata)
 
+    print()
     print(f"Validation process")
     mydata.validate()

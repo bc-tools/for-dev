@@ -11,8 +11,9 @@ from aboutmeta.core.data_manager import DataManager
 # -------------------------- #
 
 class Biometric(DataManager):
-    height: float
-    weight: float
+    yaml_val: str    # Mandatory attribute
+    height  : float
+    weight  : float
 
 
 # ----------- #
@@ -27,11 +28,9 @@ if __name__ == "__main__":
 
 Here are the key points regarding attributes.
 
-  1. `DataManager` uses the `yaml_val` attribute to store a standard user-input data coming from an `about.yaml` file. In our case, this could be `"1m80, 80kg"`, converted to `1.8` and `80.0` by the parser to feed a `Biometric` instance.
+  1. `DataManager` needs the `yaml_val` attribute to store the user-input data coming from an `about.yaml` file. In our case, this could be `"1m80, 80kg"`, converted to `1.8` and `80.0` by the parser to feed a `Biometric` instance.
 
   1. `DataManager` exposes the `data_pb` attribute for validation information (see the `validate` method below).
-
-  1. `DataManager` is an abstract class that produces frozen classes using `@dataclass(frozen=True)`.
 
 
 > ***WARNING.*** *Never use the attributes `yaml_val` and `data_pb` to store data!*
