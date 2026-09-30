@@ -170,14 +170,14 @@ class Person(DataManager):
         email = self.email
 
         try:
-            self.data_pb.msg(f"Checking {email}")
+            self.data_pb.msg(f"Checking '{email}'")
 
             validate_email(email)
 
-            self.data_pb.success()
-
         except Exception as e:
-            self.data_pb.exception(e)
+            self.data_pb.exception(
+                f"'{email}': {e}"
+            )
 
 ###
 # prototype::
@@ -196,7 +196,7 @@ class Person(DataManager):
         affi = self.affiliation
 
         try:
-            self.data_pb.msg(f"Checking {affi}")
+            self.data_pb.msg(f"Checking '{affi}'")
 
             response = requests.get(
                 "https://nominatim.openstreetmap.org/search",
@@ -210,16 +210,15 @@ class Person(DataManager):
                 }
             )
 
-            if response.ok and len(response.json()) > 0:
-                self.data_pb.success()
-
-            else:
+            if not response.ok or len(response.json()) == 0:
                 self.data_pb.failure(
                     "OPENSTREETMAP: nothing found."
                 )
 
         except Exception as e:
-            self.data_pb.exception(e)
+            self.data_pb.exception(
+                f"'{affi}': {e}"
+            )
 
 
 # ----------- #

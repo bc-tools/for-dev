@@ -33,7 +33,7 @@ class DataPB:
         self,
         text: str,
     ):
-        return f"[{self.dataname}] {text}"
+        return f"[{self.dataname} - {self.__what}] {text}"
 
 ###
 # prototype::
@@ -45,7 +45,9 @@ class DataPB:
         self,
         text: str,
     ):
-        logging.info(text)
+        logging.info(
+            self._added_prefix(text)
+        )
 
 ###
 # prototype::
@@ -57,18 +59,7 @@ class DataPB:
         self,
         text: str,
     ):
-        self.msg(
-            self._added_prefix(text)
-        )
-
-###
-# prototype::
-#     :action: XXXX
-###
-    def success(self):
-        logging.info(
-            self._added_prefix("Sucessfull process")
-        )
+        self.__what = text
 
 ###
 # prototype::
