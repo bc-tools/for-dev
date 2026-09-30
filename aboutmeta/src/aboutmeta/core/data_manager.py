@@ -117,8 +117,7 @@ class DataPB:
 #                version of the data in the path::''about.yaml''
 #                file. This attribute is also used for basing
 #                printing.
-#     data_pb : XXXX
-#     YYY : XXXX
+#     data_pb  : XXXX class MyData(DataManager) --> attribute data_pb is equal to DataPB('MyData')
 ###
 class DataManager:
     yaml_val: str
@@ -162,13 +161,18 @@ if __name__ == "__main__":
 
     print(mydata.foo)
 
-    mydata.data_pb.what("what")
-    mydata.data_pb.msg("msg")
+    mydata.data_pb.what("What I test")
+    mydata.data_pb.msg("My personal info")
     mydata.data_pb.success()
 
-    mydata.data_pb.failure("fail")
-    mydata.data_pb.pb("pb")
-    mydata.data_pb.exception("e")
+    mydata.data_pb.failure("Validation done has failed")
+    mydata.data_pb.pb("My problem")
+
+    try:
+        1/0
+
+    except Exception as e:
+        mydata.data_pb.exception(e)
 
 # BAD
     print()
