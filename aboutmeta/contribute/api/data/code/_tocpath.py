@@ -23,6 +23,7 @@ from aboutmeta.core.data_manager import DataManager
 ###
 @dataclass(frozen = True)
 class TOCPath(DataManager):
+    yaml_val  : str
     postsearch: Path | None
     paths     : list[Path]
 

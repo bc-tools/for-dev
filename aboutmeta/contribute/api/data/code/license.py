@@ -22,6 +22,7 @@ from aboutmeta.tool.web          import get_text_from
 #                  the license.
 ###
 class License(DataManager):
+    yaml_val  : str
     identifier: str
     name      : str
     url       : str

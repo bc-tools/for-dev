@@ -13,10 +13,11 @@ valodation échoue, on doit le savoir
 
 Tester les nouvelles données validés car cela implique la maj du core code !
 
-    + person.py
+    + person.py   OK!
+    + url.py      OK!
 
     + lang.py     ????
-    + license.py  ??
+    + license.py  ??  --> méthode qui crée les sous donnés depuis l'identifier, logique dans la donnée et non le parser !!!
 
 
 
