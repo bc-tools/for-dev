@@ -18,6 +18,8 @@ from aboutmeta.tools.misc  import (
 
 ###
 # prototype::
+#     yaml_val    : the user-input data coming from an `about.yaml`
+#                   file.
 #     surname     : the surname without a particle is mandatory.
 #     particle    : the particle of a surname, or ''""'' if no
 #                   particle is needed.
@@ -143,7 +145,7 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     :action: email and affiliation checking.
+#     :action: email and affiliation validation.
 #
 #     :see: self._validate_email,
 #           self._validate_affiliation
@@ -156,8 +158,8 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     :action: ''email_validator.validate_email'' checks the email
-#              validity.
+#     :action: ''email_validator.validate_email'' checks
+#              the email validity.
 ###
     def _validate_email(self) -> None:
         self.data_pb.what("email")
@@ -187,7 +189,8 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     :action: OpenStreetMap verifies the affiliation.
+#     :action: OpenStreetMap is used to verify the existence
+#              of the affiliation.
 ###
     def _validate_affiliation(self) -> None:
         self.data_pb.what("affiliation")

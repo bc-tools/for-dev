@@ -13,12 +13,23 @@ from dataclasses import dataclass
 
 ###
 # prototype::
-#     dataname : XXXX
+#     log_levels : XXXX
+#
+#     :return:
 #
 #
 # LLLLL
 ###
 def add_log_methods(*log_levels: str) -> callable:
+###
+# prototype::
+#     cls : XXXX
+#
+#     :return:
+#
+#
+# LLLLL
+###
     def decorator(cls: object) -> object:
         for one_log_level in log_levels:
             one_log_method = getattr(
@@ -26,6 +37,15 @@ def add_log_methods(*log_levels: str) -> callable:
                 one_log_level
             )
 
+###
+# prototype::
+#     fn : XXXX
+#
+#     :return:
+#
+#
+# LLLLL
+###
             def _make_logger(fn: callable) -> callable:
                 @wraps(fn)
                 def method(self, text: str) -> None:
@@ -81,7 +101,7 @@ class DataPB:
 
 ###
 # prototype::
-#     text : XXXX
+#     what : XXXX
 #
 #     :action: XXXX
 ###
@@ -105,7 +125,9 @@ class DataPB:
 
 ###
 # prototype::
-#     text : XXXX
+#     data_inst :
+#     data_attr :
+#     error_msg :
 #
 #     :action: XXXX
 ###
@@ -122,9 +144,9 @@ class DataPB:
 
 ###
 # prototype::
-#     text : XXXX
-#
-#     :action: XXXX
+#     data_inst  :
+#     data_attr  :
+#     _exception :
 ###
     def new_exception(
         self,
@@ -139,7 +161,7 @@ class DataPB:
 
 ###
 # prototype::
-#     text : XXXX
+#     data : XXXX
 #
 #     :action: XXXX
 ###
@@ -151,16 +173,15 @@ class DataPB:
 
 ###
 # prototype::
-#     text : XXXX
-#
 #     :action: XXXX
 ###
-    def no_checking(self):
+    def no_check(self):
         self.info("Nothing to check.")
 
 ###
 # prototype::
-#     text : XXXX
+#     validated : XXXX
+#     data      : XXXX
 #
 #     :action: XXXX
 ###
@@ -181,9 +202,11 @@ class DataPB:
 
 ###
 # prototype::
-#     text : XXXX
+#     data : XXXX
 #
 #     :action: XXXX
+#
+#     :see: self._conclusion
 ###
     def rejected(
         self,
@@ -196,9 +219,11 @@ class DataPB:
 
 ###
 # prototype::
-#     text : XXXX
+#     data : XXXX
 #
 #     :action: XXXX
+#
+#     :see: self._conclusion
 ###
     def validated(
         self,
@@ -215,33 +240,40 @@ class DataPB:
 # ---------------------------- #
 
 ###
-# prototype::
-#     yaml_val : this attribute will be used to store a "standard"
-#                version of the data in the path::''about.yaml''
-#                file. This attribute is also used for basing
-#                printing.
-#     data_pb  : XXXX class MyData(DataManager) --> attribute data_pb is equal to DataPB('MyData')
+# note::
+#     This class instances must have the following attributes.
+#
+#         1) The `yaml_val` attribute stores the user-input data
+#         coming from an `about.yaml` file.
+#
+#         1) The `data_pb` attribute must be used for validation
+#         processes.
 ###
 class DataManager:
 
 ###
-# XXXX
+# prototype::
+#     :action: initializing all attributes.
 ###
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
             self.__setattr__(k, v)
+
 ###
-# We make the class instance immutable and initiate its DataPB
-# instance.
+# We initiate its ''DataPB'' instance and make the class
+# instance immutable.
 ###
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(
+        cls,
+        **kwargs
+    ):
         cls.data_pb = DataPB(cls.__name__)
 
         dataclass()(cls)
 
 ###
-# The magic method ''__str__'' should just display the string
-# attribute ''yaml_val''.
+# The magic method ''__str__'' just displays the string
+# ''yaml_val'' attribute.
 ###
     def __str__(self) -> str:
         return self.yaml_val
@@ -269,8 +301,15 @@ if __name__ == "__main__":
 
     mydata.data_pb.start(mydata)
 
-    mydata.data_pb.what("What I test")
+    mydata.data_pb.what("Test 0")
+    mydata.data_pb.no_check()
+
+    mydata.data_pb.what("Test 1")
+    mydata.data_pb.checking('something good')
     mydata.data_pb.info("My personal info")
+    mydata.data_pb.validated('something good')
+
+    mydata.data_pb.what("Test 2")
     mydata.data_pb.critical("Validation done has failed")
     mydata.data_pb.error("My problem")
 
@@ -283,5 +322,7 @@ if __name__ == "__main__":
             data_attr  = 'foo',
             _exception = e,
         )
+
+    mydata.data_pb.rejected('something bad')
 
     pprint(mydata._errors_found)

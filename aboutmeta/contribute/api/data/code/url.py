@@ -18,7 +18,9 @@ from aboutmeta.core.data_manager import DataManager
 
 ###
 # prototype::
-#     url : a URL.
+#     yaml_val : the user-input data coming from an `about.yaml`
+#                file.
+#     url      : a URL.
 ###
 class URL(DataManager):
     yaml_val: str
@@ -26,7 +28,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: a standard URL is build.
+#     :action: a standard URL is built.
 #
 #
 # Here are the normalizations done.
@@ -54,7 +56,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: URL check using DNS and HTTP technics.
+#     :action: URL validation using DNS and HTTP technics.
 ###
     def validate(self) -> None:
         self.data_pb.start(self)

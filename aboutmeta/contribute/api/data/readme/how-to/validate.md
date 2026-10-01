@@ -1,6 +1,6 @@
 ### Validate data
 
-The special zero-argument `validate` method is for data validation. It must use the `data_pb` attribute, as shown in the following partial example. Notice the use of the conveniently named methods `what`, `no_checking`, `checking`, `validated`, `rejected`, `new_error` and `new_exception`.
+The special zero-argument `validate` method handles data validation using the `data_pb` attribute, as demonstrated in the partial example below. Note the use of conveniently named helper methods `start`, `what`, `checking` (along with `no_check`), `validated`, `rejected`, `new_error`, and `new_exception`.
 
 ```python
 # Extract of URL class code.
