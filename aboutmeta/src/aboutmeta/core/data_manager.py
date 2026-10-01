@@ -18,17 +18,17 @@ from dataclasses import dataclass
 #
 # LLLLL
 ###
-def add_log_methods(*log_levels: list[str]) -> None:
-    def decorator(cls):
+def add_log_methods(*log_levels: str) -> callable:
+    def decorator(cls: object) -> object:
         for one_log_level in log_levels:
             one_log_method = getattr(
                 logging,
                 one_log_level
             )
 
-            def _make_logger(fn):
+            def _make_logger(fn: callable) -> callable:
                 @wraps(fn)
-                def method(self, text: str):
+                def method(self, text: str) -> None:
                     message = self._with_prefix(text)
 
                     fn(message)
