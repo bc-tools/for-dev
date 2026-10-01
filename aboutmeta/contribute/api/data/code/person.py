@@ -164,7 +164,7 @@ class Person(DataManager):
 
 # Nothing to do.
         if not self.email:
-            self.data_pb.info(f"No email to check.")
+            self.data_pb.no_checking()
 
             return
 
@@ -172,19 +172,16 @@ class Person(DataManager):
         email = self.email
 
         try:
-            self.data_pb.info(f"Checking '{email}'")
-
+            self.data_pb.checking(email)
             validate_email(email)
-
-            self.data_pb.info("OK: Email validated.")
+            self.data_pb.validated(email)
 
         except Exception as e:
             msg = f"'{email}': {e}"
 
             self.data_pb.exception(msg)
             self._errors_found.append(msg)
-
-            self.data_pb.info("KO: Email unvalid.")
+            self.data_pb.rejected(email)
 
 ###
 # prototype::
@@ -195,7 +192,7 @@ class Person(DataManager):
 
 # Nothing to do.
         if not self.affiliation:
-            self.data_pb.info(f"No affiliation to check.")
+            self.data_pb.no_checking()
 
             return
 
@@ -203,7 +200,7 @@ class Person(DataManager):
         affi = self.affiliation
 
         try:
-            self.data_pb.info(f"Checking '{affi}'")
+            self.data_pb.checking(affi)
 
             response = requests.get(
                 "https://nominatim.openstreetmap.org/search",
@@ -218,7 +215,7 @@ class Person(DataManager):
             )
 
             if response.ok and len(response.json()) != 0:
-                self.data_pb.info("OK: Affiliation validated.")
+                self.data_pb.validated(affi)
 
                 return
 
@@ -234,7 +231,7 @@ class Person(DataManager):
             self.data_pb.exception(msg)
             self._errors_found.append(msg)
 
-        self.data_pb.info("KO: Affiliation unvalid.")
+        self.data_pb.rejected(affi)
 
 
 # ----------- #
@@ -243,7 +240,6 @@ class Person(DataManager):
 
 if __name__ == "__main__":
     from aboutmeta.core.log_conf import *
-
     setup_logging()
 
 # GOOD
@@ -263,6 +259,10 @@ if __name__ == "__main__":
         email       = "support@OpenAI.CoM",
         affiliation = "Université   de   la Technologie,    France"
     )
+
+    print()
+    print("'repr' form")
+    print(repr(mydata))
 
     print()
     print("Original data")

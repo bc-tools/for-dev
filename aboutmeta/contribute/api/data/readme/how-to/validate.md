@@ -1,6 +1,13 @@
 ### Validate data
 
-The special zero-argument `validate` method is for data validation. It must use the `data_pb` attribute, as shown in the following partial example. Notice the use of the conveniently named methods `what`, `msg`, `success`, `failure`, and `exception`.
+The special zero-argument `validate` method is for data validation. It must use the `data_pb` attribute, as shown in the following partial example.
+
+
+
+XXX
+
+
+Notice the use of the conveniently named methods `what`, `msg`, `success`, `failure`, and `exception`.
 
 ```python
 # Extract of URL class code.

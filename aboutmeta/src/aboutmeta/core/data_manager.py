@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from functools import wraps
+
 from aboutmeta.core.log_conf import *
 
 from dataclasses import dataclass
@@ -9,6 +11,27 @@ from dataclasses import dataclass
 # -- DATA PB COMMUNICATOR -- #
 # -------------------------- #
 
+def log_methods(*levels: str):
+    def decorator(cls):
+        for level in levels:
+            level_lower = level.lower()
+            log_func = getattr(logging, level_lower, None)
+
+            if not callable(log_func):
+                continue
+
+            def _make_logger(fn):
+                @wraps(fn)
+                def method(self, text: str):
+                    message = self._with_prefix(text)
+                    fn(message)
+                return method
+
+            setattr(cls, level_lower, _make_logger(log_func))
+        return cls
+    return decorator
+
+
 ###
 # prototype::
 #     dataname : XXXX
@@ -16,12 +39,14 @@ from dataclasses import dataclass
 #
 # LLLLL
 ###
+@log_methods("info", "warning", "critical", "error", "debug")
 class DataPB:
     def __init__(
         self,
         dataname: str,
     ):
         self.dataname = dataname
+
 
 ###
 # prototype::
@@ -41,7 +66,7 @@ class DataPB:
 #
 #     :action: XXXX
 ###
-    def _added_prefix(
+    def _with_prefix(
         self,
         text: str,
     ):
@@ -53,55 +78,61 @@ class DataPB:
 #
 #     :action: XXXX
 ###
-    def info(
-        self,
-        text: str,
-    ):
-        logging.info(
-            self._added_prefix(text)
-        )
-
-###
-# prototype::
-#     text : XXXX
-#
-#     :action: XXXX
-###
-    def critical(
-        self,
-        text: str,
-    ):
-        logging.critical(
-            self._added_prefix(text)
-        )
-
-###
-# prototype::
-#     text : XXXX
-#
-#     :action: XXXX
-###
-    def error(
-        self,
-        text: str,
-    ):
-        logging.error(
-            self._added_prefix(text)
-        )
-
-###
-# prototype::
-#     text : XXXX
-#
-#     :action: XXXX
-###
     def exception(
         self,
         text: str,
     ):
-        logging.error(
-            self._added_prefix(f"Exception catched\n{text}")
+        self.error(f"Exception catched\n{text}")
+
+    def checking(
+        self,
+        data     : object
+    ):
+        self.info(f"Checking '{data}'")
+
+
+    def no_checking(self):
+        self.info("Nothing to check.")
+
+
+
+    def _conclusion(
+        self,
+        validated: bool,
+        data     : object
+    ):
+        if validated:
+            status = "OK"
+            desc   = "validated"
+
+        else:
+            status = "KO"
+            desc   = "rejected"
+
+        self.info(f"{status}\n'{data}' {desc}.")
+
+
+    def rejected(
+        self,
+        data: object
+    ):
+        self._conclusion(
+            validated = False,
+            data      = data
         )
+
+
+    def validated(
+        self,
+        data: object
+    ):
+        self._conclusion(
+            validated = True,
+            data      = data
+        )
+
+
+
 
 
 # ---------------------------- #
@@ -161,10 +192,8 @@ if __name__ == "__main__":
 
     mydata.data_pb.what("What I test")
     mydata.data_pb.info("My personal info")
-    mydata.data_pb.success()
-
     mydata.data_pb.critical("Validation done has failed")
-    mydata.data_pb.pb("My problem")
+    mydata.data_pb.error("My problem")
 
     try:
         1/0
