@@ -1,17 +1,10 @@
 ### Validate data
 
-The special zero-argument `validate` method is for data validation. It must use the `data_pb` attribute, as shown in the following partial example.
-
-
-
-XXX
-
-
-Notice the use of the conveniently named methods `what`, `msg`, `success`, `failure`, and `exception`.
+The special zero-argument `validate` method is for data validation. It must use the `data_pb` attribute, as shown in the following partial example. Notice the use of the conveniently named methods `what`, `no_checking`, `checking`, `validated`, `rejected`, `new_error` and `new_exception`.
 
 ```python
 # Extract of URL class code.
-# Version 2026-09-26
+# Version 2026-10-01
 
 import requests
 
@@ -23,7 +16,7 @@ class URL(DataManager):
     ...
 
     def validate(self) -> None:
-        self._errors_found = []
+        self.data_pb.start(self)
 
         self._validate_DNS()
         self._validate_HTTP()
@@ -37,7 +30,7 @@ class URL(DataManager):
         url = self.url
 
         try:
-            self.data_pb.info(f"Checking '{url}'")
+            self.data_pb.checking(url)
 
             response = requests.head(
                 url,
@@ -46,24 +39,25 @@ class URL(DataManager):
             )
 
             if response.status_code < 400:
-                self.data_pb.info("OK: HTTP status validated.")
+                self.data_pb.validated(url)
 
                 return
 
             else:
-                msg = f"'{url}': Requests status code = {response.status_code}."
-
-                self.data_pb.error(msg)
-                self._errors_found.append(msg)
+                self.data_pb.new_error(
+                    data_inst = self,
+                    data_attr = url,
+                    error_msg = f"Requests status code = {response.status_code}.",
+                )
 
         except Exception as e:
-            msg = f"'{url}': {e}"
+            self.data_pb.new_exception(
+                data_inst  = self,
+                data_attr  = url,
+                _exception = e,
+            )
 
-            self.data_pb.exception(msg)
-            self._errors_found.append(msg)
-
-        self.data_pb.info("KO: HTTP status unvalid.")
-
+        self.data_pb.rejected(url)
     ...
 ```
 

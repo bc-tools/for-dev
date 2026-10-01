@@ -57,7 +57,7 @@ class URL(DataManager):
 #     :action: URL check using DNS and HTTP technics.
 ###
     def validate(self) -> None:
-        self._errors_found = []
+        self.data_pb.start(self)
 
         self._validate_DNS()
         self._validate_HTTP()
@@ -77,10 +77,11 @@ class URL(DataManager):
             hostname = urlparse(url).hostname
 
             if hostname is None:
-                msg = f"{url}: No hostname scheme supplied."
-
-                self.data_pb.error(msg)
-                self._errors_found.append(msg)
+                self.data_pb.new_error(
+                    data_inst = self,
+                    data_attr = url,
+                    error_msg = "No hostname scheme supplied.",
+                )
 
             else:
                 socket.gethostbyname(hostname)
@@ -90,13 +91,13 @@ class URL(DataManager):
                 return
 
         except Exception as e:
-            msg = f"'{url}': {e}"
-
-            self.data_pb.exception(msg)
-            self._errors_found.append(msg)
+            self.data_pb.new_exception(
+                data_inst  = self,
+                data_attr  = url,
+                _exception = e,
+            )
 
         self.data_pb.rejected(url)
-
 
 ###
 # prototype::
@@ -122,17 +123,18 @@ class URL(DataManager):
                 return
 
             else:
-                msg = f"'{url}': Requests status code = {response.status_code}."
-
-                self.data_pb.error(msg)
-                self._errors_found.append(msg)
-
+                self.data_pb.new_error(
+                    data_inst = self,
+                    data_attr = url,
+                    error_msg = f"Requests status code = {response.status_code}.",
+                )
 
         except Exception as e:
-            msg = f"'{url}': {e}"
-
-            self.data_pb.exception(msg)
-            self._errors_found.append(msg)
+            self.data_pb.new_exception(
+                data_inst  = self,
+                data_attr  = url,
+                _exception = e,
+            )
 
         self.data_pb.rejected(url)
 
@@ -168,8 +170,16 @@ if __name__ == "__main__":
         print()
         print("Normalization")
         mydata.normalize()
-        print(mydata)
+
+        for n, v in vars(mydata).items():
+            if n == 'yaml_val':
+                continue
+
+            print(f"{n}: {v}")
 
         print()
         print(f"Validation process")
         mydata.validate()
+
+        for m in mydata._errors_found:
+            print(f"    > {m}")
