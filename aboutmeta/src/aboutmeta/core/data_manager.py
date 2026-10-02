@@ -180,28 +180,6 @@ class DataPB:
 
 ###
 # prototype::
-#     validated : XXXX
-#     data      : XXXX
-#
-#     :action: XXXX
-###
-    def _conclusion(
-        self,
-        validated: bool,
-        data     : object
-    ):
-        if validated:
-            status = "OK"
-            desc   = "validated"
-
-        else:
-            status = "KO"
-            desc   = "rejected"
-
-        self.info(f"{status}\n'{data}' {desc}.")
-
-###
-# prototype::
 #     data : XXXX
 #
 #     :action: XXXX
@@ -213,8 +191,8 @@ class DataPB:
         data: object
     ):
         self._conclusion(
-            validated = False,
-            data      = data
+            data         = data,
+            is_validated = False,
         )
 
 ###
@@ -230,9 +208,31 @@ class DataPB:
         data: object
     ):
         self._conclusion(
-            validated = True,
-            data      = data
+            data         = data,
+            is_validated = True,
         )
+
+###
+# prototype::
+#     data         : XXXX
+#     is_validated : XXXX
+#
+#     :action: XXXX
+###
+    def _conclusion(
+        self,
+        data        : object,
+        is_validated: bool,
+    ):
+        if is_validated:
+            status = "OK"
+            desc   = "validated"
+
+        else:
+            status = "KO"
+            desc   = "rejected"
+
+        self.info(f"{status}\n'{data}' {desc}.")
 
 
 # ---------------------------- #
@@ -241,27 +241,32 @@ class DataPB:
 
 ###
 # note::
-#     This class instances must have the following attributes.
+#     The class instances must have the following attributes.
 #
-#         1) The `yaml_val` attribute stores the user-input data
+#         1) The ''yaml_val'' attribute stores the user-input data
 #         coming from an `about.yaml` file.
 #
-#         1) The `data_pb` attribute must be used for validation
-#         processes.
+#         1) The ''data_pb'' attribute must be used for validation
+#         process communications.
 ###
 class DataManager:
 
 ###
 # prototype::
-#     :action: initializing all attributes.
+#     :action: initializing all attributes according to subclass
+#              specifications.
 ###
-    def __init__(self, **kwargs):
+    def __init__(
+        self,
+        **kwargs
+    ):
         for k, v in kwargs.items():
             self.__setattr__(k, v)
 
 ###
-# We initiate its ''DataPB'' instance and make the class
-# instance immutable.
+# We initiate the ''data_pb'' attribute to use the name
+# of the subclass, and make the class a subclass of
+# ''dataclasses.dataclass''.
 ###
     def __init_subclass__(
         cls,
@@ -293,7 +298,7 @@ if __name__ == "__main__":
         foo     : str
 
     mydata = MyData(
-        yaml_val = '> OK',
+        yaml_val = '-> OK <-',
         foo      = 'OK',
     )
 
@@ -310,8 +315,8 @@ if __name__ == "__main__":
     mydata.data_pb.validated('something good')
 
     mydata.data_pb.what("Test 2")
-    mydata.data_pb.critical("Validation done has failed")
     mydata.data_pb.error("My problem")
+    mydata.data_pb.critical("Validation done has failed")
 
     try:
         1/0

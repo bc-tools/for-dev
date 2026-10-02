@@ -9,16 +9,10 @@ from aboutmeta.core.data_manager import DataManager
 
 ###
 # prototype::  A REVOIR
-#     short : the acronym
-#     full  : the full text
-#     parts : XXX  parties définissant l'acronyme, PB on fige trop le syst,donc on doit avoir une sosu classe pour gerer le type de texte
+#     XXX : YYYY
 ###
 class Acronym(DataManager):
     yaml_val: str
-
-    short: str
-    full : str
-    parts
 
 
 # ----------- #
