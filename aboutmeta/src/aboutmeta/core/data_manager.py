@@ -264,9 +264,8 @@ class DataManager:
             self.__setattr__(k, v)
 
 ###
-# We initiate the ''data_pb'' attribute to use the name
-# of the subclass, and make the class a subclass of
-# ''dataclasses.dataclass''.
+# We initiate the ''data_pb'' attribute to use the subclass name,
+# and make the class a subclass of ''dataclasses.dataclass''.
 ###
     def __init_subclass__(
         cls,
