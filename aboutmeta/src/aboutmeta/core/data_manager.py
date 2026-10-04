@@ -241,7 +241,7 @@ class DataPB:
 
 ###
 # note::
-#     The class instances must have the following attributes.
+#     ''DataManager'' instances must have the following attributes.
 #
 #         1) The ''yaml_val'' attribute stores the user-input data
 #         coming from an `about.yaml` file.
@@ -276,8 +276,8 @@ class DataManager:
         dataclass()(cls)
 
 ###
-# The magic method ''__str__'' just displays the string
-# ''yaml_val'' attribute.
+# The method ''__str__'' just displays the string ''yaml_val''
+# attribute.
 ###
     def __str__(self) -> str:
         return self.yaml_val
@@ -301,32 +301,34 @@ if __name__ == "__main__":
         foo      = 'OK',
     )
 
+    data_pb = mydata.data_pb
+
     print(repr(mydata))
 
-    mydata.data_pb.start(mydata)
+    data_pb.start(mydata)
 
-    mydata.data_pb.what("Test 0")
-    mydata.data_pb.no_check()
+    data_pb.what("Test 0")
+    data_pb.no_check()
 
-    mydata.data_pb.what("Test 1")
-    mydata.data_pb.checking('something good')
-    mydata.data_pb.info("My personal info")
-    mydata.data_pb.validated('something good')
+    data_pb.what("Test 1")
+    data_pb.checking('something good')
+    data_pb.info("My personal info")
+    data_pb.validated('something good')
 
-    mydata.data_pb.what("Test 2")
-    mydata.data_pb.error("My problem")
-    mydata.data_pb.critical("Validation done has failed")
+    data_pb.what("Test 2")
+    data_pb.error("My problem")
+    data_pb.critical("Validation done has failed")
 
     try:
         1/0
 
     except Exception as e:
-        mydata.data_pb.new_exception(
+        data_pb.new_exception(
             data_inst  = mydata,
             data_attr  = 'foo',
             _exception = e,
         )
 
-    mydata.data_pb.rejected('something bad')
+    data_pb.rejected('something bad')
 
     pprint(mydata._errors_found)
