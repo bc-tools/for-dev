@@ -25,7 +25,10 @@ def get_text_from(url: str) -> str:
             text = response.text
 
         elif response.status_code == 404:
-            raise FileNotFoundError(f"see URL (404 error):\n{url}")
+            raise FileNotFoundError(
+                f"404 error. "
+                f"See URL:\n{url}"
+            )
 
         else:
             raise RuntimeError(
