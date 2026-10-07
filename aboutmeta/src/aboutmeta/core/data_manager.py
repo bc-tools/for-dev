@@ -115,7 +115,7 @@ class DataPB:
 # prototype::
 #     text : XXXX
 #
-#     :action: XXXX
+#     :return: XXXX
 ###
     def _with_prefix(
         self,
@@ -147,6 +147,8 @@ class DataPB:
 #     data_inst  :
 #     data_attr  :
 #     _exception :
+#
+#     :action: XXXX
 ###
     def new_exception(
         self,
@@ -161,9 +163,9 @@ class DataPB:
 
 ###
 # prototype::
-#     data : XXXX
+#     data : data to check.
 #
-#     :action: XXXX
+#     :action: displaying text that indicates data is being checked.
 ###
     def checking(
         self,
@@ -173,16 +175,17 @@ class DataPB:
 
 ###
 # prototype::
-#     :action: XXXX
+#     :action: displaying text stating that nothing needs to be
+#              checked.
 ###
     def no_check(self):
         self.info("Nothing to check.")
 
 ###
 # prototype::
-#     data : XXXX
+#     data : data that has been rejected.
 #
-#     :action: XXXX
+#     :action: displaying text that indicates data rejection.
 #
 #     :see: self._conclusion
 ###
@@ -197,9 +200,9 @@ class DataPB:
 
 ###
 # prototype::
-#     data : XXXX
+#     data : data that has been validated.
 #
-#     :action: XXXX
+#     :action: displaying text that indicates data validation.
 #
 #     :see: self._conclusion
 ###
@@ -214,10 +217,12 @@ class DataPB:
 
 ###
 # prototype::
-#     data         : XXXX
-#     is_validated : XXXX
+#     data         : data that has been tested to be validated.
+#     is_validated : boolean indicating the validation or rejection
+#                    of the tested data.
 #
-#     :action: XXXX
+#     :action: displaying text that indicates data rejection or
+#              validation.
 ###
     def _conclusion(
         self,
@@ -225,12 +230,10 @@ class DataPB:
         is_validated: bool,
     ):
         if is_validated:
-            status = "OK"
-            desc   = "validated"
+            status, desc = "OK", "validated"
 
         else:
-            status = "KO"
-            desc   = "rejected"
+            status, desc = "KO", "rejected"
 
         self.info(f"{status}\n'{data}' {desc}.")
 
