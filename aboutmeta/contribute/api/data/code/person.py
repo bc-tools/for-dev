@@ -151,7 +151,7 @@ class Person(DataManager):
 #           self._validate_affiliation
 ###
     def validate(self) -> None:
-        self.data_pb.start(self)
+        self.data_pb.start()
 
         self._validate_email()
         self._validate_affiliation()
@@ -180,8 +180,7 @@ class Person(DataManager):
 
         except Exception as e:
             self.data_pb.new_exception(
-                data_inst  = self,
-                data_attr  = email,
+                data       = email,
                 _exception = e,
             )
 
@@ -226,15 +225,13 @@ class Person(DataManager):
 
             else:
                 self.data_pb.new_error(
-                    data_inst = self,
-                    data_attr = affi,
+                    data      = affi,
                     error_msg = "Nothing found by OpenStreetMap.",
                 )
 
         except Exception as e:
             self.data_pb.new_exception(
-                data_inst  = self,
-                data_attr  = affi,
+                data       = affi,
                 _exception = e,
             )
 

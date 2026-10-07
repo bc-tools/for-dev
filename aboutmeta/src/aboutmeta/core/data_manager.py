@@ -68,10 +68,11 @@ def add_log_methods(*log_levels: str) -> callable:
 
 ###
 # prototype::
-#     dataname : XXXX
+#     cls : XXXX
+#         @ ???? atttribut _errors_found obligé
 #
 #
-# LLLLL
+# LLLLL   possibilité et réserver _errors_found
 ###
 @add_log_methods(
     "info",
@@ -83,27 +84,23 @@ def add_log_methods(*log_levels: str) -> callable:
 class DataPB:
     def __init__(
         self,
-        dataname: str,
+        cls: object,
     ):
-        self.dataname = dataname
+        self.data_cls = cls
 
 ###
 # prototype::
-#     data_inst : XXXX
-#
-#     :action: XXXX
+#     :action: setting the ''errors_found'' attribute of
+#              ''self.data_cls'' to an empty list.
 ###
-    def start(
-        self,
-        data_inst: object,
-    ):
-        data_inst._errors_found = []
+    def start(self):
+       self.data_cls._errors_found = []
 
 ###
 # prototype::
-#     what : XXXX
+#     what : short text describing an ongoing process.
 #
-#     :action: XXXX
+#     :action: setting internal ''__what'' attribute to ''what''.
 ###
     def what(
         self,
@@ -113,42 +110,40 @@ class DataPB:
 
 ###
 # prototype::
-#     text : XXXX
+#     text : a message.
 #
-#     :return: XXXX
+#     :return: prefixed ''text'' value indicating in brackets the
+#              type of data being studied and the specific element
+#              under analysis.
 ###
     def _with_prefix(
         self,
         text: str,
     ):
-        return f"[{self.dataname} - {self.__what}] {text}"
+        return f"[{self.data_cls.__name__} - {self.__what}] {text}"
 
 ###
 # prototype::
-#     data_inst : :see: self._error_printed_stored
-#     data_attr : XXXX
+#     data      : XXXX
 #     error_msg : an error message.
 #
 #     :action: XXXX
 ###
     def new_error(
         self,
-        data_inst: object,
-        data_attr: object,
+        data     : object,
         error_msg: str,
     ):
-        msg = f"'{data_attr}': {error_msg}"
+        msg = f"'{data}': {error_msg}"
 
         self._error_printed_stored(
-            data_inst   = data_inst,
             msg_printed = msg,
             msg_stored  = msg,
         )
 
 ###
 # prototype::
-#     data_inst  : :see: self.new_error
-#     data_attr  : :see: self.new_error
+#     data       : :see: self.new_error
 #     _exception : exception caught by a validation or normalization
 #                  process.
 #
@@ -156,36 +151,32 @@ class DataPB:
 ###
     def new_exception(
         self,
-        data_inst : object,
-        data_attr : object,
+        data      : object,
         _exception: str,
     ):
-        msg = f"'{data_attr}': {_exception}"
+        msg = f"'{data}': {_exception}"
 
         self._error_printed_stored(
-            data_inst   = data_inst,
             msg_printed = f"Exception catched\n{msg}",
             msg_stored  = msg,
         )
 
 ###
 # prototype::
-#     data_inst   : a ''DataManager'' instance.
 #     msg_printed : an error logging message to be "printed".
 #     msg_stored  : an error to be stored in the attribute
-#                   ''data_inst._errors_found''.
+#                   ''data_cls._errors_found''.
 #
 #     :action: printing and storing error messages.
 ###
     def _error_printed_stored(
         self,
-        data_inst  : object,
         msg_printed: str,
         msg_stored : str,
     ):
         self.error(msg_printed)
 
-        data_inst._errors_found.append(msg_stored)
+        self.data_cls._errors_found.append(msg_stored)
 
 ###
 # prototype::
@@ -270,10 +261,10 @@ class DataPB:
 
 ###
 # note::
-#     ''DataManager'' instances must have the following attributes.
+#     ''DataManager'' instances always have the following attributes.
 #
 #         1) The ''yaml_val'' attribute stores the user-input data
-#         coming from an `about.yaml` file.
+#         coming from an path::''about.yaml'' file.
 #
 #         1) The ''data_pb'' attribute must be used for validation
 #         process communications.
@@ -281,26 +272,14 @@ class DataPB:
 class DataManager:
 
 ###
-# prototype::
-#     :action: initializing all attributes according to subclass
-#              specifications.
-###
-    def __init__(
-        self,
-        **kwargs
-    ):
-        for k, v in kwargs.items():
-            self.__setattr__(k, v)
-
-###
-# We initiate the ''data_pb'' attribute to use the subclass name,
-# and make the class a subclass of ''dataclasses.dataclass''.
+# We initiate the ''data_pb'' attribute with the actual class, and
+# make the class a subclass of ''dataclasses.dataclass''.
 ###
     def __init_subclass__(
         cls,
         **kwargs
     ):
-        cls.data_pb = DataPB(cls.__name__)
+        cls.data_pb = DataPB(cls)
 
         dataclass()(cls)
 
@@ -334,7 +313,7 @@ if __name__ == "__main__":
 
     print(repr(mydata))
 
-    data_pb.start(mydata)
+    data_pb.start()
 
     data_pb.what("Test 0")
     data_pb.no_check()
@@ -353,11 +332,17 @@ if __name__ == "__main__":
 
     except Exception as e:
         data_pb.new_exception(
-            data_inst  = mydata,
-            data_attr  = 'mydivision',
+            data       = 'mydivision',
             _exception = e,
         )
 
     data_pb.rejected('something bad')
+
+    pprint(mydata._errors_found)
+
+
+    data_pb.what("New data test")
+    data_pb.start()
+    data_pb.no_check()
 
     pprint(mydata._errors_found)

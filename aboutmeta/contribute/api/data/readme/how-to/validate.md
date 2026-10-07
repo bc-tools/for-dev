@@ -16,7 +16,7 @@ class URL(DataManager):
     ...
 
     def validate(self) -> None:
-        self.data_pb.start(self)
+        self.data_pb.start()
 
         self._validate_DNS()
         self._validate_HTTP()
@@ -45,14 +45,12 @@ class URL(DataManager):
 
             else:
                 self.data_pb.new_error(
-                    data_inst = self,
                     data_attr = url,
                     error_msg = f"Requests status code = {response.status_code}."
                 )
 
         except Exception as e:
             self.data_pb.new_exception(
-                data_inst  = self,
                 data_attr  = url,
                 _exception = e
             )

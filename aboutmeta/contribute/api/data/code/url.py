@@ -59,7 +59,7 @@ class URL(DataManager):
 #     :action: URL validation using DNS and HTTP technics.
 ###
     def validate(self) -> None:
-        self.data_pb.start(self)
+        self.data_pb.start()
 
         self._validate_DNS()
         self._validate_HTTP()
@@ -80,8 +80,7 @@ class URL(DataManager):
 
             if hostname is None:
                 self.data_pb.new_error(
-                    data_inst = self,
-                    data_attr = url,
+                    data      = url,
                     error_msg = "No hostname scheme supplied.",
                 )
 
@@ -94,8 +93,7 @@ class URL(DataManager):
 
         except Exception as e:
             self.data_pb.new_exception(
-                data_inst  = self,
-                data_attr  = url,
+                data       = url,
                 _exception = e,
             )
 
@@ -126,15 +124,13 @@ class URL(DataManager):
 
             else:
                 self.data_pb.new_error(
-                    data_inst = self,
-                    data_attr = url,
+                    data      = url,
                     error_msg = f"Requests status code = {response.status_code}.",
                 )
 
         except Exception as e:
             self.data_pb.new_exception(
-                data_inst  = self,
-                data_attr  = url,
+                data       = url,
                 _exception = e,
             )
 
