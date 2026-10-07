@@ -31,3 +31,21 @@ class BoxPlus(Box):
             val = getattr(val, oneattr)
 
         return val
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+    myboxplus = BoxPlus({
+        'a': {
+            'b': 3,
+            'c': {'d': 4}
+        }
+    })
+
+    print(myboxplus)
+
+    print(f'myboxplus.a.b.c.d    = {myboxplus.a.b}')
+    print(f'myboxplus("a.b.c.d") = {myboxplus("a.b")}')

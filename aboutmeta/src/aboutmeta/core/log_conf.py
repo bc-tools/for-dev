@@ -65,3 +65,29 @@ def setup_logging(no_color: bool = False) -> None:
             file_handler
         ],
     )
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+    for title, no_color in [
+        ('COLORFUL', False),
+        ('B & W'   , True),
+    ]:
+        print(f'-- {title} --')
+        print()
+
+        setup_logging(no_color)
+
+        for level in [
+            "info",
+            "warning",
+            "critical",
+            "error",
+        ]:
+            getattr(
+                logging,
+                level
+            )(f"Testing '{level}'")
