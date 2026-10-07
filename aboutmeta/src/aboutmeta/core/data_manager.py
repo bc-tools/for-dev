@@ -125,9 +125,9 @@ class DataPB:
 
 ###
 # prototype::
-#     data_inst :
-#     data_attr :
-#     error_msg :
+#     data_inst : :see: self._error_printed_stored
+#     data_attr : XXXX
+#     error_msg : an error message.
 #
 #     :action: XXXX
 ###
@@ -139,14 +139,18 @@ class DataPB:
     ):
         msg = f"'{data_attr}': {error_msg}"
 
-        self.error(msg)
-        data_inst._errors_found.append(msg)
+        self._error_printed_stored(
+            data_inst   = data_inst,
+            msg_printed = msg,
+            msg_stored  = msg,
+        )
 
 ###
 # prototype::
-#     data_inst  :
-#     data_attr  :
-#     _exception :
+#     data_inst  : :see: self.new_error
+#     data_attr  : :see: self.new_error
+#     _exception : exception caught by a validation or normalization
+#                  process.
 #
 #     :action: XXXX
 ###
@@ -158,8 +162,30 @@ class DataPB:
     ):
         msg = f"'{data_attr}': {_exception}"
 
-        self.error(f"Exception catched\n{msg}")
-        data_inst._errors_found.append(msg)
+        self._error_printed_stored(
+            data_inst   = data_inst,
+            msg_printed = f"Exception catched\n{msg}",
+            msg_stored  = msg,
+        )
+
+###
+# prototype::
+#     data_inst   : a ''DataManager'' instance.
+#     msg_printed : an error logging message to be "printed".
+#     msg_stored  : an error to be stored in the attribute
+#                   ''data_inst._errors_found''.
+#
+#     :action: printing and storing error messages.
+###
+    def _error_printed_stored(
+        self,
+        data_inst  : object,
+        msg_printed: str,
+        msg_stored : str,
+    ):
+        self.error(msg_printed)
+
+        data_inst._errors_found.append(msg_stored)
 
 ###
 # prototype::
@@ -169,7 +195,7 @@ class DataPB:
 ###
     def checking(
         self,
-        data     : object
+        data: object
     ):
         self.info(f"Checking '{data}'")
 
@@ -328,7 +354,7 @@ if __name__ == "__main__":
     except Exception as e:
         data_pb.new_exception(
             data_inst  = mydata,
-            data_attr  = 'foo',
+            data_attr  = 'mydivision',
             _exception = e,
         )
 
