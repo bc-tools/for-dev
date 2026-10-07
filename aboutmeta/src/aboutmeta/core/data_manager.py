@@ -49,7 +49,7 @@ def add_log_methods(*log_levels: str) -> callable:
             def _make_logger(fn: callable) -> callable:
                 @wraps(fn)
                 def method(self, text: str) -> None:
-                    message = self._with_prefix(text)
+                    message = self._prefixed(text)
 
                     fn(message)
 
@@ -116,7 +116,7 @@ class DataPB:
 #              type of data being studied and the specific element
 #              under analysis.
 ###
-    def _with_prefix(
+    def _prefixed(
         self,
         text: str,
     ):
@@ -128,6 +128,8 @@ class DataPB:
 #     error_msg : an error message.
 #
 #     :action: XXXX
+#
+#     :see: self._error_printed_stored
 ###
     def new_error(
         self,
