@@ -41,3 +41,11 @@ def get_text_from(url: str) -> str:
 
 # Success implies the return the text (and not the space cowboy).
     return text
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+    ...

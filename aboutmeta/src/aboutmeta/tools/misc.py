@@ -65,3 +65,11 @@ def no_space_around(
 ###
 def single_spaces(text: str) -> str:
     return no_space_around(text, " ")
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+    ...
