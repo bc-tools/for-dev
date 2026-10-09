@@ -15,7 +15,7 @@ from dataclasses import dataclass
 # prototype::
 #     log_levels : XXXX
 #
-#     :return:
+#     :return: XXXX
 #
 #
 # LLLLL
@@ -124,10 +124,12 @@ class DataPB:
 
 ###
 # prototype::
-#     data      : XXXX
-#     error_msg : an error message.
+#     data      : :see: self._error_printed_stored
+#     error_msg : :see: self._error_printed_stored
 #
-#     :action: XXXX
+#
+#     :action: printing and storing a message made with ''error_msg''
+#              and ''data''.
 #
 #     :see: self._error_printed_stored
 ###
@@ -136,49 +138,54 @@ class DataPB:
         data     : object,
         error_msg: str,
     ):
-        msg = f"'{data}': {error_msg}"
-
         self._error_printed_stored(
-            msg_printed = msg,
-            msg_stored  = msg,
+            data      = data,
+            error_msg = error_msg,
         )
 
 ###
 # prototype::
-#     data       : :see: self.new_error
+#     data       : :see: self._error_printed_stored
 #     _exception : exception caught by a validation or normalization
 #                  process.
 #
-#     :action: XXXX
+#     :action: printing and storing a message indicated the exception,
+#              its name and ''data''.
+#
+#     :see: self._error_printed_stored
 ###
     def new_exception(
         self,
         data      : object,
-        _exception: str,
+        _exception: Exception,
     ):
-        msg = f"'{data}': {_exception}"
-
         self._error_printed_stored(
-            msg_printed = f"Exception catched\n{msg}",
-            msg_stored  = msg,
+            data      = data,
+            prefix    = f"{type(_exception).__name__}: ",
+            error_msg = str(_exception),
         )
 
 ###
 # prototype::
-#     msg_printed : an error logging message to be "printed".
-#     msg_stored  : an error to be stored in the attribute
-#                   ''data_cls._errors_found''.
+#     data      : a data.
+#     error_msg : an error message.
+#     prefix    : an optional prefix to add before ''error_msg''.
 #
-#     :action: printing and storing error messages.
+#     :action: printing an error logging message and storing it in the
+#              attribute ''data_cls._errors_found''.
+#              The message is made by added ''prefix'', if not empty,
+#              and ''data'' before ''error_msg''.
 ###
     def _error_printed_stored(
         self,
-        msg_printed: str,
-        msg_stored : str,
+        data     : object,
+        error_msg: str,
+        prefix   : str = '',
     ):
-        self.error(msg_printed)
+        msg = f"{prefix}'{data}': {error_msg}"
 
-        self.data_cls._errors_found.append(msg_stored)
+        self.error(msg)
+        self.data_cls._errors_found.append(msg)
 
 ###
 # prototype::
@@ -315,17 +322,17 @@ if __name__ == "__main__":
 
     print(repr(mydata))
 
-    data_pb.start()
-
-    data_pb.what("Test 0")
-    data_pb.no_check()
 
     data_pb.what("Test 1")
+    data_pb.start()
     data_pb.checking('something good')
     data_pb.info("My personal info")
     data_pb.validated('something good')
 
+
     data_pb.what("Test 2")
+    data_pb.start()
+    data_pb.checking('something bad')
     data_pb.error("My problem")
     data_pb.critical("Validation done has failed")
 
@@ -338,13 +345,14 @@ if __name__ == "__main__":
             _exception = e,
         )
 
-    data_pb.rejected('something bad')
+    data_pb.rejected('Houston')
 
     pprint(mydata._errors_found)
 
 
     data_pb.what("New data test")
     data_pb.start()
+
     data_pb.no_check()
 
     pprint(mydata._errors_found)
