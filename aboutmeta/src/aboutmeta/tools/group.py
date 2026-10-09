@@ -291,7 +291,6 @@ if __name__ == "__main__":
             print(f"ParsingError: {e}")
 
 
-
     print()
     print("## gather_groups ##")
 

@@ -10,16 +10,16 @@
 #     text : a text
 #     part : a part of the text we don't want surrounded by spaces.
 #
-#     :return: the text after cleaning up the spaces around the
-#             ''part'' text.
+#     :return: the text stripped after cleaning up the spaces around
+#              the ''part'' text.
 #
 #
 # Here is a terminal session.
 #
 # pyterm::
 #     > from aboutmeta.tool.misc import no_space_around
-#     > no_space_around("A -B  -  C-   G", "-")
-#     'A-B-C-G'
+#     > no_space_around("A -B  -  C  D-   G", "-")
+#     'A-B-C  D-G'
 #     > no_space_around(" -  ABC   - ", "-")
 #     '-ABC-'
 #     > no_space_around("  A   B    C  ", " ")
@@ -72,4 +72,29 @@ def single_spaces(text: str) -> str:
 # ----------- #
 
 if __name__ == "__main__":
-    ...
+    print()
+    print("## no_space_around ##")
+
+    for txt, part in [
+        ("A -B  -  C  D-   G", "-"),
+        (" -  ABC   - ", "-"),
+        ("  A   B    C  ", " "),
+        ("", " "),
+    ]:
+        print()
+        print(f'{txt                        = }')
+        print(f'{part                       = }')
+        print(f'{no_space_around(txt, part) = }')
+
+
+    print()
+    print("## single_spaces ##")
+
+    for txt in [
+        "A   B    C",
+        "   A   B    C   ",
+        '',
+    ]:
+        print()
+        print(f'{txt                = }')
+        print(f'{single_spaces(txt) = }')
