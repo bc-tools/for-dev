@@ -45,13 +45,13 @@ class URL(DataManager):
 
             else:
                 self.data_pb.new_error(
-                    data_attr = url,
+                    data      = url,
                     error_msg = f"Requests status code = {response.status_code}."
                 )
 
         except Exception as e:
             self.data_pb.new_exception(
-                data_attr  = url,
+                data       = url,
                 _exception = e
             )
 
