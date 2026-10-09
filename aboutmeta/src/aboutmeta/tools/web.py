@@ -48,4 +48,14 @@ def get_text_from(url: str) -> str:
 # ----------- #
 
 if __name__ == "__main__":
-    ...
+    print()
+    print("## get_text_from ##")
+
+    for url in [
+        'https://httpbin.org/robots.txt',
+    ]:
+        print()
+        print(f'{url = }')
+        print('-'*12)
+        print(get_text_from(url))
+        print('-'*12)
