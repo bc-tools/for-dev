@@ -3,10 +3,7 @@
 from aboutmeta.core.constants    import *
 from aboutmeta.core.errors       import ParsingError
 from aboutmeta.specs.data.person import Person
-from aboutmeta.tools.group       import (
-    extract_group,
-    gather_groups
-)
+from aboutmeta.tools.group       import extract_group
 
 
 # ------------ #
@@ -52,29 +49,8 @@ def parse(data: str) -> Person:
         data_on_left = False
     )
 
-# It remains to build the standard version.
-    if particle is None:
-        std = f"{main_name}"
-
-    else:
-        std = f"{{{particle}}} {main_name}"
-
-    if firstnames:
-        firstnames = ', '.join(firstnames)
-        std        = f"{firstnames}, {std}"
-
-    std = gather_groups(
-        groups = [
-            std,
-            "" if email is None else email,
-            "" if affiliation is None else affiliation,
-        ],
-        delims = DELIMS_PERSON,
-    )
-
 # The job has been done.
     return Person(
-        yaml_val    = std,
         surname     = main_name,
         particle    = particle,
         firstnames  = firstnames,
@@ -88,21 +64,24 @@ def parse(data: str) -> Person:
 # ----------- #
 
 if __name__ == "__main__":
-# We just need some basic interface tests, because we have already
-# tested the ''Person'' class.
-
 # GOOD
     print("\n------------\n")
 
     print("-- GOOD CASES --")
 
-    print()
+    for str_data in [
+        "Someone",
+        "ALIce, MarIE-LiSe, Someone (My address)",
+        "Someone [e.mail@provided.by]",
+        "Someone [e.mail@provided.by] (My address)",
+        "ALIce,    MarIE-LiSe,   {DE}    Someone   [   e.mail@provided.by ]    (   My   address  )",
+    ]:
+        print()
 
-    str_data    = "ALIce,    MarIE-LiSe,   {DE}    Charlène   [   a.b.c@d.e ](fgh  )"
-    data_parsed = parse(str_data)
+        data_parsed = parse(str_data)
 
-    print(str_data)
-    print(repr(data_parsed))
+        print(f"{str_data = }")
+        print(repr(data_parsed))
 
 # BAD
     # exit()
@@ -111,13 +90,16 @@ if __name__ == "__main__":
 
     print("-- BAD CASES --")
 
-    print()
+    for str_data in [
+        "Someone (My address) [e.mail@provided.by]",
+        42,
+    ]:
+        print()
 
-    try:
-        str_data = 42
+        print(f"{str_data = }")
 
-        print(str_data)
-        parse(str_data)
+        try:
+            parse(str_data)
 
-    except Exception as e:
-        print(type(e).__name__, ':', e)
+        except Exception as e:
+            print(type(e).__name__, ':', e)

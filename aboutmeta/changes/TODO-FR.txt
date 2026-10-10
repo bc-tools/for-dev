@@ -3,6 +3,15 @@ aboutmeta - TODO
 =========
 
 
+
+> ---------------------------- <
+
+message pas bon dans ....
+
+str_data = 'Someone (My address) [e.mail@provided.by]'
+ParsingError : missing closing '')'' at the end for affiliation.
+
+
 > ---------------------------- <
 
 on vire yaml_val : cf date ou semver qui 'nont pas ce attribut !!!!
@@ -29,6 +38,34 @@ Eviter de passer trop de responsabilités aux parsers !!!  cf lang et license ou
 
 
 
+
+
+> ---------------------------- <
+
+fonction dédier aux yaml stdana-dard !!!!
+
+en plus de parse, on doit maintenant codé une focntion yamliify
+
+
+# It remains to build the standard version.
+    if particle is None:
+        std = f"{main_name}"
+
+    else:
+        std = f"{{{particle}}} {main_name}"
+
+    if firstnames:
+        firstnames = ', '.join(firstnames)
+        std        = f"{firstnames}, {std}"
+
+    std = gather_groups(
+        groups = [
+            std,
+            "" if email is None else email,
+            "" if affiliation is None else affiliation,
+        ],
+        delims = DELIMS_PERSON,
+    )
 
 
 > ---------------------------- <

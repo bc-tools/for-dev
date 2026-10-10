@@ -302,13 +302,6 @@ class DataManager:
 
         dataclass()(cls)
 
-###
-# The method ''__str__'' just displays the string ''yaml_val''
-# attribute.
-###
-    def __str__(self) -> str:
-        return self.yaml_val
-
 
 # ----------- #
 # -- TESTS -- #

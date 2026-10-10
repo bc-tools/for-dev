@@ -31,7 +31,6 @@ from aboutmeta.tools.misc  import (
 #                   affiliation provided.
 ###
 class Person(DataManager):
-    yaml_val   : str
     surname    : str
     particle   : str        = ''
     firstnames : tuple[str] = tuple()
@@ -252,11 +251,6 @@ if __name__ == "__main__":
     print("-- GOOD CASES --")
 
     mydata = Person(
-        yaml_val    = (
-            "ALIce, MarIE  -  LiSe, "
-            "DE Charlène [support@OpenAI.CoM] "
-            "(Université   de   la Technologie,    France)"
-        ),
         firstnames  = ["ALIce", "MarIE  -  LiSe"],
         particle    = "DE",
         surname     = "Charlène",
@@ -265,22 +259,15 @@ if __name__ == "__main__":
     )
 
     print()
-    print("'repr' form")
-    print(repr(mydata))
 
-    print()
     print("Original data")
     print(mydata)
 
     print()
+
     print("Normalization")
     mydata.normalize()
-
-    for n, v in vars(mydata).items():
-        if n == 'yaml_val':
-            continue
-
-        print(f"{n}: {v}")
+    print(mydata)
 
     print()
     print(f"Validation process")
@@ -294,10 +281,6 @@ if __name__ == "__main__":
     print("-- BAD CASES --")
 
     mydata = Person(
-        yaml_val    = (
-            "A, B, C [support@openaicom] "
-            "(Université de la Techlogie, France)"
-        ),
         firstnames  = ["A", "B"],
         surname     = "C",
         email       = "support@openaicom",

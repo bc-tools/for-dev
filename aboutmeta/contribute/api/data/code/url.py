@@ -18,13 +18,10 @@ from aboutmeta.core.data_manager import DataManager
 
 ###
 # prototype::
-#     yaml_val : the user-input data coming from an `about.yaml`
-#                file.
-#     url      : a URL.
+#     url: a URL.
 ###
 class URL(DataManager):
-    yaml_val: str
-    url     : str
+    url: str
 
 ###
 # prototype::
@@ -42,7 +39,7 @@ class URL(DataManager):
 #     becomes ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html''.
 ###
     def normalize(self) -> None:
-        parsed_url = urlparse(self.yaml_val)
+        parsed_url = urlparse(self.url)
 
         self.url = urlunparse((
             parsed_url.scheme,          # http, https
@@ -152,27 +149,16 @@ if __name__ == "__main__":
     ]:
         print("\n------------\n")
 
-        mydata = URL(
-            yaml_val = url,
-            url      = url
-        )
+        mydata = URL(url = url)
 
-        print("'repr' form")
-        print(repr(mydata))
-
-        print()
         print("Original data")
         print(mydata)
 
         print()
+
         print("Normalization")
         mydata.normalize()
-
-        for n, v in vars(mydata).items():
-            if n == 'yaml_val':
-                continue
-
-            print(f"{n}: {v}")
+        print(mydata)
 
         print()
         print(f"Validation process")
