@@ -3,7 +3,7 @@
 from aboutmeta.core.constants    import *
 from aboutmeta.core.errors       import ParsingError
 from aboutmeta.specs.data.person import Person
-from aboutmeta.tool.group        import (
+from aboutmeta.tools.group       import (
     extract_group,
     gather_groups
 )
@@ -46,10 +46,10 @@ def parse(data: str) -> Person:
 
 # Surname.
     main_name, particle = extract_group(
-        content   = titles[-1].strip(),
-        delims    = DELIMS_PARTICLE,
-        context   = "surname",
-        left_most = False
+        content      = titles[-1].strip(),
+        delims       = DELIMS_PARTICLE,
+        context      = "surname",
+        data_on_left = False
     )
 
 # It remains to build the standard version.
@@ -74,11 +74,12 @@ def parse(data: str) -> Person:
 
 # The job has been done.
     return Person(
-        std         = std,
+        yaml_val    = std,
+        surname     = main_name,
+        particle    = particle,
         firstnames  = firstnames,
-        surname     = (particle, main_name),
         email       = email,
-        affiliation = affiliation
+        affiliation = affiliation,
     )
 
 
@@ -87,34 +88,36 @@ def parse(data: str) -> Person:
 # ----------- #
 
 if __name__ == "__main__":
-# Working examples.
-    for someone in [
-        "ALIce,    MarIE-LiSe,   {DE}    Charlène   [   a.b.c@d.e ](fgh  )",
-        "A  ,  B   , C     [  a.b.c@d.e  ]    (  fgh  )",
-        "A,B,C[a.b.c@d.e]",
-        "A,B,C(fgh)",
-        "A,B,{von   }  C",
-        "A,B",
-        "{mac} A",
-    ]:
-        print(f'---\nPERSON: {someone}')
+# We just need some basic interface tests, because we have already
+# tested the ''Person'' class.
 
-        someone_data = parse(someone)
+# GOOD
+    print("\n------------\n")
 
-        print(someone_data)
-        print(f"someone_data = {someone_data!r}")
+    print("-- GOOD CASES --")
 
-# Corrupted data.
-    BAD = True
-    BAD = False
+    print()
 
-    if BAD:
-        someone = "ABC)"
-        someone = "AB(C"
-        someone = "AB](C)"
-        someone = "A[B(C)"
-        # someone = "A(B)[C]"
+    str_data    = "ALIce,    MarIE-LiSe,   {DE}    Charlène   [   a.b.c@d.e ](fgh  )"
+    data_parsed = parse(str_data)
 
-        print(f'---\nPERSON: {someone} --> CORRUPTED!\n---')
+    print(str_data)
+    print(repr(data_parsed))
 
-        parse(someone)
+# BAD
+    # exit()
+
+    print("\n------------\n")
+
+    print("-- BAD CASES --")
+
+    print()
+
+    try:
+        str_data = 42
+
+        print(str_data)
+        parse(str_data)
+
+    except Exception as e:
+        print(type(e).__name__, ':', e)

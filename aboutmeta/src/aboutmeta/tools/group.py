@@ -64,9 +64,9 @@ from aboutmeta.core.errors import ParsingError
 #    aboutmeta.core.errors.ParsingError: missing closing '']'' at the end for CTXT.KO4.
 ###
 def extract_group(
-    content  : str,
-    delims   : list[str],
-    context  : str,
+    content     : str,
+    delims      : list[str],
+    context     : str,
     data_on_left: bool = True
 ) -> tuple[str, str | None]:
 # Two delimiting characters?

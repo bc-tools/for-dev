@@ -26,9 +26,6 @@ def parse(data: str) -> URL:
         url      = data
     )
 
-# We must normalize the ''url'' attribute.
-    url_data.normalize()
-
     return url_data
 
 
@@ -45,10 +42,13 @@ if __name__ == "__main__":
 
     print("-- GOOD CASES --")
 
-    mydata_paresed = parse("HTTPS://QwAnT.com")
+    print()
 
-    print(repr(mydata_paresed))
-    print(f"{mydata_paresed.url = }")
+    str_data    = "HTTPS://QwAnT.com"
+    data_parsed = parse(str_data)
+
+    print(str_data)
+    print(repr(data_parsed))
 
 # BAD
     # exit()
@@ -57,8 +57,13 @@ if __name__ == "__main__":
 
     print("-- BAD CASES --")
 
+    print()
+
     try:
-        parse(42)
+        str_data = 42
+
+        print(str_data)
+        parse(str_data)
 
     except Exception as e:
         print(type(e).__name__, ':', e)

@@ -5,8 +5,10 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+on vire yaml_val : cf date ou semver qui 'nont pas ce attribut !!!!
 
 
+> ---------------------------- <
 
 valodation échoue, on doit le savoir
 
