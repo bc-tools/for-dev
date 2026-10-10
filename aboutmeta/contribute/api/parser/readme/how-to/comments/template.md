@@ -21,3 +21,6 @@ Here is a complete template that will be used to explain how to structure the co
 if __name__ == "__main__":
     ...
 ~~~
+
+
+> ***NOTE.*** *The `TOOLS` section is optional, contrary to the `TESTS` one.*

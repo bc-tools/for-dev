@@ -5,6 +5,9 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+
+
+
 valodation échoue, on doit le savoir
 
     --> on stocke les messages d'erreur dans une liste accessible via Python ne doublon du log
@@ -12,6 +15,8 @@ valodation échoue, on doit le savoir
 > ---------------------------- <
 
 Tester les nouvelles données validés car cela implique la maj du core code !
+
+Eviter de passer trop de responsabilités aux parsers !!!  cf lang et license ou l'on cdoe certaines choses côté data !
 
     + person.py   OK!
     + url.py      OK!
