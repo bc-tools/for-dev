@@ -76,7 +76,10 @@ if __name__ == "__main__":
         ('COLORFUL', False),
         ('B & W'   , True),
     ]:
+        print("\n------------\n")
+
         print(f'-- {title} --')
+
         print()
 
         setup_logging(no_color)

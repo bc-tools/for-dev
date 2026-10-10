@@ -23,9 +23,12 @@ from dataclasses import dataclass
 def add_log_methods(*log_levels: str) -> callable:
 ###
 # prototype::
-#     cls : XXXX
+#     cls : une classe.
 #
-#     :return:
+#     :return: XXXXX
+#     The ''add_log_methods'' decorator defines methods that invoke
+#     their corresponding ''logging'' ones, automatically prepending
+#     a text prefix (cf. ''self._prefixed'').
 #
 #
 # LLLLL
@@ -68,11 +71,18 @@ def add_log_methods(*log_levels: str) -> callable:
 
 ###
 # prototype::
-#     cls : XXXX
-#         @ ???? atttribut _errors_found obligé
+#     cls : this class is equal to the ''data_cls'' attribute which
+#           is used to update ''data_cls._errors_found'', a list of
+#           issues.
+#
+#     :see: self.new_error,
+#           self.new_exception
 #
 #
-# LLLLL   possibilité et réserver _errors_found
+# note::
+#     The ''add_log_methods'' decorator defines methods that invoke
+#     their corresponding ''logging'' ones, automatically prepending
+#     a text (cf. ''self._prefixed'').
 ###
 @add_log_methods(
     "info",
@@ -307,6 +317,8 @@ class DataManager:
 if __name__ == "__main__":
     from pprint import pprint
 
+    print("\n------------\n")
+
     setup_logging()
 
     class MyData(DataManager):
@@ -322,6 +334,7 @@ if __name__ == "__main__":
 
     print(repr(mydata))
 
+    print("\n------------\n")
 
     data_pb.what("Test 1")
     data_pb.start()
@@ -329,6 +342,7 @@ if __name__ == "__main__":
     data_pb.info("My personal info")
     data_pb.validated('something good')
 
+    print("\n------------\n")
 
     data_pb.what("Test 2")
     data_pb.start()
@@ -349,8 +363,9 @@ if __name__ == "__main__":
 
     pprint(mydata._errors_found)
 
+    print("\n------------\n")
 
-    data_pb.what("New data test")
+    data_pb.what("Test 3")
     data_pb.start()
 
     data_pb.no_check()

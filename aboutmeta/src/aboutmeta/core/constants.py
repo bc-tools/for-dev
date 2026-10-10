@@ -50,4 +50,9 @@ DELIMS_PARTICLE = TAG_YAML_PARTICLE_OPEN + TAG_YAML_PARTICLE_CLOSE
 # ----------- #
 
 if __name__ == "__main__":
-    print(f'TAG_TOC_PATTERN_ABBREV:\n{TAG_TOC_PATTERN_ABBREV}')
+    from pprint import pprint
+
+    print("\n------------\n")
+
+    print('TAG_TOC_PATTERN_ABBREV:')
+    pprint(TAG_TOC_PATTERN_ABBREV)

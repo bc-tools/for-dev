@@ -38,6 +38,8 @@ class BoxPlus(Box):
 # ----------- #
 
 if __name__ == "__main__":
+    print("\n------------\n")
+
     myboxplus = BoxPlus({
         'a': {
             'b': 3,

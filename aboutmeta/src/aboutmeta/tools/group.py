@@ -223,7 +223,8 @@ def gather_groups(
 # ----------- #
 
 if __name__ == "__main__":
-    print()
+    print("\n------------\n")
+
     print("## extract_group ##")
 
     for i, (txt, delims, data_on_left) in enumerate(
@@ -290,8 +291,8 @@ if __name__ == "__main__":
         except ParsingError as e:
             print(f"ParsingError: {e}")
 
+    print("\n------------\n")
 
-    print()
     print("## gather_groups ##")
 
     for i, (txtgps, delims) in enumerate(

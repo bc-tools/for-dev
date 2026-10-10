@@ -72,7 +72,8 @@ def single_spaces(text: str) -> str:
 # ----------- #
 
 if __name__ == "__main__":
-    print()
+    print("\n------------\n")
+
     print("## no_space_around ##")
 
     for txt, part in [
@@ -86,8 +87,8 @@ if __name__ == "__main__":
         print(f'{part                       = }')
         print(f'{no_space_around(txt, part) = }')
 
+    print("\n------------\n")
 
-    print()
     print("## single_spaces ##")
 
     for txt in [

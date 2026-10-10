@@ -48,7 +48,8 @@ def get_text_from(url: str) -> str:
 # ----------- #
 
 if __name__ == "__main__":
-    print()
+    print("\n------------\n")
+
     print("## get_text_from ##")
 
     for url in [
