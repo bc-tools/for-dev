@@ -247,9 +247,9 @@ if __name__ == "__main__":
     setup_logging()
 
 # GOOD
-    print("----------")
-    print("GOOD CASES")
-    print("----------")
+    print("\n------------\n")
+
+    print("-- GOOD CASES --")
 
     mydata = Person(
         yaml_val    = (
@@ -289,10 +289,9 @@ if __name__ == "__main__":
 # BAD
     # exit()
 
-    print()
-    print("---------")
-    print("BAD CASES")
-    print("---------")
+    print("\n------------\n")
+
+    print("-- BAD CASES --")
 
     mydata = Person(
         yaml_val    = (
@@ -304,6 +303,8 @@ if __name__ == "__main__":
         email       = "support@openaicom",
         affiliation = "Université de la Techlogie, France"
     )
+
+    print()
 
     print("Original data")
     print(mydata)

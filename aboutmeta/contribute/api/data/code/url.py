@@ -150,14 +150,13 @@ if __name__ == "__main__":
         "qwant.com",
         "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html"
     ]:
-        print('---')
+        print("\n------------\n")
 
         mydata = URL(
             yaml_val = url,
             url      = url
         )
 
-        print()
         print("'repr' form")
         print(repr(mydata))
 
