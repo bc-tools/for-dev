@@ -28,8 +28,10 @@ def parse(data: str) -> datetime.date:
                 "Expected format: %Y-%m-%d means "
                 "something like '2025-03-02'."
             )
+
             e.add_note(
-                  "  %Y = 4-digit year"
+                  "Format used."
+                "\n  %Y = 4-digit year"
                 "\n  %m = 2-digit month"
                 "\n  %d = 2-digit day"
             )
@@ -44,33 +46,48 @@ def parse(data: str) -> datetime.date:
 # ----------- #
 
 if __name__ == "__main__":
-# Working examples.
+# GOOD
+    print("\n------------\n")
+
+    print("-- GOOD CASES --")
+
     for onedate in [
         "2025-06-27",
     ]:
         print()
-        print(f'--- ({onedate})')
 
         date_data = parse(onedate)
 
-        print(date_data)
-        print(f"date_data = {date_data!r}")
+        print(f'{onedate         = }')
+        print( f"repr(date_data) = {date_data!r}")
+        print(f"{date_data.year  = }")
+        print(f"{date_data.month = }")
+        print(f"{date_data.day   = }")
 
-        print(date_data.year)
-        print(date_data.month)
-        print(date_data.day)
 
-    print()
+# BAD
+    # exit()
 
-# Corrupted data.
-    BAD = True
-    BAD = False
+    print("\n------------\n")
 
-    if BAD:
-        onedate = "2.3"
-        # onedate = "2025-02-30"
-        # onedate = "2/3/2025"
+    print("-- BAD CASES --")
 
-        print(f'--- ({onedate}) --> CORRUPTED!')
+    for onedate in [
+        "2.3",
+        "2/3/2025",
+        "2025-02-30",
+    ]:
+        print()
 
-        parse(onedate)
+        print(f'{onedate = }')
+
+        try:
+            parse(onedate)
+
+        except Exception as e:
+            print(type(e).__name__, ':', e)
+
+            notes = getattr(e, "__notes__", [])
+
+            for i, n in enumerate(notes, start = 1):
+                print(f'[{i}]. {n}')
