@@ -13,25 +13,26 @@ from dataclasses import dataclass
 
 ###
 # prototype::
-#     log_levels : XXXX
+#     log_levels : ''logging'' level names
+#                @ log_levels in [
+#                      'info',
+#                      'warning',
+#                      'critical',
+#                      'error',
+#                      'debug',
+#                  ]
 #
-#     :return: XXXX
-#
-#
-# LLLLL
+#     :return: a class decorator function used to inject logging
+#              methods into a class.
 ###
 def add_log_methods(*log_levels: str) -> callable:
 ###
 # prototype::
-#     cls : une classe.
+#     cls : the target class to be decorated.
 #
-#     :return: XXXXX
-#     The ''add_log_methods'' decorator defines methods that invoke
-#     their corresponding ''logging'' ones, automatically prepending
-#     a text prefix (cf. ''self._prefixed'').
-#
-#
-# LLLLL
+#     :return: the decorated class with injected ''logging'' methods
+#              that automatically prepend a text prefix using the
+#              ''cls._prefixed'' method.
 ###
     def decorator(cls: object) -> object:
         for one_log_level in log_levels:
@@ -42,12 +43,11 @@ def add_log_methods(*log_levels: str) -> callable:
 
 ###
 # prototype::
-#     fn : XXXX
+#     fn : the underlying ''logging'' function to be wrapped.
 #
-#     :return:
-#
-#
-# LLLLL
+#     :return: a method wrapper that prefixes the ''logging'' message,
+#              using the ''cls._prefixed'' method, and then executes
+#              the 'logging' call.
 ###
             def _make_logger(fn: callable) -> callable:
                 @wraps(fn)
