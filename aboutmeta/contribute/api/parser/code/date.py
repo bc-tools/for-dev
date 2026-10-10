@@ -41,48 +41,72 @@ def parse(data: str) -> datetime.date:
     return date
 
 
+# ------------ #
+# -- WRITER -- #
+# ------------ #
+
+###
+# prototype::
+#     data : a `datetime.date` data.
+#
+#     :return: the standard `YAML` version of the `datetime.date` data using the fomat `%Y-%m-%d`.
+###
+def write(data: datetime.date) -> str:
+    return data.strftime('%Y-%m-%d')
+
+
 # ----------- #
 # -- TESTS -- #
 # ----------- #
 
 if __name__ == "__main__":
 # GOOD
-    print("\n------------\n")
-
+    print()
     print("-- GOOD CASES --")
 
-    for onedate in [
+    for str_data in [
         "2025-06-27",
     ]:
+        data_parsed = parse(str_data)
+
+        print()
+        print('~~~')
         print()
 
-        date_data = parse(onedate)
+        print(f'{str_data = }')
 
-        print(f'{onedate         = }')
-        print( f"repr(date_data) = {date_data!r}")
-        print(f"{date_data.year  = }")
-        print(f"{date_data.month = }")
-        print(f"{date_data.day   = }")
+
+        print()
+        print( f"repr(data_parsed) = {data_parsed!r}")
+        print(f"{data_parsed.year  = }")
+        print(f"{data_parsed.month = }")
+        print(f"{data_parsed.day   = }")
+
+        std_yaml_data = write(data_parsed)
+
+        print()
+        print(f"{std_yaml_data = }")
 
 
 # BAD
     # exit()
 
-    print("\n------------\n")
-
+    print()
     print("-- BAD CASES --")
 
-    for onedate in [
+    for str_data in [
         "2.3",
         "2/3/2025",
         "2025-02-30",
     ]:
         print()
+        print('~~~')
+        print()
 
-        print(f'{onedate = }')
+        print(f'{str_data = }')
 
         try:
-            parse(onedate)
+            parse(str_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)

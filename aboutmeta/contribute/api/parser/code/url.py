@@ -24,6 +24,20 @@ def parse(data: str) -> URL:
     return URL(url = data)
 
 
+# ------------ #
+# -- WRITER -- #
+# ------------ #
+
+###
+# prototype::
+#     data : a `URL` data.
+#
+#     :return: the standard `YAML` version of the `Person` data.
+###
+def write(data: URL) -> str:
+    return data.url
+
+
 # ----------- #
 # -- TESTS -- #
 # ----------- #
@@ -33,32 +47,39 @@ if __name__ == "__main__":
 # tested the ''URL'' class.
 
 # GOOD
-    print("\n------------\n")
-
-    print("-- GOOD CASES --")
-
     print()
+    print("-- GOOD CASES --")
 
     str_data    = "HTTPS://QwAnT.com"
     data_parsed = parse(str_data)
 
-    print(str_data)
+    print()
+    print('~~~')
+
+    print()
+    print(f"{str_data = }")
+
+    print()
     print(repr(data_parsed))
+
+    std_yaml_data = write(data_parsed)
+
+    print()
+    print(f"{std_yaml_data = }")
 
 # BAD
     # exit()
 
-    print("\n------------\n")
+    # print()
+    # print("-- BAD CASES --")
 
-    print("-- BAD CASES --")
+    # str_data = '42'
 
-    print()
+    # print()
+    # print(f"{str_data = }")
 
-    try:
-        str_data = 42
+    # try:
+    #     parse(str_data)
 
-        print(str_data)
-        parse(str_data)
-
-    except Exception as e:
-        print(type(e).__name__, ':', e)
+    # except Exception as e:
+    #     print(type(e).__name__, ':', e)

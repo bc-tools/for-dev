@@ -8,6 +8,18 @@ Here is a complete template that will be used to explain how to structure the co
 
 ...
 
+# ------------ #
+# -- PARSER -- #
+# ------------ #
+
+...
+
+# ------------ #
+# -- WRITER -- #
+# ------------ #
+
+...
+
 # ----------- #
 # -- TOOLS -- #
 # ----------- #

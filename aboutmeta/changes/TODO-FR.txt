@@ -27,38 +27,6 @@ Eviter de passer trop de responsabilités aux parsers !!!  cf lang et license ou
     + license.py  ??  --> méthode qui crée les sous donnés depuis l'identifier, logique dans la donnée et non le parser !!!
 
 
-
-
-
-
-> ---------------------------- <
-
-fonction dédier aux yaml stdana-dard !!!!
-
-en plus de parse, on doit maintenant codé une focntion yamliify
-
-
-# It remains to build the standard version.
-    if particle is None:
-        std = f"{main_name}"
-
-    else:
-        std = f"{{{particle}}} {main_name}"
-
-    if firstnames:
-        firstnames = ', '.join(firstnames)
-        std        = f"{firstnames}, {std}"
-
-    std = gather_groups(
-        groups = [
-            std,
-            "" if email is None else email,
-            "" if affiliation is None else affiliation,
-        ],
-        delims = DELIMS_PERSON,
-    )
-
-
 > ---------------------------- <
 
 pour lang on migre lextraction depuis en-GB  de la langue t du territoire dans validate via extract rendu publique et utilisable par le parser

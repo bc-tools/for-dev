@@ -14,7 +14,7 @@ from aboutmeta.core.errors import ParsingError
 
 ###
 # prototype::
-#     data : the \nbver provided in the \yaml file, but stripped.
+#     data : the \str_data provided in the \yaml file, but stripped.
 #
 #     :return: an instance of the class ''semver.Version'' to work
 #              easily with the number version.
@@ -29,33 +29,57 @@ def parse(data: str) -> Version:
     return version
 
 
+# ------------ #
+# -- WRITER -- #
+# ------------ #
+
+###
+# prototype::
+#     data : a `Version` data.
+#
+#     :return: the standard `YAML` version of the `Version` data.
+###
+def write(data: Version) -> str:
+    return str(data)
+
+
 # ----------- #
 # -- TESTS -- #
 # ----------- #
 
 if __name__ == "__main__":
 # GOOD
-    print("\n------------\n")
-
+    print()
     print("-- GOOD CASES --")
 
-    for nbver in [
+    for str_data in [
         "1.2.3-beta.4+build.5",
         "2.3.4-beta.1",
         "4.5.6",
     ]:
+        data_parsed = parse(str_data)
+
         print()
+        print('~~~')
 
-        version_data = parse(nbver)
+        print()
+        print(f"{str_data = }")
 
-        print(f"{nbver                                        = }")
-        print( f"repr(version_data)                           = {version_data!r}")
-        print(f"{version_data.major                           = }")
-        print(f"{version_data.minor                           = }")
-        print(f"{version_data.patch                           = }")
-        print(f"{version_data.prerelease                      = }")
-        print(f"{version_data.build                           = }")
-        print(f"{version_data.next_version(part="prerelease") = }")
+        print()
+        print( f"repr(data_parsed)      = {data_parsed!r}")
+        print(f"{data_parsed.major      = }")
+        print(f"{data_parsed.minor      = }")
+        print(f"{data_parsed.patch      = }")
+        print(f"{data_parsed.prerelease = }")
+        print(f"{data_parsed.build      = }")
+
+        std_yaml_data = write(data_parsed)
+
+        print()
+        print(f"{std_yaml_data = }")
+
+        print()
+        print(f"{data_parsed.next_version(part="prerelease") = }")
 
     print()
 
@@ -67,15 +91,15 @@ if __name__ == "__main__":
 
     print("-- BAD CASES --")
 
-    for nbver in [
+    for str_data in [
         "2.3",
     ]:
         print()
 
-        print(f'{nbver = }')
+        print(f'{str_data = }')
 
         try:
-            parse(nbver)
+            parse(str_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)
