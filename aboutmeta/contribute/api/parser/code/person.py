@@ -17,8 +17,7 @@ from aboutmeta.tools.group       import (
 # prototype::
 #     data : one person provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the class ''Person'' to work easily
-#              with the person data.
+#     :return: an instance of the ''Person'' class.
 ###
 def parse(data: str) -> Person:
 # One affiliation?
@@ -68,9 +67,9 @@ def parse(data: str) -> Person:
 
 ###
 # prototype::
-#     data : a `Person` data.
+#     data : a ''Person'' object.
 #
-#     :return: the standard `YAML` version of the `Person` data.
+#     :return: the standard \yaml version of the ''Person'' object.
 ###
 def write(data: Person) -> str:
 # Surname.
@@ -137,6 +136,7 @@ if __name__ == "__main__":
 
         print()
         print(f"{std_yaml_data = }")
+
 
 # BAD
     # exit()

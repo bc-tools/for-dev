@@ -12,9 +12,7 @@ from aboutmeta.core.errors import ParsingError
 ###
 # prototype::
 #     data : the date provided in the \yaml file, but stripped.
-#
-#     :return: an instance of the class ''datetime.date'' to work
-#              easily with the date.
+#     :return: an instance of the ''datetime.date'' class.
 ###
 def parse(data: str) -> datetime.date:
     try:
@@ -47,9 +45,10 @@ def parse(data: str) -> datetime.date:
 
 ###
 # prototype::
-#     data : a `datetime.date` data.
+#     data : a ''datetime.date'' object.
 #
-#     :return: the standard `YAML` version of the `datetime.date` data using the fomat `%Y-%m-%d`.
+#     :return: the standard \yaml version of the ''datetime.date''
+#              object using the format `%Y-%m-%d`.
 ###
 def write(data: datetime.date) -> str:
     return data.strftime('%Y-%m-%d')

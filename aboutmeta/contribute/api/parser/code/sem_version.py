@@ -16,8 +16,7 @@ from aboutmeta.core.errors import ParsingError
 # prototype::
 #     data : the \str_data provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the class ''semver.Version'' to work
-#              easily with the number version.
+#     :return: an instance of the ''semver.Version'' class.
 ###
 def parse(data: str) -> Version:
     try:
@@ -35,9 +34,10 @@ def parse(data: str) -> Version:
 
 ###
 # prototype::
-#     data : a `Version` data.
+#     data : a ''semver.Version'' object.
 #
-#     :return: the standard `YAML` version of the `Version` data.
+#     :return: the standard \yaml version of the ''semver.Version''
+#              object.
 ###
 def write(data: Version) -> str:
     return str(data)

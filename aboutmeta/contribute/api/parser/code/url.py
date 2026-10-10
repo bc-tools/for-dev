@@ -11,13 +11,7 @@ from aboutmeta.specs.data.url import URL
 # prototype::
 #     data : one \url provided in the \yaml file, but stripped.
 #
-#     :return: an exact copy of the data.
-#
-#
-# note::
-#     The sole purpose of this fake parser is to generate an
-#     internal ''URL'' class that can be used to validate
-#     and normalize a URL.
+#     :return: an instance of the ''URL'' class.
 ###
 def parse(data: str) -> URL:
 # No parsing, and all job done by ''aboutmeta.specs.data.url.URL''.
@@ -30,9 +24,9 @@ def parse(data: str) -> URL:
 
 ###
 # prototype::
-#     data : a `URL` data.
+#     data : a ''URL'' object.
 #
-#     :return: the standard `YAML` version of the `Person` data.
+#     :return: the standard \yaml version of the ''URL'' object.
 ###
 def write(data: URL) -> str:
     return data.url
@@ -66,6 +60,7 @@ if __name__ == "__main__":
 
     print()
     print(f"{std_yaml_data = }")
+
 
 # BAD
     # exit()

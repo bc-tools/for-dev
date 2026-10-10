@@ -5,7 +5,7 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-on vire yaml_val : cf date ou semver qui 'nont pas ce attribut !!!!
+license-spdx.json avec les data obkects, et non les parsers !!!!!
 
 
 > ---------------------------- <

@@ -17,8 +17,7 @@ from aboutmeta.specs.data.lang import Lang
 # prototype::
 #     data : the \lang provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the class ''Lang'' to work easily
-#              with the \lang.
+#     :return: an instance of the class ''Lang''.
 ###
 def parse(data: str) -> Lang:
 # Getting a normalized code.
@@ -36,7 +35,7 @@ def parse(data: str) -> Lang:
 
 # Patch for the strange "Unknow language".
     if describe['language'].startswith('Unknown language'):
-        raise ParsingError(f"unknown language code '{data}'")
+        raise ValueError(f"unknown language code '{data}'")
 
 # The job has been done.
     return Lang(
@@ -46,36 +45,68 @@ def parse(data: str) -> Lang:
     )
 
 
+# ------------ #
+# -- WRITER -- #
+# ------------ #
+
+###
+# prototype::
+#     data : a ''Lang'' object.
+#
+#     :return: the standard \yaml version of the ''Lang'' object
+#              which is the full language identifier.
+###
+def write(data: Lang) -> str:
+    return data.identifier
+
+
 # ----------- #
 # -- TESTS -- #
 # ----------- #
 
 if __name__ == "__main__":
-# Working examples.
-    for userlang in [
+# GOOD
+    print()
+    print("-- GOOD CASES --")
+
+    for str_data in [
         "fr",
         "es",
         "en",
         "en-GB",
     ]:
+        data_parsed = parse(str_data)
+
         print()
-        print(f'--- ({userlang})')
+        print('~~~')
 
-        lang_data = parse(userlang)
+        print()
+        print(f"{str_data = }")
 
-        print(lang_data)
-        print(f"lang_data = {lang_data!r}")
+        print()
+        print(repr(data_parsed))
+
+        std_yaml_data = write(data_parsed)
+
+        print()
+        print(f"{std_yaml_data = }")
+
+
+# BAD
+    # exit()
 
     print()
+    print("-- BAD CASES --")
 
-# Corrupted data.
-    BAD = True
-    BAD = False
+    for str_data in [
+        "X - X - X",
+        "XXX",
+    ]:
+        print()
+        print(f"{str_data = }")
 
-    if BAD:
-        userlang = "XXXXXXXX"
-        userlang = "XXX"
+        try:
+            parse(str_data)
 
-        print(f'--- ({userlang}) --> CORRUPTED!')
-
-        parse(userlang)
+        except Exception as e:
+            print(type(e).__name__, ':', e)
