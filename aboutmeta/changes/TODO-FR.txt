@@ -3,6 +3,28 @@ aboutmeta - TODO
 =========
 
 
+
+
+> ---------------------------- <
+
+from dataclasses import dataclass, field
+
+@dataclass
+class Lang:
+    identifier: str
+    name: str = field(init=False)
+    territory: str = field(init=False)
+
+    def __post_init__(self):
+        # Exemple de logique pour extraire/déduire le nom et le territoire
+        # (À adapter selon la structure de votre 'identifier', par ex: 'fr_FR' ou 'en-US')
+        parts = self.identifier.replace("-", "_").split("_")
+
+        # Logique personnalisée (ici un exemple simple)
+        self.name = parts[0]  # Ex: 'fr'
+        self.territory = parts[1] if len(parts) > 1 else ""  # Ex: 'FR'
+
+
 > ---------------------------- <
 
 license-spdx.json avec les data obkects, et non les parsers !!!!!
