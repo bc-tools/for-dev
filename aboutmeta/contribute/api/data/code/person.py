@@ -18,8 +18,6 @@ from aboutmeta.tools.misc  import (
 
 ###
 # prototype::
-#     yaml_val    : the user-input data coming from an `about.yaml`
-#                   file.
 #     surname     : the surname without a particle is mandatory.
 #     particle    : the particle of a surname, or ''""'' if no
 #                   particle is needed.

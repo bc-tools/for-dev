@@ -3,15 +3,6 @@ aboutmeta - TODO
 =========
 
 
-
-> ---------------------------- <
-
-message pas bon dans ....
-
-str_data = 'Someone (My address) [e.mail@provided.by]'
-ParsingError : missing closing '')'' at the end for affiliation.
-
-
 > ---------------------------- <
 
 on vire yaml_val : cf date ou semver qui 'nont pas ce attribut !!!!

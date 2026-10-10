@@ -72,7 +72,7 @@ def extract_group(
 # Two delimiting characters?
     if len(delims) != 2:
         raise ValueError(
-            "two characters needed as delimiters: ''{delims}''."
+            "two delimiters needed, see ''{delims}''."
         )
 
     opener, closer = delims
@@ -118,8 +118,8 @@ def extract_group(
             where = "end"
 
         raise ParsingError(
-            f"missing {what} ''{extrem_char}'' at "
-            f"the {where} for {context}."
+            f"at {where}, missing {what} ''{extrem_char}'' "
+            f"for {context}."
         )
 
 # Let's extract special data.
@@ -290,6 +290,8 @@ if __name__ == "__main__":
 
         except ParsingError as e:
             print(f"ParsingError: {e}")
+
+    exit()
 
     print("\n------------\n")
 

@@ -15,15 +15,17 @@ from aboutmeta.core.data_manager import DataManager
 # "[about] [meta]data" stored as
 #     + short = "aboutmeta"
 #     + full  = "about metadata"
-#     + parts = [
+#     + parts = (
 #         ("about", True ),  # keep = True
 #         (" "    , False),  # keep = False
 #         ("meta" , True ),  # keep = True
 #         ("data" , False),  # keep = False
-#     ]
+#     )
 ###
 class Acronym(DataManager):
-    yaml_val: str
+    short: str
+    full : str
+    parts: tuple(tuple(str, bool))
 
 
 # ----------- #

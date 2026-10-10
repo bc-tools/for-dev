@@ -21,12 +21,7 @@ from aboutmeta.specs.data.url import URL
 ###
 def parse(data: str) -> URL:
 # No parsing, and all job done by ''aboutmeta.specs.data.url.URL''.
-    url_data = URL(
-        yaml_val = data,
-        url      = data
-    )
-
-    return url_data
+    return URL(url = data)
 
 
 # ----------- #

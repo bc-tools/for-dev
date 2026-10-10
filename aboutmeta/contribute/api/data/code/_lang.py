@@ -16,7 +16,6 @@ from aboutmeta.core.data_manager import DataManager
 #                  Britain''.
 ###
 class Lang(DataManager):
-    yaml_val  : str
     identifier: str
     name      : str
     territory : str
