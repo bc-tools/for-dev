@@ -5,7 +5,10 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-license-spdx.json avec les data obkects, et non les parsers !!!!!
+après acronym !!! ---> parser limite à de simples communiqunat tout comme les wrters
+
+donc la logique de parsing de person et autres et dans la data et non le parser (plus logique car on le fait avec datetime et versionnb,)
+
 
 
 > ---------------------------- <

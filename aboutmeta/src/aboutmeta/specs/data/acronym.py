@@ -37,9 +37,10 @@ from aboutmeta.core.errors       import ParsingError
 #     + desc  = "about metadata, with '@' for 'about' and 'meta' for 'met@'"
 ###
 class Acronym(DataManager):
-    parts: tuple((str, str | None))
-    short: str = field(init = False)
-    desc : str = field(init = False)
+    definition: str
+    parts: tuple((str, str | None)) = field(init = False)
+    short: str                      = field(init = False)
+    desc : str                      = field(init = False)
 
 ###
 # prototype::

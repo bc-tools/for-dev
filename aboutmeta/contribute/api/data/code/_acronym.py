@@ -11,33 +11,13 @@ from aboutmeta.core.errors       import ParsingError
 # ------------------ #
 
 ###
-# prototype::  A REVOIR
-#     XXX : YYYY
-#
-#
-# "[about] [meta]data" stored as
-#     + parts = (
-#         ("about", "about"),
-#         (" "    , None),
-#         ("meta" , "meta"),
-#         ("data" , None),
-#     )
-#     + short = "aboutmeta"
-#     + desc  = "about metadata"
-#
-#
-# "[about=@-]    [meta=met@]data" stored as
-#     + parts = (
-#         ("about", "@-" ),
-#         (" "    , None),
-#         ("meta" , "met@"),
-#         ("data" , None),
-#     )
-#     + short = "@-met@"
-#     + desc  = "about metadata, with '@' for 'about' and 'meta' for 'met@'"
+# prototype::
+#     spec  : YYYY
+#     short : YYYY
+#     desc  : YYYY
 ###
 class Acronym(DataManager):
-    parts: tuple((str, str | None))
+    spec : str
     short: str = field(init = False)
     desc : str = field(init = False)
 
@@ -46,8 +26,20 @@ class Acronym(DataManager):
 #     :action: derive the ''short'' and ''desc'' attributes from ''self.parts''.
 ###
     def __post_init__(self):
+        parts = []
+
+
+
+        return
+
+
+
+
+
         self.short = ''
         self.desc  = ''
+
+        return
 
         extra = []
 
@@ -79,22 +71,12 @@ if __name__ == "__main__":
 
     print("-- GOOD CASES --")
 
-    for parts in [
-        (
-            ("about", "about" ),
-            (" "    , None),
-            ("meta" , "meta"),
-            ("data" , None),
-        ),
-        (
-            ("about", "@-" ),
-            (" "    , None),
-            ("meta" , "met-@"),
-            ("data" , None),
-        ),
+    for spec in [
+        "[about] [meta]data",
+        "[about::@-]     [meta   ::   met-@]data",
     ]:
-        mydata = Acronym(parts = parts)
+        mydata = Acronym(spec = spec)
 
         print()
-        print(f"{parts  = }")
+        print(f"{spec   = }")
         print(f"{mydata = }")
