@@ -1,5 +1,5 @@
 toc:
   - template.md
-  - imports.md
-  - tools.md
-  - tests.md
+  - ../../../../readme-dev-common/comments/imports.md
+  - tools-section.md
+  - ../../../../readme-dev-common/comments/tests-section.md

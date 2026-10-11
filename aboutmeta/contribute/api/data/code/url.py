@@ -12,9 +12,9 @@ from urllib.parse import (
 from aboutmeta.core.data_manager import DataManager
 
 
-# -------------------- #
-# -- URL DATA CLASS -- #
-# -------------------- #
+# ------------------ #
+# -- DATA MANAGER -- #
+# ------------------ #
 
 ###
 # prototype::

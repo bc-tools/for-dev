@@ -12,9 +12,9 @@ from aboutmeta.tools.misc  import (
 )
 
 
-# ----------------------- #
-# -- PERSON DATA CLASS -- #
-# ----------------------- #
+# ------------------ #
+# -- DATA MANAGER -- #
+# ------------------ #
 
 ###
 # prototype::

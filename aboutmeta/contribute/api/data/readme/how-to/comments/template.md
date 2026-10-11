@@ -8,15 +8,9 @@ Here is a complete template that will be used to explain how to structure the co
 
 ...
 
-# ------------ #
-# -- PARSER -- #
-# ------------ #
-
-...
-
-# ------------ #
-# -- WRITER -- #
-# ------------ #
+# ------------------ #
+# -- DATA MANAGER -- #
+# ------------------ #
 
 ...
 
@@ -35,4 +29,4 @@ if __name__ == "__main__":
 ~~~
 
 
-> ***NOTE.*** *The `TOOLS` section is optional, contrary to the `TESTS` one.*
+> ***NOTE.*** *Only the `TOOLS` section is optional.*
