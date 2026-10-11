@@ -51,7 +51,7 @@ if __name__ == "__main__":
     print("-- GOOD CASES --")
 
     for std_yaml_data in [
-        "gpl   3.0 only ",
+        "gpl      -     3.0 only ",
         "cc    by nc 4.0",
     ]:
         data_parsed = parse(std_yaml_data)
