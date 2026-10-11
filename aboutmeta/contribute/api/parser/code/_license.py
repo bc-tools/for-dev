@@ -16,6 +16,8 @@ from aboutmeta.specs.data.license import License
 #              easily with the license.
 ###
 def parse(data: str) -> License:
+    TODO
+
 # Our local data.
     with LICENSES_JSON_FILE.open(mode = "r") as f:
         all_licenses = json_load(f)
