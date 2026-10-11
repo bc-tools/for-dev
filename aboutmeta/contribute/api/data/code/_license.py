@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from dataclasses import field
+
 from json import (
     dumps as json_dumps,
     load  as json_load,
@@ -33,11 +35,26 @@ LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 #                  License v3.0 only''.
 #     url        : the URL linking to the SPDX online description of
 #                  the license.
+#
+#
+# note::
+#     The ''name'' and ''url'' attributes are build from the value of the ''identifier'' attribute.
+#
+#
+# warning::
+#     Identifiers are automatically normalized regardless of letter casing: if a user enters '???', it will be saved as '???'. Enforcing this normalization standard at the \yaml input stage is a best practice.
 ###
 class License(DataManager):
     identifier: str
-    name      : str
-    url       : str
+    name      : str = field(init = False)
+    url       : str = field(init = False)
+
+###
+# prototype::
+#     :action: derive the ''name'' and ''url'' attributes from ''self.identifier'' and expand the identifier to its normalized form (e.g., ''???'' becomes ''???'').
+###
+    def __post_init__(self):
+        ...
 
 
 # ----------- #
