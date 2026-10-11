@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 
-from langcodes import (
-    get as get_langcode,
-    LanguageTagError
-)
-
-from aboutmeta.core.errors     import ParsingError
 from aboutmeta.specs.data.lang import Lang
 
 

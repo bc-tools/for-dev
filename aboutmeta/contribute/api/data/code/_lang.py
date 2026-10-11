@@ -8,6 +8,8 @@ from langcodes import (
 )
 
 from aboutmeta.core.data_manager import DataManager
+from aboutmeta.core.errors       import ParsingError
+
 
 
 # ------------------------- #
