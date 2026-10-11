@@ -14,7 +14,8 @@ from aboutmeta.specs.data.lang import Lang
 #     :return: an instance of the class ''Lang''.
 ###
 def parse(data: str) -> Lang:
-    TODO
+# No parsing, and all job done by ''aboutmeta.specs.data.url.URL''.
+    return Lang(identifier = data)
 
 
 # ------------ #
@@ -37,4 +38,26 @@ def write(data: Lang) -> str:
 # ----------- #
 
 if __name__ == "__main__":
-    ...
+# We just need some basic interface tests, because we have already
+# tested the ''Lang'' class.
+
+# GOOD
+    print()
+    print("-- GOOD CASES --")
+
+    std_yaml_data = "fr"
+    data_parsed   = parse(std_yaml_data)
+
+    print()
+    print('~~~')
+
+    print()
+    print(f"{std_yaml_data = }")
+
+    print()
+    print(repr(data_parsed))
+
+    std_yaml_data = write(data_parsed)
+
+    print()
+    print(f"{std_yaml_data = }")

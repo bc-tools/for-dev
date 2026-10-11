@@ -1,17 +1,30 @@
 #!/usr/bin/env python3
 
+from json import (
+    dumps as json_dumps,
+    load  as json_load,
+)
+
 from pathlib import Path
+import              re
+
+from rapidfuzz import (
+    process as fuzz_process,
+    fuzz
+)
 
 from aboutmeta.core.data_manager import DataManager
+from aboutmeta.core.constants    import *
+from aboutmeta.core.errors       import ParsingError
 from aboutmeta.tool.web          import get_text_from
 
 
+# ------------------ #
+# -- DATA MANAGER -- #
+# ------------------ #
 
+LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 
-
-# ------------------------ #
-# -- LICENSE DATA CLASS -- #
-# ------------------------ #
 
 ###
 # prototype::

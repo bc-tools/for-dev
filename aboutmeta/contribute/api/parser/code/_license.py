@@ -1,28 +1,6 @@
 #!/usr/bin/env python3
 
-from json import (
-    dumps as json_dumps,
-    load  as json_load,
-)
-
-from pathlib import Path
-import              re
-
-from rapidfuzz import (
-    process as fuzz_process,
-    fuzz
-)
-
-from aboutmeta.core.constants     import *
-from aboutmeta.core.errors        import ParsingError
 from aboutmeta.specs.data.license import License
-
-
-# --------------- #
-# -- CONSTANTS -- #
-# --------------- #
-
-LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 
 
 # ------------ #

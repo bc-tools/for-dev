@@ -14,7 +14,7 @@ from aboutmeta.core.errors import ParsingError
 
 ###
 # prototype::
-#     data : the \str_data provided in the \yaml file, but stripped.
+#     data : the \nbver provided in the \yaml file, but stripped.
 #
 #     :return: an instance of the ''semver.Version'' class.
 ###
@@ -52,18 +52,18 @@ if __name__ == "__main__":
     print()
     print("-- GOOD CASES --")
 
-    for str_data in [
+    for std_yaml_data in [
         "1.2.3-beta.4+build.5",
         "2.3.4-beta.1",
         "4.5.6",
     ]:
-        data_parsed = parse(str_data)
+        data_parsed = parse(std_yaml_data)
 
         print()
         print('~~~')
 
         print()
-        print(f"{str_data = }")
+        print(f"{std_yaml_data = }")
 
         print()
         print( f"repr(data_parsed)      = {data_parsed!r}")
@@ -91,15 +91,15 @@ if __name__ == "__main__":
 
     print("-- BAD CASES --")
 
-    for str_data in [
+    for std_yaml_data in [
         "2.3",
     ]:
         print()
 
-        print(f'{str_data = }')
+        print(f'{std_yaml_data = }')
 
         try:
-            parse(str_data)
+            parse(std_yaml_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)

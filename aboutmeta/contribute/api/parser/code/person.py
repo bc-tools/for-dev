@@ -114,20 +114,20 @@ if __name__ == "__main__":
     print()
     print("-- GOOD CASES --")
 
-    for str_data in [
+    for std_yaml_data in [
         "Someone",
         "ALIce, MarIE-LiSe, Someone (My address)",
         "Someone [e.mail@provided.by]",
         "Someone [e.mail@provided.by] (My address)",
         "ALIce,    MarIE-LiSe,   {MC}    Someone   [   e.mail@provided.by ]    (   My   address  )",
     ]:
-        data_parsed = parse(str_data)
+        data_parsed = parse(std_yaml_data)
 
         print()
         print('~~~')
 
         print()
-        print(f"{str_data = }")
+        print(f"{std_yaml_data = }")
 
         print()
         print(repr(data_parsed))
@@ -144,14 +144,14 @@ if __name__ == "__main__":
     print()
     print("-- BAD CASES --")
 
-    for str_data in [
+    for std_yaml_data in [
         "Someone (My address) [e.mail@provided.by]",
     ]:
         print()
-        print(f"{str_data = }")
+        print(f"{std_yaml_data = }")
 
         try:
-            parse(str_data)
+            parse(std_yaml_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)

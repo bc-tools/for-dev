@@ -44,14 +44,14 @@ if __name__ == "__main__":
     print()
     print("-- GOOD CASES --")
 
-    str_data    = "HTTPS://QwAnT.com"
-    data_parsed = parse(str_data)
+    std_yaml_data = "HTTPS://QwAnT.com"
+    data_parsed   = parse(std_yaml_data)
 
     print()
     print('~~~')
 
     print()
-    print(f"{str_data = }")
+    print(f"{std_yaml_data = }")
 
     print()
     print(repr(data_parsed))
@@ -60,21 +60,3 @@ if __name__ == "__main__":
 
     print()
     print(f"{std_yaml_data = }")
-
-
-# BAD
-    # exit()
-
-    # print()
-    # print("-- BAD CASES --")
-
-    # str_data = '42'
-
-    # print()
-    # print(f"{str_data = }")
-
-    # try:
-    #     parse(str_data)
-
-    # except Exception as e:
-    #     print(type(e).__name__, ':', e)
