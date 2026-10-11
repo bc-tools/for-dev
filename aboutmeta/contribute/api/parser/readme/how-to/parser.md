@@ -8,8 +8,8 @@ Here are the steps to follow.
 
      + `parse(data: str) -> object` must be used if only data is to be analyzed, regardless of other of the `about.yaml` file being analyzed.
 
-     + `parse(amdata_cls: object, data: str) -> object` also takes into account the class `aboutmeta.amdata.AMData` to be instanciated. See the next section 'How to add a post-production tool?'.
+     + `parse(amdata_cls: object, data: str) -> object` takes into account an instance of the class `aboutmeta.amdata.AMData`.
 
   1. Specific parsing errors must be handled to allow for user input errors (cf CLI and logging communications). This needs the use of `aboutmeta.core.errors.ParsingError` exception class. **It is best to use `from aboutmeta.data.errors import ParsingError`.**
 
-  1. You can add other processing functions necessary for the operation of your parser, provided that you do not use the name `map_list`, which is reserved for processing parsed data lists as explained in the 'How to add a post-production tool?' section.
+  1. You can add other processing functions necessary for the operation of your parser, provided that you do not use `parse`, `write` and the name of a specific post-processing tool. See the sections 'Each parser needs a writer' and 'How to add a post-production tool?'.

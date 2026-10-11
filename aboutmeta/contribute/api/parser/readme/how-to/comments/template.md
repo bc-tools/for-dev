@@ -35,4 +35,4 @@ if __name__ == "__main__":
 ~~~
 
 
-> ***NOTE.*** *The `TOOLS` section is optional, contrary to the `TESTS` one.*
+> ***NOTE.*** *Only the `TOOLS` section is optional.*
