@@ -14,7 +14,8 @@ from aboutmeta.specs.data.lang import Lang
 #     :return: an instance of the class ''Lang''.
 ###
 def parse(data: str) -> Lang:
-# No parsing, and all job done by ''aboutmeta.specs.data.url.URL''.
+# No parsing, and all job done by the class
+# ''aboutmeta.specs.data.lang.Lang''.
     return Lang(identifier = data)
 
 

@@ -1,62 +1,104 @@
 #!/usr/bin/env python3
 
-from aboutmeta.specs.data.license import License
+from dataclasses import field
+
+from json import load  as json_load
+
+from pathlib import Path
+import              re
+
+from rapidfuzz import (
+    process as fuzz_process,
+    fuzz
+)
+
+from aboutmeta.core.data_manager import DataManager
+from aboutmeta.core.constants    import *
+from aboutmeta.core.errors       import ParsingError
+from aboutmeta.tools.web         import get_text_from
 
 
-# ------------ #
-# -- PARSER -- #
-# ------------ #
+# ------------------ #
+# -- DATA MANAGER -- #
+# ------------------ #
+
+LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
+
 
 ###
 # prototype::
-#     data : the \lic code provided in the \yaml file, but
-#            stripped.
+#     identifier : short SPDX identifier, such as ''GPL-3.0-only'',
+#                  but flexible writings allowed like ''gpl 3.0 only'.
+#     name       : the full license name like ''GNU General Public
+#                  License v3.0 only''.
+#     url        : the URL linking to the SPDX online description of
+#                  the license.
 #
-#     :return: an instance of the class ''License'' to work
-#              easily with the license.
+#
+# note::
+#     The ''name'' and ''url'' attributes are build from the value of
+#     the ''identifier'' attribute.
+#
+#
+# warning::
+#     Identifiers are automatically normalized regardless of letter
+#     casing: if a user enters ''gpl 3.0 only'' it will be saved as
+#     ''GPL-3.0-only''.
 ###
-def parse(data: str) -> License:
-    TODO
+class License(DataManager):
+    identifier: str
+    name      : str = field(init = False)
+    url       : str = field(init = False)
 
+###
+# prototype::
+#     :action: derive the ''name'' and ''url'' attributes from
+#              ''self.identifier'' and expand the identifier to its
+#              normalized form (e.g., ''gpl 3.0 only'' becomes
+#              ''GPL-3.0-only'').
+###
+    def __post_init__(self):
 # Our local data.
-    with LICENSES_JSON_FILE.open(mode = "r") as f:
-        all_licenses = json_load(f)
+        with LICENSES_JSON_FILE.open(mode = "r") as f:
+            all_licenses = json_load(f)
 
-# Normal form found?
-    normal_ID  = _normalize_lic_code(data)
+# We need a normal form.
+        normal_ID  = _normalize_lic_code(self.identifier)
 
-    if normal_ID not in all_licenses:
-        extra       = ''
-        suggestions = _license_matches(normal_ID)
+        if normal_ID not in all_licenses:
+            extra       = ''
+            suggestions = _license_matches(normal_ID)
 
-        if suggestions:
-            plurial = '' if len(suggestions) == 1 else 'es'
-            extra   = f"\nPossible match{plurial} found.\n"
-            extra  += '\n'.join(f"  * {s}" for s in suggestions)
+            if suggestions:
+                plurial = '' if len(suggestions) == 1 else 'es'
+                extra   = f"Possible match{plurial} found.\n"
+                extra  += '\n'.join(f"  * {s}" for s in suggestions)
 
-        else:
-            extra = "\nNo match found."
+            else:
+                extra = "No match found."
 
-        raise ParsingError(
-            f"unknown license code ''{data}''.{extra}"
-        )
+            e = ParsingError(
+                f"unknown license code ''{self.identifier}''."
+            )
+
+            e.add_note(extra)
+
+            raise e
 
 # Deprecated?
-    if all_licenses[normal_ID]["deprecated"]:
-        raise ParsingError(
-             "deprecated license code "
-            f"''{all_licenses[normal_ID]['std']}''."
-        )
+        if all_licenses[normal_ID]["deprecated"]:
+            raise ValueError(
+                 "deprecated license code "
+                f"''{all_licenses[normal_ID]['std']}''."
+            )
 
 # Living license found.
-    spdx_infos = all_licenses[normal_ID]
+        spdx_infos = all_licenses[normal_ID]
 
 # The job has been done.
-    return License(
-        identifier = spdx_infos["std"],
-        name       = spdx_infos["name"],
-        url        = spdx_infos["ref"],
-    )
+        self.identifier = spdx_infos["std"]
+        self.name       = spdx_infos["name"]
+        self.url        = spdx_infos["ref"]
 
 
 ###
@@ -67,7 +109,7 @@ def parse(data: str) -> License:
 #
 #
 # note::
-#     The construction of the path::licenses.json file verifies that
+#     The construction of the path::''licenses.json'' file verifies that
 #     normalization does not create any duplicates.
 ###
 def _normalize_lic_code(code: str) -> str:
@@ -136,6 +178,8 @@ def _license_matches(
 #              path::''licenses.json'' file.
 ###
 def tool_update_license_json() -> None:
+    from json import dumps as json_dumps
+
     import requests
 
     SPDX_URL  = "https://raw.githubusercontent.com/spdx/"
@@ -206,33 +250,46 @@ if __name__ == "__main__":
 # Update the license data.
     tool_update_license_json()
 
-# Working examples.
-    for lic_ID in [
-        "gpl - 3.0 only ",
+# GOOD
+    print("\n------------\n")
+
+    print("-- GOOD CASES --")
+
+    for identifier in [
+        "gpl   3.0 only ",
         "cc    by nc 4.0",
     ]:
+        mydata = License(identifier = identifier)
+
         print()
-        print(f'--- ({lic_ID})')
+        print(f"{identifier = }")
+        print(f"{mydata     = }")
 
-        lic_data = parse(lic_ID)
 
-        print(lic_data)
-        print(f"lic_data = {lic_data!r}")
+# BAD
+    # exit()
 
-    print()
+    print("\n------------\n")
 
-# Corrupted data.
-    BAD = True
-    BAD = False
+    print("-- BAD CASES --")
 
-    if BAD:
-        lic_ID = "gpl  3.0 +"
+    for identifier in [
+        "gpl  3.0 +",
+        "gpl",
+        "cc nc",
+        "cc",
+        " ",
+    ]:
+        print()
+        print(f"{identifier = }")
 
-        # lic_ID = "gpl"
-        lic_ID = "cc nc"
-        lic_ID = "cc"
-        # lic_ID = " "
+        try:
+            License(identifier = identifier)
 
-        print(f'--- ({lic_ID}) --> CORRUPTED! Possible matches...')
+        except Exception as e:
+            print(type(e).__name__, ':', e)
 
-        parse(lic_ID)
+            notes = getattr(e, "__notes__", [])
+
+            for i, n in enumerate(notes, start = 1):
+                print(f'[{i}]. {n}')

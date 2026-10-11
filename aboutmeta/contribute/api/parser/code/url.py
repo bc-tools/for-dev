@@ -14,7 +14,8 @@ from aboutmeta.specs.data.url import URL
 #     :return: an instance of the ''URL'' class.
 ###
 def parse(data: str) -> URL:
-# No parsing, and all job done by ''aboutmeta.specs.data.url.URL''.
+# No parsing, and all job done by the class
+# ''aboutmeta.specs.data.url.URL''.
     return URL(url = data)
 
 
