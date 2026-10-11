@@ -257,12 +257,10 @@ if __name__ == "__main__":
     )
 
     print()
-
     print("Original data")
     print(mydata)
 
     print()
-
     print("Normalization")
     mydata.normalize()
     print(mydata)
@@ -286,7 +284,6 @@ if __name__ == "__main__":
     )
 
     print()
-
     print("Original data")
     print(mydata)
 

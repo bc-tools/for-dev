@@ -8,9 +8,9 @@ from pathlib     import Path
 from aboutmeta.core.data_manager import DataManager
 
 
-# ---------------------------- #
-# -- TOC PATH(S) DATA CLASS -- #
-# ---------------------------- #
+# ------------------ #
+# -- DATA MANAGER -- #
+# ------------------ #
 
 ###
 # prototype::  A  REVOIR

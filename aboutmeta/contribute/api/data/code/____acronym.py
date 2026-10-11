@@ -3,9 +3,9 @@
 from aboutmeta.core.data_manager import DataManager
 
 
-# ------------------- #
-# -- MY DATA CLASS -- #
-# ------------------- #
+# ------------------ #
+# -- DATA MANAGER -- #
+# ------------------ #
 
 ###
 # prototype::  A REVOIR

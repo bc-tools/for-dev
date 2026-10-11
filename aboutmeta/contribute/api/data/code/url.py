@@ -155,7 +155,6 @@ if __name__ == "__main__":
         print(mydata)
 
         print()
-
         print("Normalization")
         mydata.normalize()
         print(mydata)
