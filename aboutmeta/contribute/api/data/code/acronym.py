@@ -89,7 +89,7 @@ if __name__ == "__main__":
         (
             ("about", "@-" ),
             (" "    , None),
-            ("meta" , "met@"),
+            ("meta" , "met-@"),
             ("data" , None),
         ),
     ]:
