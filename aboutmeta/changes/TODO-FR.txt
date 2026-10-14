@@ -5,14 +5,11 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-redame:
+tnsdoc
 
-    --> data : on doit documenter pour le yaml pour la doc utilisateur !!!!   on écrit en début de ficheir un tnsdoc , pas dans la tnsdiocs des classes car on veut une vue globale !!!!
+    --> parser : là om on met au tout début la doc utilisateur car on y connait les version YAML et internes !!! on écrit en début de ficheir un tnsdoc , pas dans la tnsdiocs des classes car on veut une vue globale !!!!
 
-    --> du coup, il faut aussi avoir un mecanisme de doc des objets extérieurs telles que `datetime.date` and `semver.Version`
-
-    --> parser : pas de cod utilisateur!!!!
-
+    --> data: RIEN !!!
 
 > ---------------------------- <
 

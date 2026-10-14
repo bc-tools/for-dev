@@ -20,6 +20,13 @@ Here is a complete template that will be used to explain how to structure the `P
 
 ...
 
+
+# ------------- #
+# -- MAPPERS -- #
+# ------------- #
+
+...
+
 # ----------- #
 # -- TOOLS -- #
 # ----------- #
@@ -35,4 +42,4 @@ if __name__ == "__main__":
 ~~~
 
 
-> ***NOTE.*** *Only the `TOOLS` section is optional.*
+> ***NOTE.*** *Only the `MAPPERS` and `TOOLS` sections are optional.*
