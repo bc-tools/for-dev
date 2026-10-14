@@ -5,10 +5,10 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-après acronym !!! ---> parser limite à de simples communiqunat tout comme les wrters
+redame:
 
-donc la logique de parsing de person et autres et dans la data et non le parser (plus logique car on le fait avec datetime et versionnb,)
-
+    --> data : on doit documenter pour le yaml pour la doc utilisateur !!!!
+    --> parser : pas de cod utilisateur!!!!
 
 
 > ---------------------------- <

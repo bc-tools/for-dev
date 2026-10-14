@@ -1,2 +1,2 @@
-Structure of the "contrib/data-obj" folder
-------------------------------------------
+Structure of the "contrib/data" folder
+--------------------------------------
