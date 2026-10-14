@@ -7,9 +7,7 @@ aboutmeta - TODO
 
 tnsdoc
 
-    --> parser : là om on met au tout début la doc utilisateur car on y connait les version YAML et internes !!! on écrit en début de ficheir un tnsdoc , pas dans la tnsdiocs des classes car on veut une vue globale !!!!
-
-    --> data: RIEN !!!
+    --> block et flavor : doc simplifié car se limite à décrire et non a expliquer le type de données autorisées !!!
 
 > ---------------------------- <
 

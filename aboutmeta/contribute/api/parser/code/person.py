@@ -1,5 +1,30 @@
 #!/usr/bin/env python3
 
+###
+#     + **Title (mandatory):**
+#       ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
+#       are legal titles for a person (the number of first names is
+#       unlimited).
+#
+#     + **Email address (optional):**
+#       ''Jean, Louis, Krivine  [jl-krivine@compile.brain]'' adds an
+#       email using square brackets.
+#
+#     + **Affiliation (optional):**
+#       ''Torvalds (Sacred Kernels Department)'' adds an affiliation
+#       using parentheses.
+#
+#     + **Indicate everything:**
+#       only the format ''<title> [email] (institute)'' is allowed
+#       like in ''Ada, Lovelace  [ada.babbage.computer@paper.org]
+#       (Victorian Applied Mechanical Informatic Institute)''.
+#
+#
+# note::
+#     Emails and affiliations are validated on demand rather than
+#     automatically, as an active internet connection is required.
+###
+
 
 from aboutmeta.specs.data.person import Person
 

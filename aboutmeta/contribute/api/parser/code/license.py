@@ -1,7 +1,20 @@
 #!/usr/bin/env python3
 
-from aboutmeta.specs.data.license import License
+###
+# A license is identified using identifiers from the
+# cf::{''SPDX'' SPDX License List ; https://spdx.org/licenses/},
+# with a certain degree of flexibility. For example, you can type
+# ''gpl 3.0+'' and ''cc by nc 4.0'' instead of ''GPL-3.0+'' and
+# ''CC-BY-NC-4.0''. More precisely, here is what is allowed.
+#
+#     1) Spaces can replace hyphens.
+#
+#     1) Letter case being ignored, you can type everything in
+#        lowercase for efficiency.
+###
 
+
+from aboutmeta.specs.data.license import License
 
 # ------------ #
 # -- PARSER -- #

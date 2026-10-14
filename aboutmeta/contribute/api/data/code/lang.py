@@ -17,11 +17,11 @@ from aboutmeta.core.errors       import ParsingError
 
 ###
 # prototype::
-#     std_id : the standard language std_id which looks
-#                  like ''en-GB''.
-#     name       : the full language name like ''English''.
-#     territory  : the territory of the language like ''Great
-#                  Britain''.
+#     std_id    : the standard language identifier which looks
+#                 like ''en-GB''.
+#     name      : the full language name like ''English''.
+#     territory : the territory of the language like ''Great
+#                 Britain''.
 #
 #
 # note::
@@ -31,9 +31,10 @@ from aboutmeta.core.errors       import ParsingError
 #
 # warning::
 #     Short identifiers are automatically expanded to full ones
-#     regardless of letter casing: if a user enters ''fr'' or ''FR-fr'',
-#     it will be saved as ''fr-FR''. Enforcing this normalization
-#     standard at the \yaml input stage is a best practice.
+#     regardless of letter casing: if a user enters ''fr'' or
+#     ''FR-fr'', it will be saved as ''fr-FR''. Enforcing this
+#     normalization \std at the \yaml input stage is a best
+#     practice.
 ###
 class Lang(DataManager):
     std_id   : str
@@ -43,8 +44,8 @@ class Lang(DataManager):
 ###
 # prototype::
 #     :action: derive the ''name'' and ''territory'' attributes
-#     from ''self.std_id'' and expand the std_id to its
-#     full form (e.g., ''fr'' becomes ''fr-FR'').
+#     from ''self.std_id'' and expand the identifier to its full
+#     form (e.g., ''fr'' becomes ''fr-FR'').
 ###
     def __post_init__(self) -> None:
 # Getting a normalized code.

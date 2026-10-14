@@ -34,8 +34,8 @@ DELIMS_PERSON      = ['',DELIMS_EMAIL, DELIMS_AFFILIATION]
 
 DELIMS_PARTICLE = TAG_YAML_PARTICLE_OPEN + TAG_YAML_PARTICLE_CLOSE
 
-###
 
+###
 # prototype::
 #     spec        : the specification of a person.
 #     surname     : the surname without a particle is mandatory.

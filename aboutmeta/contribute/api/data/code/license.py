@@ -30,17 +30,17 @@ _PATTERN_NORMALIZED_LICENSE_CODE = re.compile(r"[\s_\-\.]+")
 
 ###
 # prototype::
-#     spdx_id : short SPDX spdx_id, such as ''GPL-3.0-only'',
-#                  but flexible writings allowed like ''gpl 3.0 only'.
-#     name       : the full license name like ''GNU General Public
-#                  License v3.0 only''.
-#     url        : the URL linking to the SPDX online description of
-#                  the license.
+#     spdx_id : short SPDX identifier, such as ''GPL-3.0-only'',
+#               but flexible writings allowed like ''gpl 3.0 only'.
+#     name    : the full license name like ''GNU General Public
+#               License v3.0 only''.
+#     url     : the URL linking to the SPDX online description of
+#               the license.
 #
 #
 # note::
-#     The ''name'' and ''url'' attributes are build from the value of
-#     the ''spdx_id'' attribute.
+#     The ''name'' and ''url'' attributes are build from the value
+#     of the ''spdx_id'' attribute.
 #
 #
 # warning::
@@ -56,7 +56,7 @@ class License(DataManager):
 ###
 # prototype::
 #     :action: derive the ''name'' and ''url'' attributes from
-#              ''self.spdx_id'' and expand the spdx_id to its
+#              ''self.spdx_id'' and expand the identifier to its
 #              normalized form (e.g., ''gpl 3.0 only'' becomes
 #              ''GPL-3.0-only'').
 ###
@@ -100,8 +100,8 @@ class License(DataManager):
 
 # The job has been done.
         self.spdx_id = spdx_infos["std"]
-        self.name       = spdx_infos["name"]
-        self.url        = spdx_infos["ref"]
+        self.name    = spdx_infos["name"]
+        self.url     = spdx_infos["ref"]
 
 
 ###

@@ -18,6 +18,7 @@ PATTERN_ACRONYM_METADATA = re.compile(
 
 TAG_ACRONYM_DEF_OPEN, TAG_ACRONYM_DEF_CLOSE = '[]'
 
+
 ###
 # prototype::
 #     spec  : the specification of an acronym using brackets.

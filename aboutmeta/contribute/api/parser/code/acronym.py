@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
 
 ###
-# The origin of an acronym can be explained using a small DSL. For example, "[A::@]bout [Desc]ription" explains the choice of the project name "@Desc" as "About Description". Here is how it works.
+# The origin of an acronym can be explained using a small DSL.
+# For example, ''"[A::@]bout [Desc]ription"'' explains the choice
+# of the acronym '@Desc' for 'About Description'. Here is how it
+# works.
 #
-#     *   XXXXXXXX
+#     1) First, we have the full name "About Description".
 #
-#     *   XXXXXXXX
+#     1) Then, we indicate inside brackets the parts to keep for
+#        the acronym. Using "[A]bout [Desc]ription" will produce
+#        the acronym "Adesc".
+#
+#     1) To change a part of the acronym, just use ''::'', as in
+#        ''"[A::@]bout [Desc]ription"'', to use "@" instead of "A".
 ###
 
 
