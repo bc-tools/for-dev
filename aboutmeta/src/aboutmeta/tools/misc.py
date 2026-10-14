@@ -17,7 +17,7 @@
 # Here is a terminal session.
 #
 # pyterm::
-#     > from aboutmeta.tool.misc import no_space_around
+#     > from aboutmeta.tools.misc import no_space_around
 #     > no_space_around("A -B  -  C  D-   G", "-")
 #     'A-B-C  D-G'
 #     > no_space_around(" -  ABC   - ", "-")
@@ -55,7 +55,7 @@ def no_space_around(
 # Here is a terminal session.
 #
 # pyterm::
-#     > from aboutmeta.tool.misc import single_spaces
+#     > from aboutmeta.tools.misc import single_spaces
 #     > single_spaces("A   B    C")
 #     'A B C'
 #     > single_spaces("   A   B    C   ")

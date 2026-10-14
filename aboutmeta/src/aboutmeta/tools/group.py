@@ -9,15 +9,18 @@ from aboutmeta.core.errors import ParsingError
 
 ###
 # prototype::
-#     content      : text with, or without, a specific extremal data
-#                    surrounded by the delimiters defined using the
-#                    ''delims'' argument.
-#     delims       : a 2-character text indicating the opening and
-#                    closing characters used to frame special data.
-#     context      : context of use (this text is for error messages).
-#     data_on_left : if the value is ''True'', the "framed" data must
-#                    be at the end of the text, otherwise it must be
-#                    at the beginning (no data can be inside the text).
+#     content      : text with, or without, a specific extremal
+#                    data surrounded by the delimiters defined
+#                    using the ''delims'' argument.
+#     delims       : a 2-character text indicating the opening
+#                    and closing characters used to frame special
+#                    data.
+#     context      : context of use (this text is for error
+#                    messages).
+#     data_on_left : if the value is ''True'', the "framed" data
+#                    must be at the end of the text, otherwise it
+#                    must be at the beginning (no data can be
+#                    inside the text).
 #
 #     :return: a pair of variables ''(remaining, data)'' where
 #              ''remaining'' is the text obtained after removing
@@ -29,19 +32,19 @@ from aboutmeta.core.errors import ParsingError
 # Here is a terminal session without any error.
 #
 # pyterm::
-#     > from aboutmeta.tool.group import extract_group
+#     > from aboutmeta.tools.group import extract_group
 #     > extract_group("Nothing to extract", "[]", "CTXT.OK.1")
 #     ('Nothing to extract', None)
 #     > extract_group("We have [  data ]", "[]", "CTXT.OK.2")
 #     ('We have', 'data')
-#     > extract_group("[Data] before me!", "[]", "CTXT.OK.3", False)
-#     ('before me!', 'Data')
+#     > extract_group("[Data] before", "[]", "CTXT.OK.3", False)
+#     ('before', 'Data')
 #
 #
 # Here is a terminal session with errors.
 #
 # pyterm::
-#     > from aboutmeta.tool.group import extract_group
+#     > from aboutmeta.tools.group import extract_group
 #     > extract_group("Not opened!]", "[]", "CTXT.KO1")
 #     Traceback (most recent call last):
 #       ...
@@ -143,14 +146,14 @@ def extract_group(
 #     delims : texts indicating "framing" characters.
 #            @ len(groups) = len(delims)
 #
-#     :return: the text obtained by joining the framed texts with
-#              spaces.
+#     :return: the text obtained by joining the framed texts
+#              with spaces.
 #
 #
 # Here is a terminal session.
 #
 # pyterm::
-#     > from aboutmeta.tool.group import gather_groups
+#     > from aboutmeta.tools.group import gather_groups
 #     > gather_groups(
 #         ["Someone", "email@test.org", "Institute, Galaxy"],
 #         ["", "[]", "()"]
@@ -200,7 +203,7 @@ def gather_groups(
             len(dlm) != 2
         ):
             raise ValueError(
-                 "two characters needed as delimiters, "
+                 "two characters delimiters needed, "
                 f"see {dlm!r} in delims = {delims!r}."
             )
 

@@ -18,7 +18,7 @@ from aboutmeta.specs.data.license import License
 def parse(data: str) -> License:
 # No parsing, and all job done by the class
 # ''aboutmeta.specs.data.license.License''.
-    return License(identifier = data)
+    return License(spdx_id = data)
 
 
 # ------------ #
@@ -34,7 +34,7 @@ def parse(data: str) -> License:
 #              identifier and spaces instead of hyphens.
 ###
 def write(data: License) -> str:
-    text = data.identifier.lower()
+    text = data.spdx_id.lower()
     text = text.replace('-', ' ')
 
     return text

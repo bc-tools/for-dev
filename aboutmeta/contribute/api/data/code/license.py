@@ -25,9 +25,12 @@ from aboutmeta.tools.web         import get_text_from
 LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 
 
+_PATTERN_NORMALIZED_LICENSE_CODE = re.compile(r"[\s_\-\.]+")
+
+
 ###
 # prototype::
-#     identifier : short SPDX identifier, such as ''GPL-3.0-only'',
+#     spdx_id : short SPDX spdx_id, such as ''GPL-3.0-only'',
 #                  but flexible writings allowed like ''gpl 3.0 only'.
 #     name       : the full license name like ''GNU General Public
 #                  License v3.0 only''.
@@ -37,7 +40,7 @@ LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 #
 # note::
 #     The ''name'' and ''url'' attributes are build from the value of
-#     the ''identifier'' attribute.
+#     the ''spdx_id'' attribute.
 #
 #
 # warning::
@@ -46,14 +49,14 @@ LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 #     ''GPL-3.0-only''.
 ###
 class License(DataManager):
-    identifier: str
-    name      : str = field(init = False)
-    url       : str = field(init = False)
+    spdx_id: str
+    name   : str = field(init = False)
+    url    : str = field(init = False)
 
 ###
 # prototype::
 #     :action: derive the ''name'' and ''url'' attributes from
-#              ''self.identifier'' and expand the identifier to its
+#              ''self.spdx_id'' and expand the spdx_id to its
 #              normalized form (e.g., ''gpl 3.0 only'' becomes
 #              ''GPL-3.0-only'').
 ###
@@ -63,7 +66,7 @@ class License(DataManager):
             all_licenses = json_load(f)
 
 # We need a normal form.
-        normal_ID  = _normalize_lic_code(self.identifier)
+        normal_ID  = _normalize_lic_code(self.spdx_id)
 
         if normal_ID not in all_licenses:
             extra       = ''
@@ -78,7 +81,7 @@ class License(DataManager):
                 extra = "No match found."
 
             e = ParsingError(
-                f"unknown license code ''{self.identifier}''."
+                f"unknown license code ''{self.spdx_id}''."
             )
 
             e.add_note(extra)
@@ -96,7 +99,7 @@ class License(DataManager):
         spdx_infos = all_licenses[normal_ID]
 
 # The job has been done.
-        self.identifier = spdx_infos["std"]
+        self.spdx_id = spdx_infos["std"]
         self.name       = spdx_infos["name"]
         self.url        = spdx_infos["ref"]
 
@@ -113,7 +116,7 @@ class License(DataManager):
 #     normalization does not create any duplicates.
 ###
 def _normalize_lic_code(code: str) -> str:
-    code = re.sub(r"[\s_\-\.]+", "", code.lower())
+    code = _PATTERN_NORMALIZED_LICENSE_CODE.sub("", code.lower())
 
     return code
 
@@ -255,14 +258,14 @@ if __name__ == "__main__":
 
     print("-- GOOD CASES --")
 
-    for identifier in [
+    for spdx_id in [
         "gpl   3.0 only ",
         "cc    by nc 4.0",
     ]:
-        mydata = License(identifier = identifier)
+        mydata = License(spdx_id = spdx_id)
 
         print()
-        print(f"{identifier = }")
+        print(f"{spdx_id = }")
         print(f"{mydata     = }")
 
 
@@ -273,7 +276,7 @@ if __name__ == "__main__":
 
     print("-- BAD CASES --")
 
-    for identifier in [
+    for spdx_id in [
         "gpl  3.0 +",
         "gpl",
         "cc nc",
@@ -281,10 +284,10 @@ if __name__ == "__main__":
         " ",
     ]:
         print()
-        print(f"{identifier = }")
+        print(f"{spdx_id = }")
 
         try:
-            License(identifier = identifier)
+            License(spdx_id = spdx_id)
 
         except Exception as e:
             print(type(e).__name__, ':', e)
