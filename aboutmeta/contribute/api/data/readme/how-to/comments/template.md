@@ -1,6 +1,6 @@
 #### Complete template
 
-Here is a complete template that will be used to explain how to structure the code in the `Python` file.
+Here is a complete template that will be used to explain how to structure the `Python` code.
 
 
 ~~~python

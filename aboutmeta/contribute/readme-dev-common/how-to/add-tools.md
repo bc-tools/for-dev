@@ -8,9 +8,9 @@ You may use tools specific to the execution of a code, such as data files added 
 
 Regarding the addition of supplementary files, you should pay attention to the following points.
 
-  1. Each file must be used in the same folder as the `Python` file. Use relative paths!
+  1. Each file must be used in the same folder as the `Python` file. ***Use relative paths!***
 
-  1. The file name must be prefixed by the parser name followed by a hyphen. For example, the data class file `contrib/data/code/license.py` use the additional file `license-spdx.json`.
+  1. The file name must be prefixed by the `Python` file name followed by a hyphen. For example, the data class file `contrib/data/code/license.py` use the additional file `license-spdx.json`.
 
 
 > ***NOTE.*** *Working with files stored permanently on the end user's operating system is a good practice to adopt for obvious security reasons, as well as for offline use.*

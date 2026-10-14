@@ -1,6 +1,6 @@
 ### Validate data
 
-The special zero-argument `validate` method handles data validation using the `data_pb` attribute, as demonstrated in the partial example below. Note the use of conveniently named helper methods `start`, `what`, `checking` (along with `no_check`), `validated`, `rejected`, `new_error`, and `new_exception`.
+The special zero-argument `validate` method handles data validation using the `data_pb` attribute, as demonstrated in the partial example below. Note the use of conveniently named `self.data_pb` methods `start`, `what`, `checking` (along with `no_check`), `validated`, `rejected`, `new_error`, and `new_exception`.
 
 ```python
 # Extract of URL class code.
@@ -60,4 +60,4 @@ class URL(DataManager):
 ```
 
 
-> ***IMPORTANT.*** *Since validation processes are not always 100% reliable, the `validate` method is primarily intended for terminal or logging sessions.*
+> ***IMPORTANT.*** *Since validation processes are not always 100% reliable, the `validate` method is primarily intended for terminal and logging sessions.*
