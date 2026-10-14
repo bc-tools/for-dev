@@ -2,6 +2,20 @@
 
 ###
 
+
+
+#   The special zero-argument method `normalize` is used to normalize attribute values. For example, the `url.URl.normalize` can be used to obtain a URL in its standard form (this fairly flexible format accepts different forms for the same URL).
+
+#
+# Here are the normalizations done.
+#
+#     1. Some valid \url_s use typographical quirks.
+#     For example, ''HTTPS://QwAnT.com'' is valid, but its
+#     normalized version is ''https://qwant.com''.
+#
+#     1. Special \html character encoding is also handled.
+#     For example, ''http://abc.com/Dôssier Testé.html''
+#     becomes ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html''.
 ###
 
 from aboutmeta.specs.data.url import URL

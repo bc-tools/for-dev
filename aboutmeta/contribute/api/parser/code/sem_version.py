@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 ###
-# Semantic version numbers comply with cf::''Semantic Versioning ;
-# https://semver.org/'' like ''1.0.0'', ''0.0.0-beta.1'', and
-# ''0.3.1-beta.1+build.5''.
+# Semantic version numbers must comply with cf::''Semantic
+# Versioning ; https://semver.org/'' like ''1.0.0'',
+# ''0.0.0-beta.1'', and ''0.3.1-beta.1+build.5''.
 ###
 
 
