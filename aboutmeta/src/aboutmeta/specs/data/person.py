@@ -2,9 +2,17 @@
 
 import requests
 
+from dataclasses import field
+
 from email_validator import validate_email
 
 from aboutmeta.core.data_manager import DataManager
+from aboutmeta.core.errors       import ParsingError
+
+from aboutmeta.tools.group import (
+    extract_group,
+    gather_groups,
+)
 
 from aboutmeta.tools.misc  import (
     no_space_around,
@@ -12,14 +20,24 @@ from aboutmeta.tools.misc  import (
 )
 
 
-# ----------------------- #
-# -- PERSON DATA CLASS -- #
-# ----------------------- #
+# ------------------ #
+# -- DATA MANAGER -- #
+# ------------------ #
+
+TAG_YAML_AFFILIATION_OPEN, TAG_YAML_AFFILIATION_CLOSE = '()'
+TAG_YAML_EMAIL_OPEN      , TAG_YAML_EMAIL_CLOSE       = '[]'
+TAG_YAML_PARTICLE_OPEN   , TAG_YAML_PARTICLE_CLOSE    = '{}'
+
+DELIMS_EMAIL       = TAG_YAML_EMAIL_OPEN + TAG_YAML_EMAIL_CLOSE
+DELIMS_AFFILIATION = TAG_YAML_AFFILIATION_OPEN + TAG_YAML_AFFILIATION_CLOSE
+DELIMS_PERSON      = ['',DELIMS_EMAIL, DELIMS_AFFILIATION]
+
+DELIMS_PARTICLE = TAG_YAML_PARTICLE_OPEN + TAG_YAML_PARTICLE_CLOSE
 
 ###
+
 # prototype::
-#     yaml_val    : the user-input data coming from an `about.yaml`
-#                   file.
+#     spec        : the specification of a person.
 #     surname     : the surname without a particle is mandatory.
 #     particle    : the particle of a surname, or ''""'' if no
 #                   particle is needed.
@@ -29,13 +47,87 @@ from aboutmeta.tools.misc  import (
 #                   provided.
 #     affiliation : the affiliation adress, or ''""'' if no
 #                   affiliation provided.
+#
+#
+# note::
+#     The ''surname'', ''particle'', ''firstnames'', ''email'' and
+#     ''affiliation'' attributes are build from the value of the
+#     ''spec'' attribute.
 ###
 class Person(DataManager):
-    surname    : str
-    particle   : str        = ''
-    firstnames : tuple[str] = tuple()
-    email      : str        = ''
-    affiliation: str        = ''
+    spec       : str
+    surname    : str        = field(init = False)
+    particle   : str        = field(init = False)
+    firstnames : tuple[str] = field(init = False)
+    email      : str        = field(init = False)
+    affiliation: str        = field(init = False)
+
+###
+# prototype::
+#     :action: derive the ''surname'', ''particle'', ''firstnames'',
+#              ''email'' and ''affiliation'' attributes attributes
+#              from ''self.spec''.
+###
+    def __post_init__(self):
+        spec = self.spec
+
+# One affiliation?
+        spec, self.affiliation = extract_group(
+        content = spec,
+        delims  = DELIMS_AFFILIATION,
+        context = "affiliation"
+    )
+
+# One email?
+        spec, self.email = extract_group(
+            content = spec,
+            delims  = DELIMS_EMAIL,
+            context = "email"
+        )
+
+# First names.
+        titles = spec.split(',')
+
+        if len(titles) == 1:
+            self.firstnames = []
+
+        else:
+            self.firstnames = [n.strip() for n in titles[:-1]]
+
+# Surname.
+        self.surname, self.particle = extract_group(
+            content      = titles[-1].strip(),
+            delims       = DELIMS_PARTICLE,
+            context      = "surname",
+            data_on_left = False
+        )
+
+# Build the standard spec definition.
+        self.spec = self.surname
+
+        if not self.particle is None:
+            self.spec = f'{{{self.particle}}} {self.spec}'
+
+        if self.firstnames:
+            firstnames = ', '.join(self.firstnames)
+            self.spec  = f'{firstnames}, {self.spec}'
+
+        self.spec = gather_groups(
+            groups = [
+                self.spec,
+                (
+                    ''
+                    if self.email is None else
+                    self.email
+                ),
+                (
+                    ''
+                    if self.affiliation is None else
+                    self.affiliation
+                ),
+            ],
+            delims = DELIMS_PERSON,
+        )
 
 ###
 # prototype::
@@ -245,6 +337,59 @@ if __name__ == "__main__":
     from aboutmeta.core.log_conf import *
     setup_logging()
 
+
+# GOOD
+    print()
+    print("-- GOOD CASES --")
+
+    for spec in [
+        "Someone",
+        "ALIce, MarIE-LiSe,  Someone    (My address)",
+        "Someone    [e.mail@provided.by]",
+        "Someone [e.mail@provided.by] (My address)",
+        "ALIce,    MarIE-LiSe,   {MC}    Someone     [   e.mail@provided.by ]    (   My   address  )",
+    ]:
+        data_parsed = Person(spec = spec)
+
+        print()
+        print('~~~')
+
+        print()
+        print(f"{spec = }")
+
+        print()
+        print(repr(data_parsed))
+
+
+# BAD
+    # exit()
+
+    print()
+    print("-- BAD CASES --")
+
+    for spec in [
+        "Someone (My address) [e.mail@provided.by]",
+    ]:
+        print()
+        print(f"{spec = }")
+
+        try:
+            Person(spec = spec)
+
+        except Exception as e:
+            print(type(e).__name__, ':', e)
+
+
+
+
+
+
+
+
+
+
+    exit()
+
 # GOOD
     print("\n------------\n")
 
@@ -259,12 +404,10 @@ if __name__ == "__main__":
     )
 
     print()
-
     print("Original data")
     print(mydata)
 
     print()
-
     print("Normalization")
     mydata.normalize()
     print(mydata)
@@ -288,7 +431,6 @@ if __name__ == "__main__":
     )
 
     print()
-
     print("Original data")
     print(mydata)
 

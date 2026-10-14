@@ -16,7 +16,7 @@ from aboutmeta.specs.data.lang import Lang
 def parse(data: str) -> Lang:
 # No parsing, and all job done by the class
 # ''aboutmeta.specs.data.lang.Lang''.
-    return Lang(identifier = data)
+    return Lang(std_id = data)
 
 
 # ------------ #
@@ -31,7 +31,7 @@ def parse(data: str) -> Lang:
 #              which is the full language identifier.
 ###
 def write(data: Lang) -> str:
-    return data.identifier
+    return data.std_id
 
 
 # ----------- #

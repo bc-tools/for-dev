@@ -60,7 +60,7 @@ class License(DataManager):
 #              normalized form (e.g., ''gpl 3.0 only'' becomes
 #              ''GPL-3.0-only'').
 ###
-    def __post_init__(self):
+    def __post_init__(self) -> None:
 # Our local data.
         with LICENSES_JSON_FILE.open(mode = "r") as f:
             all_licenses = json_load(f)
@@ -266,7 +266,7 @@ if __name__ == "__main__":
 
         print()
         print(f"{spdx_id = }")
-        print(f"{mydata     = }")
+        print(f"{mydata  = }")
 
 
 # BAD

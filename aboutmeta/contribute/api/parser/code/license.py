@@ -29,8 +29,8 @@ def parse(data: str) -> License:
 # prototype::
 #     data : a ''License'' object.
 #
-#     :return: a human-friendly, standard \yaml representation
-#              of the ''License'' object, with a \spdx lowercase
+#     :return: a human-friendly, standard \yaml representation of
+#              the ''License'' object: this is the \spdx lowercase
 #              identifier and spaces instead of hyphens.
 ###
 def write(data: License) -> str:
@@ -51,8 +51,10 @@ if __name__ == "__main__":
     print("-- GOOD CASES --")
 
     for std_yaml_data in [
+        "GPL-3.0-only",
         "gpl      -     3.0 only ",
         "cc    by nc 4.0",
+        "CC-BY-NC-4.0",
     ]:
         data_parsed = parse(std_yaml_data)
 
@@ -69,3 +71,8 @@ if __name__ == "__main__":
 
         print()
         print(f"{std_yaml_data = }")
+
+        data_parsed = parse(std_yaml_data)
+
+        print()
+        print(repr(data_parsed))

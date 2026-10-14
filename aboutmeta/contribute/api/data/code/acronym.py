@@ -12,11 +12,11 @@ from aboutmeta.core.errors       import ParsingError
 # -- DATA MANAGER -- #
 # ------------------ #
 
-_PATTERN_ACRONYM_METADATA = re.compile(
+PATTERN_ACRONYM_METADATA = re.compile(
     r'\[\s*(.*?)(?:\s*::\s*(.*?))?\s*\]|([^\[]+)'
 )
 
-_TAG_ACRONYM_DEF_OPEN, _TAG_ACRONYM_DEF_CLOSE = '[]'
+TAG_ACRONYM_DEF_OPEN, TAG_ACRONYM_DEF_CLOSE = '[]'
 
 ###
 # prototype::
@@ -39,7 +39,7 @@ class Acronym(DataManager):
 #     :action: derive the ''short'' and ''desc'' attributes from
 #              ''self.spec''.
 ###
-    def __post_init__(self):
+    def __post_init__(self) -> None:
 # We only keep internal extra spaces.
         self.spec = self.spec.strip()
 
@@ -47,14 +47,14 @@ class Acronym(DataManager):
         bracket_is_opened = False
 
         for i, c in enumerate(self.spec):
-            if c == _TAG_ACRONYM_DEF_OPEN:
+            if c == TAG_ACRONYM_DEF_OPEN:
                 if bracket_is_opened:
                     raise ParsingError('Unclosed bracket group.')
 
                 else:
                     bracket_is_opened = True
 
-            elif c == _TAG_ACRONYM_DEF_CLOSE:
+            elif c == TAG_ACRONYM_DEF_CLOSE:
                 if not bracket_is_opened:
                     raise ParsingError('Unopened bracket group.')
 
@@ -67,7 +67,7 @@ class Acronym(DataManager):
 # Extract the spec parts.
         spec_parts = []
 
-        for match in _PATTERN_ACRONYM_METADATA.finditer(self.spec):
+        for match in PATTERN_ACRONYM_METADATA.finditer(self.spec):
             spec_initial, spec_final, other = match.groups()
 
             if not spec_initial is None:

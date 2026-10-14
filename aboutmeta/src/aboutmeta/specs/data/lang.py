@@ -17,7 +17,7 @@ from aboutmeta.core.errors       import ParsingError
 
 ###
 # prototype::
-#     identifier : the standard language identifier which looks
+#     std_id : the standard language std_id which looks
 #                  like ''en-GB''.
 #     name       : the full language name like ''English''.
 #     territory  : the territory of the language like ''Great
@@ -26,7 +26,7 @@ from aboutmeta.core.errors       import ParsingError
 #
 # note::
 #     The ''name'' and ''territory'' attributes are build from
-#     the value of the ''identifier'' attribute.
+#     the value of the ''std_id'' attribute.
 #
 #
 # warning::
@@ -36,20 +36,20 @@ from aboutmeta.core.errors       import ParsingError
 #     standard at the \yaml input stage is a best practice.
 ###
 class Lang(DataManager):
-    identifier: str
-    name      : str = field(init = False)
-    territory : str = field(init = False)
+    std_id   : str
+    name     : str = field(init = False)
+    territory: str = field(init = False)
 
 ###
 # prototype::
 #     :action: derive the ''name'' and ''territory'' attributes
-#     from ''self.identifier'' and expand the identifier to its
+#     from ''self.std_id'' and expand the std_id to its
 #     full form (e.g., ''fr'' becomes ''fr-FR'').
 ###
     def __post_init__(self):
 # Getting a normalized code.
         try:
-            lang = get_langcode(self.identifier).maximize()
+            lang = get_langcode(self.std_id).maximize()
 
         except LanguageTagError as e:
             msg = str(e)
@@ -62,12 +62,12 @@ class Lang(DataManager):
 
 # Patch for the strange "Unknow language".
         if desc['language'].startswith('Unknown language'):
-            raise ValueError(f"unknown language code '{self.identifier}'")
+            raise ValueError(f"unknown language code '{self.std_id}'")
 
 # The job has been done.
-        self.identifier = f"{lang.language}-{lang.territory}"
-        self.name       = desc["language"]
-        self.territory  = desc["territory"]
+        self.std_id    = f"{lang.language}-{lang.territory}"
+        self.name      = desc["language"]
+        self.territory = desc["territory"]
 
 
 # ----------- #
@@ -80,18 +80,18 @@ if __name__ == "__main__":
 
     print("-- GOOD CASES --")
 
-    for identifier in [
+    for std_id in [
         "fr",
         "es",
         "en",
         "en-GB",
         "eN-gb",
     ]:
-        mydata = Lang(identifier = identifier)
+        mydata = Lang(std_id = std_id)
 
         print()
-        print(f"{identifier = }")
-        print(f"{mydata     = }")
+        print(f"{std_id = }")
+        print(f"{mydata = }")
 
 
 # BAD
@@ -101,15 +101,15 @@ if __name__ == "__main__":
 
     print("-- BAD CASES --")
 
-    for identifier in [
+    for std_id in [
         "X - X - X",
         "XXX",
     ]:
         print()
-        print(f"{identifier = }")
+        print(f"{std_id = }")
 
         try:
-            Lang(identifier = identifier)
+            Lang(std_id = std_id)
 
         except Exception as e:
             print(type(e).__name__, ':', e)
