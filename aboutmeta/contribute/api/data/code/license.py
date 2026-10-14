@@ -18,9 +18,9 @@ from aboutmeta.core.errors       import ParsingError
 from aboutmeta.tools.web         import get_text_from
 
 
-# ------------------ #
-# -- DATA MANAGER -- #
-# ------------------ #
+# ---------- #
+# -- DATA -- #
+# ---------- #
 
 LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 

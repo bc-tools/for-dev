@@ -6,9 +6,9 @@ Let’s start with a minimal example of a data type class that only stores heigh
 from aboutmeta.core.data_manager import DataManager
 
 
-# ------------------ #
-# -- DATA MANAGER -- #
-# ------------------ #
+# ---------- #
+# -- DATA -- #
+# ---------- #
 
 class Biometric(DataManager):
     height: float
