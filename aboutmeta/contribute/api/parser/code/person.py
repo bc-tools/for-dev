@@ -16,7 +16,7 @@ from aboutmeta.specs.data.person import Person
 ###
 def parse(data: str) -> Person:
 # No parsing, and all job done by the class
-# ''aboutmeta.specs.data.acronym.Person''.
+# ''aboutmeta.specs.data.person.Person''.
     return Person(spec = data)
 
 
