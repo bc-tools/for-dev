@@ -7,7 +7,10 @@ aboutmeta - TODO
 
 redame:
 
-    --> data : on doit documenter pour le yaml pour la doc utilisateur !!!!
+    --> data : on doit documenter pour le yaml pour la doc utilisateur !!!!   on écrit en début de ficheir un tnsdoc , pas dans la tnsdiocs des classes car on veut une vue globale !!!!
+
+    --> du coup, il faut aussi avoir un mecanisme de doc des objets extérieurs telles que `datetime.date` and `semver.Version`
+
     --> parser : pas de cod utilisateur!!!!
 
 
