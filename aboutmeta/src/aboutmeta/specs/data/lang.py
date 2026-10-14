@@ -30,10 +30,10 @@ from aboutmeta.core.errors       import ParsingError
 #
 #
 # warning::
-#     Short identifiers are automatically expanded to full ones.
-#     If a user enters ''fr'', it will be saved as ''fr-FR''.
-#     Enforcing this normalization standard at the \yaml input stage
-#     is a recommended best practice.
+#     Short identifiers are automatically expanded to full ones
+#     regardless of letter casing: if a user enters ''fr'' or ''FR-fr'',
+#     it will be saved as ''fr-FR''. Enforcing this normalization
+#     standard at the \yaml input stage is a best practice.
 ###
 class Lang(DataManager):
     identifier: str
@@ -75,9 +75,6 @@ class Lang(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
-    from aboutmeta.core.log_conf import *
-    setup_logging()
-
 # GOOD
     print("\n------------\n")
 
@@ -88,6 +85,7 @@ if __name__ == "__main__":
         "es",
         "en",
         "en-GB",
+        "eN-gb",
     ]:
         mydata = Lang(identifier = identifier)
 

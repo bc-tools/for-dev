@@ -16,12 +16,13 @@ _PATTERN_ACRONYM_METADATA = re.compile(
     r'\[\s*(.*?)(?:\s*::\s*(.*?))?\s*\]|([^\[]+)'
 )
 
+_TAG_ACRONYM_DEF_OPEN, _TAG_ACRONYM_DEF_CLOSE = '[]'
 
 ###
 # prototype::
-#     spec  : YYYY
-#     short : YYYY
-#     desc  : YYYY
+#     spec  : the specification of an acronym using brackets.
+#     short : the acronym alone.
+#     desc  : the defintion of acronym without any bracket.
 #
 #
 # note::
@@ -39,28 +40,29 @@ class Acronym(DataManager):
 #              ''self.spec''.
 ###
     def __post_init__(self):
+# We only keep internal extra spaces.
         self.spec = self.spec.strip()
 
 # Good use of the square brackets?
         bracket_is_opened = False
 
         for i, c in enumerate(self.spec):
-            if c == '[':
+            if c == _TAG_ACRONYM_DEF_OPEN:
                 if bracket_is_opened:
-                    raise ParsingError('KO 1')
+                    raise ParsingError('Unclosed bracket group.')
 
                 else:
                     bracket_is_opened = True
 
-            elif c == ']':
+            elif c == _TAG_ACRONYM_DEF_CLOSE:
                 if not bracket_is_opened:
-                    raise ParsingError('KO 2')
+                    raise ParsingError('Unopened bracket group.')
 
                 else:
                     bracket_is_opened = False
 
         if bracket_is_opened:
-            raise ParsingError('KO 3')
+            raise ParsingError('Unclosed bracket group.')
 
 # Extract the spec parts.
         spec_parts = []
@@ -90,7 +92,7 @@ class Acronym(DataManager):
         ])
 
         if not self.short:
-            raise ParsingError('No acronym found.')
+            raise ParsingError('Missing bracket group.')
 
 # Build the raw description.
         self.desc = ''.join([
