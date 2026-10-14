@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+###
+# A date must be given in the English format ''YYYY-MM-DD''
+# like ''2025-07-15''.
+###
+
+
 from datetime import datetime
 
 from aboutmeta.core.errors import ParsingError

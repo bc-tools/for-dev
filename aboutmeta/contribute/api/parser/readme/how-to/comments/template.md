@@ -6,6 +6,11 @@ Here is a complete template that will be used to explain how to structure the `P
 ~~~python
 #!/usr/bin/env python3
 
+###
+# User documentation for an 'about.yaml' file must be written at
+# the very beginning of the script.
+###
+
 ...
 
 # ------------ #

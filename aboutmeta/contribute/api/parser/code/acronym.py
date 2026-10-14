@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+###
+# The origin of an acronym can be explained using a small DSL. For example, "[A::@]bout [Desc]ription" explains the choice of the project name "@Desc" as "About Description". Here is how it works.
+#
+#     *   XXXXXXXX
+#
+#     *   XXXXXXXX
+###
+
+
 from aboutmeta.specs.data.acronym import Acronym
 
 
