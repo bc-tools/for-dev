@@ -19,6 +19,14 @@
 #       ''<title> [email] (institute)'' like in ''Ada, Lovelace
 #       [ada.babbage.computer@paper.org] (Victorian Applied
 #       Mechanical Informatic Institute)''.
+#
+#
+# [[normalize]]
+# ...
+#
+#
+# [[validate]]
+# ...
 ###
 
 

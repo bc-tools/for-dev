@@ -5,6 +5,14 @@
 # or the human friendly 'http://abc.com/Dôssier Testé.html''
 # instead of the standard URLs ''https://qwant.com'' and
 # ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html'' respectively.
+#
+#
+# [[normalize]]
+# ...
+#
+#
+# [[validate]]
+# ...
 ###
 
 from aboutmeta.specs.data.url import URL
