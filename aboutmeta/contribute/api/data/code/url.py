@@ -30,13 +30,13 @@ class URL(DataManager):
 #
 # Here are the normalizations done.
 #
-#     1. Some valid \url_s use typographical quirks.
-#     For example, ''HTTPS://QwAnT.com'' is valid, but its
-#     normalized version is ''https://qwant.com''.
+#     1. Some valid \url_s use typographical quirks. For example,
+#     ''HTTPS://QwAnT.com'' is valid, but its normalized version
+#     is ''https://qwant.com''.
 #
-#     1. Special \html character encoding is also handled.
-#     For example, ''http://abc.com/Dôssier Testé.html''
-#     becomes ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html''.
+#     1. Special \html character encoding is also handled. For
+#     example, ''http://abc.com/Dôssier Testé.html'' becomes
+#     ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html''.
 ###
     def normalize(self) -> None:
         parsed_url = urlparse(self.url)

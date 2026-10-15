@@ -63,7 +63,9 @@ class Lang(DataManager):
 
 # Patch for the strange "Unknow language".
         if desc['language'].startswith('Unknown language'):
-            raise ValueError(f"unknown language code '{self.std_id}'")
+            raise ValueError(
+                f"unknown language code '{self.std_id}'"
+            )
 
 # The job has been done.
         self.std_id    = f"{lang.language}-{lang.territory}"

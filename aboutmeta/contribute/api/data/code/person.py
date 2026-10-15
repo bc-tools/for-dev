@@ -358,7 +358,7 @@ if __name__ == "__main__":
         "ALIce, MarIE-LiSe,  Someone    (My address)",
         "{Mc} Someone    [e.mail@provided.by]",
         "Someone [e.mail@provided.by] (My address)",
-        "ALIce,    MarIE-LiSe,   {MC}    Someone     [   e.mail@provided.by ]    (   My   address  )",
+        "ALIce,    MarIE-LiSe,   {MC}    Someone     [   SuPpOrT@OpeAI.CoM ]    (   My   address  )",
     ]:
         mydata = Person(spec = spec)
 
@@ -379,7 +379,7 @@ if __name__ == "__main__":
         mydata.validate()
 
 # BAD
-    # exit()
+    exit()
 
     print()
     print("-- BAD VALIDATION CASES --")

@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 
 ###
-# All valid URLs are accepted like the ugly ''HTTPS://QwAnT.com''
-# or the human friendly 'http://abc.com/Dôssier Testé.html''
-# instead of the standard URLs ''https://qwant.com'' and
-# ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html'' respectively.
+# All valid URLs are accepted.
 #
 #
 # [[normalize]]
-# ...
+# Here are the normalizations done.
+#
+#     1. Typographical quirks are removed. For example,
+#     ''HTTPS://QwAnT.com'' becomes ''https://qwant.com''.
+#
+#     1. Special HTML character encoding is handled. For
+#     example, ''http://abc.com/Dôssier Testé.html'' becomes
+#     ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html''.
 #
 #
 # [[validate]]
-# ...
+# URL validation uses DNS to check for the existence of the
+# hostname, while HTTP techniques verify its online availability.
 ###
 
 from aboutmeta.specs.data.url import URL

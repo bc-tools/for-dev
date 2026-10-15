@@ -9,12 +9,12 @@
 #     1) First, we have the full name "About Description".
 #
 #     1) Then, we indicate inside brackets the parts to keep
-#        for the acronym. Using "[A]bout [Desc]ription" will
-#        produce the acronym "Adesc".
+#     for the acronym. Using "[A]bout [Desc]ription" will
+#     produce the acronym "Adesc".
 #
-#     1) To change a part of the acronym, we use ''::'', as
-#        in ''"[A::@-]bout [Desc]ription"'', to indicate "@-"
-#        instead of "A".
+#     1) To change a part of the acronym, we use ''::'', as in
+#     ''"[A::@-]bout [Desc]ription"'', to indicate "@-" instead
+#     of "A".
 ###
 
 

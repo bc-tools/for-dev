@@ -10,7 +10,7 @@
 #     1) Spaces can replace hyphens.
 #
 #     1) Letter case being ignored, you can type everything in
-#        lowercase for efficiency.
+#     lowercase for efficiency.
 ###
 
 

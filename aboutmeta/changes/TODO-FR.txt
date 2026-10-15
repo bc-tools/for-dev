@@ -6,6 +6,17 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+path, on fait quoi ???
+
+    --> ????
+
+    --> ????
+
+    --> ????
+
+
+> ---------------------------- <
+
 contrib doc !!!
 
     --> auto de tous les extraits avec mef adapté !!!!
