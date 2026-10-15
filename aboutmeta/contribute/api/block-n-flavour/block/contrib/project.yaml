@@ -3,8 +3,8 @@
 # technical point of view.
 #
 #
-# Here is a fictitious example identifying a code project
-# (the case of a document-type project is similar).
+# Here is a mock example identifying a code project (the case
+# of a document-type project is similar).
 #
 # yaml::
 #     project:
@@ -82,8 +82,8 @@ date *: date
 # a tiny DSL.
 #
 #
-# In the fictitious example below, we define the acronym "@-Desc"
-# for "About Description".
+# In the mock example below, we define the acronym "@-Desc" for
+# "About Description".
 #
 # yaml::
 #     acronym : "[A::@-]bout [Desc]ription"
@@ -151,7 +151,7 @@ contrib | contribs *: . | list(.)
 #      report bugs or make suggestions.
 #
 #
-# Here is a fictitious example.
+# Here is a mock example.
 #
 # yaml::
 #     urls:
@@ -173,7 +173,7 @@ urls *:
 #        the selection of a specific user manual license.
 #
 #
-# Here is a fictitious example.
+# Here is a mock example.
 #
 # yaml::
 #     licenses:
@@ -194,7 +194,7 @@ licenses *:
 #     1. The ''manual'' key is for the user manual language.
 #
 #
-# Here is a fictitious example.
+# Here is a mock example.
 #
 # yaml::
 #     langs:
@@ -211,7 +211,7 @@ langs *:
 # this depends on the type of project.
 #
 #
-# Here is a fictitious example.
+# Here is a mock example.
 #
 # yaml::
 #     require:
@@ -227,7 +227,7 @@ require *:
 # categorize the project type.
 #
 #
-# Here is a fictitious example.
+# Here is a mock example.
 #
 # yaml::
 #     keywords:
