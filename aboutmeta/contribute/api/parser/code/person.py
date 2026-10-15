@@ -1,37 +1,24 @@
 #!/usr/bin/env python3
 
 ###
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-#     + **Title (mandatory):**
-#       ''Krivine'' , ''Louis, Krivine'' and ''Jean, Louis, Krivine''
-#       are legal titles for a person (the number of first names is
-#       unlimited).
+# Information related to a person is indicated as follows.
 #
-#     + **Email address (optional):**
-#       ''Jean, Louis, Krivine  [jl-krivine@compile.brain]'' adds an
-#       email using square brackets.
+#     + **Title (mandatory):** ''Krivine'' and ''Jean, Louis,
+#       Krivine'' are legal titles for a person (the number
+#       of first names is unlimited). It is possible to specify
+#       a partcile, as in ''Augustus, {de} Morgan''.
 #
-#     + **Affiliation (optional):**
-#       ''Torvalds (Sacred Kernels Department)'' adds an affiliation
-#       using parentheses.
+#     + **Email address (optional):** ''Jean, Louis, Krivine
+#       [jl-krivine@compile.brain]'' adds an email using square
+#       brackets.
 #
-#     + **Indicate everything:**
-#       only the format ''<title> [email] (institute)'' is allowed
-#       like in ''Ada, Lovelace  [ada.babbage.computer@paper.org]
-#       (Victorian Applied Mechanical Informatic Institute)''.
+#     + **Affiliation (optional):** ''Torvalds (Sacred Kernels
+#       Department)'' adds an affiliation using parentheses.
 #
-#
-# note::
-#     Emails and affiliations are validated on demand rather than
-#     automatically, as an active internet connection is required.
+#     + **Indicate everything:** the only format allowed is
+#       ''<title> [email] (institute)'' like in ''Ada, Lovelace
+#       [ada.babbage.computer@paper.org] (Victorian Applied
+#       Mechanical Informatic Institute)''.
 ###
 
 

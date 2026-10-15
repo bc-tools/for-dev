@@ -1,36 +1,10 @@
 #!/usr/bin/env python3
 
 ###
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-# XXXXXXX
-
-
-
-#   The special zero-argument method `normalize` is used to normalize attribute values. For example, the `url.URl.normalize` can be used to obtain a URL in its standard form (this fairly flexible format accepts different forms for the same URL).
-
-#
-#
-# note::
-#     URLs are never verified automatically, but they can be validated
-#     on demand (technically, this requires an internet connection, so
-#     it is not possible to validate a URL every time an ''about.yaml''
-#     file is analyzed).*
-#
-# Here are the normalizations done.
-#
-#     1. Some valid \url_s use typographical quirks.
-#     For example, ''HTTPS://QwAnT.com'' is valid, but its
-#     normalized version is ''https://qwant.com''.
-#
-#     1. Special \html character encoding is also handled.
-#     For example, ''http://abc.com/Dôssier Testé.html''
-#     becomes ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html''.
+# All valid URLs are accepted like the ugly ''HTTPS://QwAnT.com''
+# or the human friendly 'http://abc.com/Dôssier Testé.html''
+# instead of the standard URLs ''https://qwant.com'' and
+# ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html'' respectively.
 ###
 
 from aboutmeta.specs.data.url import URL

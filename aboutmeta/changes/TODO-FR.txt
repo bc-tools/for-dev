@@ -3,17 +3,7 @@ aboutmeta - TODO
 =========
 
 
-> ---------------------------- <
 
-tnsdoc
-
-    --> block et flavor : doc simplifié car se limite à décrire et non a expliquer le type de données autorisées !!!
-
-> ---------------------------- <
-
-valodation échoue, on doit le savoir
-
-    --> on stocke les messages d'erreur dans une liste accessible via Python ne doublon du log
 
 > ---------------------------- <
 
