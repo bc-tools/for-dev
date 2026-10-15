@@ -2,8 +2,8 @@
 
 ###
 # The origin of an acronym can be explained using a small DSL.
-# For example, ''"[A::@]bout [Desc]ription"'' explains the choice
-# of the acronym '@Desc' for 'About Description'. Here is how it
+# For example, ''"[A::@-]bout [Desc]ription"'' explains the choice
+# of the acronym '@-Desc' for 'About Description'. Here is how it
 # works.
 #
 #     1) First, we have the full name "About Description".
@@ -12,8 +12,9 @@
 #        the acronym. Using "[A]bout [Desc]ription" will produce
 #        the acronym "Adesc".
 #
-#     1) To change a part of the acronym, just use ''::'', as in
-#        ''"[A::@]bout [Desc]ription"'', to use "@" instead of "A".
+#     1) To change a part of the acronym, we use ''::'', as in
+#        ''"[A::@-]bout [Desc]ription"'', to indicate "@-" instead
+#        of "A".
 ###
 
 

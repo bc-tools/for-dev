@@ -18,7 +18,7 @@ require:
 ~~~
 
 
-This code allows to use data such as the following, where the version will be analyzed by the `sem_version` parser, and URLs by the `url` parser. The `desc` data and the ones of the `require` list are kept as string values.
+This code allows to use data such as the following, where the version will be analyzed by the `sem_version` parser, and URLs by the `url` parser. The `desc` data and the ones of the `require` list are kept as string values unparsed.
 
 ~~~yaml
 # Fake example.

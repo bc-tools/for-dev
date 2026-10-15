@@ -20,6 +20,6 @@ Here's how to define a main block.
 
      + For a list of values, use a `YAML` list with a **single element** of type `parser_name`. **At present, no other "dynamic" data, like user dictionnaries, can't be used.**
 
-  1. It may be useful to add post-processing to a parsed value. In this case, simply use `parser_name +` with an additional final plus sign.
+  1. It may be useful to add post-processing to a parsed value (this will be done by a dedicated `Python` function). In this case, simply use `parser_name +` with an additional final plus sign.
 
   1. If helpful, you can add magic comments to explain the blocks used.

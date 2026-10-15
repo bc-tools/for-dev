@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
 ###
-# A language is indicated using the cf::''ISO 639 standard ;
+# A language is indicated using an cf::''ISO 639 standard ;
 # https://en.wikipedia.org/wiki/ISO_639'' short identifier, then,
-# if necessary, add a country using the cf::''ISO 3166 standard ;
-# https://en.wikipedia.org/wiki/ISO_3166'' classifier.
+# if necessary, adding a country using a cf::''ISO 3166
+# standard ; https://en.wikipedia.org/wiki/ISO_3166'' classifier.
 # For example, ''fr'' indicates France French, whereas ''fr-BE''
 # indicates Belgian French.
 #
 #
-# important::
+# note::
 #     The default language is ''en-US'' for US English.
 #
 #
 # tip::
-#     You can use ''_'' instead of ''-''. This can be useful when
+#     You can use ''_'' instead of ''-''. This is useful when
 #     pasting external text or more efficient when typing.
 ###
 

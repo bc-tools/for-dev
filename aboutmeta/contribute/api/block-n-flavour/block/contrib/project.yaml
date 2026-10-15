@@ -1,18 +1,18 @@
 ###
-# This block allows to describe a numerical project from a technical
-# point of view.
+# This block allows to describe a numerical project from a
+# technical point of view.
 #
 #
-# Here is a fictitious example identifying a code project (the case
-# of a document-type project is similar)."
+# Here is a fictitious example identifying a code project
+# (the case of a document-type project is similar).
 #
 # yaml::
 #     project:
 #       version: 0.0.0-beta.1
 #       date   : 2025-06-27
 #
-#       acronym : "[@]bout [Desc]ription"
-#       codename: a_desc
+#       acronym : "[A::@-]bout [Desc]ription"
+#       codename: a-desc
 #       desc    : The project ''@Desc'' is...
 #
 #       authors:
@@ -53,45 +53,60 @@
 #
 #
 # note::
-#     For a document-type project, the ''project.codename'' key is
-#     no longer usable and must be replaced by ''project.doctitle''
-#     (a document must have a title). By default, the project is
-#     considered a code project.
+#     For a document-type project, the ''project.codename'' key
+#     must be replaced by ''project.doctitle'' (a document must
+#     have a title). By default, the project is considered a code
+#     project.
 ###
 
 
 ###
-# XXX
+# This key is for specifying the semantic version number of the
+# project.
+#
+#
+# note::
+#     See cf::''Semantic Versioning ; https://semver.org/'' to
+#     learn how this works.
 ###
 version *: sem_version
 
 ###
-# XXX
+# This key allows to give the project date in the ''YYYY-MM-DD''
+# format.
 ###
 date *: date
 
 ###
-# XXX
+# This key can be used to explain the choice of an acronym using
+# a tiny DSL.
+#
+#
+# In the fictitious example below, we define the acronym "@-Desc"
+# for "About Description".
+#
+# yaml::
+#     acronym : "[A::@-]bout [Desc]ription"
 ###
 acronym *: acronym
 
 
 ###
 # [[doctitle]]
-# This key must be used for a document-type project. This is because
-# such a project must have a title.
+# This key must be used for a document-type project, because such
+# a project must have a title.
 #
 #
 # [[codename]]
-# This key allows you to specify the name of a code-type project if
-# it differs from that of the project folder.
+# This key allows you to specify the name of a code-type project
+# if it differs from that of the project folder.
 #
 #
 # note::
-#     If neither the ''codename'' nor ''doctitle'' key is used, the
-#     project will be considered to be of code type.
+#     If neither the ''codename'' nor ''doctitle'' key is used,
+#     the project will be considered to be of code type.
 ###
-codename | doctitle *: str +
+codename | doctitle *: unix_name | str
 
 
 ###
@@ -103,41 +118,40 @@ desc:
 
 ###
 # [[authors]]
-# This block allows to indicate several authors, just by using a
-# ''YAML'' list of single ''author'' values. The following section
-# describes how to use a single ''author'' key.
+# This block allows to indicate several authors, just by using
+# a ''YAML'' list of single ''author'' values (see the next
+# section).
 #
 #
 # [[author]]
-# The key ''author'' is for identifing a single author using one of
-# the following possible syntaxes.
+# This key is for identifing a single author.
 ###
 author | authors *: person | list(.)
 
 
 ###
-# The ''contribs'' and ''contrib'' key follow the same syntax as
-# ''authors'' and ''author'', except they indicate contributors
-# instead.
+# The ''contribs'' block and the ''contrib'' key follow the same
+# syntax as ''authors'' and ''author'', except they indicate
+# contributors instead.
 ###
 contrib | contribs *: . | list(.)
 
 
 ###
-# This block allows to provide hyperlinks via the following keys, all
-# of which are optional.
+# This block allows to provide hyperlinks via the following keys,
+# all of which are optional.
 #
-#   1. ''home'' allows to specify the address of a website dedicated
-#      to the project.
+#   1. ''home'' allows to specify the address of a website
+#      dedicated to the project.
 #
-#   1. ''dev'' is used to point to a repository for managing project
-#      development.
+#   1. ''dev'' is used to point to a repository for managing
+#      project development.
 #
-#   1. ''issues'' redirects users to the page where they can report
-#      bugs or make suggestions.
+#   1. ''issues'' redirects users to the page where they can
+#      report bugs or make suggestions.
 #
 #
-# Here is an example.
+# Here is a fictitious example.
 #
 # yaml::
 #     urls:
@@ -155,8 +169,8 @@ urls *:
 #
 #     1. ''code'' is for the project license.
 #
-#     1. ''manual'' allows, in the case of a code-type project, the
-#        selection of a specific user manual license.
+#     1. ''manual'' allows, in the case of a code-type project,
+#        the selection of a specific user manual license.
 #
 #
 # Here is a fictitious example.
@@ -171,10 +185,11 @@ licenses *:
 
 
 ###
-# This block allows to specify the languages used for the following
-# parts of a code-type project.
+# This block allows to specify the languages used for the
+# following parts of a code-type project.
 #
-#     1. The ''doc'' key is for the documentation language.
+#     1. The ''doc'' key is for the technical documentation
+#        language.
 #
 #     1. The ''manual'' key is for the user manual language.
 #
@@ -191,9 +206,9 @@ langs *:
 
 
 ###
-# This block allows to provide a list of programming languages
-# required for the code to work, or for compiling a document, this
-# depends on the type of project.
+# This key allows to provide a list of programming languages
+# required for the code to work, or for compiling a document,
+# this depends on the type of project.
 #
 #
 # Here is a fictitious example.
@@ -208,7 +223,7 @@ require *:
 
 
 ###
-# This block allows to specify a list of keywords that succinctly
+# This key allows to specify a list of keywords that succinctly
 # categorize the project type.
 #
 #
