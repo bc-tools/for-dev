@@ -4,31 +4,61 @@ aboutmeta - TODO
 
 
 
-
 > ---------------------------- <
 
-Tester les nouvelles données validés car cela implique la maj du core code !
+contrib doc !!!
 
-Eviter de passer trop de responsabilités aux parsers !!!  cf lang et license ou l'on cdoe certaines choses côté data !
-
-    + person.py   OK!
-    + url.py      OK!
-
-    + lang.py     ????
-    + license.py  ??  --> méthode qui crée les sous donnés depuis l'identifier, logique dans la donnée et non le parser !!!
+    --> auto de tous les extraits avec mef adapté !!!!
 
 
 > ---------------------------- <
 
-pour lang on migre lextraction depuis en-GB  de la langue t du territoire dans validate via extract rendu publique et utilisable par le parser
+Factorisation of tools for a cleaner code.
 
-de même pour license
+    * All tool \funcs use typing annotations.
+
+    * Tests for contributions: if no unit test has been written in the path::''tests'' folder, a file is created with comments containing human tests used in the \contrib file.
 
 
 > ---------------------------- <
 
-liecense text fait par outil externe et non data object, ne mélangeons pas les responsabilités!!!!
+new tools
 
+    + facto des codes block et flavour!
+
+    + gestion des helpers
+
+
+> ---------------------------- <
+
+documenter
+    TAG_KEY_...
+    TAG_FLAVOUR_...
+
+
+> ---------------------------- <
+
+request --> httpx
+
++
+
+hypothesis juste pour dev et Test
+
+
+> ---------------------------- <
+
+formattage standard : attention car les mappers doivent être neutralisé dans ce cas ! cette neutraisation est purement intern et caché à l'utilisateur : passser via un attrib __use_maps
+
+les specs yaml donnent le formattage (analysé par mon script)
+
+
+
+
+
+
+
+
+> ---------------------------- <
 
 from pathlib import Path
 
@@ -120,210 +150,6 @@ if __name__ == "__main__":
 
 
 
-> ---------------------------- <
-
-pour Person parsing
-
-
-from aboutmeta.tools.group import gather_groups
-
-
-    def normalized(self) -> str:
-        titles = self._normalized_titles()
-
-        email = (
-            ""
-            if self.email is None else
-            self._normalized_email()
-        )
-
-        affiliation = (
-            ""
-            if self.affiliation is None else
-            self._normalized_affiliation()
-        )
-
-        norm_person = gather_groups(
-            groups = [titles, email, affiliation],
-            delims = DELIMS_PERSON,
-        )
-
-        return norm_person
-
-
-###
-# prototype::
-#     :return: the normalization process concern firstnames,
-#              surname, and email adress.
-#
-#
-# Here are the normalizations performed.
-#
-#     + All names are written in "titlecase", and the particle
-#     is in lowercase. Spaces around the hyphen are removed.
-#     For example,
-#     ''ALIce,  MarIE   -  LiSe,   {DE}   Charlène'' becomes
-#     ''Alice,  Marie-Lise, {de} Charlène''.
-#
-#     + Some valid emails adresses use typographical quirks.
-#     For example, ''SuPpOrT@OpeAI.CoM'' is valid, but its
-#     normalized version, produced by this method, is
-#     ''SuPpOrT@openai.com''. See the ''_normalized_email''
-#     method for technical details.
-#
-#     + The normalization of the affiliation address is limited
-#     to not having consecutive spaces.
-#     For example,
-#     ''Université   de   la Technologie,    France'' becomes
-#     ''Université de la Technologie, France''.
-###
-    def normalized(self) -> str:
-        titles = self._normalized_titles()
-
-        email = (
-            ""
-            if self.email is None else
-            self._normalized_email()
-        )
-
-        affiliation = (
-            ""
-            if self.affiliation is None else
-            self._normalized_affiliation()
-        )
-
-        norm_person = gather_groups(
-            groups = [titles, email, affiliation],
-            delims = DELIMS_PERSON,
-        )
-
-        return norm_person
-
-###
-# prototype::
-#     :return: the CSV list of names in "titlecase", except the
-#              particle which is lowercase.
-###
-    def _normalized_titles(self) -> str:
-# First names.
-        titles = [
-            self._normalized_name(n)
-            for n in self.firstnames
-        ]
-
-# Particle?
-        if self.surname[0] is None:
-            particle = ''
-
-        else:
-            particle = f"{{{self.surname[0].lower()}}} "
-
-# Main name.
-        titles.append(
-            particle + self._normalized_name(self.surname[1])
-        )
-
-# Just gather all the parts.
-        titles = ', '.join(titles)
-
-        return titles
-
-###
-# prototype::
-#     name : a name to be normalized.
-#
-#     :return: name in "titlecase" without unnecessary spaces.
-###
-    def _normalized_name(
-        self,
-        name: str
-    ) -> str:
-        name = single_spaces(name)
-        name = name.title()
-        name = no_space_around(
-            text = name,
-            part = '-'
-        )
-
-        return name
-
-###
-# prototype::
-#     :return: ''None'', or a normalized email adresss.
-#
-#
-# caution::
-#     According to RFC 5321, we have:
-#         + The domain part is case-insensitive, and should be
-#         lowercase.
-#         + The local part ***may** be case-sensitive, but rarely
-#         is.
-###
-    def _normalized_email(self) -> str | None:
-        email = self.email
-
-# Nothing to do.
-        if email is None:
-            return email
-
-# Let's normalize the email.
-        local_part, _, domain_part = email.partition('@')
-
-        norm_email = f"{local_part}@{domain_part.lower()}"
-
-        return norm_email
-
-###
-# prototype::
-#     :return: ''None'', or the affiliation adresss without
-#              unnecessary spaces.
-###
-    def _normalized_affiliation(self) -> str | None:
-        affiliation = self.affiliation
-
-# Nothing to do.
-        if affiliation is None:
-            return affiliation
-
-# Let's normalize the affiliation.
-        norm_affiliation = single_spaces(affiliation)
-
-        return norm_affiliation
-
-> ---------------------------- <
-
-parsers + data
-
-    --> doc au tout dbt du gfichier qui décrit, mais on ignore les docs technqiues !
-
-    --> accronym au lieu de str +
-
-
-> ---------------------------- <
-
-contrib doc !!!
-
-    --> auto de tous les extraits avec mef adapté !!!!
-
-
-
-
-> ---------------------------- <
-
-    1) \yaml \cfg \api enhanced.
-
-        + ???
-        Similar keys can be defined using a comma-separated list (alternative has priority to similarity).
-
-        + Key alternatives without value alternatives is now possible.
-
-    1) ???
-    Factorisation of tools for a cleaner code.
-
-        * All tool \funcs use typing annotations.
-
-        * ???
-        Tests for contributions: if no unit test has been written in the path::''tests'' folder, a file is created with comments containing human tests used in the \contrib file.
 
 
 > ---------------------------- <
@@ -336,6 +162,7 @@ def de bloc avec des trucs en commun project / monorepo
            what:
               struct mimant celle de project avce juste ce qu el'on veur
 
+
 > ---------------------------- <
 
 yaml2py à reprendre via un code structuré simple
@@ -345,29 +172,7 @@ test manquants à indiquer mais facile
 
 > ---------------------------- <
 
-le parser des yaml est publiable, quitte à indiquer ses limitatioiions, tout en vendant le cpote sûr car on ne lit que des strings!!!
-
-
-> ---------------------------- <
-
-Parser et pots-tools: deux signatures data et amd;data.
-
-
-> ---------------------------- <
-
-new tools
-
-    + facto des codes block et flavour!
-
-    + gestion des helpers
-
-
-> ---------------------------- <
-
-
-documenter
-    TAG_KEY_...
-    TAG_FLAVOUR_...
+le parser des yaml est publiable, quitte à indiquer ses limitatioiions, tout en vendant le cote sûr car on ne lit que des strings!!!
 
 
 > ---------------------------- <
@@ -375,22 +180,6 @@ documenter
 new tests
 
     + on garde les m^mee et on joute des nouveaux!
-
-
-> ---------------------------- <
-
-revori la doc :
-
-    + passer via des sous md gérer indépendemmant du README car sinon vrament trop long!
-
-
-> ---------------------------- <
-
-request --> httpx
-
-+
-
-hypothesis juste pour dev et Test
 
 
 > ---------------------------- <
@@ -410,13 +199,6 @@ on doit tour- t rendre modifiable dynamiquement via une option booleene : ceci p
 > ---------------------------- <
 
 validation des blocs : parmi ceux autorisés, voir ceux obligatoires, et about.yaml autorisé mae si warning en mode console
-
-
-> ---------------------------- <
-
-formattage standard : attention car les mappers doivent être neutralisé dans ce cas ! cette neutraisation est purement intern et caché à l'utilisateur : passser via un attrib __use_maps
-
-les specs yaml donnent le formattage (analysé par mon script)
 
 
 > ---------------------------- <

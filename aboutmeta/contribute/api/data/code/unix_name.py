@@ -20,7 +20,7 @@ PATTERN_UNIX_NAME = re.compile(r'^[a-z_][a-z0-9_-]*$')
 #            with a digit or a hyphen.
 ###
 class UnixName(DataManager):
-    name : str
+    name: str
 
 ###
 # prototype::

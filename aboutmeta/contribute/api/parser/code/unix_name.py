@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 ###
-# A Unix-style name that only uses lowercase letters, digits,
-# underscores, and hyphens, and cannot start with a digit or
-# a hyphen.
+# A Unix-style name only uses lowercase letters, digits,
+# underscores, and hyphens, and cannot start with a digit
+# or a hyphen.
 ###
 
 
