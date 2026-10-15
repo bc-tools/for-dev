@@ -58,7 +58,10 @@ def write(data: License) -> str:
 # ----------- #
 
 if __name__ == "__main__":
-   # GOOD
+# We just need some basic interface tests, because we have already
+# tested the ''License'' class.
+
+# GOOD
     print("\n------------\n")
 
     print("-- GOOD CASES --")

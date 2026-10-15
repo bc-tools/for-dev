@@ -8,13 +8,13 @@
 #
 #     1) First, we have the full name "About Description".
 #
-#     1) Then, we indicate inside brackets the parts to keep for
-#        the acronym. Using "[A]bout [Desc]ription" will produce
-#        the acronym "Adesc".
+#     1) Then, we indicate inside brackets the parts to keep
+#        for the acronym. Using "[A]bout [Desc]ription" will
+#        produce the acronym "Adesc".
 #
-#     1) To change a part of the acronym, we use ''::'', as in
-#        ''"[A::@-]bout [Desc]ription"'', to indicate "@-" instead
-#        of "A".
+#     1) To change a part of the acronym, we use ''::'', as
+#        in ''"[A::@-]bout [Desc]ription"'', to indicate "@-"
+#        instead of "A".
 ###
 
 
@@ -27,7 +27,8 @@ from aboutmeta.specs.data.acronym import Acronym
 
 ###
 # prototype::
-#     data : the acronym provided in the \yaml file, but stripped.
+#     data : the acronym provided in the \yaml file, but
+#            stripped.
 #
 #     :return: an instance of the class ''Acronym''.
 ###
@@ -45,7 +46,8 @@ def parse(data: str) -> Acronym:
 # prototype::
 #     data : a ''Acronym'' object.
 #
-#     :return: the standard \yaml version of the ''Acronym'' object.
+#     :return: the standard \yaml version of the ''Acronym''
+#              object.
 ###
 def write(data: Acronym) -> str:
     return data.spec
@@ -56,8 +58,8 @@ def write(data: Acronym) -> str:
 # ----------- #
 
 if __name__ == "__main__":
-# We just need some basic interface tests, because we have already
-# tested the ''Acronym'' class.
+# We just need some basic interface tests, because we have
+# already tested the ''Acronym'' class.
 
 # GOOD
     print()

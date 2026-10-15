@@ -61,7 +61,7 @@ def write(data: Person) -> str:
 
 if __name__ == "__main__":
 # We just need some basic interface tests, because we have already
-# tested the ''Acronym'' class.
+# tested the ''Person'' class.
 
 # GOOD
     print()
