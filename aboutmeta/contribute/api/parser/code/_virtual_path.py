@@ -6,6 +6,9 @@
 
 ###
 #
+
+print(PATTERN_ACRONYM_METADATA.pattern)
+exit()
 ###
 
 
