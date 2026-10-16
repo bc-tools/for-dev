@@ -7,7 +7,6 @@ from dataclasses import field
 from email_validator import validate_email
 
 from aboutmeta.core.data_manager import DataManager
-from aboutmeta.core.errors       import ParsingError
 
 from aboutmeta.tools.group import (
     extract_group,
@@ -380,7 +379,7 @@ if __name__ == "__main__":
         mydata.validate()
 
 # BAD
-    exit()
+    # exit()
 
     print()
     print("-- BAD VALIDATION CASES --")

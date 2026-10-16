@@ -2,7 +2,7 @@
 
 from dataclasses import field
 
-from json import load  as json_load
+from json import load as json_load
 
 from pathlib import Path
 import              re
@@ -15,7 +15,6 @@ from rapidfuzz import (
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.constants    import *
 from aboutmeta.core.errors       import ParsingError
-from aboutmeta.tools.web         import get_text_from
 
 
 # ---------- #

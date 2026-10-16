@@ -4,7 +4,7 @@ import httpx
 import socket
 
 from urllib.parse import (
-    quote,
+    quote as urlquote,
     urlparse,
     urlunparse,
 )
@@ -42,13 +42,13 @@ class URL(DataManager):
         parsed_url = urlparse(self.url)
 
         self.url = urlunparse((
-            parsed_url.scheme,          # http, https
-            parsed_url.netloc.lower(),  # Domain
-            # parsed_url.path,            # No HTML encoding!
-            quote(parsed_url.path, safe="/"), # HTML encoding
-            parsed_url.params,          # Keep params.
-            parsed_url.query,           # Keep query string.
-            parsed_url.fragment         # Keep fragment (#...).
+            parsed_url.scheme,                   # http, https
+            parsed_url.netloc.lower(),           # Domain
+            # parsed_url.path,                   # No HTML encoding!
+            urlquote(parsed_url.path, safe="/"), # HTML encoding
+            parsed_url.params,                   # Keep params.
+            parsed_url.query,                    # Keep query string.
+            parsed_url.fragment                  # Keep fragment (#...).
         ))
 
 ###
