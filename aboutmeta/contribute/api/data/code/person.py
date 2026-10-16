@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import requests
+import httpx
 
 from dataclasses import field
 
@@ -308,7 +308,7 @@ class Person(DataManager):
         try:
             self.data_pb.checking(affi)
 
-            response = requests.get(
+            response = httpx.get(
                 "https://nominatim.openstreetmap.org/search",
                 params = {
                     "q"     : affi,
@@ -317,10 +317,11 @@ class Person(DataManager):
                 },
                 headers = {
                     "User-Agent": "AdresseChecker/1.0"
-                }
+                },
+                timeout = 3
             )
 
-            if response.ok and len(response.json()) != 0:
+            if response.is_success and len(response.json()) != 0:
                 self.data_pb.validated(affi)
 
                 return

@@ -1,9 +1,8 @@
-# TODO
-
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
-from pathlib     import Path
+from dataclasses import field
+
+from pathlib import Path
 
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
@@ -15,17 +14,12 @@ from aboutmeta.core.errors       import ParsingError
 
 ###
 # prototype::  A  REVOIR
-#     postsearch : ''None'', or a path to a folder containing
-#                  an path::''about.yaml'' file to be analyzed
-#                  during the post-production.
-#     paths      : a list of paths, even if only one file has been
-#                  specified (this will simplify future processing).
-#                @ postsearch != None <==> paths == []
+#     spec : the specification of YYYY
+#     XXXX : XXXX
 ###
-@dataclass(frozen = True)
 class TOCPath(DataManager):
-    postsearch: Path | None
-    paths     : list[Path]
+    spec : str | dict(str, str)
+    paths: dict(str, str | Path) = field(init = False)
 
 
 # ----------- #

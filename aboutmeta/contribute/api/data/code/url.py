@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import requests
+import httpx
 import socket
 
 from urllib.parse import (
@@ -108,10 +108,10 @@ class URL(DataManager):
         try:
             self.data_pb.checking(url)
 
-            response = requests.head(
+            response = httpx.head(
                 url,
                 timeout         = 3,
-                allow_redirects = True
+                follow_redirects = True
             )
 
             if response.status_code < 400:
@@ -122,7 +122,7 @@ class URL(DataManager):
             else:
                 self.data_pb.new_error(
                     data      = url,
-                    error_msg = f"Requests status code = {response.status_code}.",
+                    error_msg = f"HTTPX status code = {response.status_code}.",
                 )
 
         except Exception as e:

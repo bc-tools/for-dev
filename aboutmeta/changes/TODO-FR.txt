@@ -8,11 +8,9 @@ aboutmeta - TODO
 
 path, on fait quoi ???
 
-    --> ????
+    --> data TOCPath : pour un simple chemin sotcker comme un Path dont on valide l'existence, ou bien un mootif que l'on valide aussi !!! post_ibit valide les formats automatiquements
 
-    --> ????
-
-    --> ????
+    --> map_list part d'une lise yaml et la transforme en une liste de chemins physiques !!!
 
 
 > ---------------------------- <
