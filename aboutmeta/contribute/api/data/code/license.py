@@ -258,16 +258,15 @@ if __name__ == "__main__":
 
     print("-- GOOD CASES --")
 
-    for spdx_id in [
+    for yaml_data in [
         "gpl   3.0 only ",
         "cc    by nc 4.0",
     ]:
-        mydata = License(spdx_id = spdx_id)
+        mydata = License(spdx_id = yaml_data)
 
         print()
-        print(f"{spdx_id = }")
-        print(f"{mydata  = }")
-
+        print(f"{yaml_data = }")
+        print(f"{mydata    = }")
 
 # BAD
     # exit()
@@ -276,7 +275,7 @@ if __name__ == "__main__":
 
     print("-- BAD CASES --")
 
-    for spdx_id in [
+    for yaml_data in [
         "gpl  3.0 +",
         "gpl",
         "cc nc",
@@ -284,10 +283,10 @@ if __name__ == "__main__":
         " ",
     ]:
         print()
-        print(f"{spdx_id = }")
+        print(f"{yaml_data = }")
 
         try:
-            License(spdx_id = spdx_id)
+            License(spdx_id = yaml_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)

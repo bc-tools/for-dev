@@ -72,12 +72,6 @@ if __name__ == "__main__":
     print('~~~')
 
     print()
-    print(f"{std_yaml_data = }")
-
-    print()
-    print(repr(data_parsed))
-
-    std_yaml_data = write(data_parsed)
-
-    print()
-    print(f"{std_yaml_data = }")
+    print(f"{std_yaml_data      = }")
+    print(f"{data_parsed        = }")
+    print(f"{write(data_parsed) = }")

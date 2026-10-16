@@ -70,7 +70,9 @@ if __name__ == "__main__":
         print('~~~')
 
         print()
-        print(f"{std_yaml_data = }")
+        print(f"{std_yaml_data      = }")
+        print(f"{data_parsed        = }")
+        print(f"{write(data_parsed) = }")
 
         print()
         print( f"repr(data_parsed)      = {data_parsed!r}")
@@ -79,11 +81,6 @@ if __name__ == "__main__":
         print(f"{data_parsed.patch      = }")
         print(f"{data_parsed.prerelease = }")
         print(f"{data_parsed.build      = }")
-
-        std_yaml_data = write(data_parsed)
-
-        print()
-        print(f"{std_yaml_data = }")
 
         print()
         print(f"{data_parsed.next_version(part="prerelease") = }")

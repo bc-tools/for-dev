@@ -24,6 +24,13 @@ contrib doc !!!
 
 > ---------------------------- <
 
+https://github.com/fabiocaccamo/python-benedict
+
+au lieu de boxplus !!!!
+
+
+> ---------------------------- <
+
 Factorisation of tools for a cleaner code.
 
     * All tool \funcs use typing annotations.

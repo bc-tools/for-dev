@@ -6,11 +6,12 @@ from dataclasses import dataclass
 from pathlib     import Path
 
 from aboutmeta.core.data_manager import DataManager
+from aboutmeta.core.errors       import ParsingError
 
 
-# ------------------ #
-# -- DATA MANAGER -- #
-# ------------------ #
+# ---------- #
+# -- DATA -- #
+# ---------- #
 
 ###
 # prototype::  A  REVOIR

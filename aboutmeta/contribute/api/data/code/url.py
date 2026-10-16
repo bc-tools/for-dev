@@ -142,22 +142,23 @@ if __name__ == "__main__":
     from aboutmeta.core.log_conf import *
     setup_logging()
 
-    for url in [
+    for yaml_data in [
         "HTTPS://QwAnT.com",
         "qwant.com",
         "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html"
     ]:
         print("\n------------\n")
 
-        mydata = URL(url = url)
+        mydata = URL(url = yaml_data)
 
-        print("Original data")
-        print(mydata)
+        print()
+        print(f"{yaml_data = }")
+        print(f"{mydata    = }")
 
         print()
         print("Normalization")
         mydata.normalize()
-        print(mydata)
+        print(f"{mydata = }")
 
         print()
         print(f"Validation process")

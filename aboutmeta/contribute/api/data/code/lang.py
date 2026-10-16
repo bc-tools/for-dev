@@ -83,19 +83,18 @@ if __name__ == "__main__":
 
     print("-- GOOD CASES --")
 
-    for std_id in [
+    for yaml_data in [
         "fr",
         "es",
         "en",
         "en-GB",
         "eN-gb",
     ]:
-        mydata = Lang(std_id = std_id)
+        mydata = Lang(std_id = yaml_data)
 
         print()
-        print(f"{std_id = }")
-        print(f"{mydata = }")
-
+        print(f"{yaml_data = }")
+        print(f"{mydata    = }")
 
 # BAD
     # exit()
@@ -104,15 +103,15 @@ if __name__ == "__main__":
 
     print("-- BAD CASES --")
 
-    for std_id in [
+    for yaml_data in [
         "X - X - X",
         "XXX",
     ]:
         print()
-        print(f"{std_id = }")
+        print(f"{yaml_data = }")
 
         try:
-            Lang(std_id = std_id)
+            Lang(std_id = yaml_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)

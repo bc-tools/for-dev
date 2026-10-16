@@ -353,26 +353,26 @@ if __name__ == "__main__":
     print()
     print("-- GOOD CASES --")
 
-    for spec in [
+    for yaml_data in [
         "Someone",
         "ALIce, MarIE-LiSe,  Someone    (My address)",
         "{Mc} Someone    [e.mail@provided.by]",
         "Someone [e.mail@provided.by] (My address)",
         "ALIce,    MarIE-LiSe,   {MC}    Someone     [   SuPpOrT@OpeAI.CoM ]    (   My   address  )",
     ]:
-        mydata = Person(spec = spec)
+        mydata = Person(spec = yaml_data)
 
         print()
         print('~~~')
 
         print()
-        print(f"{spec   = }")
-        print(f"{mydata = }")
+        print(f"{yaml_data = }")
+        print(f"{mydata    = }")
 
         print()
         print("Normalization")
         mydata.normalize()
-        print(mydata)
+        print(f"{mydata = }")
 
         print()
         print(f"Validation process")
@@ -384,34 +384,33 @@ if __name__ == "__main__":
     print()
     print("-- BAD VALIDATION CASES --")
 
-    for spec in [
+    for yaml_data in [
         "A, B, C [support@openaicom] (Université de la Techlogie, France)",
     ]:
         print()
-        print(f"{spec = }")
+        print(f"{yaml_data = }")
 
-        mydata = Person(spec = spec)
+        mydata = Person(spec = yaml_data)
         mydata.validate()
 
         for m in mydata._errors_found:
             print(f"    > {m}")
-
 
     # exit()
 
     print()
     print("-- BAD PARSING CASES --")
 
-    for spec in [
+    for yaml_data in [
         "Someone (My address) [e.mail@provided.by]",
         "Someone [e.mail@provided.by (My address)",
         "Someone [e.mail@provided.by] (My address",
     ]:
         print()
-        print(f"{spec = }")
+        print(f"{yaml_data = }")
 
         try:
-            Person(spec = spec)
+            Person(spec = yaml_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)

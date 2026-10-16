@@ -128,15 +128,15 @@ if __name__ == "__main__":
 
     print("-- GOOD CASES --")
 
-    for spec in [
+    for yaml_data in [
         "   [about] [meta]data  ",
         "[about::@-]   [meta   ::   met-@]data",
     ]:
-        mydata = Acronym(spec = spec)
+        mydata = Acronym(spec = yaml_data)
 
         print()
-        print(f"{spec   = }")
-        print(f"{mydata = }")
+        print(f"{yaml_data = }")
+        print(f"{mydata    = }")
 
 # BAD
     # exit()
@@ -145,7 +145,7 @@ if __name__ == "__main__":
 
     print("-- BAD CASES --")
 
-    for spec in [
+    for yaml_data in [
         "about metadata",
         "[about [meta]data",
         "[about] meta]data",
@@ -153,10 +153,10 @@ if __name__ == "__main__":
         "about meta]data",
     ]:
         print()
-        print(f"{spec = }")
+        print(f"{yaml_data = }")
 
         try:
-            Acronym(spec = spec)
+            Acronym(spec = yaml_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)

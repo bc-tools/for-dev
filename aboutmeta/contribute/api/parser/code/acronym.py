@@ -65,19 +65,13 @@ if __name__ == "__main__":
     print()
     print("-- GOOD CASES --")
 
-    std_yaml_data = "[about::@] [meta]data"
-    data_parsed   = parse(std_yaml_data)
+    yaml_data   = "[about::@] [meta]data"
+    data_parsed = parse(yaml_data)
 
     print()
     print('~~~')
 
     print()
-    print(f"{std_yaml_data = }")
-
-    print()
-    print(repr(data_parsed))
-
-    std_yaml_data = write(data_parsed)
-
-    print()
-    print(f"{std_yaml_data = }")
+    print(f"{yaml_data          = }")
+    print(f"{data_parsed        = }")
+    print(f"{write(data_parsed) = }")

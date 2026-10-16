@@ -66,29 +66,19 @@ if __name__ == "__main__":
 
     print("-- GOOD CASES --")
 
-    for std_yaml_data in [
+    for yaml_data in [
         "GPL-3.0-only",
         "gpl      -     3.0 only ",
         "cc    by nc 4.0",
         "CC-BY-NC-4.0",
     ]:
-        data_parsed = parse(std_yaml_data)
+        data_parsed = parse(yaml_data)
 
         print()
         print('~~~')
 
         print()
-        print(f"{std_yaml_data = }")
-
-        print()
-        print(repr(data_parsed))
-
-        std_yaml_data = write(data_parsed)
-
-        print()
-        print(f"{std_yaml_data = }")
-
-        data_parsed = parse(std_yaml_data)
-
-        print()
-        print(repr(data_parsed))
+        print(f"{yaml_data                 = }")
+        print(f"{data_parsed               = }")
+        print(f"{write(data_parsed)        = }")
+        print(f"{parse(write(data_parsed)) = }")

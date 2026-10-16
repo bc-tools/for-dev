@@ -69,29 +69,23 @@ if __name__ == "__main__":
     print()
     print("-- GOOD CASES --")
 
-    for str_data in [
+    for yaml_data in [
         "2025-06-27",
     ]:
-        data_parsed = parse(str_data)
+        data_parsed = parse(yaml_data)
 
         print()
         print('~~~')
-        print()
-
-        print(f'{str_data = }')
-
 
         print()
-        print( f"repr(data_parsed) = {data_parsed!r}")
+        print(f"{yaml_data          = }")
+        print(f"{data_parsed        = }")
+        print(f"{write(data_parsed) = }")
+
+        print()
         print(f"{data_parsed.year  = }")
         print(f"{data_parsed.month = }")
         print(f"{data_parsed.day   = }")
-
-        std_yaml_data = write(data_parsed)
-
-        print()
-        print(f"{std_yaml_data = }")
-
 
 # BAD
     # exit()
@@ -99,7 +93,7 @@ if __name__ == "__main__":
     print()
     print("-- BAD CASES --")
 
-    for str_data in [
+    for yaml_data in [
         "2.3",
         "2/3/2025",
         "2025-02-30",
@@ -108,10 +102,10 @@ if __name__ == "__main__":
         print('~~~')
         print()
 
-        print(f'{str_data = }')
+        print(f'{yaml_data = }')
 
         try:
-            parse(str_data)
+            parse(yaml_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)

@@ -41,14 +41,14 @@ if __name__ == "__main__":
 
     print("-- GOOD CASES --")
 
-    for name in [
+    for yaml_data in [
         "_abc-cde123",
     ]:
-        mydata = Unixname(name = name)
+        mydata = Unixname(name = yaml_data)
 
         print()
-        print(f"{name   = }")
-        print(f"{mydata = }")
+        print(f"{yaml_data = }")
+        print(f"{mydata    = }")
 
 # BAD
     # exit()
@@ -57,16 +57,16 @@ if __name__ == "__main__":
 
     print("-- BAD CASES --")
 
-    for name in [
+    for yaml_data in [
         "-hyphen-pb",
         "CasePB",
         "123-digits-pb",
     ]:
         print()
-        print(f"{name = }")
+        print(f"{yaml_data = }")
 
         try:
-            Unixname(name = name)
+            Unixname(name = yaml_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)
