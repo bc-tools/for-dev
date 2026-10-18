@@ -86,8 +86,10 @@ TYPE_TOC_PATH_SPEC: TypeAlias = (
 #         * TAG_TOC_PATH_REGEX_RECU
 ###
 class TOCPath(DataManager):
-    spec  : TYPE_TOC_PATH_SPEC
-    parent: Path
+    spec   : TYPE_TOC_PATH_SPEC
+    parent : Path
+    kind   : str              = field(init = False)
+    pattern: str | re.Pattern = field(init = False)
 
 ###
 # prototype::
@@ -99,7 +101,8 @@ class TOCPath(DataManager):
 
 # A raw path.
         if isinstance(spec, str):
-            self.spec = {TAG_TOC_PATH_RAW: spec}
+            self.kind    = TAG_TOC_PATH_RAW
+            self.pattern = spec
 
             return
 
@@ -130,7 +133,9 @@ class TOCPath(DataManager):
             pattern = self._check_syntax_regex(pattern)
 
 # Syntax is good, but maybe the pattern gives nothing.
-        self.spec = {kind: pattern}
+        self.kind    = kind
+        self.pattern = pattern
+        self.spec    = {kind: pattern}
 
 ###
 # prototype::
@@ -218,25 +223,14 @@ class TOCPath(DataManager):
         self._validate_parent_dir()
 
 # Validation regarding the kind of data.
-        for kind, pattern in self.spec.items(): # Python is funny...
-            ...
+        if self.kind == TAG_TOC_PATH_RAW:
+            self._validate_raw_path()
 
-        if kind == TAG_TOC_PATH_RAW:
-            self._validate_raw_path(
-                raw_path = pattern
-            )
-
-        elif kind in TAG_TOC_GLOB_PATTERNS:
-            self._validate_glob_pattern(
-                kind    = kind,
-                pattern = pattern
-            )
+        elif self.kind in TAG_TOC_GLOB_PATTERNS:
+            self._validate_glob_pattern()
 
         else:
-            self._validate_regex_pattern(
-                kind    = kind,
-                pattern = pattern
-            )
+            self._validate_regex_pattern()
 
 ###
 # prototype::
@@ -262,10 +256,9 @@ class TOCPath(DataManager):
 #
 #     :action: XXX
 ###
-    def _validate_raw_path(
-        self,
-        raw_path: str
-    ) -> None:
+    def _validate_raw_path(self) -> None:
+        raw_path = self.pattern
+
         self.data_pb.what("raw path")
         self.data_pb.checking(raw_path)
 
@@ -294,29 +287,21 @@ class TOCPath(DataManager):
 #
 #     :action: XXX
 ###
-    def _validate_glob_pattern(
-        self,
-        kind   : str,
-        pattern: str
-    ) -> None:
+    def _validate_glob_pattern(self) -> None:
         glob_method = self._start_pattern_validation(
-            kind        = kind,
-            str_pattern = pattern
+            str_pattern = self.pattern
         )
 
         nothing_found = True
 
-        for p in self.glob_iter(
-            glob_method = glob_method,
-            pattern     = pattern,
-        ):
+        for p in self.glob_iter(glob_method):
             nothing_found = False
 
             break
 
         self._close_pattern_validation(
             nothing_found = nothing_found,
-            str_pattern   = pattern
+            str_pattern   = self.pattern
         )
 
 ###
@@ -326,24 +311,16 @@ class TOCPath(DataManager):
 #
 #     :action: XXX
 ###
-    def _validate_regex_pattern(
-        self,
-        kind   : str,
-        pattern: re.Pattern
-    ) -> None:
-        str_pattern = pattern.pattern
+    def _validate_regex_pattern(self) -> None:
+        str_pattern = self.pattern.pattern
 
         glob_method = self._start_pattern_validation(
-            kind        = kind,
             str_pattern = str_pattern
         )
 
         nothing_found = True
 
-        for p in self.regex_iter(
-            glob_method = glob_method,
-            pattern     = pattern,
-        ):
+        for p in self.regex_iter(glob_method):
             nothing_found = False
 
             break
@@ -361,13 +338,15 @@ class TOCPath(DataManager):
 ###
     def _start_pattern_validation(
         self,
-        kind       : str,
         str_pattern: str
     ) -> str:
-        is_recu = (kind[:2] == 'r-')
+        is_recu = (self.kind[:2] == 'r-')
 
         if is_recu:
-            _ , kind = kind.split('-')
+            _ , kind = self.kind.split('-')
+
+        else:
+            kind = self.kind
 
         what = (
             f"recursive {kind}"
@@ -415,9 +394,8 @@ class TOCPath(DataManager):
     def glob_iter(
         self,
         glob_method: str,
-        pattern    : str,
     ) -> Iterator[Path]:
-        for p in getattr(self.parent, glob_method)(pattern):
+        for p in getattr(self.parent, glob_method)(self.pattern):
             yield p
 
 ###
@@ -427,12 +405,11 @@ class TOCPath(DataManager):
     def regex_iter(
         self,
         glob_method: str,
-        pattern    : re.Pattern,
     ) -> Iterator[Path]:
         for p in getattr(self.parent, glob_method)('*'):
             relpath = p.relative_to(self.parent)
 
-            if pattern.fullmatch(str(relpath)):
+            if self.pattern.fullmatch(str(relpath)):
                 yield p
 
 
@@ -459,13 +436,13 @@ if __name__ == "__main__":
     print("-- GOOD CASES --")
 
     for yaml_data in [
-# # Raw path.
+# Raw path.
         Path(__file__).name,
-# # Glob patterns.
+# Glob patterns.
         {'glob': "*.md"},
         {'glob': "*.py"},
         {'rg': "*.py"},
-# # Regex patterns.
+# Regex patterns.
         {'r': r".*\.md"},
         {'rr': r".*\.py"},
         {'r': r"[^/]*\.py"},

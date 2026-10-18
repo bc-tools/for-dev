@@ -6,6 +6,15 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+map_list pour la donnée semantique utilisable
+
+doc data : indiquer field(init = False) et def __post_init__(self) -> None:
+
+doc data : DataManager classe de datatcass ansa décorateur
+
+
+> ---------------------------- <
+
 path, on fait quoi ???
 
     --> data TOCPath : pour un simple chemin sotcker comme un Path dont on valide l'existence, ou bien un mootif que l'on valide aussi !!! post_ibit valide les formats automatiquements
