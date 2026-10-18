@@ -2,6 +2,7 @@
 
 import re
 
+
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
 
@@ -37,8 +38,7 @@ class UnixName(DataManager):
 
 if __name__ == "__main__":
 # GOOD
-    print("\n------------\n")
-
+    print('')
     print("-- GOOD CASES --")
 
     for yaml_data in [
@@ -53,8 +53,7 @@ if __name__ == "__main__":
 # BAD
     # exit()
 
-    print("\n------------\n")
-
+    print('')
     print("-- BAD CASES --")
 
     for yaml_data in [

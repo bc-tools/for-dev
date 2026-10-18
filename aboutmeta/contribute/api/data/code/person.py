@@ -2,9 +2,10 @@
 
 import httpx
 
-from dataclasses import field
-
 from email_validator import validate_email
+
+
+from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
 
@@ -23,15 +24,15 @@ from aboutmeta.tools.misc  import (
 # -- DATA -- #
 # ---------- #
 
-TAG_YAML_AFFILIATION_OPEN, TAG_YAML_AFFILIATION_CLOSE = '()'
-TAG_YAML_EMAIL_OPEN      , TAG_YAML_EMAIL_CLOSE       = '[]'
-TAG_YAML_PARTICLE_OPEN   , TAG_YAML_PARTICLE_CLOSE    = '{}'
+TAG_AFFILIATION_OPEN, TAG_AFFILIATION_CLOSE = '()'
+TAG_EMAIL_OPEN      , TAG_EMAIL_CLOSE       = '[]'
+TAG_PARTICLE_OPEN   , TAG_PARTICLE_CLOSE    = '{}'
 
-DELIMS_EMAIL       = TAG_YAML_EMAIL_OPEN + TAG_YAML_EMAIL_CLOSE
-DELIMS_AFFILIATION = TAG_YAML_AFFILIATION_OPEN + TAG_YAML_AFFILIATION_CLOSE
+DELIMS_EMAIL       = TAG_EMAIL_OPEN + TAG_EMAIL_CLOSE
+DELIMS_AFFILIATION = TAG_AFFILIATION_OPEN + TAG_AFFILIATION_CLOSE
 DELIMS_PERSON      = ['',DELIMS_EMAIL, DELIMS_AFFILIATION]
 
-DELIMS_PARTICLE = TAG_YAML_PARTICLE_OPEN + TAG_YAML_PARTICLE_CLOSE
+DELIMS_PARTICLE = TAG_PARTICLE_OPEN + TAG_PARTICLE_CLOSE
 
 
 ###
@@ -350,7 +351,7 @@ if __name__ == "__main__":
 
 
 # GOOD
-    print()
+    print('')
     print("-- GOOD CASES --")
 
     for yaml_data in [
@@ -381,7 +382,7 @@ if __name__ == "__main__":
 # BAD
     # exit()
 
-    print()
+    print('')
     print("-- BAD VALIDATION CASES --")
 
     for yaml_data in [
@@ -398,7 +399,7 @@ if __name__ == "__main__":
 
     # exit()
 
-    print()
+    print('')
     print("-- BAD PARSING CASES --")
 
     for yaml_data in [

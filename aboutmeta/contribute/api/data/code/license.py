@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from dataclasses import field
-
 from json import load as json_load
 
 from pathlib import Path
@@ -11,6 +9,9 @@ from rapidfuzz import (
     process as fuzz_process,
     fuzz
 )
+
+
+from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.constants    import *
@@ -253,8 +254,7 @@ if __name__ == "__main__":
     tool_update_license_json()
 
 # GOOD
-    print("\n------------\n")
-
+    print('')
     print("-- GOOD CASES --")
 
     for yaml_data in [
@@ -270,8 +270,7 @@ if __name__ == "__main__":
 # BAD
     # exit()
 
-    print("\n------------\n")
-
+    print('')
     print("-- BAD CASES --")
 
     for yaml_data in [

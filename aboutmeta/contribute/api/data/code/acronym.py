@@ -2,6 +2,7 @@
 
 import re
 
+
 from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
@@ -124,8 +125,7 @@ class Acronym(DataManager):
 
 if __name__ == "__main__":
 # GOOD
-    print("\n------------\n")
-
+    print('')
     print("-- GOOD CASES --")
 
     for yaml_data in [
@@ -141,8 +141,7 @@ if __name__ == "__main__":
 # BAD
     # exit()
 
-    print("\n------------\n")
-
+    print('')
     print("-- BAD CASES --")
 
     for yaml_data in [

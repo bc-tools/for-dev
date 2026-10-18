@@ -9,6 +9,7 @@ from urllib.parse import (
     urlunparse,
 )
 
+
 from aboutmeta.core.data_manager import DataManager
 
 
@@ -141,6 +142,11 @@ class URL(DataManager):
 if __name__ == "__main__":
     from aboutmeta.core.log_conf import *
     setup_logging()
+
+
+# GOOD
+    print('')
+    print("-- GOOD CASES --")
 
     for yaml_data in [
         "HTTPS://QwAnT.com",
