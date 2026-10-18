@@ -125,10 +125,7 @@ class TOCPath(DataManager):
             self._validate_syntax_glob(pattern)
 
         else:
-            ...
-
-
-
+            pattern = self._validate_syntax_regex(pattern)
 
 # Syntax is good, but maybe the pattern gives nothing.
         self.spec = {kind: pattern}
@@ -146,7 +143,7 @@ class TOCPath(DataManager):
         in_bracket = False
         escaped    = False
 
-        for i, char in enumerate(pattern):
+        for char in pattern:
             if escaped:
                 escaped = False
                 continue
@@ -157,6 +154,7 @@ class TOCPath(DataManager):
 
             if char == '[':
                 in_bracket = True
+
             elif char == ']':
                 if not in_bracket:
                     raise ParsingError(
@@ -176,6 +174,23 @@ class TOCPath(DataManager):
                 f"Illegal glob pattern ''{pattern}''."
             )
 
+###
+# prototype::
+#     :action: XXX
+###
+    def _validate_syntax_regex(
+        self,
+        pattern: str
+    ) -> None:
+        try:
+            pattern = re.compile(pattern)
+
+        except (re.error, TypeError):
+            raise ParsingError(
+                f"Illegal regex pattern ''{pattern}''."
+            )
+
+        return pattern
 
 ###
 # prototype::
@@ -243,12 +258,14 @@ if __name__ == "__main__":
     print("-- GOOD CASES --")
 
     for yaml_data in [
-# Raw data.
+# Raw path.
         Path(__file__).name,
-# Dict data.
+# Glob patterns.
         {'glob': "*.md"},
         {'g': "*\[.md"},
         {'rg': "*.md"},
+# Regex patterns.
+        {'r': ".*\.md"},
     ]:
         mydata = TOCPath(
             spec   = yaml_data,
@@ -273,12 +290,14 @@ if __name__ == "__main__":
     print("-- BAD CASES --")
 
     for yaml_data in [
-# Raw data.
+# Raw path.
         1234,
-# Dict data.
+# Glob patterns.
         {'g': "*.md", 'r': "*.md"},
         {'gob': "*.md"},
         {'glob': "**/[a-z"},
+# Regex patterns.
+        {'r': "(abc"},
     ]:
         print()
         print(f"{yaml_data = }")
