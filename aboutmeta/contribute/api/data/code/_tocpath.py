@@ -5,6 +5,8 @@ from typing import (
     TypeAlias
 )
 
+from collections.abc import Iterator
+
 
 import fnmatch
 import re
@@ -122,73 +124,85 @@ class TOCPath(DataManager):
 
 # Legal pattern?
         if kind in TAG_TOC_GLOB_PATTERNS:
-            self._validate_syntax_glob(pattern)
+            self._check_syntax_glob(pattern)
 
         else:
-            pattern = self._validate_syntax_regex(pattern)
+            pattern = self._check_syntax_regex(pattern)
 
 # Syntax is good, but maybe the pattern gives nothing.
         self.spec = {kind: pattern}
-
-
 
 ###
 # prototype::
 #     :action: XXX
 ###
-    def _validate_syntax_glob(
+    def _check_syntax_glob(
         self,
         pattern: str
     ) -> None:
         in_bracket = False
-        escaped    = False
+        escaping   = False
 
         for char in pattern:
-            if escaped:
-                escaped = False
-                continue
+            if escaping:
+                escaping = False
 
-            if char == '\\':
-                escaped = True
-                continue
+            elif char == '\\':
+                escaping = True
 
-            if char == '[':
+            elif char == '[':
                 in_bracket = True
 
             elif char == ']':
                 if not in_bracket:
                     raise ParsingError(
-                        f"Crochet fermant ']' inattendu à l'index {i}."
+                        "Extra closing hook '']''."
                     )
                 in_bracket = False
 
         if in_bracket:
-            raise ParsingError("Crochet '[' ouvert mais jamais fermé.")
+            raise ParsingError("Opening hook ''['' unclosed.")
 
         try:
-            regex_str = fnmatch.translate(pattern)
-            re.compile(regex_str)
+            self._check_syntax_regex(
+                fnmatch.translate(pattern)
+            )
 
-        except (re.error, TypeError):
-            raise ParsingError(
+        except ParsingError as _error:
+            e = ParsingError(
                 f"Illegal glob pattern ''{pattern}''."
             )
+
+            e.add_note(str(_error))
+
+            notes = getattr(e, "__notes__", [])
+
+            for i, n in enumerate(notes, start = 2):
+                e.add_note(n)
+
+            raise e
 
 ###
 # prototype::
 #     :action: XXX
+#
+#     :return: XXX
 ###
-    def _validate_syntax_regex(
+    def _check_syntax_regex(
         self,
         pattern: str
-    ) -> None:
+    ) -> re.Pattern:
         try:
             pattern = re.compile(pattern)
 
-        except (re.error, TypeError):
-            raise ParsingError(
+        except (re.error, TypeError) as _error:
+            e = ParsingError(
                 f"Illegal regex pattern ''{pattern}''."
             )
+
+            e.add_note(str(_error))
+
+            raise e
 
         return pattern
 
@@ -204,17 +218,25 @@ class TOCPath(DataManager):
         self._validate_parent_dir()
 
 # Validation regarding the kind of data.
-        for kind, pattern in spec.items(): # Python is funny...
+        for kind, pattern in self.spec.items(): # Python is funny...
             ...
 
         if kind == TAG_TOC_PATH_RAW:
-            ...
+            self._validate_raw_path(
+                raw_path = pattern
+            )
 
         elif kind in TAG_TOC_GLOB_PATTERNS:
-            ...
+            self._validate_glob_pattern(
+                kind    = kind,
+                pattern = pattern
+            )
 
         else:
-            ...
+            self._validate_regex_pattern(
+                kind    = kind,
+                pattern = pattern
+            )
 
 ###
 # prototype::
@@ -232,7 +254,186 @@ class TOCPath(DataManager):
                 error_msg = "Directory does not exist.",
             )
 
+        self.data_pb.validated(self.parent)
 
+###
+# prototype::
+#     raw_path : YYYYYY
+#
+#     :action: XXX
+###
+    def _validate_raw_path(
+        self,
+        raw_path: str
+    ) -> None:
+        self.data_pb.what("raw path")
+        self.data_pb.checking(raw_path)
+
+        full_path = self.parent / raw_path
+
+        if (
+            full_path.is_file()
+            or
+            full_path.is_dir()
+        ):
+            self.data_pb.validated(raw_path)
+
+        else:
+            self.data_pb.new_error(
+                data      = full_path,
+                error_msg = f"Inexisting full path. See raw path '{raw_path}'.",
+            )
+
+            self.data_pb.rejected(raw_path)
+
+
+###
+# prototype::
+#     kind    : YYYYYY
+#     pattern : YYYYYY
+#
+#     :action: XXX
+###
+    def _validate_glob_pattern(
+        self,
+        kind   : str,
+        pattern: str
+    ) -> None:
+        glob_method = self._start_pattern_validation(
+            kind        = kind,
+            str_pattern = pattern
+        )
+
+        nothing_found = True
+
+        for p in self.glob_iter(
+            glob_method = glob_method,
+            pattern     = pattern,
+        ):
+            nothing_found = False
+
+            break
+
+        self._close_pattern_validation(
+            nothing_found = nothing_found,
+            str_pattern   = pattern
+        )
+
+###
+# prototype::
+#     kind    : YYYYYY
+#     pattern : YYYYYY
+#
+#     :action: XXX
+###
+    def _validate_regex_pattern(
+        self,
+        kind   : str,
+        pattern: re.Pattern
+    ) -> None:
+        str_pattern = pattern.pattern
+
+        glob_method = self._start_pattern_validation(
+            kind        = kind,
+            str_pattern = str_pattern
+        )
+
+        nothing_found = True
+
+        for p in self.regex_iter(
+            glob_method = glob_method,
+            pattern     = pattern,
+        ):
+            nothing_found = False
+
+            break
+
+        self._close_pattern_validation(
+            nothing_found = nothing_found,
+            str_pattern   = str_pattern
+        )
+
+###
+# prototype::
+#     kind : YYYYYY
+#
+#     :return: XXX
+###
+    def _start_pattern_validation(
+        self,
+        kind       : str,
+        str_pattern: str
+    ) -> str:
+        is_recu = (kind[:2] == 'r-')
+
+        if is_recu:
+            _ , kind = kind.split('-')
+
+        what = (
+            f"recursive {kind}"
+            if is_recu else
+            kind
+        )
+
+        self.data_pb.what(f"{what} pattern")
+        self.data_pb.checking(str_pattern)
+
+        glob_method = (
+            'glob'
+            if is_recu else
+            'rglob'
+        )
+
+        return glob_method
+
+###
+# prototype::
+#     kind : YYYYYY
+#
+#     :action: XXX
+###
+    def _close_pattern_validation(
+        self,
+        nothing_found,
+        str_pattern
+    ) -> None:
+        if nothing_found:
+            self.data_pb.new_error(
+                data      = str_pattern,
+                error_msg = f"No matches found.",
+            )
+
+            self.data_pb.rejected(str_pattern)
+
+        else:
+            self.data_pb.validated(str_pattern)
+
+###
+# prototype::
+#     :yield: XXXX
+###
+    def glob_iter(
+        self,
+        glob_method: str,
+        pattern    : str,
+    ) -> Iterator[Path]:
+        for p in getattr(self.parent, glob_method)(pattern):
+            yield p
+
+###
+# prototype::
+#     :yield: XXXX
+###
+    def regex_iter(
+        self,
+        glob_method: str,
+        pattern    : re.Pattern,
+    ) -> Iterator[Path]:
+        for p in getattr(self.parent, glob_method)('*'):
+            relpath = p.relative_to(self.parent)
+
+            if pattern.fullmatch(str(relpath)):
+                yield p
 
 
 # ----------- #
@@ -258,14 +459,16 @@ if __name__ == "__main__":
     print("-- GOOD CASES --")
 
     for yaml_data in [
-# Raw path.
+# # Raw path.
         Path(__file__).name,
-# Glob patterns.
+# # Glob patterns.
         {'glob': "*.md"},
-        {'g': "*\[.md"},
-        {'rg': "*.md"},
-# Regex patterns.
-        {'r': ".*\.md"},
+        {'glob': "*.py"},
+        {'rg': "*.py"},
+# # Regex patterns.
+        {'r': r".*\.md"},
+        {'rr': r".*\.py"},
+        {'r': r"[^/]*\.py"},
     ]:
         mydata = TOCPath(
             spec   = yaml_data,
@@ -279,12 +482,12 @@ if __name__ == "__main__":
         print(f"{yaml_data = }")
         print(f"{mydata    = }")
 
-        # print()
-        # print(f"Validation process")
-        # mydata.validate()
+        print()
+        print(f"Validation process")
+        mydata.validate()
 
 # BAD
-    # exit()
+    exit()
 
     print('')
     print("-- BAD CASES --")
@@ -295,8 +498,9 @@ if __name__ == "__main__":
 # Glob patterns.
         {'g': "*.md", 'r': "*.md"},
         {'gob': "*.md"},
+        {'g': r"*\[.md"},
         {'glob': "**/[a-z"},
-# Regex patterns.
+# # Regex patterns.
         {'r': "(abc"},
     ]:
         print()

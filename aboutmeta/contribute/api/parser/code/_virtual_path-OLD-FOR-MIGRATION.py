@@ -122,69 +122,7 @@ def parse(
     amdata_cls: object,
     data      : str | dict[str, str]
 ) -> TOCPath:
-    about_file_dir = amdata_cls.yaml_file_dir
-
-# A "direct" path?
-    if isinstance(data, str):
-        return _parse_direct_path(about_file_dir, data)
-
-# A legal pattern?
-    if not isinstance(data, dict):
-        _raisethis(
-            about_file_dir  = about_file_dir,
-            data            = data,
-            message         = (
-                "one dict expected for one glob or regex pattern."
-            )
-        )
-
-    return _parse_pattern(about_file_dir, data, kind, pattern)
-
-
-###
-# prototype::
-#     about_file_dir : a well named \arg.
-#     data           : :see: parse
-#     kind           : the main error message.
-#     xtra           : complementary information printed as an
-#                      item.
-#
-#     :action: raise errors.
-###
-def _raisethis(
-    about_file_dir: Path,
-    data          : str | dict[str, str],
-    message       : str,
-    xtra          : str = ""
-) -> None:
-    if xtra:
-        xtra = f"    + {xtra}"
-
-    raise ParsingError(
-        f"""
-{message}
-    + DATA: {data!r}
-    + FILE: {about_file_dir}/about.yaml
-{xtra}
-        """.strip()
-    )
-
-
-###
-# prototype::
-#     data : :see: parse
-#
-#     :return: the \std value for the path::''about.yaml'' file.
-###
-def _std(data: str | dict[str, str]) -> str:
-# One-key dict used in the initial ''YAML'' file.
-    if isinstance(data, dict):
-        for k, v in data.items():
-            return f"{k}: {v!r}"
-
-# One string used in the initial ''YAML'' file.
-    return data
-
+    ...
 
 ###
 # prototype::
@@ -248,84 +186,6 @@ def _parse_direct_path(
     )
 
 
-###
-# prototype::
-#     about_file_dir : :see: parse
-#     data           : :see: parse
-#     kind           : the kind of pattern.
-#                    @ kind in [
-#                          "glob", "r-glob",
-#                          "regex", "r-regex"
-#                      ]
-#     pattern        : the pattern.
-#
-#     :return: :see: parse
-###
-def _parse_pattern(
-    about_file_dir: Path,
-    data          : dict[str, str],
-    kind          : str,
-    pattern       : str
-) -> TOCPath:
-# User has used an abbreviationthat we don't keep in the standard
-# version of the data.
-    if not kind in data:
-        data = {kind: pattern}
-
-# ''glob'' pattern.
-    if kind in TAG_TOC_GLOB_PATTERNS:
-        _glob = "glob"
-
-        if kind == TAG_TOC_PATH_RECU_GLOB:
-            _glob = f"r{_glob}"
-
-        paths = [
-            p
-            for p in getattr(about_file_dir, _glob)(pattern)
-            if p.is_file()
-        ]
-
-# ''regex'' pattern.
-    else:
-        try:
-            pattern = re.compile(pattern)
-
-        except re.error as e:
-            _raisethis(
-                about_file_dir = about_file_dir,
-                data           = data,
-                message        = (
-                    f"regex compilation failed for {pattern!r}."
-                ),
-                xtra           = f"REGEX ERROR: {e}"
-            )
-
-        paths = []
-
-        _glob = "glob" if kind == "regex" else "rglob"
-
-        for fullpath in getattr(about_file_dir, _glob)("*"):
-            relpath = fullpath.relative_to(about_file_dir)
-
-            if pattern.fullmatch(str(relpath)):
-                paths.append(fullpath)
-
-# Loosing pattern?
-    if not paths:
-        _raisethis(
-            about_file_dir = about_file_dir,
-            data           = data,
-            message        = f"no files found with the pattern."
-        )
-
-# Winning pattern.
-    return TOCPath(
-        std        = _std(data),
-        postsearch = None,
-        paths      = natsorted(paths)
-    )
-
-
 # ------------- #
 # -- MAPPERS -- #
 # ------------- #
@@ -364,32 +224,6 @@ def map_list(
 # ----------- #
 
 if __name__ == "__main__":
-    from pprint import pprint
-    # pprint = lambda t: None
-
-    readme_dir = Path(__file__).parent.parent / "readme"
-
-# GOOD
-    for pseudopath in [
-        # "api.md",
-        # "api/",
-        # {'g': "*.md"},
-        # {'r': r"[^/]*\.md"},
-        # {'r': r".*\.md"},
-        # {'rg': "*.md"},
-        # {'rr': r".*\.md"},
-    ]:
-        print('---')
-        print(pseudopath)
-
-        tp = parse(readme_dir, pseudopath)
-
-        print(tp)
-
-        print(f"Nb paths = {len(tp.paths)}")
-
-        pprint(tp)
-
 # BAD
     BAD = True
     BAD = False
