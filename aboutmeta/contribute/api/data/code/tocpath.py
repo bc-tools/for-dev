@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
-from typing import (
-    Literal,
-    TypeAlias
-)
+from typing import Literal
 
 from collections.abc import Iterator
 
@@ -54,17 +51,17 @@ for t in TAG_TOC_PATTERN_KINDS:
     TAG_TOC_PATTERN_ABBREV[a] = t
 
 
-TYPE_GLOB_KEYS: TypeAlias = Literal[
+TYPE_GLOB_KEYS = Literal[
     TAG_TOC_PATH_GLOB,
     TAG_TOC_PATH_GLOB_RECU
 ]
 
-TYPE_REGEX_KEYS: TypeAlias = Literal[
+TYPE_REGEX_KEYS = Literal[
     TAG_TOC_PATH_REGEX,
     TAG_TOC_PATH_REGEX_RECU
 ]
 
-TYPE_TOC_PATH_SPEC: TypeAlias = (
+TYPE_TOC_PATH_SPEC = (
       str
     | dict[TYPE_GLOB_KEYS, str]
     | dict[TYPE_REGEX_KEYS, re.Pattern]
@@ -139,12 +136,14 @@ class TOCPath(DataManager):
         if kind in TAG_TOC_GLOB_PATTERNS:
             self._check_syntax_glob(pattern)
 
+            compiled_pattern = pattern
+
         else:
-            pattern = self._check_syntax_regex(pattern)
+            compiled_pattern = self._check_syntax_regex(pattern)
 
 # Syntax is good, but maybe the pattern gives nothing...
         self.kind    = kind
-        self.pattern = pattern
+        self.pattern = compiled_pattern
         self.spec    = {kind: pattern}
 
 ###

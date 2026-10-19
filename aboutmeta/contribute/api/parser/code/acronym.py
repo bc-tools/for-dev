@@ -65,11 +65,11 @@ if __name__ == "__main__":
     print()
     print("-- GOOD CASES --")
 
-    yaml_data   = "[about::@] [meta]data"
-    data_parsed = parse(yaml_data)
-
     print()
     print('~~~')
+
+    yaml_data   = "[about::@] [meta]data"
+    data_parsed = parse(yaml_data)
 
     print()
     print(f"{yaml_data          = }")

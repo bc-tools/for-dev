@@ -8,4 +8,4 @@ Here are the steps to follow.
 
      + `parse(data: str) -> object` must be used if only data needs to be analyzed, regardless of other of the `about.yaml` file being analyzed.
 
-     + `parse(amdata_cls: object, data: str) -> object` takes into account an instance of the class `aboutmeta.amdata.AMData`. For reference, see the `contrib/parser/code/virtual_path.py` file.
+     + `parse(amdata_cls: object, data: str) -> object` takes into account an instance of the class `aboutmeta.amdata.AMData`. For reference, see the `contrib/parser/code/about_path.py` file.
