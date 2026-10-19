@@ -354,12 +354,14 @@ class TOCPath(DataManager):
 #            @ _ = TAG_GLOB_METHOD
 #              or
 #              _ = TAG_GLOB_RECU_METHOD
+#
+#     :see: self._is_recu_search
 ###
     def _start_pattern_validation(
         self,
         str_pattern: str
     ) -> str:
-        is_recu = (self.kind[:2] == 'r-')
+        is_recu = self._is_recu_search()
 
         if is_recu:
             _ , kind = self.kind.split('-')
@@ -383,6 +385,14 @@ class TOCPath(DataManager):
         )
 
         return glob_method_name
+
+###
+# prototype::
+#     :return: ''True'' for a recursive search, and ''False''
+#              otherwise.
+###
+    def _is_recu_search(self) -> str:
+        return (self.kind[:2] == 'r-')
 
 ###
 # prototype::

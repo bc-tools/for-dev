@@ -26,20 +26,6 @@ TOCPathList = list[TOCPath]
 # ------------ #
 
 ###
-# prototype::
-#     amdata_cls : an instance of the class ''amdata.AMData''
-#                  (this is needed to access to the folder of
-#                  the path::''about.yaml'' file).
-#     data       : a virtual path that is either a relative path
-#                  in the form of a string, or a pattern, using
-#                  the \glob or \regex syntax, with the patterns
-#                  provided using a single-key \dict.
-#
-#     :return: an instance of the ''TOCPath'' class that allows
-#              subsequent anlysis of a new path::''about.yaml''
-#              file if necessary.
-#
-#
 # Let's look at some virtual examples where we assume that the
 # yaml file folder has absolute path path::''/abs/path/readme''.
 #
@@ -118,11 +104,7 @@ TOCPathList = list[TOCPath]
 # pattern can be rewritten as ''data = {'regex': r".*\.md"}'',
 # and the second one as ''data = {'r-regex': r".*\.md"}''.
 ###
-def parse(
-    amdata_cls: object,
-    data      : str | dict[str, str]
-) -> TOCPath:
-    ...
+
 
 ###
 # prototype::
