@@ -1,5 +1,6 @@
 toc:
   - minimal.md
+  - post-init.md
   - normalize.md
   - validate.md
   - ../../../readme-dev-common/how-to/add-tools.md

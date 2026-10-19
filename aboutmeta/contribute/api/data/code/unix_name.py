@@ -27,7 +27,7 @@ class UnixName(DataManager):
 # prototype::
 #     :action: mandatory validation of the Unix name.
 ###
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if not PATTERN_UNIX_NAME.match(self.name):
             raise ParsingError(f'Unvalid Unix name "{name}".')
 
