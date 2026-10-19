@@ -49,7 +49,7 @@ def parse(data: str) -> Lang:
 #     :return: the standard \yaml version of the ''Lang'' object
 #              which is the full language identifier.
 ###
-def write(data: Lang) -> str:
+def yamlify(data: Lang) -> str:
     return data.std_id
 
 
@@ -72,6 +72,6 @@ if __name__ == "__main__":
     print('~~~')
 
     print()
-    print(f"{yaml_data          = }")
-    print(f"{data_parsed        = }")
-    print(f"{write(data_parsed) = }")
+    print(f"{yaml_data            = }")
+    print(f"{data_parsed          = }")
+    print(f"{yamlify(data_parsed) = }")

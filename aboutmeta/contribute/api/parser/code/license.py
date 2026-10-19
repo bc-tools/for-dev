@@ -16,6 +16,7 @@
 
 from aboutmeta.specs.data.license import License
 
+
 # ------------ #
 # -- PARSER -- #
 # ------------ #
@@ -46,7 +47,7 @@ def parse(data: str) -> License:
 #              the ''License'' object: this is the \spdx lowercase
 #              identifier and spaces instead of hyphens.
 ###
-def write(data: License) -> str:
+def yamlify(data: License) -> str:
     text = data.spdx_id.lower()
     text = text.replace('-', ' ')
 
@@ -78,7 +79,7 @@ if __name__ == "__main__":
         print('~~~')
 
         print()
-        print(f"{yaml_data                 = }")
-        print(f"{data_parsed               = }")
-        print(f"{write(data_parsed)        = }")
-        print(f"{parse(write(data_parsed)) = }")
+        print(f"{yaml_data                   = }")
+        print(f"{data_parsed                 = }")
+        print(f"{yamlify(data_parsed)        = }")
+        print(f"{parse(yamlify(data_parsed)) = }")

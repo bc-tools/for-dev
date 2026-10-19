@@ -38,7 +38,7 @@ def parse(data: str) -> UnixName:
 #     :return: the standard \yaml version of the ''UnixName''
 #              object.
 ###
-def write(data: UnixName) -> str:
+def yamlify(data: UnixName) -> str:
     return data.name
 
 
@@ -61,6 +61,6 @@ if __name__ == "__main__":
     print('~~~')
 
     print()
-    print(f"{yaml_data          = }")
-    print(f"{data_parsed        = }")
-    print(f"{write(data_parsed) = }")
+    print(f"{yaml_data            = }")
+    print(f"{data_parsed          = }")
+    print(f"{yamlify(data_parsed) = }")

@@ -342,9 +342,16 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     str_pattern : YYYYYY
+#     str_pattern : string version of a glob or regex pattern
+#                   (this is for terminal and log communication).
 #
-#     :return: XXX
+#     :action: XXX
+#
+#     :return: the ''glob'' method name to use regarding the
+#              ''Path'' class.
+#            @ _ = TAG_GLOB_METHOD
+#              or
+#              _ = TAG_GLOB_RECU_METHOD
 ###
     def _start_pattern_validation(
         self,
@@ -377,15 +384,17 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     nothing_found : YYYYYY
-#     str_pattern   : YYYYYY
+#     nothing_found : a ''True'' value indicates that a pattern
+#                     gives at least one match, whereas ''False''
+#                     indicates a losing pattern.
+#     str_pattern   : :see: self._start_pattern_validation
 #
 #     :action: XXX
 ###
     def _close_pattern_validation(
         self,
-        nothing_found : bool,
-        str_pattern
+        nothing_found: bool,
+        str_pattern  : str
     ) -> None:
         if nothing_found:
             self.data_pb.new_error(
@@ -400,10 +409,8 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     glob_method_name : YYYYYY
-#                      @ _ = TAG_GLOB_METHOD
-#                        or
-#                        _ = TAG_GLOB_RECU_METHOD
+#     glob_method_name : :see: self._start_pattern_validation
+#                              [return]
 #
 #     :yield: XXXX
 ###
@@ -419,7 +426,8 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     glob_method_name : :see: self.glob_iter
+#     glob_method_name : :see: self._start_pattern_validation
+#                              [return]
 #
 #     :yield: XXXX
 ###

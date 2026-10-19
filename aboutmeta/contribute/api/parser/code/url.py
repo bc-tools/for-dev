@@ -49,7 +49,7 @@ def parse(data: str) -> URL:
 #
 #     :return: the standard \yaml version of the ''URL'' object.
 ###
-def write(data: URL) -> str:
+def yamlify(data: URL) -> str:
     return data.url
 
 
@@ -72,6 +72,6 @@ if __name__ == "__main__":
     print('~~~')
 
     print()
-    print(f"{std_yaml_data      = }")
-    print(f"{data_parsed        = }")
-    print(f"{write(data_parsed) = }")
+    print(f"{std_yaml_data        = }")
+    print(f"{data_parsed          = }")
+    print(f"{yamlify(data_parsed) = }")

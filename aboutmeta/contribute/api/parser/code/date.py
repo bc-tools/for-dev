@@ -56,7 +56,7 @@ def parse(data: str) -> datetime.date:
 #     :return: the standard \yaml version of the ''datetime.date''
 #              object using the format `%Y-%m-%d`.
 ###
-def write(data: datetime.date) -> str:
+def yamlify(data: datetime.date) -> str:
     return data.strftime('%Y-%m-%d')
 
 
@@ -78,9 +78,9 @@ if __name__ == "__main__":
         print('~~~')
 
         print()
-        print(f"{yaml_data          = }")
-        print(f"{data_parsed        = }")
-        print(f"{write(data_parsed) = }")
+        print(f"{yaml_data            = }")
+        print(f"{data_parsed          = }")
+        print(f"{yamlify(data_parsed) = }")
 
         print()
         print(f"{data_parsed.year  = }")

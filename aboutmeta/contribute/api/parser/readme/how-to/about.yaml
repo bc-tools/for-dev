@@ -1,6 +1,6 @@
 toc:
   - parser.md
-  - writer.md
+  - yamlify.md
   - mappers.md
   - ../../../readme-dev-common/how-to/add-tools.md
   - ../../../readme-dev-common/comments/title.md

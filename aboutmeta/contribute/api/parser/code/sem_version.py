@@ -46,7 +46,7 @@ def parse(data: str) -> Version:
 #     :return: the standard \yaml version of the ''semver.Version''
 #              object.
 ###
-def write(data: Version) -> str:
+def yamlify(data: Version) -> str:
     return str(data)
 
 
@@ -70,9 +70,9 @@ if __name__ == "__main__":
         print('~~~')
 
         print()
-        print(f"{std_yaml_data      = }")
-        print(f"{data_parsed        = }")
-        print(f"{write(data_parsed) = }")
+        print(f"{std_yaml_data        = }")
+        print(f"{data_parsed          = }")
+        print(f"{yamlify(data_parsed) = }")
 
         print()
         print( f"repr(data_parsed)      = {data_parsed!r}")
