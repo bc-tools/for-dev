@@ -83,6 +83,9 @@ TAG_ABOUT_YAML = 'about.yaml'
 #     ''natsort.natsorted''.
 ###
 def map_list(tocpaths: list[TOCPath]) -> list[Path]:
+    TODO
+
+
     paths = []
 
 # Let's walk!
