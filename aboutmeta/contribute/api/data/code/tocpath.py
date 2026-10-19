@@ -76,11 +76,13 @@ TYPE_TOC_PATH_SPEC: TypeAlias = (
 #     spec    : the specification of a path or search pattern for
 #               paths.
 #     parent  : the parent directory attached to the paths.
-#     kind    : this XXXXX
+#     kind    : the kind of path to manage (either a raw path or
+#               a pattern).
 #             @ _ in TAG_TOC_PATTERN_KINDS
 #               or
 #               _ = TAG_TOC_PATH_RAW
-#     pattern : the XXXXX
+#     pattern : a pattern or a raw path specified relatively to
+#               the ''parent'' directory.
 #
 #
 # note::
@@ -89,8 +91,9 @@ TYPE_TOC_PATH_SPEC: TypeAlias = (
 #
 #
 # note::
-#     The ''spec'' attribute is standardized. For a dictionary,
-#     only the long name keys are used.
+#     A dictionary ''spec'' attribute is standardized: only
+#     long-name keys are used, and string ''regex'' patterns are
+#     transformed into their compiled versions.
 ###
 class TOCPath(DataManager):
     spec   : TYPE_TOC_PATH_SPEC
@@ -149,7 +152,7 @@ class TOCPath(DataManager):
 #     pattern : a glob pattern search.
 #
 #     :action: check well-balanced hooks, and syntax by trying to
-#              transform the pattern into a regex.
+#              transform the pattern into a ''regex''.
 ###
     def _check_syntax_glob(
         self,
@@ -181,7 +184,7 @@ class TOCPath(DataManager):
             raise ParsingError("Opening hook ''['' unclosed.")
 
 # Checking pattern validity by trying to transform it into a
-# regex pattern.
+# ''regex'' pattern.
         try:
             self._check_syntax_regex(
                 fnmatch.translate(pattern)
@@ -203,11 +206,11 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     pattern : a string regex pattern search.
+#     pattern : a string ''regex'' pattern search.
 #
 #     :action: check syntax by compiling the pattern.
 #
-#     :return: the compile regex version of the pattern.
+#     :return: the compile ''regex'' version of the pattern.
 ###
     def _check_syntax_regex(
         self,
@@ -319,7 +322,7 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :action: check for winning regex pattern.
+#     :action: check for winning ''regex'' pattern.
 ###
     def _validate_regex_pattern(self) -> None:
         str_pattern = self.pattern.pattern
@@ -342,10 +345,10 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     str_pattern : string version of a glob or regex pattern
+#     str_pattern : string version of a glob or ''regex'' pattern
 #                   (this is for terminal and log communication).
 #
-#     :action: XXX
+#     :action: initialization of the pattern validation process.
 #
 #     :return: the ''glob'' method name to use regarding the
 #              ''Path'' class.
@@ -389,7 +392,7 @@ class TOCPath(DataManager):
 #                     indicates a losing pattern.
 #     str_pattern   : :see: self._start_pattern_validation
 #
-#     :action: XXX
+#     :action: closing of the pattern validation process.
 ###
     def _close_pattern_validation(
         self,
@@ -412,7 +415,10 @@ class TOCPath(DataManager):
 #     glob_method_name : :see: self._start_pattern_validation
 #                              [return]
 #
-#     :yield: XXXX
+#     :yield: each path which validates the ''glob'' pattern
+#             stored in ''self.pattern'' using the ''glob''
+#             method named ''glob_method_name'' from the ''Path''
+#             class.
 ###
     def glob_iter(
         self,
@@ -429,7 +435,10 @@ class TOCPath(DataManager):
 #     glob_method_name : :see: self._start_pattern_validation
 #                              [return]
 #
-#     :yield: XXXX
+#     :yield: each path which validates the ''regex'' pattern
+#             stored in ''self.pattern'' using the ''glob''
+#             method named ''glob_method_name'' from the ''Path''
+#             class.
 ###
     def regex_iter(
         self,
@@ -508,7 +517,7 @@ if __name__ == "__main__":
         {'gob': "*.md"},
         {'g': r"*\.md]"},
         {'glob': "**/[a-z"},
-# # Regex patterns.
+# Regex patterns.
         {'r': "(abc"},
     ]:
         print()
