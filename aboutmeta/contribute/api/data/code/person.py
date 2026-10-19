@@ -349,7 +349,6 @@ if __name__ == "__main__":
     from aboutmeta.core.log_conf import *
     setup_logging()
 
-
 # GOOD
     print('')
     print("-- GOOD CASES --")

@@ -24,6 +24,9 @@ from aboutmeta.core.errors       import ParsingError
 # -- DATA -- #
 # ---------- #
 
+TAG_GLOB_METHOD      = 'glob'
+TAG_GLOB_RECU_METHOD = 'rglob'
+
 TAG_TOC_PATH_RAW = 'raw'
 
 TAG_TOC_GLOB_PATTERNS = [
@@ -70,20 +73,24 @@ TYPE_TOC_PATH_SPEC: TypeAlias = (
 
 ###
 # prototype::
-#     spec   : the specification of a path or search pattern for
-#              paths.
-#     parent : the parent directory attached to the paths.
+#     spec    : the specification of a path or search pattern for
+#               paths.
+#     parent  : the parent directory attached to the paths.
+#     kind    : this XXXXX
+#             @ _ in TAG_TOC_PATTERN_KINDS
+#               or
+#               _ = TAG_TOC_PATH_RAW
+#     pattern : the XXXXX
 #
 #
 # note::
-#     The ''spec'' attribute is standardized to be a dictionary
-#     using only one of the following keys.
+#     The ''kind'' and ''pattern'' attributes are build from the
+#     value of the ''spec'' attribute.
 #
-#         * TAG_TOC_PATH_GLOB
-#         * TAG_TOC_PATH_GLOB_RECU
-#         * TAG_TOC_PATH_RAW
-#         * TAG_TOC_PATH_REGEX
-#         * TAG_TOC_PATH_REGEX_RECU
+#
+# note::
+#     The ''spec'' attribute is standardized. For a dictionary,
+#     only the long name keys are used.
 ###
 class TOCPath(DataManager):
     spec   : TYPE_TOC_PATH_SPEC
@@ -93,8 +100,8 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :action: we standardize the ''spec'' attribute and validate the
-#              search pattern syntax if needed.
+#     :action: we standardize the ''spec'' attribute and validate
+#              the search pattern syntax if needed.
 ###
     def __post_init__(self) -> None:
         spec = self.spec
@@ -132,19 +139,23 @@ class TOCPath(DataManager):
         else:
             pattern = self._check_syntax_regex(pattern)
 
-# Syntax is good, but maybe the pattern gives nothing.
+# Syntax is good, but maybe the pattern gives nothing...
         self.kind    = kind
         self.pattern = pattern
         self.spec    = {kind: pattern}
 
 ###
 # prototype::
-#     :action: XXX
+#     pattern : a glob pattern search.
+#
+#     :action: check well-balanced hooks, and syntax by trying to
+#              transform the pattern into a regex.
 ###
     def _check_syntax_glob(
         self,
         pattern: str
     ) -> None:
+# Checking for well-balanced hooks.
         in_bracket = False
         escaping   = False
 
@@ -163,11 +174,14 @@ class TOCPath(DataManager):
                     raise ParsingError(
                         "Extra closing hook '']''."
                     )
+
                 in_bracket = False
 
         if in_bracket:
             raise ParsingError("Opening hook ''['' unclosed.")
 
+# Checking pattern validity by trying to transform it into a
+# regex pattern.
         try:
             self._check_syntax_regex(
                 fnmatch.translate(pattern)
@@ -189,9 +203,11 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :action: XXX
+#     pattern : a string regex pattern search.
 #
-#     :return: XXX
+#     :action: check syntax by compiling the pattern.
+#
+#     :return: the compile regex version of the pattern.
 ###
     def _check_syntax_regex(
         self,
@@ -213,9 +229,14 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :action: XXX
+#     :action: check for parent folder existence, unbroken single
+#              raw path if needed, or winning pattern validation
+#              if needed.
 #
-#     :see: self._validate_parent_dir
+#     :see: self._validate_parent_dir,
+#           self._validate_raw_path,
+#           self._validate_glob_pattern,
+#           self._validate_regex_pattern
 ###
     def validate(self) -> None:
         self.data_pb.start()
@@ -234,12 +255,10 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :action: XXX
+#     :action: check for parent folder existence.
 ###
     def _validate_parent_dir(self) -> None:
         self.data_pb.what("parent dir")
-
-# We want an existing parent directory.
         self.data_pb.checking(self.parent)
 
         if not self.parent.is_dir():
@@ -252,9 +271,7 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     raw_path : YYYYYY
-#
-#     :action: XXX
+#     :action: check for unbroken raw path.
 ###
     def _validate_raw_path(self) -> None:
         raw_path = self.pattern
@@ -279,22 +296,18 @@ class TOCPath(DataManager):
 
             self.data_pb.rejected(raw_path)
 
-
 ###
 # prototype::
-#     kind    : YYYYYY
-#     pattern : YYYYYY
-#
-#     :action: XXX
+#     :action: check for winning glob pattern.
 ###
     def _validate_glob_pattern(self) -> None:
-        glob_method = self._start_pattern_validation(
+        glob_method_name = self._start_pattern_validation(
             str_pattern = self.pattern
         )
 
         nothing_found = True
 
-        for p in self.glob_iter(glob_method):
+        for p in self.glob_iter(glob_method_name):
             nothing_found = False
 
             break
@@ -306,21 +319,18 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     kind    : YYYYYY
-#     pattern : YYYYYY
-#
-#     :action: XXX
+#     :action: check for winning regex pattern.
 ###
     def _validate_regex_pattern(self) -> None:
         str_pattern = self.pattern.pattern
 
-        glob_method = self._start_pattern_validation(
+        glob_method_name = self._start_pattern_validation(
             str_pattern = str_pattern
         )
 
         nothing_found = True
 
-        for p in self.regex_iter(glob_method):
+        for p in self.regex_iter(glob_method_name):
             nothing_found = False
 
             break
@@ -332,7 +342,7 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     kind : YYYYYY
+#     str_pattern : YYYYYY
 #
 #     :return: XXX
 ###
@@ -357,23 +367,24 @@ class TOCPath(DataManager):
         self.data_pb.what(f"{what} pattern")
         self.data_pb.checking(str_pattern)
 
-        glob_method = (
-            'glob'
+        glob_method_name = (
+            TAG_GLOB_METHOD
             if is_recu else
-            'rglob'
+            TAG_GLOB_RECU_METHOD
         )
 
-        return glob_method
+        return glob_method_name
 
 ###
 # prototype::
-#     kind : YYYYYY
+#     nothing_found : YYYYYY
+#     str_pattern   : YYYYYY
 #
 #     :action: XXX
 ###
     def _close_pattern_validation(
         self,
-        nothing_found,
+        nothing_found : bool,
         str_pattern
     ) -> None:
         if nothing_found:
@@ -389,24 +400,37 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
+#     glob_method_name : YYYYYY
+#                      @ _ = TAG_GLOB_METHOD
+#                        or
+#                        _ = TAG_GLOB_RECU_METHOD
+#
 #     :yield: XXXX
 ###
     def glob_iter(
         self,
-        glob_method: str,
+        glob_method_name: str,
     ) -> Iterator[Path]:
-        for p in getattr(self.parent, glob_method)(self.pattern):
+        for p in getattr(
+            self.parent,
+            glob_method_name
+        )(self.pattern):
             yield p
 
 ###
 # prototype::
+#     glob_method_name : :see: self.glob_iter
+#
 #     :yield: XXXX
 ###
     def regex_iter(
         self,
-        glob_method: str,
+        glob_method_name: str,
     ) -> Iterator[Path]:
-        for p in getattr(self.parent, glob_method)('*'):
+        for p in getattr(
+            self.parent,
+            glob_method_name
+        )('*'):
             relpath = p.relative_to(self.parent)
 
             if self.pattern.fullmatch(str(relpath)):
@@ -423,13 +447,11 @@ if __name__ == "__main__":
 
     THIS_DIR = Path(__file__).parent
 
-
 # CONSTANTS
     print('')
     print("-- CONSTANTS --")
 
     print(f'{TAG_TOC_PATTERN_ABBREV = }')
-
 
 # GOOD
     print()
@@ -442,6 +464,7 @@ if __name__ == "__main__":
         {'glob': "*.md"},
         {'glob': "*.py"},
         {'rg': "*.py"},
+        {'g': r"*\[.md"},
 # Regex patterns.
         {'r': r".*\.md"},
         {'rr': r".*\.py"},
@@ -464,7 +487,7 @@ if __name__ == "__main__":
         mydata.validate()
 
 # BAD
-    exit()
+    # exit()
 
     print('')
     print("-- BAD CASES --")
@@ -475,7 +498,7 @@ if __name__ == "__main__":
 # Glob patterns.
         {'g': "*.md", 'r': "*.md"},
         {'gob': "*.md"},
-        {'g': r"*\[.md"},
+        {'g': r"*\.md]"},
         {'glob': "**/[a-z"},
 # # Regex patterns.
         {'r': "(abc"},
