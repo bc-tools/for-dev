@@ -49,7 +49,7 @@ def parse(data: str) -> Acronym:
 #     :return: the standard \yaml version of the ''Acronym''
 #              object.
 ###
-def yamlify(data: Acronym) -> str:
+def write(data: Acronym) -> str:
     return data.spec
 
 
@@ -72,6 +72,6 @@ if __name__ == "__main__":
     print('~~~')
 
     print()
-    print(f"{yaml_data            = }")
-    print(f"{data_parsed          = }")
-    print(f"{yamlify(data_parsed) = }")
+    print(f"{yaml_data          = }")
+    print(f"{data_parsed        = }")
+    print(f"{write(data_parsed) = }")

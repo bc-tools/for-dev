@@ -14,7 +14,6 @@ from rapidfuzz import (
 from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
-from aboutmeta.core.constants    import *
 from aboutmeta.core.errors       import ParsingError
 
 

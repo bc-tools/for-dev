@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-from dataclasses import field
-
-from json import load  as json_load
+from json import load as json_load
 
 from pathlib import Path
 import              re
@@ -12,15 +10,16 @@ from rapidfuzz import (
     fuzz
 )
 
+
+from dataclasses import field
+
 from aboutmeta.core.data_manager import DataManager
-from aboutmeta.core.constants    import *
 from aboutmeta.core.errors       import ParsingError
-from aboutmeta.tools.web         import get_text_from
 
 
-# ------------------ #
-# -- DATA MANAGER -- #
-# ------------------ #
+# ---------- #
+# -- DATA -- #
+# ---------- #
 
 LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
 
@@ -30,17 +29,17 @@ _PATTERN_NORMALIZED_LICENSE_CODE = re.compile(r"[\s_\-\.]+")
 
 ###
 # prototype::
-#     spdx_id : short SPDX spdx_id, such as ''GPL-3.0-only'',
-#                  but flexible writings allowed like ''gpl 3.0 only'.
-#     name       : the full license name like ''GNU General Public
-#                  License v3.0 only''.
-#     url        : the URL linking to the SPDX online description of
-#                  the license.
+#     spdx_id : short SPDX identifier, such as ''GPL-3.0-only'',
+#               but flexible writings allowed like ''gpl 3.0 only'.
+#     name    : the full license name like ''GNU General Public
+#               License v3.0 only''.
+#     url     : the URL linking to the SPDX online description of
+#               the license.
 #
 #
 # note::
-#     The ''name'' and ''url'' attributes are build from the value of
-#     the ''spdx_id'' attribute.
+#     The ''name'' and ''url'' attributes are build from the value
+#     of the ''spdx_id'' attribute.
 #
 #
 # warning::
@@ -56,11 +55,11 @@ class License(DataManager):
 ###
 # prototype::
 #     :action: derive the ''name'' and ''url'' attributes from
-#              ''self.spdx_id'' and expand the spdx_id to its
+#              ''self.spdx_id'' and expand the identifier to its
 #              normalized form (e.g., ''gpl 3.0 only'' becomes
 #              ''GPL-3.0-only'').
 ###
-    def __post_init__(self):
+    def __post_init__(self) -> None:
 # Our local data.
         with LICENSES_JSON_FILE.open(mode = "r") as f:
             all_licenses = json_load(f)
@@ -100,8 +99,8 @@ class License(DataManager):
 
 # The job has been done.
         self.spdx_id = spdx_infos["std"]
-        self.name       = spdx_infos["name"]
-        self.url        = spdx_infos["ref"]
+        self.name    = spdx_infos["name"]
+        self.url     = spdx_infos["ref"]
 
 
 ###
@@ -254,29 +253,26 @@ if __name__ == "__main__":
     tool_update_license_json()
 
 # GOOD
-    print("\n------------\n")
-
+    print('')
     print("-- GOOD CASES --")
 
-    for spdx_id in [
+    for yaml_data in [
         "gpl   3.0 only ",
         "cc    by nc 4.0",
     ]:
-        mydata = License(spdx_id = spdx_id)
+        mydata = License(spdx_id = yaml_data)
 
         print()
-        print(f"{spdx_id = }")
-        print(f"{mydata     = }")
-
+        print(f"{yaml_data = }")
+        print(f"{mydata    = }")
 
 # BAD
     # exit()
 
-    print("\n------------\n")
-
+    print('')
     print("-- BAD CASES --")
 
-    for spdx_id in [
+    for yaml_data in [
         "gpl  3.0 +",
         "gpl",
         "cc nc",
@@ -284,10 +280,10 @@ if __name__ == "__main__":
         " ",
     ]:
         print()
-        print(f"{spdx_id = }")
+        print(f"{yaml_data = }")
 
         try:
-            License(spdx_id = spdx_id)
+            License(spdx_id = yaml_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)
