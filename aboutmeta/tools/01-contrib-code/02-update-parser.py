@@ -25,9 +25,9 @@ PROJECT_DIR = THIS_DIR
 while(PROJECT_DIR.name != 'aboutmeta'):
     PROJECT_DIR = PROJECT_DIR.parent
 
-SPECS_DIR     = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
-DATA_SPECS_DIR = SPECS_DIR / CONTEXT
-CONTRIB_DIR    = PROJECT_DIR / 'contribute' / 'api' / CONTEXT
+SPECS_DIR        = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
+PARSER_SPECS_DIR = SPECS_DIR / CONTEXT
+CONTRIB_DIR      = PROJECT_DIR / 'contribute' / 'api' / CONTEXT
 
 
 # ------------------ #
@@ -96,30 +96,12 @@ LEGAL_SIGNS = {
 }
 
 
-
-
-
-
-
-
-
-exit()
-
-
-
-
-
-
 # ----------------- #
 # -- LET'S WORK! -- #
 # ----------------- #
 
-for p in [
-    SPECS_DIR,
-    DATA_SPECS_DIR,
-]:
-    add_missing_dir(p)
-    add_missing_init(p)
+add_missing_dir(PARSER_SPECS_DIR)
+add_missing_init(PARSER_SPECS_DIR)
 
 
 for folder, contribs in get_accepted_paths(CONTRIB_DIR).items():
@@ -165,7 +147,7 @@ for folder, contribs in get_accepted_paths(CONTRIB_DIR).items():
 
 # We can create / update the source file.
         create_update_file(
-            file    = DATA_SPECS_DIR / one_contrib,
+            file    = PARSER_SPECS_DIR / one_contrib,
             content = final_code,
         )
 
@@ -179,7 +161,7 @@ for folder, contribs in get_accepted_paths(CONTRIB_DIR).items():
 
             for xfile in xtra_files:
                 create_update_file(
-                    file      = DATA_SPECS_DIR / xfile.name,
+                    file      = PARSER_SPECS_DIR / xfile.name,
                     content   = xfile.read_text() + '\n',
                     log_level = TAG_WARNING
                 )
