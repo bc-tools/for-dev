@@ -113,18 +113,6 @@ for folder, contribs in get_accepted_paths(CONTRIB_DIR).items():
             content = final_code,
         )
 
-exit()
-
-
-
-
-
-
-
-
-
-for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
-    for one_contrib in contribs:
 # Extra files to add?
         xtra_files = get_xtra_files(contrib_file)
 
@@ -135,7 +123,7 @@ for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
 
             for xfile in xtra_files:
                 create_update_file(
-                    file      = dest_dir / xfile.name,
+                    file      = DATA_SPECS_DIR / xfile.name,
                     content   = xfile.read_text() + '\n',
                     log_level = TAG_WARNING
                 )

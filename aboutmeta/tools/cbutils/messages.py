@@ -46,9 +46,9 @@ def msg_creation_update(
     return f"{context} code{plurial}: creation or update."
 
 
-# ---------------------- #
-# -- SPECIAL MESSAGES -- #
-# ---------------------- #
+# ---------------------------- #
+# -- SPECIAL COMMUNICATIONS -- #
+# ---------------------------- #
 
 ###
 # prototype::
