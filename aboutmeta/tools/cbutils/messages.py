@@ -25,13 +25,13 @@ def msg_title(
 ###
 # prototype::
 #     context : context in which codes are created or updated.
-#     upper   : set to ''True'', the context is printed in uppercase;
-#               otherwise, no case changes are made.
-#     several : set to ''True'', this indicates that several codes
+#     upper   : with ''True'' value, the context is printed in
+#               uppercase; otherwise, no case changes are made.
+#     several : with ''True'' value, we know that several codes
 #               are involved; otherwise, only one is processed.
 #
-#     :return: a message indicating the creation or update of files
-#              in the given context.
+#     :return: a message indicating the creation or update of
+#              files in the given context.
 ###
 def msg_creation_update(
     context: str,
@@ -52,11 +52,12 @@ def msg_creation_update(
 
 ###
 # prototype::
-#     context   : the context in which an error is raised and logged.
+#     context   : the context in which an error is raised and
+#                 logged.
 #     desc      : the descritpion of the error.
 #     exception : the \python exception to use.
-#     xtra      : an extra text only print when raising the \python
-#                 exception.
+#     xtra      : an extra text only print when raising the
+#                 \python exception.
 #
 #     :action: log an error and raise an exception.
 ###

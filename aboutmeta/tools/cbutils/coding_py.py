@@ -12,9 +12,9 @@ from black import (
     WriteBack,
 )
 
-from .split_file   import *
-from .logconf  import *
-from .messages import *
+from .split_file import *
+from .logconf    import *
+from .messages   import *
 
 
 # --------------- #
@@ -35,11 +35,9 @@ type DictSplittedCode = dict[str, Path]
 
 type LegalSigns = dict[
     str,
-    tupe[
-        bool,
-        list[set[str]]
-    ]
+    list[set[str]]
 ]
+
 
 # ----------------------- #
 # -- BUILD PYTHON CODE -- #
@@ -56,8 +54,9 @@ PATTERN_PYSUGLIFY = re.compile(r'[\s\-\.]+')
 
 ###
 # prototype::
-#     name : a name using \ascii letters, digits, spaces, hyphens,
-#            underscores and points (no unicode characters accepted).
+#     name : a name with possible \ascii letters, digits, spaces,
+#            hyphens, underscores and points (nut no unicode
+#            characters accepted).
 #
 #     :return: a legal \python name.
 ###
@@ -76,8 +75,8 @@ def pysuglify(name: str) -> str:
 # prototype::
 #     folder : a folder path.
 #
-#     :action: add an path::''init__.py'' file to the folder if one
-#              does not already exist.
+#     :action: add an path::''init__.py'' file to the folder if
+#              one does not already exist.
 ###
 def add_missing_init(folder: Path) -> None:
     initfile = folder / INIT_FILE
@@ -96,9 +95,9 @@ def add_missing_init(folder: Path) -> None:
 #     code : a \python code.
 #     file : a file path.
 #
-#     :action: creation of the file with the \python code given as
-#              a parameter as its content, formatted by the \black
-#              package.
+#     :action: creation of the file with the \python code given
+#              as a parameter as its content, formatted by the
+#              \black package.
 ###
 def add_black_pyfile(
     code: Path,
@@ -121,8 +120,8 @@ def add_black_pyfile(
 #     nbempty : the number of empty lines added before the code
 #               that will be added.
 #
-#     :action: append to the file the \python code formatted by the
-#              \black package.
+#     :action: append to the file the \python code formatted by
+#              the \black package.
 ###
 def append_black_pyfile(
     code   : Path,
@@ -146,57 +145,40 @@ def append_black_pyfile(
 ###
 # prototype::
 #     file        : the \python file to analyse.
-#     legal_signs : a dictionary whose keys correspond to function
-#                   names and whose values are pairs ''(is_mandatory,
+#     signatures  : a \dict whose keys correspond to \func names
+#                   and whose values are pairs ''(is_mandatory,
 #                   authorised_signs)'' indicating whether the
-#                   function must be present and what its possible
-#                   signatures are (use of a list of sets of \arg
+#                   \func must be present and what its possible
+#                   \signs are (use of a list of sets of \arg
 #                   names).
 #     ctxt        : the current context.
 #     desc        : short \desc to complement the ''ctxt'' \arg.
 #     code        : set to ''None'', this \arg requests that the
-#                   entire file code be used; otherwise, the ''code''
-#                   value is used (this allows only a useful part of
-#                   the file to be analysed).
+#                   entire file code be used; otherwise, the
+#                   ''code'' value is used (this allows only a
+#                   useful part of the file to be analysed).
 #
 #     :action: verify that special functions have an authorised
-#              signature (see the \arg ''legal_signs'').
-#
-#
-# note::
-#     Here is a possible value ofr the special \arg ''legal_signs''.
-#
-#     python::
-#         LEGAL_SIGNS = {
-#             'parse'   : (
-#                 True,
-#                 [set(['data']),
-#                  set(['amdata_cls', 'data'])]
-#             ),
-#             'map_list': (
-#                 False,
-#                 [set(['data_list']),
-#                  set(['amdata_cls', 'data_list'])]
-#             ),
-#         }
+#              signature (see the \arg ''signatures'').
 ###
 def validate_signatures(
-    file       : Path,
-    legal_signs: LegalSigns,
-    ctxt       : str,
-    desc       : str,
-    code       : str | None,
+    mandatory : set[str],
+    optional  : set[str],
+    signatures: LegalSigns,
+    code      : str,
+    path_src  : str,
+    context   : str,
 ) -> None:
-    if code is None:
-        code = file.read_text()
+    for is_mandatory, func_names in [
+        (True , mandatory),
+        (False, optional),
+    ]:
+        for fname in func_names:
+            authorised_signs = signatures[fname]
 
-    for func_name, (
-        is_mandatory,
-        authorised_signs
-    ) in legal_signs.items():
         sign = get_parse_signature(
             code         = code,
-            func_name    = func_name,
+            func_name    = fname,
             is_mandatory = is_mandatory,
         )
 
@@ -211,7 +193,8 @@ def validate_signatures(
                 helper = ["Authorised signatures."]
 
             helper += [
-                f"  + {func_name}({', '.join(sorted(s))})" for s in authorised_signs
+                f"  + {fname}({', '.join(sorted(s))})"
+                for s in authorised_signs
             ]
 
             helper = '\n'.join(helper)
@@ -219,15 +202,14 @@ def validate_signatures(
             sign = f"({', '.join(sorted(sign))})"
 
             log_raise_error(
-                context = ctxt,
+                context = context,
                 desc    = (
-                    f"{desc}: "
                     f"unauthorised signature '{sign}' for "
-                    f"'{func_name}' function in file: "
-                    f"'{file}'"
+                    f"'{fname}' function in file: "
+                    f"'{path_src}'"
                 ),
-                exception = ValueError,
                 xtra      = f"\n\n{helper}",
+                exception = ValueError,
             )
 
 
@@ -289,9 +271,10 @@ PATTERNS_HEADERS = [
 ###
 # prototype::
 #     file        : a file to normalize.
-#     hds_ignored : a list of header titles to ignore some sections.
+#     hds_ignored : a list of header section titles to ignore.
 #
-#     :return: the code of the file without the unwanted section contents.
+#     :return: the code of ''file'' without the unwanted section
+#              contents.
 ###
 def finalize_pycode(
     file       : Path,
@@ -323,7 +306,7 @@ def finalize_pycode(
 #     :return: :see: ./coding.hd_split_file
 #
 #
-# Here is a fictive content with the singme kind of section available.
+# Here is a fictive content with the kind of section available.
 #
 # python::
 #     ...
@@ -369,16 +352,17 @@ def magic_comment(title: str) -> str:
     return title
 
 
-# ------------------- #
-# -- XXX -- #
-# ------------------- #
+# ---------------------------------------- #
+# -- SOURCE USED TO BUILD A PYTHON FILE -- #
+# ---------------------------------------- #
 
 ###
 # prototype::
-#     code     : XXXXXXXXX
-#     path_src : XXXXXXXXX
+#     code     : the \python code
+#     path_src : path of the \src code used to build ''code''
 #
-#     :return: XXXXXXXX
+#     :return: the \python code with an additional text indicated
+#              ''path_src'' as \src used to build ''code''
 ###
 def add_pysrc_used(
     code    : str,

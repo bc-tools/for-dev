@@ -31,7 +31,7 @@ TAG_ROOT_HEADER = ".:-R-O-O-T-:."
 #                   the headers used to section the content.
 #     strip_parts : set to ''True'', the contents are stripped.
 #
-#     :return: a dictionary reflecting the structure of the extracted
+#     :return: a \dict reflecting the structure of the extracted
 #              content according to the relevant header level.
 #
 #
@@ -94,13 +94,13 @@ def _recu_hd_split_file(
 
 ###
 # prototype::
-#     mandatory : XXXXXXXX
-#     optional  : XXXXXXXX
-#     ignored   : XXXXXXXX
-#     parts     : XXXXXXXX
-#     context   : XXXXXXXX
+#     mandatory : set of mandatory section titles
+#     optional  : set of optional section titles
+#     ignored   : set of ignored section titles
+#     parts     : parts of the code
+#     context   : the context of use
 #
-#     :action:  XXXXXXXX
+#     :action: validation process of the good use of sections
 #
 #     :see: _raise_unwanted_sections
 ###
@@ -134,11 +134,12 @@ def hd_split_validate(
 
 ###
 # prototype::
-#     xtra_sections : XXXXXXXX
-#     what          : XXXXXXXX
-#     context       : XXXXXXXX
+#     xtra_sections : the extra section list
+#     what          : the magic comment kind
+#     context       : the context in which an error is raised and
+#                     logged.
 #
-#     :action:  XXXXXXXX
+#     :action: log an error and raise an exception.
 ###
 def _raise_unwanted_sections(
     xtra_sections: list[str],

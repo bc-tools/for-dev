@@ -33,8 +33,8 @@ LOG_PRINTERS = {
 # ---------------- #
 
 ###
-# For the terminal, we change the colours used depending on the type
-# of message (we use the formatting mark-up ''rich'' language).
+# For the terminal, we change the colours used depending on the
+# message type (we use the formatting mark-up ''rich'' language).
 ###
 class ColorFilter(logging.Filter):
     def filter(self, record: logging.LogRecord) -> bool:
@@ -58,7 +58,7 @@ class ColorFilter(logging.Filter):
 
 
 ###
-# We customise the log file formatting so that it removes formatting
+# We customise log file formatting so that it removes formatting
 # mark-up ''rich'' language.
 ###
 class FileFormatter(logging.Formatter):
@@ -89,8 +89,8 @@ def setup_logging(no_color: bool = False) -> None:
 # Terminal handler
 #
 # ''color_system = "auto"'' detects whether the output is a real
-# terminal. If not—such as when output is redirected via a pipe—no
-# color is used
+# terminal. If not, such as when output is redirected via a pipe,
+# no color is used.
     console = Console(
         stderr       = True,
         color_system = None if no_color else "auto"

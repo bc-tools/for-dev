@@ -73,7 +73,7 @@ FUNCS_MANDATORY = set([
 ])
 
 FUNCS_OPTIONAL = set([
-    (FUNC_NAME_MAP_LIST:= 'map_list'),
+    # (FUNC_NAME_MAP_LIST:= 'map_list'),
 ])
 
 assert FUNCS_MANDATORY & FUNCS_OPTIONAL == set(), \
@@ -91,9 +91,14 @@ LEGAL_SIGNS = {
         ])
     ],
     FUNC_NAME_WRITE: [
-        VAR_NAME_DATA,
+        set([
+            VAR_NAME_DATA
+        ]),
     ]
 }
+
+assert set(LEGAL_SIGNS) == (FUNCS_MANDATORY | FUNCS_OPTIONAL), \
+       f'not {set(LEGAL_SIGNS)} == {FUNCS_MANDATORY | FUNCS_OPTIONAL}'
 
 
 # ----------------- #
@@ -115,8 +120,9 @@ for folder, contribs in get_accepted_paths(
     for one_contrib in contribs:
 # New Python code.
         contrib_file = folder / one_contrib
+        path_src     = contrib_file.relative_to(PROJECT_DIR.parent)
 
-# Magic coments welle used?
+# Magic comments well used?
         hd_split_validate(
             mandatory = HEADERS_MANDATORY,
             optional  = HEADERS_OPTIONAL,
@@ -141,12 +147,21 @@ for folder, contribs in get_accepted_paths(
                 exception = ValueError,
             )
 
+# Good signatures?
+        validate_signatures(
+            mandatory  = FUNCS_MANDATORY,
+            optional   = FUNCS_OPTIONAL,
+            signatures = LEGAL_SIGNS,
+            code       = final_code,
+            path_src   = path_src,
+            context    = MSG_CTXT,
+        )
+
 # Add the original source used.
         final_code = add_pysrc_used(
             code     = final_code,
-            path_src = contrib_file.relative_to(PROJECT_DIR.parent)
+            path_src = path_src,
         )
-
 
 # We can create / update the source file.
         create_update_file(

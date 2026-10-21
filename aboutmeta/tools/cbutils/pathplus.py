@@ -32,7 +32,7 @@ def add_missing_dir(folder : Path) -> None:
 #
 #     :action: an empty directory with the path specified as
 #              a parameter is obtained at the end of the process
-#              (if the folder does not exist, it will be created).
+#              (if the folder doesn't exist, it will be created).
 ###
 def empty_dir(folder : Path) -> None:
 # A folder to create.

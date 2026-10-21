@@ -25,12 +25,12 @@ TAG_OK     = "ok"
 # prototype::
 #     project_dir : the path of a folder.
 #
-#     :return: the key are folders containing accpeted contributions,
+#     :return: the key are folders containing accepted \contribs,
 #              and values are list of file or folder names.
 #
 # caution::
-#     It is the responsibility of the user code to optimise the paths
-#     for humanly useful rendering.
+#     It is the responsibility of the user code to optimise the
+#     paths for humanly useful rendering.
 ###
 def get_accepted_paths(
     context    : str,
@@ -109,11 +109,13 @@ def get_accepted_paths(
 # prototype::
 #     file : a \contrib file.
 #
-#     :return: the list of possible extra files associated to the \contrib file.
+#     :return: the list of possible extra files associated to the
+#              \contrib file.
 #
 #
 # note::
-#     Additional files must have names prefixed by the given file. Here are some examples.
+#     Additional files must have names prefixed by the given file.
+#     Here are some examples.
 #
 #         + path::''my_script_cgf.yaml'' is an aditional file for
 #         path::''my_script.py''.
