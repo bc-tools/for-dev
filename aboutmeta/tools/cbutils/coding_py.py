@@ -373,12 +373,19 @@ def magic_comment(title: str) -> str:
 # -- XXX -- #
 # ------------------- #
 
+###
+# prototype::
+#     code     : XXXXXXXXX
+#     path_src : XXXXXXXXX
+#
+#     :return: XXXXXXXX
+###
 def add_pysrc_used(
     code    : str,
     path_src: Path
-):
+) -> str:
     src_used = f"""
-# Code extracted from the maintained file
+# Code extracted from the maintained Python file
 # {path_src}
     """.strip()
 
