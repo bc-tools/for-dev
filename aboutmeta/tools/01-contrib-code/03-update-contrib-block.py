@@ -5,6 +5,46 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
+from cbutils.logconf    import *
+from cbutils.pathplus   import *
+from cbutils.coding_py  import *
+
+
+
+# ------------------ #
+# -- CONSTANTS #1 -- #
+# ------------------ #
+
+CONTEXT  = 'block'
+MSG_CTXT = 'block config contrib'
+
+
+THIS_DIR    = Path(__file__).parent
+PROJECT_DIR = THIS_DIR
+
+while(PROJECT_DIR.name != 'aboutmeta'):
+    PROJECT_DIR = PROJECT_DIR.parent
+
+SPECS_DIR       = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
+BLOCK_SPECS_DIR = SPECS_DIR / CONTEXT
+CONTRIB_DIR     = PROJECT_DIR / 'contribute' / 'api' / 'block-n-flavour' / CONTEXT
+
+
+
+
+# ----------------- #
+# -- LET'S WORK! -- #
+# ----------------- #
+
+for f in [
+    empty_dir,
+    add_missing_init,
+]:
+    f(BLOCK_SPECS_DIR)
+
+
+exit()
+
 from cbutils.core    import *
 from cbutils.yaml2py import *
 

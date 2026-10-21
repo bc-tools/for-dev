@@ -19,6 +19,7 @@ from cbutils.pathplus   import *
 CONTEXT  = 'data'
 MSG_CTXT = 'data class contrib'
 
+
 THIS_DIR    = Path(__file__).parent
 PROJECT_DIR = THIS_DIR
 
@@ -65,11 +66,13 @@ assert HEADERS_IGNORED <= (
 # -- LET'S WORK! -- #
 # ----------------- #
 
+add_missing_dir(SPECS_DIR)
+empty_dir(DATA_SPECS_DIR)
+
 for p in [
     SPECS_DIR,
     DATA_SPECS_DIR,
 ]:
-    add_missing_dir(p)
     add_missing_init(p)
 
 

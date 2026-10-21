@@ -19,6 +19,7 @@ from cbutils.pathplus   import *
 CONTEXT  = 'parser'
 MSG_CTXT = 'parser utils contrib'
 
+
 THIS_DIR    = Path(__file__).parent
 PROJECT_DIR = THIS_DIR
 
@@ -86,7 +87,7 @@ LEGAL_SIGNS = {
             (VAR_NAME_DATA:= 'data')
         ]),
         set([
-            (VAR_NAME_AMDATA_CLS:= 'amdata_cls'),
+            (VAR_NAME_AMDATA_CLS:= 'amdata'),
             VAR_NAME_DATA
         ])
     ],
@@ -105,8 +106,11 @@ assert set(LEGAL_SIGNS) == (FUNCS_MANDATORY | FUNCS_OPTIONAL), \
 # -- LET'S WORK! -- #
 # ----------------- #
 
-add_missing_dir(PARSER_SPECS_DIR)
-add_missing_init(PARSER_SPECS_DIR)
+for f in [
+    empty_dir,
+    add_missing_init,
+]:
+    f(PARSER_SPECS_DIR)
 
 
 for folder, contribs in get_accepted_paths(
