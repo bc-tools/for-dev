@@ -3,6 +3,8 @@
 import ast
 import re
 
+from pathlib import Path
+
 from black import (
     FileMode,
     format_file_in_place,
@@ -10,9 +12,9 @@ from black import (
     WriteBack,
 )
 
-from cbutils.core.coding   import *
-from cbutils.core.logconf  import *
-from cbutils.core.messages import *
+from .split_file   import *
+from .logconf  import *
+from .messages import *
 
 
 # --------------- #
@@ -23,25 +25,6 @@ TAG_INIT     = "__init__"
 INIT_FILE    = f"{TAG_INIT}.py"
 
 SHEBANG_PYTHON = "#!/usr/bin/env python3\n"
-
-
-PATTERN_LEGAL_NAME = re.compile(
-    r'^[A-Za-z _.-][A-Za-z0-9 _.-]*$',
-# We do not accept unicode characters!
-    flags = re.ASCII
-)
-
-PATTERN_PYSUGLIFY = re.compile(r'[\s\-\.]+')
-
-
-PATTERNS_HEADERS = [
-    PATTERN_COMMENT_HD_1:= re.compile(
-        r"#\s+-+\s+#\n# --(.*)-- #\n# -+ #\n"
-    ),
-    # PATTERN_COMMENT_HD_2:= re.compile(
-    #     r"# ~~(.*)~~ #\n"
-    # ),
-]
 
 
 # ------------ #
@@ -61,6 +44,15 @@ type LegalSigns = dict[
 # ----------------------- #
 # -- BUILD PYTHON CODE -- #
 # ----------------------- #
+
+PATTERN_LEGAL_NAME = re.compile(
+    r'^[A-Za-z _.-][A-Za-z0-9 _.-]*$',
+# We do not accept unicode characters!
+    flags = re.ASCII
+)
+
+PATTERN_PYSUGLIFY = re.compile(r'[\s\-\.]+')
+
 
 ###
 # prototype::
@@ -284,6 +276,16 @@ def get_parse_signature(
 # -- EXTRACT PYTHON CODE -- #
 # ------------------------- #
 
+PATTERNS_HEADERS = [
+    PATTERN_COMMENT_HD_1:= re.compile(
+        r"#\s+-+\s+#\n# --(.*)-- #\n# -+ #\n"
+    ),
+    # PATTERN_COMMENT_HD_2:= re.compile(
+    #     r"# ~~(.*)~~ #\n"
+    # ),
+]
+
+
 ###
 # prototype::
 #     file        : a file to normalize.
@@ -293,7 +295,7 @@ def get_parse_signature(
 ###
 def finalize_pycode(
     file       : Path,
-    hds_ignored: list[str]
+    hds_ignored: list[str],
 ) -> str:
     code = []
 

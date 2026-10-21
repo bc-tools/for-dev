@@ -2,21 +2,23 @@
 
 import re
 
+
 from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
 
 
-# ------------------ #
-# -- DATA MANAGER -- #
-# ------------------ #
+# ---------- #
+# -- DATA -- #
+# ---------- #
 
-_PATTERN_ACRONYM_METADATA = re.compile(
+PATTERN_ACRONYM_METADATA = re.compile(
     r'\[\s*(.*?)(?:\s*::\s*(.*?))?\s*\]|([^\[]+)'
 )
 
-_TAG_ACRONYM_DEF_OPEN, _TAG_ACRONYM_DEF_CLOSE = '[]'
+TAG_ACRONYM_DEF_OPEN, TAG_ACRONYM_DEF_CLOSE = '[]'
+
 
 ###
 # prototype::
@@ -39,7 +41,7 @@ class Acronym(DataManager):
 #     :action: derive the ''short'' and ''desc'' attributes from
 #              ''self.spec''.
 ###
-    def __post_init__(self):
+    def __post_init__(self) -> None:
 # We only keep internal extra spaces.
         self.spec = self.spec.strip()
 
@@ -47,14 +49,14 @@ class Acronym(DataManager):
         bracket_is_opened = False
 
         for i, c in enumerate(self.spec):
-            if c == _TAG_ACRONYM_DEF_OPEN:
+            if c == TAG_ACRONYM_DEF_OPEN:
                 if bracket_is_opened:
                     raise ParsingError('Unclosed bracket group.')
 
                 else:
                     bracket_is_opened = True
 
-            elif c == _TAG_ACRONYM_DEF_CLOSE:
+            elif c == TAG_ACRONYM_DEF_CLOSE:
                 if not bracket_is_opened:
                     raise ParsingError('Unopened bracket group.')
 
@@ -67,7 +69,7 @@ class Acronym(DataManager):
 # Extract the spec parts.
         spec_parts = []
 
-        for match in _PATTERN_ACRONYM_METADATA.finditer(self.spec):
+        for match in PATTERN_ACRONYM_METADATA.finditer(self.spec):
             spec_initial, spec_final, other = match.groups()
 
             if not spec_initial is None:
@@ -115,52 +117,3 @@ class Acronym(DataManager):
                     spec = '::'.join(p)
 
                 self.spec += f'[{spec}]'
-
-
-# ----------- #
-# -- TESTS -- #
-# ----------- #
-
-if __name__ == "__main__":
-# GOOD
-    print("\n------------\n")
-
-    print("-- GOOD CASES --")
-
-    for spec in [
-        "   [about] [meta]data  ",
-        "[about::@-]   [meta   ::   met-@]data",
-    ]:
-        mydata = Acronym(spec = spec)
-
-        print()
-        print(f"{spec   = }")
-        print(f"{mydata = }")
-
-# BAD
-    # exit()
-
-    print("\n------------\n")
-
-    print("-- BAD CASES --")
-
-    for spec in [
-        "about metadata",
-        "[about [meta]data",
-        "[about] meta]data",
-        "[about metadata",
-        "about meta]data",
-    ]:
-        print()
-        print(f"{spec = }")
-
-        try:
-            Acronym(spec = spec)
-
-        except Exception as e:
-            print(type(e).__name__, ':', e)
-
-            notes = getattr(e, "__notes__", [])
-
-            for i, n in enumerate(notes, start = 1):
-                print(f'[{i}]. {n}')

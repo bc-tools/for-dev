@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-import requests
-
-from dataclasses import field
+import httpx
 
 from email_validator import validate_email
 
+
+from dataclasses import field
+
 from aboutmeta.core.data_manager import DataManager
-from aboutmeta.core.errors       import ParsingError
 
 from aboutmeta.tools.group import (
     extract_group,
@@ -20,22 +20,22 @@ from aboutmeta.tools.misc  import (
 )
 
 
-# ------------------ #
-# -- DATA MANAGER -- #
-# ------------------ #
+# ---------- #
+# -- DATA -- #
+# ---------- #
 
-TAG_YAML_AFFILIATION_OPEN, TAG_YAML_AFFILIATION_CLOSE = '()'
-TAG_YAML_EMAIL_OPEN      , TAG_YAML_EMAIL_CLOSE       = '[]'
-TAG_YAML_PARTICLE_OPEN   , TAG_YAML_PARTICLE_CLOSE    = '{}'
+TAG_AFFILIATION_OPEN, TAG_AFFILIATION_CLOSE = '()'
+TAG_EMAIL_OPEN      , TAG_EMAIL_CLOSE       = '[]'
+TAG_PARTICLE_OPEN   , TAG_PARTICLE_CLOSE    = '{}'
 
-DELIMS_EMAIL       = TAG_YAML_EMAIL_OPEN + TAG_YAML_EMAIL_CLOSE
-DELIMS_AFFILIATION = TAG_YAML_AFFILIATION_OPEN + TAG_YAML_AFFILIATION_CLOSE
+DELIMS_EMAIL       = TAG_EMAIL_OPEN + TAG_EMAIL_CLOSE
+DELIMS_AFFILIATION = TAG_AFFILIATION_OPEN + TAG_AFFILIATION_CLOSE
 DELIMS_PERSON      = ['',DELIMS_EMAIL, DELIMS_AFFILIATION]
 
-DELIMS_PARTICLE = TAG_YAML_PARTICLE_OPEN + TAG_YAML_PARTICLE_CLOSE
+DELIMS_PARTICLE = TAG_PARTICLE_OPEN + TAG_PARTICLE_CLOSE
+
 
 ###
-
 # prototype::
 #     spec        : the specification of a person.
 #     surname     : the surname without a particle is mandatory.
@@ -68,7 +68,7 @@ class Person(DataManager):
 #              ''email'' and ''affiliation'' attributes attributes
 #              from ''self.spec''.
 ###
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         spec = self.spec
 
 # One affiliation?
@@ -102,6 +102,15 @@ class Person(DataManager):
             data_on_left = False
         )
 
+# We can update the ''spec'' attribute.
+        self._update_spec()
+
+###
+# prototype::
+#     :action: update the ''spec'' attribute using to the actual
+#              values of other attributes.
+###
+    def _update_spec(self) -> None:
 # Build the standard spec definition.
         self.spec = self.surname
 
@@ -163,6 +172,7 @@ class Person(DataManager):
         self._normalize_titles()
         self._normalize_email()
         self._normalize_affiliation()
+        self._update_spec()
 
 ###
 # prototype::
@@ -181,7 +191,8 @@ class Person(DataManager):
         )
 
 # Particle.
-        self.particle = self.particle.lower()
+        if not self.particle is None:
+            self.particle = self.particle.lower()
 
 # Main name.
         self.surname = self._normalize_name(self.surname)
@@ -257,7 +268,7 @@ class Person(DataManager):
 
 # Nothing to do.
         if not self.email:
-            self.data_pb.no_checking()
+            self.data_pb.no_check()
 
             return
 
@@ -287,7 +298,7 @@ class Person(DataManager):
 
 # Nothing to do.
         if not self.affiliation:
-            self.data_pb.no_checking()
+            self.data_pb.no_check()
 
             return
 
@@ -297,7 +308,7 @@ class Person(DataManager):
         try:
             self.data_pb.checking(affi)
 
-            response = requests.get(
+            response = httpx.get(
                 "https://nominatim.openstreetmap.org/search",
                 params = {
                     "q"     : affi,
@@ -306,10 +317,11 @@ class Person(DataManager):
                 },
                 headers = {
                     "User-Agent": "AdresseChecker/1.0"
-                }
+                },
+                timeout = 3
             )
 
-            if response.ok and len(response.json()) != 0:
+            if response.is_success and len(response.json()) != 0:
                 self.data_pb.validated(affi)
 
                 return
@@ -327,116 +339,3 @@ class Person(DataManager):
             )
 
         self.data_pb.rejected(affi)
-
-
-# ----------- #
-# -- TESTS -- #
-# ----------- #
-
-if __name__ == "__main__":
-    from aboutmeta.core.log_conf import *
-    setup_logging()
-
-
-# GOOD
-    print()
-    print("-- GOOD CASES --")
-
-    for spec in [
-        "Someone",
-        "ALIce, MarIE-LiSe,  Someone    (My address)",
-        "Someone    [e.mail@provided.by]",
-        "Someone [e.mail@provided.by] (My address)",
-        "ALIce,    MarIE-LiSe,   {MC}    Someone     [   e.mail@provided.by ]    (   My   address  )",
-    ]:
-        data_parsed = Person(spec = spec)
-
-        print()
-        print('~~~')
-
-        print()
-        print(f"{spec = }")
-
-        print()
-        print(repr(data_parsed))
-
-
-# BAD
-    # exit()
-
-    print()
-    print("-- BAD CASES --")
-
-    for spec in [
-        "Someone (My address) [e.mail@provided.by]",
-    ]:
-        print()
-        print(f"{spec = }")
-
-        try:
-            Person(spec = spec)
-
-        except Exception as e:
-            print(type(e).__name__, ':', e)
-
-
-
-
-
-
-
-
-
-
-    exit()
-
-# GOOD
-    print("\n------------\n")
-
-    print("-- GOOD CASES --")
-
-    mydata = Person(
-        firstnames  = ["ALIce", "MarIE  -  LiSe"],
-        particle    = "DE",
-        surname     = "Charlène",
-        email       = "support@OpenAI.CoM",
-        affiliation = "Université   de   la Technologie,    France"
-    )
-
-    print()
-    print("Original data")
-    print(mydata)
-
-    print()
-    print("Normalization")
-    mydata.normalize()
-    print(mydata)
-
-    print()
-    print(f"Validation process")
-    mydata.validate()
-
-# BAD
-    # exit()
-
-    print("\n------------\n")
-
-    print("-- BAD CASES --")
-
-    mydata = Person(
-        firstnames  = ["A", "B"],
-        surname     = "C",
-        email       = "support@openaicom",
-        affiliation = "Université de la Techlogie, France"
-    )
-
-    print()
-    print("Original data")
-    print(mydata)
-
-    print()
-    print(f"Validation process")
-    mydata.validate()
-
-    for m in mydata._errors_found:
-        print(f"    > {m}")

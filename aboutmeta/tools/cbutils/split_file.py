@@ -3,6 +3,8 @@
 from pathlib import Path
 import              re
 
+from .messages import *
+
 
 # ------------ #
 # -- TYPING -- #
@@ -88,3 +90,80 @@ def _recu_hd_split_file(
 
 # Nothing left to do.
     return parts
+
+
+###
+# prototype::
+#     mandatory : XXXXXXXX
+#     optional  : XXXXXXXX
+#     ignored   : XXXXXXXX
+#     parts     : XXXXXXXX
+#     context   : XXXXXXXX
+#
+#     :action:  XXXXXXXX
+#
+#     :see: _raise_unwanted_sections
+###
+def hd_split_validate(
+    mandatory: set[str],
+    optional : set[str],
+    ignored  : set[str],
+    parts    : NestedDictPath,
+    context  : str,
+) -> None:
+    sections_found = set(parts) - set([TAG_ROOT_HEADER])
+
+# No extra sections used?
+    all_sections = mandatory | optional | ignored
+
+    if not sections_found <= all_sections:
+        _raise_unwanted_sections(
+            xtra_sections = sections_found - all_sections,
+            what          = 'extra',
+            context       = context,
+        )
+
+# All mandatory sections used?
+    if not mandatory <= sections_found:
+        _raise_unwanted_sections(
+            xtra_sections = mandatory - sections_found,
+            what          = 'missing mandatory',
+            context       = context,
+        )
+
+
+###
+# prototype::
+#     xtra_sections : XXXXXXXX
+#     what          : XXXXXXXX
+#     context       : XXXXXXXX
+#
+#     :action:  XXXXXXXX
+###
+def _raise_unwanted_sections(
+    xtra_sections: list[str],
+    what         : str,
+    context      : str,
+):
+    plurial = (
+        ''
+        if len(xtra_sections) == 1 else
+        's'
+    )
+
+    _xtra_sections = list(xtra_sections)
+    _xtra_sections.sort()
+
+    list_xtra_sections = '\n    + '.join(
+        s
+        for s in [''] + _xtra_sections
+    )
+
+    log_raise_error(
+        context = context,
+        desc    = (
+            f'{what.capitalize()} comment section{plurial} used:'
+            f"{list_xtra_sections}"
+        ),
+        exception = ValueError,
+    )

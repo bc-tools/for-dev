@@ -1,27 +1,28 @@
 #!/usr/bin/env python3
 
-from dataclasses import field
-
 from langcodes import (
     get as get_langcode,
     LanguageTagError
 )
 
+
+from dataclasses import field
+
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
 
 
-# ------------------ #
-# -- DATA MANAGER -- #
-# ------------------ #
+# ---------- #
+# -- DATA -- #
+# ---------- #
 
 ###
 # prototype::
-#     std_id : the standard language std_id which looks
-#                  like ''en-GB''.
-#     name       : the full language name like ''English''.
-#     territory  : the territory of the language like ''Great
-#                  Britain''.
+#     std_id    : the standard language identifier which looks
+#                 like ''en-GB''.
+#     name      : the full language name like ''English''.
+#     territory : the territory of the language like ''Great
+#                 Britain''.
 #
 #
 # note::
@@ -31,9 +32,10 @@ from aboutmeta.core.errors       import ParsingError
 #
 # warning::
 #     Short identifiers are automatically expanded to full ones
-#     regardless of letter casing: if a user enters ''fr'' or ''FR-fr'',
-#     it will be saved as ''fr-FR''. Enforcing this normalization
-#     standard at the \yaml input stage is a best practice.
+#     regardless of letter casing: if a user enters ''fr'' or
+#     ''FR-fr'', it will be saved as ''fr-FR''. Enforcing this
+#     normalization \std at the \yaml input stage is a best
+#     practice.
 ###
 class Lang(DataManager):
     std_id   : str
@@ -43,10 +45,10 @@ class Lang(DataManager):
 ###
 # prototype::
 #     :action: derive the ''name'' and ''territory'' attributes
-#     from ''self.std_id'' and expand the std_id to its
-#     full form (e.g., ''fr'' becomes ''fr-FR'').
+#     from ''self.std_id'' and expand the identifier to its full
+#     form (e.g., ''fr'' becomes ''fr-FR'').
 ###
-    def __post_init__(self):
+    def __post_init__(self) -> None:
 # Getting a normalized code.
         try:
             lang = get_langcode(self.std_id).maximize()
@@ -62,54 +64,11 @@ class Lang(DataManager):
 
 # Patch for the strange "Unknow language".
         if desc['language'].startswith('Unknown language'):
-            raise ValueError(f"unknown language code '{self.std_id}'")
+            raise ValueError(
+                f"unknown language code '{self.std_id}'"
+            )
 
 # The job has been done.
         self.std_id    = f"{lang.language}-{lang.territory}"
         self.name      = desc["language"]
         self.territory = desc["territory"]
-
-
-# ----------- #
-# -- TESTS -- #
-# ----------- #
-
-if __name__ == "__main__":
-# GOOD
-    print("\n------------\n")
-
-    print("-- GOOD CASES --")
-
-    for std_id in [
-        "fr",
-        "es",
-        "en",
-        "en-GB",
-        "eN-gb",
-    ]:
-        mydata = Lang(std_id = std_id)
-
-        print()
-        print(f"{std_id = }")
-        print(f"{mydata = }")
-
-
-# BAD
-    # exit()
-
-    print("\n------------\n")
-
-    print("-- BAD CASES --")
-
-    for std_id in [
-        "X - X - X",
-        "XXX",
-    ]:
-        print()
-        print(f"{std_id = }")
-
-        try:
-            Lang(std_id = std_id)
-
-        except Exception as e:
-            print(type(e).__name__, ':', e)

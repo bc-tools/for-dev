@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from cbutils.core.logconf import *
+from .logconf import *
 
 
 # ----------------------- #

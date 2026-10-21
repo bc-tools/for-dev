@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from cbutils.core.logconf import *
+from .logconf import *
 
 
 # ------------------------------ #
@@ -68,7 +68,7 @@ def create_update_file(
     content  : str,
     log_level: str = TAG_INFO
 ) -> None:
-    LOG_PRINTERS[log_level](f"Creation or update: '{file.name}'.")
+    LOG_PRINTERS[log_level](f"Create or update: '{file.name}'.")
 
     file.touch()
     file.write_text(content)

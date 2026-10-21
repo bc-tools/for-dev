@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 
-import requests
+import httpx
 import socket
 
 from urllib.parse import (
-    quote,
+    quote as urlquote,
     urlparse,
     urlunparse,
 )
 
+
 from aboutmeta.core.data_manager import DataManager
 
 
-# -------------------- #
-# -- URL DATA CLASS -- #
-# -------------------- #
+# ---------- #
+# -- DATA -- #
+# ---------- #
 
 ###
 # prototype::
@@ -25,35 +26,35 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: a standard URL is built.
+#     :action: a standard `URL` object is built.
 #
 #
 # Here are the normalizations done.
 #
-#     1. Some valid URLs use typographical quirks.
-#     For example, ''HTTPS://QwAnT.com'' is valid, but its
-#     normalized version is ''https://qwant.com''.
+#     1. Some valid \url_s use typographical quirks. For example,
+#     ''HTTPS://QwAnT.com'' is valid, but its normalized version
+#     is ''https://qwant.com''.
 #
-#     1. Special HTML character encoding is also handled.
-#     For example, ''http://abc.com/Dôssier Testé.html''
-#     becomes ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html''.
+#     1. Special \html character encoding is also handled. For
+#     example, ''http://abc.com/Dôssier Testé.html'' becomes
+#     ''http://abc.com/D%C3%B4ssier%20Test%C3%A9.html''.
 ###
     def normalize(self) -> None:
         parsed_url = urlparse(self.url)
 
         self.url = urlunparse((
-            parsed_url.scheme,          # http, https
-            parsed_url.netloc.lower(),  # Domain
-            # parsed_url.path,            # No HTML encoding!
-            quote(parsed_url.path, safe="/"), # HTML encoding
-            parsed_url.params,          # Keep params.
-            parsed_url.query,           # Keep query string.
-            parsed_url.fragment         # Keep fragment (#...).
+            parsed_url.scheme,                   # http, https
+            parsed_url.netloc.lower(),           # Domain
+            # parsed_url.path,                   # No HTML encoding!
+            urlquote(parsed_url.path, safe="/"), # HTML encoding
+            parsed_url.params,                   # Keep params.
+            parsed_url.query,                    # Keep query string.
+            parsed_url.fragment                  # Keep fragment (#...).
         ))
 
 ###
 # prototype::
-#     :action: URL validation using DNS and HTTP technics.
+#     :action: \url validation using \dns and \http technics.
 ###
     def validate(self) -> None:
         self.data_pb.start()
@@ -63,7 +64,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: DNS check of the hostname.
+#     :action: \dns check of the hostname.
 ###
     def _validate_DNS(self) -> None:
         self.data_pb.what("DNS status")
@@ -98,7 +99,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: HTTP URL availability check.
+#     :action: \http \url availability check.
 ###
     def _validate_HTTP(self) -> None:
         self.data_pb.what("HTTP status")
@@ -108,10 +109,10 @@ class URL(DataManager):
         try:
             self.data_pb.checking(url)
 
-            response = requests.head(
+            response = httpx.head(
                 url,
                 timeout         = 3,
-                allow_redirects = True
+                follow_redirects = True
             )
 
             if response.status_code < 400:
@@ -122,7 +123,7 @@ class URL(DataManager):
             else:
                 self.data_pb.new_error(
                     data      = url,
-                    error_msg = f"Requests status code = {response.status_code}.",
+                    error_msg = f"HTTPX status code = {response.status_code}.",
                 )
 
         except Exception as e:
@@ -132,37 +133,3 @@ class URL(DataManager):
             )
 
         self.data_pb.rejected(url)
-
-
-# ----------- #
-# -- TESTS -- #
-# ----------- #
-
-if __name__ == "__main__":
-    from aboutmeta.core.log_conf import *
-    setup_logging()
-
-    for url in [
-        "HTTPS://QwAnT.com",
-        "qwant.com",
-        "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html"
-    ]:
-        print("\n------------\n")
-
-        mydata = URL(url = url)
-
-        print("Original data")
-        print(mydata)
-
-        print()
-
-        print("Normalization")
-        mydata.normalize()
-        print(mydata)
-
-        print()
-        print(f"Validation process")
-        mydata.validate()
-
-        for m in mydata._errors_found:
-            print(f"    > {m}")
