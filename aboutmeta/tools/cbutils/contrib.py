@@ -32,7 +32,10 @@ TAG_OK     = "ok"
 #     It is the responsibility of the user code to optimise the paths
 #     for humanly useful rendering.
 ###
-def get_accepted_paths(contrib_dir: Path) -> dict[Path, str]:
+def get_accepted_paths(
+    context    : str,
+    contrib_dir: Path
+) -> dict[Path, str]:
     logging.info("Looking for accepted contribs.")
 
     accepted_paths = defaultdict(list)
@@ -59,8 +62,9 @@ def get_accepted_paths(contrib_dir: Path) -> dict[Path, str]:
 # Nothing found.
         if not(is_folder or files):
             log_raise_error(
-                exception = IOError,
+                context   = context,
                 desc      = f"No contrib. found for '{stem}'.",
+                exception = IOError,
             )
 
 # Ambiguity?
@@ -82,9 +86,10 @@ def get_accepted_paths(contrib_dir: Path) -> dict[Path, str]:
             xtra = f'\n{TAB_ITEM_1}' + TAB_ITEM_1.join(xtra)
 
             log_raise_error(
-                exception = IOError,
+                context   = context,
                 desc      = desc,
                 xtra      = xtra,
+                exception = IOError,
             )
 
 # Contrib. found.

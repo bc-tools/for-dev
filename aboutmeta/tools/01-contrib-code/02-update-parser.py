@@ -104,7 +104,10 @@ add_missing_dir(PARSER_SPECS_DIR)
 add_missing_init(PARSER_SPECS_DIR)
 
 
-for folder, contribs in get_accepted_paths(CONTRIB_DIR).items():
+for folder, contribs in get_accepted_paths(
+    context     = CONTEXT,
+    contrib_dir = CONTRIB_DIR
+).items():
     ctxt = folder.parent.name
 
     logging.info(f"Working on '{ctxt}'.")

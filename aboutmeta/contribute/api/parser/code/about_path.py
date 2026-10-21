@@ -82,68 +82,68 @@ TAG_ABOUT_YAML = 'about.yaml'
 #     The paths found using a pattern are sorted by the function
 #     ''natsort.natsorted''.
 ###
-def map_list(tocpaths: list[TOCPath]) -> list[Path]:
-    TODO
+# def map_list(tocpaths: list[TOCPath]) -> list[Path]:
+#     TODO
 
 
-    paths = []
+#     paths = []
 
-# Let's walk!
-    for tpath in tocpaths:
-        kind = tpath.kind
+# # Let's walk!
+#     for tpath in tocpaths:
+#         kind = tpath.kind
 
-# Raw path.
-        if kind == TAG_TOC_PATH_RAW:
-            full_path = tpath.parent / tpath.pattern
+# # Raw path.
+#         if kind == TAG_TOC_PATH_RAW:
+#             full_path = tpath.parent / tpath.pattern
 
-# A file must exists.
-            if tpath.pattern[-1] != TAG_PATH_SEP:
-                if not full_path.is_file():
-                    raise IOError(
-                        f'Not found file:\n{full_path}'
-                    )
-
-
-# A folder must contain an ''about.yaml'' file.
-            else:
-                sub_about_file = full_path / TAG_ABOUT_YAML
-
-                if not sub_about_file.is_file():
-                    raise IOError(
-                        f"Missing ''{TAG_ABOUT_YAML}'' file inside a folder:\n{full_path}"
-                    )
+# # A file must exists.
+#             if tpath.pattern[-1] != TAG_PATH_SEP:
+#                 if not full_path.is_file():
+#                     raise IOError(
+#                         f'Not found file:\n{full_path}'
+#                     )
 
 
-# Let's store the new path(s).
-            paths.append(
-                tpath.parent / tpath.pattern
-            )
+# # A folder must contain an ''about.yaml'' file.
+#             else:
+#                 sub_about_file = full_path / TAG_ABOUT_YAML
 
-# Pattern search.
-        else:
-            glob_method_name = (
-                TAG_GLOB_METHOD
-                if tpath._is_recu_search() else
-                TAG_GLOB_RECU_METHOD
-            )
+#                 if not sub_about_file.is_file():
+#                     raise IOError(
+#                         f"Missing ''{TAG_ABOUT_YAML}'' file inside a folder:\n{full_path}"
+#                     )
 
-            iterator_name = (
-                'glob_iter'
-                if kind in TAG_TOC_GLOB_PATTERNS else
-                'regex_iter'
-            )
 
-            paths += natsorted(
-                list(
-                    getattr(
-                        tpath,
-                        iterator_name
-                    )(glob_method_name)
-                )
-            )
+# # Let's store the new path(s).
+#             paths.append(
+#                 tpath.parent / tpath.pattern
+#             )
 
-# Nothing left to do.
-    return paths
+# # Pattern search.
+#         else:
+#             glob_method_name = (
+#                 TAG_GLOB_METHOD
+#                 if tpath._is_recu_search() else
+#                 TAG_GLOB_RECU_METHOD
+#             )
+
+#             iterator_name = (
+#                 'glob_iter'
+#                 if kind in TAG_TOC_GLOB_PATTERNS else
+#                 'regex_iter'
+#             )
+
+#             paths += natsorted(
+#                 list(
+#                     getattr(
+#                         tpath,
+#                         iterator_name
+#                     )(glob_method_name)
+#                 )
+#             )
+
+# # Nothing left to do.
+#     return paths
 
 
 # ----------- #
