@@ -12,17 +12,12 @@ from cbutils.contrib    import *
 from cbutils.pathplus   import *
 
 
-
-exit()
-
-
-
 # ------------------ #
 # -- CONSTANTS #1 -- #
 # ------------------ #
 
-CONTEXT  = 'data'
-MSG_CTXT = 'data class contrib'
+CONTEXT  = 'parser'
+MSG_CTXT = 'parser utils contrib'
 
 THIS_DIR    = Path(__file__).parent
 PROJECT_DIR = THIS_DIR
@@ -40,12 +35,14 @@ CONTRIB_DIR    = PROJECT_DIR / 'contribute' / 'api' / CONTEXT
 # ------------------ #
 
 HEADERS_MANDATORY = set([
-    (SECTION_DATA := 'DATA'),
-    (SECTION_TESTS:= 'TESTS'),
+    (SECTION_PARSER:= 'PARSER'),
+    (SECTION_WRITER:= 'WRITER'),
+    (SECTION_TESTS := 'TESTS'),
 ])
 
 HEADERS_OPTIONAL = set([
-    (SECTION_TOOLS:= 'TOOLS'),
+    (SECTION_MAPPERS:= 'MAPPERS'),
+    (SECTION_TOOLS  := 'TOOLS'),
 ])
 
 HEADERS_IGNORED = set([
@@ -64,6 +61,53 @@ assert HEADERS_IGNORED <= (
      ' vs '
     f'{HEADERS_MANDATORY | HEADERS_OPTIONAL = }'
 )
+
+
+# ------------------ #
+# -- CONSTANTS #3 -- #
+# ------------------ #
+
+FUNCS_MANDATORY = set([
+    (FUNC_NAME_PARSE:= 'parse'),
+    (FUNC_NAME_WRITE:= 'write'),
+])
+
+FUNCS_OPTIONAL = set([
+    (FUNC_NAME_MAP_LIST:= 'map_list'),
+])
+
+assert FUNCS_MANDATORY & FUNCS_OPTIONAL == set(), \
+       f'{FUNCS_MANDATORY & FUNCS_OPTIONAL = }'
+
+
+LEGAL_SIGNS = {
+    FUNC_NAME_PARSE: [
+        set([
+            (VAR_NAME_DATA:= 'data')
+        ]),
+        set([
+            (VAR_NAME_AMDATA_CLS:= 'amdata_cls'),
+            VAR_NAME_DATA
+        ])
+    ],
+    FUNC_NAME_WRITE: [
+        VAR_NAME_DATA,
+    ]
+}
+
+
+
+
+
+
+
+
+
+exit()
+
+
+
+
 
 
 # ----------------- #
