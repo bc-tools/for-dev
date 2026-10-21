@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Code extracted from the maintained file
+# aboutmeta/contribute/api/data/code/tocpath.py
+
 from typing import Literal
 
 from collections.abc import Iterator

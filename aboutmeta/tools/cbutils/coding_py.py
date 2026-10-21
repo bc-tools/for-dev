@@ -367,3 +367,24 @@ def magic_comment(title: str) -> str:
     """.strip()
 
     return title
+
+
+# ------------------- #
+# -- XXX -- #
+# ------------------- #
+
+def add_pysrc_used(
+    code    : str,
+    path_src: Path
+):
+    src_used = f"""
+# Code extracted from the maintained file
+# {path_src}
+    """.strip()
+
+    code = code.replace(
+        SHEBANG_PYTHON,
+        f'{SHEBANG_PYTHON}\n{src_used}\n'
+    )
+
+    return code

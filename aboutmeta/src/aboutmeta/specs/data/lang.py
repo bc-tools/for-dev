@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Code extracted from the maintained file
+# aboutmeta/contribute/api/data/code/lang.py
+
 from langcodes import (
     get as get_langcode,
     LanguageTagError

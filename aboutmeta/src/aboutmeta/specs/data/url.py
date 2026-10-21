@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Code extracted from the maintained file
+# aboutmeta/contribute/api/data/code/url.py
+
 import httpx
 import socket
 

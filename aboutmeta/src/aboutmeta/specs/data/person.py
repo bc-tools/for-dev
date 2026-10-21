@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Code extracted from the maintained file
+# aboutmeta/contribute/api/data/code/person.py
+
 import httpx
 
 from email_validator import validate_email

@@ -16,8 +16,8 @@ from cbutils.pathplus   import *
 # -- CONSTANTS #1 -- #
 # ------------------ #
 
-CONTEXT = 'data'
-
+CONTEXT  = 'data'
+MSG_CTXT = 'data class contrib'
 
 THIS_DIR    = Path(__file__).parent
 PROJECT_DIR = THIS_DIR
@@ -88,7 +88,7 @@ for folder, contribs in get_accepted_paths(CONTRIB_DIR).items():
             optional  = HEADERS_OPTIONAL,
             ignored   = HEADERS_IGNORED,
             parts     = hd_split_pyfile(contrib_file),
-            context   = 'data class contrib',
+            context   = MSG_CTXT,
         )
 
 # Look at the code.
@@ -99,13 +99,20 @@ for folder, contribs in get_accepted_paths(CONTRIB_DIR).items():
 
         if not final_code:
             log_raise_error(
-                context = 'contrib',
+                context = MSG_CTXT,
                 desc    = (
                      'Empty file validated: '
                     f"'{contrib_file}'."
                 ),
                 exception = ValueError,
             )
+
+# Add the original source used.
+        final_code = add_pysrc_used(
+            code     = final_code,
+            path_src = contrib_file.relative_to(PROJECT_DIR.parent)
+        )
+
 
 # We can create / update the source file.
         create_update_file(
