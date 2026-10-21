@@ -8,7 +8,9 @@ sys.path.append(str(Path(__file__).parent.parent))
 from cbutils.logconf    import *
 from cbutils.pathplus   import *
 from cbutils.coding_py  import *
+from cbutils.contrib    import *
 
+from projutils.yaml2py import *
 
 
 # ------------------ #
@@ -30,8 +32,6 @@ BLOCK_SPECS_DIR = SPECS_DIR / CONTEXT
 CONTRIB_DIR     = PROJECT_DIR / 'contribute' / 'api' / 'block-n-flavour' / CONTEXT
 
 
-
-
 # ----------------- #
 # -- LET'S WORK! -- #
 # ----------------- #
@@ -43,36 +43,16 @@ for f in [
     f(BLOCK_SPECS_DIR)
 
 
-exit()
+for folder, contribs in get_accepted_paths(
+    context     = CONTEXT,
+    contrib_dir = CONTRIB_DIR
+).items():
+    ctxt = folder.parent.name
 
-from cbutils.core    import *
-from cbutils.yaml2py import *
+    logging.info(f"Working on '{ctxt}' configs.")
 
-
-# --------------- #
-# -- CONSTANTS -- #
-# --------------- #
-
-THIS_DIR          = Path(__file__).parent
-PROJECT_DIR       = THIS_DIR.parent.parent
-SRC_DIR           = PROJECT_DIR / "src" / "aboutmeta" / "specs"
-BLOCK_CONTRIB_DIR = PROJECT_DIR / "contrib" / "block-n-flavour" / "block" / "config"
-
-
-# ----------------- #
-# -- LET'S WORK! -- #
-# ----------------- #
-
-add_missing_init(SRC_DIR)
-
-for folder, contribs in get_accepted_paths(PROJECT_DIR).items():
-    if folder != BLOCK_CONTRIB_DIR:
-        continue
-
-
-# Gérer codename | doctitle *: . car doctitle disparait
     for one_contrib in contribs:
-        logging.info(f"Working on '{one_contrib}'.")
+        logging.info(f"Analyzing '{one_contrib}'.")
 
         contrib_file = folder / one_contrib
 

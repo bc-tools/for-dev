@@ -82,7 +82,7 @@ for folder, contribs in get_accepted_paths(
 ).items():
     ctxt = folder.parent.name
 
-    logging.info(f"Working on '{ctxt}'.")
+    logging.info(f"Working on '{ctxt}' codes.")
 
     for one_contrib in contribs:
 # New Python code.
