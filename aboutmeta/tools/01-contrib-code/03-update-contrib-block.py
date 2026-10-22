@@ -56,6 +56,7 @@ for folder, contribs in get_accepted_paths(
 
         contrib_file = folder / one_contrib
 
-        d = digested_yaml_specs(contrib_file)
+        digested_yaml = DigestedYamlSpecs(contrib_file)
+        digested_yaml.build()
 
-        from pprint import pprint;pprint(d)
+        from pprint import pprint;pprint(        digested_yaml.specs)

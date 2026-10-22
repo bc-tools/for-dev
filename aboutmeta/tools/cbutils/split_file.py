@@ -6,13 +6,6 @@ import              re
 from .messages import *
 
 
-# ------------ #
-# -- TYPING -- #
-# ------------ #
-
-type NestedDictPath = dict[str, Path | NestedDictPath]
-
-
 # --------------- #
 # -- CONSTANTS -- #
 # --------------- #
@@ -43,7 +36,7 @@ def hd_split_file(
     file       : Path,
     pat_headers: list[re.Pattern],
     strip_parts: bool = True,
-) -> NestedDictPath:
+) -> dict[str, str]:
     return _recu_hd_split_file(
         content     = file.read_text(),
         pat_headers = pat_headers,
@@ -63,7 +56,7 @@ def _recu_hd_split_file(
     content    : str,
     pat_headers: list[re.Pattern],
     strip_parts: bool,
-) -> NestedDictPath:
+) -> dict[str, str]:
 # No pattern.
     if not pat_headers:
         return content
@@ -108,7 +101,7 @@ def hd_split_validate(
     mandatory: set[str],
     optional : set[str],
     ignored  : set[str],
-    parts    : NestedDictPath,
+    parts    : dict[str, str],
     context  : str,
 ) -> None:
     sections_found = set(parts) - set([TAG_ROOT_HEADER])

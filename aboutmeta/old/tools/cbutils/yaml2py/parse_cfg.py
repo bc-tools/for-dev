@@ -69,7 +69,6 @@ type NestedDictBoolStr = dict[str, bool | str | NestedDictBoolStr]
 # -- YAML DICT TO PY DICT -- #
 # -------------------------- #
 
-
 ###
 # prototype::
 #     file : XXX

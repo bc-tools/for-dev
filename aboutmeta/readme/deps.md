@@ -16,4 +16,4 @@ Here are the `Python` libraries used. The version numbers in brackets are those 
   * `semver`            **[3.0]**
   * `typer`             **[0.16]**
 
-<!-- Python modules used - EN -->
+<!-- Python modules used - END -->
