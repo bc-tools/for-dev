@@ -21,8 +21,6 @@ from .constants import *
 ###
 # prototype::
 #     file : XXX
-#
-#     :return: XXX
 ###
 
 class DigestedYamlSpecs():
@@ -32,53 +30,106 @@ class DigestedYamlSpecs():
     ):
         self.file = file
 
-
+###
+# prototype::
+#     :action: XXX
+###
     def build(self):
-        self.specs       = dict()
-        self.optional    = []
-        self.alternative = []
-
+        self.specs        = dict()
+        self.optional     = set()
+        self.alternative  = set()
         self._last_parser = None
 
-        specs = safe_load(self.file.read_text())
+        yaml_specs = safe_load(self.file.read_text())
 
-        from pprint import pprint;pprint(specs)
+        specs = self.build_specs(yaml_specs)
 
-        if isinstance(specs, list):
-            self.specs = self.build_list(specs)
+        self.specs = {
+            self.file.stem: specs
+        }
 
-        elif isinstance(specs, dict):
-            self.specs = self.build_dict(specs)
+###
+# prototype::
+#     specs : XXX
+#
+#     :return: XXX
+###
+    def build_specs(
+        self,
+        yaml_specs
+    ):
+        if isinstance(yaml_specs, list):
+            return self.build_list(yaml_specs)
 
-        else:
-            raise ValueError('Only list and dict supported.')
+        if isinstance(yaml_specs, dict):
+            return self.build_dict(yaml_specs)
 
+        raise ValueError('Only list and dict supported.')
 
+###
+# prototype::
+#     data_dict : XXX
+#
+#     :return: XXX
+###
     def build_dict(
         self,
         data_dict
     ):
-        ...
+        for block_spec, sub_yaml_spec in data_dict.items():
+            print('---')
+            print(f"{   block_spec = }")
+            print(f"{sub_yaml_spec = }")
 
-
+###
+# prototype::
+#     data_list : XXX
+#
+#     :return: XXX
+###
     def build_list(
         self,
         data_list
     ):
         if len(data_list) != 1:
-            raise ValueError('List must have size 1.')
+            raise ValueError(
+                'List of parsers must have size 1.'
+            )
 
-        parser_specs = self.extract_parser(
+        _parsers_spec = self.extract_parsers(
             data_list[0]
         )
 
+        if len(_parsers_spec) != 1:
+            raise ValueError(
+                'Only one parser by list of data.'
+            )
+
+        parser_spec = _parsers_spec[0]
+
 # We have to update the type!
-        parser_specs[TAG_TYPE] = TAG_LIST
+        parser_spec[TAG_TYPE] = TAG_LIST
 
-        return parser_specs
+        return parser_spec
 
+###
+# prototype::
+#     XXX : XXX
+#
+#     :return: XXX
+###
+    def extract_blocks(
+        self,
+    ):
+        ...
 
-    def extract_parser(
+###
+# prototype::
+#     parser_spec : XXX
+#
+#     :return: XXX
+###
+    def extract_parsers(
         self,
         parser_spec
     ):
@@ -88,13 +139,19 @@ class DigestedYamlSpecs():
             use_post_process = True
 
             parser_spec = parser_spec[:-1]
-            parser_spec = parser_spec.strip()
 
         else:
             use_post_process = False
 
-        return {
-            TAG_TYPE            : TAG_DATA,
-            TAG_PARSE_MODULE    : parser_spec,
-            TAG_USE_POST_PROCESS: use_post_process,
-        }
+        specs = []
+
+        for p in parser_spec.split(TAG_PIP):
+            p = p.strip()
+
+            specs.append({
+                TAG_TYPE            : TAG_DATA,
+                TAG_PARSE_MODULE    : p,
+                TAG_USE_POST_PROCESS: use_post_process,
+            })
+
+        return specs
