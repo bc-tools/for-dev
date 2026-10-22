@@ -1,33 +1,12 @@
 #!/usr/bin/env python3
 
 
-# -------------------- #
-# -- YYY -- #
-# -------------------- #
+# ------------------ #
+# -- PYTHON SPECS -- #
+# ------------------ #
 
-MAGIC_COMMENT_DELIM = "###"
+TAG_TYPE = "type"
+TAG_DICT = "dict"
+TAG_LIST = "list"
 
-
-# --------------- #
-# -- AUTO DOCS -- #
-# --------------- #
-
-TAG_MAIN_DOC = "__main__.doc"
-
-
-# ---------- #
-# -- DATA -- #
-# ---------- #
-
-TAG_TYPE = "::type::"
-
-TAG_DICT = "::dict::"
-TAG_KEYS = "::keys::"
-
-TAG_LIST = "::list::"
-
-TAG_PARSER = "::parser::"
-
-
-TAG_ALTERNATIVE = "::alternative::"
-TAG_CHOICES     = "::choices::"
+TAG_PARSE_MODULE = "parse_module"
