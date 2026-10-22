@@ -69,6 +69,7 @@ class DigestedYamlSpecs():
             data_list[0]
         )
 
+# We have to update the type!
         parser_specs[TAG_TYPE] = TAG_LIST
 
         return parser_specs
@@ -90,6 +91,7 @@ class DigestedYamlSpecs():
             use_post_process = False
 
         return {
+            TAG_TYPE            : TAG_DATA,
             TAG_PARSE_MODULE    : parser_spec,
             TAG_USE_POST_PROCESS: use_post_process,
         }
