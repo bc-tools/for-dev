@@ -30,13 +30,16 @@ class DigestedYamlSpecs():
         self,
         file: Path
     ):
-        self.file        = file
+        self.file = file
+
+
+    def build(self):
         self.specs       = dict()
         self.optional    = []
         self.alternative = []
 
+        self._last_parser = None
 
-    def build(self):
         specs = safe_load(self.file.read_text())
 
         from pprint import pprint;pprint(specs)
