@@ -140,7 +140,7 @@ class DigestedYamlSpecs():
         if isinstance(yaml_specs, dict):
             return self.build_dict(yaml_specs)
 
-        raise ValueError('Only list and dict supported.')
+        raise ValueError('Only list and dict supported for main blocks.')
 
 ###
 # prototype::
@@ -152,6 +152,8 @@ class DigestedYamlSpecs():
         self,
         data_dict
     ):
+        specs = dict()
+
         for block_spec, sub_yaml_spec in data_dict.items():
             block_spec = self.split_xor_or(
                 data = block_spec,
@@ -164,10 +166,15 @@ class DigestedYamlSpecs():
             elif isinstance(sub_yaml_spec, dict):
                 sub_yaml_spec = self.build_dict(sub_yaml_spec)
 
+            elif isinstance(sub_yaml_spec, list):
+                sub_yaml_spec = self.build_list(sub_yaml_spec)
 
-            print('---')
-            print(f"{   block_spec = }")
-            print(f"{sub_yaml_spec = }")
+            else:
+                raise ValueError('Only str, list and dict supported for sub blocks.')
+
+            specs[f'{block_spec}'] = sub_yaml_spec
+
+        return specs
 
 ###
 # prototype::
