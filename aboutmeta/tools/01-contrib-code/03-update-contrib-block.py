@@ -61,5 +61,5 @@ for folder, contribs in get_accepted_paths(
 
         from pprint import pprint;pprint(        digested_yaml.specs)
 
-        print(f"{digested_yaml.optional    = }")
+        print(f"{digested_yaml.mandatory   = }")
         print(f"{digested_yaml.alternative = }")

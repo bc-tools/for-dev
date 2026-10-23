@@ -22,7 +22,6 @@ from .constants import *
 # prototype::
 #     file : XXX
 ###
-
 class DigestedYamlSpecs():
     def __init__(
         self,
@@ -30,17 +29,94 @@ class DigestedYamlSpecs():
     ):
         self.file = file
 
+
+###
+# prototype::
+#     parser_spec : XXX
+#
+#     :return: XXX
+###
+    def extract_parsers(
+        self,
+        parser_spec
+    ):
+        return self.split_xor_or(
+            data = parser_spec,
+            deco = TAG_POST_PROCESS
+        )
+
+        data = data.strip()
+
+        if data[-1] == deco:
+            use_post_process = True
+
+            data = data[:-1]
+
+        else:
+            use_post_process = False
+
+        specs = []
+
+        for p in data.split(TAG_PIP):
+            p = p.strip()
+
+            specs.append({
+                TAG_TYPE            : TAG_DATA,
+                TAG_PARSE_MODULE    : p,
+                TAG_USE_POST_PROCESS: use_post_process,
+            })
+
+        return specs
+
+
+###
+# prototype::
+#     :action: XXX
+###
+    def split_xor_or(
+        self,
+        data: str,
+        deco: str,
+    ) -> set[set[str]]:
+        data = data.strip()
+
+        if data[-1] == deco:
+            deco_used = True
+            data      = data[:-1]
+
+        else:
+            deco_used = False
+
+        xor_or_parts = [
+            set(
+                p.strip()
+                for p in part.split(TAG_COMMA)
+            )
+            for part in data.split(TAG_PIP)
+        ]
+
+        return xor_or_parts
+
+
+
+
+
+
+
 ###
 # prototype::
 #     :action: XXX
 ###
     def build(self):
         self.specs        = dict()
-        self.optional     = set()
+        self.mandatory    = set()
         self.alternative  = set()
+
         self._last_parser = None
 
         yaml_specs = safe_load(self.file.read_text())
+
+        from pprint import pprint;pprint(yaml_specs)
 
         specs = self.build_specs(yaml_specs)
 
@@ -77,6 +153,18 @@ class DigestedYamlSpecs():
         data_dict
     ):
         for block_spec, sub_yaml_spec in data_dict.items():
+            block_spec = self.split_xor_or(
+                data = block_spec,
+                deco = TAG_OPTIONAL
+            )
+
+            if isinstance(sub_yaml_spec, str):
+                sub_yaml_spec = self.extract_parsers(sub_yaml_spec)
+
+            elif isinstance(sub_yaml_spec, dict):
+                sub_yaml_spec = self.build_dict(sub_yaml_spec)
+
+
             print('---')
             print(f"{   block_spec = }")
             print(f"{sub_yaml_spec = }")
@@ -100,6 +188,9 @@ class DigestedYamlSpecs():
             data_list[0]
         )
 
+        return _parsers_spec
+
+
         if len(_parsers_spec) != 1:
             raise ValueError(
                 'Only one parser by list of data.'
@@ -122,36 +213,3 @@ class DigestedYamlSpecs():
         self,
     ):
         ...
-
-###
-# prototype::
-#     parser_spec : XXX
-#
-#     :return: XXX
-###
-    def extract_parsers(
-        self,
-        parser_spec
-    ):
-        parser_spec = parser_spec.strip()
-
-        if parser_spec[-1] == TAG_POST_PROCESS:
-            use_post_process = True
-
-            parser_spec = parser_spec[:-1]
-
-        else:
-            use_post_process = False
-
-        specs = []
-
-        for p in parser_spec.split(TAG_PIP):
-            p = p.strip()
-
-            specs.append({
-                TAG_TYPE            : TAG_DATA,
-                TAG_PARSE_MODULE    : p,
-                TAG_USE_POST_PROCESS: use_post_process,
-            })
-
-        return specs

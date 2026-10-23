@@ -7,6 +7,7 @@
 
 TAG_POST_PROCESS = '+'
 TAG_OPTIONAL     = '*'
+TAG_COMMA        = ','
 TAG_PIP          = '|'
 
 TAG_NAME  = "__name__"
