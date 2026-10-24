@@ -34,15 +34,12 @@ class DigestedYamlSpecs():
 
 ###
 # prototype::
-#     :action: XXX
+#     :action: the \yaml \specs are parsed and the metadata
+#              extracted to easily build the \python version
+#              of the block \specs.
 ###
     def build(self):
-        self.specs        = dict()
-        self.mandatory    = set()
-        self.alternative  = []
-
-        self._last_parser = ''
-        self._prepath     = []
+        self._reset()
 
         yaml_specs = safe_load(self.file.read_text())
 
@@ -52,18 +49,28 @@ class DigestedYamlSpecs():
             self.file.stem: specs
         }
 
+###
+# prototype::
+#     :action: reset the attributes
+#              ''self.alternative'',
+#              ''self.mandatory'',
+#              ''self.specs'',
+#              ''self._last_parser'' and
+#              ''self._prepath''.
+###
+    def _reset(self):
+        self.specs        = dict()
+        self.mandatory    = set()
+        self.alternative  = []
+
+        self._last_parser = ''
+        self._prepath     = []
 
 
-        from pprint import pprint
-        pprint(yaml_specs)
-        print('---')
-        pprint(self.specs)
-        print('---')
-        print(f'{self.alternative = }')
-        print('---')
-        print(f'{self.mandatory = }')
 
-        exit()
+
+
+
 
 ###
 # prototype::
