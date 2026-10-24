@@ -6,21 +6,18 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-
 a*:
    b:  --> b devient aussi optionnel globalement moais obligatoire localeemnt
    c*:
+
+aletrenative n'est plus une liste de chemins mais un dict de clé en lien avec la cle en court !!!
+
 
 > ---------------------------- <
 
 entrée, plat | plat , dessert
 
-     ---> on accepte , et | avec | prioritaire sur ,
-
-
-> ---------------------------- <
-
-map_list pour la donnée semantique utilisable
+     ---> on accepte , et | avec | prioritaire sur ,  à documeter
 
 
 > ---------------------------- <
@@ -41,40 +38,7 @@ Factorisation of tools for a cleaner code.
 
 > ---------------------------- <
 
-new tools
-
-    + facto des codes block et flavour!
-
-    + gestion des helpers
-
-
-> ---------------------------- <
-
-documenter
-    TAG_KEY_...
-    TAG_FLAVOUR_...
-
-
-> ---------------------------- <
-
-request --> httpx
-
-+
-
 hypothesis juste pour dev et Test
-
-
-> ---------------------------- <
-
-formattage standard : attention car les mappers doivent être neutralisé dans ce cas ! cette neutraisation est purement intern et caché à l'utilisateur : passser via un attrib __use_maps
-
-les specs yaml donnent le formattage (analysé par mon script)
-
-
-
-
-
-
 
 
 > ---------------------------- <
@@ -167,16 +131,12 @@ if __name__ == "__main__":
     lic_file.unlink()
 
 
-
-
-
-
 > ---------------------------- <
 
 def de bloc avec des trucs en commun project / monorepo
 
     ---> commencer par définir proprement monorepo à partir de project et voir comment automatiser les cper-coller : un truc du genr boc magique
-        __import__
+        __import__:
            from: project
            what:
               struct mimant celle de project avce juste ce qu el'on veur
@@ -184,40 +144,12 @@ def de bloc avec des trucs en commun project / monorepo
 
 > ---------------------------- <
 
-yaml2py à reprendre via un code structuré simple
-+
-test manquants à indiquer mais facile
+le parser des yaml: vendant le cote sûr car on ne lit que des strings!!!
 
 
 > ---------------------------- <
 
-le parser des yaml est publiable, quitte à indiquer ses limitatioiions, tout en vendant le cote sûr car on ne lit que des strings!!!
-
-
-> ---------------------------- <
-
-new tests
-
-    + on garde les m^mee et on joute des nouveaux!
-
-
-> ---------------------------- <
-
-Tester les refs yaml, normalement c'est ok
-
-+
-
-Import Block ou saveur via magic comment : idée de le utiliser dans une société pour les Block, ou d'étendre une saveur
-
-
-> ---------------------------- <
-
-on doit tour- t rendre modifiable dynamiquement via une option booleene : ceci permet alors de cntribuer au post_doc, et aussi à des xtras comme add_licenes
-
-
-> ---------------------------- <
-
-validation des blocs : parmi ceux autorisés, voir ceux obligatoires, et about.yaml autorisé mae si warning en mode console
+tout rendre modifiable dynamiquement via une option booleene : ceci permet alors de cntribuer au post_doc, et aussi à des xtras comme add_licenes
 
 
 > ---------------------------- <
@@ -276,7 +208,7 @@ meta.add_license(
 
 CLI.
 
-    ---> specs yaml modifié pour aussi décrire la clé : boxplus pour la doc demandé, et si doc absente, on donne celle du 1ier parent qui en a une, ceci évite de tout doculentetr (penser aux licences ou aux urls)
+    ---> boxplus pour la doc demandé, et si doc absente, on donne celle du 1ier parent qui en a une, ceci évite de tout doculentetr (penser aux licences ou aux urls)
 
     ---> Création/modif guidée
 
@@ -297,23 +229,3 @@ CLI.
 ==
 
 First public version of the \proj available on \pypi.
-
-
-
-> ---------------------------- <
-
-multimd MAJ omplique :
-
-  # - glob: validate/*.md
-  - validate/
-
-
-
-> ---------------------------- <
-
-validate avec arg bool optionnel pour normaliserles données
-
-
-> ---------------------------- <
-
-list deps : via cofiup pour mettre cette luste quelque part, et ensuite gérer list des deps en md via cofiup
