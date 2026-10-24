@@ -29,6 +29,117 @@ class DigestedYamlSpecs():
     ):
         self.file = file
 
+###
+# prototype::
+#     :action: XXX
+###
+    def build(self):
+        self.specs        = dict()
+        self.mandatory    = set()
+        self.alternative  = []
+
+        self._last_parser = None
+        self._prepath     = []
+
+        yaml_specs = safe_load(self.file.read_text())
+
+        specs = self.build_specs(yaml_specs)
+
+        self.specs = {
+            self.file.stem: specs
+        }
+
+
+
+        from pprint import pprint
+        pprint(yaml_specs)
+        print('---')
+        pprint(self.specs)
+        print('---')
+        print(f'{self.alternative = }')
+        print('---')
+        print(f'{self.mandatory = }')
+
+        exit()
+
+###
+# prototype::
+#     specs : XXX
+#
+#     :return: XXX
+###
+    def build_specs(
+        self,
+        yaml_specs
+    ):
+        if isinstance(yaml_specs, dict):
+            return self.build_dict(yaml_specs)
+
+        if isinstance(yaml_specs, list):
+            return self.build_list(yaml_specs)
+
+        raise ValueError('Only list and dict supported for main blocks.')
+
+###
+# prototype::
+#     data_dict : XXX
+#
+#     :return: XXX
+###
+    def build_dict(
+        self,
+        data_dict
+    ):
+        specs = dict()
+
+        for block_spec, sub_yaml_spec in data_dict.items():
+            is_optional, block_spec = self.split_xor_or(
+                data = block_spec,
+                deco = TAG_OPTIONAL
+            )
+
+            if len(block_spec) != 1:
+                self.alternative += [
+                    set(
+                        self.get_keypath(bname)
+                        for bgroup in block_spec
+                        for bname in bgroup
+                    )
+                ]
+
+            if isinstance(sub_yaml_spec, str):
+                self.add_parser_2_blocks(
+                    specs         = specs,
+                    is_optional   = is_optional,
+                    block_spec    = block_spec,
+                    sub_yaml_spec = sub_yaml_spec,
+                )
+
+                continue
+
+            if isinstance(sub_yaml_spec, dict):
+                next_build = self.build_dict
+
+            elif isinstance(sub_yaml_spec, list):
+                next_build = self.build_list
+
+            else:
+                raise ValueError('Only str, list and dict supported for sub blocks.')
+
+            for grp in block_spec:
+                for b in grp:
+                    self._prepath.append(b)
+
+                    specs[b] = next_build(sub_yaml_spec)
+
+                    self._prepath.pop(-1)
+
+        return specs
+
+
+
+
+
 
 ###
 # prototype::
@@ -36,37 +147,100 @@ class DigestedYamlSpecs():
 #
 #     :return: XXX
 ###
-    def extract_parsers(
+    def add_parser_2_blocks(
+        self,
+        specs,
+        is_optional  : bool,
+        block_spec   : list[set[str]],sub_yaml_spec: str,
+    ):
+        parser_spec = self.extract_parser_spec(
+            parser_spec = sub_yaml_spec
+        )
+
+        if len(parser_spec) != len(block_spec):
+            if len(parser_spec) != 1:
+                raise ValueError('bad len for block name vs parser spec')
+
+            parser_spec = parser_spec*len(block_spec)
+
+        for i, bgroup in enumerate(block_spec):
+            if not is_optional:
+                self.mandatory |= set(
+                    self.get_keypath(bname)
+                    for bname in bgroup
+                )
+
+            for bname in bgroup:
+                specs[bname] = parser_spec[i]
+
+
+
+
+
+###
+# prototype::
+#     parser_spec : XXX
+#
+#     :return: XXX
+###
+    def get_keypath(
+        self,
+        key: str,
+    ):
+        prefix = '.'.join(self._prepath)
+
+        if prefix:
+            prefix += '.'
+
+        keypath = f'{prefix}{key}'
+
+        return keypath
+
+
+
+
+###
+# prototype::
+#     parser_spec : XXX
+#
+#     :return: XXX
+###
+    def extract_parser_spec(
         self,
         parser_spec
     ):
-        return self.split_xor_or(
+        use_post_process, parser_spec = self.split_xor_or(
             data = parser_spec,
             deco = TAG_POST_PROCESS
         )
 
-        data = data.strip()
+        final_parser_spec = []
 
-        if data[-1] == deco:
-            use_post_process = True
+        for pgroup in parser_spec:
+            if len(pgroup) != 1:
+                raise ValueError(
+                    f'pas de virgule pour els parsers: {pgroup=}'
+                )
 
-            data = data[:-1]
-
-        else:
-            use_post_process = False
-
-        specs = []
-
-        for p in data.split(TAG_PIP):
-            p = p.strip()
-
-            specs.append({
-                TAG_TYPE            : TAG_DATA,
-                TAG_PARSE_MODULE    : p,
+            final_parser_spec.append({
+                TAG_PARSE_MODULE    : pgroup.pop(),
                 TAG_USE_POST_PROCESS: use_post_process,
             })
 
-        return specs
+
+        return final_parser_spec
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ###
@@ -77,7 +251,7 @@ class DigestedYamlSpecs():
         self,
         data: str,
         deco: str,
-    ) -> set[set[str]]:
+    ) -> (bool, list[set[str]]):
         data = data.strip()
 
         if data[-1] == deco:
@@ -95,7 +269,7 @@ class DigestedYamlSpecs():
             for part in data.split(TAG_PIP)
         ]
 
-        return xor_or_parts
+        return deco_used, xor_or_parts
 
 
 
@@ -103,78 +277,11 @@ class DigestedYamlSpecs():
 
 
 
-###
-# prototype::
-#     :action: XXX
-###
-    def build(self):
-        self.specs        = dict()
-        self.mandatory    = set()
-        self.alternative  = set()
 
-        self._last_parser = None
 
-        yaml_specs = safe_load(self.file.read_text())
 
-        from pprint import pprint;pprint(yaml_specs)
 
-        specs = self.build_specs(yaml_specs)
 
-        self.specs = {
-            self.file.stem: specs
-        }
-
-###
-# prototype::
-#     specs : XXX
-#
-#     :return: XXX
-###
-    def build_specs(
-        self,
-        yaml_specs
-    ):
-        if isinstance(yaml_specs, list):
-            return self.build_list(yaml_specs)
-
-        if isinstance(yaml_specs, dict):
-            return self.build_dict(yaml_specs)
-
-        raise ValueError('Only list and dict supported for main blocks.')
-
-###
-# prototype::
-#     data_dict : XXX
-#
-#     :return: XXX
-###
-    def build_dict(
-        self,
-        data_dict
-    ):
-        specs = dict()
-
-        for block_spec, sub_yaml_spec in data_dict.items():
-            block_spec = self.split_xor_or(
-                data = block_spec,
-                deco = TAG_OPTIONAL
-            )
-
-            if isinstance(sub_yaml_spec, str):
-                sub_yaml_spec = self.extract_parsers(sub_yaml_spec)
-
-            elif isinstance(sub_yaml_spec, dict):
-                sub_yaml_spec = self.build_dict(sub_yaml_spec)
-
-            elif isinstance(sub_yaml_spec, list):
-                sub_yaml_spec = self.build_list(sub_yaml_spec)
-
-            else:
-                raise ValueError('Only str, list and dict supported for sub blocks.')
-
-            specs[f'{block_spec}'] = sub_yaml_spec
-
-        return specs
 
 ###
 # prototype::
@@ -191,7 +298,7 @@ class DigestedYamlSpecs():
                 'List of parsers must have size 1.'
             )
 
-        _parsers_spec = self.extract_parsers(
+        _parsers_spec = self.extract_parser_spec(
             data_list[0]
         )
 
