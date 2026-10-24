@@ -6,6 +6,13 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+
+a*:
+   b:  --> b devient aussi optionnel globalement moais obligatoire localeemnt
+   c*:
+
+> ---------------------------- <
+
 entrée, plat | plat , dessert
 
      ---> on accepte , et | avec | prioritaire sur ,

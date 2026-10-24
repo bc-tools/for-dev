@@ -10,6 +10,8 @@ TAG_OPTIONAL     = '*'
 TAG_COMMA        = ','
 TAG_PIP          = '|'
 
+TAG_LAST_PARSER_CARD = '.'
+
 TAG_NAME  = "__name__"
 TAG_SPECS = "__specs__"
 TAG_TYPE  = "__type__"

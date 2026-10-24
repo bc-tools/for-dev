@@ -14,6 +14,9 @@ from .constants import *
 
 
 
+PATTERN_LIST_PARSER = re.compile(r'list\((.*?)\)')
+
+
 # -------------------------- #
 # -- YAML DICT TO PY DICT -- #
 # -------------------------- #
@@ -38,7 +41,7 @@ class DigestedYamlSpecs():
         self.mandatory    = set()
         self.alternative  = []
 
-        self._last_parser = None
+        self._last_parser = ''
         self._prepath     = []
 
         yaml_specs = safe_load(self.file.read_text())
@@ -222,9 +225,32 @@ class DigestedYamlSpecs():
                     f'pas de virgule pour els parsers: {pgroup=}'
                 )
 
+            parser_name = pgroup.pop()
+
+            match = PATTERN_LIST_PARSER.search(parser_name)
+
+            if match:
+                parser_name = match.group(1)
+                parser_type = TAG_LIST
+
+            else:
+                parser_type = TAG_DATA
+
+            if parser_name == TAG_LAST_PARSER_CARD:
+                if not self._last_parser:
+                    raise ValueError(
+                        'no last parser used'
+                    )
+
+                parser_name = self._last_parser
+
+            else:
+                self._last_parser = parser_name
+
             final_parser_spec.append({
-                TAG_PARSE_MODULE    : pgroup.pop(),
+                TAG_PARSE_MODULE    : parser_name,
                 TAG_USE_POST_PROCESS: use_post_process,
+                TAG_TYPE            : parser_type,
             })
 
 
@@ -298,19 +324,16 @@ class DigestedYamlSpecs():
                 'List of parsers must have size 1.'
             )
 
-        _parsers_spec = self.extract_parser_spec(
+        parsers_spec = self.extract_parser_spec(
             data_list[0]
         )
 
-        return _parsers_spec
-
-
-        if len(_parsers_spec) != 1:
+        if len(parsers_spec) != 1:
             raise ValueError(
                 'Only one parser by list of data.'
             )
 
-        parser_spec = _parsers_spec[0]
+        parser_spec = parsers_spec[0]
 
 # We have to update the type!
         parser_spec[TAG_TYPE] = TAG_LIST
