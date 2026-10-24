@@ -140,6 +140,37 @@ class DigestedYamlSpecs():
         return specs
 
 
+###
+# prototype::
+#     data_list : XXX
+#
+#     :return: XXX
+###
+    def build_list(
+        self,
+        data_list
+    ):
+        if len(data_list) != 1:
+            raise ValueError(
+                'List of parsers must have size 1.'
+            )
+
+        parsers_spec = self.extract_parser_spec(
+            data_list[0]
+        )
+
+        if len(parsers_spec) != 1:
+            raise ValueError(
+                'Only one parser by list of data.'
+            )
+
+        parser_spec = parsers_spec[0]
+
+# We have to update the type!
+        parser_spec[TAG_TYPE] = TAG_LIST
+
+        return parser_spec
+
 
 
 
@@ -256,19 +287,6 @@ class DigestedYamlSpecs():
 
         return final_parser_spec
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###
 # prototype::
 #     :action: XXX
@@ -296,57 +314,3 @@ class DigestedYamlSpecs():
         ]
 
         return deco_used, xor_or_parts
-
-
-
-
-
-
-
-
-
-
-
-
-
-###
-# prototype::
-#     data_list : XXX
-#
-#     :return: XXX
-###
-    def build_list(
-        self,
-        data_list
-    ):
-        if len(data_list) != 1:
-            raise ValueError(
-                'List of parsers must have size 1.'
-            )
-
-        parsers_spec = self.extract_parser_spec(
-            data_list[0]
-        )
-
-        if len(parsers_spec) != 1:
-            raise ValueError(
-                'Only one parser by list of data.'
-            )
-
-        parser_spec = parsers_spec[0]
-
-# We have to update the type!
-        parser_spec[TAG_TYPE] = TAG_LIST
-
-        return parser_spec
-
-###
-# prototype::
-#     XXX : XXX
-#
-#     :return: XXX
-###
-    def extract_blocks(
-        self,
-    ):
-        ...
