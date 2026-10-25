@@ -15,6 +15,8 @@ from urllib.parse import (
 
 
 from aboutmeta.core.data_manager import DataManager
+from aboutmeta.core.errors       import ParsingError
+from aboutmeta.core.validate     import validate_type
 
 
 # ---------- #
@@ -27,6 +29,17 @@ from aboutmeta.core.data_manager import DataManager
 ###
 class URL(DataManager):
     url: str
+
+###
+# prototype::
+#     :action: mandatory validation of ''self.URL'' type.
+###
+    def __post_init__(self) -> None:
+        validate_type(
+            data_name      = 'URL',
+            data           = self.url,
+            types_expected = str,
+        )
 
 ###
 # prototype::

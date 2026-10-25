@@ -2,7 +2,10 @@
 
 from typing import Literal
 
-from collections.abc import Iterator
+from collections.abc import (
+    Callable,
+    Iterator,
+)
 
 
 import fnmatch
@@ -28,8 +31,8 @@ TAG_GLOB_RECU_METHOD = 'rglob'
 TAG_TOC_PATH_RAW = 'raw'
 
 TAG_TOC_GLOB_PATTERNS = [
-    TAG_TOC_PATH_GLOB       := 'glob',
-    TAG_TOC_PATH_GLOB_RECU  := 'r-glob',
+    TAG_TOC_PATH_GLOB      := 'glob',
+    TAG_TOC_PATH_GLOB_RECU := 'r-glob',
 ]
 
 TAG_TOC_PATTERN_KINDS = TAG_TOC_GLOB_PATTERNS + [
@@ -52,28 +55,28 @@ for t in TAG_TOC_PATTERN_KINDS:
     TAG_TOC_PATTERN_ABBREV[a] = t
 
 
-TYPE_GLOB_KEYS = Literal[
+GLOB_KEYS_TYPE = Literal[
     TAG_TOC_PATH_GLOB,
     TAG_TOC_PATH_GLOB_RECU
 ]
 
-TYPE_REGEX_KEYS = Literal[
+REGEX_KEYS_TYPE = Literal[
     TAG_TOC_PATH_REGEX,
     TAG_TOC_PATH_REGEX_RECU
 ]
 
-TYPE_TOC_PATH_SPEC = (
+TOC_PATH_SPEC_TYPE = (
       str
-    | dict[TYPE_GLOB_KEYS, str]
-    | dict[TYPE_REGEX_KEYS, re.Pattern]
+    | dict[GLOB_KEYS_TYPE, str]
+    | dict[REGEX_KEYS_TYPE, re.Pattern]
 )
 
 
 ###
 # prototype::
-#     spec    : the specification of a path or search pattern for
-#               paths.
-#     parent  : the parent directory attached to the paths.
+#     spec    : the specification of a relative path or a relative
+#               search pattern for paths.
+#     parent  : the parent directory for the relative paths.
 #     kind    : the kind of path to manage (either a raw path or
 #               a pattern).
 #             @ _ in TAG_TOC_PATTERN_KINDS
@@ -88,13 +91,13 @@ TYPE_TOC_PATH_SPEC = (
 #     value of the ''spec'' attribute.
 #
 #
-# note::
+# important::
 #     A dictionary ''spec'' attribute is standardized: only
 #     long-name keys are used, and string ''regex'' patterns are
 #     transformed into their compiled versions.
 ###
 class TOCPath(DataManager):
-    spec   : TYPE_TOC_PATH_SPEC
+    spec   : TOC_PATH_SPEC_TYPE
     parent : Path
     kind   : str              = field(init = False)
     pattern: str | re.Pattern = field(init = False)
@@ -314,39 +317,54 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :action: check for winning glob pattern.
+#     :action: check for winning ''glob'' pattern.
+#
+#     :see: self._validate_pattern
 ###
     def _validate_glob_pattern(self) -> None:
-        glob_method_name = self._start_pattern_validation(
-            str_pattern = self.pattern
-        )
-
-        nothing_found = True
-
-        for p in self.glob_iter(glob_method_name):
-            nothing_found = False
-
-            break
-
-        self._close_pattern_validation(
-            nothing_found = nothing_found,
-            str_pattern   = self.pattern
+        self._validate_pattern(
+            str_pattern = self.pattern,
+            path_iter   = self.glob_iter,
         )
 
 ###
 # prototype::
 #     :action: check for winning ''regex'' pattern.
+#
+#     :see: self._validate_pattern
 ###
     def _validate_regex_pattern(self) -> None:
-        str_pattern = self.pattern.pattern
+        self._validate_pattern(
+            str_pattern = self.pattern.pattern,
+            path_iter   = self.regex_iter,
+        )
 
+###
+# prototype::
+#     str_pattern : string version of a glob or ''regex'' pattern
+#                   (this is for terminal and log communication).
+#     path_iter   : an iterartor expected either ''glob'' or
+#                   ''rglob'' method name to iterate over paths in
+#                   a specific ways.
+#
+#     :action: check for winning pattern using a specific path
+#              iterator.
+#
+#     :see: self.glob_iter ,
+#           self.regex_iter
+###
+    def _validate_pattern(
+        self,
+        str_pattern: str,
+        path_iter  : Callable[[str], Iterator[Path]],
+    ) -> None:
         glob_method_name = self._start_pattern_validation(
             str_pattern = str_pattern
         )
 
         nothing_found = True
 
-        for p in self.regex_iter(glob_method_name):
+        for p in path_iter(glob_method_name):
             nothing_found = False
 
             break
@@ -358,8 +376,7 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     str_pattern : string version of a glob or ''regex'' pattern
-#                   (this is for terminal and log communication).
+#     str_pattern : :see: self._validate_pattern
 #
 #     :action: initialization of the pattern validation process.
 #
@@ -447,10 +464,9 @@ class TOCPath(DataManager):
         self,
         glob_method_name: str,
     ) -> Iterator[Path]:
-        for p in getattr(
-            self.parent,
-            glob_method_name
-        )(self.pattern):
+        for p in getattr(self.parent, glob_method_name)(
+            self.pattern
+        ):
             yield p
 
 ###
@@ -467,10 +483,7 @@ class TOCPath(DataManager):
         self,
         glob_method_name: str,
     ) -> Iterator[Path]:
-        for p in getattr(
-            self.parent,
-            glob_method_name
-        )('*'):
+        for p in getattr(self.parent, glob_method_name)('*'):
             relpath = p.relative_to(self.parent)
 
             if self.pattern.fullmatch(str(relpath)):

@@ -19,6 +19,7 @@ from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
+from aboutmeta.core.validate     import validate_type
 
 
 # ---------- #
@@ -58,12 +59,19 @@ class License(DataManager):
 
 ###
 # prototype::
-#     :action: derive the ''name'' and ''url'' attributes from
-#              ''self.spdx_id'' and expand the identifier to its
-#              normalized form (e.g., ''gpl 3.0 only'' becomes
+#     :action: mandatory validations of ''self.spec'' type, and
+#              derivation of the ''name'' and ''url'' attributes
+#              from ''self.spdx_id'' and expand the identifier to
+#              its normalized form (e.g., ''gpl 3.0 only'' becomes
 #              ''GPL-3.0-only'').
 ###
     def __post_init__(self) -> None:
+        validate_type(
+            data_name      = 'spdx_id',
+            data           = self.spdx_id,
+            types_expected = str,
+        )
+
 # Our local data.
         with LICENSES_JSON_FILE.open(mode = "r") as f:
             all_licenses = json_load(f)

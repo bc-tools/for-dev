@@ -11,7 +11,7 @@
 # ------------- #
 
 from aboutmeta.core.constants import *
-from aboutmeta.specs.block import toc
+from aboutmeta.specs.block import atoc
 
 
 # ------------------- #
@@ -19,10 +19,10 @@ from aboutmeta.specs.block import toc
 # ------------------- #
 
 FLAVOUR_SPECS = {
-    "toc": {
-        TAG_BLOCK_SPECS: toc.BLOCK_SPECS,
-        TAG_BLOCK_STATUS: toc.BLOCK_STATUS,
-        TAG_BLOCK_ALTS: toc.BLOCK_ALTS,
+    "atoc": {
+        TAG_BLOCK_SPECS: atoc.BLOCK_SPECS,
+        TAG_BLOCK_STATUS: atoc.BLOCK_STATUS,
+        TAG_BLOCK_ALTS: atoc.BLOCK_ALTS,
         TAG_IS_MANDATORY: True,
     }
 }
