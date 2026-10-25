@@ -29,27 +29,15 @@ from aboutmeta.specs.parser import (
 # -- INTERNAL SHORTCUTS -- #
 # ------------------------ #
 
-__PARSER_SEM_VERSION_DATA = {
-    TAG_PARSER: sem_version,
-    TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_DATA,
-}
-
-__PARSER_DATE_DATA = {TAG_PARSER: date, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
-
 __PARSER_ACRONYM_DATA = {
     TAG_PARSER: acronym,
     TAG_USE_POST: False,
     TAG_DATATYPE: TAG_DATA,
 }
 
-__PARSER_STR_DATA = {TAG_PARSER: str, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+__PARSER_DATE_DATA = {TAG_PARSER: date, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
 
-__PARSER_PERSON_DATA = {TAG_PARSER: person, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
-
-__PARSER_PERSON_LIST = {TAG_PARSER: person, TAG_USE_POST: False, TAG_DATATYPE: TAG_LIST}
-
-__PARSER_URL_DATA = {TAG_PARSER: url, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+__PARSER_LANG_DATA = {TAG_PARSER: lang, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
 
 __PARSER_LICENSE_DATA = {
     TAG_PARSER: license,
@@ -57,9 +45,27 @@ __PARSER_LICENSE_DATA = {
     TAG_DATATYPE: TAG_DATA,
 }
 
-__PARSER_LANG_DATA = {TAG_PARSER: lang, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+__PARSER_PERSON_DATA = {TAG_PARSER: person, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+
+__PARSER_PERSON_LIST = {TAG_PARSER: person, TAG_USE_POST: False, TAG_DATATYPE: TAG_LIST}
+
+__PARSER_SEM_VERSION_DATA = {
+    TAG_PARSER: sem_version,
+    TAG_USE_POST: False,
+    TAG_DATATYPE: TAG_DATA,
+}
+
+__PARSER_STR_DATA = {TAG_PARSER: str, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
 
 __PARSER_STR_LIST = {TAG_PARSER: str, TAG_USE_POST: False, TAG_DATATYPE: TAG_LIST}
+
+__PARSER_URL_DATA = {TAG_PARSER: url, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+
+__STATUS_MANDATORY_PARSED = {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}
+
+__STATUS_OPTIONAL_PARSED = {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True}
+
+__STATUS_OPTIONAL_UNPARSED = {TAG_IS_MANDATORY: False, TAG_IS_PARSED: False}
 
 
 # ----------------- #
@@ -88,7 +94,7 @@ PARSER_SPECS = benedict(
                 "manual": __PARSER_LICENSE_DATA,
                 "code": __PARSER_LICENSE_DATA,
             },
-            "langs": {"manual": __PARSER_LANG_DATA, "doc": __PARSER_LANG_DATA},
+            "langs": {"doc": __PARSER_LANG_DATA, "manual": __PARSER_LANG_DATA},
             "require": __PARSER_STR_LIST,
             "keywords": __PARSER_STR_LIST,
         }
@@ -100,37 +106,37 @@ STATUS = benedict(
         "project": {
             TAG_IS_MANDATORY: True,
             TAG_IS_PARSED: False,
-            "version": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-            "date": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-            "acronym": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-            "codename": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-            "doctitle": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-            "desc": {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True},
-            "author": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-            "authors": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-            "contrib": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-            "contribs": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
+            "version": __STATUS_OPTIONAL_PARSED,
+            "date": __STATUS_OPTIONAL_PARSED,
+            "acronym": __STATUS_OPTIONAL_PARSED,
+            "codename": __STATUS_OPTIONAL_PARSED,
+            "doctitle": __STATUS_OPTIONAL_PARSED,
+            "desc": __STATUS_MANDATORY_PARSED,
+            "author": __STATUS_OPTIONAL_PARSED,
+            "authors": __STATUS_OPTIONAL_PARSED,
+            "contrib": __STATUS_OPTIONAL_PARSED,
+            "contribs": __STATUS_OPTIONAL_PARSED,
             "urls": {
                 TAG_IS_MANDATORY: False,
                 TAG_IS_PARSED: False,
-                "home": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-                "dev": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-                "issues": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
+                "home": __STATUS_OPTIONAL_PARSED,
+                "dev": __STATUS_OPTIONAL_PARSED,
+                "issues": __STATUS_OPTIONAL_PARSED,
             },
             "licenses": {
                 TAG_IS_MANDATORY: False,
                 TAG_IS_PARSED: False,
-                "manual": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-                "code": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
+                "manual": __STATUS_OPTIONAL_PARSED,
+                "code": __STATUS_OPTIONAL_PARSED,
             },
             "langs": {
                 TAG_IS_MANDATORY: False,
                 TAG_IS_PARSED: False,
-                "manual": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
-                "doc": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True},
+                "doc": __STATUS_OPTIONAL_PARSED,
+                "manual": __STATUS_OPTIONAL_PARSED,
             },
-            "require": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: False},
-            "keywords": {TAG_IS_MANDATORY: False, TAG_IS_PARSED: False},
+            "require": __STATUS_OPTIONAL_UNPARSED,
+            "keywords": __STATUS_OPTIONAL_UNPARSED,
         }
     }
 )
@@ -139,9 +145,9 @@ ALTS = benedict(
     {
         "project": {
             TAG_ALTERNATIVES: [
-                {"codename", "doctitle"},
+                {"doctitle", "codename"},
                 {"authors", "author"},
-                {"contribs", "contrib"},
+                {"contrib", "contribs"},
             ]
         }
     }

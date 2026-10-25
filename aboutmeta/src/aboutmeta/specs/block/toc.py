@@ -27,6 +27,8 @@ __PARSER_ABOUT_PATH_LIST_USE_POST = {
     TAG_DATATYPE: TAG_LIST,
 }
 
+__STATUS_MANDATORY_PARSED = {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}
+
 
 # ----------------- #
 # -- BLOCK SPECS -- #
@@ -34,6 +36,6 @@ __PARSER_ABOUT_PATH_LIST_USE_POST = {
 
 PARSER_SPECS = benedict({"toc": __PARSER_ABOUT_PATH_LIST_USE_POST})
 
-STATUS = benedict({"toc": {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}})
+STATUS = benedict({"toc": __STATUS_MANDATORY_PARSED})
 
 ALTS = benedict({})

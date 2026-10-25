@@ -80,7 +80,7 @@ def prestr_2_pyvar(name):
     return f'@{name}@'
 
 
-def get_pypsecs(
+def get_pyspecs(
     shortcuts_used: dict[str, ParserSpecs],
     yaml_specs    : NestedParserDictType
 ) -> NestedStrDictType:
@@ -111,11 +111,67 @@ def get_pypsecs(
             pyspecs[k] = shortcut
 
         else:
-            pyspecs[k] = get_pypsecs(
-                shortcuts_used = shortcuts_used,yaml_specs     = v
+            pyspecs[k] = get_pyspecs(
+                shortcuts_used = shortcuts_used,
+                yaml_specs     = v
             )
 
     return pyspecs
+
+
+
+SET_MANDATORY_PARSED = set([
+    TAG_IS_MANDATORY,
+    TAG_IS_PARSED
+])
+
+
+def get_pystatus(
+    shortcuts_used: dict[str, ParserSpecs],
+    status        : NestedBoolDictType
+) -> NestedStrDictType:
+    pystatus = dict()
+
+    for k, v in status.items():
+        if not isinstance(v, dict):
+            pystatus[k] = v
+
+            continue
+
+        if set(v) == SET_MANDATORY_PARSED:
+            shortcut  = '__STATUS_'
+            shortcut += (
+                'MANDATORY'
+                if v[TAG_IS_MANDATORY] else
+                'OPTIONAL'
+            )
+
+            shortcut += '_'
+
+            if not v[TAG_IS_PARSED]:
+                shortcut += 'UN'
+
+            shortcut += 'PARSED'
+            shortcut  = prestr_2_pyvar(shortcut)
+
+            if not shortcut in shortcuts_used:
+                shortcuts_used[shortcut] = {
+                    prestr_2_pyvar(k): v
+                    for k, v in {
+                        'TAG_IS_MANDATORY': v[TAG_IS_MANDATORY],
+                        'TAG_IS_PARSED'   : v[TAG_IS_PARSED],
+                    }.items()
+                }
+
+            pystatus[k] = shortcut
+
+        else:
+            pystatus[k] = get_pystatus(
+                shortcuts_used = shortcuts_used,
+                status         = v
+            )
+
+    return pystatus
 
 
 # ----------------- #
@@ -167,9 +223,14 @@ for folder, contribs in get_accepted_paths(
 
         shortcuts_used = dict()
 
-        pyspecs = get_pypsecs(
+        pyspecs = get_pyspecs(
             shortcuts_used = shortcuts_used,
             yaml_specs     = digested_yaml.specs,
+        )
+
+        pystatus = get_pystatus(
+            shortcuts_used = shortcuts_used,
+            status         = digested_yaml.status,
         )
 
 # # DEBUG - START
@@ -186,8 +247,8 @@ for folder, contribs in get_accepted_paths(
         )
 
         shortcuts_code = '\n\n'.join(
-            f"'{k}' = {v}"
-            for k, v in shortcuts_used.items()
+            f"'{k}' = {shortcuts_used[k]}"
+            for k in sorted(shortcuts_used)
         )
 
         block_spec_pycode = f'''
@@ -217,9 +278,9 @@ from aboutmeta.specs.parser import {imports_need}
 
 PARSER_SPECS = benedict({pyspecs})
 
-STATUS = benedict({repr(digested_yaml.status)})
+STATUS = benedict({pystatus})
 
-ALTS = benedict({repr(digested_yaml.alts)})
+ALTS = benedict({digested_yaml.alts})
         '''.strip() + '\n'
 
         for old, new in [
