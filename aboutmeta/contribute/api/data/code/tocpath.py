@@ -15,6 +15,7 @@ from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
+from aboutmeta.core.validate     import validate_type
 
 
 # ---------- #
@@ -104,6 +105,22 @@ class TOCPath(DataManager):
 #              the search pattern syntax if needed.
 ###
     def __post_init__(self) -> None:
+        validate_type(
+            data_name     = 'spec',
+            data          = self.spec,
+            type_expected = (
+                str,
+                dict
+            ),
+        )
+
+        validate_type(
+            data_name     = 'parent',
+            data          = self.parent,
+            type_expected = Path,
+        )
+
+# We can work.
         spec = self.spec
 
 # A raw path.

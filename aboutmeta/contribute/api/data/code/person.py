@@ -19,6 +19,8 @@ from aboutmeta.tools.misc  import (
     single_spaces
 )
 
+from aboutmeta.core.validate import validate_type
+
 
 # ---------- #
 # -- DATA -- #
@@ -64,11 +66,19 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     :action: derive the ''surname'', ''particle'', ''firstnames'',
-#              ''email'' and ''affiliation'' attributes attributes
-#              from ''self.spec''.
+#     :action: mandatory validations of ''self.spec'' type, and
+#              derivation of the ''surname'', ''particle'',
+#              ''firstnames'', ''email'' and ''affiliation''
+#              attributes from ''self.spec''.
 ###
     def __post_init__(self) -> None:
+        validate_type(
+            data          = self.spec,
+            type_expected = str,
+            data_name     = 'spec',
+        )
+
+#  We can work.
         spec = self.spec
 
 # One affiliation?

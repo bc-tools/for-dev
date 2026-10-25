@@ -11,6 +11,8 @@ from urllib.parse import (
 
 
 from aboutmeta.core.data_manager import DataManager
+from aboutmeta.core.errors       import ParsingError
+from aboutmeta.core.validate     import validate_type
 
 
 # ---------- #
@@ -23,6 +25,17 @@ from aboutmeta.core.data_manager import DataManager
 ###
 class URL(DataManager):
     url: str
+
+###
+# prototype::
+#     :action: mandatory validation of ''self.URL'' type.
+###
+    def __post_init__(self) -> None:
+        validate_type(
+            data          = self.url,
+            type_expected = str,
+            data_name     = 'URL',
+        )
 
 ###
 # prototype::
@@ -171,3 +184,26 @@ if __name__ == "__main__":
 
         for m in mydata._errors_found:
             print(f"    > {m}")
+
+# BAD
+    # exit()
+
+    print('')
+    print("-- BAD CASES --")
+
+    for yaml_data in [
+        123,
+    ]:
+        print()
+        print(f"{yaml_data = }")
+
+        try:
+            URL(url = yaml_data)
+
+        except Exception as e:
+            print(type(e).__name__, ':', e)
+
+            notes = getattr(e, "__notes__", [])
+
+            for i, n in enumerate(notes, start = 1):
+                print(f'[{i}]. {n}')

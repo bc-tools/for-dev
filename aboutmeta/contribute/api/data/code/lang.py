@@ -10,6 +10,7 @@ from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
+from aboutmeta.core.validate     import validate_type
 
 
 # ---------- #
@@ -44,11 +45,19 @@ class Lang(DataManager):
 
 ###
 # prototype::
-#     :action: derive the ''name'' and ''territory'' attributes
-#     from ''self.std_id'' and expand the identifier to its full
-#     form (e.g., ''fr'' becomes ''fr-FR'').
+#     :action: mandatory validations of ''self.std_id'' type,
+#              and derivation of the ''name'' and ''territory''
+#              attributes from ''self.std_id'' and expand the
+#              identifier to its full form (e.g., ''fr'' becomes
+#              ''fr-FR'').
 ###
     def __post_init__(self) -> None:
+        validate_type(
+            data          = self.std_id,
+            type_expected = str,
+            data_name     = 'std_id',
+        )
+
 # Getting a normalized code.
         try:
             lang = get_langcode(self.std_id).maximize()

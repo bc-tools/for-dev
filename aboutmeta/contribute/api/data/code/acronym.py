@@ -7,6 +7,7 @@ from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
+from aboutmeta.core.validate     import validate_type
 
 
 # ---------- #
@@ -38,10 +39,17 @@ class Acronym(DataManager):
 
 ###
 # prototype::
-#     :action: derive the ''short'' and ''desc'' attributes from
-#              ''self.spec''.
+#     :action: mandatory validations of ''self.spec'' type, and
+#              derivation of the ''short'' and ''desc''
+#              attributes from ''self.spec''.
 ###
     def __post_init__(self) -> None:
+        validate_type(
+            data          = self.spec,
+            type_expected = str,
+            data_name     = 'spec',
+        )
+
 # We only keep internal extra spaces.
         self.spec = self.spec.strip()
 
