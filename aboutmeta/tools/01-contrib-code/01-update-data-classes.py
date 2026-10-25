@@ -17,7 +17,7 @@ from cbutils.pathplus   import *
 # ------------------ #
 
 CONTEXT  = 'data'
-MSG_CTXT = 'data class contrib'
+MSG_CTXT = f'{CONTEXT} class contrib'
 
 
 THIS_DIR    = Path(__file__).parent

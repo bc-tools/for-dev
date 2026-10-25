@@ -18,7 +18,7 @@ from projutils.yaml2py import *
 # ------------------ #
 
 CONTEXT  = 'block'
-MSG_CTXT = 'block config contrib'
+MSG_CTXT = f'{CONTEXT} config contrib'
 
 
 THIS_DIR    = Path(__file__).parent
@@ -60,6 +60,10 @@ type NestedStrDictType = dict[
 # -- TOOLS -- #
 # ----------- #
 
+def prestr_2_pyvar(name):
+    return f'@{name}@'
+
+
 def build_parsers_needed(
     parsers_needed: set[ParserSpecs],
     yaml_specs    : NestedParserDictType,
@@ -74,10 +78,6 @@ def build_parsers_needed(
                 parsers_needed = parsers_needed,
                 yaml_specs     = v,
             )
-
-
-def prestr_2_pyvar(name):
-    return f'@{name}@'
 
 
 def get_pyspecs(
@@ -117,7 +117,6 @@ def get_pyspecs(
             )
 
     return pyspecs
-
 
 
 SET_MANDATORY_PARSED = set([
@@ -265,8 +264,7 @@ for folder, contribs in get_accepted_paths(
 from benedict import benedict
 
 from aboutmeta.core.constants import *
-
-from aboutmeta.specs.parser import {imports_need}
+from aboutmeta.specs.parser   import {imports_need}
 
 
 {magic_comment('INTERNAL SHORTCUTS')}
@@ -276,11 +274,11 @@ from aboutmeta.specs.parser import {imports_need}
 
 {magic_comment('BLOCK SPECS')}
 
-PARSER_SPECS = benedict({pyspecs})
+BLOCK_SPECS = benedict({pyspecs})
 
-STATUS = benedict({pystatus})
+BLOCK_STATUS = benedict({pystatus})
 
-ALTS = benedict({digested_yaml.alts})
+BLOCK_ALTS = benedict({digested_yaml.alts})
         '''.strip() + '\n'
 
         for old, new in [

@@ -17,7 +17,7 @@ from cbutils.pathplus   import *
 # ------------------ #
 
 CONTEXT  = 'parser'
-MSG_CTXT = 'parser utils contrib'
+MSG_CTXT = f'{CONTEXT} utils contrib'
 
 
 THIS_DIR    = Path(__file__).parent

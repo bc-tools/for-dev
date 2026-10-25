@@ -3,6 +3,7 @@
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/parser/code/person.py'
 
+
 ###
 # Information related to a person is indicated as follows.
 #

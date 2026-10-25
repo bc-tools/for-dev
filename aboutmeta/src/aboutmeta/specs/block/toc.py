@@ -13,7 +13,6 @@
 from benedict import benedict
 
 from aboutmeta.core.constants import *
-
 from aboutmeta.specs.parser import about_path
 
 
@@ -34,8 +33,8 @@ __STATUS_MANDATORY_PARSED = {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}
 # -- BLOCK SPECS -- #
 # ----------------- #
 
-PARSER_SPECS = benedict({"toc": __PARSER_ABOUT_PATH_LIST_USE_POST})
+BLOCK_SPECS = benedict({"toc": __PARSER_ABOUT_PATH_LIST_USE_POST})
 
-STATUS = benedict({"toc": __STATUS_MANDATORY_PARSED})
+BLOCK_STATUS = benedict({"toc": __STATUS_MANDATORY_PARSED})
 
-ALTS = benedict({})
+BLOCK_ALTS = benedict({})

@@ -3,6 +3,7 @@
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/parser/code/acronym.py'
 
+
 ###
 # The origin of an acronym can be explained using a tiny DSL.
 # For example, ''"[A::@-]bout [Desc]ription"'' explains the
@@ -35,7 +36,7 @@ from aboutmeta.specs.data.acronym import Acronym
 #
 #     :return: an instance of the class ''Acronym''.
 ###
-def parse(data: list) -> Acronym:
+def parse(data: str) -> Acronym:
 # No parsing, and all job done by the class
 # ''aboutmeta.specs.data.acronym.Acronym''.
     return Acronym(spec = data)

@@ -3,6 +3,7 @@
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/parser/code/sem_version.py'
 
+
 ###
 # Semantic version numbers must comply with cf::''Semantic
 # Versioning ; https://semver.org/'' like ''1.0.0'',

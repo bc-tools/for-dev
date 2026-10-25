@@ -13,7 +13,6 @@
 from benedict import benedict
 
 from aboutmeta.core.constants import *
-
 from aboutmeta.specs.parser import (
     acronym,
     date,
@@ -72,7 +71,7 @@ __STATUS_OPTIONAL_UNPARSED = {TAG_IS_MANDATORY: False, TAG_IS_PARSED: False}
 # -- BLOCK SPECS -- #
 # ----------------- #
 
-PARSER_SPECS = benedict(
+BLOCK_SPECS = benedict(
     {
         "project": {
             "version": __PARSER_SEM_VERSION_DATA,
@@ -87,21 +86,21 @@ PARSER_SPECS = benedict(
             "contribs": __PARSER_PERSON_LIST,
             "urls": {
                 "home": __PARSER_URL_DATA,
-                "dev": __PARSER_URL_DATA,
                 "issues": __PARSER_URL_DATA,
+                "dev": __PARSER_URL_DATA,
             },
             "licenses": {
                 "manual": __PARSER_LICENSE_DATA,
                 "code": __PARSER_LICENSE_DATA,
             },
-            "langs": {"doc": __PARSER_LANG_DATA, "manual": __PARSER_LANG_DATA},
+            "langs": {"manual": __PARSER_LANG_DATA, "doc": __PARSER_LANG_DATA},
             "require": __PARSER_STR_LIST,
             "keywords": __PARSER_STR_LIST,
         }
     }
 )
 
-STATUS = benedict(
+BLOCK_STATUS = benedict(
     {
         "project": {
             TAG_IS_MANDATORY: True,
@@ -120,8 +119,8 @@ STATUS = benedict(
                 TAG_IS_MANDATORY: False,
                 TAG_IS_PARSED: False,
                 "home": __STATUS_OPTIONAL_PARSED,
-                "dev": __STATUS_OPTIONAL_PARSED,
                 "issues": __STATUS_OPTIONAL_PARSED,
+                "dev": __STATUS_OPTIONAL_PARSED,
             },
             "licenses": {
                 TAG_IS_MANDATORY: False,
@@ -132,8 +131,8 @@ STATUS = benedict(
             "langs": {
                 TAG_IS_MANDATORY: False,
                 TAG_IS_PARSED: False,
-                "doc": __STATUS_OPTIONAL_PARSED,
                 "manual": __STATUS_OPTIONAL_PARSED,
+                "doc": __STATUS_OPTIONAL_PARSED,
             },
             "require": __STATUS_OPTIONAL_UNPARSED,
             "keywords": __STATUS_OPTIONAL_UNPARSED,
@@ -141,7 +140,7 @@ STATUS = benedict(
     }
 )
 
-ALTS = benedict(
+BLOCK_ALTS = benedict(
     {
         "project": {
             TAG_ALTERNATIVES: [
