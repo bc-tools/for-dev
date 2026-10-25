@@ -119,7 +119,6 @@ for folder, contribs in get_accepted_paths(
             path_src = contrib_file.relative_to(PROJECT_DIR.parent)
         )
 
-
 # We can create / update the source file.
         create_update_file(
             file    = DATA_SPECS_DIR / one_contrib,

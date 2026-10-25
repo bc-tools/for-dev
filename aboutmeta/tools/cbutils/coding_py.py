@@ -395,7 +395,7 @@ def add_pysrc_used(
 ) -> str:
     src_used = f"""
 # Code extracted from the maintained Python file
-# {path_src}
+# '{path_src}'
     """.strip()
 
     code = code.replace(
