@@ -1,6 +1,6 @@
 ### Structure
 
-The structure of the specifications mimics those that the user will be able to use, with the exception of lists, which require the use of a single element list. In concrete terms, here's how it looks with a simplified extract from of the `project` block.
+The structure of the specifications mimics those that the user will be able to use, with the exception of lists of parsed data, which require the use of a single element list. In concrete terms, here's how it looks with a simplified extract from of the `project` block.
 
 
 ~~~yaml
@@ -33,3 +33,6 @@ require:
   - python
   - yaml
 ~~~
+
+
+> ***IMPORTANT.*** *Nothing prevents you from expecting a dictionary or a list of values as a data to parse. In this case, you will delegate the analysis of this 'complex' data to the parser.*

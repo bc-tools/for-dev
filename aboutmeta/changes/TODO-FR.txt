@@ -10,7 +10,9 @@ aboutmeta - TODO
 [OK]   pasrer peut travailler sur tout type de donnée !! cf cdt
 
 [KO]   charge au parsre de vérifier le bon type à chaque fois
+
 [KO]   on peut aisi travailler avec des dotionnaires dynamiques
+
 [KO]   indiquer doc que l'on travailler avec des données et non une structur de données d'om les restrctions aussuées de ne pa ssupporter tout yaml
 
 
