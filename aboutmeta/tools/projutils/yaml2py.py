@@ -6,14 +6,16 @@ import              sys
 sys.path.append(str(Path(__file__).parent.parent))
 
 
-from collections import defaultdict
-from dataclasses import dataclass
 from itertools   import (
     combinations,
     product,
 )
 
-from yaml import safe_load
+from collections import defaultdict
+from dataclasses import dataclass
+from benedict    import benedict
+from yaml        import safe_load
+
 
 from cbutils.coding_py import *
 
@@ -92,11 +94,11 @@ class DigestedYamlSpecs():
         self.main_block = self.file.stem
         self.specs      = dict()
         self.alts       = defaultdict(list)
-        self.status     = {
+        self.status     = benedict({
             self.main_block: {
                 TAG_MANDATORY: True
             }
-        }
+        })
 
         self._current_block = ''
         self._last_parser = ''
@@ -136,7 +138,7 @@ class DigestedYamlSpecs():
     def build_list(
         self,
         data_list,
-        status,
+        status, # factorisation du code, car inutilisé!!!
     ):
         if len(data_list) != 1:
             raise ValueError(
@@ -225,8 +227,7 @@ class DigestedYamlSpecs():
         data_dict,
         status,
     ):
-        sub_specs  = dict()
-        sub_status = dict()
+        sub_specs = dict()
 
         for block_spec, content_spec in data_dict.items():
             is_optional, block_spec = self.split_xor_or(
@@ -235,12 +236,14 @@ class DigestedYamlSpecs():
             )
 
             self.update_alts(block_spec)
+            self.update_status(
+                is_optional,
+                block_spec
+            )
 
             if isinstance(content_spec, str):
                 self.add_parser_2_blocks(
                     specs        = sub_specs,
-                    status       = sub_status,
-                    is_optional  = is_optional,
                     block_spec   = block_spec,
                     content_spec = content_spec,
                 )
@@ -256,18 +259,16 @@ class DigestedYamlSpecs():
             else:
                 raise ValueError('Only str, list and dict supported for sub blocks.')
 
-            for grp in block_spec:
-                for b in grp:
-                    self._prepath_parts.append(b)
+            for bgroup in block_spec:
+                for bname in bgroup:
+                    self._prepath_parts.append(bname)
 
-                    sub_specs[b] = next_build(
+                    sub_specs[bname] = next_build(
                         content_spec,
-                        status = sub_status,
+                        status = status,
                     )
 
                     self._prepath_parts.pop(-1)
-
-        status |= sub_status
 
         return sub_specs
 
@@ -280,8 +281,6 @@ class DigestedYamlSpecs():
     def add_parser_2_blocks(
         self,
         specs,
-        status,
-        is_optional : bool,
         block_spec  : list[set[str]],
         content_spec: str,
     ):
@@ -298,11 +297,27 @@ class DigestedYamlSpecs():
         for i, bgroup in enumerate(block_spec):
             for bname in bgroup:
                 specs[bname]  = parser_spec[i]
-                status[bname] = {
-                    TAG_MANDATORY: is_optional
+
+
+###
+# prototype::
+#     parser_spec : XXX
+#
+#     :return: XXX
+###
+    def update_status(
+        self,
+        is_optional,
+        block_spec
+    ):
+        for bgroup in block_spec:
+            for bname in bgroup:
+                keypath = self.get_keypath(bname)
+                keypath = f'{self.main_block}.{keypath}'
+
+                self.status[keypath] = {
+                    TAG_MANDATORY: not is_optional
                 }
-
-
 
 ###
 # prototype::

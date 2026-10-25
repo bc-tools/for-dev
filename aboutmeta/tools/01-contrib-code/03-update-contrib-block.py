@@ -61,10 +61,10 @@ for folder, contribs in get_accepted_paths(
 
 # DEBUG - START
         from pprint import pprint
-        # print('---')
-        # pprint(digested_yaml.specs)
         print('---')
-        pprint(digested_yaml.status)
-        # print('---')
-        # pprint(digested_yaml.alts)
+        pprint(digested_yaml.specs)
+        print('---')
+        print(digested_yaml.status.to_json(indent=4))
+        print('---')
+        pprint(digested_yaml.alts)
 # DEBUG - END
