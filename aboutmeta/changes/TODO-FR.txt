@@ -6,12 +6,7 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-a: 0
-b*:
-   c: 1
-   d*: 2
-
-on stocke :
+status : on ajoute si on a une donnée (comme cela si un block est sans contenu, on le sait)
 
 
 

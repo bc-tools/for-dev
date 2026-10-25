@@ -13,9 +13,8 @@ TAG_PIP          = '|'
 TAG_LAST_PARSER_CARD = '.'
 
 
-TAG_MANDATORY   = "__MANDATORY__"
-TAG_IS_OPTIONAL = "__IS_OPTIONAL__"
-TAG_DATA        = "__DATA__"
+TAG_IS_MANDATORY = "__IS_MANDATORY__"
+TAG_DATA         = "__DATA__"
 
 DATA_TYPES_ALLOWED =[
     TAG_LIST:= "list",

@@ -29,9 +29,9 @@ from .constants import *
 PATTERN_LIST_PARSER = re.compile(r'list\((.*?)\)')
 
 
-# -------------------------- #
-# -- YAML DICT TO PY DICT -- #
-# -------------------------- #
+# ----------------------- #
+# -- PARSER DATA CLASS -- #
+# ----------------------- #
 
 ###
 # prototype::
@@ -59,6 +59,10 @@ class ParserSpecs():
             )
 
 
+# ------------ #
+# -- TYPING -- #
+# ------------ #
+
 type NestedListStrDict = dict[
     str,
     NestedListStrDict | str | list[str]
@@ -74,6 +78,10 @@ type NestedParserDict = dict[
     NestedParserDict | ParserSpecs
 ]
 
+
+# -------------------------- #
+# -- YAML DICT TO PY DICT -- #
+# -------------------------- #
 
 ###
 # prototype::
@@ -120,7 +128,7 @@ class DigestedYamlSpecs():
         self.alts       = defaultdict(list)
         self.status     = benedict({
             self.main_block: {
-                TAG_MANDATORY: True
+                TAG_IS_MANDATORY: True
             }
         })
 
@@ -154,7 +162,7 @@ class DigestedYamlSpecs():
                 status    = status
             )
 
-# Unsupported data type in YAML config files.
+# Unsupported data type in the YAML config file.
         raise ValueError(
             'In YAML config files, only list and dict are supported.'
         )
@@ -175,28 +183,33 @@ class DigestedYamlSpecs():
         data_list: list[str],
         status   : NestedBoolDict,
     ) -> ParserSpecs:
+# Single list of parsers allowed.
         if len(data_list) != 1:
             raise ValueError(
                 'In YAML config files, list of parsers must have '
                 'size 1.'
             )
 
-        parsers_spec = self.extract_parser_spec(
+# Analyse the single parser spec.
+        parser_spec_extracted = self.extract_parser_spec(
             parser_spec = data_list[0]
         )
 
-        if len(parsers_spec) != 1:
+# No parser choices allowed.
+        if len(parser_spec_extracted) != 1:
             raise ValueError(
                 'In YAML config files, only one parser allowed for '
                 'a list of data.'
             )
 
-        parser_spec = parsers_spec[0]
+# We have a legal definition.
+        single_parser_spec = parser_spec_extracted[0]
 
 # We have to update the type!
-        parser_spec.datatype = TAG_LIST
+        single_parser_spec.datatype = TAG_LIST
 
-        return parser_spec
+# Nothing left to do.
+        return single_parser_spec
 
 ###
 # prototype::
@@ -208,24 +221,28 @@ class DigestedYamlSpecs():
         self,
         parser_spec: str,
     ) -> list[ParserSpecs]:
+# Extraction of the use-post-process status, and the choices and
+# alternatives expected (maybe choices could be useful later).
         use_post, parser_spec_extracted = self.split_xor_or(
-            data = parser_spec,
+            text = parser_spec,
             deco = TAG_POST_PROCESS
         )
 
-        final_parser_specs = []
+# Alternatives of parsers expected.
+        parser_spec_alts = []
 
         for pgroup in parser_spec_extracted:
-# hhhh
+# No parser choices at this time.
             if len(pgroup) != 1:
                 raise ValueError(
                      'In YAML config files, you can use parser '
                     f'choices via a comma. See {repr(parser_spec)}'
                 )
 
-# GGG
+# One parser by alternative.
             parser_name = pgroup.pop()
 
+# Taking care of the use of ''list(....)''.
             match = PATTERN_LIST_PARSER.search(parser_name)
 
             if match:
@@ -235,7 +252,7 @@ class DigestedYamlSpecs():
             else:
                 datatype = TAG_STR
 
-# HHHH
+# Do we must use the last parser name automatically?
             if parser_name == TAG_LAST_PARSER_CARD:
                 if not self._last_parser:
                     raise ValueError(
@@ -247,8 +264,8 @@ class DigestedYamlSpecs():
             else:
                 self._last_parser = parser_name
 
-# JJJJ
-            final_parser_specs.append(
+# We have a new single parser spec as an alternative.
+            parser_spec_alts.append(
                 ParserSpecs(
                     module   = parser_name,
                     datatype = datatype,
@@ -257,35 +274,35 @@ class DigestedYamlSpecs():
             )
 
 # Nothing left to do.
-        return final_parser_specs
+        return parser_spec_alts
 
 ###
 # prototype::
-#     data : XX
+#     text : XX
 #     deco : XXX
 #
 #     :return: XXX
 ###
     def split_xor_or(
         self,
-        data: str,
+        text: str,
         deco: str,
     ) -> (bool, list[set[str]]):
-        data = data.strip()
+        text = text.strip()
 
-        if data[-1] == deco:
+        if text[-1] == deco:
             deco_used = True
-            data      = data[:-1]
+            text      = text[:-1]
 
         else:
             deco_used = False
 
         xor_or_parts = [
             set(
-                p.strip()
-                for p in part.split(TAG_COMMA)
+                comma_part.strip()
+                for comma_part in pip_part.split(TAG_COMMA)
             )
-            for part in data.split(TAG_PIP)
+            for pip_part in text.split(TAG_PIP)
         ]
 
         return deco_used, xor_or_parts
@@ -306,7 +323,7 @@ class DigestedYamlSpecs():
 
         for block_spec, content_spec in data_dict.items():
             is_optional, block_spec = self.split_xor_or(
-                data = block_spec,
+                text = block_spec,
                 deco = TAG_OPTIONAL
             )
 
@@ -386,7 +403,7 @@ class DigestedYamlSpecs():
                 keypath = f'{self.main_block}.{keypath}'
 
                 self.status[keypath] = {
-                    TAG_MANDATORY: not is_optional
+                    TAG_IS_MANDATORY: not is_optional
                 }
 
 ###
