@@ -129,7 +129,7 @@ class DigestedYamlSpecs():
         self.alts       = benedict()
         self.status     = benedict({
             self.main_block: {
-                TAG_IS_MANDATORY: True
+                TAG_IS_MANDATORY: True,
             }
         })
 
@@ -153,9 +153,13 @@ class DigestedYamlSpecs():
     ) -> NestedParserDictType:
 # Depending on the data type used, we call the associated method.
         if isinstance(yaml_specs, dict):
+            self.status[self.main_block][TAG_IS_PARSED] = False
+
             return self.build_dict(yaml_specs)
 
         if isinstance(yaml_specs, list):
+            self.status[self.main_block][TAG_IS_PARSED] = True
+
             return self.build_list(yaml_specs)
 
 # Unsupported data type in the YAML config file.
@@ -331,15 +335,19 @@ class DigestedYamlSpecs():
                 deco = TAG_OPTIONAL
             )
 
+# A parser found?
+            parser_found = isinstance(parser_spec, str)
+
 # We take care of alternatives, choices and status.
             self.update_alts(block_spec)
             self.update_status(
+                parser_found,
                 is_optional,
                 block_spec
             )
 
 # We have a parser spec.
-            if isinstance(parser_spec, str):
+            if parser_found:
                 self.add_parsers_2_blocks(
                     specs        = sub_specs,
                     block_spec   = block_spec,
@@ -416,17 +424,20 @@ class DigestedYamlSpecs():
 
 ###
 # prototype::
-#     is_optional : ''True'' indicates that the blocks specified
-#                   in ''block_spec'' are all optional. Otherwise,
-#                   they are all mandatory.
-#     block_spec  : :see: self.update_alts
+#     parser_found : ''True'' indicates that the blocks specified in
+#                    ''block_spec'' are all for dat to be parsed.
+#     is_optional  : ''True'' indicates that the blocks specified
+#                    in ''block_spec'' are all optional. Otherwise,
+#                    they are all mandatory.
+#     block_spec   : :see: self.update_alts
 #
 #     :action: update the ''self.status'' \dict.
 ###
     def update_status(
         self,
-        is_optional: bool,
-        block_spec : ListSetStrType,
+        parser_found: bool,
+        is_optional : bool,
+        block_spec  : ListSetStrType,
     ) -> None:
         for bgroup in block_spec:
             for bname in bgroup:
@@ -434,7 +445,8 @@ class DigestedYamlSpecs():
                 blockpath = f'{self.main_block}.{blockpath}'
 
                 self.status[blockpath] = {
-                    TAG_IS_MANDATORY: not is_optional
+                    TAG_IS_MANDATORY: not is_optional,
+                    TAG_IS_PARSED   : parser_found,
                 }
 
 ###

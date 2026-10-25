@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 
-# ------------------ #
-# -- PYTHON SPECS -- #
-# ------------------ #
+# --------------------- #
+# -- FORM YAML SPECS -- #
+# --------------------- #
 
 TAG_POST_PROCESS = '+'
 TAG_OPTIONAL     = '*'
@@ -15,6 +15,7 @@ TAG_LAST_PARSER_CARD = '.'
 
 
 TAG_IS_MANDATORY = "__IS_MANDATORY__"
+TAG_IS_PARSED    = "__IS_PARSED__"
 TAG_ALTS         = "__ALTERNATIVES__"
 
 DATA_TYPES_ALLOWED =[
