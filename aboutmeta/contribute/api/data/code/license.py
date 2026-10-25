@@ -63,9 +63,9 @@ class License(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data          = self.spdx_id,
-            type_expected = str,
-            data_name     = 'spdx_id',
+            data_name      = 'spdx_id',
+            data           = self.spdx_id,
+            types_expected = str,
         )
 
 # Our local data.
@@ -281,6 +281,7 @@ if __name__ == "__main__":
     print("-- BAD CASES --")
 
     for yaml_data in [
+        123,
         "gpl  3.0 +",
         "gpl",
         "cc nc",

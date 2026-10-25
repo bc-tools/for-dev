@@ -45,9 +45,9 @@ class Acronym(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data          = self.spec,
-            type_expected = str,
-            data_name     = 'spec',
+            data_name      = 'spec',
+            data           = self.spec,
+            types_expected = str,
         )
 
 # We only keep internal extra spaces.
@@ -153,6 +153,7 @@ if __name__ == "__main__":
     print("-- BAD CASES --")
 
     for yaml_data in [
+        123,
         "about metadata",
         "[about [meta]data",
         "[about] meta]data",

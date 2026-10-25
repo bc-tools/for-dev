@@ -32,9 +32,9 @@ class URL(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data          = self.url,
-            type_expected = str,
-            data_name     = 'URL',
+            data_name      = 'URL',
+            data           = self.url,
+            types_expected = str,
         )
 
 ###

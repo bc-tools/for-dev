@@ -73,9 +73,9 @@ class Person(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data          = self.spec,
-            type_expected = str,
-            data_name     = 'spec',
+            data_name      = 'spec',
+            data           = self.spec,
+            types_expected = str,
         )
 
 #  We can work.
@@ -412,6 +412,7 @@ if __name__ == "__main__":
     print("-- BAD PARSING CASES --")
 
     for yaml_data in [
+        123,
         "Someone (My address) [e.mail@provided.by]",
         "Someone [e.mail@provided.by (My address)",
         "Someone [e.mail@provided.by] (My address",

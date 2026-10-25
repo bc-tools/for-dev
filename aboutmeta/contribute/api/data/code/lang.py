@@ -53,9 +53,9 @@ class Lang(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data          = self.std_id,
-            type_expected = str,
-            data_name     = 'std_id',
+            data_name      = 'std_id',
+            data           = self.std_id,
+            types_expected = str,
         )
 
 # Getting a normalized code.
@@ -112,6 +112,7 @@ if __name__ == "__main__":
     print("-- BAD CASES --")
 
     for yaml_data in [
+        123,
         "X - X - X",
         "XXX",
     ]:

@@ -31,9 +31,9 @@ class UnixName(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data          = self.name,
-            type_expected = str,
-            data_name     = 'Unix name',
+            data_name      = 'Unix name',
+            data           = self.name,
+            types_expected = str,
         )
 
         if not PATTERN_UNIX_NAME.match(self.name):
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     for yaml_data in [
         "_abc-cde123",
     ]:
-        mydata = Unixname(name = yaml_data)
+        mydata = UnixName(name = yaml_data)
 
         print()
         print(f"{yaml_data = }")
@@ -65,6 +65,7 @@ if __name__ == "__main__":
     print("-- BAD CASES --")
 
     for yaml_data in [
+        123,
         "-hyphen-pb",
         "CasePB",
         "123-digits-pb",
@@ -73,7 +74,7 @@ if __name__ == "__main__":
         print(f"{yaml_data = }")
 
         try:
-            Unixname(name = yaml_data)
+            UnixName(name = yaml_data)
 
         except Exception as e:
             print(type(e).__name__, ':', e)

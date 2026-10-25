@@ -7,22 +7,6 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-[OK]   pasrer peut travailler sur tout type de donnée !! cf cdt
-
-[KO]   charge au parsre de vérifier le bon type à chaque fois
-
-[KO]   on peut aisi travailler avec des dotionnaires dynamiques
-
-[KO]   indiquer doc que l'on travailler avec des données et non une structur de données d'om les restrctions aussuées de ne pa ssupporter tout yaml
-
-
-> ---------------------------- <
-
-status : on ajoute si on a une donnée (comme cela si un block est sans contenu, on le sait)
-
-
-> ---------------------------- <
-
 doc des block : demander des tetses de structure mais pas sur les parsers qui sont testé à part bon et mauvais cas mais avec données finales à parser valables!
 
 testes mixé géré par mélange des testes des contribs (faisons simple !)

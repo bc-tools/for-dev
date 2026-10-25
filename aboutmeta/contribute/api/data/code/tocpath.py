@@ -106,18 +106,18 @@ class TOCPath(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data_name     = 'spec',
-            data          = self.spec,
-            type_expected = (
+            data_name      = 'spec',
+            data           = self.spec,
+            types_expected = (
                 str,
                 dict
             ),
         )
 
         validate_type(
-            data_name     = 'parent',
-            data          = self.parent,
-            type_expected = Path,
+            data_name      = 'parent',
+            data           = self.parent,
+            types_expected = Path,
         )
 
 # We can work.
