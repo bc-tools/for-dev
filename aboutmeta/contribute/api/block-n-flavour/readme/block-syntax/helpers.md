@@ -21,9 +21,10 @@ The following code shows how to succinctly describe the purpose of the block via
 
 After the general description, it is possible - and strongly recommended - to document sub-blocks or keys, but nothing is imposed. Documentation is added in the comments just before the block or key concerned. Here are a few extracts from the `project.yaml` file, where, in the case of the `urls` block, it should be noted that the `home`, `dev`, and `issues` keys are not documented.
 
+
+<!-- Real extract - No ALT - START -->
 ~~~yaml
-# Real extract from ''project.yaml'' file
-# in its October 15, 2026 version.
+# Real extract from ''project.yaml'' file (2026-10-15).
 
 ###
 # This key is for specifying the semantic version number of the
@@ -57,6 +58,7 @@ version *: sem_version
 urls *:
   home, dev, issues *: url
 ~~~
+<!-- Real extract - No ALT - END -->
 
 
 > ***WARNING.*** *You don't need to specify the expected data types, as they are automatically covered from each parser's description.*
@@ -66,16 +68,17 @@ urls *:
 
 Documentation of an alternative requires that the various competing keys be documented in sections indicated by magic titles of the form `[[key-name]]`, as in the following example.
 
+
+<!-- Real extract - With ALT - START -->
 ~~~yaml
-# Real extract from ''project.yaml'' file
-# in its October 15, 2026 version.
+# Real extract from ''project.yaml'' file (2026-10-15).
 
 ###
 # [[doctitle]]
 # This key must be used for a document-type project, because such
 # a project must have a title.
 #
-#
+#s
 # [[codename]]
 # This key allows you to specify the name of a code-type project
 # if it differs from that of the project folder.
@@ -87,3 +90,4 @@ Documentation of an alternative requires that the various competing keys be docu
 ###
 codename | doctitle *: str +
 ~~~
+<!-- Real extract - With ALT - END -->

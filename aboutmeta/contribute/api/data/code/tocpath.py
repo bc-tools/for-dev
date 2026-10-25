@@ -108,10 +108,7 @@ class TOCPath(DataManager):
         validate_type(
             data_name      = 'spec',
             data           = self.spec,
-            types_expected = (
-                str,
-                dict
-            ),
+            types_expected = (str, dict),
         )
 
         validate_type(
@@ -538,6 +535,7 @@ if __name__ == "__main__":
     for yaml_data in [
 # Raw path.
         1234,
+        67,   # Used to test unvalid parent.
 # Glob patterns.
         {'g': "*.md", 'r': "*.md"},
         {'gob': "*.md"},
@@ -550,9 +548,15 @@ if __name__ == "__main__":
         print(f"{yaml_data = }")
 
         try:
+            if yaml_data == 67:
+                parent = yaml_data = str(yaml_data)
+
+            else:
+                parent = THIS_DIR
+
             TOCPath(
                 spec   = yaml_data,
-                parent = THIS_DIR
+                parent = parent
             )
 
         except Exception as e:

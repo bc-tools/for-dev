@@ -15,9 +15,9 @@ A little DSL allows you to define some special features for keys. Here's what yo
 Here is a realistic extract of the `project` section, where all keys shown are optional. The user can specify either `author` or `authors`. Within the `urls` sub-block, all keys `home`, `dev`, and `issues` are available.
 
 
+<!-- Simplified version - START -->
 ~~~yaml
-# Simplified version of the ''project.yaml'' file
-# in its August 21, 2026 version.
+# Simplified version of the ''project.yaml'' file (2026-08-21).
 
 author | authors *: person | list(person)
 
@@ -27,3 +27,4 @@ urls *:
 require *:
   - str
 ~~~
+<!-- Simplified version - END -->

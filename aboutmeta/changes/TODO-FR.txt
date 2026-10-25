@@ -7,6 +7,13 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+géré lisnertion automatiqsé des bouts de code des specs de b;locs
+
+penser à gerer la nouveauté et dans ce cas la le dater !!!
+
+
+> ---------------------------- <
+
 doc des block : demander des tetses de structure mais pas sur les parsers qui sont testé à part bon et mauvais cas mais avec données finales à parser valables!
 
 testes mixé géré par mélange des testes des contribs (faisons simple !)

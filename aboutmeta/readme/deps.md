@@ -4,7 +4,6 @@ Dependencies
 Here are the `Python` libraries used. The version numbers in brackets are those used prior to the release of this version of the project.
 
 <!-- Python modules used - START -->
-
   * `email_validator`   **[2.2]**
   * `langcodes`         **[3.5]**
   * `natsort`           **[8.4]**
@@ -15,5 +14,4 @@ Here are the `Python` libraries used. The version numbers in brackets are those 
   * `rich`              **[13.9]**
   * `semver`            **[3.0]**
   * `typer`             **[0.16]**
-
 <!-- Python modules used - END -->
