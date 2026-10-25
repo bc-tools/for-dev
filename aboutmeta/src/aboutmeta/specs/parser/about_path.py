@@ -70,8 +70,8 @@ def write(data: TOCPath) -> str | dict[str, str]:
 # -- MAPPERS -- #
 # ------------- #
 
-TAG_PATH_SEP   = '/'
-TAG_ABOUT_YAML = 'about.yaml'
+# TAG_PATH_SEP   = '/'
+# TAG_ABOUT_YAML = 'about.yaml'
 
 
 ###
