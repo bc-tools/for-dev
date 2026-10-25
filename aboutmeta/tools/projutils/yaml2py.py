@@ -125,7 +125,7 @@ class DigestedYamlSpecs():
     def reset_attrs(self) -> None:
         self.main_block = self.file.stem
         self.specs      = dict()
-        self.alts       = defaultdict(list)
+        self.alts       = benedict()
         self.status     = benedict({
             self.main_block: {
                 TAG_IS_MANDATORY: True
@@ -377,14 +377,27 @@ class DigestedYamlSpecs():
         if len(block_spec) == 1:
             return None
 
-        prepath = '.'.join(self._prepath_parts)
+        if self._prepath_parts:
+            keypath = '.'.join(self._prepath_parts)
+            keypath = f'{self.main_block}.{keypath}'
+
+        else:
+            keypath = self.main_block
+
+        keypath = f'{keypath}.{TAG_ALTS}'
 
 # On doit construire toutes les paires possibles; aide facile pour l'utilisateur (et en plus facile à coder via itertools).
-        self.alts[prepath] += [
+        illegal_pairs = [
             set(name_pair)
             for pair_of_sets in combinations(block_spec, 2)
             for name_pair in product(*pair_of_sets)
         ]
+
+        if keypath in self.alts:
+            self.alts[keypath] += illegal_pairs
+
+        else:
+            self.alts[keypath] = illegal_pairs
 
 ###
 # prototype::

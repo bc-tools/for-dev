@@ -9,6 +9,18 @@ aboutmeta - TODO
 status : on ajoute si on a une donnée (comme cela si un block est sans contenu, on le sait)
 
 
+> ---------------------------- <
+
+pasrer peut travailler sur tout type de donnée !! cf cdt
+
+charge au parsre de vérifier le bon type à chaque fois
+
+on peut aisi travailler avec des dotionnaires dynamiques
+
++
+
+indiquer doc que l'on travailler avec des données et non une structur de données d'om les restrctions aussuées de ne pa ssupporter tout yaml
+
 
 > ---------------------------- <
 

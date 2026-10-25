@@ -66,5 +66,6 @@ for folder, contribs in get_accepted_paths(
         print('---')
         print(digested_yaml.status.to_json(indent=4))
         print('---')
-        pprint(digested_yaml.alts)
+        print(digested_yaml.alts)#.to_json(indent=4))
+        exit()
 # DEBUG - END
