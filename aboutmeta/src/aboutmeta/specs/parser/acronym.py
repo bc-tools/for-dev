@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Code extracted from the maintained Python file
-# aboutmeta/contribute/api/parser/code/acronym.py
+# 'aboutmeta/contribute/api/parser/code/acronym.py'
 
 ###
 # The origin of an acronym can be explained using a tiny DSL.
@@ -35,7 +35,7 @@ from aboutmeta.specs.data.acronym import Acronym
 #
 #     :return: an instance of the class ''Acronym''.
 ###
-def parse(data: str) -> Acronym:
+def parse(data: list) -> Acronym:
 # No parsing, and all job done by the class
 # ''aboutmeta.specs.data.acronym.Acronym''.
     return Acronym(spec = data)

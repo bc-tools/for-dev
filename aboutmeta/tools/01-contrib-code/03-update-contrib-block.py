@@ -29,7 +29,10 @@ while(PROJECT_DIR.name != 'aboutmeta'):
 
 SPECS_DIR       = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
 BLOCK_SPECS_DIR = SPECS_DIR / CONTEXT
-CONTRIB_DIR     = PROJECT_DIR / 'contribute' / 'api' / 'block-n-flavour' / CONTEXT
+CONTRIB_DIR     = (
+      PROJECT_DIR / 'contribute' / 'api'
+    / 'block-n-flavour' / CONTEXT
+)
 
 
 # ----------- #

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Code extracted from the maintained Python file
-# aboutmeta/contribute/api/parser/code/unix_name.py
+# 'aboutmeta/contribute/api/parser/code/unix_name.py'
 
 ###
 # A Unix-style name only uses lowercase letters, digits,

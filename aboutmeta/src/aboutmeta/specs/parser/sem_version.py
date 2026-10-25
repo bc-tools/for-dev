@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Code extracted from the maintained Python file
-# aboutmeta/contribute/api/parser/code/sem_version.py
+# 'aboutmeta/contribute/api/parser/code/sem_version.py'
 
 ###
 # Semantic version numbers must comply with cf::''Semantic

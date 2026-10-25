@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Code extracted from the maintained Python file
-# aboutmeta/contribute/api/parser/code/license.py
+# 'aboutmeta/contribute/api/parser/code/license.py'
 
 ###
 # A license is identified using identifiers from the
