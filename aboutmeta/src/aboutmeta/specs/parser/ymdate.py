@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 # Code extracted from the maintained Python file
-# 'aboutmeta/contribute/api/parser/code/date.py'
+# 'aboutmeta/contribute/api/parser/code/ymdate.py'
 
 
 ###
-# A date can only be given in the English format ''YYYY-MM-DD''
-# like ''2025-07-15''.
+# A ''YMD'' date can only be given in the English format
+# ''YYYY-MM-DD'' like ''2025-07-15''.
 ###
 
 

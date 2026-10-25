@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 ###
-# A date can only be given in the English format ''YYYY-MM-DD''
-# like ''2025-07-15''.
+# A ''YMD'' date can only be given in the English format
+# ''YYYY-MM-DD'' like ''2025-07-15''.
 ###
 
 

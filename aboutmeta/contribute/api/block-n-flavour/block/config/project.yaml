@@ -75,7 +75,7 @@ version *: sem_version
 # This key allows to give the project date in the ''YYYY-MM-DD''
 # format.
 ###
-date *: date
+date *: ymdate
 
 ###
 # This key can be used to explain the choice of an acronym using

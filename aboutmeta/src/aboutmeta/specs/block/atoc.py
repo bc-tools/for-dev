@@ -4,7 +4,7 @@
 # 'aboutmeta/tools/01-contrib-code/03-update-contrib-block.py'
 #
 # This block is maintained inside the file
-# 'aboutmeta/contribute/api/block-n-flavour/block/config/toc.yaml'
+# 'aboutmeta/contribute/api/block-n-flavour/block/config/atoc.yaml'
 
 # ------------- #
 # -- IMPORTS -- #
@@ -33,8 +33,8 @@ __STATUS_MANDATORY_PARSED = {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}
 # -- BLOCK SPECS -- #
 # ----------------- #
 
-BLOCK_SPECS = benedict({"toc": __PARSER_ABOUT_PATH_LIST_USE_POST})
+BLOCK_SPECS = benedict({"atoc": __PARSER_ABOUT_PATH_LIST_USE_POST})
 
-BLOCK_STATUS = benedict({"toc": __STATUS_MANDATORY_PARSED})
+BLOCK_STATUS = benedict({"atoc": __STATUS_MANDATORY_PARSED})
 
 BLOCK_ALTS = benedict({})

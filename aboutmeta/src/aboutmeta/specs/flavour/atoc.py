@@ -4,7 +4,7 @@
 # 'aboutmeta/tools/01-contrib-code/04-update-contrib-flavour.py'
 #
 # This block is maintained inside the file
-# 'aboutmeta/contribute/api/block-n-flavour/flavour/config/toc.yaml'
+# 'aboutmeta/contribute/api/block-n-flavour/flavour/config/atoc.yaml'
 
 # ------------- #
 # -- IMPORTS -- #

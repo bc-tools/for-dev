@@ -15,12 +15,12 @@ from benedict import benedict
 from aboutmeta.core.constants import *
 from aboutmeta.specs.parser import (
     acronym,
-    date,
     lang,
     license,
     person,
     sem_version,
     url,
+    ymdate,
 )
 
 
@@ -33,8 +33,6 @@ __PARSER_ACRONYM_DATA = {
     TAG_USE_POST: False,
     TAG_DATATYPE: TAG_DATA,
 }
-
-__PARSER_DATE_DATA = {TAG_PARSER: date, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
 
 __PARSER_LANG_DATA = {TAG_PARSER: lang, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
 
@@ -60,6 +58,8 @@ __PARSER_STR_LIST = {TAG_PARSER: str, TAG_USE_POST: False, TAG_DATATYPE: TAG_LIS
 
 __PARSER_URL_DATA = {TAG_PARSER: url, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
 
+__PARSER_YMDATE_DATA = {TAG_PARSER: ymdate, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+
 __STATUS_MANDATORY_PARSED = {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}
 
 __STATUS_OPTIONAL_PARSED = {TAG_IS_MANDATORY: False, TAG_IS_PARSED: True}
@@ -75,7 +75,7 @@ BLOCK_SPECS = benedict(
     {
         "project": {
             "version": __PARSER_SEM_VERSION_DATA,
-            "date": __PARSER_DATE_DATA,
+            "date": __PARSER_YMDATE_DATA,
             "acronym": __PARSER_ACRONYM_DATA,
             "codename": __PARSER_STR_DATA,
             "doctitle": __PARSER_STR_DATA,
@@ -90,10 +90,10 @@ BLOCK_SPECS = benedict(
                 "dev": __PARSER_URL_DATA,
             },
             "licenses": {
-                "manual": __PARSER_LICENSE_DATA,
                 "code": __PARSER_LICENSE_DATA,
+                "manual": __PARSER_LICENSE_DATA,
             },
-            "langs": {"manual": __PARSER_LANG_DATA, "doc": __PARSER_LANG_DATA},
+            "langs": {"doc": __PARSER_LANG_DATA, "manual": __PARSER_LANG_DATA},
             "require": __PARSER_STR_LIST,
             "keywords": __PARSER_STR_LIST,
         }
@@ -125,14 +125,14 @@ BLOCK_STATUS = benedict(
             "licenses": {
                 TAG_IS_MANDATORY: False,
                 TAG_IS_PARSED: False,
-                "manual": __STATUS_OPTIONAL_PARSED,
                 "code": __STATUS_OPTIONAL_PARSED,
+                "manual": __STATUS_OPTIONAL_PARSED,
             },
             "langs": {
                 TAG_IS_MANDATORY: False,
                 TAG_IS_PARSED: False,
-                "manual": __STATUS_OPTIONAL_PARSED,
                 "doc": __STATUS_OPTIONAL_PARSED,
+                "manual": __STATUS_OPTIONAL_PARSED,
             },
             "require": __STATUS_OPTIONAL_UNPARSED,
             "keywords": __STATUS_OPTIONAL_UNPARSED,
