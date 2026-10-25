@@ -59,7 +59,12 @@ for folder, contribs in get_accepted_paths(
         digested_yaml = DigestedYamlSpecs(contrib_file)
         digested_yaml.build()
 
-        from pprint import pprint;pprint(        digested_yaml.specs)
-
-        print(f"{digested_yaml.mandatory = }")
-        print(f"{digested_yaml.alts      = }")
+# DEBUG - START
+        from pprint import pprint
+        # print('---')
+        # pprint(digested_yaml.specs)
+        print('---')
+        pprint(digested_yaml.status)
+        # print('---')
+        # pprint(digested_yaml.alts)
+# DEBUG - END

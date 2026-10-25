@@ -6,14 +6,20 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-Voici un dictionnaire yaml où les étoiles indiquent juste de s clés optionnels.
-
 a: 0
 b*:
    c: 1
    d*: 2
 
-aletrenative n'est plus une liste de chemins mais un dict de clé en lien avec la cle en court !!!
+on stocke :
+
+
+
+> ---------------------------- <
+
+doc des block : demander des tetses de structure mais pas sur les parsers qui sont testé à part bon et mauvais cas mais avec données finales à parser valables!
+
+testes mixé géré par mélange des testes des contribs (faisons simple !)
 
 
 > ---------------------------- <

@@ -13,8 +13,9 @@ TAG_PIP          = '|'
 TAG_LAST_PARSER_CARD = '.'
 
 
-TAG_OPTIONAL = "_i_s_o_p_t_i_o_n_al_"
-
+TAG_MANDATORY   = "__MANDATORY__"
+TAG_IS_OPTIONAL = "__IS_OPTIONAL__"
+TAG_DATA        = "__DATA__"
 
 TAG_LIST = "list"
 TAG_STR  = "str"

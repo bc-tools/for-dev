@@ -202,7 +202,7 @@ licenses *:
 #       manual: fr
 ###
 langs *:
-  doc | manual: lang
+  doc, code | manual: lang
 
 
 ###
