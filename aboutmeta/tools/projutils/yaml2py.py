@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
-import              re
-from yaml    import safe_load
+import              sys
 
+sys.path.append(str(Path(__file__).parent.parent))
+
+
+from collections import defaultdict
+from dataclasses import dataclass
+from yaml        import safe_load
+
+from cbutils.coding_py import *
 
 from .constants import *
 
@@ -12,14 +19,31 @@ from .constants import *
 # -- TYPING -- #
 # ------------ #
 
-
-
 PATTERN_LIST_PARSER = re.compile(r'list\((.*?)\)')
 
 
 # -------------------------- #
 # -- YAML DICT TO PY DICT -- #
 # -------------------------- #
+
+###
+# prototype::
+#     file : XXX
+###
+@dataclass
+class ParserSpecs():
+    module  : str
+    datatype: str
+    use_post: bool
+
+    def __post_init__(self) -> None:
+        validate_pyname(self.module)
+
+        if self.module == TAG_OPTIONAL:
+            raise ValueError(
+                f'Illegal paser name {repr(TAG_OPTIONAL)} (reserved for internal processe)'
+            )
+
 
 ###
 # prototype::
@@ -39,29 +63,30 @@ class DigestedYamlSpecs():
 #              of the block \specs.
 ###
     def build(self):
-        self._reset()
+        self.reset_attrs()
 
         yaml_specs = safe_load(self.file.read_text())
 
         specs = self.build_specs(yaml_specs)
 
         self.specs = {
-            self.file.stem: specs
+            self.main_block: specs
         }
 
 ###
 # prototype::
 #     :action: reset the attributes
-#              ''self.alternative'',
+#              ''self.alts'',
 #              ''self.mandatory'',
 #              ''self.specs'',
 #              ''self._last_parser'' and
 #              ''self._prepath''.
 ###
-    def _reset(self):
-        self.specs        = dict()
-        self.mandatory    = set()
-        self.alternative  = []
+    def reset_attrs(self):
+        self.main_block = self.file.stem
+        self.specs      = dict()
+        self.mandatory  = dict()
+        self.alts       = dict()
 
         self._last_parser = ''
         self._prepath     = []
@@ -90,6 +115,22 @@ class DigestedYamlSpecs():
 
         raise ValueError('Only list and dict supported for main blocks.')
 
+
+# prototype::
+#     specs : XXX
+#
+#     :return: XXX
+###
+    def update_mandatory(
+        self,
+        block_group
+    ):
+        ...
+
+
+
+
+
 ###
 # prototype::
 #     data_dict : XXX
@@ -109,13 +150,14 @@ class DigestedYamlSpecs():
             )
 
             if len(block_spec) != 1:
-                self.alternative += [
+                self.alts.append(
                     set(
                         self.get_keypath(bname)
                         for bgroup in block_spec
                         for bname in bgroup
                     )
-                ]
+                )
+
 
             if isinstance(sub_yaml_spec, str):
                 self.add_parser_2_blocks(
@@ -174,7 +216,7 @@ class DigestedYamlSpecs():
         parser_spec = parsers_spec[0]
 
 # We have to update the type!
-        parser_spec[TAG_TYPE] = TAG_LIST
+        parser_spec.datatype = TAG_LIST
 
         return parser_spec
 
@@ -205,8 +247,10 @@ class DigestedYamlSpecs():
             parser_spec = parser_spec*len(block_spec)
 
         for i, bgroup in enumerate(block_spec):
+            current_depth = len(self._prepath)
+
             if not is_optional:
-                self.mandatory |= set(
+                self.mandatory[current_depth] |= set(
                     self.get_keypath(bname)
                     for bname in bgroup
                 )
@@ -272,7 +316,7 @@ class DigestedYamlSpecs():
                 parser_type = TAG_LIST
 
             else:
-                parser_type = TAG_DATA
+                parser_type = TAG_STR
 
             if parser_name == TAG_LAST_PARSER_CARD:
                 if not self._last_parser:
@@ -285,12 +329,13 @@ class DigestedYamlSpecs():
             else:
                 self._last_parser = parser_name
 
-            final_parser_spec.append({
-                TAG_PARSE_MODULE    : parser_name,
-                TAG_USE_POST_PROCESS: use_post_process,
-                TAG_TYPE            : parser_type,
-            })
-
+            final_parser_spec.append(
+                ParserSpecs(
+                    module   = parser_name,
+                    datatype = parser_type,
+                    use_post = use_post_process,
+                )
+            )
 
         return final_parser_spec
 

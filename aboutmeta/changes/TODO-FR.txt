@@ -6,9 +6,12 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-a*:
-   b:  --> b devient aussi optionnel globalement moais obligatoire localeemnt
-   c*:
+Voici un dictionnaire yaml où les étoiles indiquent juste de s clés optionnels.
+
+a: 0
+b*:
+   c: 1
+   d*: 2
 
 aletrenative n'est plus une liste de chemins mais un dict de clé en lien avec la cle en court !!!
 

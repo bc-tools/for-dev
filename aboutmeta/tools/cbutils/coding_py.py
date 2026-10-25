@@ -12,6 +12,8 @@ from black import (
     WriteBack,
 )
 
+from keyword import iskeyword
+
 from .split_file import *
 from .logconf    import *
 from .messages   import *
@@ -43,7 +45,7 @@ type LegalSigns = dict[
 # -- BUILD PYTHON CODE -- #
 # ----------------------- #
 
-PATTERN_LEGAL_NAME = re.compile(
+PATTERN_LEGAL_EXTENDED_NAME = re.compile(
     r'^[A-Za-z _.-][A-Za-z0-9 _.-]*$',
 # We do not accept unicode characters!
     flags = re.ASCII
@@ -54,6 +56,24 @@ PATTERN_PYSUGLIFY = re.compile(r'[\s\-\.]+')
 
 ###
 # prototype::
+#     name : XXX
+#
+#     :action: xxxx
+def validate_pyname(name: str) -> None:
+    if not name.isidentifier():
+        raise ValueError(
+             "'name' can only use ASCII letters,"
+             "digits and underscores (no unicode characters)."
+            f"See {repr(name)}."
+        )
+
+    if iskeyword(name):
+        raise ValueError(
+            f"{repr(name)} is a Python keyword."
+        )
+
+###
+# prototype::
 #     name : a name with possible \ascii letters, digits, spaces,
 #            hyphens, underscores and points (nut no unicode
 #            characters accepted).
@@ -61,7 +81,7 @@ PATTERN_PYSUGLIFY = re.compile(r'[\s\-\.]+')
 #     :return: a legal \python name.
 ###
 def pysuglify(name: str) -> str:
-    if PATTERN_LEGAL_NAME.fullmatch(name) is None:
+    if PATTERN_LEGAL_EXTENDED_NAME.fullmatch(name) is None:
         raise ValueError(
              "'name' can only use ASCII letters, spaces, hyphens,"
              "digits, underscores and points (no unicode characters)."
