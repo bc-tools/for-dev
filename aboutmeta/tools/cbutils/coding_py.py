@@ -56,20 +56,23 @@ PATTERN_PYSUGLIFY = re.compile(r'[\s\-\.]+')
 
 ###
 # prototype::
-#     name : XXX
+#     name : a name with possible \ascii letters, digits, spaces,
+#            hyphens, underscores and points (nut no unicode
+#            characters accepted).
 #
-#     :action: xxxx
+#     :action: raise an exception if ''name'' is not a legal
+#              \python name.
 def validate_pyname(name: str) -> None:
     if not name.isidentifier():
-        raise ValueError(
-             "'name' can only use ASCII letters,"
-             "digits and underscores (no unicode characters)."
-            f"See {repr(name)}."
+        raise ValueError(ValueError(
+             "only ASCII letters, hyphens, digits and underscores "
+            f" allowed (no unicode characters). See {repr(name)}"
+        )
         )
 
     if iskeyword(name):
         raise ValueError(
-            f"{repr(name)} is a Python keyword."
+            f"{repr(name)} is a reserved Python keyword."
         )
 
 ###
@@ -78,14 +81,16 @@ def validate_pyname(name: str) -> None:
 #            hyphens, underscores and points (nut no unicode
 #            characters accepted).
 #
-#     :return: a legal \python name.
+#     :return: a legal \python name transformation of ''name'':
+#              hyphens, spaces and points er replaced by
+#              underscores.
 ###
 def pysuglify(name: str) -> str:
     if PATTERN_LEGAL_EXTENDED_NAME.fullmatch(name) is None:
         raise ValueError(
-             "'name' can only use ASCII letters, spaces, hyphens,"
-             "digits, underscores and points (no unicode characters)."
-            f"See:\n{name}"
+             "only ASCII letters, spaces, hyphens, digits, "
+             "underscores and points allowed (no unicode "
+            f"characters). See {repr(name)}"
         )
 
     return PATTERN_PYSUGLIFY.sub('_', name)

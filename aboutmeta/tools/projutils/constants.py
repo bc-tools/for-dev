@@ -17,8 +17,10 @@ TAG_MANDATORY   = "__MANDATORY__"
 TAG_IS_OPTIONAL = "__IS_OPTIONAL__"
 TAG_DATA        = "__DATA__"
 
-TAG_LIST = "list"
-TAG_STR  = "str"
+DATA_TYPES_ALLOWED =[
+    TAG_LIST:= "list",
+    TAG_STR := "str",
+]
 
 
 

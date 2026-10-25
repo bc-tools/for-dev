@@ -22,9 +22,9 @@ from cbutils.coding_py import *
 from .constants import *
 
 
-# ------------ #
-# -- TYPING -- #
-# ------------ #
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
 
 PATTERN_LIST_PARSER = re.compile(r'list\((.*?)\)')
 
@@ -35,7 +35,10 @@ PATTERN_LIST_PARSER = re.compile(r'list\((.*?)\)')
 
 ###
 # prototype::
-#     file : XXX
+#     module  : a parser module name.
+#     datatype: a data type.
+#             @ _ in DATA_TYPES_ALLOWED
+#     use_post: do we have to use a post processing.
 ###
 @dataclass
 class ParserSpecs():
@@ -43,24 +46,44 @@ class ParserSpecs():
     datatype: str
     use_post: bool
 
+###
+# We check the parser name validity.
+###
     def __post_init__(self) -> None:
         validate_pyname(self.module)
 
         if self.module.startswith('__'):
             raise ValueError(
-                f"names staring with '___' are reserved for internal processes. See {repr(self.module)}"
+                 "names staring with '___' are reserved for "
+                f"internal processes. See {repr(self.module)}"
             )
+
+
+type NestedListStrDict = dict[
+    str,
+    NestedListStrDict | str | list[str]
+]
+
+type NestedBoolDict = dict[
+    str,
+    NestedBoolDict | bool
+]
+
+type NestedParserDict = dict[
+    str,
+    NestedParserDict | ParserSpecs
+]
 
 
 ###
 # prototype::
-#     file : XXX
+#     file : a \yaml file giving a block \specs.
 ###
 class DigestedYamlSpecs():
     def __init__(
         self,
         file: Path
-    ):
+    ) -> None:
         self.file = file
 
 ###
@@ -69,7 +92,7 @@ class DigestedYamlSpecs():
 #              extracted to easily build the \python version
 #              of the block \specs.
 ###
-    def build(self):
+    def build(self) -> None:
         self.reset_attrs()
 
         specs = self.build_specs(
@@ -85,12 +108,13 @@ class DigestedYamlSpecs():
 # prototype::
 #     :action: reset the attributes
 #              ''self.alts'',
-#              ''self.status'',
+#              ''self.main_block'',
 #              ''self.specs'',
+#              ''self.status'',
 #              ''self._last_parser'' and
 #              ''self._prepath_parts''.
 ###
-    def reset_attrs(self):
+    def reset_attrs(self) -> None:
         self.main_block = self.file.stem
         self.specs      = dict()
         self.alts       = defaultdict(list)
@@ -100,21 +124,24 @@ class DigestedYamlSpecs():
             }
         })
 
-        self._current_block = ''
-        self._last_parser = ''
-        self._prepath_parts     = []
+        self._last_parser   = ''
+        self._prepath_parts = []
 
 ###
 # prototype::
-#     specs : XXX
+#     yaml_specs : XXX
+#     status     : XXX
 #
 #     :return: XXX
+#
+#     :action: XXX
 ###
     def build_specs(
         self,
-        yaml_specs,
-        status,
-    ):
+        yaml_specs: NestedListStrDict,
+        status    : NestedBoolDict,
+    ) -> NestedParserDict:
+# Depending on the data type used, we call the associated method.
         if isinstance(yaml_specs, dict):
             return self.build_dict(
                 data_dict = yaml_specs,
@@ -127,31 +154,41 @@ class DigestedYamlSpecs():
                 status    = status
             )
 
-        raise ValueError('Only list and dict supported for main blocks.')
+# Unsupported data type in YAML config files.
+        raise ValueError(
+            'In YAML config files, only list and dict are supported.'
+        )
 
 ###
 # prototype::
 #     data_list : XXX
 #
 #     :return: XXX
+#
+#
+# note::
+#      The ''status'' \arg is only included to refactor the code
+#      and simplify recursive parsing call coding.
 ###
     def build_list(
         self,
-        data_list,
-        status, # factorisation du code, car inutilisé!!!
-    ):
+        data_list: list[str],
+        status   : NestedBoolDict,
+    ) -> ParserSpecs:
         if len(data_list) != 1:
             raise ValueError(
-                'List of parsers must have size 1.'
+                'In YAML config files, list of parsers must have '
+                'size 1.'
             )
 
         parsers_spec = self.extract_parser_spec(
-            data_list[0]
+            parser_spec = data_list[0]
         )
 
         if len(parsers_spec) != 1:
             raise ValueError(
-                'Only one parser by list of data.'
+                'In YAML config files, only one parser allowed for '
+                'a list of data.'
             )
 
         parser_spec = parsers_spec[0]
@@ -169,21 +206,24 @@ class DigestedYamlSpecs():
 ###
     def extract_parser_spec(
         self,
-        parser_spec
-    ):
-        use_post, parser_spec = self.split_xor_or(
+        parser_spec: str,
+    ) -> list[ParserSpecs]:
+        use_post, parser_spec_extracted = self.split_xor_or(
             data = parser_spec,
             deco = TAG_POST_PROCESS
         )
 
-        final_parser_spec = []
+        final_parser_specs = []
 
-        for pgroup in parser_spec:
+        for pgroup in parser_spec_extracted:
+# hhhh
             if len(pgroup) != 1:
                 raise ValueError(
-                    f'pas de virgule pour els parsers: {pgroup=}'
+                     'In YAML config files, you can use parser '
+                    f'choices via a comma. See {repr(parser_spec)}'
                 )
 
+# GGG
             parser_name = pgroup.pop()
 
             match = PATTERN_LIST_PARSER.search(parser_name)
@@ -195,6 +235,7 @@ class DigestedYamlSpecs():
             else:
                 datatype = TAG_STR
 
+# HHHH
             if parser_name == TAG_LAST_PARSER_CARD:
                 if not self._last_parser:
                     raise ValueError(
@@ -206,7 +247,8 @@ class DigestedYamlSpecs():
             else:
                 self._last_parser = parser_name
 
-            final_parser_spec.append(
+# JJJJ
+            final_parser_specs.append(
                 ParserSpecs(
                     module   = parser_name,
                     datatype = datatype,
@@ -214,11 +256,44 @@ class DigestedYamlSpecs():
                 )
             )
 
-        return final_parser_spec
+# Nothing left to do.
+        return final_parser_specs
+
+###
+# prototype::
+#     data : XX
+#     deco : XXX
+#
+#     :return: XXX
+###
+    def split_xor_or(
+        self,
+        data: str,
+        deco: str,
+    ) -> (bool, list[set[str]]):
+        data = data.strip()
+
+        if data[-1] == deco:
+            deco_used = True
+            data      = data[:-1]
+
+        else:
+            deco_used = False
+
+        xor_or_parts = [
+            set(
+                p.strip()
+                for p in part.split(TAG_COMMA)
+            )
+            for part in data.split(TAG_PIP)
+        ]
+
+        return deco_used, xor_or_parts
 
 ###
 # prototype::
 #     data_dict : XXX
+#     status    : XXX
 #
 #     :return: XXX
 ###
@@ -274,30 +349,25 @@ class DigestedYamlSpecs():
 
 ###
 # prototype::
-#     parser_spec : XXX
+#     block_spec : XXX
 #
 #     :return: XXX
 ###
-    def add_parser_2_blocks(
+    def update_alts(
         self,
-        specs,
-        block_spec  : list[set[str]],
-        content_spec: str,
+        block_spec
     ):
-        parser_spec = self.extract_parser_spec(
-            parser_spec = content_spec
-        )
+        if len(block_spec) == 1:
+            return None
 
-        if len(parser_spec) != len(block_spec):
-            if len(parser_spec) != 1:
-                raise ValueError('bad len for block name vs parser spec')
+        prepath = '.'.join(self._prepath_parts)
 
-            parser_spec = parser_spec*len(block_spec)
-
-        for i, bgroup in enumerate(block_spec):
-            for bname in bgroup:
-                specs[bname]  = parser_spec[i]
-
+# On doit construire toutes les paires possibles; aide facile pour l'utilisateur (et en plus facile à coder via itertools).
+        self.alts[prepath] += [
+            set(name_pair)
+            for pair_of_sets in combinations(block_spec, 2)
+            for name_pair in product(*pair_of_sets)
+        ]
 
 ###
 # prototype::
@@ -325,56 +395,6 @@ class DigestedYamlSpecs():
 #
 #     :return: XXX
 ###
-    def update_alts(
-        self,
-        block_spec
-    ):
-        if len(block_spec) == 1:
-            return None
-
-        prepath = '.'.join(self._prepath_parts)
-
-# On doit construire toutes les paires possibles; aide facile pour l'utilisateur (et en plus facile à coder via itertools).
-        self.alts[prepath] += [
-            set(name_pair)
-            for pair_of_sets in combinations(block_spec, 2)
-            for name_pair in product(*pair_of_sets)
-        ]
-
-###
-# prototype::
-#     :action: XXX
-###
-    def split_xor_or(
-        self,
-        data: str,
-        deco: str,
-    ) -> (bool, list[set[str]]):
-        data = data.strip()
-
-        if data[-1] == deco:
-            deco_used = True
-            data      = data[:-1]
-
-        else:
-            deco_used = False
-
-        xor_or_parts = [
-            set(
-                p.strip()
-                for p in part.split(TAG_COMMA)
-            )
-            for part in data.split(TAG_PIP)
-        ]
-
-        return deco_used, xor_or_parts
-
-###
-# prototype::
-#     parser_spec : XXX
-#
-#     :return: XXX
-###
     def get_keypath(
         self,
         key: str,
@@ -387,3 +407,29 @@ class DigestedYamlSpecs():
         keypath = f'{prefix}{key}'
 
         return keypath
+
+###
+# prototype::
+#     parser_spec : XXX
+#
+#     :return: XXX
+###
+    def add_parser_2_blocks(
+        self,
+        specs,
+        block_spec  : list[set[str]],
+        content_spec: str,
+    ):
+        parser_spec = self.extract_parser_spec(
+            parser_spec = content_spec
+        )
+
+        if len(parser_spec) != len(block_spec):
+            if len(parser_spec) != 1:
+                raise ValueError('bad len for block name vs parser spec')
+
+            parser_spec = parser_spec*len(block_spec)
+
+        for i, bgroup in enumerate(block_spec):
+            for bname in bgroup:
+                specs[bname]  = parser_spec[i]
