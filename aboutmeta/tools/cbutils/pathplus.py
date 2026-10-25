@@ -66,7 +66,7 @@ def empty_dir(folder : Path) -> None:
 def create_update_file(
     file     : Path,
     content  : str,
-    log_level: str = TAG_INFO
+    log_level: str = TAG_INFO,
 ) -> None:
     LOG_PRINTERS[log_level](f"Create or update: '{file.name}'.")
 

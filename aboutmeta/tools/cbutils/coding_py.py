@@ -126,9 +126,12 @@ def add_missing_init(folder: Path) -> None:
 #              \black package.
 ###
 def add_black_pyfile(
-    code: str,
-    file: Path
+    code     : str,
+    file     : Path,
+    log_level: str = TAG_INFO,
 ) -> None:
+    LOG_PRINTERS[log_level](f"Create or update: '{file.name}' (black formatting).")
+
     file.write_text(code)
 
     format_file_in_place(
