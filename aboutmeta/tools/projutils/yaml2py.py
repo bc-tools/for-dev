@@ -244,7 +244,7 @@ class DigestedYamlSpecs():
                 datatype = TAG_LIST
 
             else:
-                datatype = TAG_STR
+                datatype = TAG_DATA
 
 # Do we must use the last parser name automatically?
             if parser_name == TAG_LAST_PARSER_CARD:

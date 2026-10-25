@@ -20,5 +20,8 @@ TAG_ALTS         = "__ALTERNATIVES__"
 
 DATA_TYPES_ALLOWED =[
     TAG_LIST:= "list",
-    TAG_STR := "str",
+    TAG_DATA:= "data",
 ]
+
+
+TAG_STR = "str"

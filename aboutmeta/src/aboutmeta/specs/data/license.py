@@ -3,6 +3,7 @@
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/data/code/license.py'
 
+
 from json import load as json_load
 
 from pathlib import Path

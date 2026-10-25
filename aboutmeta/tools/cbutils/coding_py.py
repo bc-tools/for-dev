@@ -26,7 +26,7 @@ from .messages   import *
 TAG_INIT     = "__init__"
 INIT_FILE    = f"{TAG_INIT}.py"
 
-SHEBANG_PYTHON = "#!/usr/bin/env python3\n"
+SHEBANG_PYTHON = "#!/usr/bin/env python3"
 
 
 # ------------ #
@@ -109,6 +109,7 @@ def add_missing_init(folder: Path) -> None:
     if not initfile.is_file():
         initfile.touch()
         initfile.write_text(SHEBANG_PYTHON)
+        initfile.write_text('\n')
 
         logging.info(
             f"'{folder.name}/{INIT_FILE}' file added."
@@ -125,7 +126,7 @@ def add_missing_init(folder: Path) -> None:
 #              \black package.
 ###
 def add_black_pyfile(
-    code: Path,
+    code: str,
     file: Path
 ) -> None:
     file.write_text(code)
@@ -400,7 +401,7 @@ def add_pysrc_used(
 
     code = code.replace(
         SHEBANG_PYTHON,
-        f'{SHEBANG_PYTHON}\n{src_used}\n'
+        f'{SHEBANG_PYTHON}\n\n{src_used}\n'
     )
 
     return code

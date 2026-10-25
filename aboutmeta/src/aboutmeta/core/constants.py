@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+
+TAG_DATATYPE = '__DATATYPE__'
+TAG_PARSER   = '__PARSER__'
+TAG_USE_POST = '__USE_POST__'
+
+
+TAG_LIST = '__LIST__'
+TAG_DATA = '__DATA__'
+
+
+TAG_ALTERNATIVES = '__ALTERNATIVES__'
+TAG_IS_MANDATORY = '__IS_MANDATORY__'
+TAG_IS_PARSED    = '__IS_PARSED__'
