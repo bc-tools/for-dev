@@ -30,7 +30,6 @@ TAG_LANG = "lang"
 TAG_LICENSING = "licensing"
 TAG_PARSE = "parse"
 TAG_PERSON = "person"
-TAG_POST_PROCESS = "post_process"
 TAG_SEM_VERSION = "sem_version"
 TAG_UNIX_NAME = "unix_name"
 TAG_URL = "url"
@@ -38,49 +37,13 @@ TAG_WRITE = "write"
 TAG_YMDATE = "ymdate"
 
 ALL_PARSERS = {
-    TAG_ABOUT_PATH: {
-        TAG_PARSE: about_path.parse,
-        TAG_WRITE: about_path.write,
-        TAG_POST_PROCESS: about_path.post_process,
-    },
-    TAG_ACRONYM: {
-        TAG_PARSE: acronym.parse,
-        TAG_WRITE: acronym.write,
-        TAG_POST_PROCESS: acronym.post_process,
-    },
-    TAG_LANG: {
-        TAG_PARSE: lang.parse,
-        TAG_WRITE: lang.write,
-        TAG_POST_PROCESS: lang.post_process,
-    },
-    TAG_LICENSING: {
-        TAG_PARSE: licensing.parse,
-        TAG_WRITE: licensing.write,
-        TAG_POST_PROCESS: licensing.post_process,
-    },
-    TAG_PERSON: {
-        TAG_PARSE: person.parse,
-        TAG_WRITE: person.write,
-        TAG_POST_PROCESS: person.post_process,
-    },
-    TAG_SEM_VERSION: {
-        TAG_PARSE: sem_version.parse,
-        TAG_WRITE: sem_version.write,
-        TAG_POST_PROCESS: sem_version.post_process,
-    },
-    TAG_UNIX_NAME: {
-        TAG_PARSE: unix_name.parse,
-        TAG_WRITE: unix_name.write,
-        TAG_POST_PROCESS: unix_name.post_process,
-    },
-    TAG_URL: {
-        TAG_PARSE: url.parse,
-        TAG_WRITE: url.write,
-        TAG_POST_PROCESS: url.post_process,
-    },
-    TAG_YMDATE: {
-        TAG_PARSE: ymdate.parse,
-        TAG_WRITE: ymdate.write,
-        TAG_POST_PROCESS: ymdate.post_process,
-    },
+    TAG_ABOUT_PATH: {TAG_PARSE: about_path.parse, TAG_WRITE: about_path.write},
+    TAG_ACRONYM: {TAG_PARSE: acronym.parse, TAG_WRITE: acronym.write},
+    TAG_LANG: {TAG_PARSE: lang.parse, TAG_WRITE: lang.write},
+    TAG_LICENSING: {TAG_PARSE: licensing.parse, TAG_WRITE: licensing.write},
+    TAG_PERSON: {TAG_PARSE: person.parse, TAG_WRITE: person.write},
+    TAG_SEM_VERSION: {TAG_PARSE: sem_version.parse, TAG_WRITE: sem_version.write},
+    TAG_UNIX_NAME: {TAG_PARSE: unix_name.parse, TAG_WRITE: unix_name.write},
+    TAG_URL: {TAG_PARSE: url.parse, TAG_WRITE: url.write},
+    TAG_YMDATE: {TAG_PARSE: ymdate.parse, TAG_WRITE: ymdate.write},
 }

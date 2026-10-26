@@ -107,11 +107,11 @@ def expose_several_data(
 
 # Do we have to add this optional data exposed?
             if not file_has_attr(
+                parent    = parent,
+                name      = name,
                 attr_name = de,
-                file      = parent,
             ):
                 break
-
 
 # Let's add a new data exposed.
         tags.add(de)
@@ -129,30 +129,29 @@ def expose_several_data(
 
 
 def file_has_attr(
+    parent   : Path,
+    name     : str,
     attr_name: str,
-    file     : Path,
 ) -> bool:
-    code = file.read_text()
+    file  = parent / f'{name}.py'
+    code  = file.read_text()
+    pyast = ast.parse(code)
 
-    tree = ast.parse(code_source)
+    for node in ast.iter_child_nodes(pyast):
+         if isinstance(node, ast.FunctionDef):
+            if attr_name == node.name:
+                return True
 
-    exit()
+         if (
+            isinstance(node, ast.Name)
+            and
+            isinstance(node.ctx, ast.Store)
+         ):
+            if attr_name == node.name:
+                return True
 
-#   resultat = {"fonction": False, "variable": False}
+    return False
 
-#   # Parcourt tous les nœuds de l'arbre
-#   for node in ast.walk(tree):
-#     # Vérifie si c'est une définition de fonction
-#     if isinstance(node, ast.FunctionDef) and node.name == nom_recherche:
-#       resultat["fonction"] = True
-
-#     # Vérifie si c'est une affectation de variable
-#     elif isinstance(node, ast.Assign):
-#       for target in node.targets:
-#         if isinstance(target, ast.Name) and target.id == nom_recherche:
-#           resultat["variable"] = True
-
-#   return resultat
 
 # ----------------- #
 # -- LET'S WORK! -- #
