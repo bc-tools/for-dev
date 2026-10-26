@@ -46,6 +46,24 @@ CONTRIB_CFG_DIR_RELATIVE = (
 )
 
 
+# ------------------ #
+# -- CONSTANTS #2 -- #
+# ------------------ #
+
+SET_MANDATORY_PARSED = set([
+    TAG_IS_MANDATORY,
+    TAG_IS_PARSED
+])
+
+
+PATTERN_HACK_ALTS = re.compile(
+    r"'__ALTERNATIVES__'\s*:\s*\[{5}(.*?)\]{5}"
+)
+
+HOOKS_OPEN_4  = '['*4
+HOOKS_CLOSE_4 = ']'*4
+
+
 # ------------ #
 # -- TYPING -- #
 # ------------ #
@@ -53,6 +71,11 @@ CONTRIB_CFG_DIR_RELATIVE = (
 type NestedStrDictType = dict[
     str,
     NestedStrDictType | str
+]
+
+type NestedList6StrDictType = dict[
+    str,
+    NestedListStrDictType | list[list[list[list[listlist[str]]]]]
 ]
 
 
@@ -119,12 +142,6 @@ def get_pyspecs(
     return pyspecs
 
 
-SET_MANDATORY_PARSED = set([
-    TAG_IS_MANDATORY,
-    TAG_IS_PARSED
-])
-
-
 def get_pystatus(
     shortcuts_used: dict[str, ParserSpecs],
     status        : NestedBoolDictType
@@ -171,6 +188,56 @@ def get_pystatus(
             )
 
     return pystatus
+
+
+def hack_deter_alts_data(
+    data: object,
+) -> NestedList6StrDictType:
+    if isinstance(data, dict):
+        for k, v in data.items():
+            if k == TAG_ALTS:
+                v = [[[[
+                    sorted([
+                        sorted(list(elt))
+                        for elt in v
+                    ])
+                ]]]]
+
+            else:
+                hack_deter_alts_data(v)
+
+            data[k] = v
+
+    return data
+
+
+def hack_deter_alts_pycode(
+    code: str,
+) -> str:
+    match = PATTERN_HACK_ALTS.findall(
+        code,
+        re.DOTALL
+    )
+
+    for old in match:
+        old += ']'
+        new  = old
+
+        for (h, b) in [
+            ('[', '{'),
+            (']', '}'),
+        ]:
+            new = new.replace(h, b)
+
+        code = code.replace(old, new)
+
+    for to_remove in [
+        HOOKS_OPEN_4,
+        HOOKS_CLOSE_4,
+    ]:
+        code = code.replace(to_remove, '')
+
+    return code
 
 
 # ----------------- #
@@ -250,6 +317,10 @@ for folder, contribs in get_accepted_paths(
             for k in sorted(shortcuts_used)
         )
 
+        deter_alts = hack_deter_alts_data(
+            digested_yaml.alts
+        )
+
         block_spec_pycode = f'''
 {SHEBANG_PYTHON}
 
@@ -278,8 +349,10 @@ BLOCK_PARSERS = benedict({pyspecs})
 
 BLOCK_STATUS = benedict({pystatus})
 
-BLOCK_ALTS = benedict({digested_yaml.alts})
+BLOCK_ALTS = benedict({deter_alts})
         '''.strip() + '\n'
+
+        block_spec_pycode= hack_deter_alts_pycode(block_spec_pycode)
 
         for old, new in [
             ("'__", "'@TAG_"),

@@ -144,8 +144,8 @@ BLOCK_ALTS = benedict(
     {
         "project": {
             TAG_ALTERNATIVES: [
-                {"codename", "doctitle"},
                 {"author", "authors"},
+                {"codename", "doctitle"},
                 {"contrib", "contribs"},
             ]
         }
