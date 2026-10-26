@@ -12,9 +12,7 @@
 from natsort import natsorted
 
 
-from aboutmeta.amdata import AMData
-
-from aboutmeta.specs.data.tocpath import (
+from aboutmeta.specs.data.toc_path import (
     Path,
     TOCPath,
     TAG_TOC_PATH_RAW,
@@ -39,7 +37,7 @@ from aboutmeta.specs.data.tocpath import (
 #              easily with the license.
 ###
 def parse(
-    amdata: AMData,
+    amdata: object,
     data  : str
 ) -> TOCPath:
 # No parsing, and all job done by the class

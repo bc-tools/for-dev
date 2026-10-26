@@ -13,7 +13,7 @@
 from benedict import benedict
 
 from aboutmeta.core.constants import *
-from aboutmeta.parsers.parser import (
+from aboutmeta.specs.parser import (
     acronym,
     lang,
     license,

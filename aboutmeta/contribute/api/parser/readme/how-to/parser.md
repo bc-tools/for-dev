@@ -9,3 +9,6 @@ Here are the steps to follow.
      + `parse(data: object) -> object` must be used if only data needs to be analyzed, regardless of other of the `about.yaml` file being analyzed.
 
      + `parse(amdata_cls: object, data: object) -> object` takes into account an instance of the class `aboutmeta.amdata.AMData`. For reference, see the `contrib/parser/code/about_path.py` file.
+
+
+> ***CAUTION.*** *To avoid circular imports, do not use `from aboutmeta.amdata import AMData` when working with `amdata_cls`, which should always be typed as `object`. Unit tests must also work with a mock `AMData` class.*

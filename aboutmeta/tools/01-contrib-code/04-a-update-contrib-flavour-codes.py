@@ -13,9 +13,9 @@ from cbutils.contrib    import *
 from projutils.constants import TAG_OPTIONAL
 
 
-# ------------------ #
-# -- CONSTANTS #1 -- #
-# ------------------ #
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
 
 CONTEXT  = 'flavour'
 MSG_CTXT = f'{CONTEXT} config contrib'
@@ -27,9 +27,9 @@ PROJECT_DIR = THIS_DIR
 while(PROJECT_DIR.name != 'aboutmeta'):
     PROJECT_DIR = PROJECT_DIR.parent
 
-SPECS_DIR       = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
-BLOCK_PARSERS_DIR = SPECS_DIR / CONTEXT
-CONTRIB_DIR     = (
+SPECS_DIR   = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
+FLAVOUR_DIR = SPECS_DIR / CONTEXT
+CONTRIB_DIR = (
       PROJECT_DIR / 'contribute' / 'api'
     / 'block-n-flavour' / CONTEXT
 )
@@ -62,7 +62,7 @@ for f in [
     empty_dir,
     add_missing_init,
 ]:
-    f(BLOCK_PARSERS_DIR)
+    f(FLAVOUR_DIR)
 
 
 for folder, contribs in get_accepted_paths(
@@ -114,9 +114,7 @@ for folder, contribs in get_accepted_paths(
             pyspecs[parser_spec] = spec
 
 # Let's build the Python code.
-        imports_need = ', '.join(
-            sorted(pyspecs)
-        )
+        imports_need = ', '.join(sorted(pyspecs))
 
         flavour_spec_pycode = f'''
 {SHEBANG_PYTHON}
@@ -148,5 +146,5 @@ FLAVOUR_SPECS = {pyspecs}
 
         add_black_pyfile(
             code = flavour_spec_pycode,
-            file = BLOCK_PARSERS_DIR / f'{pysuglify(contrib_file.stem)}.py'
+            file = FLAVOUR_DIR / f'{pysuglify(contrib_file.stem)}.py'
         )

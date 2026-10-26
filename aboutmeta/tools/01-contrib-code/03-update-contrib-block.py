@@ -27,9 +27,9 @@ PROJECT_DIR = THIS_DIR
 while(PROJECT_DIR.name != 'aboutmeta'):
     PROJECT_DIR = PROJECT_DIR.parent
 
-SPECS_DIR       = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
-BLOCK_PARSERS_DIR = SPECS_DIR / CONTEXT
-CONTRIB_DIR     = (
+SPECS_DIR   = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
+BLOCK_DIR   = SPECS_DIR / CONTEXT
+CONTRIB_DIR = (
       PROJECT_DIR / 'contribute' / 'api'
     / 'block-n-flavour' / CONTEXT
 )
@@ -248,7 +248,7 @@ for f in [
     empty_dir,
     add_missing_init,
 ]:
-    f(BLOCK_PARSERS_DIR)
+    f(BLOCK_DIR)
 
 
 for folder, contribs in get_accepted_paths(
@@ -335,7 +335,7 @@ for folder, contribs in get_accepted_paths(
 from benedict import benedict
 
 from aboutmeta.core.constants import *
-from aboutmeta.parsers.parser   import {imports_need}
+from aboutmeta.specs.parser   import {imports_need}
 
 
 {magic_title('INTERNAL SHORTCUTS')}
@@ -372,5 +372,5 @@ BLOCK_ALTS = benedict({deter_alts})
 
         add_black_pyfile(
             code = block_spec_pycode,
-            file = BLOCK_PARSERS_DIR / f'{contrib_file.stem}.py'
+            file = BLOCK_DIR / f'{contrib_file.stem}.py'
         )

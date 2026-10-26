@@ -26,7 +26,7 @@ PROJECT_DIR = THIS_DIR
 while(PROJECT_DIR.name != 'aboutmeta'):
     PROJECT_DIR = PROJECT_DIR.parent
 
-SPECS_DIR     = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
+SPECS_DIR      = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
 DATA_SPECS_DIR = SPECS_DIR / CONTEXT
 CONTRIB_DIR    = PROJECT_DIR / 'contribute' / 'api' / CONTEXT
 

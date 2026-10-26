@@ -172,7 +172,7 @@ def append_black_pyfile(
 #     path_src : path of the \src code used to build ''code''
 #
 #     :return: the \python code with an additional text indicated
-#              ''path_src'' as \src used to build ''code''
+#              ''path_src'' as \src used to build ''code''.
 ###
 def add_pysrc_used(
     code    : str,

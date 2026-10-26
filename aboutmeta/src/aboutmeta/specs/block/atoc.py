@@ -13,7 +13,7 @@
 from benedict import benedict
 
 from aboutmeta.core.constants import *
-from aboutmeta.parsers.parser import about_path
+from aboutmeta.specs.parser import about_path
 
 
 # ------------------------ #
