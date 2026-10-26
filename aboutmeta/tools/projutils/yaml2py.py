@@ -424,8 +424,8 @@ class DigestedYamlSpecs():
 
 ###
 # prototype::
-#     parser_found : ''True'' indicates that the blocks specified in
-#                    ''block_spec'' are all for dat to be parsed.
+#     parser_found : ''True'' indicates that the blocks specified
+#                    in ''block_spec'' are all for dat to be parsed.
 #     is_optional  : ''True'' indicates that the blocks specified
 #                    in ''block_spec'' are all optional. Otherwise,
 #                    they are all mandatory.
@@ -440,7 +440,9 @@ class DigestedYamlSpecs():
         block_spec  : ListSetStrType,
     ) -> None:
         for bgroup in block_spec:
-            for bname in bgroup:
+# For deterministic Python code, we must sort the choices made.
+# It is not a problem because sorting is meaningless for choices.
+            for bname in sorted(bgroup):
                 blockpath = self.get_blockpath(bname)
                 blockpath = f'{self.main_block}.{blockpath}'
 
@@ -501,5 +503,7 @@ class DigestedYamlSpecs():
             _parser_spec = _parser_spec*len(block_spec)
 
         for i, bgroup in enumerate(block_spec):
-            for bname in bgroup:
+# For deterministic Python code, we must sort the choices made.
+# It is not a problem because sorting is meaningless for choices.
+            for bname in sorted(bgroup):
                 specs[bname] = _parser_spec[i]

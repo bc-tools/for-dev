@@ -85,9 +85,9 @@ BLOCK_PARSERS = benedict(
             "contrib": __PARSER_PERSON_DATA,
             "contribs": __PARSER_PERSON_LIST,
             "urls": {
-                "issues": __PARSER_URL_DATA,
-                "home": __PARSER_URL_DATA,
                 "dev": __PARSER_URL_DATA,
+                "home": __PARSER_URL_DATA,
+                "issues": __PARSER_URL_DATA,
             },
             "licenses": {
                 "code": __PARSER_LICENSE_DATA,
@@ -118,9 +118,9 @@ BLOCK_STATUS = benedict(
             "urls": {
                 TAG_IS_MANDATORY: False,
                 TAG_IS_PARSED: False,
-                "issues": __STATUS_OPTIONAL_PARSED,
-                "home": __STATUS_OPTIONAL_PARSED,
                 "dev": __STATUS_OPTIONAL_PARSED,
+                "home": __STATUS_OPTIONAL_PARSED,
+                "issues": __STATUS_OPTIONAL_PARSED,
             },
             "licenses": {
                 TAG_IS_MANDATORY: False,
@@ -144,7 +144,7 @@ BLOCK_ALTS = benedict(
     {
         "project": {
             TAG_ALTERNATIVES: [
-                {"doctitle", "codename"},
+                {"codename", "doctitle"},
                 {"author", "authors"},
                 {"contrib", "contribs"},
             ]
