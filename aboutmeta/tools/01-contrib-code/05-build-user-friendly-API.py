@@ -14,18 +14,13 @@ from cbutils.coding_py  import *
 # -- CONSTANTS #1 -- #
 # ------------------ #
 
-CONTEXT  = 'flavour'
-
-
 THIS_DIR    = Path(__file__).parent
 PROJECT_DIR = THIS_DIR
 
 while(PROJECT_DIR.name != 'aboutmeta'):
     PROJECT_DIR = PROJECT_DIR.parent
 
-SPECS_DIR           = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
-FLAVOUR_DIR         = SPECS_DIR / CONTEXT
-ALL_FLAVOURS_PYFILE = FLAVOUR_DIR / '__ALL_FLAVOURS__.py'
+SPECS_DIR = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
 
 THIS_FILE_RELATIVE = (
       Path('aboutmeta')
@@ -37,14 +32,57 @@ THIS_FILE_RELATIVE = (
 # -- CONSTANTS #2 -- #
 # ------------------ #
 
-TAG_FLAVOUR_SPECS = 'FLAVOUR_SPECS'
+
+
+# ----------- #
+# -- TOOLS -- #
+# ----------- #
+
 
 
 # ----------------- #
 # -- LET'S WORK! -- #
 # ----------------- #
 
-logging.info(f"Working on 'ALL_FLAVOURS' dict.")
+logging.info(f"Working on 'user friendly API'.")
+
+for special_dir in SPECS_DIR.glob('*'):
+    if (
+        special_dir.name.startswith('_')
+        or
+        not special_dir.is_dir()
+    ):
+        continue
+
+    kind = special_dir.name
+
+    if kind == 'data':
+        continue
+
+    KIND = kind.upper()
+
+    logging.info(f"Analyzing 'aboutmeta/specs/{kind}' folder.")
+
+    exit()
+
+
+    pyfile = special_dir / f'__ALL_{KIND}S__.py'
+    pyfile.touch()
+
+
+
+
+
+
+TAG_FLAVOUR_SPECS = 'FLAVOUR_SPECS'
+
+CONTEXT  = 'flavour'
+
+FLAVOUR_DIR         = SPECS_DIR / CONTEXT
+
+
+
+
 
 all_flavours = []
 

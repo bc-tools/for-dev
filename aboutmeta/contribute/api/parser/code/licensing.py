@@ -14,7 +14,7 @@
 ###
 
 
-from aboutmeta.specs.data.license import License
+from aboutmeta.specs.data.licensing import Licensing
 
 
 # ------------ #
@@ -26,13 +26,13 @@ from aboutmeta.specs.data.license import License
 #     data : the \lic code provided in the \yaml file, but
 #            stripped.
 #
-#     :return: an instance of the class ''License'' to work
+#     :return: an instance of the class ''Licensing'' to work
 #              easily with the license.
 ###
-def parse(data: str) -> License:
+def parse(data: str) -> Licensing:
 # No parsing, and all job done by the class
 # ''aboutmeta.specs.data.license.License''.
-    return License(spdx_id = data)
+    return Licensing(spdx_id = data)
 
 
 # ------------ #
@@ -41,13 +41,13 @@ def parse(data: str) -> License:
 
 ###
 # prototype::
-#     data : a ''License'' object.
+#     data : a ''Licensing'' object.
 #
 #     :return: a human-friendly, standard \yaml representation of
 #              the ''License'' object: this is the \spdx lowercase
 #              identifier and spaces instead of hyphens.
 ###
-def write(data: License) -> str:
+def write(data: Licensing) -> str:
     text = data.spdx_id.lower()
     text = text.replace('-', ' ')
 

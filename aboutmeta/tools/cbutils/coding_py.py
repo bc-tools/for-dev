@@ -195,14 +195,34 @@ def add_pysrc_used(
 # -- FOR PYTHON VARS -- #
 # --------------------- #
 
+###
+# prototype::
+#     name : kkkk
+#
+#     :return: llll
+###
 def get_tag(name):
     return f'TAG_{name.upper()}'
 
 
+###
+# prototype::
+#     name : kkkk
+#
+#     :return: llll
+#
+#     :see: normalize_prestr_2_pyvar
+###
 def prestr_2_pyvar(name):
     return f'@{name}@'
 
 
+###
+# prototype::
+#     code : jjjj
+#
+#     :return: llll
+###
 def normalize_prestr_2_pyvar(code):
     for to_remove in [
         "'@",

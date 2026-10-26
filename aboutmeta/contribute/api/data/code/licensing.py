@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-# Code extracted from the maintained Python file
-# 'aboutmeta/contribute/api/data/code/license.py'
-
-
 from json import load as json_load
 
 from pathlib import Path
@@ -26,7 +22,10 @@ from aboutmeta.core.validate     import validate_type
 # -- DATA -- #
 # ---------- #
 
-LICENSES_JSON_FILE = Path(__file__).parent / "license-spdx.json"
+LICENSES_JSON_FILE = (
+      Path(__file__).parent
+    / f"{Path(__file__).stem}-spdx.json"
+)
 
 
 _PATTERN_NORMALIZED_LICENSE_CODE = re.compile(r"[\s_\-\.]+")
@@ -52,7 +51,7 @@ _PATTERN_NORMALIZED_LICENSE_CODE = re.compile(r"[\s_\-\.]+")
 #     casing: if a user enters ''gpl 3.0 only'' it will be saved as
 #     ''GPL-3.0-only''.
 ###
-class License(DataManager):
+class Licensing(DataManager):
     spdx_id: str
     name   : str = field(init = False)
     url    : str = field(init = False)
@@ -180,3 +179,128 @@ def _license_matches(
             combined.append(match[1])
 
     return sorted(combined[:max_suggestions])
+
+
+# ----------- #
+# -- TOOLS -- #
+# ----------- #
+
+###
+# prototype::
+#     :action: build a local \std version of the online SPDX
+#              path::''licenses.json'' file.
+###
+def tool_update_license_json() -> None:
+    from json import dumps as json_dumps
+
+    import requests
+
+    SPDX_URL  = "https://raw.githubusercontent.com/spdx/"
+    SPDX_URL += "license-list-data/refs/heads/main/json/licenses.json"
+
+    TAG_SPDX_LICENSES = 'licenses'
+
+    TAG_SPDX_LICENSE_ID         = 'licenseId'
+    TAG_SPDX_LICENSE_NAME       = 'name'
+    TAG_SPDX_LICENSE_REF        = 'reference'
+    TAG_SPDX_LICENSE_DEPRECATED = "isDeprecatedLicenseId"
+
+# The SPDX data online.
+    try:
+        response = requests.get(
+            url     = SPDX_URL,
+            timeout = 5
+        )
+
+        if response.status_code == 200:
+            spdx_data = response.json()
+
+        elif response.status_code == 404:
+            raise FileNotFoundError(
+                f"aboutmeta BUG!\nBad SPDX_URL:\n{SPDX_URL}"
+            )
+
+        else:
+            raise RuntimeError(
+                f"HTTP error {response.status_code}."
+            )
+
+    except requests.exceptions.RequestException as e:
+        raise e
+
+# Our local data.
+    licenses = {
+        '__version__': spdx_data["licenseListVersion"]
+    }
+
+    for lic in spdx_data[TAG_SPDX_LICENSES]:
+        license_ID = lic[TAG_SPDX_LICENSE_ID]
+        normal_ID  = _normalize_lic_code(license_ID)
+
+        if normal_ID in licenses:
+            raise Exception(
+                 "unbijective normal transformation of license names:"
+                 "\n"
+                f"{license_ID} --> {normal_ID}. "
+                 "BUG!"
+            )
+
+        licenses[normal_ID] = {
+            'std'       : license_ID,
+            'name'      : lic[TAG_SPDX_LICENSE_NAME],
+            'ref'       : lic[TAG_SPDX_LICENSE_REF],
+            'deprecated': lic[TAG_SPDX_LICENSE_DEPRECATED]
+        }
+
+    LICENSES_JSON_FILE.write_text(json_dumps(licenses))
+
+
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+# Update the license data.
+    tool_update_license_json()
+
+# GOOD
+    print('')
+    print("-- GOOD CASES --")
+
+    for yaml_data in [
+        "gpl   3.0 only ",
+        "cc    by nc 4.0",
+    ]:
+        mydata = Licensing(spdx_id = yaml_data)
+
+        print()
+        print(f"{yaml_data = }")
+        print(f"{mydata    = }")
+
+# BAD
+    # exit()
+
+    print('')
+    print("-- BAD CASES --")
+
+    for yaml_data in [
+        123,
+        "gpl  3.0 +",
+        "gpl",
+        "cc nc",
+        "cc",
+        " ",
+    ]:
+        print()
+        print(f"{yaml_data = }")
+
+        try:
+            Licensing(spdx_id = yaml_data)
+
+        except Exception as e:
+            print(type(e).__name__, ':', e)
+
+            notes = getattr(e, "__notes__", [])
+
+            for i, n in enumerate(notes, start = 1):
+                print(f'[{i}]. {n}')

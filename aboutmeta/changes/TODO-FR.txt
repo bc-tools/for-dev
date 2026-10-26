@@ -3,6 +3,14 @@ aboutmeta - TODO
 =========
 
 
+> ---------------------------- <
+
+map_... remplacer par un unique post_process utilisable comme on le veut en gardant l'idée que'une liste de données parser nourrit ce nouvelle fonction
+
+
+> ---------------------------- <
+
+license : Ce n'est pas un module, mais une fonction intégrée (built-in) accessible dans la console interactive pour afficher la licence de Python (ex: taper license() dans le REPL). Il existe cependant des paquets tiers sur PyPI portant ce nom, mais aucun n'est natif.
 
 
 > ---------------------------- <
