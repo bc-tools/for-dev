@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 
+
+
+
+
+
+exit()
+
 from pathlib import Path
 import              sys
 
@@ -10,9 +17,9 @@ from cbutils.pathplus   import *
 from cbutils.coding_py  import *
 
 
-# --------------- #
-# -- CONSTANTS -- #
-# --------------- #
+# ------------------ #
+# -- CONSTANTS #1 -- #
+# ------------------ #
 
 CONTEXT  = 'flavour'
 
@@ -31,6 +38,13 @@ THIS_FILE_RELATIVE = (
       Path('aboutmeta')
     / Path(__file__).relative_to(PROJECT_DIR)
 )
+
+
+# ------------------ #
+# -- CONSTANTS #2 -- #
+# ------------------ #
+
+TAG_FLAVOUR_SPECS = 'FLAVOUR_SPECS'
 
 
 # ----------------- #
@@ -52,6 +66,21 @@ for p in FLAVOUR_DIR.glob('*.py'):
 all_flavours.sort()
 
 
+pytags = '\n'.join(
+    f'{get_tag(f)} = "{f}"'
+    for f in all_flavours
+)
+
+
+pyspecs = dict()
+
+for f in all_flavours:
+    pyspecs[
+        prestr_2_pyvar(get_tag(f))
+    ] = prestr_2_pyvar(
+        f'{f}.FLAVOUR_SPECS'
+    )
+
 # Let's build the Python code.
 imports_need = ', '.join(all_flavours)
 
@@ -68,9 +97,14 @@ from aboutmeta.specs.flavour import {imports_need}
 
 {magic_title('ALL FLAVOUR SPECS')}
 
-#ALL_FLAVOURS = {'pyspecs'}
+{pytags}
+
+ALL_FLAVOURS = {pyspecs}
         '''.strip() + '\n'
 
+all_flavours_pycode = normalize_prestr_2_pyvar(
+    all_flavours_pycode
+)
 
 add_black_pyfile(
     code = all_flavours_pycode,

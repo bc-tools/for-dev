@@ -83,10 +83,6 @@ type NestedList6StrDictType = dict[
 # -- TOOLS -- #
 # ----------- #
 
-def prestr_2_pyvar(name):
-    return f'@{name}@'
-
-
 def build_parsers_needed(
     parsers_needed: set[ParserSpecs],
     yaml_specs    : NestedParserDictType,
@@ -362,13 +358,9 @@ BLOCK_ALTS = benedict({deter_alts})
                 old, new
             )
 
-        for to_remove in [
-            "'@",
-            "@'",
-        ]:
-            block_spec_pycode = block_spec_pycode.replace(
-                to_remove, ''
-            )
+        block_spec_pycode = normalize_prestr_2_pyvar(
+            block_spec_pycode
+        )
 
         add_black_pyfile(
             code = block_spec_pycode,

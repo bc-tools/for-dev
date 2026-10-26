@@ -191,6 +191,28 @@ def add_pysrc_used(
     return code
 
 
+# --------------------- #
+# -- FOR PYTHON VARS -- #
+# --------------------- #
+
+def get_tag(name):
+    return f'TAG_{name.upper()}'
+
+
+def prestr_2_pyvar(name):
+    return f'@{name}@'
+
+
+def normalize_prestr_2_pyvar(code):
+    for to_remove in [
+        "'@",
+        "@'",
+    ]:
+        code = code.replace(to_remove, '')
+
+    return code
+
+
 # ------------------------- #
 # -- ANALYZE PYTHON CODE -- #
 # ------------------------- #

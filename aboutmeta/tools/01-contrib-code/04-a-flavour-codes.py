@@ -46,14 +46,6 @@ CONTRIB_CFG_DIR_RELATIVE = (
 )
 
 
-# ----------- #
-# -- TOOLS -- #
-# ----------- #
-
-def prestr_2_pyvar(name):
-    return f'@{name}@'
-
-
 # ----------------- #
 # -- LET'S WORK! -- #
 # ----------------- #
@@ -136,13 +128,9 @@ from aboutmeta.specs.block    import {imports_need}
 FLAVOUR_SPECS = {pyspecs}
         '''.strip() + '\n'
 
-        for to_remove in [
-            "'@",
-            "@'",
-        ]:
-            flavour_spec_pycode = flavour_spec_pycode.replace(
-                to_remove, ''
-            )
+        flavour_spec_pycode = normalize_prestr_2_pyvar(
+            flavour_spec_pycode
+        )
 
         add_black_pyfile(
             code = flavour_spec_pycode,
