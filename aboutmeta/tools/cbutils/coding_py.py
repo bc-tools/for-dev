@@ -108,8 +108,7 @@ def add_missing_init(folder: Path) -> None:
 
     if not initfile.is_file():
         initfile.touch()
-        initfile.write_text(SHEBANG_PYTHON)
-        initfile.write_text('\n')
+        initfile.write_text(SHEBANG_PYTHON + '\n')
 
         logging.info(
             f"'{folder.name}/{INIT_FILE}' file added."
