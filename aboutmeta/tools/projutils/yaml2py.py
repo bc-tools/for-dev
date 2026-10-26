@@ -109,7 +109,7 @@ class DigestedYamlSpecs():
             safe_load(self.file.read_text())
         )
 
-        self.specs = {
+        self.parsers = {
             self.main_block: specs
         }
 
@@ -118,14 +118,14 @@ class DigestedYamlSpecs():
 #     :action: reset the attributes
 #              ''self.alts'',
 #              ''self.main_block'',
-#              ''self.specs'',
+#              ''self.parsers'',
 #              ''self.status'',
 #              ''self._last_parser'' and
 #              ''self._prepath_parts''.
 ###
     def reset_attrs(self) -> None:
         self.main_block = self.file.stem
-        self.specs      = dict()
+        self.parsers    = dict()
         self.alts       = benedict()
         self.status     = benedict({
             self.main_block: {
@@ -241,7 +241,7 @@ class DigestedYamlSpecs():
 
             if match:
                 parser_name = match.group(1)
-                datatype = TAG_LIST
+                datatype    = TAG_LIST
 
             else:
                 datatype = TAG_DATA
@@ -341,16 +341,16 @@ class DigestedYamlSpecs():
 # We take care of alternatives, choices and status.
             self.update_alts(block_spec)
             self.update_status(
-                parser_found,
-                is_optional,
-                block_spec
+                parser_found = parser_found,
+                is_optional  = is_optional,
+                block_spec   = block_spec,
             )
 
 # We have a parser spec.
             if parser_found:
                 self.add_parsers_2_blocks(
-                    specs        = sub_specs,
-                    block_spec   = block_spec,
+                    specs       = sub_specs,
+                    block_spec  = block_spec,
                     parser_spec = parser_spec,
                 )
 
@@ -482,8 +482,8 @@ class DigestedYamlSpecs():
 ###
     def add_parsers_2_blocks(
         self,
-        specs       : NestedParserDictType,
-        block_spec  : ListSetStrType,
+        specs      : NestedParserDictType,
+        block_spec : ListSetStrType,
         parser_spec: str,
     ) -> None:
         _parser_spec = self.extract_parser_spec(

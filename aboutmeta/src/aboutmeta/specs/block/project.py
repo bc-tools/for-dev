@@ -13,7 +13,7 @@
 from benedict import benedict
 
 from aboutmeta.core.constants import *
-from aboutmeta.specs.parser import (
+from aboutmeta.parsers.parser import (
     acronym,
     lang,
     license,
@@ -86,12 +86,12 @@ BLOCK_PARSERS = benedict(
             "contribs": __PARSER_PERSON_LIST,
             "urls": {
                 "issues": __PARSER_URL_DATA,
-                "dev": __PARSER_URL_DATA,
                 "home": __PARSER_URL_DATA,
+                "dev": __PARSER_URL_DATA,
             },
             "licenses": {
-                "manual": __PARSER_LICENSE_DATA,
                 "code": __PARSER_LICENSE_DATA,
+                "manual": __PARSER_LICENSE_DATA,
             },
             "langs": {"doc": __PARSER_LANG_DATA, "manual": __PARSER_LANG_DATA},
             "require": __PARSER_STR_LIST,
@@ -119,14 +119,14 @@ BLOCK_STATUS = benedict(
                 TAG_IS_MANDATORY: False,
                 TAG_IS_PARSED: False,
                 "issues": __STATUS_OPTIONAL_PARSED,
-                "dev": __STATUS_OPTIONAL_PARSED,
                 "home": __STATUS_OPTIONAL_PARSED,
+                "dev": __STATUS_OPTIONAL_PARSED,
             },
             "licenses": {
                 TAG_IS_MANDATORY: False,
                 TAG_IS_PARSED: False,
-                "manual": __STATUS_OPTIONAL_PARSED,
                 "code": __STATUS_OPTIONAL_PARSED,
+                "manual": __STATUS_OPTIONAL_PARSED,
             },
             "langs": {
                 TAG_IS_MANDATORY: False,
@@ -145,8 +145,8 @@ BLOCK_ALTS = benedict(
         "project": {
             TAG_ALTERNATIVES: [
                 {"doctitle", "codename"},
-                {"authors", "author"},
-                {"contribs", "contrib"},
+                {"author", "authors"},
+                {"contrib", "contribs"},
             ]
         }
     }

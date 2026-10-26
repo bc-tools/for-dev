@@ -203,7 +203,7 @@ for folder, contribs in get_accepted_paths(
 # # DEBUG - START
 #         from pprint import pprint
 #         print('---')
-#         pprint(digested_yaml.specs)
+#         pprint(digested_yaml.parsers)
 #         print('---')
 #         print(digested_yaml.status.to_json(indent=4))
 #         print('---')
@@ -217,14 +217,14 @@ for folder, contribs in get_accepted_paths(
 
         build_parsers_needed(
             parsers_needed = parsers_needed,
-            yaml_specs     = digested_yaml.specs,
+            yaml_specs     = digested_yaml.parsers,
         )
 
         shortcuts_used = dict()
 
         pyspecs = get_pyspecs(
             shortcuts_used = shortcuts_used,
-            yaml_specs     = digested_yaml.specs,
+            yaml_specs     = digested_yaml.parsers,
         )
 
         pystatus = get_pystatus(
@@ -264,7 +264,7 @@ for folder, contribs in get_accepted_paths(
 from benedict import benedict
 
 from aboutmeta.core.constants import *
-from aboutmeta.specs.parser   import {imports_need}
+from aboutmeta.parsers.parser   import {imports_need}
 
 
 {magic_title('INTERNAL SHORTCUTS')}
