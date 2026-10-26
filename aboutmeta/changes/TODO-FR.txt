@@ -10,11 +10,6 @@ map_... remplacer par un unique post_process utilisable comme on le veut en gard
 
 > ---------------------------- <
 
-license : Ce n'est pas un module, mais une fonction intégrée (built-in) accessible dans la console interactive pour afficher la licence de Python (ex: taper license() dans le REPL). Il existe cependant des paquets tiers sur PyPI portant ce nom, mais aucun n'est natif.
-
-
-> ---------------------------- <
-
 géré lisnertion automatiqsé des bouts de code des specs de b;locs
 
 penser à gerer la nouveauté et dans ce cas la le dater !!!

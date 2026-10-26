@@ -16,7 +16,7 @@ from aboutmeta.core.constants import *
 from aboutmeta.specs.parser import (
     acronym,
     lang,
-    license,
+    licensing,
     person,
     sem_version,
     url,
@@ -36,8 +36,8 @@ __PARSER_ACRONYM_DATA = {
 
 __PARSER_LANG_DATA = {TAG_PARSER: lang, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
 
-__PARSER_LICENSE_DATA = {
-    TAG_PARSER: license,
+__PARSER_LICENSING_DATA = {
+    TAG_PARSER: licensing,
     TAG_USE_POST: False,
     TAG_DATATYPE: TAG_DATA,
 }
@@ -90,8 +90,8 @@ BLOCK_PARSERS = benedict(
                 "issues": __PARSER_URL_DATA,
             },
             "licenses": {
-                "code": __PARSER_LICENSE_DATA,
-                "manual": __PARSER_LICENSE_DATA,
+                "code": __PARSER_LICENSING_DATA,
+                "manual": __PARSER_LICENSING_DATA,
             },
             "langs": {"doc": __PARSER_LANG_DATA, "manual": __PARSER_LANG_DATA},
             "require": __PARSER_STR_LIST,

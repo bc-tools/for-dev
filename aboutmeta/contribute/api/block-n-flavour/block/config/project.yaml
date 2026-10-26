@@ -181,7 +181,7 @@ urls *:
 #       manual: cc by nc 4.0
 ###
 licenses *:
-  code, manual *: license
+  code, manual *: licensing
 
 
 ###
