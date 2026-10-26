@@ -287,6 +287,18 @@ class TOCPath(DataManager):
 
         self.data_pb.validated(self.parent)
 
+
+
+
+
+
+
+
+
+
+
+
+
 ###
 # prototype::
 #     :action: check for unbroken raw path.

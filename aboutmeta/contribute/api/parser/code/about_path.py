@@ -16,9 +16,7 @@ from aboutmeta.specs.data.toc_path import (
     Path,
     TOCPath,
     TAG_TOC_PATH_RAW,
-    TAG_TOC_GLOB_PATTERNS,
-    TAG_GLOB_METHOD,
-    TAG_GLOB_RECU_METHOD,
+    ParsingError,
 )
 
 
@@ -64,61 +62,76 @@ def write(data: TOCPath) -> str | dict[str, str]:
     return data.spec
 
 
-# ------------- #
-# -- MAPPERS -- #
-# ------------- #
+# --------------- #
+# -- POST-PROD -- #
+# --------------- #
 
 ###
 # prototype::
-#     amdata   : :see: parse
-#     tocpaths : a list of ''TOCPath'' object.
+#     amdata : :see: parse
+#     data   : a list of ''TOCPath'' object.
 #
-#     :return: the list of raw paths and winning pattern paths
-#              found. Raises an error if a path does not exist.
+#     :return: the list of raw and winning pattern paths,
+#              validating their existence.
+#              For each directory found, an ''AMData'' instance
+#              is invoked to search for path::''about.yaml''
+#              files to use for subsequent searches.
 #
 #
 # note::
-#     Each group of paths found using a pattern are sorted by
-#     the function ''natsort.natsorted''.
+#     Each group of winning pattern paths found using a pattern
+#     are sorted by the function ''natsort.natsorted''.
 ###
-def post_prod(
+def postprod(
     amdata: object,
-    data  : list[TOCPath]
+    data: list[TOCPath]
 ) -> list[Path]:
-    ...
+    paths = []
 
-#     paths = []
+# Let's walk!
+    for tpath in data:
+# Raw path.
+        if tpath.kind == TAG_TOC_PATH_RAW:
+            full_path = tpath.parent / tpath.pattern
 
-# # Let's walk!
-#     for tpath in tocpaths:
-#         kind = tpath.kind
+# A file must exists.
+            if tpath.pattern[-1] != TAG_PATH_SEP:
+                if not full_path.is_file():
+                    raise IOError(
+                        f'Missing file:\n{full_path}'
+                         "\nSee 'about.yaml' file:\n"
+                        f"{amdata.parent}/about.yaml"
+                    )
 
-# # Raw path.
-#         if kind == TAG_TOC_PATH_RAW:
-#             full_path = tpath.parent / tpath.pattern
+                paths.append(full_path)
 
-# # A file must exists.
-#             if tpath.pattern[-1] != TAG_PATH_SEP:
-#                 if not full_path.is_file():
-#                     raise IOError(
-#                         f'Not found file:\n{full_path}'
-#                     )
+# A folder is treated by a dedicated AMData instance.
+            else:
+                sub_amdata = amdata.new_instance(
+                    flavour = 'atoc',
+                    parent  = full_path,
+                )
 
+                paths += sub_amdata.postprod('atoc')
 
-# # A folder must contain an ''about.yaml'' file.
-#             else:
-#                 sub_about_file = full_path / TAG_ABOUT_YAML
+# Pattern search.
+        else:
+            ...
 
-#                 if not sub_about_file.is_file():
-#                     raise IOError(
-#                         f"Missing ''{TAG_ABOUT_YAML}'' file inside a folder:\n{full_path}"
-#                     )
+# Nothing left to do.
+    return paths
 
 
-# # Let's store the new path(s).
-#             paths.append(
-#                 tpath.parent / tpath.pattern
-#             )
+
+
+
+
+
+
+
+
+
+
 
 # # Pattern search.
 #         else:
@@ -143,66 +156,89 @@ def post_prod(
 #                 )
 #             )
 
-# # Nothing left to do.
-#     return paths
-
 
 # ----------- #
 # -- TESTS -- #
 # ----------- #
 
 if __name__ == "__main__":
-    from aboutmeta.amdata import AMData
-
     from pprint import pprint
 
-# GOOD
-    print()
-    print("-- GOOD CASES --")
+# Moke data
+    class MokeAMData:
+        @classmethod
+        def new_instance(cls, **kwargs):
+            return cls(**kwargs)
 
-    amdata = AMData()
-    amdata.parent = Path(__file__).parent
+        def __init__(
+            self,
+            flavour: str,
+            parent : Path,
+        ):
+            self.flavour = flavour
+            self.parent  = parent
 
-    for yaml_data in [
-        Path(__file__).name,
-        {'rg': "*.py"},
-        {'rr': r".*\.py"},
-    ]:
-        print()
-        print('~~~')
+        def postprod(
+            self,
+            keypath: str | list[str],
+        ) -> object:
+            return [
+                self.parent / 'I am',
+                self.parent / 'fake!',
+            ]
 
-        data_parsed = parse(
-            amdata = amdata,
-            data   = yaml_data
-        )
 
-        print()
-        print(f"{yaml_data          = }")
-        print(f"{data_parsed        = }")
-        print(f"{write(data_parsed) = }")
+    projdir = filedir = Path(__file__).parent
 
-# MAP LIST - GOOD
-    print()
-    print("-- MAP LIST - GOOD CASES --")
+    while projdir.name != 'aboutmeta':
+        projdir = projdir.parent
 
-    amdata = AMData()
-    amdata.parent = Path(__file__).parent
+# # GOOD
+#     moke_amdata = MokeAMData(
+#         flavour = 'atoc',
+#         parent  = filedir,
+#     )
 
-    while amdata.parent.name != 'aboutmeta':
-        amdata.parent = amdata.parent.parent
+#     print()
+#     print("-- GOOD CASES --")
 
-    amdata.parent = (
-        amdata.parent
-        / 'contribute' / 'api' / 'data' / 'readme'
+#     for yaml_data in [
+#         Path(__file__).name,
+#         {'rg': "*.py"},
+#         {'rr': r".*\.py"},
+#     ]:
+#         print()
+#         print('~~~')
+
+#         data_parsed = parse(
+#             amdata = moke_amdata,
+#             data   = yaml_data
+#         )
+
+#         print()
+#         print(f"{yaml_data          = }")
+#         print(f"{data_parsed        = }")
+#         print(f"{write(data_parsed) = }")
+
+# POST PROD - GOOD
+    moke_amdata = MokeAMData(
+        flavour = 'atoc',
+        parent  = (
+              projdir
+            / 'contribute' / 'api' / 'parser' / 'readme'
+        ),
     )
 
     print()
-    print('~~~')
+    print("-- POST PROD - GOOD CASES --")
 
-    yaml_list = [
+    print()
+
+    tocpath_list = [
         parse(
-            amdata = amdata,
-            data   = y)
+            amdata = moke_amdata,
+            data   = y
+        )
         for y in [
             'title.md',
             {'g': 'how-to/*.md'},
@@ -210,53 +246,58 @@ if __name__ == "__main__":
         ]
     ]
 
-    print()
-    print('YAML list')
-    pprint(yaml_list)
+    print('spec list')
+    pprint([
+        tp.spec
+        for tp in tocpath_list
+    ])
 
     print()
     print('RELATIVE PATH list')
     pprint([
-        p.relative_to(amdata.parent)
-        for p in map_list(yaml_list)
+        p.relative_to(projdir)
+        for p in postprod(
+            amdata = moke_amdata,
+            data   = tocpath_list,
+        )
     ])
 
-# MAP LIST - BAD
-    exit()
-    print()
-    print("-- MAP LIST - GOOD CASES --")
+# # POST PROD - BAD
+#     exit()
+#     print()
+#     print("-- POST PROD - GOOD CASES --")
 
-    amdata = AMData()
-    amdata.parent = Path(__file__).parent
+#     amdata = AMData()
+#     amdata.parent = Path(__file__).parent
 
-    while amdata.parent.name != 'aboutmeta':
-        amdata.parent = amdata.parent.parent
+#     while amdata.parent.name != 'aboutmeta':
+#         amdata.parent = amdata.parent.parent
 
-    amdata.parent = (
-        amdata.parent
-        / 'contribute' / 'api' / 'data' / 'readme'
-    )
+#     amdata.parent = (
+#         amdata.parent
+#         / 'contribute' / 'api' / 'data' / 'readme'
+#     )
 
-    print()
-    print('~~~')
+#     print()
+#     print('~~~')
 
-    yaml_list = [
-        parse(
-            amdata = amdata,
-            data   = y)
-        for y in [
-            'README.md',
-            {'g': 'code/*.py'},
-        ]
-    ]
+#     yaml_list = [
+#         parse(
+#             amdata = amdata,
+#             data   = y)
+#         for y in [
+#             'README.md',
+#             {'g': 'code/*.py'},
+#         ]
+#     ]
 
-    print()
-    print('YAML list')
-    pprint(yaml_list)
+#     print()
+#     print('YAML list')
+#     pprint(yaml_list)
 
-    print()
-    print('RELATIVE PATH list')
-    pprint([
-        p.relative_to(amdata.parent)
-        for p in map_list(yaml_list)
-    ])
+#     print()
+#     print('RELATIVE PATH list')
+#     pprint([
+#         p.relative_to(amdata.parent)
+#         for p in postprod(yaml_list)
+#     ])

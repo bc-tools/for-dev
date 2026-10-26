@@ -25,9 +25,9 @@ Here is a complete template that will be used to explain how to structure the `P
 
 ...
 
-# ------------- #
-# -- MAPPERS -- #
-# ------------- #
+# --------------- #
+# -- POST-PROD -- #
+# --------------- #
 
 ...
 

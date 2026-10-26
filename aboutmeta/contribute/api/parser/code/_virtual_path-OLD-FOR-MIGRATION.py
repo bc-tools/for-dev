@@ -1,4 +1,4 @@
-###
+###   HELPER
 # Let's look at some virtual examples where we assume that the
 # yaml file folder has absolute path path::''/abs/path/readme''.
 #
@@ -79,13 +79,12 @@
 ###
 
 
-###
-# prototype::
-#     about_file_dir : a well named \arg.
-#     data           : :see: parse
-#
-#     :return: :see: parse
-###
+
+
+
+
+
+
 def _parse_direct_path(
     about_file_dir: Path,
     data          : str

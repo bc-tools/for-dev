@@ -11,14 +11,16 @@
 
 from natsort import natsorted
 
+from aboutmeta.core.constants import (
+    TAG_PATH_SEP,
+    TAG_ABOUT_YAML,
+)
 
 from aboutmeta.specs.data.toc_path import (
     Path,
     TOCPath,
     TAG_TOC_PATH_RAW,
-    TAG_TOC_GLOB_PATTERNS,
-    TAG_GLOB_METHOD,
-    TAG_GLOB_RECU_METHOD
+    ParsingError,
 )
 
 
@@ -64,64 +66,76 @@ def write(data: TOCPath) -> str | dict[str, str]:
     return data.spec
 
 
-# ------------- #
-# -- MAPPERS -- #
-# ------------- #
-
-# TAG_PATH_SEP   = '/'
-# TAG_ABOUT_YAML = 'about.yaml'
-
+# --------------- #
+# -- POST-PROD -- #
+# --------------- #
 
 ###
 # prototype::
-#     tocpaths : a list of ''TOCPath'' object.
+#     amdata : :see: parse
+#     data   : a list of ''TOCPath'' object.
 #
-#     :return: the list of the raw paths and wining pattern paths
-#              found.
+#     :return: the list of raw and winning pattern paths,
+#              validating their existence.
+#              For each directory found, an ''AMData'' instance
+#              is invoked to search for path::''about.yaml''
+#              files to use for subsequent searches.
 #
 #
 # note::
-#     The paths found using a pattern are sorted by the function
-#     ''natsort.natsorted''.
+#     Each group of winning pattern paths found using a pattern
+#     are sorted by the function ''natsort.natsorted''.
 ###
+def postprod(
+    amdata: object,
+    data: list[TOCPath]
+) -> list[Path]:
+    paths = []
 
-#     TODO
+# Let's walk!
+    for tpath in data:
+# Raw path.
+        if tpath.kind == TAG_TOC_PATH_RAW:
+            full_path = tpath.parent / tpath.pattern
 
-def post_prod(data: list[TOCPath]) -> list[Path]:
-    ...
+# A file must exists.
+            if tpath.pattern[-1] != TAG_PATH_SEP:
+                if not full_path.is_file():
+                    raise IOError(
+                        f'Missing file:\n{full_path}'
+                         "\nSee 'about.yaml' file:\n"
+                        f"{amdata.parent}/about.yaml"
+                    )
 
-#     paths = []
+                paths.append(full_path)
 
-# # Let's walk!
-#     for tpath in tocpaths:
-#         kind = tpath.kind
+# A folder is treated by a dedicated AMData instance.
+            else:
+                sub_amdata = amdata.new_instance(
+                    flavour = 'atoc',
+                    parent  = full_path,
+                )
 
-# # Raw path.
-#         if kind == TAG_TOC_PATH_RAW:
-#             full_path = tpath.parent / tpath.pattern
+                paths += sub_amdata.postprod('atoc')
 
-# # A file must exists.
-#             if tpath.pattern[-1] != TAG_PATH_SEP:
-#                 if not full_path.is_file():
-#                     raise IOError(
-#                         f'Not found file:\n{full_path}'
-#                     )
+# Pattern search.
+        else:
+            ...
 
-
-# # A folder must contain an ''about.yaml'' file.
-#             else:
-#                 sub_about_file = full_path / TAG_ABOUT_YAML
-
-#                 if not sub_about_file.is_file():
-#                     raise IOError(
-#                         f"Missing ''{TAG_ABOUT_YAML}'' file inside a folder:\n{full_path}"
-#                     )
+# Nothing left to do.
+    return paths
 
 
-# # Let's store the new path(s).
-#             paths.append(
-#                 tpath.parent / tpath.pattern
-#             )
+
+
+
+
+
+
+
+
+
+
 
 # # Pattern search.
 #         else:
@@ -145,6 +159,3 @@ def post_prod(data: list[TOCPath]) -> list[Path]:
 #                     )(glob_method_name)
 #                 )
 #             )
-
-# # Nothing left to do.
-#     return paths
