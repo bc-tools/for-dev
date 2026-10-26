@@ -167,6 +167,31 @@ def append_black_pyfile(
     file.write_text(code)
 
 
+###
+# prototype::
+#     code     : the \python code
+#     path_src : path of the \src code used to build ''code''
+#
+#     :return: the \python code with an additional text indicated
+#              ''path_src'' as \src used to build ''code''
+###
+def add_pysrc_used(
+    code    : str,
+    path_src: Path
+) -> str:
+    src_used = f"""
+# Code extracted from the maintained Python file
+# '{path_src}'
+    """.strip()
+
+    code = code.replace(
+        SHEBANG_PYTHON,
+        f'{SHEBANG_PYTHON}\n\n{src_used}\n'
+    )
+
+    return code
+
+
 # ------------------------- #
 # -- ANALYZE PYTHON CODE -- #
 # ------------------------- #
@@ -283,9 +308,9 @@ def get_parse_signature(
         )
 
 
-# ------------------------- #
-# -- EXTRACT PYTHON CODE -- #
-# ------------------------- #
+# -------------------- #
+# -- MAGIC SECTIONS -- #
+# -------------------- #
 
 PATTERNS_HEADERS = [
     PATTERN_COMMENT_HD_1:= re.compile(
@@ -317,7 +342,7 @@ def finalize_pycode(
 
         code.append(
             f"""
-{magic_comment(header)}
+{magic_title(header)}
 
 {content}
             """.strip()
@@ -365,7 +390,7 @@ def hd_split_pyfile(file: Path) -> DictSplittedCode:
 #
 #     :return: the level 1 magic comment for a section title.
 ###
-def magic_comment(title: str) -> str:
+def magic_title(title: str) -> str:
     if title == TAG_ROOT_HEADER:
         return ""
 
@@ -379,32 +404,3 @@ def magic_comment(title: str) -> str:
     """.strip()
 
     return title
-
-
-# ---------------------------------------- #
-# -- SOURCE USED TO BUILD A PYTHON FILE -- #
-# ---------------------------------------- #
-
-###
-# prototype::
-#     code     : the \python code
-#     path_src : path of the \src code used to build ''code''
-#
-#     :return: the \python code with an additional text indicated
-#              ''path_src'' as \src used to build ''code''
-###
-def add_pysrc_used(
-    code    : str,
-    path_src: Path
-) -> str:
-    src_used = f"""
-# Code extracted from the maintained Python file
-# '{path_src}'
-    """.strip()
-
-    code = code.replace(
-        SHEBANG_PYTHON,
-        f'{SHEBANG_PYTHON}\n\n{src_used}\n'
-    )
-
-    return code

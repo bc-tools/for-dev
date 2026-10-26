@@ -20,7 +20,7 @@ from aboutmeta.specs.block import atoc
 
 FLAVOUR_SPECS = {
     "atoc": {
-        TAG_BLOCK_SPECS: atoc.BLOCK_SPECS,
+        TAG_BLOCK_PARSERS: atoc.BLOCK_PARSERS,
         TAG_BLOCK_STATUS: atoc.BLOCK_STATUS,
         TAG_BLOCK_ALTS: atoc.BLOCK_ALTS,
         TAG_IS_MANDATORY: True,

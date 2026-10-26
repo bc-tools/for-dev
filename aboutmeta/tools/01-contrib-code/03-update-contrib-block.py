@@ -28,7 +28,7 @@ while(PROJECT_DIR.name != 'aboutmeta'):
     PROJECT_DIR = PROJECT_DIR.parent
 
 SPECS_DIR       = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
-BLOCK_SPECS_DIR = SPECS_DIR / CONTEXT
+BLOCK_PARSERS_DIR = SPECS_DIR / CONTEXT
 CONTRIB_DIR     = (
       PROJECT_DIR / 'contribute' / 'api'
     / 'block-n-flavour' / CONTEXT
@@ -181,7 +181,7 @@ for f in [
     empty_dir,
     add_missing_init,
 ]:
-    f(BLOCK_SPECS_DIR)
+    f(BLOCK_PARSERS_DIR)
 
 
 for folder, contribs in get_accepted_paths(
@@ -259,7 +259,7 @@ for folder, contribs in get_accepted_paths(
 # This block is maintained inside the file
 # '{CONTRIB_CFG_DIR_RELATIVE / one_contrib}'
 
-{magic_comment('IMPORTS')}
+{magic_title('IMPORTS')}
 
 from benedict import benedict
 
@@ -267,14 +267,14 @@ from aboutmeta.core.constants import *
 from aboutmeta.specs.parser   import {imports_need}
 
 
-{magic_comment('INTERNAL SHORTCUTS')}
+{magic_title('INTERNAL SHORTCUTS')}
 
 {shortcuts_code}
 
 
-{magic_comment('BLOCK SPECS')}
+{magic_title('BLOCK SPECS')}
 
-BLOCK_SPECS = benedict({pyspecs})
+BLOCK_PARSERS = benedict({pyspecs})
 
 BLOCK_STATUS = benedict({pystatus})
 
@@ -299,5 +299,5 @@ BLOCK_ALTS = benedict({digested_yaml.alts})
 
         add_black_pyfile(
             code = block_spec_pycode,
-            file = BLOCK_SPECS_DIR / f'{contrib_file.stem}.py'
+            file = BLOCK_PARSERS_DIR / f'{contrib_file.stem}.py'
         )

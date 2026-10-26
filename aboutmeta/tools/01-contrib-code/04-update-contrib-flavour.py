@@ -28,7 +28,7 @@ while(PROJECT_DIR.name != 'aboutmeta'):
     PROJECT_DIR = PROJECT_DIR.parent
 
 SPECS_DIR       = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
-BLOCK_SPECS_DIR = SPECS_DIR / CONTEXT
+BLOCK_PARSERS_DIR = SPECS_DIR / CONTEXT
 CONTRIB_DIR     = (
       PROJECT_DIR / 'contribute' / 'api'
     / 'block-n-flavour' / CONTEXT
@@ -62,7 +62,7 @@ for f in [
     empty_dir,
     add_missing_init,
 ]:
-    f(BLOCK_SPECS_DIR)
+    f(BLOCK_PARSERS_DIR)
 
 
 for folder, contribs in get_accepted_paths(
@@ -103,7 +103,7 @@ for folder, contribs in get_accepted_paths(
                     f'{parser_spec}.{k}'
                 )
                 for k in [
-                    'BLOCK_SPECS',
+                    'BLOCK_PARSERS',
                     'BLOCK_STATUS',
                     'BLOCK_ALTS',
                 ]
@@ -127,13 +127,13 @@ for folder, contribs in get_accepted_paths(
 # This block is maintained inside the file
 # '{CONTRIB_CFG_DIR_RELATIVE / one_contrib}'
 
-{magic_comment('IMPORTS')}
+{magic_title('IMPORTS')}
 
 from aboutmeta.core.constants import *
 from aboutmeta.specs.block    import {imports_need}
 
 
-{magic_comment('FLAVOUR SPECS')}
+{magic_title('FLAVOUR SPECS')}
 
 FLAVOUR_SPECS = {pyspecs}
         '''.strip() + '\n'
@@ -148,5 +148,5 @@ FLAVOUR_SPECS = {pyspecs}
 
         add_black_pyfile(
             code = flavour_spec_pycode,
-            file = BLOCK_SPECS_DIR / f'{pysuglify(contrib_file.stem)}.py'
+            file = BLOCK_PARSERS_DIR / f'{pysuglify(contrib_file.stem)}.py'
         )

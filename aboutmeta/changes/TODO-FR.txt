@@ -14,6 +14,10 @@ penser à gerer la nouveauté et dans ce cas la le dater !!!
 
 > ---------------------------- <
 
+doc complète : on doit intégrere automatiquement tous les helpers!
+
+> ---------------------------- <
+
 doc des block : demander des tetses de structure mais pas sur les parsers qui sont testé à part bon et mauvais cas mais avec données finales à parser valables!
 
 testes mixé géré par mélange des testes des contribs (faisons simple !)

@@ -33,7 +33,7 @@ __STATUS_MANDATORY_PARSED = {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}
 # -- BLOCK SPECS -- #
 # ----------------- #
 
-BLOCK_SPECS = benedict({"atoc": __PARSER_ABOUT_PATH_LIST_USE_POST})
+BLOCK_PARSERS = benedict({"atoc": __PARSER_ABOUT_PATH_LIST_USE_POST})
 
 BLOCK_STATUS = benedict({"atoc": __STATUS_MANDATORY_PARSED})
 

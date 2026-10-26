@@ -20,13 +20,13 @@ from aboutmeta.specs.block import atoc, project
 
 FLAVOUR_SPECS = {
     "project": {
-        TAG_BLOCK_SPECS: project.BLOCK_SPECS,
+        TAG_BLOCK_PARSERS: project.BLOCK_PARSERS,
         TAG_BLOCK_STATUS: project.BLOCK_STATUS,
         TAG_BLOCK_ALTS: project.BLOCK_ALTS,
         TAG_IS_MANDATORY: True,
     },
     "atoc": {
-        TAG_BLOCK_SPECS: atoc.BLOCK_SPECS,
+        TAG_BLOCK_PARSERS: atoc.BLOCK_PARSERS,
         TAG_BLOCK_STATUS: atoc.BLOCK_STATUS,
         TAG_BLOCK_ALTS: atoc.BLOCK_ALTS,
         TAG_IS_MANDATORY: False,

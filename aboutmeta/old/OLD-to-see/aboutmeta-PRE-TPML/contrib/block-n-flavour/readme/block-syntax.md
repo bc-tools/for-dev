@@ -1,2 +1,0 @@
-Syntax for block specifications
--------------------------------
