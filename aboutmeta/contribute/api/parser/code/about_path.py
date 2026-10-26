@@ -7,6 +7,10 @@
 
 from natsort import natsorted
 
+from aboutmeta.core.constants import (
+    TAG_PATH_SEP,
+    TAG_ABOUT_YAML,
+)
 
 from aboutmeta.specs.data.toc_path import (
     Path,
@@ -14,7 +18,7 @@ from aboutmeta.specs.data.toc_path import (
     TAG_TOC_PATH_RAW,
     TAG_TOC_GLOB_PATTERNS,
     TAG_GLOB_METHOD,
-    TAG_GLOB_RECU_METHOD
+    TAG_GLOB_RECU_METHOD,
 )
 
 
@@ -64,25 +68,24 @@ def write(data: TOCPath) -> str | dict[str, str]:
 # -- MAPPERS -- #
 # ------------- #
 
-# TAG_PATH_SEP   = '/'
-# TAG_ABOUT_YAML = 'about.yaml'
-
-
 ###
 # prototype::
+#     amdata   : :see: parse
 #     tocpaths : a list of ''TOCPath'' object.
 #
-#     :return: the list of the raw paths and wining pattern paths
-#              found.
+#     :return: the list of raw paths and winning pattern paths
+#              found. Raises an error if a path does not exist.
 #
 #
 # note::
-#     The paths found using a pattern are sorted by the function
-#     ''natsort.natsorted''.
+#     Each group of paths found using a pattern are sorted by
+#     the function ''natsort.natsorted''.
 ###
-# def map_list(tocpaths: list[TOCPath]) -> list[Path]:
-#     TODO
-
+def post_prod(
+    amdata: object,
+    data  : list[TOCPath]
+) -> list[Path]:
+    ...
 
 #     paths = []
 

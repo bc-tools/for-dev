@@ -30,6 +30,7 @@ TAG_LANG = "lang"
 TAG_LICENSING = "licensing"
 TAG_PARSE = "parse"
 TAG_PERSON = "person"
+TAG_POST_PROD = "post_prod"
 TAG_SEM_VERSION = "sem_version"
 TAG_UNIX_NAME = "unix_name"
 TAG_URL = "url"
@@ -37,7 +38,11 @@ TAG_WRITE = "write"
 TAG_YMDATE = "ymdate"
 
 ALL_PARSERS = {
-    TAG_ABOUT_PATH: {TAG_PARSE: about_path.parse, TAG_WRITE: about_path.write},
+    TAG_ABOUT_PATH: {
+        TAG_PARSE: about_path.parse,
+        TAG_WRITE: about_path.write,
+        TAG_POST_PROD: about_path.post_prod,
+    },
     TAG_ACRONYM: {TAG_PARSE: acronym.parse, TAG_WRITE: acronym.write},
     TAG_LANG: {TAG_PARSE: lang.parse, TAG_WRITE: lang.write},
     TAG_LICENSING: {TAG_PARSE: licensing.parse, TAG_WRITE: licensing.write},

@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
 
+TAG_PATH_SEP   = '/'
+TAG_ABOUT_YAML = 'about.yaml'
+
+
 TAG_DATATYPE = '__DATATYPE__'
 TAG_PARSER   = '__PARSER__'
 TAG_USE_POST = '__USE_POST__'

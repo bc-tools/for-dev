@@ -5,11 +5,6 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-map_... remplacer par un unique post_process utilisable comme on le veut en gardant l'idée que'une liste de données parser nourrit ce nouvelle fonction
-
-
-> ---------------------------- <
-
 géré lisnertion automatiqsé des bouts de code des specs de b;locs
 
 penser à gerer la nouveauté et dans ce cas la le dater !!!

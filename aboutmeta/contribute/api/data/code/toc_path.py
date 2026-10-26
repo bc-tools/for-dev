@@ -74,8 +74,8 @@ TOC_PATH_SPEC_TYPE = (
 
 ###
 # prototype::
-#     spec    : the specification of a relative path or a relative
-#               search pattern for paths.
+#     spec    : the \spec of a relative path or a relative search
+#               pattern for paths.
 #     parent  : the parent directory for the relative paths.
 #     kind    : the kind of path to manage (either a raw path or
 #               a pattern).
@@ -249,8 +249,7 @@ class TOCPath(DataManager):
 ###
 # prototype::
 #     :action: check for parent folder existence, unbroken single
-#              raw path if needed, or winning pattern validation
-#              if needed.
+#              raw path if needed, or winning pattern validation.
 #
 #     :see: self._validate_parent_dir,
 #           self._validate_raw_path,
@@ -358,9 +357,11 @@ class TOCPath(DataManager):
         str_pattern: str,
         path_iter  : Callable[[str], Iterator[Path]],
     ) -> None:
-        glob_method_name = self._start_pattern_validation(
+        self._start_pattern_validation(
             str_pattern = str_pattern
         )
+
+        glob_method_name = self.get_glob_method_name()
 
         nothing_found = True
 
@@ -409,14 +410,6 @@ class TOCPath(DataManager):
         self.data_pb.what(f"{what} pattern")
         self.data_pb.checking(str_pattern)
 
-        glob_method_name = (
-            TAG_GLOB_METHOD
-            if is_recu else
-            TAG_GLOB_RECU_METHOD
-        )
-
-        return glob_method_name
-
 ###
 # prototype::
 #     :return: ''True'' for a recursive search, and ''False''
@@ -449,6 +442,25 @@ class TOCPath(DataManager):
 
         else:
             self.data_pb.validated(str_pattern)
+
+###
+# prototype::
+#     :return: either ''"rglob"'' for a recursive search, or
+#              ''"glob"'' (this value is required to iterate
+#              over the paths matching a pattern).
+#            @ _ in [TAG_GLOB_METHOD, TAG_GLOB_RECU_METHOD]
+#
+#     :see: self.glob_iter ,
+#           self.regex_iter
+###
+    def get_glob_method_name(self):
+        glob_method_name = (
+            TAG_GLOB_METHOD
+            if self._is_recu_search() else
+            TAG_GLOB_RECU_METHOD
+        )
+
+        return glob_method_name
 
 ###
 # prototype::

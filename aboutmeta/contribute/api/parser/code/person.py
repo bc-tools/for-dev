@@ -76,7 +76,7 @@ def parse(data: str) -> Person:
 # prototype::
 #     data : a ''Person'' object.
 #
-#     :return: the standard \yaml version of the ''Person'' object.
+#     :return: the \std \yaml version of the ''Person'' object.
 ###
 def write(data: Person) -> str:
     return data.spec

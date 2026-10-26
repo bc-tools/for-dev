@@ -1,30 +1,3 @@
-#####################################
-# TOUT REPRENDRE ! CHGTS VIA DICT PATTERNS MAL PRIS EN COMPTE + CHGT BRUTALE DE parent
-
-
-#!/usr/bin/env python3
-
-from pathlib import Path
-import              re
-
-from natsort import natsorted
-
-from aboutmeta.core.constants     import *
-from aboutmeta.core.errors        import ParsingError
-from aboutmeta.specs.data.tocpath import TOCPath
-
-
-# --------------- #
-# -- CONSTANTS -- #
-# --------------- #
-
-TOCPathList = list[TOCPath]
-
-
-# ------------ #
-# -- PARSER -- #
-# ------------ #
-
 ###
 # Let's look at some virtual examples where we assume that the
 # yaml file folder has absolute path path::''/abs/path/readme''.

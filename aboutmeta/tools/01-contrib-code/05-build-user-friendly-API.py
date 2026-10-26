@@ -45,7 +45,7 @@ DATA_EXPOSED = {
     'parser': [
         'parse',
         'write',
-        'post_process*', # Only if it exists!
+        'post_prod*', # Only if it exists!
     ],
 }
 

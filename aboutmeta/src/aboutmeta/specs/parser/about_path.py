@@ -84,9 +84,11 @@ def write(data: TOCPath) -> str | dict[str, str]:
 #     The paths found using a pattern are sorted by the function
 #     ''natsort.natsorted''.
 ###
-# def map_list(tocpaths: list[TOCPath]) -> list[Path]:
+
 #     TODO
 
+def post_prod(data: list[TOCPath]) -> list[Path]:
+    ...
 
 #     paths = []
 
