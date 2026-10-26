@@ -10,6 +10,9 @@ from cbutils.pathplus   import *
 from cbutils.coding_py  import *
 
 
+import ast
+
+
 # ------------------ #
 # -- CONSTANTS #1 -- #
 # ------------------ #
@@ -52,6 +55,7 @@ DATA_EXPOSED = {
 # ----------- #
 
 def expose_data(
+    parent      : Path,
     tags        : set[str],
     names       : list[str],
     data_exposed: str | list[str],
@@ -71,6 +75,7 @@ def expose_data(
         specs[
             prestr_2_pyvar(get_tag(n))
         ] = data_exposed_builder(
+            parent       = parent,
             tags         = tags,
             name         = n,
             data_exposed = data_exposed,
@@ -80,6 +85,7 @@ def expose_data(
 
 
 def expose_one_data(
+    parent      : Path,
     tags        : set[str],
     name        : str,
     data_exposed: str,
@@ -88,6 +94,7 @@ def expose_one_data(
 
 
 def expose_several_data(
+    parent      : Path,
     tags        : set[str],
     name        : str,
     data_exposed: list[str],
@@ -96,17 +103,23 @@ def expose_several_data(
 
     for de in data_exposed:
         if de[-1] == '*':
-            is_mandatory = False
-            de           = de[:-1]
+            de = de[:-1]
 
-        else:
-            is_mandatory = True
+# Do we have to add this optional data exposed?
+            if not file_has_attr(
+                attr_name = de,
+                file      = parent,
+            ):
+                break
 
+
+# Let's add a new data exposed.
         tags.add(de)
 
         local_api[
             prestr_2_pyvar(get_tag(de))
         ] = expose_one_data(
+            parent       = parent,
             tags         = tags,
             name         = name,
             data_exposed = de,
@@ -114,6 +127,32 @@ def expose_several_data(
 
     return local_api
 
+
+def file_has_attr(
+    attr_name: str,
+    file     : Path,
+) -> bool:
+    code = file.read_text()
+
+    tree = ast.parse(code_source)
+
+    exit()
+
+#   resultat = {"fonction": False, "variable": False}
+
+#   # Parcourt tous les nœuds de l'arbre
+#   for node in ast.walk(tree):
+#     # Vérifie si c'est une définition de fonction
+#     if isinstance(node, ast.FunctionDef) and node.name == nom_recherche:
+#       resultat["fonction"] = True
+
+#     # Vérifie si c'est une affectation de variable
+#     elif isinstance(node, ast.Assign):
+#       for target in node.targets:
+#         if isinstance(target, ast.Name) and target.id == nom_recherche:
+#           resultat["variable"] = True
+
+#   return resultat
 
 # ----------------- #
 # -- LET'S WORK! -- #
@@ -156,6 +195,7 @@ for kind_folder in SPECS_DIR.glob('*'):
     tags = set(all_kind_names)
 
     pyspecs = expose_data(
+        parent       = kind_folder,
         tags         = tags,
         names        = all_kind_names,
         data_exposed = DATA_EXPOSED[kind],
