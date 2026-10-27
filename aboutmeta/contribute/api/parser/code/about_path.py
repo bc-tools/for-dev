@@ -73,7 +73,7 @@ def write(data: TOCPath) -> str | dict[str, str]:
 #
 #     :return: the list of raw and winning pattern paths,
 #              validating their existence.
-#              For each directory found, an ''AMData'' instance
+#              For each folder found, an ''AMData'' instance
 #              is invoked to search for path::''about.yaml''
 #              files to use for subsequent searches.
 #
@@ -94,8 +94,17 @@ def postprod(
         if tpath.kind == TAG_TOC_PATH_RAW:
             full_path = tpath.parent / tpath.pattern
 
+# A folder is treated by a dedicated AMData instance.
+            if tpath.pattern[-1] == TAG_PATH_SEP:
+                sub_amdata = amdata.new_instance(
+                    flavour = 'atoc',
+                    parent  = full_path,
+                )
+
+                paths += sub_amdata.postprod()
+
 # A file must exists.
-            if tpath.pattern[-1] != TAG_PATH_SEP:
+            else:
                 if not full_path.is_file():
                     raise IOError(
                         f'Missing file:\n{full_path}'
@@ -105,18 +114,13 @@ def postprod(
 
                 paths.append(full_path)
 
-# A folder is treated by a dedicated AMData instance.
-            else:
-                sub_amdata = amdata.new_instance(
-                    flavour = 'atoc',
-                    parent  = full_path,
-                )
-
-                paths += sub_amdata.postprod('atoc')
-
-# Pattern search. PO is bot POO!
+# Pattern search. PO is not POO!
         else:
-            paths.extend(tpath.path_iter())
+            paths.extend(
+                natsorted(
+                    tpath.path_iter()
+                )
+            )
 
 # Nothing left to do.
     return paths
@@ -145,7 +149,7 @@ if __name__ == "__main__":
 
         def postprod(
             self,
-            keypath: str | list[str],
+            keypath: str | list[str] = '',
         ) -> object:
             return [
                 self.parent / 'I am',

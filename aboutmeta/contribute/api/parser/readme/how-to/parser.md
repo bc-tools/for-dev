@@ -81,7 +81,7 @@ class MokeAMData:
 # Only for post-processing features.
         def postprod(
             self,
-            keypath: str | list[str],
+            keypath: str | list[str] = '',
         ) -> object:
             ...
 ~~~

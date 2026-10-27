@@ -19,7 +19,7 @@ By design, only one post-processing step can be defined, which is implemented vi
 Here is a real-world use case requiring `aboutmeta.amdata.AMData` instances to analyze `about.yaml` files when folder paths are found.
 
 
-<!-- PARSER - POSTPROD FUNCTION -  - START -->
+<!-- PARSER - POSTPROD FUNCTION - START -->
 
 ~~~python
 # Simplified extract from ''about_path.py'' file (2026-10-27).
