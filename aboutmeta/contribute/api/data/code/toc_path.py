@@ -246,20 +246,6 @@ class TOCPath(DataManager):
 
         return pattern
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###
 # prototype::
 #     :action: check for parent folder existence, unbroken single
