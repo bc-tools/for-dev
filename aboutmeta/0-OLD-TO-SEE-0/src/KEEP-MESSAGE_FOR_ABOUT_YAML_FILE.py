@@ -91,10 +91,6 @@ def _parse_direct_path(
 ) -> TOCPath:
     is_dir = bool(data[-1] == "/")
 
-# Just a "full" path resolved is useful.
-    fullpath = about_file_dir / Path(data)
-    fullpath = fullpath.resolve()
-
 # Folder for an ''about.yaml'' file?
     if is_dir:
         if not fullpath.is_dir():
@@ -128,84 +124,3 @@ def _parse_direct_path(
                 data            = data,
                 message         = "path not pointing to a file."
             )
-
-        postsearch = None
-        paths      = [fullpath]
-
-# "Direct" path looks good.
-    return TOCPath(
-        std        = _std(data),
-        postsearch = postsearch,
-        paths      = paths
-    )
-
-
-# ------------- #
-# -- MAPPERS -- #
-# ------------- #
-
-###
-# prototype::
-#     amdata_cls : the ''AMData'' class, which will be instantiated
-#                  to search recursively for files.
-#     data_list  : a ''TOCPath'' list.
-#
-#     :return: the list obtained from ''data_list'' by adding any
-#              files from the analysis of path::''about.yaml'' files
-#              (cf. the folders indicated in the ''toc'' blocks).
-###
-def map_list(
-    amdata_cls: object,
-    data_list : TOCPathList
-) -> TOCPathList:
-    final_paths = []
-
-    for data in data_list:
-        if data.paths:
-            final_paths += data.paths
-
-        else:
-            _amdata = amdata_cls(flavour = "toc")
-            _amdata.build(yaml_file = data.postsearch)
-
-            final_paths += _amdata.data.toc
-
-    return final_paths
-
-
-# ----------- #
-# -- TESTS -- #
-# ----------- #
-
-if __name__ == "__main__":
-# BAD
-    BAD = True
-    BAD = False
-
-    if BAD:
-        pseudopath = "../../../"
-        pseudopath = "ap.md"
-        pseudopath = ['glob', "*.md"]
-        pseudopath = {'glob': "*.md", 'regex': r".*/pr.*\.md"}
-        pseudopath = {'glb': "*.md"}
-        pseudopath = {'regex': r".*(pr"}
-
-        parse(readme_dir, pseudopath)
-
-# MAP LIST
-    from aboutmeta.amdata import AMData
-
-    folder = readme_dir.parent
-
-    paths = map_list(
-        AMData,
-        [parse(folder, "readme/")]
-    )
-
-    for p in paths:
-        try:
-            p = p.relative_to(folder)
-        except:
-            ...
-
-        print(f"+ {p}")

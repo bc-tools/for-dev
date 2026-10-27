@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
 
 ###
-# ???
+# ...
+#
+#
+# [[normalize]]
+#
+# ...
+#
+#
+# [[validate]]
+#
+# ...
+#
+#
+# [[post-prod]]
+#
+# ...
 ###
 
 
@@ -101,7 +116,7 @@ def postprod(
                     parent  = full_path,
                 )
 
-                paths += sub_amdata.postprod()
+                paths.extend(sub_amdata.postprod())
 
 # A file must exists.
             else:
@@ -152,8 +167,9 @@ if __name__ == "__main__":
             keypath: str | list[str] = '',
         ) -> object:
             return [
-                self.parent / 'I am',
-                self.parent / 'fake!',
+                self.parent / 'I.am',
+                self.parent / 'danse.le',
+                self.parent / 'Mi.a',
             ]
 
 
