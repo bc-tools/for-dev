@@ -5,6 +5,20 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+- pour block et flavour en mode str !!!
+
+
+> ---------------------------- <
+
+
+readme via tnsdoc dès que possible car bien plus précis !!!
+
+de plus on pourra y utiliser des drapeaux comme if_readme pour n'inclure que des partie spéciifique aux readme
+ou bien user d'abbrev...
+
+
+> ---------------------------- <
+
 géré lisnertion automatiqsé des bouts de code des specs de b;locs
 
 penser à gerer la nouveauté et dans ce cas la le dater !!!

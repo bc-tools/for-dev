@@ -1,3 +1,3 @@
-### The changes folder
+### The 'changes' folder
 
-This folder is just a communication tool between contributors to indicate important changes.
+This folder is used to log and communicate major changes among contributors.

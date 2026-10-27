@@ -1,9 +1,9 @@
-#### TESTS section (mandatory)
+#### 'TESTS' section (mandatory)
 
-You must produce a minimum number of use cases that will serve as the basis for unit tests for the accepted codes. **Don't forget to provide functional examples and others with corrupted data!**
+You must provide a minimum set of use cases to serve as the foundation for testing the accepted contributions. **Be sure to include both functional examples and edge cases with corrupted data!**
 
 
-If it makes no sense to perform unit tests, you should still use the following code, which explicitly indicates that no tests are necessary.
+If tests are not applicable, please use the following snippet to explicitly state that no tests are required.
 
 ~~~python
 # ----------- #
@@ -16,4 +16,4 @@ if __name__ == "__main__":
 ~~~
 
 
-> ***WARNING.*** *The absence of the `TESTS` section means that writing the tests was forgotten, which will stop the automation integration process.*
+> ***WARNING.*** *If the 'TESTS' section is missing, the continuous integration process will fail, as tests are assumed to be missing.*

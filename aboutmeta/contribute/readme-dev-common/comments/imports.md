@@ -1,3 +1,3 @@
 #### Imports
 
-The beginning of the code is where imports are made.
+All imports are located at the beginning of the file.

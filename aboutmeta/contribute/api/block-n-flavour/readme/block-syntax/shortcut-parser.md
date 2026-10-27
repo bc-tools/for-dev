@@ -1,16 +1,20 @@
 ### Shortcut for the last parser used
 
-There's a shortcut to avoid typing the same parser name several times in succession: just use a period. Bear in mind that in the actual extract below, the use of `person | list(.)` marks the `person` parser, which is reused in `list(.)`, but that the default parser does not become `list(person)`, which is not a parser, therefore `author` and `contrib` use the same `person` parser. On the other hand, `codename | doctitle *: unix_name | str` marks the `str` parser.
+There is a shortcut to avoid typing the same parser name multiple times in succession: simply use a period (`.`).
+Note that in the example below, `person | list(.)` sets the `person` parser, which is reused inside `list(.)`. However, the default parser does not become `list(person)` (since `list(person)` is not a parser), meaning `author` and `contrib` continue to use the `person` parser.
+Conversely, `codename | doctitle *: str` sets the `str` parser.
 
 
-<!-- Simplified version - START -->
+<!-- SHORCUT PARSER - SIMPLIFIED VERSION - START -->
+
 ~~~yaml
-# Simplified version of the ''project.yaml'' file (2026-08-21).
+# Simplified version of the ''project.yaml'' file (2026-10-27).
 
-codename | doctitle *: unix_name | str
+codename | doctitle *: str
 desc: .
 
 author | authors *: person | list(.)
 contrib | contribs *: . | list(.)
 ~~~
-<!-- Simplified version - END -->
+
+<!-- SHORCUT PARSER - SIMPLIFIED VERSION - END -->

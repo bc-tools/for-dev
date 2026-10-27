@@ -1,10 +1,12 @@
 ### Structure
 
-The structure of the specifications mimics those that the user will be able to use, with the exception of lists of parsed data, which require the use of a single element list. In concrete terms, here's how it looks with a simplified extract from of the `project` block.
+The structure of the specifications mirrors what users will need to use, with the exception of parsed data lists, which require a single-element list. In concrete terms, here is a simplified extract from the `project` block.
 
-<!-- Simplified version - START -->
+
+<!-- BLOCK STRUCTURE - SIMPLIFIED VERSION - START -->
+
 ~~~yaml
-# Simplified version of the ''project.yaml'' file (2026-08-21).
+# Simplified version of ''project.yaml'' file (2026-08-21).
 
 version: sem_version
 desc: str
@@ -15,12 +17,15 @@ urls:
 require:
   - str
 ~~~
-<!-- Simplified version - END -->
 
-This code allows to use data such as the following, where the version will be analyzed by the `sem_version` parser, and URLs by the `url` parser. The `desc` data and the ones of the `require` list are kept as string values unparsed.
+<!-- BLOCK STRUCTURE - SIMPLIFIED VERSION - END -->
+
+
+This code enables the use of data such as the following, where the version is parsed by the `sem_version` parser and URLs by the `url` parser. The `desc` field and elements within the `require` list are kept as unparsed string values.
+
 
 ~~~yaml
-# Fake example with funny links.
+# Dummy example with funny links.
 
 version: 1.0.0
 desc: Just a basic fake example.
@@ -34,4 +39,4 @@ require:
 ~~~
 
 
-> ***IMPORTANT.*** *Nothing prevents you from expecting a dictionary or a list of values as a data to parse. In this case, you will delegate the analysis of this 'complex' data to the parser.*
+> ***IMPORTANT.*** *Nothing prevents you from expecting a dictionary or a list of values as data to parse. In this case, you can delegate the parsing of this complex data to the parser. For example, the `toc_path` parser accepts either a string or a dictionary. See `contribute/api/data/code/toc_path.py`.*

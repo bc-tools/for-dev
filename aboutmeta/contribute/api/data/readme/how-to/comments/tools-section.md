@@ -1,3 +1,3 @@
-#### TOOLS section (optional)
+#### 'TOOLS' section (optional)
 
-This part of the `Python` file contains tools for development, such as file creation, but not tools needed by the data class.
+This section of the script includes development-only tools (e.g., file creation utilities) and must not contain any variables, classes, or functions required by the data class.

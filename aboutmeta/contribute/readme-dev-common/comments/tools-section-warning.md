@@ -1,1 +1,1 @@
-> ***WARNING!*** *Each development tool must make its imports internally in the `TOOLS` section.*
+> ***WARNING!*** *Each development tool must import its dependencies internally inside the 'TOOLS' section.*

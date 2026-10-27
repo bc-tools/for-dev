@@ -1,2 +1,2 @@
-Structure of the "contrib/data" folder
---------------------------------------
+Structure of the 'contribute/api/data' folder
+---------------------------------------------

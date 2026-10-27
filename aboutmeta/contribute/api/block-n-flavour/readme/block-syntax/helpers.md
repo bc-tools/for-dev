@@ -1,28 +1,32 @@
 ### Magic comments
 
-A new block definition must contain a minimum of documentation (these texts will be used as help by the CLI and in documentaion).
+A new block definition must include a minimum amount of documentation (these texts will be used for CLI help messages and documentation).
 
 
 #### General block description
 
-The following code shows how to succinctly describe the purpose of the block via a comment at the very beginning of the `YAML` specification file.
+The following dummy code demonstrates how to succinctly describe the purpose of a block using a magic comment at the very beginning of the `YAML` specification file.
 
 ~~~yaml
 ###
-# This 1st comment **must** describe the block from
-# a technical point of view.
+# This initial comment **must** describe the block from
+# a technical perspective.
 ###
 
 # Next comes the content of the file.
 ~~~
 
 
-#### How certain blocks and keys work
-
-After the general description, it is possible - and strongly recommended - to document sub-blocks or keys, but nothing is imposed. Documentation is added in the comments just before the block or key concerned. Here are a few extracts from the `project.yaml` file, where, in the case of the `urls` block, it should be noted that the `home`, `dev`, and `issues` keys are not documented.
+> ***IMPORTANT.*** *Magic comments start and end with `###`. Their content should be written as end-user documentation, rather than developer-facing notes.*
 
 
-<!-- Real extract - No ALT - START -->
+#### How blocks and keys work
+
+Following the general description, documenting sub-blocks or keys is optional but strongly recommended. Documentation should be added as comments immediately preceding the relevant block or key. Below are a few extracts from the `project.yaml` file; note that in the `urls` block, the `home`, `dev`, and `issues` keys are intentionally left undocumented.
+
+
+<!-- HELPERS - NO ALT - START -->
+
 ~~~yaml
 # Real extract from ''project.yaml'' file (2026-10-15).
 
@@ -58,20 +62,22 @@ version *: sem_version
 urls *:
   home, dev, issues *: url
 ~~~
-<!-- Real extract - No ALT - END -->
+
+<!-- HELPERS - NO ALT - END -->
 
 
-> ***WARNING.*** *You don't need to specify the expected data types, as they are automatically covered from each parser's description.*
+> ***WARNING.*** *You do not need to specify expected data types, as they are automatically covered by each parser's description.*
 
 
-#### The special case of alternatives
+#### Special case of alternatives
 
-Documentation of an alternative requires that the various competing keys be documented in sections indicated by magic titles of the form `[[key-name]]`, as in the following example.
+Documenting an alternative choice requires defining each competing key in a section marked by a magic title of the form `[[key-name]]`, as shown in the following example.
 
 
-<!-- Real extract - With ALT - START -->
+<!-- HELPERS - WITH SOME ALTS - START -->
+
 ~~~yaml
-# Real extract from ''project.yaml'' file (2026-10-15).
+# Real extract from ''project.yaml'' file (2026-10-27).
 
 ###
 # [[doctitle]]
@@ -84,10 +90,11 @@ Documentation of an alternative requires that the various competing keys be docu
 # if it differs from that of the project folder.
 #
 #
-# note::
+# important::
 #     If neither the ''codename'' nor ''doctitle'' key is used,
 #     the project will be considered to be of code type.
 ###
 codename | doctitle *: str +
 ~~~
-<!-- Real extract - With ALT - END -->
+
+<!-- HELPERS - WITH SOME ALTS - END -->

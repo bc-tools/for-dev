@@ -1,17 +1,68 @@
 ### From YAML data to internal Python one
 
-Here are the steps to follow.
+Here are the steps to follow when building a `Python` data structure from a `YAML` data.
 
-  1. Start by finding a name to use when asking to `aboutmeta` to invoke your parser. Don't be lacking in inspiration.
+  1.  **Choose a unique parser name.**
+  Select a clear and descriptive name that `aboutmeta` will use to invoke your parser.
 
-  1. The parser name is the `Python` file name where your function for 'digesting' isolated `YAML` data is coded. This function must be named `parse`. Here are **the only possible signatures** for this function (we use generic types for the classes, but you will have to be more precise, as in the accepted parsers).
+  1. **Implement the `parse` function.**
+  The parser name corresponds to the `Python` filename hosting your `parse` function. This function handles processing isolated `YAML` data and must adhere strictly to one of the following valid signatures (generic types are shown here for illustration, but you must specify concrete type hints as demonstrated in the two snippets below).
 
-     + `parse(data: object) -> object` must be used if only data needs to be analyzed, regardless of other of the `about.yaml` file being analyzed.
+     - `parse(data: object) -> object`:
+     use this signature when data can be analyzed independently, without requiring context from the rest of the `about.yaml` file.
 
-     + `parse(amdata: object, data: object) -> object` takes into account an instance of the class `aboutmeta.amdata.AMData`. For reference, see the `contrib/parser/code/about_path.py` file.
+     - `parse(amdata: object, data: object) -> object`:
+     use this signature when access to the `aboutmeta.amdata.AMData` instance is required. See the caution note directly following the snippets.
 
 
-> ***CAUTION.*** *To prevent circular imports, never use `from aboutmeta.amdata import AMData` when working with `amdata`, which must always be typed as `object`. Unit tests must also work with a mock `AMData` class based on the following one.*
+The following snippet does not require the `aboutmeta.amdata.AMData` instance.
+
+
+<!-- PARSER - PARSE FUNCTION - NO AMDATA - START -->
+
+~~~python
+# Extract from ''sem_version.py'' file (2026-10-27).
+
+def parse(data: str) -> Version:
+    try:
+        version = VersionInfo.parse(data)
+
+    except ValueError as e:
+        raise ParsingError(e)
+
+    return version
+~~~
+
+<!-- PARSER - PARSE FUNCTION - NO AMDATA - END -->
+
+
+This second snippet requires an `aboutmeta.amdata.AMData` instance.
+
+
+<!-- PARSER - PARSE FUNCTION - WITH AMDATA - START -->
+
+~~~python
+# Extract from ''about_path.py'' file (2026-10-27).
+
+def parse(
+    amdata: object,
+    data  : str
+) -> TOCPath:
+# No parsing, and all job done by the class
+# ''aboutmeta.specs.data.tocpath.TOCPath''.
+    return TOCPath(
+        spec   = data,
+        parent = amdata.parent
+    )
+~~~
+
+<!-- PARSER - PARSE FUNCTION - WITH AMDATA - END -->
+
+
+> ***CAUTION.*** *To prevent circular imports, never use `from aboutmeta.amdata import AMData` when working with `amdata`, which must always be typed as `object`. Tests must also work with a mock `AMData` class based on the example below, where the `new_instance` method allows creating a new `AMData` instance without importing it (note that `new_instance` and `postprod` are actual `AMData` methods).*
+
+
+<!-- PARSER - MOKE MADATA - START -->
 
 ~~~python
 class MokeAMData:
@@ -27,7 +78,7 @@ class MokeAMData:
         self.flavour = flavour
         self.parent  = parent
 
-# For post-productions.
+# Only for post-processing features.
         def postprod(
             self,
             keypath: str | list[str],
@@ -35,5 +86,4 @@ class MokeAMData:
             ...
 ~~~
 
-
-> ***IMPORTANT.*** *To build a new instance of `AMData` without importing it, just use the `new_instance` method (it requires the `flavour` and `file` arguments), as in `new_amdata = amdata.new_instance(flavour = ... , file = ...)`.*
+<!-- PARSER - MOKE MADATA - END -->

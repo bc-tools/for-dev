@@ -1,12 +1,15 @@
 ### Derived attributes from mandatory ones
 
-Since `DataManager` inherits from `dataclasses.dataclass`, adding attributes dynamically is not possible (which has the advantage of ensuring data integrity). How can you derive new attributes from the initially provided data? The approach is straightforward, as shown in the following code snippet, where `field(init = False)` is used to indicate an attribute that does not need to be provided during `DataManager` initialization, while the `__post_init__` method will compute these new attributes.
+Since `DataManager` inherits from `dataclasses.dataclass`, adding attributes dynamically is not possible to ensure data integrity.
+To derive new attributes from initial inputs, use `field(init = False)` for attributes that should not be passed during initialization, and calculate their values within the `__post_init__` method, as shown in the snippet below.
+
+
+<!-- DERIVATE ATTRS - LICENSING EXTRACT - START -->
 
 ~~~python
-# Extract of License class code.
-# Version 2026-10-19
+# Extract of Licensing class code (2026-10-27).
 
-class License(DataManager):
+class Licensing(DataManager):
     spdx_id: str
     name   : str = field(init = False)
     url    : str = field(init = False)
@@ -14,3 +17,5 @@ class License(DataManager):
     def __post_init__(self) -> None:
         ...
 ~~~
+
+<!-- DERIVATE ATTRS - LICENSING EXTRACT - END -->

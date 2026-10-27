@@ -1,6 +1,7 @@
 #### User documentation
 
-Each parser must describe the data type it handles in a concise and accurate manner. This must be done at the beginning of the script, as shown in the following mock example.
+Each parser must accurately and concisely describe the data type it handles. This description must be placed at the beginning of the script, as shown in the following dummy example.
+
 
 ~~~python
 #!/usr/bin/env python3
@@ -13,7 +14,10 @@ Each parser must describe the data type it handles in a concise and accurate man
 ~~~
 
 
-For data that exposes normalization and/or validation processes, this must be explained simply inside a dedicated section `[[normalize]]` and `[[validate]]`, as shown in the following mock example.
+If a data structure requires normalization and/or validation, describe these processes concisely within dedicated final `[[normalize]]` and `[[validate]]` sections, as illustrated in the following dummy example.
+
+
+<!-- TNSDOC - NORMALIZE/VALIDATE SECTIONS - START -->
 
 ~~~python
 #!/usr/bin/env python3
@@ -31,5 +35,7 @@ For data that exposes normalization and/or validation processes, this must be ex
 ...
 ~~~
 
+<!-- TNSDOC - NORMALIZE/VALIDATE SECTIONS - END -->
 
-> ***WARNING.*** *The description of the parsed data is intended for an `about.yaml` user, not a `Python` developer.*
+
+> ***WARNING.*** *The description of the parsed data is intended for `about.yaml` end users, not `Python` developers.*

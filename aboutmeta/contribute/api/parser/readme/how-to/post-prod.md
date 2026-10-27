@@ -1,19 +1,38 @@
 ### Post-production tools
 
-Sometimes data require some actions to be performed: for instance: for instance, the `about_path` parser needs to build a full list of absolute paths based on raw paths and/or search patterns (see `contrib/parser/code/about_path.py`).
+Sometimes data requires post-processing actions. For instance, the `about_path` parser needs to build a complete list of absolute paths based on raw paths and/or search patterns (see the snippet below).
+By design, only one post-processing step can be defined, which is implemented via the `postprod` function. It must strictly follow one of the signatures below (generic types are shown here for illustration, but you must specify concrete type hints as demonstrated in the snippet below).
 
-By design, only one post-processing step can be defined, through the function `postprod`, using only one of the following signatures (here, we use generic types for the classes, but you will have to be more precise, as in the accepted parsers).
+  - `postprod(data: object) -> object`:
+  operate on a single parsed data.
 
-   + `postprod(data: object) -> object` only works with the data.
+  - `postprod(data: list[object]) -> object`:
+  operate on a list of parsed data.
 
-   + `postprod(amdata: object, data: object) -> object` also takes into account an instance of the class `aboutmeta.amdata.AMData`.
+  - `postprod(amdata: object, data: object) -> object` and `postprod(amdata: object, data: list[object]) -> object`:
+  require access to an instance of `aboutmeta.amdata.AMData`.
 
 
-> ***CAUTION.*** *Never use `from aboutmeta.amdata import AMData`, type `amdata` as `object`, and use `new_amdata = amdata.new_instance(flavour=..., file=...)` for new `AMData` instances.*
+> ***CAUTION.*** *As explained in the `parse` function section, never use `from aboutmeta.amdata import AMData`, always type `amdata` as `object`, use `new_instance` method to create new `AMData` instances, and rely on a mock `AMData` class for your tests.*
 
 
-The `postprod` function can process two kinds of `data`.
+Here is a real-world use case requiring `aboutmeta.amdata.AMData` instances to analyze `about.yaml` files when folder paths are found.
 
-   + For a single parser in the YAML specifications, `data` is just the data built by the `parse` function.
 
-   + For a list of data parsed in the YAML specifications, `data` is a list of data built by the `parse` function.
+<!-- PARSER - POSTPROD FUNCTION -  - START -->
+
+~~~python
+# Simplified extract from ''about_path.py'' file (2026-10-27).
+
+def postprod(
+    amdata: object,
+    data  : list[TOCPath]
+) -> list[Path]:
+    paths = []
+
+# Let's walk!
+    for tpath in data:
+        ...
+~~~
+
+<!-- PARSER - POSTPROD FUNCTION - END -->

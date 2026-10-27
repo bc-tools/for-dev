@@ -1,21 +1,24 @@
 ### Special keys
 
-A little DSL allows you to define some special features for keys. Here's what you can use.
+A small DSL allows you to define special features for keys. Here is what you can use.
 
-  1. To indicate **an optional key**, simply add a space and the `*` character after its name, as in `key-name *`.
+  1. To indicate **an optional key**, simply add a space and a `*` character after its name, as in `key-name *`.
 
-  1. For an **alternative choice of keys**, i.e. only one key from a set of keys is allowed, use the character `|` as in `key-1-not-2 | key-2-not-1`, and if these keys are optional, simply use `key-1-not-2 | key-2-not-1 *`. You can use as many characters `|` as you need. Then, for the associated value, you can also use a similiar list of parsers like in `key-1-not-2 | key-2-not-1 : parser_1 | parser_2`, or just a single common parser like in `key-1-not-2 | key-2-not-1 : same_parser`.
+  1. For an **alternative choice of keys** (i.e., where only one key from a set is allowed), use the pipe character (`|`), as in `key-1-not-2 | key-2-not-1`. If these keys are optional, simply use `key-1-not-2 | key-2-not-1 *`.
+  You can use as many `|` characters as needed.
+  For the associated value, you can either provide a matching alternative of parsers, such as `key-1-not-2 | key-2-not-1 : parser_1 | parser_2`, or a single common parser, such as `key-1-not-2 | key-2-not-1 : same_parser`.
 
-  1. Non-competing keys that use the same parser, whether optional or required, can be quickly specified by separating them with commas (which avoids having to type them one after the other). For example, `key-1, key-2 * : same_parser` defines two optional keys that can be used together and rely on the same parser.
-
-
-> ***NOTE.*** *With an alternative choice, if one of the key is a list of data, just use `list(parser_name)`.*
-
-
-Here is a realistic extract of the `project` section, where all keys shown are optional. The user can specify either `author` or `authors`. Within the `urls` sub-block, all keys `home`, `dev`, and `issues` are available.
+  1. Non-competing keys that share the same parser, whether optional or required, can be specified quickly by separating them with commas, avoiding repetitive declarations. For example, `key-1, key-2 * : same_parser` defines two optional keys that can be used together and rely on the same parser.
 
 
-<!-- Simplified version - START -->
+> ***NOTE.*** *When dealing with an alternative choice where one of the keys represents a list of data, simply use `list(parser_name)`.*
+
+
+Here is a real extract from the `project` block, where all displayed keys are optional. Users can specify either `author` or `authors`. Within the `urls` sub-block, the `home`, `dev`, and `issues` keys are all available, but not mandatory.
+
+
+<!-- SPECIAL KEYS - REAL EXTRACT (no '.' shortcut) - START -->
+
 ~~~yaml
 # Simplified version of the ''project.yaml'' file (2026-08-21).
 
@@ -27,4 +30,5 @@ urls *:
 require *:
   - str
 ~~~
-<!-- Simplified version - END -->
+
+<!-- SPECIAL KEYS - REAL EXTRACT (no '.' shortcut) - END -->

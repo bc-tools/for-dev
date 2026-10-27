@@ -1,6 +1,6 @@
 ### The code folder
 
-This folder contains all the parsers. A file named `myparser.py` will correspond to `myparser` in a `YAML` specification file.
+This folder contains all parsers. A file named `myparser.py` corresponds to `myparser` in a `YAML` specification file.
 
 
-> ***CAUTION.*** *Use a regular `Python` variable name.*
+> ***CAUTION.*** *Use a standard `Python` variable name.*

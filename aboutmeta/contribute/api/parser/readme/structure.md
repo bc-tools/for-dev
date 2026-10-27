@@ -1,2 +1,2 @@
-Structure of the "contrib/parser" folder
-----------------------------------------
+Structure of the 'contribute/api/parser' folder
+-----------------------------------------------

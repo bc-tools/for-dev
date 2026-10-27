@@ -1,16 +1,16 @@
-### Add tools
+### Use tools
 
-You may use tools specific to the execution of a code, such as data files added to the final project, as is the case for the data class in `contrib/data/code/licence.py`. Automated code generation tools are also permitted. This type of feature must be coded in the `TOOLS` section comments, which will import the required modules (see the last section, 'Magic Comments', for details).
-
-
-> ***CAUTION.*** *Do not import modules that are only needed for tools at the beginning of the script, as these imports would otherwise be unnecessarily included in the final product.*
+You may rely on execution utilities and external resources, such as project data files (like the data class in `contribute/api/data/code/licensing.py`). Automated code generation tools are also supported. This functionality must be defined using comments in the 'TOOLS' section, which will import the required modules (see the last section, 'Magic Comments', for details).
 
 
-Regarding the addition of supplementary files, you should pay attention to the following points.
-
-  1. Each file must be used in the same folder as the `Python` file. ***Use relative paths!***
-
-  1. The file name must be prefixed by the `Python` file name followed by a hyphen. For example, the data class file `contrib/data/code/license.py` use the additional file `license-spdx.json`.
+> ***CAUTION.*** *Do not place tool-only imports at the beginning of the script. Otherwise, these dependencies will be unnecessarily included in the final `aboutmeta` code.*
 
 
-> ***NOTE.*** *Working with files stored permanently on the end user's operating system is a good practice to adopt for obvious security reasons, as well as for offline use.*
+Regarding supplementary files, please note the following guidelines.
+
+  1. Each file must be stored in the same directory as the `Python` script. **Always use relative paths!**
+
+  1. File names must be prefixed with the `Python` script name followed by a hyphen. For example, the data class file `contribute/api/data/code/licensing.py` uses the supplementary file `licensing-spdx.json`.
+
+
+> ***NOTE.*** *Storing files locally on the user's system is recommended for security reasons and ensures offline availability.*

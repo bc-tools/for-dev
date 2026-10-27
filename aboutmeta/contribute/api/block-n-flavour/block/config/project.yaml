@@ -102,7 +102,7 @@ acronym *: acronym
 # if it differs from that of the project folder.
 #
 #
-# note::
+# important::
 #     If neither the ''codename'' nor ''doctitle'' key is used,
 #     the project will be considered to be of code type.
 ###
