@@ -88,7 +88,7 @@ def write(data: TOCPath) -> str | dict[str, str]:
 ###
 def postprod(
     amdata: object,
-    data: list[TOCPath]
+    data  : list[TOCPath]
 ) -> list[Path]:
     paths = []
 

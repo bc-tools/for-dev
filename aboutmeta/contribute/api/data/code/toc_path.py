@@ -265,11 +265,8 @@ class TOCPath(DataManager):
         if self.kind == TAG_TOC_PATH_RAW:
             self._validate_raw_path()
 
-        elif self.kind in TAG_TOC_GLOB_PATTERNS:
-            self._validate_glob_pattern()
-
         else:
-            self._validate_regex_pattern()
+            self._validate_pattern()
 
 ###
 # prototype::
@@ -314,71 +311,35 @@ class TOCPath(DataManager):
 
             self.data_pb.rejected(raw_path)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###
 # prototype::
-#     :action: check for winning ''glob'' pattern.
+#     :action: check for winning ''glob'' or ''regex'' pattern
+#              using a specific path iterator.
 #
-#     :see: self._validate_pattern
+#     :see: self.path_iter
 ###
-    def _validate_glob_pattern(self) -> None:
-        self._validate_pattern(
-            str_pattern = self.pattern,
-            path_iter   = self.glob_iter,
+    def _validate_pattern(self) -> None:
+# What kind of search?
+        is_recu, glob_method_name = self._get_search_spec()
+
+# For messages, we nedd a human string version of the patterns.
+        str_pattern = (
+            self.pattern
+            if isinstance(self.pattern, str) else
+            self.pattern.pattern
         )
 
-###
-# prototype::
-#     :action: check for winning ''regex'' pattern.
-#
-#     :see: self._validate_pattern
-###
-    def _validate_regex_pattern(self) -> None:
-        self._validate_pattern(
-            str_pattern = self.pattern.pattern,
-            path_iter   = self.regex_iter,
-        )
-
-###
-# prototype::
-#     str_pattern : string version of a glob or ''regex'' pattern
-#                   (this is for terminal and log communication).
-#     path_iter   : an iterartor expected either ''glob'' or
-#                   ''rglob'' method name to iterate over paths in
-#                   a specific ways.
-#
-#     :action: check for winning pattern using a specific path
-#              iterator.
-#
-#     :see: self.glob_iter ,
-#           self.regex_iter
-###
-    def _validate_pattern(
-        self,
-        str_pattern: str,
-        path_iter  : Callable[[str], Iterator[Path]],
-    ) -> None:
+# Let's go!
         self._start_pattern_validation(
-            str_pattern = str_pattern
+            str_pattern = str_pattern,
+            is_recu     = is_recu,
         )
-
-        glob_method_name = self.get_glob_method_name()
 
         nothing_found = True
 
-        for p in path_iter(glob_method_name):
+        for p in self.path_iter(
+            glob_method_name = glob_method_name,
+        ):
             nothing_found = False
 
             break
@@ -390,24 +351,18 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     str_pattern : :see: self._validate_pattern
+#     str_pattern : string version of a glob or ''regex'' pattern
+#                   (this is for terminal and log communication).
+#     is_recu     : ''True'' for a recursive search, ''False''
+#                   otherwise.
 #
 #     :action: initialization of the pattern validation process.
-#
-#     :return: the ''glob'' method name to use regarding the
-#              ''Path'' class.
-#            @ _ = TAG_GLOB_METHOD
-#              or
-#              _ = TAG_GLOB_RECU_METHOD
-#
-#     :see: self._is_recu_search
 ###
     def _start_pattern_validation(
         self,
-        str_pattern: str
-    ) -> str:
-        is_recu = self._is_recu_search()
-
+        str_pattern: str,
+        is_recu    : bool,
+    ) -> None:
         if is_recu:
             _ , kind = self.kind.split('-')
 
@@ -422,14 +377,6 @@ class TOCPath(DataManager):
 
         self.data_pb.what(f"{what} pattern")
         self.data_pb.checking(str_pattern)
-
-###
-# prototype::
-#     :return: ''True'' for a recursive search, and ''False''
-#              otherwise.
-###
-    def _is_recu_search(self) -> str:
-        return (self.kind[:2] == 'r-')
 
 ###
 # prototype::
@@ -458,27 +405,50 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :return: either ''"rglob"'' for a recursive search, or
-#              ''"glob"'' (this value is required to iterate
-#              over the paths matching a pattern).
-#            @ _ in [TAG_GLOB_METHOD, TAG_GLOB_RECU_METHOD]
+#     :return: \1st \arg is ''True'' for a recursive search, and
+#              ''False'' otherwise.
+#              \2nd \arg is either ''"rglob"'' for a recursive
+#              search, or ''"glob"'' (this value is required to
+#              iterate over the paths matching a pattern).
+#            @ _[1] in [TAG_GLOB_METHOD, TAG_GLOB_RECU_METHOD]
 #
 #     :see: self.glob_iter ,
 #           self.regex_iter
 ###
-    def get_glob_method_name(self):
-        glob_method_name = (
-            TAG_GLOB_METHOD
-            if self._is_recu_search() else
-            TAG_GLOB_RECU_METHOD
-        )
+    def _get_search_spec(self) -> (bool, str):
+        if self.kind[:2] == 'r-':
+            return (True, TAG_GLOB_RECU_METHOD)
 
-        return glob_method_name
+        return (False, TAG_GLOB_METHOD)
 
 ###
 # prototype::
-#     glob_method_name : :see: self._start_pattern_validation
-#                              [return]
+#     glob_method_name : the name of the glob method to use
+#                        (whether recursive or not).
+#
+#     :yield: each path which validates the pattern stored in
+#             ''self.pattern''.
+#
+#     :see: self.glob_iter ,
+#           self.regex_iter
+###
+    def path_iter(
+        self,
+        glob_method_name: str | None = None,
+    ) -> Iterator[Path]:
+# We need the glob method name to use.
+        if glob_method_name is None:
+            _ , glob_method_name = self._get_search_spec()
+
+# Which kind of paterns is used?
+        if isinstance(self.pattern, str):
+            return self.glob_iter(glob_method_name)
+
+        return self.regex_iter(glob_method_name)
+
+###
+# prototype::
+#     glob_method_name : :see: self.path_iter
 #
 #     :yield: each path which validates the ''glob'' pattern
 #             stored in ''self.pattern'' using the ''glob''
@@ -496,8 +466,7 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     glob_method_name : :see: self._start_pattern_validation
-#                              [return]
+#     glob_method_name : :see: self.path_iter
 #
 #     :yield: each path which validates the ''regex'' pattern
 #             stored in ''self.pattern'' using the ''glob''
