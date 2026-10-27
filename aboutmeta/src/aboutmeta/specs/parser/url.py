@@ -9,6 +9,7 @@
 #
 #
 # [[normalize]]
+#
 # Here are the normalizations done.
 #
 #     1. Typographical quirks are removed. For example,
@@ -20,6 +21,7 @@
 #
 #
 # [[validate]]
+#
 # URL validation uses DNS to check for the existence of the
 # hostname, while HTTP techniques verify its online availability.
 ###

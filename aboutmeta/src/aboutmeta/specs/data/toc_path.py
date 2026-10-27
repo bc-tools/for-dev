@@ -96,9 +96,9 @@ TOC_PATH_SPEC_TYPE = (
 #
 #
 # important::
-#     A dictionary ''spec'' attribute is standardized: only
-#     long-name keys are used, and string ''regex'' patterns are
-#     transformed into their compiled versions.
+#     A dictionary ''spec'' attribute is always standardized:
+#     only long-name keys are used, and string ''regex'' patterns
+#     are transformed into their compiled versions.
 ###
 class TOCPath(DataManager):
     spec   : TOC_PATH_SPEC_TYPE
@@ -252,8 +252,9 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :action: check for parent folder existence, unbroken single
-#              raw path if needed, or winning pattern validation.
+#     :action: check for the ''parent'' folder's existence,
+#              as well as either a single unbroken raw path
+#              or winning pattern validation.
 #
 #     :see: self._validate_parent_dir,
 #           self._validate_raw_path,

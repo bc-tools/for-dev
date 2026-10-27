@@ -26,6 +26,7 @@
 #
 #
 # [[normalize]]
+#
 # Here are the normalization steps performed.
 #
 #     + Names are written in "titlecase", and the particle in
@@ -44,6 +45,7 @@
 #
 #
 # [[validate]]
+#
 # Here are the validation steps performed.
 #
 #     + The email syntax is verified.

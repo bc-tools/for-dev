@@ -45,9 +45,11 @@ The \docs and manual can be easily translated in the path::''contrib/translate''
 [[:tech:]]      ?????
 Here are the \chges made.
 
-    1)  \yaml \cfg files: magic decorators ''*'' (zero or more) and ''+'' (at least one) must end the names and be preceded by a space.
+    1)  ????
+    \yaml \cfg files: magic decorators ''*'' (zero or more) and ''+'' (at least one) must end the names and be preceded by a space.
 
-    1)  \python data and parser files: magic comments have been simplified a lot (this has been made possible by the fact that parsers and mappers are put inside the same \python file).
+    1)  ????
+    \python data and parser files: magic comments have been simplified a lot (this has been made possible by the fact that parsers and mappers are put inside the same \python file).
 
     1)  ????
     Full \docs and \readme files: the \contrib \docs are now automatically integrated (this avoids \doc overhead when updating a \contrib). This implies precise \doc in all \contribs.

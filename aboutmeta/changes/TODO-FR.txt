@@ -5,65 +5,45 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-- pour block et flavour en mode str !!!
+unit tetst
+
+     --> reprendre toutes les test des contrib
+
+     --> si une data ou un parser pas tester, on cérer un fichier de tests auto dont le contnue est celui des tests de la contrib en mode commentée
+
+     --> struct fasse des  block via hypothesis
+
+     --> testes mixé géré par mélange des testes des contribs (faisons simple !)
+
+     --> hypothesis
 
 
 > ---------------------------- <
 
+doc + API
 
-readme via tnsdoc dès que possible car bien plus précis !!!
+     --> usage de - pour block et flavour en mode str !!!
 
-de plus on pourra y utiliser des drapeaux comme if_readme pour n'inclure que des partie spéciifique aux readme
-ou bien user d'abbrev...
+     --> géré lisnertion automatiqsé des bouts de code des specs de locs
+     penser à gerer la nouveauté et dans ce cas la le dater !!!
 
+     --> doc complète : on doit intégrere automatiquement tous les helpers!
 
-> ---------------------------- <
-
-géré lisnertion automatiqsé des bouts de code des specs de b;locs
-
-penser à gerer la nouveauté et dans ce cas la le dater !!!
+     --> vendre cote sûr car on ne lit que des strings pour le fichier YAML
 
 
 > ---------------------------- <
 
-doc complète : on doit intégrere automatiquement tous les helpers!
+flavour
 
-> ---------------------------- <
+     --> dyna : ajouter unexemple mais indiquer que ceci doit se limiter à des testes locaux car le mieux est d'etoffer aboutmeta
 
-doc des block : demander des tetses de structure mais pas sur les parsers qui sont testé à part bon et mauvais cas mais avec données finales à parser valables!
-
-testes mixé géré par mélange des testes des contribs (faisons simple !)
+     --> cdt en plus avec les parsers associés
 
 
 > ---------------------------- <
 
-entrée, plat | plat , dessert
-
-     ---> on accepte , et | avec | prioritaire sur ,  à documeter
-
-
-> ---------------------------- <
-
-https://github.com/fabiocaccamo/python-benedict
-
-au lieu de boxplus !!!!
-
-
-> ---------------------------- <
-
-Factorisation of tools for a cleaner code.
-
-    * All tool \funcs use typing annotations.
-
-    * Tests for contributions: if no unit test has been written in the path::''tests'' folder, a file is created with comments containing human tests used in the \contrib file.
-
-
-> ---------------------------- <
-
-hypothesis juste pour dev et Test
-
-
-> ---------------------------- <
+ajouter à licensing - ok via postprod : ajout relatif au fhcier about_yamh tout bêtement
 
 from pathlib import Path
 
@@ -166,16 +146,6 @@ def de bloc avec des trucs en commun project / monorepo
 
 > ---------------------------- <
 
-le parser des yaml: vendant le cote sûr car on ne lit que des strings!!!
-
-
-> ---------------------------- <
-
-tout rendre modifiable dynamiquement via une option booleene : ceci permet alors de cntribuer au post_doc, et aussi à des xtras comme add_licenes
-
-
-> ---------------------------- <
-
 def is_bigger_path(
     prepaths = list[list[str]],
     one_path = list[str]
@@ -201,8 +171,6 @@ Doc - Section dédie aux actions en plus !
 
 
 > ***NOTE.*** *Using the `Python` API or the CLI, you can request the addition of a `License.txt` file in the folder containing the `about.yaml` file.*
-
-
 
 
 > ***NOTE.*** *The CLI allows to request that the full text of the license be put into a file `LICENSE.txt `relatively to the folder containing the `about.yaml` file. You can also do that using codes like the follwing one.*
@@ -241,6 +209,14 @@ CLI.
     ---> Ajout de la licence au format texte
 
     ---> Test dns des urls avec rêche reçu auto à partir d'un point donné
+
+
+> ---------------------------- <
+
+readme via tnsdoc dès que possible car bien plus précis !!!
+
+de plus on pourra y utiliser des drapeaux comme if_readme pour n'inclure que des partie spéciifique aux readme
+ou bien user d'abbrev...
 
 
 // ---------- //
