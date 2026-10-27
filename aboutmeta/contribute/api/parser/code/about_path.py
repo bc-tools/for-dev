@@ -114,47 +114,12 @@ def postprod(
 
                 paths += sub_amdata.postprod('atoc')
 
-# Pattern search.
+# Pattern search. PO is bot POO!
         else:
-            ...
+            paths.extend(tpath.path_iter())
 
 # Nothing left to do.
     return paths
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # Pattern search.
-#         else:
-#             glob_method_name = (
-#                 TAG_GLOB_METHOD
-#                 if tpath._is_recu_search() else
-#                 TAG_GLOB_RECU_METHOD
-#             )
-
-#             iterator_name = (
-#                 'glob_iter'
-#                 if kind in TAG_TOC_GLOB_PATTERNS else
-#                 'regex_iter'
-#             )
-
-#             paths += natsorted(
-#                 list(
-#                     getattr(
-#                         tpath,
-#                         iterator_name
-#                     )(glob_method_name)
-#                 )
-#             )
 
 
 # ----------- #
