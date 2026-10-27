@@ -5,6 +5,11 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+specs core des parsersr besoin de TAG_USE_NORMALIZE et TAG_VALIDATE en plus de TAG_USE_POST comme cela plus de has_attr à uiliser
+
+
+> ---------------------------- <
+
 unit tetst
 
      --> reprendre toutes les test des contrib
