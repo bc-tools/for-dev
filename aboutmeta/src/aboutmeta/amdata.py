@@ -21,6 +21,9 @@ from aboutmeta.core.errors                 import ParsingError
 from aboutmeta.specs.flavour.__ALL_FLAVOURS__ import *
 
 
+KEYPATH_MULTI_TYPE = None | str | list[str]
+
+
 ###
 # prototype::
 #     flavour : hhh
@@ -539,12 +542,12 @@ class AMData:
 # prototype::
 #     keypath : Y
 #
-#     :return: Z
+#     :action: Z
 ###
     def standardize(
         self,
-        keypath: None | str | list[str] = None,
-    ) -> dict:
+        keypath: KEYPATH_MULTI_TYPE = None,
+    ) -> None:
         self.std_data = benedict()
 
         for kp, val, parser_module in self._iter_keypath(keypath):
@@ -563,14 +566,49 @@ class AMData:
 # prototype::
 #     keypath : Y
 #
+#     :action: Z
+###
+    def normalize(
+        self,
+        keypath: KEYPATH_MULTI_TYPE = None,
+    ) -> dict:
+        for _, val, _ in self._iter_keypath(keypath):
+            if type(val) == list:
+                for elt in val:
+                    self._normalize_me(elt)
+
+            else:
+                self._normalize_me(val)
+
+###
+# prototype::
+#     data : Y
+#
+#     :action: Z
+###
+    def _normalize_me(
+        self,
+        data,
+    ) -> None:
+        if hasattr(data, 'normalize'):
+            data.normalize()
+
+
+
+
+
+###
+# prototype::
+#     keypath : Y
+#
 #     :return: Z
 #
 #     :action: Z
 ###
     def postprod(
         self,
-        keypath: str | list[str] = '',
-    ) -> dict:
+        keypath: KEYPATH_MULTI_TYPE = None,
+    ) -> object:
         ...
 
 
@@ -584,8 +622,9 @@ class AMData:
 ###
     def _iter_keypath(
         self,
-        keypath: None | str | list[str] = None,
+        keypath: KEYPATH_MULTI_TYPE = None,
     ) -> dict:
+# TODO : check que bien un final, un keypath de données!
         if keypath is None:
             keypaths_wanted = self._all_data_keypaths
 
@@ -642,6 +681,13 @@ if __name__ == "__main__":
         print(amdata.data.to_json(indent = 4))
 
         print()
+        print('Normalize')
+
+        amdata.normalize()
+
+        print(amdata.data.to_json(indent = 4))
+
+        print()
         print(f'All keypaths: {amdata._all_data_keypaths}')
 
         first_data = amdata.data[amdata._all_data_keypaths[0]]
@@ -650,7 +696,7 @@ if __name__ == "__main__":
         print(f'1st data: {first_data}')
         print(f'    repr: {first_data!r}')
 
-        new_yaml_code = amdata.standardize()
+        amdata.standardize()
 
         print()
         print(amdata.std_data.to_json(indent = 4))
