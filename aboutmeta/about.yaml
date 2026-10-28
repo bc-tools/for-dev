@@ -17,3 +17,8 @@ project:
 
   require :
     - python3
+
+atoc:
+  - a
+  - b
+  - c

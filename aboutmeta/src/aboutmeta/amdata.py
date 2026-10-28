@@ -147,12 +147,12 @@ class AMData:
             return self._recu_build_dict(raw_data)
 
         else:
-            _type = type(raw_data).__name__
-            key   = self._msg_get_keypath()
+            _type   = type(raw_data).__name__
+            keypath = self._msg_get_keypath()
 
             raise ValueError(
-                f'Unsupported yaml content type {_type!r}. '
-                f'See key {key!r}.'
+                f'Unsupported yaml content Python typed {_type!r}. '
+                f'See key {keypath!r}.'
             )
 
 
@@ -163,18 +163,46 @@ class AMData:
     def _recu_build_list(
         self,
         raw_data: list,
-    ) -> dict:
-        data = []
+    ) -> list:
+# Good data type?
+        datatype = self._main_parsers[self._pre_keypath].get(
+            TAG_DATATYPE,
+            None
+        )
 
+        if datatype != TAG_LIST:
+            raise ValueError(
+                f'Block {self._msg_get_keypath()!r} does not '
+                 'expect a list of data to parse.'
+            )
 
+        parser_module, use_post = self._get_current_parser_spec()
+
+# Only strings allowed!
+        if parser_module == str:
+            data = []
+
+            for rd in raw_data:
+                if not type(raw_data) == str:
+                    raise ValueError(
+                        f'Block {self._msg_get_keypath()!r} only '
+                         'accepts a string list.'
+                    )
+
+                data.append(rd)
+
+# Specilized parsers will found wrong data types.
+        else:
+            data = [
+                parser_module.parse(
+                    amdata = self,
+                    data   = rd
+                )
+                for rd in raw_data
+            ]
 
 # Nothing left todo.
         return data
-
-
-
-
-
 
 ###
 # XXXX
@@ -215,7 +243,10 @@ class AMData:
             self._pre_keypath.append(key)
 
 # A data type?
-            datatype = self._main_parsers[self._pre_keypath].get(TAG_DATATYPE, None)
+            datatype = self._main_parsers[self._pre_keypath].get(
+                TAG_DATATYPE,
+                None
+            )
 
 # A value to build recursively.
             if datatype is None:
@@ -223,9 +254,7 @@ class AMData:
 
 # A value to parse (datatype captured before).
             else:
-                parser_module = self._main_parsers[self._pre_keypath][TAG_PARSER]
-
-                use_post = self._main_parsers[self._pre_keypath][TAG_USE_POST]
+                parser_module, use_post = self._get_current_parser_spec()
 
                 if parser_module == str:
                     new_val = val
@@ -239,13 +268,20 @@ class AMData:
 # Pop the key from the key path.
             self._pre_keypath.pop(-1)
 
-
-
-
-
 # Nothing left todo.
         return data
 
+
+
+
+###
+# XXXX
+###
+    def _get_current_parser_spec(self):
+        return (
+            self._main_parsers[self._pre_keypath][TAG_PARSER],
+            self._main_parsers[self._pre_keypath][TAG_USE_POST],
+        )
 
 ###
 # XXXX
@@ -423,3 +459,5 @@ if __name__ == "__main__":
     amdata.build()
 
     print(amdata.data.to_json(indent = 4))
+    print()
+    print(amdata.data)
