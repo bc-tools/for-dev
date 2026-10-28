@@ -5,7 +5,9 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-attraber erreur de parser_module.parse en les agrémentatnt de là où le pb a été levé via une note ajouter à l'excpetion leveé
+pour les signs, on ajoute dans le src final un variable SIGN accessible depuis le module via SIGN[TAG_PARSE] = TAG_DATA_SIGN ou TAG_AMDATA_SIGN
+
+ne pas oulblier POSTPROD avec au passage LIST_DAT ou non
 
 
 > ---------------------------- <

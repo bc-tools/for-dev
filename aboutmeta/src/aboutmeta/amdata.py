@@ -157,10 +157,7 @@ class AMData:
                     'expect a list of data to parse.'
                 )
 
-            return self._build_list(
-                raw_data      = raw_data,
-                parser_module = self._get_current_parser_module(),
-            )
+            return self._build_list(raw_data)
 
 # Can be recurively called.
         elif isinstance(raw_data, dict):
@@ -179,14 +176,14 @@ class AMData:
 
 
 ###
-# TODO
+# ....
 ###
     def _build_list(
         self,
-        raw_data     : list,
-        parser_module: ModuleType,
+        raw_data: list,
     ) -> list:
         data = []
+        parser_module = self._get_current_parser_module()
 
         for pos, rd in enumerate(raw_data, start = 1):
             try:
@@ -199,7 +196,7 @@ class AMData:
 
             except Exception as e:
                 raise ParsingError(
-                    f'Block {self._msg_get_keypath()!r} has invalid item list data at position {pos}. {rd!r} raises: {type(e).__name__}: {e}'
+                    f'Block {self._msg_get_keypath()!r} has invalid item list data at position {pos}: {type(e).__name__}: {e}'
                 )
 
 # Nothing left todo.
@@ -258,10 +255,7 @@ class AMData:
 
 # A list of values to build.
                 if datatype == TAG_LIST:
-                    new_val = self._build_list(
-                        raw_data = val,
-                        parser_module = parser_module,
-                    )
+                    new_val = self._build_list(val)
 
 # A value to parse (datatype captured before).
                 else:
