@@ -5,9 +5,15 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-pour les signs, on ajoute dans le src final un variable SIGN accessible depuis le module via SIGN[TAG_PARSE] = TAG_DATA_SIGN ou TAG_AMDATA_SIGN
+dans la doc, indiquer que les daat sont libres, donc elles peuvent exposer des choses comme ajout dd'une licenece, ou pour des abbraviation leur exmaplsnion, .... ou aussi weeks pour savoir s semaine A ou B, ....
 
-ne pas oulblier POSTPROD avec au passage LIST_DAT ou non
+ceci sera utile au produit usant de aboutmeta
+
+> ---------------------------- <
+
+data_pb : ajout d'une méthode de'authorization pour validate cf url danegraux ou illégaux
+
+pour normalize, on interdit ce qui est potentiellmeent dangeraux
 
 
 > ---------------------------- <
@@ -229,6 +235,12 @@ readme via tnsdoc dès que possible car bien plus précis !!!
 
 de plus on pourra y utiliser des drapeaux comme if_readme pour n'inclure que des partie spéciifique aux readme
 ou bien user d'abbrev...
+
+
+> ---------------------------- <
+
+suport possisble de type python comme int ou float, voir si utile ou non
+
 
 
 // ---------- //

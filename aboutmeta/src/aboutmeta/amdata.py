@@ -22,9 +22,19 @@ from aboutmeta.specs.flavour.__ALL_FLAVOURS__ import *
 
 
 ###
-# self.yaml_file
-# self.data
-# self.post_vals
+# prototype::
+#     flavour : hhh
+#     parent  : ggg
+#
+#
+# note::
+#     This class also builds the following attributes.
+#
+#         + ''self.yaml_file''
+#
+#         + ''self.data''
+#
+#         + ''self.post_vals''
 ###
 class AMData:
     @classmethod
@@ -40,12 +50,18 @@ class AMData:
         self.parent  = parent
 
 ###
-# XXXX
+# We define a getter and a setter for the attribute ''flavour''.
 ###
     @property
     def flavour(self) -> str:
         return self._flavour
 
+###
+# prototype::
+#     flavour : :see: AMData
+#
+#     :action: JJJJ
+###
     @flavour.setter
     def flavour(
         self,
@@ -67,12 +83,18 @@ class AMData:
                 self._mandatory_block_names.add(bname)
 
 ###
-# XXXX
+# We define a getter and a setter for the attribute ''parent''.
 ###
     @property
     def parent(self) -> str:
         return self._parent
 
+###
+# prototype::
+#     parent : :see: AMData
+#
+#     :action: JJJJ
+###
     @parent.setter
     def parent(
         self,
@@ -91,12 +113,14 @@ class AMData:
 
 ###
 # prototype::
-#     :return: ''benedict'' version of the data found.
+#     tolerent : hhh
+#
+#     :return: ''benedict'' version of the data parsed.
 ###
     def build(
         self,
         tolerent: bool = True
-    ) -> dict:
+    ) -> benedict:
 # Dict des données
         self._yaml_raw_data = safe_load(
             self.yaml_file.read_text()
@@ -138,7 +162,10 @@ class AMData:
         self.data = benedict(data)
 
 ###
-# XXXX
+# prototype::
+#     raw_data : Y
+#
+#     :return: Z
 ###
     def _recu_build(
         self,
@@ -173,17 +200,18 @@ class AMData:
                 f'See key {keypath!r}.'
             )
 
-
-
 ###
-# ....
+# prototype::
+#     raw_data : Y
+#
+#     :return: Z
 ###
     def _build_list(
         self,
         raw_data: list,
     ) -> list:
         data = []
-        parser_module = self._get_current_parser_module()
+        parser_module = self._this_parser_module()
 
         for pos, rd in enumerate(raw_data, start = 1):
             try:
@@ -203,7 +231,10 @@ class AMData:
         return data
 
 ###
-# XXXX
+# prototype::
+#     raw_data : Y
+#
+#     :return: Z
 ###
     def _recu_build_dict(
         self,
@@ -251,7 +282,7 @@ class AMData:
                 new_val = self._recu_build(val)
 
             else:
-                parser_module = self._get_current_parser_module()
+                parser_module = self._this_parser_module()
 
 # A list of values to build.
                 if datatype == TAG_LIST:
@@ -273,12 +304,12 @@ class AMData:
 # Nothing left todo.
         return data
 
-
-
-
-
 ###
-# XXXX
+# prototype::
+#     raw_data      : Y
+#     parser_module : Y
+#
+#     :return: Z
 ###
     def _get_parsed_data(
         self,
@@ -294,39 +325,60 @@ class AMData:
 
             return raw_data
 
-# One data to parse.
-        try:
-            return parser_module.parse(raw_data)
+# One data to parse by using the good signature.
+        amdata_use, _ = self._this_parser_amdata_use()
 
-# TODO UGLLY HACK TO REMOVE !!!
-        except Exception as e:
-            try:
+        try:
+            if amdata_use:
                 return parser_module.parse(
                     amdata = self,
                     data   = raw_data
                 )
 
-            except Exception as e:
-                raise ParsingError(
-                f'Invalid data {raw_data!r} raises: {type(e).__name__}{e}'
+            else:
+                return parser_module.parse(raw_data)
+
+        except Exception as e:
+            raise ParsingError(
+                f'Invalid data {raw_data!r} raises: {type(e).__name__}: {e}'
             )
 
-
-
 ###
-# XXXX
+# prototype::
+#     key : Y
+#
+#     :return: Z
 ###
-    def _get_current_parser_module(self):
-        return self._main_parsers[self._pre_keypath][TAG_PARSER]
-
-###
-# XXXX
-###
-    def _get_current_parser_use_post(self):
-        return self._main_parsers[self._pre_keypath][TAG_USE_POST]
+    def _get_current_parser_metadata(
+        self,
+        key: str,
+    ) -> object:
+        return self._main_parsers[self._pre_keypath][key]
 
 ###
-# XXXX
+# prototype::
+#     :return: Z
+###
+    def _this_parser_amdata_use(self) -> (bool, bool | None):
+        return self._get_current_parser_metadata(TAG_AMDATA_USE)
+
+###
+# prototype::
+#     :return: Z
+###
+    def _this_parser_module(self) -> ModuleType:
+        return self._get_current_parser_metadata(TAG_PARSER)
+
+###
+# prototype::
+#     :return: Z
+###
+    def _this_parser_use_post(self) -> bool:
+        return self._get_current_parser_metadata(TAG_USE_POST)
+
+###
+# prototype::
+#     :action: Z
 ###
     def _check_legal_keys(self) -> None:
         if not self._current_keys_used <= self._current_keys_allowed:
@@ -339,7 +391,8 @@ class AMData:
             )
 
 ###
-# XXXX
+# prototype::
+#     :action: Z
 ###
     def _check_no_alt_keys(self) -> None:
         illegal_couples = set()
@@ -363,7 +416,8 @@ class AMData:
             )
 
 ###
-# XXXX
+# prototype::
+#     :action: Z
 ###
     def _check_manda_keys(self) -> None:
         mandatory_keys = set()
@@ -385,16 +439,11 @@ class AMData:
                 f'{names}.'
             )
 
-
-
-
-
-
-
-
-
 ###
-# XXXX
+# prototype::
+#     tolerent : Y
+#
+#     :action: Z
 ###
     def _check_main_blocks(
         self,
@@ -427,12 +476,15 @@ class AMData:
             )
 
 ###
-# XXXX
+# prototype::
+#     key : Y
+#
+#     :return: Z
 ###
     def _msg_get_keypath(
         self,
         key: str = ''
-    ):
+    ) -> str:
         keypath = '.'.join(self._pre_keypath)
 
         if key:
@@ -441,7 +493,11 @@ class AMData:
         return keypath
 
 ###
-# XXXX
+# prototype::
+#     names : Y
+#     sep   : Y
+#
+#     :return: Z
 ###
     def _msg_list_names(
         self,
@@ -457,13 +513,12 @@ class AMData:
 
         return plurial, list_names
 
-
-
-
-
-
 ###
-# XXXX
+# prototype::
+#     keypath : Y
+#
+#     :return: Z
+#     :action: Z
 ###
     def postprod(
         self,
@@ -484,6 +539,13 @@ class AMData:
 # ----------- #
 
 if __name__ == "__main__":
+# What I test.
+    TEST_WANTED = [
+        # 1, # Only project.
+        2, # Only atoc.
+    ]
+
+# Let's go.
     from pprint import pprint
 
     projdir = Path(__file__).parent
@@ -491,13 +553,32 @@ if __name__ == "__main__":
     while projdir.name != 'for-dev':
         projdir = projdir.parent
 
-    projdir /= 'aboutmeta'
+# Only project.
+    if 1 in TEST_WANTED:
+        mydir = projdir / 'aboutmeta'
 
-    amdata = AMData.new_instance(
-        flavour = TAG_IT_PROJECT,
-        parent  = projdir,
-    )
+        amdata = AMData.new_instance(
+            flavour = TAG_IT_PROJECT,
+            parent  = mydir,
+        )
 
-    amdata.build()
+        amdata.build()
 
-    print(amdata.data.to_json(indent = 4))
+        print(amdata.data.to_json(indent = 4))
+
+# Only atoc.
+    if 2 in TEST_WANTED:
+        mydir = (
+              projdir
+            / 'aboutmeta' / 'contribute' / 'api'
+            / 'parser' / 'readme'
+        )
+
+        amdata = AMData.new_instance(
+            flavour = TAG_ATOC,
+            parent  = mydir,
+        )
+
+        amdata.build()
+
+        print(amdata.data.to_json(indent = 4))

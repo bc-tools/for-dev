@@ -30,35 +30,73 @@ from aboutmeta.specs.parser import (
 
 __PARSER_ACRONYM_DATA = {
     TAG_PARSER: acronym,
+    TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
     TAG_DATATYPE: TAG_DATA,
 }
 
-__PARSER_LANG_DATA = {TAG_PARSER: lang, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+__PARSER_LANG_DATA = {
+    TAG_PARSER: lang,
+    TAG_AMDATA_USE: (False, None),
+    TAG_USE_POST: False,
+    TAG_DATATYPE: TAG_DATA,
+}
 
 __PARSER_LICENSING_DATA = {
     TAG_PARSER: licensing,
+    TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
     TAG_DATATYPE: TAG_DATA,
 }
 
-__PARSER_PERSON_DATA = {TAG_PARSER: person, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+__PARSER_PERSON_DATA = {
+    TAG_PARSER: person,
+    TAG_AMDATA_USE: (False, None),
+    TAG_USE_POST: False,
+    TAG_DATATYPE: TAG_DATA,
+}
 
-__PARSER_PERSON_LIST = {TAG_PARSER: person, TAG_USE_POST: False, TAG_DATATYPE: TAG_LIST}
+__PARSER_PERSON_LIST = {
+    TAG_PARSER: person,
+    TAG_AMDATA_USE: (False, None),
+    TAG_USE_POST: False,
+    TAG_DATATYPE: TAG_LIST,
+}
 
 __PARSER_SEM_VERSION_DATA = {
     TAG_PARSER: sem_version,
+    TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
     TAG_DATATYPE: TAG_DATA,
 }
 
-__PARSER_STR_DATA = {TAG_PARSER: str, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+__PARSER_STR_DATA = {
+    TAG_PARSER: str,
+    TAG_AMDATA_USE: (False, None),
+    TAG_USE_POST: False,
+    TAG_DATATYPE: TAG_DATA,
+}
 
-__PARSER_STR_LIST = {TAG_PARSER: str, TAG_USE_POST: False, TAG_DATATYPE: TAG_LIST}
+__PARSER_STR_LIST = {
+    TAG_PARSER: str,
+    TAG_AMDATA_USE: (False, None),
+    TAG_USE_POST: False,
+    TAG_DATATYPE: TAG_LIST,
+}
 
-__PARSER_URL_DATA = {TAG_PARSER: url, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+__PARSER_URL_DATA = {
+    TAG_PARSER: url,
+    TAG_AMDATA_USE: (False, None),
+    TAG_USE_POST: False,
+    TAG_DATATYPE: TAG_DATA,
+}
 
-__PARSER_YMDATE_DATA = {TAG_PARSER: ymdate, TAG_USE_POST: False, TAG_DATATYPE: TAG_DATA}
+__PARSER_YMDATE_DATA = {
+    TAG_PARSER: ymdate,
+    TAG_AMDATA_USE: (False, None),
+    TAG_USE_POST: False,
+    TAG_DATATYPE: TAG_DATA,
+}
 
 __STATUS_MANDATORY_PARSED = {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}
 

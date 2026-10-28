@@ -12,6 +12,8 @@ from cbutils.contrib    import *
 
 from projutils.yaml2py import *
 
+import itertools
+
 
 # ------------------ #
 # -- CONSTANTS #1 -- #
@@ -28,6 +30,7 @@ while(PROJECT_DIR.name != 'aboutmeta'):
     PROJECT_DIR = PROJECT_DIR.parent
 
 SPECS_DIR   = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
+PARSER_DIR  = SPECS_DIR / 'parser'
 BLOCK_DIR   = SPECS_DIR / CONTEXT
 CONTRIB_DIR = (
       PROJECT_DIR / 'contribute' / 'api'
@@ -62,6 +65,15 @@ PATTERN_HACK_ALTS = re.compile(
 
 HOOKS_OPEN_4  = '['*4
 HOOKS_CLOSE_4 = ']'*4
+
+
+for v1, v2 in itertools.product(
+    [True, False],
+    [True, False, None]
+):
+    globals()[
+        f"{str(v1).upper()}_{str(v2).upper()}"
+    ] = (v1, v2)
 
 
 # ------------ #
@@ -99,6 +111,35 @@ def build_parsers_needed(
             )
 
 
+
+def code_amdata_use(module_name):
+    if module_name == 'str':
+        return FALSE_NONE
+
+    file = PARSER_DIR / f'{module_name}.py'
+    code = file.read_text()
+
+    amdata_use = []
+
+    for fname, is_manda in [
+        ('parse'   , True),
+        ('postprod', False),
+    ]:
+        sign = get_parse_signature(
+            code         = code,
+            func_name    = fname,
+            is_mandatory =is_manda,
+        )
+
+        if sign is None:
+            amdata_use.append(None)
+
+        else:
+            amdata_use.append('amdata' in sign)
+
+    return tuple(amdata_use)
+
+
 def get_pyspecs(
     shortcuts_used: dict[str, ParserSpecs],
     yaml_specs    : NestedParserDictType
@@ -107,6 +148,12 @@ def get_pyspecs(
 
     for k, v in yaml_specs.items():
         if isinstance(v, ParserSpecs):
+# We need to know if the pasrer uses AMData or not.
+            amdata_use = code_amdata_use(
+                module_name = v.module
+            )
+
+# We can store data.
             shortcut = (
                 f'__PARSER_{v.module.upper()}'
                 f'_{v.datatype.upper()}'
@@ -121,9 +168,10 @@ def get_pyspecs(
                 shortcuts_used[shortcut] = {
                     prestr_2_pyvar(k): prestr_2_pyvar(v)
                     for k, v in {
-                        'TAG_PARSER'  : v.module,
-                        'TAG_USE_POST': v.use_post,
-                        'TAG_DATATYPE': f'TAG_{v.datatype.upper()}',
+                        'TAG_PARSER'    : v.module,
+                        'TAG_AMDATA_USE': amdata_use,
+                        'TAG_USE_POST'  : v.use_post,
+                        'TAG_DATATYPE'  : f'TAG_{v.datatype.upper()}',
                     }.items()
                 }
 

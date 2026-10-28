@@ -8,7 +8,7 @@ TAG_ABOUT_YAML = 'about.yaml'
 TAG_DATATYPE   = '__DATATYPE__'
 TAG_PARSER     = '__PARSER__'
 TAG_USE_POST   = '__USE_POST__'
-TAG_USE_AMDATA = '__USE_AMDATA__'
+TAG_AMDATA_USE = '__AMDATA_USE__'
 
 
 TAG_LIST = '__LIST__'

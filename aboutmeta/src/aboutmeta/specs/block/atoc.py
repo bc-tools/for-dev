@@ -22,6 +22,7 @@ from aboutmeta.specs.parser import about_path
 
 __PARSER_ABOUT_PATH_LIST_USE_POST = {
     TAG_PARSER: about_path,
+    TAG_AMDATA_USE: (True, True),
     TAG_USE_POST: True,
     TAG_DATATYPE: TAG_LIST,
 }
