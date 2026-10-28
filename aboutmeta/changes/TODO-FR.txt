@@ -5,6 +5,14 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+write, normalize et postprod son du meme type meme si normalize ne prend aucun argument
+
+    oparcours recursif des données parses et quand on a justement une donne à oarser n fait ce qu'il faut
+
+    besoin d'avoir pour chaque block la liste des chemins coplets des clés concernère : on délègue a benedecict le parcours recursif et aussi evite d'aanlayse d des choses gérées par el build
+
+> ---------------------------- <
+
 amdtata post prod ne rlance jamais build, c'esst à l'utisiateur de le faire, de mepe oir write
 
 write de amadta, prduit un dict str directement vaalable pour un ifchier yaml
