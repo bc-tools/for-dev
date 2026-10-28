@@ -34,6 +34,8 @@ from aboutmeta.specs.flavour.__ALL_FLAVOURS__ import *
 #
 #         + ''self.data''
 #
+#         + ''self.std_data''
+#
 #         + ''self.post_vals''
 ###
 class AMData:
@@ -538,6 +540,30 @@ class AMData:
 #     keypath : Y
 #
 #     :return: Z
+###
+    def standardize(
+        self,
+        keypath: None | str | list[str] = None,
+    ) -> dict:
+        self.std_data = benedict()
+
+        for kp, val, parser_module in self._iter_keypath(keypath):
+# String immbilsim...
+            if parser_module == str:
+                std_yaml_val = val
+
+# Otherwise we have a write function.
+            else:
+                std_yaml_val = parser_module.write(val)
+
+            self.std_data.set(kp, std_yaml_val)
+
+
+###
+# prototype::
+#     keypath : Y
+#
+#     :return: Z
 #
 #     :action: Z
 ###
@@ -548,29 +574,6 @@ class AMData:
         ...
 
 
-
-###
-# prototype::
-#     keypath : Y
-#
-#     :return: Z
-###
-    def standardize(
-        self,
-        keypath: None | str | list[str] = None,
-    ) -> dict:
-        self.std_data = benedict()
-
-        for kp, data, parser_module in self._iter_keypath(keypath):
-# String immbilsim...
-            if parser_module == str:
-                data_written = data
-
-# Otherwise we have a write function.
-            else:
-                data_written = parser_module.write(data)
-
-            self.std_data.set(kp, data_written)
 
 
 ###
@@ -584,15 +587,15 @@ class AMData:
         keypath: None | str | list[str] = None,
     ) -> dict:
         if keypath is None:
-            keypaths_to_write = self._all_data_keypaths
+            keypaths_wanted = self._all_data_keypaths
 
         elif type(keypath) == str:
-            keypaths_to_write = [keypath]
+            keypaths_wanted = [keypath]
 
         else:
-            keypaths_to_write = keypath
+            keypaths_wanted = keypath
 
-        for kp in keypaths_to_write:
+        for kp in keypaths_wanted:
             yield (
                 kp,
                 self.data[kp],
