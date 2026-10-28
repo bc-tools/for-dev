@@ -121,6 +121,9 @@ class AMData:
         self,
         tolerent: bool = True
     ) -> benedict:
+# Liste des chemins des clés à nourrir lors du build.
+        self._all_data_keypaths = []
+
 # Dict des données
         self._yaml_raw_data = safe_load(
             self.yaml_file.read_text()
@@ -180,7 +183,7 @@ class AMData:
 
             if datatype != TAG_LIST:
                 raise ValueError(
-                    f'Block {self._msg_get_keypath()!r} does not '
+                    f'Block {self._get_str_keypath()!r} does not '
                     'expect a list of data to parse.'
                 )
 
@@ -193,7 +196,7 @@ class AMData:
 # Unknow usecase unimplemented.
         else:
             _type   = type(raw_data).__name__
-            keypath = self._msg_get_keypath()
+            keypath = self._get_str_keypath()
 
             raise ValueError(
                 f'Unsupported yaml content Python typed {_type!r}. '
@@ -210,7 +213,9 @@ class AMData:
         self,
         raw_data: list,
     ) -> list:
-        data = []
+        self._update_all_data_keypaths()
+
+        data          = []
         parser_module = self._this_parser_module()
 
         for pos, rd in enumerate(raw_data, start = 1):
@@ -224,7 +229,7 @@ class AMData:
 
             except Exception as e:
                 raise ParsingError(
-                    f'Block {self._msg_get_keypath()!r} has invalid item list data at position {pos}: {type(e).__name__}: {e}'
+                    f'Block {self._get_str_keypath()!r} has invalid item list data at position {pos}: {type(e).__name__}: {e}'
                 )
 
 # Nothing left todo.
@@ -290,6 +295,8 @@ class AMData:
 
 # A value to parse (datatype captured before).
                 else:
+                    self._update_all_data_keypaths()
+
                     new_val = self._get_parsed_data(
                         raw_data      = val,
                         parser_module =     parser_module,
@@ -303,6 +310,19 @@ class AMData:
 
 # Nothing left todo.
         return data
+
+
+###
+# prototype::
+#     raw_data      : Y
+#     parser_module : Y
+#
+#     :action: Z
+###
+    def _update_all_data_keypaths(self):
+        self._all_data_keypaths.append(
+            self._get_str_keypath()
+        )
 
 ###
 # prototype::
@@ -481,7 +501,7 @@ class AMData:
 #
 #     :return: Z
 ###
-    def _msg_get_keypath(
+    def _get_str_keypath(
         self,
         key: str = ''
     ) -> str:
@@ -505,7 +525,7 @@ class AMData:
         sep  : str = ', '
     ) -> (str, str):
         list_names = sep.join([
-            f'{n!r}'
+            f'{self._get_str_keypath(n)!r}'
             for n in sorted(names)
         ])
 
@@ -535,12 +555,49 @@ class AMData:
 #
 #     :return: Z
 ###
-    def write(
+    def standardize(
         self,
-        keypath: str | list[str] = '',
+        keypath: None | str | list[str] = None,
     ) -> dict:
-        ...
+        self.std_data = benedict()
 
+        for kp, data, parser_module in self._iter_keypath(keypath):
+# String immbilsim...
+            if parser_module == str:
+                data_written = data
+
+# Otherwise we have a write function.
+            else:
+                data_written = parser_module.write(data)
+
+            self.std_data.set(kp, data_written)
+
+
+###
+# prototype::
+#     keypath : Y
+#
+#     :yield: Z
+###
+    def _iter_keypath(
+        self,
+        keypath: None | str | list[str] = None,
+    ) -> dict:
+        if keypath is None:
+            keypaths_to_write = self._all_data_keypaths
+
+        elif type(keypath) == str:
+            keypaths_to_write = [keypath]
+
+        else:
+            keypaths_to_write = keypath
+
+        for kp in keypaths_to_write:
+            yield (
+                kp,
+                self.data[kp],
+                self._main_parsers[kp][TAG_PARSER]
+            )
 
 
 
@@ -556,8 +613,8 @@ class AMData:
 if __name__ == "__main__":
 # What I test.
     TEST_WANTED = [
-        # 1, # Only project.
-        2, # Only atoc.
+        1, # Only project.
+        # 2, # Only atoc.
     ]
 
 # Let's go.
@@ -581,6 +638,21 @@ if __name__ == "__main__":
 
         print(amdata.data.to_json(indent = 4))
 
+        print()
+        print(f'All keypaths: {amdata._all_data_keypaths}')
+
+        first_data = amdata.data[amdata._all_data_keypaths[0]]
+
+        print()
+        print(f'1st data: {first_data}')
+        print(f'    repr: {first_data!r}')
+
+        new_yaml_code = amdata.standardize()
+
+        print()
+        print(amdata.std_data.to_json(indent = 4))
+
+
 # Only atoc.
     if 2 in TEST_WANTED:
         mydir = (
@@ -597,3 +669,6 @@ if __name__ == "__main__":
         amdata.build()
 
         print(amdata.data.to_json(indent = 4))
+
+        print()
+        print(amdata._all_data_keypaths)
