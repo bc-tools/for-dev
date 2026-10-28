@@ -518,9 +518,24 @@ class AMData:
 #     keypath : Y
 #
 #     :return: Z
+#
 #     :action: Z
 ###
     def postprod(
+        self,
+        keypath: str | list[str] = '',
+    ) -> dict:
+        ...
+
+
+
+###
+# prototype::
+#     keypath : Y
+#
+#     :return: Z
+###
+    def write(
         self,
         keypath: str | list[str] = '',
     ) -> dict:

@@ -5,6 +5,12 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+amdtata post prod ne rlance jamais build, c'esst à l'utisiateur de le faire, de mepe oir write
+
+write de amadta, prduit un dict str directement vaalable pour un ifchier yaml
+
+> ---------------------------- <
+
 dans la doc, indiquer que les daat sont libres, donc elles peuvent exposer des choses comme ajout dd'une licenece, ou pour des abbraviation leur exmaplsnion, .... ou aussi weeks pour savoir s semaine A ou B, ....
 
 ceci sera utile au produit usant de aboutmeta
