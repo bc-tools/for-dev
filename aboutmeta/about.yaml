@@ -21,4 +21,4 @@ project:
 atoc:
   - a
   - b
-  - c
+  - r: .*

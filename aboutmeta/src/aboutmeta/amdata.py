@@ -8,12 +8,16 @@
 
 # posprod(keypath) : pour un sous jeu de donné ou une donné
 
+from types import ModuleType
+
+
 from pathlib import Path
 
 from benedict import benedict
 from yaml     import safe_load
 
 from aboutmeta.core.constants                 import *
+from aboutmeta.core.errors                 import ParsingError
 from aboutmeta.specs.flavour.__ALL_FLAVOURS__ import *
 
 
@@ -140,12 +144,29 @@ class AMData:
         self,
         raw_data: dict | list,
     ) -> dict:
+# List of data ONLY for a main block!
         if isinstance(raw_data, list):
-            return self._recu_build_list(raw_data)
+            datatype = self._main_parsers[self._pre_keypath].get(
+                TAG_DATATYPE,
+                None
+            )
 
+            if datatype != TAG_LIST:
+                raise ValueError(
+                    f'Block {self._msg_get_keypath()!r} does not '
+                    'expect a list of data to parse.'
+                )
+
+            return self._build_list(
+                raw_data      = raw_data,
+                parser_module = self._get_current_parser_module(),
+            )
+
+# Can be recurively called.
         elif isinstance(raw_data, dict):
             return self._recu_build_dict(raw_data)
 
+# Unknow usecase unimplemented.
         else:
             _type   = type(raw_data).__name__
             keypath = self._msg_get_keypath()
@@ -160,46 +181,26 @@ class AMData:
 ###
 # TODO
 ###
-    def _recu_build_list(
+    def _build_list(
         self,
-        raw_data: list,
+        raw_data     : list,
+        parser_module: ModuleType,
     ) -> list:
-# Good data type?
-        datatype = self._main_parsers[self._pre_keypath].get(
-            TAG_DATATYPE,
-            None
-        )
+        data = []
 
-        if datatype != TAG_LIST:
-            raise ValueError(
-                f'Block {self._msg_get_keypath()!r} does not '
-                 'expect a list of data to parse.'
-            )
-
-        parser_module, use_post = self._get_current_parser_spec()
-
-# Only strings allowed!
-        if parser_module == str:
-            data = []
-
-            for rd in raw_data:
-                if not type(raw_data) == str:
-                    raise ValueError(
-                        f'Block {self._msg_get_keypath()!r} only '
-                         'accepts a string list.'
+        for pos, rd in enumerate(raw_data, start = 1):
+            try:
+                data.append(
+                    self._get_parsed_data(
+                        raw_data = rd,
+                        parser_module = parser_module,
                     )
-
-                data.append(rd)
-
-# Specilized parsers will found wrong data types.
-        else:
-            data = [
-                parser_module.parse(
-                    amdata = self,
-                    data   = rd
                 )
-                for rd in raw_data
-            ]
+
+            except Exception as e:
+                raise ParsingError(
+                    f'Block {self._msg_get_keypath()!r} has invalid item list data at position {pos}. {rd!r} raises: {type(e).__name__}: {e}'
+                )
 
 # Nothing left todo.
         return data
@@ -252,15 +253,22 @@ class AMData:
             if datatype is None:
                 new_val = self._recu_build(val)
 
-# A value to parse (datatype captured before).
             else:
-                parser_module, use_post = self._get_current_parser_spec()
+                parser_module = self._get_current_parser_module()
 
-                if parser_module == str:
-                    new_val = val
+# A list of values to build.
+                if datatype == TAG_LIST:
+                    new_val = self._build_list(
+                        raw_data = val,
+                        parser_module = parser_module,
+                    )
 
+# A value to parse (datatype captured before).
                 else:
-                    new_val = parser_module.parse(val)
+                    new_val = self._get_parsed_data(
+                        raw_data      = val,
+                        parser_module =     parser_module,
+                    )
 
 # All work has been done!
             data[key] = new_val
@@ -274,14 +282,54 @@ class AMData:
 
 
 
+
 ###
 # XXXX
 ###
-    def _get_current_parser_spec(self):
-        return (
-            self._main_parsers[self._pre_keypath][TAG_PARSER],
-            self._main_parsers[self._pre_keypath][TAG_USE_POST],
-        )
+    def _get_parsed_data(
+        self,
+        raw_data,
+        parser_module: ModuleType,
+    ) -> object:
+# Only string allowed!
+        if parser_module == str:
+            if not type(raw_data) == str:
+                raise ParsingError(
+                    f'{raw_data!r} is not a string.'
+                )
+
+            return raw_data
+
+# One data to parse.
+        try:
+            return parser_module.parse(raw_data)
+
+# TODO UGLLY HACK TO REMOVE !!!
+        except Exception as e:
+            try:
+                return parser_module.parse(
+                    amdata = self,
+                    data   = raw_data
+                )
+
+            except Exception as e:
+                raise ParsingError(
+                f'Invalid data {raw_data!r} raises: {type(e).__name__}{e}'
+            )
+
+
+
+###
+# XXXX
+###
+    def _get_current_parser_module(self):
+        return self._main_parsers[self._pre_keypath][TAG_PARSER]
+
+###
+# XXXX
+###
+    def _get_current_parser_use_post(self):
+        return self._main_parsers[self._pre_keypath][TAG_USE_POST]
 
 ###
 # XXXX
@@ -459,5 +507,3 @@ if __name__ == "__main__":
     amdata.build()
 
     print(amdata.data.to_json(indent = 4))
-    print()
-    print(amdata.data)
