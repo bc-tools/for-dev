@@ -136,7 +136,7 @@ def write(data: TOCPath) -> str | dict[str, str]:
 # -- POST-PROD -- #
 # --------------- #
 
-TAG_ABOUT_PATH_FILES = '__ABOUT_PATH_FILES__'
+TAG_POSTPROD_ABOUT_PATH_FILES = '___POSTPROD_ABOUT_PATH_FILES__'
 
 
 ###
@@ -178,7 +178,7 @@ def postprod(
 
                 results = sub_amdata.postprod()
 
-                paths.extend(results[TAG_ABOUT_PATH_FILES])
+                paths.extend(results[TAG_POSTPROD_ABOUT_PATH_FILES])
 
 # A file must exists.
             else:
@@ -215,7 +215,7 @@ def postprod(
     ]
 
 # Nothing left to do.
-    return {TAG_ABOUT_PATH_FILES: paths}
+    return {TAG_POSTPROD_ABOUT_PATH_FILES: paths}
 
 
 # ----------- #

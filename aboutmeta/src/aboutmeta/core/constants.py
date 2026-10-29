@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 
+TAG_POSTPROD_ABOUT_PATH_FILES = '___POSTPROD_ABOUT_PATH_FILES__'
+
 TAG_PATH_SEP   = '/'
 TAG_ABOUT_YAML = 'about.yaml'
 

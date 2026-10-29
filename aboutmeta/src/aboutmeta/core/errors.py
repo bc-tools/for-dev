@@ -10,7 +10,8 @@
 #
 #
 # note::
-#     Why was the above written? :-)
+#     What was the idea behind the text above? :-) Sorry about
+#     that, but I'll stick to using dummy explanations for now.
 ###
 class ParsingError(Exception):
     ...
@@ -28,6 +29,22 @@ class KeyPathError(Exception):
 ###
 class PostProcessingError(Exception):
     ...
+
+
+###
+# Critical implementation errors must use the ''PostProcessingError'' class.
+###
+class CriticalImplementationError(Exception):
+    def __init__(
+        self,
+        msg: str
+    ) -> None:
+        msg = (
+            f'{msg} Please REPORT this critical bug '
+            'with minimal amount of data for testing.'
+        )
+
+        super().__init__(msg)
 
 
 # --------------------- #

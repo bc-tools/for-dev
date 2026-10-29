@@ -3,6 +3,14 @@ aboutmeta - TODO
 =========
 
 
+
+doc parser : ajouter que post prod renvoie un dict avec des clés dédéis mais unique : proposer un schema de nommage
+
+TAG_POSTPROD_...
+
+on les intégre dans constants pour els utilisateurs
+
+
 > ---------------------------- <
 
 write, normalize et postprod son du meme type meme si normalize ne prend aucun argument

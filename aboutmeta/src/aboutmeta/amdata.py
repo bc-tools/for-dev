@@ -641,10 +641,18 @@ class AMData:
 
             except Exception as e:
                 raise PostProcessingError(
-                    f'Post proceesing of {self._get_str_keypath()!r} raises: {type(e).__name__}: {e}'
+                    f'Post processing of {self._get_str_keypath()!r} raises: {type(e).__name__}: {e}'
                 )
 
             if not result is None:
+                for tag in result:
+                    if tag in results_captured:
+                        raise CriticalImplementationError(
+                        f'Post processing tag {tag!r} has been '
+                         'used twice. '
+                        f'Found with data {self._get_str_keypath()!r}.'
+                    )
+
                 results_captured |= result
 
         return results_captured
@@ -778,4 +786,5 @@ if __name__ == "__main__":
 
         results = amdata.postprod()
 
-        print(results.to_json(indent = 4))
+        for p in results[TAG_POSTPROD_ABOUT_PATH_FILES]:
+            print(p.relative_to(projdir))
