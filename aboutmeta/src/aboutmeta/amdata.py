@@ -614,7 +614,9 @@ class AMData:
         self,
         keypath : MULTI_KEYPATH_TYPE = None,
         tolerent: bool = True,
-    ) -> dict:
+    ) -> benedict:
+        results_captured = benedict()
+
         for kp , val, parser_module in self._iter_keypath(keypath):
             if not self._main_parsers[kp][TAG_USE_POST]:
                 if not tolerent:
@@ -641,6 +643,11 @@ class AMData:
                 raise PostProcessingError(
                     f'Post proceesing of {self._get_str_keypath()!r} raises: {type(e).__name__}: {e}'
                 )
+
+            if not result is None:
+                results_captured |= result
+
+        return results_captured
 
 
 
@@ -758,15 +765,17 @@ if __name__ == "__main__":
 
         amdata.build()
 
-        print()
-        print(f'All keypaths: {amdata._all_data_keypaths}')
+        # print()
+        # print(f'All keypaths: {amdata._all_data_keypaths}')
 
-        print()
-        print('Data parsed')
+        # print()
+        # print('Data parsed')
 
-        print(amdata.data.to_json(indent = 4))
+        # print(amdata.data.to_json(indent = 4))
 
-        print()
-        print('Post processing')
+        # print()
+        # print('Post processing')
 
-        amdata.postprod()
+        results = amdata.postprod()
+
+        print(results.to_json(indent = 4))

@@ -297,17 +297,13 @@ class TOCPath(DataManager):
 
         full_path = self.parent / raw_path
 
-        if (
-            full_path.is_file()
-            or
-            full_path.is_dir()
-        ):
+        if full_path.exists():
             self.data_pb.validated(raw_path)
 
         else:
             self.data_pb.new_error(
                 data      = full_path,
-                error_msg = f"Inexisting full path. See raw path '{raw_path}'.",
+                error_msg = f"Broken absolute path. See raw path '{raw_path}'.",
             )
 
             self.data_pb.rejected(raw_path)

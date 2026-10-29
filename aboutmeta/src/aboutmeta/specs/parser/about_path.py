@@ -140,6 +140,9 @@ def write(data: TOCPath) -> str | dict[str, str]:
 # -- POST-PROD -- #
 # --------------- #
 
+TAG_ABOUT_PATH_FILES = '__ABOUT_PATH_FILES__'
+
+
 ###
 # prototype::
 #     amdata : :see: parse
@@ -159,7 +162,7 @@ def write(data: TOCPath) -> str | dict[str, str]:
 def postprod(
     amdata: object,
     data  : list[TOCPath]
-) -> list[Path]:
+) -> dict[str, list[Path]]:
     paths = []
 
 # Let's walk!
@@ -177,13 +180,15 @@ def postprod(
 
                 sub_amdata.build()
 
-                paths.extend(sub_amdata.postprod())
+                results = sub_amdata.postprod()
+
+                paths.extend(results[TAG_ABOUT_PATH_FILES])
 
 # A file must exists.
             else:
                 if not full_path.is_file():
                     raise IOError(
-                        f'Missing file:\n{full_path}'
+                        f'TOC path {tpath.spec!r} points to missing file:\n{full_path}'
                          "\nSee 'about.yaml' file:\n"
                         f"{amdata.parent}/about.yaml"
                     )
@@ -207,5 +212,11 @@ def postprod(
 
             paths.extend(paths_found)
 
+# Let's resolve all paths.
+    paths = [
+        p.resolve()
+        for p in paths
+    ]
+
 # Nothing left to do.
-    return paths
+    return {TAG_ABOUT_PATH_FILES: paths}
