@@ -58,7 +58,7 @@
 #     when using a standalone ''TOCPath'' object).
 #
 #
-# [[post-prod]]
+# [[post-prod]]   TODO TAG_POSTPROD_ABOUT_PATH_FILES
 #
 # Post-processing yields a list of absolute paths by sequentially
 # evaluating a list of `TOCPath` objects as follows.

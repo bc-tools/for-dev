@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 
+from .errors import YAMLTypeError
+
+
 # ------------- #
 # -- PARSING -- #
 # ------------- #
@@ -27,7 +30,7 @@ def validate_type(
         else:
             types_desc = f'{types_expected.__name__!r}'
 
-        raise ValueError(
+        raise YAMLTypeError(
             f'None {types_desc} '
             f'{data_name} data: value = {data!r}.'
         )
