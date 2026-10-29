@@ -572,7 +572,7 @@ class AMData:
         self,
         keypath: KEYPATH_MULTI_TYPE = None,
     ) -> dict:
-        for _, val, _ in self._iter_keypath(keypath):
+        for _ , val, _ in self._iter_keypath(keypath):
             if type(val) == list:
                 for elt in val:
                     self._normalize_me(elt)
@@ -608,8 +608,42 @@ class AMData:
     def postprod(
         self,
         keypath: KEYPATH_MULTI_TYPE = None,
-    ) -> object:
-        ...
+        tolerent: bool = True,
+    ) -> dict:
+        for kp , val, parser_module in self._iter_keypath(keypath):
+            dataype  = self._main_parsers[kp][TAG_DATATYPE]
+
+            if not(
+                self._main_parsers[kp][TAG_USE_POST]
+                or
+                tolerent
+            ):
+                TODO
+
+            _ , amdata_use = self._main_parsers[kp][TAG_AMDATA_USE]
+
+
+        exit()
+
+        if True:
+
+
+            try:
+                if amdata_use:
+                    result = parser_module.postprod(
+                        amdata = self,
+                        data   = val
+                    )
+
+            #     else:
+            #         result = parser_module.postprod.parse(val)
+
+            except Exception as e:
+                raise Exception(
+                     'Normalization failure with '
+                    f'{self._get_str_keypath(kp)!r} raises: '
+                    f'{type(e).__name__}: {e}'
+                )
 
 
 
@@ -655,8 +689,8 @@ class AMData:
 if __name__ == "__main__":
 # What I test.
     TEST_WANTED = [
-        1, # Only project.
-        # 2, # Only atoc.
+        # 1, # Only project.
+        2, # Only atoc.
     ]
 
 # Let's go.
@@ -678,6 +712,17 @@ if __name__ == "__main__":
 
         amdata.build()
 
+        print()
+        print(f'All keypaths: {amdata._all_data_keypaths}')
+
+        first_data = amdata.data[amdata._all_data_keypaths[0]]
+
+        print()
+        print(f'1st data: {first_data}')
+        print(f'    repr: {first_data!r}')
+
+        print()
+        print('Data parsed')
         print(amdata.data.to_json(indent = 4))
 
         print()
@@ -688,13 +733,7 @@ if __name__ == "__main__":
         print(amdata.data.to_json(indent = 4))
 
         print()
-        print(f'All keypaths: {amdata._all_data_keypaths}')
-
-        first_data = amdata.data[amdata._all_data_keypaths[0]]
-
-        print()
-        print(f'1st data: {first_data}')
-        print(f'    repr: {first_data!r}')
+        print('Standardize')
 
         amdata.standardize()
 
@@ -717,7 +756,15 @@ if __name__ == "__main__":
 
         amdata.build()
 
+        print()
+        print(f'All keypaths: {amdata._all_data_keypaths}')
+
+        print()
+        print('Data parsed')
+
         print(amdata.data.to_json(indent = 4))
 
         print()
-        print(amdata._all_data_keypaths)
+        print('Post processing')
+
+        amdata.postprod()
