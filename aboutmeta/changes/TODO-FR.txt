@@ -10,6 +10,20 @@ TAG_POSTPROD_...
 
 on les intégre dans constants pour els utilisateurs
 
++
+
+doc tech + readme !!!! à mettre à jour
+
++
+
+postprod nouveauté
+
+    --> sem_ver renvoie next minor major version... via
+{'next': {'minor': ..., 'major': ..., ...}}
+
+    --> licensing : ajout auto du fichier
+
+
 
 > ---------------------------- <
 
@@ -264,6 +278,16 @@ ou bien user d'abbrev...
 suport possisble de type python comme int ou float, voir si utile ou non
 
 
+> ---------------------------- <
+
+postprod nouveauté
+
+    --> sem_ver renvoie next minor major version... via
+{'next': {'minor': ..., 'major': ..., ...}}
+
+    --> licensing : ajout auto du fichier
+
+    --> extra paramètre ensisageable mais ATTENDRE DE VOIR SI UTILE : on fourni les keypaths suivis des paarams que l'on fourni via *args, **kwargs
 
 // ---------- //
 
