@@ -17,11 +17,11 @@ from benedict import benedict
 from yaml     import safe_load
 
 from aboutmeta.core.constants                 import *
-from aboutmeta.core.errors                 import ParsingError
+from aboutmeta.core.errors                 import *
 from aboutmeta.specs.flavour.__ALL_FLAVOURS__ import *
 
 
-KEYPATH_MULTI_TYPE = None | str | list[str]
+MULTI_KEYPATH_TYPE = None | str | list[str]
 
 
 ###
@@ -143,8 +143,9 @@ class AMData:
             )
 
 # Check the names used.
-        self._check_main_blocks(tolerent)
+        self._pre_keypath = []
 
+        self._check_main_blocks(tolerent)
 
 # Trvaille sur chque main blcok
         data = dict()
@@ -411,7 +412,7 @@ class AMData:
                 self._current_keys_used - self._current_keys_allowed
             )
 
-            raise KeyError(
+            raise KeyPathError(
                 f'Illegal key{plurial}: {names}.'
             )
 
@@ -435,7 +436,7 @@ class AMData:
                 illegal_couples
             )
 
-            raise KeyError(
+            raise KeyPathError(
                 f'Illegal couple{plurial} of keys found: '
                 f'{names}.'
             )
@@ -459,7 +460,7 @@ class AMData:
                 mandatory_keys - self._current_keys_used
             )
 
-            raise KeyError(
+            raise KeyPathError(
                 f'Missing mandatory key{plurial}: '
                 f'{names}.'
             )
@@ -496,7 +497,7 @@ class AMData:
                 block_names_used - self._all_block_names
             )
 
-            raise ValueError(
+            raise KeyPathError(
                 f'Unsupported main block{plurial}: {names}.'
             )
 
@@ -510,10 +511,14 @@ class AMData:
         self,
         key: str = ''
     ) -> str:
-        keypath = '.'.join(self._pre_keypath)
+        if self._pre_keypath:
+            keypath = '.'.join(self._pre_keypath)
 
-        if key:
-            keypath += f'.{key}'
+            if key:
+                keypath += f'.{key}'
+
+        else:
+            keypath = key
 
         return keypath
 
@@ -546,7 +551,7 @@ class AMData:
 ###
     def standardize(
         self,
-        keypath: KEYPATH_MULTI_TYPE = None,
+        keypath: MULTI_KEYPATH_TYPE = None,
     ) -> None:
         self.std_data = benedict()
 
@@ -570,7 +575,7 @@ class AMData:
 ###
     def normalize(
         self,
-        keypath: KEYPATH_MULTI_TYPE = None,
+        keypath: MULTI_KEYPATH_TYPE = None,
     ) -> dict:
         for _ , val, _ in self._iter_keypath(keypath):
             if type(val) == list:
@@ -607,26 +612,20 @@ class AMData:
 ###
     def postprod(
         self,
-        keypath: KEYPATH_MULTI_TYPE = None,
+        keypath : MULTI_KEYPATH_TYPE = None,
         tolerent: bool = True,
     ) -> dict:
         for kp , val, parser_module in self._iter_keypath(keypath):
-            dataype  = self._main_parsers[kp][TAG_DATATYPE]
+            if not self._main_parsers[kp][TAG_USE_POST]:
+                if not tolerent:
+                    raise KeyPathError(
+                         'No post-processing for '
+                        f'{self._get_str_keypath()!r}.'
+                    )
 
-            if not(
-                self._main_parsers[kp][TAG_USE_POST]
-                or
-                tolerent
-            ):
-                TODO
+                continue
 
             _ , amdata_use = self._main_parsers[kp][TAG_AMDATA_USE]
-
-
-        exit()
-
-        if True:
-
 
             try:
                 if amdata_use:
@@ -635,14 +634,12 @@ class AMData:
                         data   = val
                     )
 
-            #     else:
-            #         result = parser_module.postprod.parse(val)
+                else:
+                    result = parser_module.postprod(val)
 
             except Exception as e:
-                raise Exception(
-                     'Normalization failure with '
-                    f'{self._get_str_keypath(kp)!r} raises: '
-                    f'{type(e).__name__}: {e}'
+                raise PostProcessingError(
+                    f'Post proceesing of {self._get_str_keypath()!r} raises: {type(e).__name__}: {e}'
                 )
 
 
@@ -656,7 +653,7 @@ class AMData:
 ###
     def _iter_keypath(
         self,
-        keypath: KEYPATH_MULTI_TYPE = None,
+        keypath: MULTI_KEYPATH_TYPE = None,
     ) -> dict:
 # TODO : check que bien un final, un keypath de données!
         if keypath is None:
@@ -739,6 +736,11 @@ if __name__ == "__main__":
 
         print()
         print(amdata.std_data.to_json(indent = 4))
+
+        print()
+        print('Post processing')
+
+        amdata.postprod()
 
 
 # Only atoc.

@@ -175,6 +175,8 @@ def postprod(
                     parent  = full_path,
                 )
 
+                sub_amdata.build()
+
                 paths.extend(sub_amdata.postprod())
 
 # A file must exists.
