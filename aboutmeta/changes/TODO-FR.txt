@@ -5,13 +5,18 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-aout de update(keypath) pour mise ajour interactive ou CLI : par exemple on demande les nouveaux nums de vrsion possibles, et on met ensuite à jour
 
+dans __ALL_FLAVOURS__
 
-> ---------------------------- <
+    ---> TAG_POSTPROD_... à intgérer : on en profite au passage pour reper des doublons non voulus !
 
+    ---> de mmee pour toutes les clés : codage safe cote Python donc c'est bien et pas genenat si clé à différents usage sémantique, care c'est la parser qui fera la dif
 
-TAG_POSTPROD_... à intgérer : on en profite au passage pour reper des doublons non voulus !
++
+
+dans CONTANTS
+
+    ---> TAG_USE_NORMALIZE et TAG_VALIDATE en plus de TAG_USE_POST comme cela plus de has_attr à uiliser
 
 
 > ---------------------------- <
@@ -22,36 +27,12 @@ smever
    --> normalize 1 -> 1.0.0
    --> post prod un dict avec next minor major, ...
 
-> ---------------------------- <
-
-write, normalize et postprod son du meme type meme si normalize ne prend aucun argument
-
-    oparcours recursif des données parses et quand on a justement une donne à oarser n fait ce qu'il faut
-
-    besoin d'avoir pour chaque block la liste des chemins coplets des clés concernère : on délègue a benedecict le parcours recursif et aussi evite d'aanlayse d des choses gérées par el build
-
-> ---------------------------- <
-
-amdtata post prod ne rlance jamais build, c'esst à l'utisiateur de le faire, de mepe oir write
-
-write de amadta, prduit un dict str directement vaalable pour un ifchier yaml
-
-> ---------------------------- <
-
-dans la doc, indiquer que les daat sont libres, donc elles peuvent exposer des choses comme ajout dd'une licenece, ou pour des abbraviation leur exmaplsnion, .... ou aussi weeks pour savoir s semaine A ou B, ....
-
-ceci sera utile au produit usant de aboutmeta
 
 > ---------------------------- <
 
 data_pb : ajout d'une méthode de'authorization pour validate cf url danegraux ou illégaux
 
 pour normalize, on interdit ce qui est potentiellmeent dangeraux
-
-
-> ---------------------------- <
-
-specs core des parsersr besoin de TAG_USE_NORMALIZE et TAG_VALIDATE en plus de TAG_USE_POST comme cela plus de has_attr à uiliser
 
 
 > ---------------------------- <
@@ -285,6 +266,11 @@ postprod nouveauté
     --> licensing : ajout auto du fichier
 
     --> extra paramètre ensisageable mais ATTENDRE DE VOIR SI UTILE : on fourni les keypaths suivis des paarams que l'on fourni via *args, **kwargs
+
+
+> ---------------------------- <
+
+aout de update(keypath) pour mise ajour interactive ou CLI : par exemple on demande les nouveaux nums de vrsion possibles, et on met ensuite à jour
 
 
 > ---------------------------- <

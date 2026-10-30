@@ -393,32 +393,3 @@ class AMData:
                 results_captured |= result
 
         return results_captured
-
-
-# ----------- #
-# -- TESTS -- #
-# ----------- #
-
-if __name__ == "__main__":
-    TEST_WANTED = [1, 2]
-    from pprint import pprint
-    projdir = Path(__file__).parent
-
-    while projdir.name != 'for-dev':
-        projdir = projdir.parent
-
-    if 1 in TEST_WANTED:
-        mydir = projdir / 'aboutmeta'
-        amdata = AMData.new_instance(flavour=TAG_IT_PROJECT, parent=mydir)
-        amdata.build()
-        amdata.standardize()
-        amdata.normalize()
-        amdata.postprod()
-
-    if 2 in TEST_WANTED:
-        mydir = projdir / 'aboutmeta' / 'contribute' / 'api' / 'parser' / 'readme'
-        amdata = AMData.new_instance(flavour=TAG_ATOC, parent=mydir)
-        amdata.build()
-        results = amdata.postprod()
-        for k, v in results.items():
-            pprint(v)
