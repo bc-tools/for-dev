@@ -5,6 +5,11 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+helper inital parser : lexic = yaml !!! mais plsu après !
+
+
+> ---------------------------- <
+
 doc parser : ajouter que post prod renvoie un dict avec des clés dédéis mais unique : proposer un schema de nommage
 
 TAG_POSTPROD_...
@@ -15,6 +20,14 @@ on les intégre dans constants pour els utilisateurs
 
 doc tech + readme !!!! à mettre à jour
 
+
+> ---------------------------- <
+
+smever
+
+   --> ajouter 1 = 1.0.0 et 2.1 = 2.1.0 car prarique !!!
+   --> normalize 1 -> 1.0.0
+   --> post prod un dict avec next minor major, ...
 
 > ---------------------------- <
 

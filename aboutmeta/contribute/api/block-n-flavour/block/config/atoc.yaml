@@ -2,7 +2,7 @@
 # This block lets you specify an ordered list of existing files
 # to explore—ideal for monorepo projects or documents split into
 # multiple sections. The content must be a list of file paths or
-# patterns relative to the about.yaml folder."
+# patterns relative to the about.yaml folder.
 #
 #
 # Here is a mock example.
@@ -25,7 +25,7 @@
 #
 # important::
 #     The search is done relatively to the folder containing the
-#     ''about.yaml'' file.
+#     path::''about.yaml'' file.
 #
 #
 # Here is a summary of the available features.

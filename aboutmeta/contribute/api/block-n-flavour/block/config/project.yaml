@@ -119,8 +119,7 @@ desc:
 ###
 # [[authors]]
 # This block allows to indicate several authors, just by using
-# a ''YAML'' list of single ''author'' values (see the next
-# section).
+# a \yaml list of single ''author'' values (see the next section).
 #
 #
 # [[author]]

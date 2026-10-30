@@ -28,10 +28,11 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 
-dependencies = [
+dependencies = [ # Nettoyer via prune et minimser la liste
   "email_validator>=2.2",
   "httpx>=0.28.1",
   "langcodes>=3.5",
+  "language_data>=1.4",
   "natsort>=8.4",
   "python-benedict>=0.40.1",
   "pyyaml>=6.0",

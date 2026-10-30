@@ -1,15 +1,5 @@
 ### Post-production tools
 
-
-
-TODO dict MAJ à faire!!!!
-
-
-
-
-
-
-
 Sometimes data requires post-processing actions. For instance, the `about_path` parser needs to build a complete list of absolute paths based on raw paths and/or search patterns (see the snippet below).
 By design, only one post-processing step can be defined, which is implemented via the `postprod` function. It must strictly follow one of the signatures below (generic types are shown here for illustration, but you must specify concrete type hints as demonstrated in the snippet below).
 

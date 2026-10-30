@@ -62,7 +62,8 @@ from aboutmeta.specs.data.person import Person
 # prototype::
 #     data : one person provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the ''Person'' class.
+#     :return: an instance of the ''Person'' class representing
+#              the person.
 ###
 def parse(data: str) -> Person:
 # No parsing, and all job done by the class

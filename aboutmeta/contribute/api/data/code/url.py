@@ -21,7 +21,7 @@ from aboutmeta.core.validate     import validate_type
 
 ###
 # prototype::
-#     url: a URL.
+#     url: a \url.
 ###
 class URL(DataManager):
     url: str
@@ -39,12 +39,12 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: a standard `URL` object is built.
+#     :action: a standard ''URL'' object is built.
 #
 #
 # Here are the normalizations done.
 #
-#     1. Some valid \url_s use typographical quirks. For example,
+#     1. Some valid \urls use typographical quirks. For example,
 #     ''HTTPS://QwAnT.com'' is valid, but its normalized version
 #     is ''https://qwant.com''.
 #
@@ -67,7 +67,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: \url validation using \dns and \http technics.
+#     :action: \url validation using \dns and \http \techs.
 ###
     def validate(self) -> None:
         self.data_pb.start()

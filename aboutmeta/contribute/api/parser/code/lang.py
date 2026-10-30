@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 
 ###
-# A language is indicated using an cf::''ISO 639 standard ;
+# A \lang is indicated using an cf::''ISO 639 standard ;
 # https://en.wikipedia.org/wiki/ISO_639'' short identifier, then,
 # if necessary, adding a country using a cf::''ISO 3166
 # standard ; https://en.wikipedia.org/wiki/ISO_3166'' classifier.
-# For example, ''fr'' indicates France French, whereas ''fr-BE''
-# indicates Belgian French.
-#
-#
-# note::
-#     The default language is ''en-US'' for US English.
+# For example, ''fr'' indicates "France French", whereas ''fr-BE''
+# indicates "Belgian French".
 #
 #
 # tip::
@@ -30,7 +26,8 @@ from aboutmeta.specs.data.lang import Lang
 # prototype::
 #     data : the \lang provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the class ''Lang''.
+#     :return: an instance of the class ''Lang'' representing the
+#              \lang.
 ###
 def parse(data: str) -> Lang:
 # No parsing, and all job done by the class
@@ -46,8 +43,8 @@ def parse(data: str) -> Lang:
 # prototype::
 #     data : a ''Lang'' object.
 #
-#     :return: the standard \yaml version of the ''Lang'' object
-#              which is the full language identifier.
+#     :return: the \std \yaml version of the ''Lang'' object which
+#              is the full \lang identifier like ''"fr-FR"''.
 ###
 def write(data: Lang) -> str:
     return data.std_id

@@ -79,11 +79,14 @@ class MokeAMData:
         self.parent  = parent
 
 # Only for post-processing features.
-        def postprod(
-            self,
-            keypath: str | list[str] = '',
-        ) -> object:
-            ...
+    def build(self):
+        ...
+
+    def postprod(
+        self,
+        keypath: str | list[str] = '',
+    ) -> object:
+        ...
 ~~~
 
 <!-- PARSER - MOKE MADATA - END -->

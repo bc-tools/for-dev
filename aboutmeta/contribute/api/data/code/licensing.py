@@ -23,8 +23,7 @@ from aboutmeta.core.validate     import validate_type
 # ---------- #
 
 LICENSES_JSON_FILE = (
-      Path(__file__).parent
-    / f"{Path(__file__).stem}-spdx.json"
+    Path(__file__).parent / f"{Path(__file__).stem}-spdx.json"
 )
 
 
@@ -33,23 +32,22 @@ _PATTERN_NORMALIZED_LICENSE_CODE = re.compile(r"[\s_\-\.]+")
 
 ###
 # prototype::
-#     spdx_id : short SPDX identifier, such as ''GPL-3.0-only'',
-#               but flexible writings allowed like ''gpl 3.0 only'.
-#     name    : the full license name like ''GNU General Public
-#               License v3.0 only''.
-#     url     : the URL linking to the SPDX online description of
+#     spdx_id : short \spdx identifier, such as ''"GPL-3.0-only"'',
+#               but flexible writings allowed like ''"gpl 3.0 only"'.
+#     name    : the full license name like ''"GNU General Public
+#               License v3.0 only"''.
+#     url     : the \url linking to the \spdx online description of
 #               the license.
 #
 #
 # note::
-#     The ''name'' and ''url'' attributes are build from the value
-#     of the ''spdx_id'' attribute.
+#     The ''name'' and ''url'' \attrs are build from the value of
+#     the ''spdx_id'' \attr.
 #
 #
 # warning::
 #     Identifiers are automatically normalized regardless of letter
-#     casing: if a user enters ''gpl 3.0 only'' it will be saved as
-#     ''GPL-3.0-only''.
+#     casing: ''"gpl 3.0 only"'' is saved as ''"GPL-3.0-only"''.
 ###
 class Licensing(DataManager):
     spdx_id: str
@@ -59,10 +57,10 @@ class Licensing(DataManager):
 ###
 # prototype::
 #     :action: mandatory validations of ''self.spec'' type, and
-#              derivation of the ''name'' and ''url'' attributes
-#              from ''self.spdx_id'' and expand the identifier to
-#              its normalized form (e.g., ''gpl 3.0 only'' becomes
-#              ''GPL-3.0-only'').
+#              derivation of the ''name'' and ''url'' \attrs from
+#              ''self.spdx_id'' and expand the identifier to its
+#              normalized form (e.g., ''"gpl 3.0 only"'' becomes
+#              ''"GPL-3.0-only"'').
 ###
     def __post_init__(self) -> None:
         validate_type(
@@ -122,8 +120,8 @@ class Licensing(DataManager):
 #
 #
 # note::
-#     The construction of the path::''licenses.json'' file verifies that
-#     normalization does not create any duplicates.
+#     The construction of the path::''licenses.json'' file verifies
+#     that normalization does not create any duplicates.
 ###
 def _normalize_lic_code(code: str) -> str:
     code = _PATTERN_NORMALIZED_LICENSE_CODE.sub("", code.lower())
@@ -136,7 +134,7 @@ def _normalize_lic_code(code: str) -> str:
 #     normal_ID       : an invalid normalized \lic code.
 #     max_suggestions : the maximum \nb of suggestions proposed.
 #
-#     :return: possible matches for a valid SPDX \lic code.
+#     :return: possible matches for a valid \spdx \lic code.
 ###
 def _license_matches(
     normal_ID      : str,
@@ -187,7 +185,7 @@ def _license_matches(
 
 ###
 # prototype::
-#     :action: build a local \std version of the online SPDX
+#     :action: build a local \std version of the online \spdx
 #              path::''licenses.json'' file.
 ###
 def tool_update_license_json() -> None:

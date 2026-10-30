@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# All valid URLs are accepted.
+# All valid \urls are accepted.
 #
 #
 # [[normalize]]
@@ -18,8 +18,8 @@
 #
 # [[validate]]
 #
-# URL validation uses DNS to check for the existence of the
-# hostname, while HTTP techniques verify its online availability.
+# \url validation uses \dns to check for the existence of the
+# hostname, while \http \techs verify its online availability.
 ###
 
 from aboutmeta.specs.data.url import URL
@@ -33,7 +33,8 @@ from aboutmeta.specs.data.url import URL
 # prototype::
 #     data : one \url provided in the \yaml file, but stripped.
 #
-#     :return: an instance of the ''URL'' class.
+#     :return: an instance of the ''URL'' class representing the
+#              \url.
 ###
 def parse(data: str) -> URL:
 # No parsing, and all job done by the class
@@ -49,7 +50,7 @@ def parse(data: str) -> URL:
 # prototype::
 #     data : a ''URL'' object.
 #
-#     :return: the standard \yaml version of the ''URL'' object.
+#     :return: the \std \yaml version of the ''URL'' object.
 ###
 def write(data: URL) -> str:
     return data.url

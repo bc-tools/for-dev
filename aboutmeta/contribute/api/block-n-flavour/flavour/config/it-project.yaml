@@ -1,7 +1,7 @@
 ###
-# This flavor allows to define an IT project (code or document),
+# This flavour allows to define an IT project (code or document),
 # with the option of working with a list of specific files via
-# a "aboutmeta-table-of-contents"-like block (this can be very
+# a "aboutmeta-table-of-content"-like block (this can be very
 # useful for splitted documents, or monorepos).
 ###
 - project
