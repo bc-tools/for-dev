@@ -54,7 +54,8 @@ class _AMDataChecker:
 #           "names".
 #         + ''{plural}'' allows to use ''"s"'' for several names,
 #           and python::{''} otherwise.
-#         + ''{e}'' and ''{etype}'': :see: self._raise_kpse_error.
+#         + ''{keypath}'', ''{e}'' and ''{etype}'': :see:
+#           self._raise_kpse_error.
 #     names    : a set of key names.
 #     **kwargs : :see: self._raise_kpse_error
 #
@@ -93,7 +94,8 @@ class _AMDataChecker:
 #     _exception : an exception to raise.
 #     fmt_str    : a format \str with placeholders to be replaced.
 #                  The following placeholders are reserved.
-#         + ''{keypath}'' is replaced by the current full keypath.
+#         + ''{keypath}'' is replaced by the current ''AMData''
+#           full keypath.
 #         + ''{e}'' is used to print the sub-exception \msg when
 #           present.
 #         + ''{etype}'' is the sub-exception type when present.
@@ -663,7 +665,7 @@ class AMData:
 ###
 # prototype::
 #     :action: only for data, append the current keypath to
-#              the list ''self._full_data_keypaths'' (.
+#              the list ''self._full_data_keypaths''.
 ###
     def _update_full_data_keypaths(self) -> None:
         self._full_data_keypaths.append(
@@ -823,7 +825,7 @@ class AMData:
 ###
 # prototype::
 #     keypath  : :see: self._iter_keypath
-#     tolerant : :see: self.check_main_blocks
+#     tolerant : :see: _AMDataChecker.check_main_blocks
 #
 #     :action: launch the post-processing of all the data \vals
 #              of ''self.data'' corresponding to the desired

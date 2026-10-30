@@ -5,10 +5,6 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-amdata : revoir t,dsoc car factoriser
-
-> ---------------------------- <
-
 dans __ALL_FLAVOURS__
 
     ---> TAG_POSTPROD_... à intgérer : on en profite au passage pour reper des doublons non voulus !
