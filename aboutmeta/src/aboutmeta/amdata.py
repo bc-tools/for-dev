@@ -42,9 +42,266 @@ PARSER_TYPE = (
 # error raising for ''AMData''.
 ###
 class AMDataChecker:
-    def __init__(self, amdata) -> None:
+    def __init__(self, amdata: object) -> None:
         self.amdata = amdata
 
+###
+# prototype::
+#     key : a \yaml key.
+#
+#     :return: the full "keypath" to access the ''key'' data (at
+#              the current dictionary depth).
+###
+    def get_str_keypath(
+        self,
+        key: str = ''
+    ) -> str:
+        if self.amdata._pre_keylist:
+            keypath = '.'.join( self.amdata._pre_keylist)
+
+            if key:
+                keypath += f'.{key}'
+
+        else:
+            keypath = key
+
+        return keypath
+
+###
+# prototype::
+#     _exception : :see: self._raise_kpse_error
+#     fmt_str    : a format \str with placeholders to be replaced.
+#                  The following placeholders are reserved.
+#         + ''{names}'' is used to print a comma separated list of
+#           "names".
+#         + ''{plural}'' allows to use ''"s"'' for several names,
+#           and python::{''} otherwise.
+#         + ''{e}'' and ''{etype}'': :see: self._raise_kpse_error.
+#     names    : a set of key names.
+#     **kwargs : :see: self._raise_kpse_error
+#
+#     :action: :see: self._raise_kpse_error
+#
+#
+# note::
+#     ''lxm'' is the acronym of "list of (e)xtra names".
+###
+    def _raise_lxm_error(
+        self,
+        _exception: Exception,
+        fmt_str   : str,
+        names     : set[str] | list[str],
+        **kwargs
+    ) -> None:
+        sep = ','
+
+        comma_list_names = sep.join([
+            f'{self.get_str_keypath(n)!r}'
+            for n in sorted(names)
+        ])
+
+        plurial = 's' if sep in comma_list_names else ''
+
+        raise _exception(
+            fmt_str.format(
+                plurial = plurial,
+                names   = comma_list_names,
+                **kwargs
+            )
+        )
+
+###
+# prototype::
+#     _exception : an exception to raise.
+#     fmt_str    : a format \str with placeholders to be replaced.
+#                  The following placeholders are reserved.
+#         + ''{keypath}'' is replaced by the current full keypath.
+#         + ''{e}'' is used to print the sub-exception \msg when
+#           present.
+#         + ''{etype}'' is the sub-exception type when present.
+#     _sub_exception : a caught sub-exception, or ''None'' when
+#                      nothing was caught.
+#     **kwargs       : optional \args to use as placeholder \vels
+#                      in ''fmt_str'' format string.
+#
+#     :action: raise ''_exception'' using ''fmt_str'' with filled
+#              placeholders, appending a suffix for the
+#              ''_sub_exception'' message if ''_sub_exception'' is
+#              provided.
+#
+#
+# note::
+#     ''kpse'' is the acronym of "keypath/sub exception".
+###
+    def _raise_kpse_error(
+        self,
+        _exception    : Exception,
+        fmt_str       : str,
+        _sub_exception: Exception | None = None,
+        **kwargs
+    ) -> None:
+        if _sub_exception is None:
+            etype = None
+
+        else:
+            etype    = type(_sub_exception).__name__
+            fmt_str += ': (sub){etype}: {e}'
+
+        raise _exception(
+            fmt_str.format(
+                keypath = self.get_str_keypath(),
+                etype   = etype,
+                e       = _sub_exception,
+                **kwargs
+            )
+        )
+
+###
+# prototype::
+#     tolerant : whether to allow main blocks other than flavour
+#                ones.
+#
+#     :action: ensure correct usage of main blocks.
+#              When ''tolerant = True'', non-flavour main blocks
+#              are also permitted.
+###
+    def check_main_blocks(
+        self,
+        tolerant: bool
+    ) -> None:
+        block_names_used = set(self.amdata._yaml_raw_data)
+
+# Missing mandatory main blocks.
+        if not self.amdata._mandatory_block_names <= block_names_used:
+            self._raise_lxm_error(
+                _exception = ValueError,
+                fmt_str    = (
+                    'Missing mandatory main block{plurial}: {names}.'
+                ),
+                names      = (
+                      self.amdata._mandatory_block_names
+                    - block_names_used
+                ),
+            )
+
+# Handling of other blocks with or without tolerance.
+        if (
+            not tolerant
+            and
+            not block_names_used <= self.amdata._all_block_names
+        ):
+            self._raise_lxm_error(
+                _exception = KeyPathError,
+                fmt_str    = (
+                    'Unsupported main block{plurial}: {names}.'
+                ),
+                names      = (
+                      block_names_used
+                    - self.amdata._all_block_names
+                ),
+            )
+
+###
+# prototype::
+#     :action: ensure all keys are used correctly at the current
+#              \dict depth.
+#
+#     :see: self._check_legal_keys ,
+#           self._check_no_alt_keys ,
+#           self._check_manda_keys
+##
+    def check_keys(self) -> None:
+        self.amdata._current_keys_allowed = set(
+            self.amdata._main_parsers[ self.amdata._pre_keylist]
+        )
+
+        if self.amdata._pre_keylist in  self.amdata._main_alts:
+            self.amdata._current_alts =  self.amdata._main_alts[
+                 self.amdata._pre_keylist
+            ][TAG_ALTERNATIVES]
+
+        else:
+            self.amdata._current_alts = []
+
+        self.amdata._current_status =   self.amdata._main_status[
+             self.amdata._pre_keylist
+        ]
+
+        self._check_legal_keys()
+        self._check_no_alt_keys()
+        self._check_manda_keys()
+
+###
+# prototype::
+#     :action: ensure that only allowed keys are used (at the
+#              current \dict depth).
+###
+    def _check_legal_keys(self) -> None:
+        if not (
+               self.amdata._current_keys_used
+            <= self.amdata._current_keys_allowed
+        ):
+            self._raise_lxm_error(
+                _exception = KeyPathError,
+                fmt_str    = 'Illegal key{plurial}: {names}.',
+                names      = (
+                      self.amdata._current_keys_used
+                    - self.amdata._current_keys_allowed
+                ),
+            )
+
+###
+# prototype::
+#     :action: ensure that no key alternatives are violated (at
+#              the current \dict depth).
+###
+    def _check_no_alt_keys(self) -> None:
+        illegal_couples = set()
+
+        for alt_couple in self.amdata._current_alts:
+            if alt_couple <= self.amdata._current_keys_used:
+# Later, ''self._raise_lxm_error'' will prefix our '...vs...' text,
+# so we have to add it to the 2nd key.
+                key_1, key_2 = sorted(alt_couple)
+                key_2        = self.get_str_keypath(key_2)
+
+                illegal_couples.add(f'{key_1} vs {key_2}')
+
+        if illegal_couples:
+            self._raise_lxm_error(
+                _exception = KeyPathError,
+                fmt_str    = (
+                    'Illegal couple{plurial} of keys found: {names}.'
+                ),
+                names      = illegal_couples,
+            )
+
+###
+# prototype::
+#     :action: ensure that no mandatory keys are missing (at
+#              the current \dict depth).
+###
+    def _check_manda_keys(self) -> None:
+        mandatory_keys = set()
+
+        for k, v in self.amdata._current_status.items():
+            if k in SPECIAL_KEYS:
+                continue
+
+            if v[TAG_IS_MANDATORY]:
+                mandatory_keys.add(k)
+
+        if not mandatory_keys <= self.amdata._current_keys_used:
+            self._raise_lxm_error(
+                _exception = KeyPathError,
+                fmt_str    = (
+                    'Missing mandatory key{plurial}: {names}.'
+                ),
+                names      = (
+                      mandatory_keys
+                    - self.amdata._current_keys_used
+                ),
+            )
 
 
 # ------------------ #
@@ -93,6 +350,8 @@ class AMData:
         flavour: str,
         parent : Path,
     ) -> None:
+        self._checker = AMDataChecker(self)
+
         self.flavour = flavour
         self.parent  = parent
 
@@ -196,7 +455,7 @@ class AMData:
 # Check the main-block names used.
         self._pre_keylist = []
 
-        self._check_main_blocks(tolerant)
+        self._checker.check_main_blocks(tolerant)
 
 # Analysis of the content of each main block.
         data = dict()
@@ -242,11 +501,13 @@ class AMData:
             datatype = self._this_data_type()
 
             if datatype != TAG_LIST:
-                self._raise_kpse_error(
+                kp = self._checker.get_str_keypath()
+
+                self._checker._raise_kpse_error(
                     _exception = ValueError,
                     fmt_str    = (
-                        f'Block {keypath!r} does not expect '
-                         'a list of data to parse.'
+                        'Block {keypath!r} does not expect a list '
+                        'of data to parse.'
                     ),
                 )
 
@@ -258,12 +519,12 @@ class AMData:
 
 # Unknown use case unimplemented.
         else:
-            self._raise_kpse_error(
+            self._checker._raise_kpse_error(
                 dtype      = type(raw_data).__name__,
                 _exception = ValueError,
                 fmt_str    = (
-                     'Unsupported YAML content with Python type '
-                    f'{dtype!r}. See key {keypath!r}.'
+                    'Unsupported YAML content with Python type '
+                    '{dtype!r}. See key {keypath!r}.'
                 ),
             )
 
@@ -292,13 +553,15 @@ class AMData:
                 )
 
             except Exception as e:
-                self._raise_kpse_error(
+                kp = self._checker.get_str_keypath()
+
+                self._checker._raise_kpse_error(
                     _sub_exception = e,
                     pos            = pos,
                     _exception     = ParsingError,
                     fmt_str        = (
-                        f'Block {keypath!r} has invalid item list '
-                        f'data at position {pos}: {etype}: {e}'
+                        'Block {keypath!r} has invalid item list '
+                        'data at position {pos}: {etype}: {e}'
                     ),
                 )
 
@@ -320,7 +583,7 @@ class AMData:
 # Checking good use of keys.
         self._current_keys_used = set(raw_data)
 
-        self._check_keys()
+        self._checker.check_keys()
 
 # Now, we work with legal keys.
         for key, val in raw_data.items():
@@ -391,9 +654,9 @@ class AMData:
             return parser_module.parse(raw_data)
 
         except Exception as e:
-            self._raise_kpse_error(
+            self._checker._raise_kpse_error(
                 _exception     = ParsingError,
-                fmt_str        = f'Invalid data {raw_data!r}',
+                fmt_str        = 'Invalid data {raw_data!r}',
                 _sub_exception = e,
             )
 
@@ -404,7 +667,7 @@ class AMData:
 ###
     def _update_full_data_keypaths(self) -> None:
         self._full_data_keypaths.append(
-            self._get_str_keypath()
+            self._checker.get_str_keypath()
         )
 
 ###
@@ -455,154 +718,6 @@ class AMData:
 ###
     def _this_use_post(self) -> bool:
         return self._get_current_metadata(TAG_USE_POST)
-
-###
-# prototype::
-#     :action: ensure all keys are used correctly at the current
-#              \dict depth.
-#
-#     :see: self._check_legal_keys ,
-#           self._check_no_alt_keys ,
-#           self._check_manda_keys
-##
-    def _check_keys(self) -> None:
-        self._current_keys_allowed = set(
-            self._main_parsers[self._pre_keylist]
-        )
-
-        if self._pre_keylist in self._main_alts:
-            self._current_alts = self._main_alts[
-                self._pre_keylist
-            ][TAG_ALTERNATIVES]
-
-        else:
-            self._current_alts = []
-
-        self._current_status =  self._main_status[
-            self._pre_keylist
-        ]
-
-        self._check_legal_keys()
-        self._check_no_alt_keys()
-        self._check_manda_keys()
-
-###
-# prototype::
-#     :action: ensure that only allowed keys are used (at the
-#              current \dict depth).
-###
-    def _check_legal_keys(self) -> None:
-        if not self._current_keys_used <= self._current_keys_allowed:
-            self._raise_lxm_error(
-                _exception = KeyPathError,
-                fmt_str    = 'Illegal key{plurial}: {names}.',
-                names      = (
-                      self._current_keys_used
-                    - self._current_keys_allowed
-                ),
-            )
-
-###
-# prototype::
-#     :action: ensure that no key alternatives are violated (at
-#              the current \dict depth).
-###
-    def _check_no_alt_keys(self) -> None:
-        illegal_couples = set()
-
-        for alt_couple in self._current_alts:
-            if alt_couple <= self._current_keys_used:
-# Later, ''self._raise_lxm_error'' will prefix our '...vs...' text,
-# so we have to add it to the 2nd key.
-                key_1, key_2 = sorted(alt_couple)
-                key_2        = self._get_str_keypath(key_2)
-
-                illegal_couples.add(f'{key_1} vs {key_2}')
-
-        if illegal_couples:
-            self._raise_lxm_error(
-                _exception = KeyPathError,
-                fmt_str    = (
-                    'Illegal couple{plurial} of keys found: '
-                    '{names}.'
-                ),
-                names      = illegal_couples,
-            )
-
-###
-# prototype::
-#     :action: ensure that no mandatory keys are missing (at
-#              the current \dict depth).
-###
-    def _check_manda_keys(self) -> None:
-        mandatory_keys = set()
-
-        for k, v in self._current_status.items():
-            if k in SPECIAL_KEYS:
-                continue
-
-            if v[TAG_IS_MANDATORY]:
-                mandatory_keys.add(k)
-
-        if not mandatory_keys <= self._current_keys_used:
-            self._raise_lxm_error(
-                _exception = KeyPathError,
-                fmt_str    = (
-                    'Missing mandatory key{plurial}: '
-                    '{names}.'
-                ),
-                names      = (
-                      mandatory_keys
-                    - self._current_keys_used
-                ),
-            )
-
-###
-# prototype::
-#     tolerant : whether to allow main blocks other than flavour
-#                ones.
-#
-#     :action: ensure correct usage of main blocks.
-#              When ''tolerant = True'', non-flavour main blocks
-#              are also permitted.
-###
-    def _check_main_blocks(
-        self,
-        tolerant: bool
-    ) -> None:
-        block_names_used = set(self._yaml_raw_data)
-
-# Missing mandatory main blocks.
-        if not self._mandatory_block_names <= block_names_used:
-            self._raise_lxm_error(
-                _exception = ValueError,
-                fmt_str    = (
-                    'Missing mandatory main block{plurial}: '
-                    '{names}.'
-                ),
-                names      = (
-                      self._mandatory_block_names
-                    - block_names_used
-                ),
-            )
-
-# Handling of other blocks with or without tolerance.
-        if (
-            not tolerant
-            and
-            not block_names_used <= self._all_block_names
-        ):
-            self._raise_lxm_error(
-                _exception = KeyPathError,
-                fmt_str    = (
-                    'Unsupported main block{plurial}: '
-                    '{names}.'
-                ),
-                names      = (
-                      block_names_used
-                    - self._all_block_names
-                ),
-            )
 
 ###
 # prototype::
@@ -708,7 +823,7 @@ class AMData:
 ###
 # prototype::
 #     keypath  : :see: self._iter_keypath
-#     tolerant : :see: self._check_main_blocks
+#     tolerant : :see: self.check_main_blocks
 #
 #     :action: launch the post-processing of all the data \vals
 #              of ''self.data'' corresponding to the desired
@@ -731,9 +846,11 @@ class AMData:
         for kp , val, parser_module in self._iter_keypath(keypath):
             if not self._main_parsers[kp][TAG_USE_POST]:
                 if not tolerant:
-                    self._raise_kpse_error(
+                    self._checker._raise_kpse_error(
                         _exception = KeyPathError,
-                        fmt_str    = f'No post-processing for {kp!r}.',
+                        fmt_str    = (
+                            'No post-processing for {keypath!r}.'
+                        ),
                     )
 
                 continue
@@ -751,20 +868,20 @@ class AMData:
                     result = parser_module.postprod(val)
 
             except Exception as e:
-                self._raise_kpse_error(
+                self._checker._raise_kpse_error(
                     _exception     = PostProcessingError,
-                    fmt_str        = f'Post processing of {kp!r}',
+                    fmt_str        = 'Post processing of {kp!r}',
                     _sub_exception = e,
                 )
 
             if not result is None:
                 for tag in result:
                     if tag in results_captured:
-                        self._raise_kpse_error(
+                        self._checker._raise_kpse_error(
                             _exception = CriticalImplementationError,
                             fmt_str    = (
-                                f'Post prod tag {tag!r} has been '
-                                f'used twice. Found with data {kp!r}.'
+                                'Post prod tag {tag!r} has been used '
+                                'twice. Found with data {keypath!r}.'
                             ),
                             tag        = tag
                         )
@@ -773,116 +890,6 @@ class AMData:
 
 # Nothing left to do.
         return results_captured
-
-###
-# prototype::
-#     key : a \yaml key.
-#
-#     :return: the full "keypath" to access the ''key'' data (at
-#              the current dictionary depth).
-###
-    def _get_str_keypath(
-        self,
-        key: str = ''
-    ) -> str:
-        if self._pre_keylist:
-            keypath = '.'.join(self._pre_keylist)
-
-            if key:
-                keypath += f'.{key}'
-
-        else:
-            keypath = key
-
-        return keypath
-
-###
-# prototype::
-#     _exception : an exception to raise.
-#     fmt_str    : a format \str with placeholders to be replaced.
-#                  The following placeholders are reserved.
-#         + ''{e}'' is used to print the sub-exception \msg when
-#           present.
-#         + ''{etype}'' is the sub-exception type when present.
-#     _sub_exception : a caught sub-exception, or ''None'' when
-#                      nothing was caught.
-#     **kwargs       : optional \args to use as placeholder \vels
-#                      in ''fmt_str'' format string.
-#
-#     :action: raise ''_exception'' using ''fmt_str'' with filled
-#              placeholders, appending a suffix for the
-#              ''_sub_exception'' message if ''_sub_exception'' is
-#              provided.
-#
-#
-# note::
-#     ''kpse'' is the acronym of "keypath/sub exception".
-###
-    def _raise_kpse_error(
-        self,
-        _exception    : Exception,
-        fmt_str       : str,
-        _sub_exception: Exception | None = None,
-        **kwargs
-    ) -> None:
-        if _sub_exception is None:
-            etype = None
-
-        else:
-            etype    = type(_sub_exception).__name__
-            fmt_str += ': (sub){etype}: {e}'
-
-        raise _exception(
-            fmt_str.format(
-                keypath = self._get_str_keypath(),
-                etype   = etype,
-                e       = _sub_exception,
-                **kwargs
-            )
-        )
-
-###
-# prototype::
-#     _exception : :see: self._raise_kpse_error
-#     fmt_str    : a format \str with placeholders to be replaced.
-#                  The following placeholders are reserved.
-#         + ''{names}'' is used to print a comma separated list of
-#           "names".
-#         + ''{plural}'' allows to use ''"s"'' for several names,
-#           and python::{''} otherwise.
-#         + ''{e}'' and ''{etype}'': :see: self._raise_kpse_error.
-#     names    : a set of key names.
-#     **kwargs : :see: self._raise_kpse_error
-#
-#     :action: :see: self._raise_kpse_error
-#
-#
-# note::
-#     ''lxm'' is the acronym of "list of (e)xtra names".
-###
-    def _raise_lxm_error(
-        self,
-        _exception: Exception,
-        fmt_str   : str,
-        names     : set[str] | list[str],
-        **kwargs
-    ) -> None:
-        sep = ','
-
-        comma_list_names = sep.join([
-            f'{self._get_str_keypath(n)!r}'
-            for n in sorted(names)
-        ])
-
-        plurial = 's' if sep in comma_list_names else ''
-
-        raise _exception(
-            fmt_str.format(
-                plurial = plurial,
-                names   = comma_list_names,
-                **kwargs
-            )
-        )
 
 
 # ----------- #
@@ -893,7 +900,7 @@ if __name__ == "__main__":
 # What I test.
     TEST_WANTED = [
         1, # Only project.
-        2, # Only atoc.
+        # 2, # Only atoc.
     ]
 
 # Let's go.

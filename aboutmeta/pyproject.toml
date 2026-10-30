@@ -28,7 +28,7 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 
-dependencies = [ # Nettoyer via prune et minimser la liste
+dependencies = [ # Nettoyer via prune et minimser la liste : attendre unit tests
   "email_validator>=2.2",
   "httpx>=0.28.1",
   "langcodes>=3.5",
