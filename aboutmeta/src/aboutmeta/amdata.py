@@ -11,14 +11,15 @@ from benedict import benedict
 from yaml     import safe_load
 
 
-from aboutmeta.core.constants                 import *
-from aboutmeta.core.errors                 import *
+from aboutmeta.core.constants import *
+from aboutmeta.core.errors    import *
+
 from aboutmeta.specs.flavour.__ALL_FLAVOURS__ import *
 
 
-# ------------------ #
-# -- AMDATA CLASS -- #
-# ------------------ #
+# ------------ #
+# -- TYPING -- #
+# ------------ #
 
 MULTI_KEYPATH_TYPE = None | str | list[str]
 
@@ -27,6 +28,28 @@ PARSER_TYPE = (
     | Callable[[object, object], object]
 )
 
+
+# ------------------ #
+# -- CHECKER CLASS --#
+# ------------------ #
+
+###
+# prototype::
+#     amdata : an instance of AMData.
+#
+#
+# This class helps factorize the code: it handles all checks and
+# error raising for ''AMData''.
+###
+class AMDataChecker:
+    def __init__(self, amdata) -> None:
+        self.amdata = amdata
+
+
+
+# ------------------ #
+# -- AMDATA CLASS -- #
+# ------------------ #
 
 ###
 # prototype::
@@ -171,7 +194,7 @@ class AMData:
             )
 
 # Check the main-block names used.
-        self._pre_keypath = []
+        self._pre_keylist = []
 
         self._check_main_blocks(tolerent)
 
@@ -188,7 +211,7 @@ class AMData:
                 continue
 
 # Content has to be analyzed.
-            self._pre_keypath = [block]
+            self._pre_keylist = [block]
 
             specs = self._flavour_specs[block]
 
@@ -302,7 +325,7 @@ class AMData:
 # Now, we work with legal keys.
         for key, val in raw_data.items():
 # Stack current key. OpenGL has infected me! :-)
-            self._pre_keypath.append(key)
+            self._pre_keylist.append(key)
 
 # A data type?
             datatype = self._this_data_type()
@@ -328,7 +351,7 @@ class AMData:
             data[key] = new_val
 
 # Pop the key from the key path.
-            self._pre_keypath.pop(-1)
+            self._pre_keylist.pop(-1)
 
 # Nothing left todo.
         return data
@@ -376,82 +399,87 @@ class AMData:
 
 ###
 # prototype::
-#     :action: append the current keypath to the list
-#              ''self._full_data_keypaths'' (only for data).
+#     :action: only for data, append the current keypath to
+#              the list ''self._full_data_keypaths'' (.
 ###
     def _update_full_data_keypaths(self) -> None:
         self._full_data_keypaths.append(
             self._get_str_keypath()
         )
 
-
-
-
-
-
-
 ###
 # prototype::
-#     key : Y
-#
-#     :return: Z
+#     :return: a data type if the current ''keylist'' points to
+#              a data, ''None'' otherwise.
+#            @ _ in ALL_TAGS_DATATYPES or _ = None
 ###
-    def _get_current_metadata(
-        self,
-        key: str,
-    ) -> dict:
-        return self._main_parsers[self._pre_keypath][key]
-
-###
-# prototype::
-#     :return: Z
-###
-    def _this_data_type(self) -> str:
-        return self._main_parsers[self._pre_keypath].get(
+    def _this_data_type(self) -> str | None:
+        return self._main_parsers[self._pre_keylist].get(
             TAG_DATATYPE,
             None
         )
 
 ###
 # prototype::
-#     :return: Z
+#     tag : a tag to retrieve metadata from the \specs of the
+#              current ''keylist''.
+#
+#     :return: \spec metadata associated to ''keylist''.
+###
+    def _get_current_metadata(
+        self,
+        tag: str,
+    ) -> dict:
+        return self._main_parsers[self._pre_keylist][tag]
+
+###
+# prototype::
+#     :return: the \python parsing module of the current
+#              ''keylist'' parser.
 ###
     def _this_parser_module(self) -> ModuleType:
         return self._get_current_metadata(TAG_PARSER)
 
 ###
 # prototype::
-#     :return: Z
+#     :return: ''amdata''-\arg \specs of the current ''keylist''
+#              parser.
 ###
     def _this_amdata_use(self) -> (bool, bool | None):
         return self._get_current_metadata(TAG_AMDATA_USE)
 
 ###
 # prototype::
-#     :return: Z
+#     :return: ''True'' if post-processing is proposed by the
+#              current 'keylist' parser, ''False'' otherwise.
 ###
     def _this_use_post(self) -> bool:
         return self._get_current_metadata(TAG_USE_POST)
 
 ###
 # prototype::
-#     :action: Z
+#     :action: ensure all keys are used correctly at the current
+#              dictionary depth.
+#
+#     :see: self._check_legal_keys ,
+#           self._check_no_alt_keys ,
+#           self._check_manda_keys
 ##
     def _check_keys(self) -> None:
         self._current_keys_allowed = set(
-            self._main_parsers[self._pre_keypath]
+            self._main_parsers[self._pre_keylist]
         )
 
-        if self._pre_keypath in self._main_alts:
+        if self._pre_keylist in self._main_alts:
             self._current_alts = self._main_alts[
-                self._pre_keypath
+                self._pre_keylist
             ][TAG_ALTERNATIVES]
 
         else:
             self._current_alts = []
 
         self._current_status =  self._main_status[
-            self._pre_keypath
+            self._pre_keylist
         ]
 
         self._check_legal_keys()
@@ -460,41 +488,51 @@ class AMData:
 
 ###
 # prototype::
-#     :action: Z
+#     :action: ensure that only allowed keys are used (at the
+#              current dictionary depth).
 ###
     def _check_legal_keys(self) -> None:
         if not self._current_keys_used <= self._current_keys_allowed:
             self._raise_lxm_error(
                 _exception = KeyPathError,
-                fmt_str = 'Illegal key{plurial}: {names}.',
-                names = self._current_keys_used - self._current_keys_allowed,
+                fmt_str    = 'Illegal key{plurial}: {names}.',
+                names      = (
+                      self._current_keys_used
+                    - self._current_keys_allowed
+                ),
             )
 
 ###
 # prototype::
-#     :action: Z
+#     :action: ensure that no key alternatives are violated (at
+#              the current dictionary depth).
 ###
     def _check_no_alt_keys(self) -> None:
         illegal_couples = set()
 
         for alt_couple in self._current_alts:
-            if alt_couple == (
-                alt_couple & self._current_keys_used
-            ):
-                illegal_couples.add(
-                    ' vs '.join(sorted(alt_couple))
-                )
+            if alt_couple <= self._current_keys_used:
+# Later, ''self._raise_lxm_error'' will prefix our '...vs...' text,
+# so we have to add it to the 2nd key.
+                key_1, key_2 = sorted(alt_couple)
+                key_2        = self._get_str_keypath(key_2)
+
+                illegal_couples.add(f'{key_1} vs {key_2}')
 
         if illegal_couples:
             self._raise_lxm_error(
                 _exception = KeyPathError,
-                fmt_str = 'Illegal couple{plurial} of keys found: {names}.',
-                names = illegal_couples,
+                fmt_str    = (
+                    'Illegal couple{plurial} of keys found: '
+                    '{names}.'
+                ),
+                names      = illegal_couples,
             )
 
 ###
 # prototype::
-#     :action: Z
+#     :action: ensure that no mandatory keys are missing (at
+#              the current dictionary depth).
 ###
     def _check_manda_keys(self) -> None:
         mandatory_keys = set()
@@ -509,15 +547,24 @@ class AMData:
         if not mandatory_keys <= self._current_keys_used:
             self._raise_lxm_error(
                 _exception = KeyPathError,
-                fmt_str = 'Missing mandatory key{plurial}: {names}.',
-                names = mandatory_keys - self._current_keys_used,
+                fmt_str    = (
+                    'Missing mandatory key{plurial}: '
+                    '{names}.'
+                ),
+                names      = (
+                      mandatory_keys
+                    - self._current_keys_used
+                ),
             )
 
 ###
 # prototype::
-#     tolerent : Y
+#     tolerant : whether to allow main blocks other than flavour
+#                ones.
 #
-#     :action: Z
+#     :action: ensure correct usage of main blocks.
+#              When ''tolerent = True'', non-flavour main blocks
+#              are also permitted.
 ###
     def _check_main_blocks(
         self,
@@ -529,11 +576,17 @@ class AMData:
         if not self._mandatory_block_names <= block_names_used:
             self._raise_lxm_error(
                 _exception = ValueError,
-                fmt_str = 'Missing mandatory main block{plurial}: {names}.',
-                names = self._mandatory_block_names - block_names_used,
+                fmt_str    = (
+                    'Missing mandatory main block{plurial}: '
+                    '{names}.'
+                ),
+                names      = (
+                      self._mandatory_block_names
+                    - block_names_used
+                ),
             )
 
-# Pas d'autres blocs principaux
+# Handling of other blocks with or without tolerance.
         if (
             not tolerent
             and
@@ -541,20 +594,39 @@ class AMData:
         ):
             self._raise_lxm_error(
                 _exception = KeyPathError,
-                fmt_str = 'Unsupported main block{plurial}: {names}.',
-                names = block_names_used - self._all_block_names,
+                fmt_str    = (
+                    'Unsupported main block{plurial}: '
+                    '{names}.'
+                ),
+                names      = (
+                      block_names_used
+                    - self._all_block_names
+                ),
             )
 
 ###
 # prototype::
 #     keypath : Y
 #
+#        1. HHHH
+#
+#        1. HHHH
+#
+#        1. HHHH
+#
 #     :yield: Z
+#
+#        1. HHHH
+#
+#        1. HHHH
+#
+#        1. HHHH
 ###
     def _iter_keypath(
         self,
         keypath: MULTI_KEYPATH_TYPE = None,
     ) -> (str, object, PARSER_TYPE):
+# We want to work with a list of keypaths.
         if keypath is None:
             keypaths_wanted = self._full_data_keypaths
 
@@ -564,6 +636,7 @@ class AMData:
         else:
             keypaths_wanted = keypath
 
+# Let's walk together on a flat land.
         for kp in keypaths_wanted:
             if not kp in self._full_data_keypaths:
                 raise KeyPathError(f'Broken keypath {kp!r}.')
@@ -576,7 +649,7 @@ class AMData:
 
 ###
 # prototype::
-#     keypath : Y
+#     keypath : :see: self._iter_keypath
 #
 #     :action: Z
 ###
@@ -587,7 +660,7 @@ class AMData:
         self.std_yaml_data = benedict()
 
         for kp, val, parser_module in self._iter_keypath(keypath):
-# String immbilsim...
+# String immutability.
             if parser_module == str:
                 std_yaml_val = val
 
@@ -595,13 +668,16 @@ class AMData:
             else:
                 std_yaml_val = parser_module.write(val)
 
+# Let's store the standard YAML version.
             self.std_yaml_data.set(kp, std_yaml_val)
 
 ###
 # prototype::
-#     keypath : Y
+#     keypath : :see: self._iter_keypath
 #
 #     :action: Z
+#
+#     :see: self._normalize_me
 ###
     def normalize(
         self,
@@ -630,8 +706,8 @@ class AMData:
 
 ###
 # prototype::
-#     keypath  : Y
-#     tolerent : Y
+#     keypath  : :see: self._iter_keypath
+#     tolerent : :see: self._check_main_blocks
 #
 #     :return: Z
 #
@@ -648,8 +724,8 @@ class AMData:
             if not self._main_parsers[kp][TAG_USE_POST]:
                 if not tolerent:
                     self._raise_kpse_error(
-                        _exception     = KeyPathError,
-                        fmt_str        = f'No post-processing for {keypath!r}.',
+                        _exception = KeyPathError,
+                        fmt_str    = f'No post-processing for {keypath!r}.',
                     )
 
                 continue
@@ -696,8 +772,8 @@ class AMData:
         self,
         key: str = ''
     ) -> str:
-        if self._pre_keypath:
-            keypath = '.'.join(self._pre_keypath)
+        if self._pre_keylist:
+            keypath = '.'.join(self._pre_keylist)
 
             if key:
                 keypath += f'.{key}'
@@ -738,8 +814,8 @@ class AMData:
 
         raise _exception(
             fmt_str.format(
-                plurial   = plurial,
-                names  = comma_list_names,
+                plurial = plurial,
+                names   = comma_list_names,
                 **kwargs
             )
         )
@@ -828,7 +904,7 @@ if __name__ == "__main__":
         print('Standardize')
 
         amdata.standardize()
-        pprint(amdata.std_yaml_data)
+        print(amdata.std_yaml_data.to_yaml(indent = 2))
 
         print()
         print('Normalize')

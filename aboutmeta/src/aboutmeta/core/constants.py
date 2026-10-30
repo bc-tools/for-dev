@@ -13,9 +13,10 @@ TAG_USE_POST   = '__USE_POST__'
 TAG_AMDATA_USE = '__AMDATA_USE__'
 
 
-TAG_LIST = '__LIST__'
-TAG_DATA = '__DATA__'
-
+ALL_TAGS_DATATYPES = [
+    TAG_LIST:= '__LIST__',
+    TAG_DATA:= '__DATA__',
+]
 
 TAG_ALTERNATIVES = '__ALTERNATIVES__'
 

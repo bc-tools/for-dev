@@ -3,7 +3,6 @@ aboutmeta - TODO
 =========
 
 
-
 > ---------------------------- <
 
 doc parser : ajouter que post prod renvoie un dict avec des clés dédéis mais unique : proposer un schema de nommage
@@ -15,15 +14,6 @@ on les intégre dans constants pour els utilisateurs
 +
 
 doc tech + readme !!!! à mettre à jour
-
-+
-
-postprod nouveauté
-
-    --> sem_ver renvoie next minor major version... via
-{'next': {'minor': ..., 'major': ..., ...}}
-
-    --> licensing : ajout auto du fichier
 
 
 > ---------------------------- <
@@ -289,6 +279,27 @@ postprod nouveauté
     --> licensing : ajout auto du fichier
 
     --> extra paramètre ensisageable mais ATTENDRE DE VOIR SI UTILE : on fourni les keypaths suivis des paarams que l'on fourni via *args, **kwargs
+
+
+> ---------------------------- <
+
+postprod nouveauté
+
+    --> sem_ver renvoie next minor major version... via
+{'next': {'minor': ..., 'major': ..., ...}}
+
+    --> licensing : ajout auto du fichier
+
+
++
+
+besoin d'indique le post prod d'une clée sur une autre
+
+project:
+  version: #! sort: current, next
+    current:
+    next:
+
 
 // ---------- //
 
