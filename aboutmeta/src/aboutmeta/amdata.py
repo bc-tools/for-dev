@@ -162,7 +162,7 @@ class AMData:
 
 ###
 # prototype::
-#     tolerent : ''True'' requests to accept additional main
+#     tolerant : ''True'' requests to accept additional main
 #                blocks that will be silently ignored.
 #                With ''False'', additional main blocks blocks
 #                are rejected.
@@ -174,7 +174,7 @@ class AMData:
 ###
     def build(
         self,
-        tolerent: bool = True
+        tolerant: bool = True
     ) -> benedict:
 # Data operations (e.g., write, normalize, ...) require the full
 # 'keypaths' to the data.
@@ -196,7 +196,7 @@ class AMData:
 # Check the main-block names used.
         self._pre_keylist = []
 
-        self._check_main_blocks(tolerent)
+        self._check_main_blocks(tolerant)
 
 # Analysis of the content of each main block.
         data = dict()
@@ -204,7 +204,7 @@ class AMData:
         for block, content in self._yaml_raw_data.items():
 # A main block to ignore?
             if (
-                tolerent
+                tolerant
                 and
                 not block in self._all_block_names
             ):
@@ -409,7 +409,7 @@ class AMData:
 
 ###
 # prototype::
-#     :return: a data type if the current ''keylist'' points to
+#     :return: a data type if the current "keylist" points to
 #              a data, ''None'' otherwise.
 #            @ _ in ALL_TAGS_DATATYPES or _ = None
 ###
@@ -422,9 +422,9 @@ class AMData:
 ###
 # prototype::
 #     tag : a tag to retrieve metadata from the \specs of the
-#              current ''keylist''.
+#              current "keylist".
 #
-#     :return: \spec metadata associated to ''keylist''.
+#     :return: \spec metadata associated to "keylist".
 ###
     def _get_current_metadata(
         self,
@@ -435,14 +435,14 @@ class AMData:
 ###
 # prototype::
 #     :return: the \python parsing module of the current
-#              ''keylist'' parser.
+#              "keylist" parser.
 ###
     def _this_parser_module(self) -> ModuleType:
         return self._get_current_metadata(TAG_PARSER)
 
 ###
 # prototype::
-#     :return: ''amdata''-\arg \specs of the current ''keylist''
+#     :return: ''amdata''-\arg \specs of the current "keylist"
 #              parser.
 ###
     def _this_amdata_use(self) -> (bool, bool | None):
@@ -451,7 +451,7 @@ class AMData:
 ###
 # prototype::
 #     :return: ''True'' if post-processing is proposed by the
-#              current 'keylist' parser, ''False'' otherwise.
+#              current "keylist" parser, ''False'' otherwise.
 ###
     def _this_use_post(self) -> bool:
         return self._get_current_metadata(TAG_USE_POST)
@@ -563,12 +563,12 @@ class AMData:
 #                ones.
 #
 #     :action: ensure correct usage of main blocks.
-#              When ''tolerent = True'', non-flavour main blocks
+#              When ''tolerant = True'', non-flavour main blocks
 #              are also permitted.
 ###
     def _check_main_blocks(
         self,
-        tolerent: bool
+        tolerant: bool
     ) -> None:
         block_names_used = set(self._yaml_raw_data)
 
@@ -588,7 +588,7 @@ class AMData:
 
 # Handling of other blocks with or without tolerance.
         if (
-            not tolerent
+            not tolerant
             and
             not block_names_used <= self._all_block_names
         ):
@@ -606,21 +606,18 @@ class AMData:
 
 ###
 # prototype::
-#     keypath : Y
+#     keypath : this \arg can be of three types.
+#         1. ''None'' asks to iterate on all the data
+#            "keypaths".
+#         1. A string value allows you to use a specific
+#            "keypath".
+#         1. A list of string values iterate for specific
+#            "keypaths".
 #
-#        1. HHHH
-#
-#        1. HHHH
-#
-#        1. HHHH
-#
-#     :yield: Z
-#
-#        1. HHHH
-#
-#        1. HHHH
-#
-#        1. HHHH
+#     :yield: at each iteration, three values are yielded.
+#         1. The current data "keypath".
+#         1. The data associated with the "keypath".
+#         1. The parser to apply to the data.
 ###
     def _iter_keypath(
         self,
@@ -651,7 +648,9 @@ class AMData:
 # prototype::
 #     keypath : :see: self._iter_keypath
 #
-#     :action: Z
+#     :action: ''self.std_yaml_data'' matches the original \yaml
+#              \dict, but with standardized \vals corresponding
+#              to the desired "keypaths".
 ###
     def standardize(
         self,
@@ -675,7 +674,8 @@ class AMData:
 # prototype::
 #     keypath : :see: self._iter_keypath
 #
-#     :action: Z
+#     :action: normalize all the data \vals of ''self.data''
+#              corresponding to the desired "keypaths".
 #
 #     :see: self._normalize_me
 ###
@@ -693,9 +693,10 @@ class AMData:
 
 ###
 # prototype::
-#     data : Y
+#     data : a data object.
 #
-#     :action: Z
+#     :action: if ''data'' has a ''normalize'' \attr, it is
+#              called as a zero-\arg \func.
 ###
     def _normalize_me(
         self,
@@ -707,25 +708,32 @@ class AMData:
 ###
 # prototype::
 #     keypath  : :see: self._iter_keypath
-#     tolerent : :see: self._check_main_blocks
+#     tolerant : :see: self._check_main_blocks
 #
-#     :return: Z
+#     :action: launch the post-processing of all the data \vals
+#              of ''self.data'' corresponding to the desired
+#              "keypaths".
+#              When ''tolerant=True'', missing post-processing
+#              \feats are silently ignored, otherwise, an error
+#              is raised.
 #
-#     :action: Z
+#     :return: a \dict providing access to any data returned by
+#              the called post-processors.
 ###
     def postprod(
         self,
         keypath : MULTI_KEYPATH_TYPE = None,
-        tolerent: bool = True,
+        tolerant: bool = True,
     ) -> benedict:
         results_captured = benedict()
 
+# Let's call the desired post-processing.
         for kp , val, parser_module in self._iter_keypath(keypath):
             if not self._main_parsers[kp][TAG_USE_POST]:
-                if not tolerent:
+                if not tolerant:
                     self._raise_kpse_error(
                         _exception = KeyPathError,
-                        fmt_str    = f'No post-processing for {keypath!r}.',
+                        fmt_str    = f'No post-processing for {kp!r}.',
                     )
 
                 continue
@@ -745,7 +753,7 @@ class AMData:
             except Exception as e:
                 self._raise_kpse_error(
                     _exception     = PostProcessingError,
-                    fmt_str        = f'Post processing of {keypath!r}',
+                    fmt_str        = f'Post processing of {kp!r}',
                     _sub_exception = e,
                 )
 
@@ -753,13 +761,17 @@ class AMData:
                 for tag in result:
                     if tag in results_captured:
                         self._raise_kpse_error(
-                            _exception     = CriticalImplementationError,
-                            fmt_str        = f'Post processing tag {tag!r} has been used twice. Found with data {keypath!r}.',
-                            tag = tag
+                            _exception = CriticalImplementationError,
+                            fmt_str    = (
+                                f'Post prod tag {tag!r} has been '
+                                f'used twice. Found with data {kp!r}.'
+                            ),
+                            tag        = tag
                         )
 
                 results_captured |= result
 
+# Nothing left to do.
         return results_captured
 
 ###
