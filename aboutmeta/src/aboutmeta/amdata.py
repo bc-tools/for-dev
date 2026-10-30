@@ -459,7 +459,7 @@ class AMData:
 ###
 # prototype::
 #     :action: ensure all keys are used correctly at the current
-#              dictionary depth.
+#              \dict depth.
 #
 #     :see: self._check_legal_keys ,
 #           self._check_no_alt_keys ,
@@ -489,7 +489,7 @@ class AMData:
 ###
 # prototype::
 #     :action: ensure that only allowed keys are used (at the
-#              current dictionary depth).
+#              current \dict depth).
 ###
     def _check_legal_keys(self) -> None:
         if not self._current_keys_used <= self._current_keys_allowed:
@@ -505,7 +505,7 @@ class AMData:
 ###
 # prototype::
 #     :action: ensure that no key alternatives are violated (at
-#              the current dictionary depth).
+#              the current \dict depth).
 ###
     def _check_no_alt_keys(self) -> None:
         illegal_couples = set()
@@ -532,7 +532,7 @@ class AMData:
 ###
 # prototype::
 #     :action: ensure that no mandatory keys are missing (at
-#              the current dictionary depth).
+#              the current \dict depth).
 ###
     def _check_manda_keys(self) -> None:
         mandatory_keys = set()
@@ -713,7 +713,7 @@ class AMData:
 #     :action: launch the post-processing of all the data \vals
 #              of ''self.data'' corresponding to the desired
 #              "keypaths".
-#              When ''tolerant=True'', missing post-processing
+#              When ''tolerant = True'', missing post-processing
 #              \feats are silently ignored, otherwise, an error
 #              is raised.
 #
@@ -776,9 +776,10 @@ class AMData:
 
 ###
 # prototype::
-#     key : Y
+#     key : a \yaml key.
 #
-#     :return: Z
+#     :return: the full "keypath" to access the ''key'' data (at
+#              the current dictionary depth).
 ###
     def _get_str_keypath(
         self,
@@ -797,16 +798,67 @@ class AMData:
 
 ###
 # prototype::
-#     _exception : Y
-#     fmt_str    : Y
-#     names      : Y
-#     **kwargs   : Y
+#     _exception : an exception to raise.
+#     fmt_str    : a format \str with placeholders to be replaced.
+#                  The following placeholders are reserved.
+#         + ''{e}'' is used to print the sub-exception \msg when
+#           present.
+#         + ''{etype}'' is the sub-exception type when present.
+#     _sub_exception : a caught sub-exception, or ''None'' when
+#                      nothing was caught.
+#     **kwargs       : optional \args to use as placeholder \vels
+#                      in ''fmt_str'' format string.
 #
-#     :return: Z
+#     :action: raise ''_exception'' using ''fmt_str'' with filled
+#              placeholders, appending a suffix for the
+#              ''_sub_exception'' message if ''_sub_exception'' is
+#              provided.
 #
 #
 # note::
-#     lxm pour list (e)xtra names
+#     ''kpse'' is the acronym of "keypath/sub exception".
+###
+    def _raise_kpse_error(
+        self,
+        _exception    : Exception,
+        fmt_str       : str,
+        _sub_exception: Exception | None = None,
+        **kwargs
+    ) -> None:
+        if _sub_exception is None:
+            etype = None
+
+        else:
+            etype    = type(_sub_exception).__name__
+            fmt_str += ': (sub){etype}: {e}'
+
+        raise _exception(
+            fmt_str.format(
+                keypath = self._get_str_keypath(),
+                etype   = etype,
+                e       = _sub_exception,
+                **kwargs
+            )
+        )
+
+###
+# prototype::
+#     _exception : :see: self._raise_kpse_error
+#     fmt_str    : a format \str with placeholders to be replaced.
+#                  The following placeholders are reserved.
+#         + ''{names}'' is used to print a comma separated list of
+#           "names".
+#         + ''{plural}'' allows to use ''"s"'' for several names,
+#           and python::{''} otherwise.
+#         + ''{e}'' and ''{etype}'': :see: self._raise_kpse_error.
+#     names    : a set of key names.
+#     **kwargs : :see: self._raise_kpse_error
+#
+#     :action: :see: self._raise_kpse_error
+#
+#
+# note::
+#     ''lxm'' is the acronym of "list of (e)xtra names".
 ###
     def _raise_lxm_error(
         self,
@@ -828,42 +880,6 @@ class AMData:
             fmt_str.format(
                 plurial = plurial,
                 names   = comma_list_names,
-                **kwargs
-            )
-        )
-
-###
-# prototype::
-#     _exception     : Y
-#     fmt_str        : Y
-#     _sub_exception : Y
-#     **kwargs       : Y
-#
-#     :return: Z
-#
-#
-# note::
-#     kpse pour keypath/sub exception
-###
-    def _raise_kpse_error(
-        self,
-        _exception    : Exception,
-        fmt_str       : str,
-        _sub_exception: Exception | None = None,
-        **kwargs
-    ) -> None:
-        if _sub_exception is None:
-            etype = None
-
-        else:
-            etype    = type(_sub_exception).__name__
-            fmt_str += ': (sub){etype}: {e}'
-
-        raise _exception(
-            fmt_str.format(
-                keypath = self._get_str_keypath(),
-                etype   = etype,
-                e       = _sub_exception,
                 **kwargs
             )
         )
