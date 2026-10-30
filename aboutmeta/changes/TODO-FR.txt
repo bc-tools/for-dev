@@ -5,6 +5,9 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+amdata : revoir t,dsoc car factoriser
+
+> ---------------------------- <
 
 dans __ALL_FLAVOURS__
 

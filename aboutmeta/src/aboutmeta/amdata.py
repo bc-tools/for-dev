@@ -41,31 +41,9 @@ PARSER_TYPE = (
 # This class helps factorize the code: it handles all checks and
 # error raising for ''AMData''.
 ###
-class AMDataChecker:
+class _AMDataChecker:
     def __init__(self, amdata: object) -> None:
         self.amdata = amdata
-
-###
-# prototype::
-#     key : a \yaml key.
-#
-#     :return: the full "keypath" to access the ''key'' data (at
-#              the current dictionary depth).
-###
-    def get_str_keypath(
-        self,
-        key: str = ''
-    ) -> str:
-        if self.amdata._pre_keylist:
-            keypath = '.'.join( self.amdata._pre_keylist)
-
-            if key:
-                keypath += f'.{key}'
-
-        else:
-            keypath = key
-
-        return keypath
 
 ###
 # prototype::
@@ -96,7 +74,7 @@ class AMDataChecker:
         sep = ','
 
         comma_list_names = sep.join([
-            f'{self.get_str_keypath(n)!r}'
+            f'{self.amdata.get_str_keypath(n)!r}'
             for n in sorted(names)
         ])
 
@@ -149,7 +127,7 @@ class AMDataChecker:
 
         raise _exception(
             fmt_str.format(
-                keypath = self.get_str_keypath(),
+                keypath = self.amdata.get_str_keypath(),
                 etype   = etype,
                 e       = _sub_exception,
                 **kwargs
@@ -263,7 +241,7 @@ class AMDataChecker:
 # Later, ''self._raise_lxm_error'' will prefix our '...vs...' text,
 # so we have to add it to the 2nd key.
                 key_1, key_2 = sorted(alt_couple)
-                key_2        = self.get_str_keypath(key_2)
+                key_2        = self.amdata.get_str_keypath(key_2)
 
                 illegal_couples.add(f'{key_1} vs {key_2}')
 
@@ -350,7 +328,7 @@ class AMData:
         flavour: str,
         parent : Path,
     ) -> None:
-        self._checker = AMDataChecker(self)
+        self._checker = _AMDataChecker(self)
 
         self.flavour = flavour
         self.parent  = parent
@@ -501,7 +479,7 @@ class AMData:
             datatype = self._this_data_type()
 
             if datatype != TAG_LIST:
-                kp = self._checker.get_str_keypath()
+                kp = self.get_str_keypath()
 
                 self._checker._raise_kpse_error(
                     _exception = ValueError,
@@ -553,7 +531,7 @@ class AMData:
                 )
 
             except Exception as e:
-                kp = self._checker.get_str_keypath()
+                kp = self.get_str_keypath()
 
                 self._checker._raise_kpse_error(
                     _sub_exception = e,
@@ -662,12 +640,34 @@ class AMData:
 
 ###
 # prototype::
+#     key : a \yaml key.
+#
+#     :return: the full "keypath" to access the ''key'' data (at
+#              the current dictionary depth).
+###
+    def get_str_keypath(
+        self,
+        key: str = ''
+    ) -> str:
+        if self._pre_keylist:
+            keypath = '.'.join(self._pre_keylist)
+
+            if key:
+                keypath += f'.{key}'
+
+        else:
+            keypath = key
+
+        return keypath
+
+###
+# prototype::
 #     :action: only for data, append the current keypath to
 #              the list ''self._full_data_keypaths'' (.
 ###
     def _update_full_data_keypaths(self) -> None:
         self._full_data_keypaths.append(
-            self._checker.get_str_keypath()
+            self.get_str_keypath()
         )
 
 ###
