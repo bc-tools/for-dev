@@ -54,7 +54,7 @@
 #     when using a standalone python::''TOCPath'' object).
 #
 #
-# [[post-prod]]
+# [[post-prod+]]
 #
 # The post-processing returns a \dict with only one key
 # ''TAG_POSTPROD_ABOUT_PATH_FILES'' associated to the list of
@@ -225,7 +225,7 @@ def postprod(
 
 # Nothing left to do.
     return {
-        TAG_POSTPROD_ABOUT_PATH_FILES: paths
+        TAG_POSTPROD_ABOUT_PATH_FILES: paths,
     }
 
 

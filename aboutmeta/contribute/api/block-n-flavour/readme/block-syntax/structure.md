@@ -39,4 +39,4 @@ require:
 ~~~
 
 
-> ***IMPORTANT.*** *Nothing prevents you from expecting a dictionary or a list of values as data to parse. In this case, you can delegate the parsing of this complex data to the parser. For example, the `toc_path` parser accepts either a string or a dictionary. See `contribute/api/data/code/toc_path.py`.*
+> ***IMPORTANT.*** *Nothing prevents you from expecting a dictionary or a list of values as data to parse. In this case, you can delegate the parsing of this complex data to a parser. For example, the `toc_path` parser accepts either a string or a dictionary. See `contribute/api/data/code/toc_path.py`.*
