@@ -10,7 +10,7 @@ from cbutils.pathplus   import *
 from cbutils.coding_py  import *
 from cbutils.contrib    import *
 
-from projutils.constants import SYMBOL_OPTIONAL
+from projutils.constants.yaml_specs import SYMBOL_OPTIONAL
 
 
 # --------------- #

@@ -19,7 +19,8 @@ from yaml        import safe_load
 
 from cbutils.coding_py import *
 
-from .constants import *
+from .constants.yaml_specs   import *
+from .constants.friendly_api import *
 
 
 # --------------- #
@@ -247,7 +248,7 @@ class DigestedYamlSpecs():
                 datatype = TAG_DATA
 
 # Do we must use the last parser name automatically?
-            if parser_name == TAG_LAST_PARSER_CARD:
+            if parser_name == SYMBOL_LAST_PARSER_CARD:
                 if not self._last_parser:
                     raise ValueError(
                         'no last parser used'

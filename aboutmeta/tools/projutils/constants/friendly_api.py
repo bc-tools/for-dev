@@ -1,18 +1,9 @@
 #!/usr/bin/env python3
 
 
-# --------------------- #
-# -- FORM YAML SPECS -- #
-# --------------------- #
-
-SYMBOL_POST_PROCESS = '+'
-SYMBOL_OPTIONAL     = '*'
-SYMBOL_PIP          = '|'
-SYMBOL_COMMA        = ','
-
-
-TAG_LAST_PARSER_CARD = '.'
-
+# ------------------- #
+# -- FOR FINAL API -- #
+# ------------------- #
 
 TAG_IS_MANDATORY = "__IS_MANDATORY__"
 TAG_IS_PARSED    = "__IS_PARSED__"
