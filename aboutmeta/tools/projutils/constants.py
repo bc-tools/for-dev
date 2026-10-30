@@ -5,10 +5,10 @@
 # -- FORM YAML SPECS -- #
 # --------------------- #
 
-TAG_POST_PROCESS = '+'
-TAG_OPTIONAL     = '*'
-TAG_PIP          = '|'
-TAG_COMMA        = ','
+SYMBOL_POST_PROCESS = '+'
+SYMBOL_OPTIONAL     = '*'
+SYMBOL_PIP          = '|'
+SYMBOL_COMMA        = ','
 
 
 TAG_LAST_PARSER_CARD = '.'

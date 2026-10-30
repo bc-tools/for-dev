@@ -21,7 +21,7 @@ PATTERN_UNIX_NAME = re.compile(r'^[a-z_][a-z0-9_-]*$')
 
 ###
 # prototype::
-#     name : a Unix-style name that only uses lowercase letters,
+#     name : a \unix-style name that only uses lowercase letters,
 #            digits, underscores, and hyphens, and cannot start
 #            with a digit or a hyphen.
 ###
@@ -31,7 +31,7 @@ class UnixName(DataManager):
 ###
 # prototype::
 #     :action: mandatory validations of ''self.URL'' type, and
-#              the Unix name good format.
+#              the \unix name format.
 ###
     def __post_init__(self) -> None:
         validate_type(

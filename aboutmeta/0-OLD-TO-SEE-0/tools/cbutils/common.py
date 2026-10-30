@@ -42,7 +42,7 @@ SIGNS_FILE     = f"{TAG_SIGNS}.py"
 SPECS_FILE     = f"{TAG_SPECS}.py"
 FLAVOURS_FILE  = f"{TAG_FLAVOURS}.py"
 
-TAG_OPTIONAL   = '*'
+SYMBOL_OPTIONAL   = '*'
 
 TAG_STATUS = "status"
 TAG_OK     = "ok"
@@ -421,7 +421,7 @@ def get_pyname(yaml_name):
 # --------------------- #
 
 def get_name_required(name):
-    if name[-1] == TAG_OPTIONAL:
+    if name[-1] == SYMBOL_OPTIONAL:
         is_required = False
         name        = name[:-1].strip()
 

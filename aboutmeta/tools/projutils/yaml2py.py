@@ -219,7 +219,7 @@ class DigestedYamlSpecs():
 # alternatives expected (maybe choices could be useful later).
         use_post, parser_spec_extracted = self.split_xor_or(
             text = parser_spec,
-            deco = TAG_POST_PROCESS
+            deco = SYMBOL_POST_PROCESS
         )
 
 # Alternatives of parsers expected.
@@ -303,9 +303,9 @@ class DigestedYamlSpecs():
         xor_or_parts = [
             set(
                 comma_part.strip()
-                for comma_part in pip_part.split(TAG_COMMA)
+                for comma_part in pip_part.split(SYMBOL_COMMA)
             )
-            for pip_part in text.split(TAG_PIP)
+            for pip_part in text.split(SYMBOL_PIP)
         ]
 
 # Nothing left to do.
@@ -332,7 +332,7 @@ class DigestedYamlSpecs():
         for block_spec, parser_spec in data_dict.items():
             is_optional, block_spec = self.split_xor_or(
                 text = block_spec,
-                deco = TAG_OPTIONAL
+                deco = SYMBOL_OPTIONAL
             )
 
 # A parser found?

@@ -10,7 +10,7 @@ from cbutils.pathplus   import *
 from cbutils.coding_py  import *
 from cbutils.contrib    import *
 
-from projutils.constants import TAG_OPTIONAL
+from projutils.constants import SYMBOL_OPTIONAL
 
 
 # --------------- #
@@ -77,7 +77,7 @@ for folder, contribs in get_accepted_paths(
         for parser_spec in spec_list:
             parser_spec = parser_spec.strip()
 
-            if parser_spec[-1] == TAG_OPTIONAL:
+            if parser_spec[-1] == SYMBOL_OPTIONAL:
                 is_optional = True
                 parser_spec = parser_spec[:-1].strip()
 

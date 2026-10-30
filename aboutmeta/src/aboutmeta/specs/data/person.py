@@ -56,9 +56,9 @@ DELIMS_PARTICLE = TAG_PARTICLE_OPEN + TAG_PARTICLE_CLOSE
 #
 #
 # note::
-#     The ''surname'', ''particle'', ''firstnames'', ''email'' and
-#     ''affiliation'' attributes are build from the value of the
-#     ''spec'' attribute.
+#     The ''surname'', ''particle'', ''firstnames'', ''email''
+#     and ''affiliation'' \attrs are build from the value of the
+#     ''spec'' \att.
 ###
 class Person(DataManager):
     spec       : str
@@ -73,7 +73,7 @@ class Person(DataManager):
 #     :action: mandatory validations of ''self.spec'' type, and
 #              derivation of the ''surname'', ''particle'',
 #              ''firstnames'', ''email'' and ''affiliation''
-#              attributes from ''self.spec''.
+#              \attrs from ''self.spec''.
 ###
     def __post_init__(self) -> None:
         validate_type(
@@ -82,7 +82,7 @@ class Person(DataManager):
             types_expected = str,
         )
 
-#  We can work.
+# We can work.
         spec = self.spec
 
 # One affiliation?
@@ -121,8 +121,8 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     :action: update the ''spec'' attribute using to the actual
-#              values of other attributes.
+#     :action: update the ''spec'' \attr using to the actual \vals
+#              of other \attrs.
 ###
     def _update_spec(self) -> None:
 # Build the standard spec definition.
@@ -167,20 +167,20 @@ class Person(DataManager):
 #     + All names are written in "titlecase", and the particle
 #     is in lowercase. Spaces around the hyphen are removed.
 #     For example,
-#     ''ALIce,  MarIE   -  LiSe,   {DE}   Charlène'' becomes
-#     ''Alice, Marie-Lise, {de} Charlène''.
+#     ''"ALIce,  MarIE   -  LiSe,   {DE}   Charlène"'' becomes
+#     ''"Alice, Marie-Lise, {de} Charlène"''.
 #
 #     + Some valid emails adresses use typographical quirks.
-#     For example, ''SuPpOrT@OpeAI.CoM'' is valid, but its
+#     For example, ''"SuPpOrT@OpeAI.CoM"'' is valid, but its
 #     normalized version, produced by this method, is
-#     ''SuPpOrT@openai.com''. See the ''_normalize_email''
+#     ''"SuPpOrT@openai.com"''. See the ''_normalize_email''
 #     method for technical details.
 #
 #     + The normalization of the affiliation address is limited
 #     to not having consecutive spaces.
 #     For example,
-#     ''Université   de   la Technologie,    France'' becomes
-#     ''Université de la Technologie, France''.
+#     ''"Université   de   la Technologie,    France"'' becomes
+#     ''"Université de la Technologie, France"''.
 ###
     def normalize(self) -> None:
         self._normalize_titles()
@@ -239,10 +239,10 @@ class Person(DataManager):
 #     According to RFC 5321, we have:
 #
 #         + The domain part is case-insensitive, and should
-#         be lowercase.
+#           be lowercase.
 #
 #         + The local part ***may*** be case-sensitive, but
-#         rarely is.
+#           rarely is.
 ###
     def _normalize_email(self) -> None:
         if self.email:
@@ -274,8 +274,8 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     :action: ''email_validator.validate_email'' checks
-#              the email validity.
+#     :action: the external \func ''email_validator.validate_email''
+#              checks the email validity.
 ###
     def _validate_email(self) -> None:
         self.data_pb.what("email")

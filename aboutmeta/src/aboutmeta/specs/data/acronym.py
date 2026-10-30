@@ -13,6 +13,8 @@ from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
 from aboutmeta.core.validate     import validate_type
 
+from aboutmeta.tools.misc  import single_spaces
+
 
 # ---------- #
 # -- DATA -- #
@@ -27,14 +29,14 @@ TAG_ACRONYM_DEF_OPEN, TAG_ACRONYM_DEF_CLOSE = '[]'
 
 ###
 # prototype::
-#     spec  : the specification of an acronym using brackets.
+#     spec  : the \spec of an acronym using brackets.
 #     short : the acronym alone.
-#     desc  : the defintion of acronym without any bracket.
+#     desc  : the \def of acronym without any bracket.
 #
 #
 # note::
-#     The ''short'' and ''desc'' attributes are build from the
-#     value of the ''spec'' attribute.
+#     The ''short'' and ''desc'' \attrs are build from the \val
+#     of the ''spec'' \attr.
 ###
 class Acronym(DataManager):
     spec : str
@@ -44,8 +46,8 @@ class Acronym(DataManager):
 ###
 # prototype::
 #     :action: mandatory validations of ''self.spec'' type, and
-#              derivation of the ''short'' and ''desc''
-#              attributes from ''self.spec''.
+#              derivation of the ''short'' and ''desc'' \attrs
+#              from ''self.spec''.
 ###
     def __post_init__(self) -> None:
         validate_type(

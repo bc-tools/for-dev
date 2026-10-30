@@ -91,13 +91,13 @@ TOC_PATH_SPEC_TYPE = (
 #
 #
 # note::
-#     The ''kind'' and ''pattern'' attributes are build from the
-#     value of the ''spec'' attribute.
+#     The ''kind'' and ''pattern'' \attrs are build from the
+#     value of the ''spec'' \attr.
 #
 #
 # important::
-#     A dictionary ''spec'' attribute is always standardized:
-#     only long-name keys are used, and string ''regex'' patterns
+#     A dictionary ''spec'' \attr is always standardized: only
+#     long-name keys are used, and string \regex patterns
 #     are transformed into their compiled versions.
 ###
 class TOCPath(DataManager):
@@ -108,7 +108,7 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :action: we standardize the ''spec'' attribute and validate
+#     :action: we standardize the ''spec'' \attr and validate
 #              the search pattern syntax if needed.
 ###
     def __post_init__(self) -> None:
@@ -172,7 +172,7 @@ class TOCPath(DataManager):
 #     pattern : a glob pattern search.
 #
 #     :action: check well-balanced hooks, and syntax by trying to
-#              transform the pattern into a ''regex''.
+#              transform the pattern into a \regex object.
 ###
     def _check_syntax_glob(
         self,
@@ -204,7 +204,7 @@ class TOCPath(DataManager):
             raise ParsingError("Opening hook ''['' unclosed.")
 
 # Checking pattern validity by trying to transform it into a
-# ''regex'' pattern.
+# \regex pattern.
         try:
             self._check_syntax_regex(
                 fnmatch.translate(pattern)
@@ -226,11 +226,11 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     pattern : a string ''regex'' pattern search.
+#     pattern : a string \regex pattern search.
 #
 #     :action: check syntax by compiling the pattern.
 #
-#     :return: the compile ''regex'' version of the pattern.
+#     :return: the compiled \regex pattern.
 ###
     def _check_syntax_regex(
         self,
@@ -307,15 +307,18 @@ class TOCPath(DataManager):
         else:
             self.data_pb.new_error(
                 data      = full_path,
-                error_msg = f"Broken absolute path. See raw path '{raw_path}'.",
+                error_msg = (
+                     'Broken absolute path. '
+                    f"See raw path '{raw_path}'."
+                ),
             )
 
             self.data_pb.rejected(raw_path)
 
 ###
 # prototype::
-#     :action: check for winning ''glob'' or ''regex'' pattern
-#              using a specific path iterator.
+#     :action: check for winning \glob or \regex pattern using
+#              a specific path iterator.
 #
 #     :see: self.path_iter
 ###
@@ -352,7 +355,7 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     str_pattern : string version of a glob or ''regex'' pattern
+#     str_pattern : string version of a glob or \regex pattern
 #                   (this is for terminal and log communication).
 #     is_recu     : ''True'' for a recursive search, ''False''
 #                   otherwise.
@@ -451,10 +454,10 @@ class TOCPath(DataManager):
 # prototype::
 #     glob_method_name : :see: self.path_iter
 #
-#     :yield: each path which validates the ''glob'' pattern
-#             stored in ''self.pattern'' using the ''glob''
-#             method named ''glob_method_name'' from the ''Path''
-#             class.
+#     :yield: each path which validates the \glob pattern
+#             stored in ''self.pattern'' using the \glob
+#             method named ''glob_method_name'' from the
+#             ''Path'' class.
 ###
     def glob_iter(
         self,
@@ -469,8 +472,8 @@ class TOCPath(DataManager):
 # prototype::
 #     glob_method_name : :see: self.path_iter
 #
-#     :yield: each path which validates the ''regex'' pattern
-#             stored in ''self.pattern'' using the ''glob''
+#     :yield: each path which validates the \regex pattern
+#             stored in ''self.pattern'' using the \glob
 #             method named ''glob_method_name'' from the ''Path''
 #             class.
 ###

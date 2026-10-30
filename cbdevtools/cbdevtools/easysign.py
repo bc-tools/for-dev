@@ -22,7 +22,7 @@ from inspect import signature
 
 # Some useful tags.
 TAG_PARAMS   = 'params'
-TAG_OPTIONAL = 'optional'
+SYMBOL_OPTIONAL = 'optional'
 TAG_RETURN   = 'return'
 
 TAG_TYPING  = 'typing'
@@ -80,7 +80,7 @@ def easysign(onecallable: Callable) -> Dict[str, Any]:
 # An easier version of the signature (at least for me).
     easysign = {
         TAG_PARAMS  : {},
-        TAG_OPTIONAL: [],
+        SYMBOL_OPTIONAL: [],
         TAG_RETURN  : cleantype(str(sign.return_annotation)),
     }
 
@@ -92,7 +92,7 @@ def easysign(onecallable: Callable) -> Dict[str, Any]:
         if param_default:
             param_default = param_default[0].strip()
 
-            easysign[TAG_OPTIONAL].append(param)
+            easysign[SYMBOL_OPTIONAL].append(param)
 
         else:
             param_default = None

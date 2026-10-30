@@ -5,8 +5,8 @@
 
 
 ###
-# A ''YMD'' date can only be given in the English format
-# ''YYYY-MM-DD'' like ''2025-07-15''.
+# An ''YMD'' date follows English format "YYYY-MM-DD" like
+# "2025-10-31".
 ###
 
 
@@ -22,7 +22,9 @@ from aboutmeta.core.errors import ParsingError
 ###
 # prototype::
 #     data : the date provided in the \yaml file, but stripped.
-#     :return: an instance of the ''datetime.date'' class.
+#
+#     :return: an instance of the ''datetime.date'' class
+#              representing the date.
 ###
 def parse(data: str) -> datetime.date:
     try:
@@ -57,8 +59,8 @@ def parse(data: str) -> datetime.date:
 # prototype::
 #     data : a ''datetime.date'' object.
 #
-#     :return: the standard \yaml version of the ''datetime.date''
-#              object using the format `%Y-%m-%d`.
+#     :return: the \std \yaml version of the ''datetime.date''
+#              object using the format ''"%Y-%m-%d"''.
 ###
 def write(data: datetime.date) -> str:
     return data.strftime('%Y-%m-%d')

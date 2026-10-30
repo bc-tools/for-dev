@@ -23,24 +23,23 @@ from aboutmeta.core.validate     import validate_type
 
 ###
 # prototype::
-#     std_id    : the standard language identifier which looks
-#                 like ''en-GB''.
-#     name      : the full language name like ''English''.
-#     territory : the territory of the language like ''Great
-#                 Britain''.
+#     std_id    : the \std \lang identifier like ''"en-GB"''.
+#     name      : the full \lang name like ''"English"''.
+#     territory : the territory of the \lang like ''"Great
+#                 Britain"''.
 #
 #
 # note::
-#     The ''name'' and ''territory'' attributes are build from
-#     the value of the ''std_id'' attribute.
+#     The ''name'' and ''territory'' \attrs are build from the
+#     \val of the ''std_id'' \attr.
 #
 #
 # warning::
 #     Short identifiers are automatically expanded to full ones
-#     regardless of letter casing: if a user enters ''fr'' or
-#     ''FR-fr'', it will be saved as ''fr-FR''. Enforcing this
-#     normalization \std at the \yaml input stage is a best
-#     practice.
+#     regardless of letter casing: ''"fr"'' and ''"FR-fr"'' are
+#     saved as ''"fr-FR"''.
+#     Enforcing this normalization \std at the \yaml input stage
+#     is a painless best practice.
 ###
 class Lang(DataManager):
     std_id   : str
@@ -49,11 +48,10 @@ class Lang(DataManager):
 
 ###
 # prototype::
-#     :action: mandatory validations of ''self.std_id'' type,
-#              and derivation of the ''name'' and ''territory''
-#              attributes from ''self.std_id'' and expand the
-#              identifier to its full form (e.g., ''fr'' becomes
-#              ''fr-FR'').
+#     :action: mandatory validations of ''self.std_id'' type, and
+#              derivation of the ''name'' and ''territory'' \attrs
+#              from ''self.std_id'' and expand the identifier to
+#              its full form (e.g., ''"fr"'' becomes ''"fr-FR"'').
 ###
     def __post_init__(self) -> None:
         validate_type(
