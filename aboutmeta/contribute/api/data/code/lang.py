@@ -86,6 +86,10 @@ class Lang(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
+    import pytest
+
+    from aboutmeta.core.errors import YAMLTypeError
+
 # DEBUG ON
     yaml_data = 'it'
     mydata    = Lang(std_id = yaml_data)
@@ -94,10 +98,6 @@ if __name__ == "__main__":
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
 # DEBUG OFF
-
-    import pytest
-
-    from aboutmeta.core.errors import YAMLTypeError
 
 # test: legal full data langs
     for yaml_data, std_id, name, territory in [
@@ -122,27 +122,28 @@ if __name__ == "__main__":
 
 # test: legal weird letter case langs
     for yaml_data in [
-        "Fr",
-        "eS",
-        "EN",
+        "Fr-bE",
+        "eS-ES",
+        "EN-us",
         "en-gb",
         "eN-gb",
         "En_gB",
     ]:
         mydata = Lang(std_id = yaml_data)
 
-        if '-' in yaml_data:
-            left, right = yaml_data.split('-')
+        left = None
 
-        elif '_' in yaml_data:
-            left, right = yaml_data.split('_')
+        for sep in '-_':
+            if sep in yaml_data:
+                left, right = yaml_data.split(sep)
+                break
 
-        else:
+        if left is None:
             left = right = yaml_data
 
         std_id = f'{left.lower()}-{right.upper()}'
 
-        assert(mydata.std_id == std_id, )
+        assert mydata.std_id == std_id
 
 # test: illegal yaml data type
     for yaml_data in [

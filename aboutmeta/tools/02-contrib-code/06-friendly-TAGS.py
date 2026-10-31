@@ -57,10 +57,7 @@ POSTPROD_PREFIX_SHIFT = len(POSTPROD_PREFIX)
 # ----------- #
 
 def get_keys(code: str) -> set[str]:
-    return set(
-        pysuglify(bk)
-        for bk in PATTERN_BLOCK_KEYS.findall(code)
-    )
+    return set(PATTERN_BLOCK_KEYS.findall(code))
 
 
 def get_postprod_tags(code: str) -> dict[str, str]:
@@ -131,7 +128,7 @@ for pyfile in sorted(SPECS_BLOCK_DIR.glob('*.py')):
 
 
 for k in all_keys:
-    all_tags[f'TAG_{k.upper()}'] = k
+    all_tags[f'TAG_{pysuglify(k).upper()}'] = k
 
 # -- POST-PROCESSING TAGS -- #
 

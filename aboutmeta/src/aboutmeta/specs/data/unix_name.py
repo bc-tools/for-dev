@@ -41,4 +41,6 @@ class UnixName(DataManager):
         )
 
         if not PATTERN_UNIX_NAME.match(self.name):
-            raise ParsingError(f'Unvalid Unix name "{name}".')
+            raise ParsingError(
+                f'Unvalid Unix name "{self.name}".'
+            )

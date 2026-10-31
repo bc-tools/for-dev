@@ -47,6 +47,10 @@ class UnixName(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
+    import pytest
+
+    from aboutmeta.core.errors import YAMLTypeError
+
 # DEBUG ON
     yaml_data = 'de-bug_ing'
     mydata    = UnixName(name = yaml_data)
@@ -55,10 +59,6 @@ if __name__ == "__main__":
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
 # DEBUG OFF
-
-    import pytest
-
-    from aboutmeta.core.errors import YAMLTypeError
 
 # test: legal unix names
     for yaml_data in [
