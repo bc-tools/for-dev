@@ -107,11 +107,11 @@ assert set(LEGAL_SIGNS) == (FUNCS_MANDATORY | FUNCS_OPTIONAL), \
 # -- LET'S WORK! -- #
 # ----------------- #
 
-for f in [
+for _ in [
     empty_dir,
     add_missing_init,
 ]:
-    f(PARSER_SPECS_DIR)
+    _(PARSER_SPECS_DIR)
 
 
 for folder, contribs in get_accepted_paths(

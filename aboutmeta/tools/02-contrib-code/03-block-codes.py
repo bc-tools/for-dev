@@ -235,7 +235,7 @@ def get_pystatus(
     return pystatus
 
 
-def hack_deter_alts_data(
+def hack_deterministic_alts_data(
     data: object,
 ) -> NestedList6StrDictType:
     if isinstance(data, dict):
@@ -249,14 +249,14 @@ def hack_deter_alts_data(
                 ]]]]
 
             else:
-                hack_deter_alts_data(v)
+                hack_deterministic_alts_data(v)
 
             data[k] = v
 
     return data
 
 
-def hack_deter_alts_pycode(
+def hack_deterministic_alts_pycode(
     code: str,
 ) -> str:
     match = PATTERN_HACK_ALTS.findall(
@@ -289,11 +289,11 @@ def hack_deter_alts_pycode(
 # -- LET'S WORK! -- #
 # ----------------- #
 
-for f in [
+for _ in [
     empty_dir,
     add_missing_init,
 ]:
-    f(BLOCK_DIR)
+    _(BLOCK_DIR)
 
 
 for folder, contribs in get_accepted_paths(
@@ -362,7 +362,7 @@ for folder, contribs in get_accepted_paths(
             for k in sorted(shortcuts_used)
         )
 
-        deter_alts = hack_deter_alts_data(
+        deterministic_alts = hack_deterministic_alts_data(
             digested_yaml.alts
         )
 
@@ -394,10 +394,10 @@ BLOCK_PARSERS = benedict({pyspecs})
 
 BLOCK_STATUS = benedict({pystatus})
 
-BLOCK_ALTS = benedict({deter_alts})
+BLOCK_ALTS = benedict({deterministic_alts})
         '''.strip() + '\n'
 
-        block_spec_pycode= hack_deter_alts_pycode(block_spec_pycode)
+        block_spec_pycode= hack_deterministic_alts_pycode(block_spec_pycode)
 
         for old, new in [
             ("'__", "'@TAG_"),

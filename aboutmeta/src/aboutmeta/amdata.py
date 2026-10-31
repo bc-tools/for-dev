@@ -16,6 +16,10 @@ from aboutmeta.core.errors    import *
 
 from aboutmeta.specs.flavour.__ALL_FLAVOURS__ import *
 
+TODO : fabric code + contrib !!!
+from aboutmeta.specs.constants.api_tags     import *
+from aboutmeta.specs.constants.internal_tag import *
+
 
 # ------------ #
 # -- TYPING -- #
@@ -198,7 +202,7 @@ class _AMDataChecker:
         if self.amdata._pre_keylist in  self.amdata._main_alts:
             self.amdata._current_alts =  self.amdata._main_alts[
                  self.amdata._pre_keylist
-            ][_TAG_ALTERNATIVES]
+            ][TAG_ALTERNATIVES]
 
         else:
             self.amdata._current_alts = []
@@ -268,7 +272,7 @@ class _AMDataChecker:
             if k in SPECIAL_KEYS:
                 continue
 
-            if v[_TAG_IS_MANDATORY]:
+            if v[TAG_IS_MANDATORY]:
                 mandatory_keys.add(k)
 
         if not mandatory_keys <= self.amdata._current_keys_used:
@@ -366,7 +370,7 @@ class AMData:
         for bname in self._flavour_specs:
             self._all_block_names.add(bname)
 
-            if self._flavour_specs[bname][_TAG_IS_MANDATORY]:
+            if self._flavour_specs[bname][TAG_IS_MANDATORY]:
                 self._mandatory_block_names.add(bname)
 
 ###
@@ -454,9 +458,9 @@ class AMData:
 
             specs = self._flavour_specs[block]
 
-            self._main_parsers = specs[_TAG_BLOCK_PARSERS]
-            self._main_status  = specs[_TAG_BLOCK_STATUS]
-            self._main_alts    = specs[_TAG_BLOCK_ALTS]
+            self._main_parsers = specs[TAG_BLOCK_PARSERS]
+            self._main_status  = specs[TAG_BLOCK_STATUS]
+            self._main_alts    = specs[TAG_BLOCK_ALTS]
 
             data[block] = self._recu_build(content)
 
@@ -480,7 +484,7 @@ class AMData:
         if isinstance(raw_data, list):
             datatype = self._this_data_type()
 
-            if datatype != _TAG_LIST:
+            if datatype != TAG_LIST:
                 kp = self.get_str_keypath()
 
                 self._checker._raise_kpse_error(
@@ -578,7 +582,7 @@ class AMData:
                 new_val = self._recu_build(val)
 
 # A list of values to build.
-            elif datatype == _TAG_LIST:
+            elif datatype == TAG_LIST:
                 new_val = self._build_list(val)
 
 # A single value to parse.
@@ -676,11 +680,11 @@ class AMData:
 # prototype::
 #     :return: a data type if the current "keylist" points to
 #              a data, ''None'' otherwise.
-#            @ _ in ALL_TAGS_DATATYPES or _ = None
+#            @ _ in ALLTAGS_DATATYPES or _ = None
 ###
     def _this_data_type(self) -> str | None:
         return self._main_parsers[self._pre_keylist].get(
-            _TAG_DATATYPE,
+            TAG_DATATYPE,
             None
         )
 
@@ -703,7 +707,7 @@ class AMData:
 #              "keylist" parser.
 ###
     def _this_parser_module(self) -> ModuleType:
-        return self._get_current_metadata(_TAG_PARSER)
+        return self._get_current_metadata(TAG_PARSER)
 
 ###
 # prototype::
@@ -711,7 +715,7 @@ class AMData:
 #              parser.
 ###
     def _this_amdata_use(self) -> (bool, bool | None):
-        return self._get_current_metadata(_TAG_AMDATA_USE)
+        return self._get_current_metadata(TAG_AMDATA_USE)
 
 ###
 # prototype::
@@ -719,7 +723,7 @@ class AMData:
 #              current "keylist" parser, ''False'' otherwise.
 ###
     def _this_use_post(self) -> bool:
-        return self._get_current_metadata(_TAG_USE_POST)
+        return self._get_current_metadata(TAG_USE_POST)
 
 ###
 # prototype::
@@ -758,7 +762,7 @@ class AMData:
             yield (
                 kp,
                 self.data[kp],
-                self._main_parsers[kp][_TAG_PARSER]
+                self._main_parsers[kp][TAG_PARSER]
             )
 
 ###
@@ -846,7 +850,7 @@ class AMData:
 
 # Let's call the desired post-processing.
         for kp , val, parser_module in self._iter_keypath(keypath):
-            if not self._main_parsers[kp][_TAG_USE_POST]:
+            if not self._main_parsers[kp][TAG_USE_POST]:
                 if not tolerant:
                     self._checker._raise_kpse_error(
                         _exception = KeyPathError,
@@ -857,7 +861,7 @@ class AMData:
 
                 continue
 
-            _ , amdata_use = self._main_parsers[kp][_TAG_AMDATA_USE]
+            _ , amdata_use = self._main_parsers[kp][TAG_AMDATA_USE]
 
             try:
                 if amdata_use:
@@ -901,7 +905,7 @@ class AMData:
 if __name__ == "__main__":
 # What I test.
     TEST_WANTED = [
-        # 1, # Only project.
+        1, # Only project.
         2, # Only atoc.
     ]
 
@@ -915,7 +919,7 @@ if __name__ == "__main__":
 
 # Only project.
     if 1 in TEST_WANTED:
-        myflavour = _TAG_IT_PROJECT
+        myflavour = TAG_IT_PROJECT
         mydir     = projdir / 'aboutmeta'
 
         amdata = AMData.new_instance(
@@ -962,7 +966,7 @@ if __name__ == "__main__":
 
 # Only atoc.
     if 2 in TEST_WANTED:
-        myflavour = _TAG_ATOC
+        myflavour = TAG_ATOC
         mydir     = (
               projdir
             / 'aboutmeta' / 'contribute' / 'api'

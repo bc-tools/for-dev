@@ -29,6 +29,9 @@ SPECS_DIR        = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
 SPECS_PARSER_DIR = SPECS_DIR / 'parser'
 SPECS_BLOCK_DIR  = SPECS_DIR / 'block'
 
+SPECS_CONSTANTS_DIR  = SPECS_DIR / 'constants'
+SPECS_CONSTANTS_FILE = SPECS_CONSTANTS_DIR / 'alltags.py'
+
 THIS_FILE_RELATIVE = (
       Path('aboutmeta')
     / Path(__file__).relative_to(PROJECT_DIR)
@@ -55,7 +58,8 @@ POSTPROD_PREFIX_SHIFT = len(POSTPROD_PREFIX)
 
 def get_keys(code: str) -> set[str]:
     return set(
-        PATTERN_BLOCK_KEYS.findall(code)
+        pysuglify(bk)
+        for bk in PATTERN_BLOCK_KEYS.findall(code)
     )
 
 
@@ -104,6 +108,13 @@ def build_catego_tags(
 # ----------------- #
 # -- LET'S WORK! -- #
 # ----------------- #
+
+for _ in [
+    empty_dir,
+    add_missing_init,
+]:
+    _(SPECS_CONSTANTS_DIR)
+
 
 all_tags = dict()
 
@@ -163,12 +174,11 @@ for kind, catego_tags in [
 
     for initial, pytags in catego_tags.items():
         code_lines.append('')
-        code_lines.append(f'# -- {initial} -- #')
-        code_lines.append('')
 
         for tag, val in pytags.items():
             code_lines.append(f'{tag} = {val!r}')
 
 code = '\n'.join(code_lines)
+code = code.strip()
 
-print(code)
+SPECS_CONSTANTS_FILE.write_text(code)

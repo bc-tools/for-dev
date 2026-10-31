@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+
+
+TAG_PATH_SEP   = '/'
+TAG_ABOUT_YAML = 'about.yaml'
+
+
+TAG_DATATYPE   = '__DATATYPE__'
+TAG_PARSER     = '__PARSER__'
+TAG_USE_POST   = '__USE_POST__'
+TAG_AMDATA_USE = '__AMDATA_USE__'
+
+
+ALL_AMDTAGS_DATATYPES = [
+    TAG_LIST:= '__LIST__',
+    TAG_DATA:= '__DATA__',
+]
+
+TAG_ALTERNATIVES = '__ALTERNATIVES__'
+
+SPECIAL_KEYS = set([
+    TAG_IS_MANDATORY:= '__IS_MANDATORY__',
+    TAG_IS_PARSED   := '__IS_PARSED__',
+])
+
+
+
+TAG_BLOCK_PARSERS = '__BLOCK_PARSERS__'
+TAG_BLOCK_STATUS  = '__BLOCK_STATUS__'
+TAG_BLOCK_ALTS    = '__BLOCK_ALTS__'

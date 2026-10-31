@@ -164,6 +164,8 @@ for kind_folder in SPECS_DIR.glob('*'):
         kind_folder.name.startswith('_')
         or
         not kind_folder.is_dir()
+        or
+        kind_folder.name == 'constants'
     ):
         continue
 

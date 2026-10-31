@@ -51,11 +51,11 @@ CONTRIB_CFG_DIR_RELATIVE = (
 # -- LET'S WORK! -- #
 # ----------------- #
 
-for f in [
+for _ in [
     empty_dir,
     add_missing_init,
 ]:
-    f(FLAVOUR_DIR)
+    _(FLAVOUR_DIR)
 
 
 for folder, contribs in get_accepted_paths(
