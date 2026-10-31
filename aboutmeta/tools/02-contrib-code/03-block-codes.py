@@ -379,8 +379,9 @@ for folder, contribs in get_accepted_paths(
 
 from benedict import benedict
 
-from aboutmeta.core.constants import *
-from aboutmeta.specs.parser   import {imports_need}
+from aboutmeta.core.constants.internal_tags import *
+
+from aboutmeta.specs.parser import {imports_need}
 
 
 {magic_title('INTERNAL SHORTCUTS')}

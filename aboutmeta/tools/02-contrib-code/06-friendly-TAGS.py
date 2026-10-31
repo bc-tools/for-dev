@@ -29,8 +29,8 @@ SPECS_DIR        = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
 SPECS_PARSER_DIR = SPECS_DIR / 'parser'
 SPECS_BLOCK_DIR  = SPECS_DIR / 'block'
 
-SPECS_CONSTANTS_DIR  = SPECS_DIR / 'constants'
-SPECS_CONSTANTS_FILE = SPECS_CONSTANTS_DIR / 'alltags.py'
+CONSTANTS_DIR  = SPECS_DIR.parent / 'core' / 'constants'
+CONSTANTS_FILE = CONSTANTS_DIR / 'api_tags.py'
 
 THIS_FILE_RELATIVE = (
       Path('aboutmeta')
@@ -109,13 +109,6 @@ def build_catego_tags(
 # -- LET'S WORK! -- #
 # ----------------- #
 
-for _ in [
-    empty_dir,
-    add_missing_init,
-]:
-    _(SPECS_CONSTANTS_DIR)
-
-
 all_tags = dict()
 
 logging.info(f"Working on 'friendly key tags'.")
@@ -181,4 +174,4 @@ for kind, catego_tags in [
 code = '\n'.join(code_lines)
 code = code.strip()
 
-SPECS_CONSTANTS_FILE.write_text(code)
+CONSTANTS_FILE.write_text(code)

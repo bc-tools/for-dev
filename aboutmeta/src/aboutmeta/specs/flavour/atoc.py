@@ -10,7 +10,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
-from aboutmeta.core.constants import *
+from aboutmeta.core.constants.internal_tags import *
+
 from aboutmeta.specs.block import atoc
 
 

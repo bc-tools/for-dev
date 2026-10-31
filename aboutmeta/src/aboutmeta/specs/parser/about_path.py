@@ -88,7 +88,7 @@
 
 from natsort import natsorted
 
-from aboutmeta.core.constants import TAG_PATH_SEP
+from aboutmeta.core.constants.internal_tags import TAG_PATH_SEP
 
 from aboutmeta.specs.data.toc_path import (
     Path,

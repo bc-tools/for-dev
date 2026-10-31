@@ -11,14 +11,13 @@ from benedict import benedict
 from yaml     import safe_load
 
 
-from aboutmeta.core.constants import *
+from aboutmeta.core.constants.api_tags      import *
+from aboutmeta.core.constants.internal_tags import *
+
 from aboutmeta.core.errors    import *
 
 from aboutmeta.specs.flavour.__ALL_FLAVOURS__ import *
 
-TODO : fabric code + contrib !!!
-from aboutmeta.specs.constants.api_tags     import *
-from aboutmeta.specs.constants.internal_tag import *
 
 
 # ------------ #

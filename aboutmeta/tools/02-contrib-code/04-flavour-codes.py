@@ -120,8 +120,9 @@ for folder, contribs in get_accepted_paths(
 
 {magic_title('IMPORTS')}
 
-from aboutmeta.core.constants import *
-from aboutmeta.specs.block    import {imports_need}
+from aboutmeta.core.constants.internal_tags import *
+
+from aboutmeta.specs.block import {imports_need}
 
 
 {magic_title('FLAVOUR SPECS')}
