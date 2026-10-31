@@ -37,7 +37,9 @@ class UnixName(DataManager):
         )
 
         if not PATTERN_UNIX_NAME.match(self.name):
-            raise ParsingError(f'Unvalid Unix name "{name}".')
+            raise ParsingError(
+                f'Unvalid Unix name "{self.name}".'
+            )
 
 
 # ----------- #
@@ -45,41 +47,50 @@ class UnixName(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
-# GOOD
-    print('')
-    print("-- GOOD CASES --")
+# DEBUG ON
+    yaml_data = 'de-bug_ing'
+    mydata    = UnixName(name = yaml_data)
 
+    print('---')
+    print(f"{yaml_data = }")
+    print(f"{mydata    = }")
+# DEBUG OFF
+
+    import pytest
+
+    from aboutmeta.core.errors import YAMLTypeError
+
+# test: legal unix names
     for yaml_data in [
-        "_abc-cde123",
+        '_abc-cde123',
     ]:
         mydata = UnixName(name = yaml_data)
 
-        print()
-        print(f"{yaml_data = }")
-        print(f"{mydata    = }")
+        assert mydata.name == yaml_data
 
-# BAD
-    # exit()
-
-    print('')
-    print("-- BAD CASES --")
-
+# test: illegal yaml data type
     for yaml_data in [
+        None,
         123,
-        "-hyphen-pb",
-        "CasePB",
-        "123-digits-pb",
     ]:
-        print()
-        print(f"{yaml_data = }")
-
-        try:
+        with pytest.raises(YAMLTypeError) as e:
             UnixName(name = yaml_data)
 
-        except Exception as e:
-            print(type(e).__name__, ':', e)
+# DEBUG ON
+        print('---')
+        print(e)
+# DEBUG OFF
 
-            notes = getattr(e, "__notes__", [])
+# test: illegal unix names
+    for yaml_data in [
+        '-hyphen-pb',
+        'CasePB',
+        '123-digits-pb',
+    ]:
+        with pytest.raises(ParsingError) as e:
+            UnixName(name = yaml_data)
 
-            for i, n in enumerate(notes, start = 1):
-                print(f'[{i}]. {n}')
+# DEBUG ON
+        print('---')
+        print(e)
+# DEBUG OFF

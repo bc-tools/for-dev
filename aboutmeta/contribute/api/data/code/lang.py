@@ -86,43 +86,97 @@ class Lang(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
-# GOOD
-    print('')
-    print("-- GOOD CASES --")
+# DEBUG ON
+    yaml_data = 'it'
+    mydata    = Lang(std_id = yaml_data)
 
-    for yaml_data in [
-        "fr",
-        "es",
-        "en",
-        "en-GB",
-        "eN-gb",
-        "eN_gb",
+    print('---')
+    print(f"{yaml_data = }")
+    print(f"{mydata    = }")
+# DEBUG OFF
+
+    import pytest
+
+    from aboutmeta.core.errors import YAMLTypeError
+
+# test: legal full data langs
+    for yaml_data, std_id, name, territory in [
+        (
+            'fr', 'fr-FR',
+            'French', 'France',
+        ),
+        (
+            'en', 'en-US',
+            'English', 'United States',
+        ),
+        (
+            'en-GB', 'en-GB',
+            'English', 'United Kingdom',
+        ),
     ]:
         mydata = Lang(std_id = yaml_data)
 
-        print()
-        print(f"{yaml_data = }")
-        print(f"{mydata    = }")
+        assert mydata.std_id == std_id
+        assert mydata.name == name
+        assert mydata.territory == territory
 
-    mydata = Lang(std_id = 'fr')
-    assert mydata.std_id == 'fr-FR'
-
-# BAD
-    # exit()
-
-    print('')
-    print("-- BAD CASES --")
-
+# test: legal weird letter case langs
     for yaml_data in [
-        123,
-        "X - X - X",
-        "XXX",
+        "Fr",
+        "eS",
+        "EN",
+        "en-gb",
+        "eN-gb",
+        "En_gB",
     ]:
-        print()
-        print(f"{yaml_data = }")
+        mydata = Lang(std_id = yaml_data)
 
-        try:
+        if '-' in yaml_data:
+            left, right = yaml_data.split('-')
+
+        elif '_' in yaml_data:
+            left, right = yaml_data.split('_')
+
+        else:
+            left = right = yaml_data
+
+        std_id = f'{left.lower()}-{right.upper()}'
+
+        assert(mydata.std_id == std_id, )
+
+# test: illegal yaml data type
+    for yaml_data in [
+        None,
+        123,
+    ]:
+        with pytest.raises(YAMLTypeError) as e:
             Lang(std_id = yaml_data)
 
-        except Exception as e:
-            print(type(e).__name__, ':', e)
+# DEBUG ON
+        print('---')
+        print(e)
+# DEBUG OFF
+
+# test: illegal langs
+    for yaml_data in [
+        "X - X - X",
+    ]:
+        with pytest.raises(ParsingError) as e:
+            Lang(std_id = yaml_data)
+
+# DEBUG ON
+        print('---')
+        print(e)
+# DEBUG OFF
+
+# test: illegal value langs
+    for yaml_data in [
+        "XXX",
+    ]:
+        with pytest.raises(ValueError) as e:
+            Lang(std_id = yaml_data)
+
+# DEBUG ON
+        print('---')
+        print(e)
+# DEBUG OFF

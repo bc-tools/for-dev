@@ -1,9 +1,21 @@
 #### 'TESTS' section (mandatory)
 
+
+
+
+
+
+
+
+XXX
+
+
+
 You must provide a minimum set of use cases to serve as the foundation for testing the accepted contributions. **Be sure to include both functional examples and edge cases with corrupted data!**
 
 
 If tests are not applicable, please use the following snippet to explicitly state that no tests are required.
+Note that the line `# No test!` must be right after `if __name__ == "__main__":`.
 
 ~~~python
 # ----------- #
@@ -11,7 +23,7 @@ If tests are not applicable, please use the following snippet to explicitly stat
 # ----------- #
 
 if __name__ == "__main__":
-# Nothing to test!
+# No test!
     ...
 ~~~
 

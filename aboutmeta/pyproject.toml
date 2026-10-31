@@ -91,4 +91,6 @@ sources = ["src"]
 include = []
 
 [tool.hatch.envs.debug]
-dependencies = []
+dependencies = [
+  "pytest>=8.4",
+]
