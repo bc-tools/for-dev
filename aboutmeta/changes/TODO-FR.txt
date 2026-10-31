@@ -7,6 +7,8 @@ aboutmeta - TODO
 
 dans __ALL_FLAVOURS__
 
+    ---> name spacn-ing via _TAG_ au lieu de TAG tout seul TOP! besoind erprndre les contribe
+
     ---> TAG_POSTPROD_... à intgérer : on en profite au passage pour reper des doublons non voulus !
 
     ---> de mmee pour toutes les clés : codage safe cote Python donc c'est bien et pas genenat si clé à différents usage sémantique, care c'est la parser qui fera la dif

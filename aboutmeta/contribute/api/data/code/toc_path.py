@@ -25,24 +25,24 @@ from aboutmeta.core.validate     import validate_type
 # -- DATA -- #
 # ---------- #
 
-TAG_GLOB_METHOD      = 'glob'
-TAG_GLOB_RECU_METHOD = 'rglob'
+TPTAG_GLOB_METHOD      = 'glob'
+TPTAG_GLOB_RECU_METHOD = 'rglob'
 
-TAG_TOC_PATH_RAW = 'raw'
+TPTAG_TOCPATH_RAW = 'raw'
 
-TAG_TOC_GLOB_PATTERNS = [
-    TAG_TOC_PATH_GLOB      := 'glob',
-    TAG_TOC_PATH_GLOB_RECU := 'r-glob',
+TPTAG_TOC_GLOB_PATTERNS = [
+    TPTAG_TOCPATH_GLOB      := 'glob',
+    TPTAG_TOCPATH_GLOB_RECU := 'r-glob',
 ]
 
-TAG_TOC_PATTERN_KINDS = TAG_TOC_GLOB_PATTERNS + [
-    TAG_TOC_PATH_REGEX      := 'regex',
-    TAG_TOC_PATH_REGEX_RECU := 'r-regex',
+TPTAG_TOC_PATTERN_KINDS = TPTAG_TOC_GLOB_PATTERNS + [
+    TPTAG_TOCPATH_REGEX      := 'regex',
+    TPTAG_TOCPATH_REGEX_RECU := 'r-regex',
 ]
 
-TAG_TOC_PATTERN_ABBREV = {}
+TPTAG_TOC_PATTERN_ABBREV = {}
 
-for t in TAG_TOC_PATTERN_KINDS:
+for t in TPTAG_TOC_PATTERN_KINDS:
     if '-' in t:
         a = t[:3]
         a = a.replace('-', '')
@@ -50,19 +50,19 @@ for t in TAG_TOC_PATTERN_KINDS:
     else:
         a = t[0]
 
-    assert not a in TAG_TOC_PATTERN_ABBREV
+    assert not a in TPTAG_TOC_PATTERN_ABBREV
 
-    TAG_TOC_PATTERN_ABBREV[a] = t
+    TPTAG_TOC_PATTERN_ABBREV[a] = t
 
 
 GLOB_KEYS_TYPE = Literal[
-    TAG_TOC_PATH_GLOB,
-    TAG_TOC_PATH_GLOB_RECU
+    TPTAG_TOCPATH_GLOB,
+    TPTAG_TOCPATH_GLOB_RECU
 ]
 
 REGEX_KEYS_TYPE = Literal[
-    TAG_TOC_PATH_REGEX,
-    TAG_TOC_PATH_REGEX_RECU
+    TPTAG_TOCPATH_REGEX,
+    TPTAG_TOCPATH_REGEX_RECU
 ]
 
 TOC_PATH_SPEC_TYPE = (
@@ -79,9 +79,9 @@ TOC_PATH_SPEC_TYPE = (
 #     parent  : the parent directory for the relative paths.
 #     kind    : the kind of path to manage (either a raw path or
 #               a pattern).
-#             @ _ in TAG_TOC_PATTERN_KINDS
+#             @ _ in TPTAG_TOC_PATTERN_KINDS
 #               or
-#               _ = TAG_TOC_PATH_RAW
+#               _ = TPTAG_TOCPATH_RAW
 #     pattern : a pattern or a raw path specified relatively to
 #               the ''parent'' directory.
 #
@@ -125,7 +125,7 @@ class TOCPath(DataManager):
 
 # A raw path.
         if isinstance(spec, str):
-            self.kind    = TAG_TOC_PATH_RAW
+            self.kind    = TPTAG_TOCPATH_RAW
             self.pattern = spec
 
             return
@@ -142,15 +142,15 @@ class TOCPath(DataManager):
             ...
 
 # Legal kind?
-        kind = TAG_TOC_PATTERN_ABBREV.get(kind, kind)
+        kind = TPTAG_TOC_PATTERN_ABBREV.get(kind, kind)
 
-        if not kind in TAG_TOC_PATTERN_KINDS:
+        if not kind in TPTAG_TOC_PATTERN_KINDS:
             raise ParsingError(
                 f"Unknow pattern kind ''{kind}''."
             )
 
 # Legal pattern?
-        if kind in TAG_TOC_GLOB_PATTERNS:
+        if kind in TPTAG_TOC_GLOB_PATTERNS:
             self._check_syntax_glob(pattern)
 
             compiled_pattern = pattern
@@ -263,7 +263,7 @@ class TOCPath(DataManager):
         self._validate_parent_dir()
 
 # Validation regarding the kind of data.
-        if self.kind == TAG_TOC_PATH_RAW:
+        if self.kind == TPTAG_TOCPATH_RAW:
             self._validate_raw_path()
 
         else:
@@ -410,16 +410,16 @@ class TOCPath(DataManager):
 #              \2nd \arg is either ''"rglob"'' for a recursive
 #              search, or ''"glob"'' (this value is required to
 #              iterate over the paths matching a pattern).
-#            @ _[1] in [TAG_GLOB_METHOD, TAG_GLOB_RECU_METHOD]
+#            @ _[1] in [TPTAG_GLOB_METHOD, TPTAG_GLOB_RECU_METHOD]
 #
 #     :see: self.glob_iter ,
 #           self.regex_iter
 ###
     def _get_search_spec(self) -> (bool, str):
         if self.kind[:2] == 'r-':
-            return (True, TAG_GLOB_RECU_METHOD)
+            return (True, TPTAG_GLOB_RECU_METHOD)
 
-        return (False, TAG_GLOB_METHOD)
+        return (False, TPTAG_GLOB_METHOD)
 
 ###
 # prototype::
@@ -498,7 +498,7 @@ if __name__ == "__main__":
     print('')
     print("-- CONSTANTS --")
 
-    print(f'{TAG_TOC_PATTERN_ABBREV = }')
+    print(f'{TPTAG_TOC_PATTERN_ABBREV = }')
 
 # GOOD
     print()

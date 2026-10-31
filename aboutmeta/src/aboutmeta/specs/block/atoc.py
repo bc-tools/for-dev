@@ -20,11 +20,11 @@ from aboutmeta.specs.parser import about_path
 # -- INTERNAL SHORTCUTS -- #
 # ------------------------ #
 
-__PARSER_ABOUT_PATH_LIST_USE_POST = {
+__PARSER_ABOUT_PATH___LIST___USE_POST = {
     TAG_PARSER: about_path,
     TAG_AMDATA_USE: (True, True),
     TAG_USE_POST: True,
-    TAG_DATATYPE: TAG_LIST,
+    TAG_DATATYPE: TAG___LIST__,
 }
 
 __STATUS_MANDATORY_PARSED = {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}
@@ -34,7 +34,7 @@ __STATUS_MANDATORY_PARSED = {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}
 # -- BLOCK SPECS -- #
 # ----------------- #
 
-BLOCK_PARSERS = benedict({"atoc": __PARSER_ABOUT_PATH_LIST_USE_POST})
+BLOCK_PARSERS = benedict({"atoc": __PARSER_ABOUT_PATH___LIST___USE_POST})
 
 BLOCK_STATUS = benedict({"atoc": __STATUS_MANDATORY_PARSED})
 

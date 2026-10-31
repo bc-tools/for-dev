@@ -28,74 +28,74 @@ from aboutmeta.specs.parser import (
 # -- INTERNAL SHORTCUTS -- #
 # ------------------------ #
 
-__PARSER_ACRONYM_DATA = {
+__PARSER_ACRONYM___DATA__ = {
     TAG_PARSER: acronym,
     TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_DATA,
+    TAG_DATATYPE: TAG___DATA__,
 }
 
-__PARSER_LANG_DATA = {
+__PARSER_LANG___DATA__ = {
     TAG_PARSER: lang,
     TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_DATA,
+    TAG_DATATYPE: TAG___DATA__,
 }
 
-__PARSER_LICENSING_DATA = {
+__PARSER_LICENSING___DATA__ = {
     TAG_PARSER: licensing,
     TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_DATA,
+    TAG_DATATYPE: TAG___DATA__,
 }
 
-__PARSER_PERSON_DATA = {
+__PARSER_PERSON___DATA__ = {
     TAG_PARSER: person,
     TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_DATA,
+    TAG_DATATYPE: TAG___DATA__,
 }
 
-__PARSER_PERSON_LIST = {
+__PARSER_PERSON___LIST__ = {
     TAG_PARSER: person,
     TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_LIST,
+    TAG_DATATYPE: TAG___LIST__,
 }
 
-__PARSER_SEM_VERSION_DATA = {
+__PARSER_SEM_VERSION___DATA__ = {
     TAG_PARSER: sem_version,
     TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_DATA,
+    TAG_DATATYPE: TAG___DATA__,
 }
 
-__PARSER_STR_DATA = {
+__PARSER_STR___DATA__ = {
     TAG_PARSER: str,
     TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_DATA,
+    TAG_DATATYPE: TAG___DATA__,
 }
 
-__PARSER_STR_LIST = {
+__PARSER_STR___LIST__ = {
     TAG_PARSER: str,
     TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_LIST,
+    TAG_DATATYPE: TAG___LIST__,
 }
 
-__PARSER_URL_DATA = {
+__PARSER_URL___DATA__ = {
     TAG_PARSER: url,
     TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_DATA,
+    TAG_DATATYPE: TAG___DATA__,
 }
 
-__PARSER_YMDATE_DATA = {
+__PARSER_YMDATE___DATA__ = {
     TAG_PARSER: ymdate,
     TAG_AMDATA_USE: (False, None),
     TAG_USE_POST: False,
-    TAG_DATATYPE: TAG_DATA,
+    TAG_DATATYPE: TAG___DATA__,
 }
 
 __STATUS_MANDATORY_PARSED = {TAG_IS_MANDATORY: True, TAG_IS_PARSED: True}
@@ -112,28 +112,28 @@ __STATUS_OPTIONAL_UNPARSED = {TAG_IS_MANDATORY: False, TAG_IS_PARSED: False}
 BLOCK_PARSERS = benedict(
     {
         "project": {
-            "version": __PARSER_SEM_VERSION_DATA,
-            "date": __PARSER_YMDATE_DATA,
-            "acronym": __PARSER_ACRONYM_DATA,
-            "codename": __PARSER_STR_DATA,
-            "doctitle": __PARSER_STR_DATA,
-            "desc": __PARSER_STR_DATA,
-            "author": __PARSER_PERSON_DATA,
-            "authors": __PARSER_PERSON_LIST,
-            "contrib": __PARSER_PERSON_DATA,
-            "contribs": __PARSER_PERSON_LIST,
+            "version": __PARSER_SEM_VERSION___DATA__,
+            "date": __PARSER_YMDATE___DATA__,
+            "acronym": __PARSER_ACRONYM___DATA__,
+            "codename": __PARSER_STR___DATA__,
+            "doctitle": __PARSER_STR___DATA__,
+            "desc": __PARSER_STR___DATA__,
+            "author": __PARSER_PERSON___DATA__,
+            "authors": __PARSER_PERSON___LIST__,
+            "contrib": __PARSER_PERSON___DATA__,
+            "contribs": __PARSER_PERSON___LIST__,
             "urls": {
-                "dev": __PARSER_URL_DATA,
-                "home": __PARSER_URL_DATA,
-                "issues": __PARSER_URL_DATA,
+                "dev": __PARSER_URL___DATA__,
+                "home": __PARSER_URL___DATA__,
+                "issues": __PARSER_URL___DATA__,
             },
             "licenses": {
-                "code": __PARSER_LICENSING_DATA,
-                "manual": __PARSER_LICENSING_DATA,
+                "code": __PARSER_LICENSING___DATA__,
+                "manual": __PARSER_LICENSING___DATA__,
             },
-            "langs": {"doc": __PARSER_LANG_DATA, "manual": __PARSER_LANG_DATA},
-            "require": __PARSER_STR_LIST,
-            "keywords": __PARSER_STR_LIST,
+            "langs": {"doc": __PARSER_LANG___DATA__, "manual": __PARSER_LANG___DATA__},
+            "require": __PARSER_STR___LIST__,
+            "keywords": __PARSER_STR___LIST__,
         }
     }
 )
