@@ -139,7 +139,7 @@ def write(data: TOCPath) -> str | dict[str, str]:
 # -- POST-PROD -- #
 # --------------- #
 
-_TAG_POSTPROD_ABOUT_PATH_FILES = '__POSTPROD_ABOUT_PATH_FILES__'
+TAG_POSTPROD_ABOUT_PATH_FILES = '__POSTPROD_ABOUT_PATH_FILES__'
 
 
 ###

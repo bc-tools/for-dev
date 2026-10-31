@@ -142,7 +142,7 @@ def append_black_pyfile(
 #     :return: the list of its \args in case of success; otherwise,
 #              see the \desc of the \arg ''ignore_error''.
 ###
-def get_parse_signature(
+def get_parsed_signature(
     file        : Path,
     func_name   : str,
     ignore_error: bool = False,

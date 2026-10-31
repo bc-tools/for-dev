@@ -5,9 +5,14 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
+
+from collections import defaultdict
+from yaml        import safe_load
+
 from cbutils.logconf    import *
 from cbutils.pathplus   import *
 from cbutils.coding_py  import *
+from cbutils.contrib    import *
 
 
 # ------------------ #
@@ -20,7 +25,9 @@ PROJECT_DIR = THIS_DIR
 while(PROJECT_DIR.name != 'aboutmeta'):
     PROJECT_DIR = PROJECT_DIR.parent
 
-SPECS_DIR = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
+SPECS_DIR        = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
+SPECS_PARSER_DIR = SPECS_DIR / 'parser'
+SPECS_BLOCK_DIR  = SPECS_DIR / 'block'
 
 THIS_FILE_RELATIVE = (
       Path('aboutmeta')
@@ -28,14 +35,140 @@ THIS_FILE_RELATIVE = (
 )
 
 
+# ------------------ #
+# -- CONSTANTS #2 -- #
+# ------------------ #
+
+PATTERN_BLOCK_KEYS    = re.compile(r'"([^"]+)"\s*:')
+PATTERN_POSTPROD_TAGS = re.compile(
+    r"([A-Z0-9_]+)\s*=\s*['\"]([^'\"]+)['\"]"
+)
+
+
+PREFIX_SHIFT          = len('TAG_')
+POSTPROD_PREFIX       = 'POSTPROD_'
+POSTPROD_PREFIX_SHIFT = len(POSTPROD_PREFIX)
+
+# ----------- #
+# -- TOOLS -- #
+# ----------- #
+
+def get_keys(code: str) -> set[str]:
+    return set(
+        PATTERN_BLOCK_KEYS.findall(code)
+    )
+
+
+def get_postprod_tags(code: str) -> dict[str, str]:
+    matches = PATTERN_POSTPROD_TAGS.findall(
+        code,
+        re.MULTILINE
+    )
+
+    return dict(matches)
+
+
+def build_catego_tags(
+    all_tags: dict[str, str]
+) -> list[dict[str, str]]:
+    catego_key_tags      = defaultdict(dict)
+    catego_postprod_tags = defaultdict(dict)
+
+    last_initial = ''
+
+    for tag in sorted(all_tags):
+        is_postprod = False
+
+# Remove "TAG_" prefix.
+        this_initial = tag[PREFIX_SHIFT:]
+
+# Postprod?
+        if this_initial.startswith(POSTPROD_PREFIX):
+            is_postprod  = True
+            this_initial = this_initial[POSTPROD_PREFIX_SHIFT:]
+
+# Let's store...
+        this_initial = this_initial[0]
+        val          = all_tags[tag]
+
+        if is_postprod:
+            catego_postprod_tags[this_initial][tag] = val
+
+        else:
+            catego_key_tags[this_initial][tag] = val
+
+# Nothing left to do.
+    return (catego_key_tags, catego_postprod_tags)
+
+
 # ----------------- #
 # -- LET'S WORK! -- #
 # ----------------- #
 
+all_tags = dict()
+
 logging.info(f"Working on 'friendly key tags'.")
 
-# Post-processing tags.
+# -- BLOCK NAMES AND DATA KEYS -- #
 
-# Block names and data keys.
+logging.info(f"Looking for 'BLOCK KEYS'.")
 
-# Sort tags and use emty lines when chnagin first letters (leadin underscores ignored).
+all_keys = set()
+
+for pyfile in sorted(SPECS_BLOCK_DIR.glob('*.py')):
+    if pyfile.name.startswith('_'):
+        continue
+
+    logging.info(f'Adding {pyfile.stem!r} keys.')
+
+    all_keys |= get_keys(
+        code = pyfile.read_text()
+    )
+
+
+for k in all_keys:
+    all_tags[f'TAG_{k.upper()}'] = k
+
+# -- POST-PROCESSING TAGS -- #
+
+logging.info(f"Looking for 'POSTPROD TAGS'.")
+
+for pyfile in sorted(SPECS_PARSER_DIR.glob('*.py')):
+    if pyfile.name.startswith('_'):
+        continue
+
+    logging.info(f'Analyzing {pyfile.name!r}.')
+
+    all_tags |= get_postprod_tags(
+        code = pyfile.read_text()
+    )
+
+# -- PYCODE FOR TAGS -- #
+
+logging.info(f"Building 'Python tag code'.")
+
+code_lines = []
+
+catego_key_tags, catego_postprod_tags = build_catego_tags(all_tags)
+
+for kind, catego_tags in [
+    ('key'     , catego_key_tags  ),
+    ('postprod', catego_postprod_tags),
+]:
+    code_lines.append('')
+    code_lines.append('')
+    code_lines.append(
+        magic_title(f'{kind} tags'.upper())
+    )
+
+    for initial, pytags in catego_tags.items():
+        code_lines.append('')
+        code_lines.append(f'# -- {initial} -- #')
+        code_lines.append('')
+
+        for tag, val in pytags.items():
+            code_lines.append(f'{tag} = {val!r}')
+
+code = '\n'.join(code_lines)
+
+print(code)

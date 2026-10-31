@@ -271,7 +271,7 @@ def validate_signatures(
         for fname in func_names:
             authorised_signs = signatures[fname]
 
-        sign = get_parse_signature(
+        sign = get_parsed_signature(
             code         = code,
             func_name    = fname,
             is_mandatory = is_mandatory,
@@ -319,7 +319,7 @@ def validate_signatures(
 #     :return: the set of its \args in case of success; otherwise,
 #              see the \desc of the \arg ''ignore_error''.
 ###
-def get_parse_signature(
+def get_parsed_signature(
     code        : str,
     func_name   : str,
     is_mandatory: bool = True,

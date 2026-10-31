@@ -359,7 +359,7 @@ def append_black_pyfile(
 # -- PYTHON ANALYSIS -- #
 # --------------------- #
 
-def get_parse_signature(
+def get_parsed_signature(
     file,
     func_name
 ):

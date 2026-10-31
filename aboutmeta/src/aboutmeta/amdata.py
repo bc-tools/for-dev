@@ -991,5 +991,5 @@ if __name__ == "__main__":
 
         print(results.to_json(indent = 4))
 
-        for i, p in enumerate(results[_TAG_POSTPROD_ABOUT_PATH_FILES], start = 1):
+        for i, p in enumerate(results[TAG_POSTPROD_ABOUT_PATH_FILES], start = 1):
             print(f'{i}: {p.relative_to(projdir)}')

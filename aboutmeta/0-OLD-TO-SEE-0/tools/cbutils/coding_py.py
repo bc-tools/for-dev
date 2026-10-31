@@ -250,7 +250,7 @@ def validate_signatures(
         is_mandatory,
         authorised_signs
     ) in legal_signs.items():
-        sign = get_parse_signature(
+        sign = get_parsed_signature(
             code         = code,
             func_name    = func_name,
             is_mandatory = is_mandatory,
@@ -298,7 +298,7 @@ def validate_signatures(
 #     :return: the set of its \args in case of success; otherwise,
 #              see the \desc of the \arg ''ignore_error''.
 ###
-def get_parse_signature(
+def get_parsed_signature(
     code        : str,
     func_name   : str,
     is_mandatory: bool = True,

@@ -5,14 +5,15 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
+
+import itertools
+
 from cbutils.logconf    import *
 from cbutils.pathplus   import *
 from cbutils.coding_py  import *
 from cbutils.contrib    import *
 
 from projutils.yaml2py import *
-
-import itertools
 
 
 # ------------------ #
@@ -125,7 +126,7 @@ def code_amdata_use(module_name):
         ('parse'   , True),
         ('postprod', False),
     ]:
-        sign = get_parse_signature(
+        sign = get_parsed_signature(
             code         = code,
             func_name    = fname,
             is_mandatory =is_manda,
