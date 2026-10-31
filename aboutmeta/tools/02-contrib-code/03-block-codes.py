@@ -398,7 +398,7 @@ BLOCK_STATUS = benedict({pystatus})
 BLOCK_ALTS = benedict({deterministic_alts})
         '''.strip() + '\n'
 
-        block_spec_pycode= hack_deterministic_alts_pycode(block_spec_pycode)
+        block_spec_pycode = hack_deterministic_alts_pycode(block_spec_pycode)
 
         for old, new in [
             ("'__", "'@TAG_"),

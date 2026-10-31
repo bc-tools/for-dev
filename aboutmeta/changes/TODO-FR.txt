@@ -5,19 +5,17 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-dans __ALL_FLAVOURS__
+unit tetst
 
-    ---> name spacn-ing via _TAG_ au lieu de TAG tout seul TOP! besoind erprndre les contribe
+     --> reprendre toutes les test des contrib en les rendant copiabe pour pyteste en indiquant : pour cela on attend juste de bête assert directement dans le code
 
-    ---> TAG_POSTPROD_... à intgérer : on en profite au passage pour reper des doublons non voulus !
+     --> si une data ou un parser pas tester, on cérer un fichier de tests auto dont le contnue est celui des tests de la contrib en mode commentée
 
-    ---> de mmee pour toutes les clés : codage safe cote Python donc c'est bien et pas genenat si clé à différents usage sémantique, care c'est la parser qui fera la dif
+     --> struct fasse des  block via hypothesis
 
-+
+     --> testes mixé géré par mélange des testes des contribs (faisons simple !)
 
-dans CONTANTS
-
-    ---> TAG_USE_NORMALIZE et TAG_VALIDATE en plus de TAG_USE_POST comme cela plus de has_attr à uiliser
+     --> hypothesis
 
 
 > ---------------------------- <
@@ -34,21 +32,6 @@ smever
 data_pb : ajout d'une méthode de'authorization pour validate cf url danegraux ou illégaux
 
 pour normalize, on interdit ce qui est potentiellmeent dangeraux
-
-
-> ---------------------------- <
-
-unit tetst
-
-     --> reprendre toutes les test des contrib
-
-     --> si une data ou un parser pas tester, on cérer un fichier de tests auto dont le contnue est celui des tests de la contrib en mode commentée
-
-     --> struct fasse des  block via hypothesis
-
-     --> testes mixé géré par mélange des testes des contribs (faisons simple !)
-
-     --> hypothesis
 
 
 > ---------------------------- <

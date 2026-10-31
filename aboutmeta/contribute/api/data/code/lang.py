@@ -104,6 +104,9 @@ if __name__ == "__main__":
         print(f"{yaml_data = }")
         print(f"{mydata    = }")
 
+    mydata = Lang(std_id = 'fr')
+    assert mydata.std_id == 'fr-FR'
+
 # BAD
     # exit()
 
