@@ -901,8 +901,8 @@ class AMData:
 if __name__ == "__main__":
 # What I test.
     TEST_WANTED = [
-        1, # Only project.
-        # 2, # Only atoc.
+        # 1, # Only project.
+        2, # Only atoc.
     ]
 
 # Let's go.
@@ -915,10 +915,11 @@ if __name__ == "__main__":
 
 # Only project.
     if 1 in TEST_WANTED:
-        mydir = projdir / 'aboutmeta'
+        myflavour = TAG_IT_PROJECT
+        mydir     = projdir / 'aboutmeta'
 
         amdata = AMData.new_instance(
-            flavour = TAG_IT_PROJECT,
+            flavour = myflavour,
             parent  = mydir,
         )
 
@@ -961,14 +962,15 @@ if __name__ == "__main__":
 
 # Only atoc.
     if 2 in TEST_WANTED:
-        mydir = (
+        myflavour = TAG_ATOC
+        mydir     = (
               projdir
             / 'aboutmeta' / 'contribute' / 'api'
             / 'parser' / 'readme'
         )
 
         amdata = AMData.new_instance(
-            flavour = TAG_ATOC,
+            flavour = myflavour,
             parent  = mydir,
         )
 
@@ -989,6 +991,5 @@ if __name__ == "__main__":
 
         print(results.to_json(indent = 4))
 
-        for k, v in results.items():
-            print(f'-- {k} --')
-            pprint(v)
+        for i, p in enumerate(results[TAG_POSTPROD_ABOUT_PATH_FILES], start = 1):
+            print(f'{i}: {p.relative_to(projdir)}')

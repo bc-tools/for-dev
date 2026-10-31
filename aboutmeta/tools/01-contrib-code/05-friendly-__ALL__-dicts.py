@@ -157,7 +157,7 @@ def file_has_attr(
 # -- LET'S WORK! -- #
 # ----------------- #
 
-logging.info(f"Working on 'user friendly API'.")
+logging.info(f"Working on 'friendly __ALL__ dicts'.")
 
 for kind_folder in SPECS_DIR.glob('*'):
     if (

@@ -10,8 +10,8 @@ TAG_IS_PARSED    = "__IS_PARSED__"
 TAG_ALTS         = "__ALTERNATIVES__"
 
 DATA_TYPES_ALLOWED =[
-    TAG_LIST:= "list",
-    TAG_DATA:= "data",
+    TAG_LIST:= "__LIST__",
+    TAG_DATA:= "__DATA__",
 ]
 
 
