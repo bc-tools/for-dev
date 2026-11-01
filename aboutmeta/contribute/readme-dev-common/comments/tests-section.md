@@ -32,26 +32,7 @@ if __name__ == "__main__":
     print(f"{mydata    = }")
 # DEBUG OFF
 
-# test: legal unix names
-    for yaml_data in [
-        '_abc-cde123',
-    ]:
-        mydata = UnixName(name = yaml_data)
-
-        assert mydata.name == yaml_data
-
-# test: illegal yaml data type
-    for yaml_data in [
-        None,
-        123,
-    ]:
-        with pytest.raises(YAMLTypeError) as e:
-            UnixName(name = yaml_data)
-
-# DEBUG ON
-        print('---')
-        print(e)
-# DEBUG OFF
+    ...
 
 # test: illegal unix names
     for yaml_data in [
@@ -73,16 +54,18 @@ code automatiquement fabriqué, utile pour comprendre usage de
 ~~~python
 # Extract of UnixName class unit test (2026-11-01).
 
+import pytest
+
+from aboutmeta.core.errors import YAMLTypeError
+
+...
+
 @pytest.mark.parametrize(
     "yaml_data",
-    [
-        '-hyphen-pb',
-        'CasePB',
-        '123-digits-pb',
-    ]
+    [None, 123]
 )
-def test_illegal_unix_names(yaml_data):
-    with pytest.raises(ParsingError) as e:
+def test_illegal_yaml_data_type(yaml_data):
+    with pytest.raises(YAMLTypeError) as e:
         UnixName(name = yaml_data)
 ~~~
 
