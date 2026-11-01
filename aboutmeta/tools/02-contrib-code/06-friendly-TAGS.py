@@ -128,7 +128,10 @@ for pyfile in sorted(SPECS_BLOCK_DIR.glob('*.py')):
 
 
 for k in all_keys:
-    all_tags[f'TAG_{pysuglify(k).upper()}'] = k
+    sk = pysuglify(k)
+    sk = sk.upper()
+
+    all_tags[f'TAG_{sk}'] = k
 
 # -- POST-PROCESSING TAGS -- #
 

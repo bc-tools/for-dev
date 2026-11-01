@@ -5,6 +5,30 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+revoir les attributs des data avant publication version 1.0.0 qui devra aussi avoir ses tests unitaires
+
+
+> ---------------------------- <
+
+@pytest.mark.parametrize("test_input,expected", [("3+5", 8), ("2+4", 6), ("6*9", 42)])
+def test_eval(test_input, expected):
+    assert eval(test_input) == expected
+
++
+
+To get all combinations of multiple parametrized arguments you can stack parametrize decorators:
+
+import pytest
+
+
+@pytest.mark.parametrize("x", [0, 1])
+@pytest.mark.parametrize("y", [2, 3])
+def test_foo(x, y):
+    pass
+
+
+> ---------------------------- <
+
 unit tetst
 
      --> reprendre toutes les test des contrib en les rendant copiabe pour pyteste en indiquant : pour cela on attend juste de bête assert directement dans le code
