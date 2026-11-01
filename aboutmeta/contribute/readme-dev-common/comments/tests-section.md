@@ -32,15 +32,18 @@ if __name__ == "__main__":
     print(f"{mydata    = }")
 # DEBUG OFF
 
-    ...
+# test: legal unix names
+    yaml_data = '_abc-cde123'
+    mydata    = UnixName(name = yaml_data)
 
-# test: illegal unix names
+    assert mydata.name == yaml_data
+
+# test: illegal yaml data type
     for yaml_data in [
-        '-hyphen-pb',
-        'CasePB',
-        '123-digits-pb',
+        None,
+        123,
     ]:
-        with pytest.raises(ParsingError) as e:
+        with pytest.raises(YAMLTypeError) as e:
             UnixName(name = yaml_data)
 
 # DEBUG ON
@@ -58,7 +61,11 @@ import pytest
 
 from aboutmeta.core.errors import YAMLTypeError
 
-...
+def test_legal_unix_names():
+    yaml_data = '_abc-cde123'
+    mydata    = UnixName(name = yaml_data)
+
+    assert mydata.name == yaml_data
 
 @pytest.mark.parametrize(
     "yaml_data",
@@ -67,6 +74,8 @@ from aboutmeta.core.errors import YAMLTypeError
 def test_illegal_yaml_data_type(yaml_data):
     with pytest.raises(YAMLTypeError) as e:
         UnixName(name = yaml_data)
+
+...
 ~~~
 
 

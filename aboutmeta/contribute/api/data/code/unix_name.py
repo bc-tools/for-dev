@@ -61,12 +61,10 @@ if __name__ == "__main__":
 # DEBUG OFF
 
 # test: legal unix names
-    for yaml_data in [
-        '_abc-cde123',
-    ]:
-        mydata = UnixName(name = yaml_data)
+    yaml_data = '_abc-cde123'
+    mydata    = UnixName(name = yaml_data)
 
-        assert mydata.name == yaml_data
+    assert mydata.name == yaml_data
 
 # test: illegal yaml data type
     for yaml_data in [
