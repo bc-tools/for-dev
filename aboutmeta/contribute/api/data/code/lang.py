@@ -159,11 +159,10 @@ if __name__ == "__main__":
 # DEBUG OFF
 
 # test: illegal langs
-    for yaml_data in [
-        "X - X - X",
-    ]:
-        with pytest.raises(ParsingError) as e:
-            Lang(std_id = yaml_data)
+    yaml_data = "X - X - X"
+
+    with pytest.raises(ParsingError) as e:
+        Lang(std_id = yaml_data)
 
 # DEBUG ON
         print('---')
@@ -171,11 +170,10 @@ if __name__ == "__main__":
 # DEBUG OFF
 
 # test: illegal value langs
-    for yaml_data in [
-        "XXX",
-    ]:
-        with pytest.raises(ValueError) as e:
-            Lang(std_id = yaml_data)
+    yaml_data ="XXX"
+
+    with pytest.raises(ValueError) as e:
+        Lang(std_id = yaml_data)
 
 # DEBUG ON
         print('---')
