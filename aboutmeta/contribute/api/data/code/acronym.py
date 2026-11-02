@@ -134,44 +134,96 @@ class Acronym(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
-# GOOD
-    print('')
-    print("-- GOOD CASES --")
+    import pytest
 
-    for yaml_data in [
-        "   [about] [meta]data  ",
-        "[about::@-]   [meta   ::   met-@]data",
+    from aboutmeta.core.errors import YAMLTypeError
+
+    import random
+
+# debug:
+    yaml_data = '[about] [meta]data'
+    mydata    = Acronym(spec = yaml_data)
+
+    print('---')
+    print(f"{yaml_data = }")
+    print(f"{mydata    = }")
+# :debug
+
+# test: legal specs
+    for yaml_data, short, desc in [
+        (
+            "[about] [meta]data",
+            "aboutmeta",
+            "about metadata",
+        ),
+        (
+            "[about::@-] [meta::met-@]data",
+            "@-met-@",
+            "about metadata",
+        ),
     ]:
         mydata = Acronym(spec = yaml_data)
 
-        print()
-        print(f"{yaml_data = }")
-        print(f"{mydata    = }")
+        assert mydata.spec == yaml_data
+        assert mydata.short == short
+        assert mydata.desc == desc
 
-# BAD
-    # exit()
 
-    print('')
-    print("-- BAD CASES --")
 
+    exit()
+
+# test: weird legal spacing
     for yaml_data in [
+        "[about] [meta]data",
+        "[about::@-] [meta::met-@]data",
+    ]:
+
+
+        weird_spec = yaml_data
+
+
+
+        mydata = Acronym(spec = yaml_data)
+
+        assert mydata.spec == std_spec
+
+
+
+
+
+
+
+
+
+
+# test: illegal yaml data type
+    for yaml_data in [
+        None,
         123,
+    ]:
+        with pytest.raises(YAMLTypeError) as e:
+            Acronym(spec = yaml_data)
+
+# debug:
+        print('---')
+        print(f"{yaml_data = }")
+        print(e)
+# :debug
+
+
+# test: illegal specs
+    for yaml_data in [
         "about metadata",
         "[about [meta]data",
         "[about] meta]data",
         "[about metadata",
         "about meta]data",
     ]:
-        print()
-        print(f"{yaml_data = }")
-
-        try:
+        with pytest.raises(ParsingError) as e:
             Acronym(spec = yaml_data)
 
-        except Exception as e:
-            print(type(e).__name__, ':', e)
-
-            notes = getattr(e, "__notes__", [])
-
-            for i, n in enumerate(notes, start = 1):
-                print(f'[{i}]. {n}')
+# debug:
+        print('---')
+        print(f"{yaml_data = }")
+        print(e)
+# :debug
