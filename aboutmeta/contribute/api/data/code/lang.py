@@ -18,19 +18,19 @@ from aboutmeta.core.validate     import validate_type
 # ---------- #
 
 ###
-# prototype::
+# prototype:
 #     std_id    : the \std \lang identifier like ''"en-GB"''.
 #     name      : the full \lang name like ''"English"''.
 #     territory : the territory of the \lang like ''"Great
 #                 Britain"''.
 #
 #
-# note::
+# note:
 #     The ''name'' and ''territory'' \attrs are build from the
 #     \val of the ''std_id'' \attr.
 #
 #
-# warning::
+# warning:
 #     Short identifiers are automatically expanded to full ones
 #     regardless of letter casing: ''"fr"'' and ''"FR-fr"'' are
 #     saved as ''"fr-FR"''.
@@ -43,7 +43,7 @@ class Lang(DataManager):
     territory: str = field(init = False)
 
 ###
-# prototype::
+# prototype:
 #     :action: mandatory validations of ''self.std_id'' type, and
 #              derivation of the ''name'' and ''territory'' \attrs
 #              from ''self.std_id'' and expand the identifier to
@@ -90,14 +90,14 @@ if __name__ == "__main__":
 
     from aboutmeta.core.errors import YAMLTypeError
 
-# DEBUG ON
+# debug:
     yaml_data = 'it'
     mydata    = Lang(std_id = yaml_data)
 
     print('---')
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
-# DEBUG OFF
+# :debug
 
 # test: legal full data langs
     for yaml_data, std_id, name, territory in [
@@ -153,10 +153,10 @@ if __name__ == "__main__":
         with pytest.raises(YAMLTypeError) as e:
             Lang(std_id = yaml_data)
 
-# DEBUG ON
+# debug:
         print('---')
         print(e)
-# DEBUG OFF
+# :debug
 
 # test: illegal langs
     yaml_data = "X - X - X"
@@ -164,10 +164,10 @@ if __name__ == "__main__":
     with pytest.raises(ParsingError) as e:
         Lang(std_id = yaml_data)
 
-# DEBUG ON
+# debug:
         print('---')
         print(e)
-# DEBUG OFF
+# :debug
 
 # test: illegal value langs
     yaml_data ="XXX"
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     with pytest.raises(ValueError) as e:
         Lang(std_id = yaml_data)
 
-# DEBUG ON
+# debug:
         print('---')
         print(e)
-# DEBUG OFF
+# :debug

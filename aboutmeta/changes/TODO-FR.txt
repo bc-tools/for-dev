@@ -10,6 +10,25 @@ revoir les attributs des data avant publication version 1.0.0 qui devra aussi av
 
 > ---------------------------- <
 
+import re
+
+def strip_debug_blocks(source_code: str) -> str:
+    pattern = r'^[ \t]*#\s*DEBUG\s+ON.*?\n.*?[ \t]*#\s*DEBUG\s+OFF\b'
+
+    r'#\s*debug::(.*?)(?:#\s*::debug)'
+
+    # On remplace par du vide (ou on peut commenter le bloc)
+    cleaned_code = re.sub(pattern, '', source_code, flags=re.DOTALL | re.MULTILINE)
+    return cleaned_code
+
+# Exemple d'utilisation :
+with open("test_unixname.py", "r", encoding="utf-8") as f:
+    original_code = f.read()
+
+production_ready_code = strip_debug_blocks(original_code)
+
++
+
 @pytest.mark.parametrize("test_input,expected", [("3+5", 8), ("2+4", 6), ("6*9", 42)])
 def test_eval(test_input, expected):
     assert eval(test_input) == expected

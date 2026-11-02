@@ -16,7 +16,7 @@ PATTERN_UNIX_NAME = re.compile(r'^[a-z_][a-z0-9_-]*$')
 
 
 ###
-# prototype::
+# prototype:
 #     name : a \unix-style name that only uses lowercase letters,
 #            digits, underscores, and hyphens, and cannot start
 #            with a digit or a hyphen.
@@ -25,7 +25,7 @@ class UnixName(DataManager):
     name: str
 
 ###
-# prototype::
+# prototype:
 #     :action: mandatory validations of ''self.URL'' type, and
 #              the \unix name format.
 ###
@@ -51,14 +51,14 @@ if __name__ == "__main__":
 
     from aboutmeta.core.errors import YAMLTypeError
 
-# DEBUG ON
+# debug:
     yaml_data = 'de-bug_ing'
     mydata    = UnixName(name = yaml_data)
 
     print('---')
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
-# DEBUG OFF
+# :debug
 
 # test: legal unix names
     yaml_data = '_abc-cde123'
@@ -74,10 +74,10 @@ if __name__ == "__main__":
         with pytest.raises(YAMLTypeError) as e:
             UnixName(name = yaml_data)
 
-# DEBUG ON
+# debug:
         print('---')
         print(e)
-# DEBUG OFF
+# :debug
 
 # test: illegal unix names
     for yaml_data in [
@@ -88,7 +88,7 @@ if __name__ == "__main__":
         with pytest.raises(ParsingError) as e:
             UnixName(name = yaml_data)
 
-# DEBUG ON
+# debug:
         print('---')
         print(e)
-# DEBUG OFF
+# :debug
