@@ -47,48 +47,73 @@ class UnixName(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
+    from hypothesis import (
+        given,
+        strategies as st
+    )
+
     import pytest
 
     from aboutmeta.core.errors import YAMLTypeError
 
-# debug:
+# dev:
     yaml_data = 'de-bug_ing'
     mydata    = UnixName(name = yaml_data)
 
     print('---')
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
-# :debug
+# :dev
 
-# test: legal unix names
-    yaml_data = '_abc-cde123'
-    mydata    = UnixName(name = yaml_data)
 
-    assert mydata.name == yaml_data
+# -- Legal UNIX names -- #
+    @given(
+        yaml_data = st.sampled_from([
+            '_abc-cde123',
+        ]),
+    )
+    def test_unix_name(yaml_data):
+        mydata = UnixName(name = yaml_data)
 
-# test: illegal yaml data type
-    for yaml_data in [
-        None,
-        123,
-    ]:
+        assert mydata.name == yaml_data
+
+    test_unix_name()
+
+
+# -- Illegal YAML data type -- #
+    @given(
+        yaml_data = st.sampled_from([
+            None,
+            123,
+        ]),
+    )
+    def test_illegal_data_type(yaml_data):
         with pytest.raises(YAMLTypeError) as e:
             UnixName(name = yaml_data)
 
-# debug:
+# dev:
         print('---')
         print(e)
-# :debug
+# :dev
 
-# test: illegal unix names
-    for yaml_data in [
-        '-hyphen-pb',
-        'CasePB',
-        '123-digits-pb',
-    ]:
+    test_illegal_data_type()
+
+
+# -- Illegal UNIX names -- #
+    @given(
+        yaml_data = st.sampled_from([
+            '-hyphen-pb',
+            'CasePB',
+            '123-digits-pb',
+        ]),
+    )
+    def test_illegal_unix_name(yaml_data):
         with pytest.raises(ParsingError) as e:
             UnixName(name = yaml_data)
 
-# debug:
+# dev:
         print('---')
         print(e)
-# :debug
+# :dev
+
+    test_illegal_unix_name()

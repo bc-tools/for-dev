@@ -15,7 +15,7 @@ import re
 def strip_debug_blocks(source_code: str) -> str:
     pattern = r'^[ \t]*#\s*DEBUG\s+ON.*?\n.*?[ \t]*#\s*DEBUG\s+OFF\b'
 
-    r'#\s*debug::(.*?)(?:#\s*::debug)'
+    r'#\s*debug::(.*?)(?:#\s*::dev)'
 
     # On remplace par du vide (ou on peut commenter le bloc)
     cleaned_code = re.sub(pattern, '', source_code, flags=re.DOTALL | re.MULTILINE)

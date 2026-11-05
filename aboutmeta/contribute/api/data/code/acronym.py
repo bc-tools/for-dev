@@ -134,96 +134,122 @@ class Acronym(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
+    from hypothesis import (
+        given,
+        strategies as st
+    )
+
     import pytest
+
+    from random import randint
 
     from aboutmeta.core.errors import YAMLTypeError
 
-    import random
-
-# debug:
+# dev:
     yaml_data = '[about] [meta]data'
     mydata    = Acronym(spec = yaml_data)
 
     print('---')
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
-# :debug
+# :dev
 
-# test: legal specs
-    for yaml_data, short, desc in [
-        (
-            "[about] [meta]data",
-            "aboutmeta",
-            "about metadata",
-        ),
-        (
-            "[about::@-] [meta::met-@]data",
-            "@-met-@",
-            "about metadata",
-        ),
-    ]:
+
+# -- Legal specs -- #
+    @given(
+        spec_short_desc = st.sampled_from([
+            (
+                "[about] [meta]data",
+                "aboutmeta",
+                "about metadata"
+            ),
+            (
+                "[about::@-] [meta::met-@]data",
+                "@-met-@",
+                "about metadata"
+            ),
+        ]),
+    )
+    def test_legal_spec(spec_short_desc):
+        yaml_data, short, desc = spec_short_desc
+
         mydata = Acronym(spec = yaml_data)
 
         assert mydata.spec == yaml_data
         assert mydata.short == short
         assert mydata.desc == desc
 
+    test_legal_spec()
 
 
-    exit()
+# -- Weird spaces -- #
+    @given(
+        std_spec = st.sampled_from([
+            "[about] [meta]data",
+            "[about::@-] [meta::met-@]data",
+        ]),
+    )
+    def test_weird_spaces(std_spec):
+        weird_spec = std_spec
 
-# test: weird legal spacing
-    for yaml_data in [
-        "[about] [meta]data",
-        "[about::@-] [meta::met-@]data",
-    ]:
+        for old in [
+            '[{space}',
+            '{space}]',
+            '{space}::',
+            '::{space}',
+        ]:
+            new = old.format(space = ' ' * randint(1, 5))
+
+            weird_spec = weird_spec.replace(
+                old.replace('{space}', ''),
+                new
+            )
+
+        weird_data = Acronym(spec = weird_spec)
+
+        assert weird_data.spec == std_spec
+
+    test_weird_spaces()
 
 
-        weird_spec = yaml_data
-
-
-
-        mydata = Acronym(spec = yaml_data)
-
-        assert mydata.spec == std_spec
-
-
-
-
-
-
-
-
-
-
-# test: illegal yaml data type
-    for yaml_data in [
-        None,
-        123,
-    ]:
+# -- Illegal YAML data type -- #
+    @given(
+        yaml_data = st.sampled_from([
+            None,
+            123,
+        ]),
+    )
+    def test_illegal_data_type(yaml_data):
         with pytest.raises(YAMLTypeError) as e:
             Acronym(spec = yaml_data)
 
-# debug:
+# dev:
         print('---')
         print(f"{yaml_data = }")
         print(e)
-# :debug
+# :dev
+
+    test_illegal_data_type()
 
 
-# test: illegal specs
-    for yaml_data in [
-        "about metadata",
-        "[about [meta]data",
-        "[about] meta]data",
-        "[about metadata",
-        "about meta]data",
-    ]:
+# -- test: illegal specs -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "about metadata",
+            "[about [meta]data",
+            "[about] meta]data",
+            "[about metadata",
+            "about meta]data",
+        ]),
+    )
+    def test_illegal_spec(yaml_data):
         with pytest.raises(ParsingError) as e:
             Acronym(spec = yaml_data)
 
-# debug:
+# dev:
         print('---')
         print(f"{yaml_data = }")
         print(e)
-# :debug
+# :dev
+
+    test_illegal_spec()

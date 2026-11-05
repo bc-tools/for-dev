@@ -90,14 +90,14 @@ if __name__ == "__main__":
 
     from aboutmeta.core.errors import YAMLTypeError
 
-# debug:
+# dev:
     yaml_data = 'it'
     mydata    = Lang(std_id = yaml_data)
 
     print('---')
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
-# :debug
+# :dev
 
 # test: legal full data langs
     for yaml_data, std_id, name, territory in [
@@ -153,10 +153,10 @@ if __name__ == "__main__":
         with pytest.raises(YAMLTypeError) as e:
             Lang(std_id = yaml_data)
 
-# debug:
+# dev:
         print('---')
         print(e)
-# :debug
+# :dev
 
 # test: illegal langs
     yaml_data = "X - X - X"
@@ -164,10 +164,10 @@ if __name__ == "__main__":
     with pytest.raises(ParsingError) as e:
         Lang(std_id = yaml_data)
 
-# debug:
+# dev:
         print('---')
         print(e)
-# :debug
+# :dev
 
 # test: illegal value langs
     yaml_data ="XXX"
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     with pytest.raises(ValueError) as e:
         Lang(std_id = yaml_data)
 
-# debug:
+# dev:
         print('---')
         print(e)
-# :debug
+# :dev

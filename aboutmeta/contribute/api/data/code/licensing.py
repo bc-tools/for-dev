@@ -258,13 +258,31 @@ def tool_update_license_json() -> None:
 # ----------- #
 
 if __name__ == "__main__":
-# Update the license data.
-    tool_update_license_json()
+    import pytest
 
-# GOOD
-    print('')
-    print("-- GOOD CASES --")
+    from aboutmeta.core.errors import YAMLTypeError
 
+# dev:
+    UPDATE_LICENSE_MEDATA = True
+    UPDATE_LICENSE_MEDATA = False
+
+    if UPDATE_LICENSE_MEDATA:
+        tool_update_license_json()
+# :dev
+
+# dev:
+    yaml_data = 'gpl 3.0 only'
+    mydata    = Licensing(spdx_id = yaml_data)
+
+    print('---')
+    print(f"{yaml_data = }")
+    print(f"{mydata    = }")
+# :dev
+
+
+    exit()
+
+# test: legal license code
     for yaml_data in [
         "gpl   3.0 only ",
         "cc    by nc 4.0",
@@ -276,7 +294,7 @@ if __name__ == "__main__":
         print(f"{mydata    = }")
 
 # BAD
-    # exit()
+    exit()
 
     print('')
     print("-- BAD CASES --")

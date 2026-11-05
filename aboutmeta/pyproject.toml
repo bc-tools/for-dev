@@ -93,4 +93,5 @@ include = []
 [tool.hatch.envs.debug]
 dependencies = [
   "pytest>=8.4",
+  "hypothesis>=6.170",
 ]

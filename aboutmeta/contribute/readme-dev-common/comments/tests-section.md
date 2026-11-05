@@ -23,14 +23,14 @@ if __name__ == "__main__":
 
     from aboutmeta.core.errors import YAMLTypeError
 
-# debug:
+# dev:
     yaml_data = 'de-bug_ing'
     mydata    = UnixName(name = yaml_data)
 
     print('---')
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
-# :debug
+# :dev
 
 # test: legal unix names
     yaml_data = '_abc-cde123'
@@ -46,10 +46,10 @@ if __name__ == "__main__":
         with pytest.raises(YAMLTypeError) as e:
             UnixName(name = yaml_data)
 
-# debug:
+# dev:
         print('---')
         print(e)
-# :debug
+# :dev
 ~~~
 
 code automatiquement fabriqué, utile pour comprendre usage de
