@@ -153,57 +153,115 @@ class URL(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
-    from aboutmeta.core.log_conf import *
-    setup_logging()
+# dev:
+    INTERACTIVE_SESSION = True
+    INTERACTIVE_SESSION = False
+# :dev
 
-# GOOD
-    print('')
-    print("-- GOOD CASES --")
 
-    for yaml_data in [
-        "HTTPS://QwAnT.com",
-        "qwant.com",
-        "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html"
-    ]:
-        print("\n------------\n")
+    from hypothesis import (
+        given,
+        strategies as st
+    )
 
+    import pytest
+
+    from aboutmeta.core.errors import YAMLTypeError
+
+
+# dev:
+    if INTERACTIVE_SESSION:
+        from aboutmeta.core.log_conf import *
+
+        setup_logging()
+
+        for yaml_data in [
+            "HTTPS://QwAnT.com",
+            "qwant.com",
+            "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html",
+        ]:
+            mydata = URL(url = yaml_data)
+
+            print("---")
+            print(f"{yaml_data = }")
+            print(f"{mydata    = }")
+
+            print()
+            print("Normalization")
+            mydata.normalize()
+            print(f"{mydata = }")
+
+            print()
+            print("Validation process")
+            mydata.normalize()
+            print(f"{mydata = }")
+
+            mydata.validate()
+
+            for m in mydata._errors_found:
+                print(f"    > {m}")
+# :dev
+
+
+# -- Legal URL -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "HTTPS://QwAnT.com",
+            "qwant.com",
+            "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html",
+        ]),
+    )
+    def test_legal_URL(yaml_data):
         mydata = URL(url = yaml_data)
 
-        print()
-        print(f"{yaml_data = }")
-        print(f"{mydata    = }")
+    test_legal_URL()
 
-        print()
-        print("Normalization")
+
+# -- Normalized URL -- #
+    @given(
+        full_data = st.sampled_from([
+            (
+                "HTTPS://QwAnT.com",
+                "https://qwant.com"
+            ),
+            (
+                "qwant.com",
+                "qwant.com"
+            ),
+            (
+                "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html",
+                "http://example.com/Mon%20D%C3%B4ssier/Fichier%20Test%C3%A9.html"
+            ),
+        ]),
+    )
+    def test_normalized_URL(full_data):
+        yaml_data, std_url = full_data
+
+        mydata = URL(url = yaml_data)
         mydata.normalize()
-        print(f"{mydata = }")
 
-        print()
-        print(f"Validation process")
-        mydata.validate()
+        print(mydata.url)
 
-        for m in mydata._errors_found:
-            print(f"    > {m}")
+        assert mydata.url == std_url
 
-# BAD
-    # exit()
+    test_normalized_URL()
 
-    print('')
-    print("-- BAD CASES --")
 
-    for yaml_data in [
-        123,
-    ]:
-        print()
-        print(f"{yaml_data = }")
-
-        try:
+# -- Illegal YAML data type -- #
+    @given(
+        yaml_data = st.sampled_from([
+            None,
+            123,
+        ]),
+    )
+    def test_illegal_yaml_data_type(yaml_data):
+        with pytest.raises(YAMLTypeError) as e:
             URL(url = yaml_data)
 
-        except Exception as e:
-            print(type(e).__name__, ':', e)
+# dev:
+        print('---')
+        print(f"{yaml_data = }")
+        print(e)
+# :dev
 
-            notes = getattr(e, "__notes__", [])
-
-            for i, n in enumerate(notes, start = 1):
-                print(f'[{i}]. {n}')
+    test_illegal_yaml_data_type()

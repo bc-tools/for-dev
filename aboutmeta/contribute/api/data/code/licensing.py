@@ -88,7 +88,7 @@ class Licensing(DataManager):
             else:
                 extra = "No match found."
 
-            e = ParsingError(
+            e = ValueError(
                 f"unknown license code ''{self.spdx_id}''."
             )
 
@@ -258,19 +258,26 @@ def tool_update_license_json() -> None:
 # ----------- #
 
 if __name__ == "__main__":
+# dev:
+    UPDATE_LICENSE_MEDATA = True
+    UPDATE_LICENSE_MEDATA = False
+# :dev
+
+
+    from hypothesis import (
+        given,
+        strategies as st
+    )
+
     import pytest
 
     from aboutmeta.core.errors import YAMLTypeError
 
-# dev:
-    UPDATE_LICENSE_MEDATA = True
-    UPDATE_LICENSE_MEDATA = False
 
+# dev:
     if UPDATE_LICENSE_MEDATA:
         tool_update_license_json()
-# :dev
 
-# dev:
     yaml_data = 'gpl 3.0 only'
     mydata    = Licensing(spdx_id = yaml_data)
 
@@ -280,43 +287,67 @@ if __name__ == "__main__":
 # :dev
 
 
-    exit()
+# -- Legal weird license code -- #
+    @given(
+        full_data = st.sampled_from([
+            (
+                "gpl   3.0 only ",
+                "GPL-3.0-only"
+            ),
+            (
+                "cc -    by    nc- 4.0",
+                "CC-BY-NC-4.0"
+            ),
+        ]),
+    )
+    def test_legal_weird_license_code(full_data):
+        yaml_data, spdx_id = full_data
 
-# test: legal license code
-    for yaml_data in [
-        "gpl   3.0 only ",
-        "cc    by nc 4.0",
-    ]:
         mydata = Licensing(spdx_id = yaml_data)
 
-        print()
-        print(f"{yaml_data = }")
-        print(f"{mydata    = }")
+        assert mydata.spdx_id == spdx_id
 
-# BAD
-    exit()
+    test_legal_weird_license_code()
 
-    print('')
-    print("-- BAD CASES --")
 
-    for yaml_data in [
-        123,
-        "gpl  3.0 +",
-        "gpl",
-        "cc nc",
-        "cc",
-        " ",
-    ]:
-        print()
-        print(f"{yaml_data = }")
-
-        try:
+# -- Illegal YAML data type -- #
+    @given(
+        yaml_data = st.sampled_from([
+            None,
+            123,
+        ]),
+    )
+    def test_illegal_yaml_data_type(yaml_data):
+        with pytest.raises(YAMLTypeError) as e:
             Licensing(spdx_id = yaml_data)
 
-        except Exception as e:
-            print(type(e).__name__, ':', e)
+# dev:
+        print('---')
+        print(f"{yaml_data = }")
+        print(e)
+# :dev
 
-            notes = getattr(e, "__notes__", [])
+    test_illegal_yaml_data_type()
 
-            for i, n in enumerate(notes, start = 1):
-                print(f'[{i}]. {n}')
+
+# -- Illegal license code -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "gpl  3.0 +",
+            "gpl",
+            "cc nc",
+            "cc",
+            "",
+        ]),
+    )
+    def test_illegal_license_code(yaml_data):
+        with pytest.raises(ValueError) as e:
+            Licensing(spdx_id = yaml_data)
+
+# dev:
+        print('---')
+        print(f"{yaml_data = }")
+        print(e)
+# :dev
+
+    test_illegal_license_code()

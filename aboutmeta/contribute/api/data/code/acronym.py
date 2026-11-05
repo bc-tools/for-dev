@@ -145,6 +145,7 @@ if __name__ == "__main__":
 
     from aboutmeta.core.errors import YAMLTypeError
 
+
 # dev:
     yaml_data = '[about] [meta]data'
     mydata    = Acronym(spec = yaml_data)
@@ -155,9 +156,9 @@ if __name__ == "__main__":
 # :dev
 
 
-# -- Legal specs -- #
+# -- Legal spec -- #
     @given(
-        spec_short_desc = st.sampled_from([
+        full_data = st.sampled_from([
             (
                 "[about] [meta]data",
                 "aboutmeta",
@@ -170,8 +171,8 @@ if __name__ == "__main__":
             ),
         ]),
     )
-    def test_legal_spec(spec_short_desc):
-        yaml_data, short, desc = spec_short_desc
+    def test_legal_spec(full_data):
+        yaml_data, short, desc = full_data
 
         mydata = Acronym(spec = yaml_data)
 
@@ -182,14 +183,14 @@ if __name__ == "__main__":
     test_legal_spec()
 
 
-# -- Weird spaces -- #
+# -- Weird spacing -- #
     @given(
         std_spec = st.sampled_from([
             "[about] [meta]data",
             "[about::@-] [meta::met-@]data",
         ]),
     )
-    def test_weird_spaces(std_spec):
+    def test_weird_spacing(std_spec):
         weird_spec = std_spec
 
         for old in [
@@ -219,7 +220,7 @@ if __name__ == "__main__":
             123,
         ]),
     )
-    def test_illegal_data_type(yaml_data):
+    def test_illegal_yaml_data_type(yaml_data):
         with pytest.raises(YAMLTypeError) as e:
             Acronym(spec = yaml_data)
 
@@ -229,10 +230,10 @@ if __name__ == "__main__":
         print(e)
 # :dev
 
-    test_illegal_data_type()
+    test_illegal_yaml_data_type()
 
 
-# -- test: illegal specs -- #
+# -- Illegal spec -- #
     @given(
         yaml_data = st.sampled_from([
             "about metadata",

@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# TODO  REVOIR ! L'iédée est d'avoir un nommage standard : https://www.cyberciti.biz/faq/linuxunix-rules-for-naming-file-and-directory-names/
+
 import re
 
 
@@ -67,13 +69,9 @@ if __name__ == "__main__":
 
 
 # -- Legal UNIX names -- #
-    @given(
-        yaml_data = st.sampled_from([
-            '_abc-cde123',
-        ]),
-    )
     def test_legal_name(yaml_data):
-        mydata = UnixName(name = yaml_data)
+        yaml_data = '_abc-cde123'
+        mydata    = UnixName(name = yaml_data)
 
         assert mydata.name == yaml_data
 

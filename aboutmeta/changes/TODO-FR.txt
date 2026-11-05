@@ -5,6 +5,20 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+        try:
+            Licensing(spdx_id = yaml_data)
+
+        except Exception as e:
+            print(type(e).__name__, ':', e)
+
+            notes = getattr(e, "__notes__", [])
+
+            for i, n in enumerate(notes, start = 1):
+                print(f'[{i}]. {n}')
+
+
+> ---------------------------- <
+
 revoir les attributs des data avant publication version 1.0.0 qui devra aussi avoir ses tests unitaires
 
 

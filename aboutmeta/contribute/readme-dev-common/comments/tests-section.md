@@ -12,113 +12,27 @@ XXX
 
 verbeux mais imoser par tests faits en intern, utilser le template
 
+de plus c'est le seul moyen de lancer test de façon autonome car pyteste seul ne permet pas de juste lancer le script !
+
+ici pyteste pour attratper des exceptions
+
+et hypothseiss pour une gestion des param!tres choisis avec possibilité d'aller plus loin si besoin au passage
+
 
 
 ~~~python
-# Extract of UnixName class code (2026-11-01).
+# Extract of XXX class code (2026-11-XXX).
 
-# ----------- #
-# -- TESTS -- #
-# ----------- #
-
-if __name__ == "__main__":
-    from hypothesis import (
-        given,
-        strategies as st
-    )
-
-    import pytest
-
-    from aboutmeta.core.errors import YAMLTypeError
-
-# dev:
-    yaml_data = 'de-bug_ing'
-    mydata    = UnixName(name = yaml_data)
-
-    print('---')
-    print(f"{yaml_data = }")
-    print(f"{mydata    = }")
-# :dev
-
-# -- Legal UNIX names -- #
-    @given(
-        yaml_data = st.sampled_from([
-            '_abc-cde123',
-        ]),
-    )
-    def test_legal_name(yaml_data):
-        mydata = UnixName(name = yaml_data)
-
-        assert mydata.name == yaml_data
-
-    test_legal_name()
-
-
-# -- Illegal UNIX names -- #
-    @given(
-        yaml_data = st.sampled_from([
-            '-hyphen-pb',
-            'CasePB',
-            '123-digits-pb',
-        ]),
-    )
-    def test_illegal_name(yaml_data):
-        with pytest.raises(ParsingError) as e:
-            UnixName(name = yaml_data)
-
-# dev:
-        print('---')
-        print(e)
-# :dev
-
-    test_illegal_name()
+...
 ~~~
 
 
 code automatiquement fabriqué : copier coller sans les section dev et les appels des finctions tests, + préfixage des fonctions
 
 ~~~python
-# Extract of UnixName class unit tests (2026-11-01).
+# Extract of ''test_XXX.py'' unit test files (2026-11-XXX).
 
-from hypothesis import (
-    given,
-    strategies as st
-)
-
-import pytest
-
-from aboutmeta.core.errors import YAMLTypeError
-
-
-# ---------------------- #
-# -- Legal UNIX names -- #
-# ---------------------- #
-
-@given(
-    yaml_data = st.sampled_from([
-        '_abc-cde123',
-    ]),
-)
-def test_unixname_legal_name(yaml_data):
-    mydata = UnixName(name = yaml_data)
-
-    assert mydata.name == yaml_data
-
-
-# ------------------------ #
-# -- Illegal UNIX names -- #
-# ------------------------ #
-
-@given(
-    yaml_data = st.sampled_from([
-        '-hyphen-pb',
-        'CasePB',
-        '123-digits-pb',
-    ]),
-)
-def test_unixname_illegal_name(yaml_data):
-    with pytest.raises(ParsingError) as e:
-        UnixName(name = yaml_data)
+...
 ~~~
 
 
@@ -133,9 +47,7 @@ Note that the line `# No test!` must be right after `if __name__ == "__main__":`
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
 # No test!
-    ...
 ~~~
 
 

@@ -86,9 +86,15 @@ class Lang(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
+    from hypothesis import (
+        given,
+        strategies as st
+    )
+
     import pytest
 
     from aboutmeta.core.errors import YAMLTypeError
+
 
 # dev:
     yaml_data = 'it'
@@ -99,36 +105,48 @@ if __name__ == "__main__":
     print(f"{mydata    = }")
 # :dev
 
-# test: legal full data langs
-    for yaml_data, std_id, name, territory in [
-        (
-            'fr', 'fr-FR',
-            'French', 'France',
-        ),
-        (
-            'en', 'en-US',
-            'English', 'United States',
-        ),
-        (
-            'en-GB', 'en-GB',
-            'English', 'United Kingdom',
-        ),
-    ]:
+
+# -- Legal spec -- #
+    @given(
+        full_data = st.sampled_from([
+            (
+                'fr', 'fr-FR',
+                'French', 'France',
+            ),
+            (
+                'en', 'en-US',
+                'English', 'United States',
+            ),
+            (
+                'en-GB', 'en-GB',
+                'English', 'United Kingdom',
+            ),
+        ]),
+    )
+    def test_legal_spec(full_data):
+        yaml_data, std_id, name, territory = full_data
+
         mydata = Lang(std_id = yaml_data)
 
         assert mydata.std_id == std_id
         assert mydata.name == name
         assert mydata.territory == territory
 
-# test: legal weird letter case langs
-    for yaml_data in [
-        "Fr-bE",
-        "eS-ES",
-        "EN-us",
-        "en-gb",
-        "eN-gb",
-        "En_gB",
-    ]:
+    test_legal_spec()
+
+
+# -- Legal legal weird letter casing -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "Fr-bE",
+            "eS-ES",
+            "en-gb",
+            "eN-gb",
+            "En_gB",
+            "EN_us",
+        ]),
+    )
+    def test_weird_letter_casing(yaml_data):
         mydata = Lang(std_id = yaml_data)
 
         left = None
@@ -145,37 +163,62 @@ if __name__ == "__main__":
 
         assert mydata.std_id == std_id
 
-# test: illegal yaml data type
-    for yaml_data in [
-        None,
-        123,
-    ]:
+    test_weird_letter_casing()
+
+
+# -- Illegal YAML data type -- #
+    @given(
+        yaml_data = st.sampled_from([
+            None,
+            123,
+        ]),
+    )
+    def test_illegal_yaml_data_type(yaml_data):
         with pytest.raises(YAMLTypeError) as e:
             Lang(std_id = yaml_data)
 
 # dev:
         print('---')
+        print(f"{yaml_data = }")
         print(e)
 # :dev
 
-# test: illegal langs
-    yaml_data = "X - X - X"
+    test_illegal_yaml_data_type()
 
-    with pytest.raises(ParsingError) as e:
-        Lang(std_id = yaml_data)
+
+# -- Illegal lang ID -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "X.X",
+        ]),
+    )
+    def test_illegal_lang_ID(yaml_data):
+        with pytest.raises(ParsingError) as e:
+            Lang(std_id = yaml_data)
 
 # dev:
         print('---')
+        print(f"{yaml_data = }")
         print(e)
 # :dev
 
-# test: illegal value langs
-    yaml_data ="XXX"
+    test_illegal_lang_ID()
 
-    with pytest.raises(ValueError) as e:
-        Lang(std_id = yaml_data)
+
+# -- Unknown lang -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "XXX",
+        ]),
+    )
+    def test_unknown_lang(yaml_data):
+        with pytest.raises(ValueError) as e:
+            Lang(std_id = yaml_data)
 
 # dev:
         print('---')
+        print(f"{yaml_data = }")
         print(e)
 # :dev
+
+    test_unknown_lang()
