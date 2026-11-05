@@ -10,6 +10,9 @@
 XXX
 
 
+verbeux mais imoser par tests faits en intern, utilser le template
+
+
 
 ~~~python
 # Extract of UnixName class code (2026-11-01).
@@ -19,6 +22,11 @@ XXX
 # ----------- #
 
 if __name__ == "__main__":
+    from hypothesis import (
+        given,
+        strategies as st
+    )
+
     import pytest
 
     from aboutmeta.core.errors import YAMLTypeError
@@ -32,50 +40,85 @@ if __name__ == "__main__":
     print(f"{mydata    = }")
 # :dev
 
-# test: legal unix names
-    yaml_data = '_abc-cde123'
-    mydata    = UnixName(name = yaml_data)
+# -- Legal UNIX names -- #
+    @given(
+        yaml_data = st.sampled_from([
+            '_abc-cde123',
+        ]),
+    )
+    def test_legal_name(yaml_data):
+        mydata = UnixName(name = yaml_data)
 
-    assert mydata.name == yaml_data
+        assert mydata.name == yaml_data
 
-# test: illegal yaml data type
-    for yaml_data in [
-        None,
-        123,
-    ]:
-        with pytest.raises(YAMLTypeError) as e:
+    test_legal_name()
+
+
+# -- Illegal UNIX names -- #
+    @given(
+        yaml_data = st.sampled_from([
+            '-hyphen-pb',
+            'CasePB',
+            '123-digits-pb',
+        ]),
+    )
+    def test_illegal_name(yaml_data):
+        with pytest.raises(ParsingError) as e:
             UnixName(name = yaml_data)
 
 # dev:
         print('---')
         print(e)
 # :dev
+
+    test_illegal_name()
 ~~~
 
-code automatiquement fabriqué, utile pour comprendre usage de
+
+code automatiquement fabriqué : copier coller sans les section dev et les appels des finctions tests, + préfixage des fonctions
 
 ~~~python
 # Extract of UnixName class unit tests (2026-11-01).
+
+from hypothesis import (
+    given,
+    strategies as st
+)
 
 import pytest
 
 from aboutmeta.core.errors import YAMLTypeError
 
-def test_legal_unix_names():
-    yaml_data = '_abc-cde123'
-    mydata    = UnixName(name = yaml_data)
+
+# ---------------------- #
+# -- Legal UNIX names -- #
+# ---------------------- #
+
+@given(
+    yaml_data = st.sampled_from([
+        '_abc-cde123',
+    ]),
+)
+def test_unixname_legal_name(yaml_data):
+    mydata = UnixName(name = yaml_data)
 
     assert mydata.name == yaml_data
 
-@pytest.mark.parametrize(
-    "yaml_data",
-    [None, 123]
-)
-def test_illegal_yaml_data_type(yaml_data):
-    with pytest.raises(YAMLTypeError) as e:
-        UnixName(name = yaml_data)
 
-...
+# ------------------------ #
+# -- Illegal UNIX names -- #
+# ------------------------ #
+
+@given(
+    yaml_data = st.sampled_from([
+        '-hyphen-pb',
+        'CasePB',
+        '123-digits-pb',
+    ]),
+)
+def test_unixname_illegal_name(yaml_data):
+    with pytest.raises(ParsingError) as e:
+        UnixName(name = yaml_data)
 ~~~
 
 

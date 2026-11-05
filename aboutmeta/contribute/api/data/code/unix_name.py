@@ -72,12 +72,12 @@ if __name__ == "__main__":
             '_abc-cde123',
         ]),
     )
-    def test_unix_name(yaml_data):
+    def test_legal_name(yaml_data):
         mydata = UnixName(name = yaml_data)
 
         assert mydata.name == yaml_data
 
-    test_unix_name()
+    test_legal_name()
 
 
 # -- Illegal YAML data type -- #
@@ -107,7 +107,7 @@ if __name__ == "__main__":
             '123-digits-pb',
         ]),
     )
-    def test_illegal_unix_name(yaml_data):
+    def test_illegal_name(yaml_data):
         with pytest.raises(ParsingError) as e:
             UnixName(name = yaml_data)
 
@@ -116,4 +116,4 @@ if __name__ == "__main__":
         print(e)
 # :dev
 
-    test_illegal_unix_name()
+    test_illegal_name()
