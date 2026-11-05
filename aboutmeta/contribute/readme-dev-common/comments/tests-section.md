@@ -9,6 +9,8 @@
 
 XXX
 
+exemple avec session interactive !!! cf url car plus simple que person !
+
 
 verbeux mais imoser par tests faits en intern, utilser le template
 

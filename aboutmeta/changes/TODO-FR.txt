@@ -5,6 +5,27 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+import pytest
+import tempfile
+from pathlib import Path
+
+@pytest.fixture
+def dossier_temp():
+    dossier = tempfile.TemporaryDirectory()
+
+    yield Path(dossier.name)
+
+    dossier.cleanup()
+
+def test_ecriture_fichier(dossier_temp):
+    mon_fichier = dossier_temp / "donnees.txt"
+    mon_fichier.write_text("Hello World")
+
+    assert mon_fichier.exists()
+
+
+> ---------------------------- <
+
         try:
             Licensing(spdx_id = yaml_data)
 

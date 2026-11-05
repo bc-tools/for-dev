@@ -356,8 +356,35 @@ class Person(DataManager):
 # ----------- #
 
 if __name__ == "__main__":
-    from aboutmeta.core.log_conf import *
-    setup_logging()
+# dev:
+    INTERACTIVE_SESSION = True
+    INTERACTIVE_SESSION = False
+# :dev
+
+
+    from hypothesis import (
+        given,
+        strategies as st
+    )
+
+    import pytest
+
+    from aboutmeta.core.errors import YAMLTypeError
+
+
+# dev:
+    if INTERACTIVE_SESSION:
+        from aboutmeta.core.log_conf import *
+
+        setup_logging()
+# :dev
+
+
+
+
+
+    exit()
+
 
 # GOOD
     print('')
