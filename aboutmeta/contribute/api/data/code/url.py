@@ -58,13 +58,13 @@ class URL(DataManager):
         parsed_url = urlparse(self.url)
 
         self.url = urlunparse((
-            parsed_url.scheme,                   # http, https
-            parsed_url.netloc.lower(),           # Domain
-            # parsed_url.path,                   # No HTML encoding!
-            urlquote(parsed_url.path, safe="/"), # HTML encoding
-            parsed_url.params,                   # Keep params.
-            parsed_url.query,                    # Keep query string.
-            parsed_url.fragment                  # Keep fragment (#...).
+            parsed_url.scheme,                     # http, https
+            parsed_url.netloc.lower(),             # Domain
+            # parsed_url.path,                     # No HTML encoding!
+            urlquote(parsed_url.path, safe = '/'), # HTML encoding
+            parsed_url.params,                     # Keep params.
+            parsed_url.query,                      # Keep query string.
+            parsed_url.fragment                    # Keep fragment (#...).
         ))
 
 ###
@@ -82,7 +82,7 @@ class URL(DataManager):
 #     :action: \dns check of the hostname.
 ###
     def _validate_DNS(self) -> None:
-        self.data_pb.what("DNS status")
+        self.data_pb.what('DNS status')
 
         url = self.url
 
@@ -94,7 +94,7 @@ class URL(DataManager):
             if hostname is None:
                 self.data_pb.new_error(
                     data      = url,
-                    error_msg = "No hostname scheme supplied.",
+                    error_msg = 'No hostname scheme supplied.',
                 )
 
             else:
@@ -117,7 +117,7 @@ class URL(DataManager):
 #     :action: \http \url availability check.
 ###
     def _validate_HTTP(self) -> None:
-        self.data_pb.what("HTTP status")
+        self.data_pb.what('HTTP status')
 
         url = self.url
 
@@ -126,7 +126,7 @@ class URL(DataManager):
 
             response = httpx.head(
                 url,
-                timeout         = 3,
+                timeout          = 3,
                 follow_redirects = True
             )
 
@@ -138,7 +138,7 @@ class URL(DataManager):
             else:
                 self.data_pb.new_error(
                     data      = url,
-                    error_msg = f"HTTPX status code = {response.status_code}.",
+                    error_msg = f'HTTPX status code = {response.status_code}.',
                 )
 
         except Exception as e:
@@ -154,10 +154,10 @@ class URL(DataManager):
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 # dev:
     INTERACTIVE_SESSION = True
-    # INTERACTIVE_SESSION = False
+    INTERACTIVE_SESSION = False
 # :dev
 
     from hypothesis import (
@@ -177,31 +177,30 @@ if __name__ == "__main__":
 
         for yaml_data in [
             # Good cases.
-            "HTTPS://QwAnT.com   ",
+            'HTTPS://QwAnT.com   ',
             # Bad cases.
-            "qwant.com",
-            "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html",
+            'qwant.com',
+            'HTTP://Example.COM/Mon Dôssier/Fichier Testé.html',
         ]:
             mydata = URL(url = yaml_data)
 
             print("---")
-            print(f"{yaml_data = }")
-            print(f"{mydata    = }")
+            print(f'{yaml_data = }')
+            print(f'{mydata    = }')
 
             print()
-            print("Normalization")
+            print('Normalization')
             mydata.normalize()
-            print(f"{mydata = }")
+            print(f'{mydata = }')
 
             print()
-            print("Validation process")
-            mydata.normalize()
-            print(f"{mydata = }")
+            print('Validation process')
+            print(f'{mydata = }')
 
             mydata.validate()
 
             for m in mydata._errors_found:
-                print(f"    > {m}")
+                print(f'    > {m}')
 
     exit()
 # :dev
@@ -209,9 +208,9 @@ if __name__ == "__main__":
 # -- Legal URL -- #
     @given(
         yaml_data = st.sampled_from([
-            "HTTPS://QwAnT.com",
-            "qwant.com",
-            "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html",
+            'HTTPS://QwAnT.com',
+            'qwant.com',
+            'HTTP://Example.COM/Mon Dôssier/Fichier Testé.html',
         ]),
     )
     def test_legal_URL(yaml_data):
@@ -223,16 +222,16 @@ if __name__ == "__main__":
     @given(
         full_data = st.sampled_from([
             (
-                "HTTPS://QwAnT.com",
-                "https://qwant.com"
+                'HTTPS://QwAnT.com',
+                'https://qwant.com'
             ),
             (
-                "qwant.com",
-                "qwant.com"
+                'qwant.com',
+                'qwant.com'
             ),
             (
-                "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html",
-                "http://example.com/Mon%20D%C3%B4ssier/Fichier%20Test%C3%A9.html"
+                'HTTP://Example.COM/Mon Dôssier/Fichier Testé.html',
+                'http://example.com/Mon%20D%C3%B4ssier/Fichier%20Test%C3%A9.html'
             ),
         ]),
     )
@@ -261,7 +260,7 @@ if __name__ == "__main__":
 
 # dev:
         print('---')
-        print(f"{yaml_data = }")
+        print(f'{yaml_data = }')
         print(e)
 # :dev
 

@@ -133,14 +133,13 @@ class Acronym(DataManager):
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from hypothesis import (
         given,
         strategies as st
     )
 
-    import pytest
-
+    import             pytest
     from random import randint
 
     from aboutmeta.core.errors import YAMLTypeError
@@ -150,8 +149,8 @@ if __name__ == "__main__":
     mydata    = Acronym(spec = yaml_data)
 
     print('---')
-    print(f"{yaml_data = }")
-    print(f"{mydata    = }")
+    print(f'{yaml_data = }')
+    print(f'{mydata    = }')
     exit()
 # :dev
 
@@ -159,14 +158,14 @@ if __name__ == "__main__":
     @given(
         full_data = st.sampled_from([
             (
-                "[about] [meta]data",
-                "aboutmeta",
-                "about metadata"
+                '[about] [meta]data',
+                'aboutmeta',
+                'about metadata'
             ),
             (
-                "[about::@-] [meta::met-@]data",
-                "@-met-@",
-                "about metadata"
+                '[about::@-] [meta::met-@]data',
+                '@-met-@',
+                'about metadata'
             ),
         ]),
     )
@@ -184,8 +183,8 @@ if __name__ == "__main__":
 # -- Weird spacing -- #
     @given(
         std_spec = st.sampled_from([
-            "[about] [meta]data",
-            "[about::@-] [meta::met-@]data",
+            '[about] [meta]data',
+            '[about::@-] [meta::met-@]data',
         ]),
         rnd = st.randoms(),
     )
@@ -214,11 +213,11 @@ if __name__ == "__main__":
 # -- Illegal spec -- #
     @given(
         yaml_data = st.sampled_from([
-            "about metadata",
-            "[about [meta]data",
-            "[about] meta]data",
-            "[about metadata",
-            "about meta]data",
+            'about metadata',
+            '[about [meta]data',
+            '[about] meta]data',
+            '[about metadata',
+            'about meta]data',
         ]),
     )
     def test_illegal_spec(yaml_data):
@@ -227,7 +226,7 @@ if __name__ == "__main__":
 
 # dev:
         print('---')
-        print(f"{yaml_data = }")
+        print(f'{yaml_data = }')
         print(e)
 # :dev
 
@@ -246,7 +245,7 @@ if __name__ == "__main__":
 
 # dev:
         print('---')
-        print(f"{yaml_data = }")
+        print(f'{yaml_data = }')
         print(e)
 # :dev
 

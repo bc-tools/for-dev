@@ -85,14 +85,14 @@ class Person(DataManager):
         spec, self.affiliation = extract_group(
         content = spec,
         delims  = DELIMS_AFFILIATION,
-        context = "affiliation"
+        context = 'affiliation'
     )
 
 # One email?
         spec, self.email = extract_group(
             content = spec,
             delims  = DELIMS_EMAIL,
-            context = "email"
+            context = 'email'
         )
 
 # First names.
@@ -108,7 +108,7 @@ class Person(DataManager):
         self.surname, self.particle = extract_group(
             content      = titles[-1].strip(),
             delims       = DELIMS_PARTICLE,
-            context      = "surname",
+            context      = 'surname',
             data_on_left = False
         )
 
@@ -244,7 +244,7 @@ class Person(DataManager):
         if self.email:
             local_part, _ , domain_part = self.email.partition('@')
 
-            self.email = f"{local_part}@{domain_part.lower()}"
+            self.email = f'{local_part}@{domain_part.lower()}'
 
 ###
 # prototype::
@@ -274,7 +274,7 @@ class Person(DataManager):
 #              checks the email validity.
 ###
     def _validate_email(self) -> None:
-        self.data_pb.what("email")
+        self.data_pb.what('email')
 
 # Nothing to do.
         if not self.email:
@@ -304,7 +304,7 @@ class Person(DataManager):
 #              of the affiliation.
 ###
     def _validate_affiliation(self) -> None:
-        self.data_pb.what("affiliation")
+        self.data_pb.what('affiliation')
 
 # Nothing to do.
         if not self.affiliation:
@@ -319,14 +319,14 @@ class Person(DataManager):
             self.data_pb.checking(affi)
 
             response = httpx.get(
-                "https://nominatim.openstreetmap.org/search",
+                'https://nominatim.openstreetmap.org/search',
                 params = {
-                    "q"     : affi,
-                    "format": "json",
-                    "limit" : 1,
+                    'q'     : affi,
+                    'format': 'json',
+                    'limit' : 1,
                 },
                 headers = {
-                    "User-Agent": "AdresseChecker/1.0"
+                    'User-Agent': 'AdresseChecker/1.0'
                 },
                 timeout = 3
             )
@@ -339,7 +339,7 @@ class Person(DataManager):
             else:
                 self.data_pb.new_error(
                     data      = affi,
-                    error_msg = "Nothing found by OpenStreetMap.",
+                    error_msg = 'Nothing found by OpenStreetMap.',
                 )
 
         except Exception as e:
@@ -355,7 +355,7 @@ class Person(DataManager):
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 # dev:
     INTERACTIVE_SESSION = True
     INTERACTIVE_SESSION = False
@@ -396,7 +396,6 @@ if __name__ == "__main__":
 
             print()
             print("Validation process")
-            mydata.normalize()
             print(f"{mydata = }")
 
             mydata.validate()
@@ -408,7 +407,7 @@ if __name__ == "__main__":
 # -- Weird spacing -- #
     @given(
         std_spec = st.sampled_from([
-            "Alice, Marie-lise, {mc} Someone [e.mail@provided.by]",
+            'Alice, Marie-lise, {mc} Someone [e.mail@provided.by]',
         ]),
         rnd = st.randoms(),
     )
@@ -424,12 +423,50 @@ if __name__ == "__main__":
 
     test_weird_spacing()
 
+# -- Normalize weird letter casing -- #
+    @given(
+        std_spec = st.sampled_from([
+            '{mc} Someone',
+            'Alice, Marie-Lise, {mc} Someone',
+            'Alice, Marie-Lise, {mc} Someone [e.mail@provided.by]',
+        ]),
+        rnd = st.randoms(),
+    )
+    def test_weird_letter_casing(std_spec, rnd):
+        def weirdcase(text):
+            return ''.join([
+            rnd.choice([c.lower(), c.upper()])
+            for c in text.strip()
+        ])
+
+        if '[' in std_spec:
+            before_email, _ , email = std_spec.partition('[')
+
+            email = email[:-1]
+
+            local_part, _ , domain_part = email.partition('@')
+
+            before_email = weirdcase(before_email)
+            domain_part  = weirdcase(domain_part)
+
+            weird_spec = f'{before_email} [{local_part}@{domain_part}]'
+
+        else:
+            weird_spec = weirdcase(std_spec)
+
+        weird_data = Person(spec = weird_spec)
+        weird_data.normalize()
+
+        assert weird_data.spec == std_spec, weird_data.spec
+
+    test_weird_letter_casing()
+
 # -- Illegal spec -- #
     @given(
         yaml_data = st.sampled_from([
-            "Someone (My address) [e.mail@provided.by]",
-            "Someone [e.mail@provided.by (My address)",
-            "Someone [e.mail@provided.by] (My address",
+            'Someone (My address) [e.mail@provided.by]',
+            'Someone [e.mail@provided.by (My address)',
+            'Someone [e.mail@provided.by] (My address',
         ]),
     )
     def test_illegal_spec(yaml_data):
@@ -449,7 +486,7 @@ if __name__ == "__main__":
 
 # dev:
         print('---')
-        print(f"{yaml_data = }")
+        print(f'{yaml_data = }')
         print(e)
 # :dev
 

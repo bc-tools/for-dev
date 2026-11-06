@@ -72,20 +72,20 @@ class Lang(DataManager):
 # Patch for the strange "Unknow language".
         if desc['language'].startswith('Unknown language'):
             raise ValueError(
-                f"unknown language code '{self.std_id}'"
+                f'unknown language code {self.std_id!r}'
             )
 
 # The job has been done.
-        self.std_id    = f"{lang.language}-{lang.territory}"
-        self.name      = desc["language"]
-        self.territory = desc["territory"]
+        self.std_id    = f'{lang.language}-{lang.territory}'
+        self.name      = desc['language']
+        self.territory = desc['territory']
 
 
 # ----------- #
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from hypothesis import (
         given,
         strategies as st
@@ -100,8 +100,8 @@ if __name__ == "__main__":
     mydata    = Lang(std_id = yaml_data)
 
     print('---')
-    print(f"{yaml_data = }")
-    print(f"{mydata    = }")
+    print(f'{yaml_data = }')
+    print(f'{mydata    = }')
 # :dev
 
 # -- Legal spec -- #
@@ -135,9 +135,9 @@ if __name__ == "__main__":
 # -- Legal weird letter casing -- #
     @given(
         std_id = st.sampled_from([
-            "fr-BE",
-            "es-ES",
-            "en-US",
+            'fr-BE',
+            'es-ES',
+            'en-US',
         ]),
         rnd = st.randoms(),
     )
@@ -159,7 +159,7 @@ if __name__ == "__main__":
 # -- Unknown lang -- #
     @given(
         yaml_data = st.sampled_from([
-            "XXX",
+            'XXX',
         ]),
     )
     def test_unknown_lang(yaml_data):
@@ -168,7 +168,7 @@ if __name__ == "__main__":
 
 # dev:
         print('---')
-        print(f"{yaml_data = }")
+        print(f'{yaml_data = }')
         print(e)
 # :dev
 
@@ -177,7 +177,7 @@ if __name__ == "__main__":
 # -- Illegal lang ID -- #
     @given(
         yaml_data = st.sampled_from([
-            "X.X",
+            'X.X',
         ]),
     )
     def test_illegal_lang_ID(yaml_data):
@@ -186,7 +186,7 @@ if __name__ == "__main__":
 
 # dev:
         print('---')
-        print(f"{yaml_data = }")
+        print(f'{yaml_data = }')
         print(e)
 # :dev
 
@@ -203,7 +203,7 @@ if __name__ == "__main__":
 
 # dev:
         print('---')
-        print(f"{yaml_data = }")
+        print(f'{yaml_data = }')
         print(e)
 # :dev
 

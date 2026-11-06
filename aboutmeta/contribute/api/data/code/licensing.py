@@ -23,14 +23,14 @@ from aboutmeta.core.validate     import validate_type
 # ---------- #
 
 LICENSES_JSON_FILE = (
-    Path(__file__).parent / f"{Path(__file__).stem}-spdx.json"
+    Path(__file__).parent / f'{Path(__file__).stem}-spdx.json'
 )
 
 
-_PATTERN_REMOVE_SPACES = re.compile(r"[\s_]+")
+_PATTERN_REMOVE_SPACES = re.compile(r'[\s_]+')
 
 _SPECIAL_SEPS                = '.-'
-_PATTERN_REMOVE_SPECIAL_SEPS = re.compile(r"[\.-]+")
+_PATTERN_REMOVE_SPECIAL_SEPS = re.compile(r'[\.-]+')
 
 
 ###
@@ -73,7 +73,7 @@ class Licensing(DataManager):
         )
 
 # Our local data.
-        with LICENSES_JSON_FILE.open(mode = "r") as f:
+        with LICENSES_JSON_FILE.open(mode = 'r') as f:
             all_licenses = json_load(f)
 
 # We need a normal form.
@@ -85,14 +85,14 @@ class Licensing(DataManager):
 
             if suggestions:
                 plurial = '' if len(suggestions) == 1 else 'es'
-                extra   = f"Possible match{plurial} found.\n"
-                extra  += '\n'.join(f"  * {s}" for s in suggestions)
+                extra   = f'Possible match{plurial} found.\n'
+                extra  += '\n'.join(f'  * {s}' for s in suggestions)
 
             else:
-                extra = "No match found."
+                extra = 'No match found.'
 
             e = ValueError(
-                f"unknown license code ''{self.spdx_id}''."
+                f'unknown license code {self.spdx_id!r}.'
             )
 
             e.add_note(extra)
@@ -100,19 +100,19 @@ class Licensing(DataManager):
             raise e
 
 # Deprecated?
-        if all_licenses[normal_ID]["deprecated"]:
+        if all_licenses[normal_ID]['deprecated']:
             raise ValueError(
-                 "deprecated license code "
-                f"''{all_licenses[normal_ID]['std']}''."
+                 'deprecated license code '
+                f'{all_licenses[normal_ID]['std']!r}.'
             )
 
 # Living license found.
         spdx_infos = all_licenses[normal_ID]
 
 # The job has been done.
-        self.spdx_id = spdx_infos["std"]
-        self.name    = spdx_infos["name"]
-        self.url     = spdx_infos["ref"]
+        self.spdx_id = spdx_infos['std']
+        self.name    = spdx_infos['name']
+        self.url     = spdx_infos['ref']
 
 
 ###
@@ -130,24 +130,24 @@ def _normalize_lic_code(code: str) -> str:
     _code = code.strip()
 
     if not _code:
-        raise ValueError(f"empty license code {code!r}.")
+        raise ValueError(f'empty license code {code!r}.')
 
-    _code = _PATTERN_REMOVE_SPACES.sub("", _code.lower())
+    _code = _PATTERN_REMOVE_SPACES.sub('', _code.lower())
 
     for s in _SPECIAL_SEPS:
         if s*2 in _code:
             raise ValueError(
-                f"illegal license code {code!r} contains {s*2!r} "
-                 "(after removing spaces)"
+                f'illegal license code {code!r} contains {s*2!r} '
+                 '(after removing spaces)'
             )
 
         if _code[-1] == s:
             raise ValueError(
-                f"illegal license code {code!r} ends with {s!r} "
-                 "(after removing spaces)"
+                f'illegal license code {code!r} ends with {s!r} '
+                 '(after removing spaces)'
             )
 
-    _code = _PATTERN_REMOVE_SPECIAL_SEPS.sub("", _code)
+    _code = _PATTERN_REMOVE_SPECIAL_SEPS.sub('', _code)
 
     return _code
 
@@ -164,7 +164,7 @@ def _license_matches(
     max_suggestions: int = 15
 ) -> list[str]:
 # Our local data.
-    with LICENSES_JSON_FILE.open(mode = "r") as f:
+    with LICENSES_JSON_FILE.open(mode = 'r') as f:
         all_licenses = json_load(f)
 
     all_norm_IDs = list(all_licenses.keys())
@@ -216,15 +216,15 @@ def tool_update_license_json() -> None:
 
     import requests
 
-    SPDX_URL  = "https://raw.githubusercontent.com/spdx/"
-    SPDX_URL += "license-list-data/refs/heads/main/json/licenses.json"
+    SPDX_URL  = 'https://raw.githubusercontent.com/spdx/'
+    SPDX_URL += 'license-list-data/refs/heads/main/json/licenses.json'
 
     TAG_SPDX_LICENSES = 'licenses'
 
     TAG_SPDX_LICENSE_ID         = 'licenseId'
     TAG_SPDX_LICENSE_NAME       = 'name'
     TAG_SPDX_LICENSE_REF        = 'reference'
-    TAG_SPDX_LICENSE_DEPRECATED = "isDeprecatedLicenseId"
+    TAG_SPDX_LICENSE_DEPRECATED = 'isDeprecatedLicenseId'
 
 # The SPDX data online.
     try:
@@ -238,12 +238,12 @@ def tool_update_license_json() -> None:
 
         elif response.status_code == 404:
             raise FileNotFoundError(
-                f"aboutmeta BUG!\nBad SPDX_URL:\n{SPDX_URL}"
+                f'aboutmeta BUG!\nBad SPDX_URL:\n{SPDX_URL}'
             )
 
         else:
             raise RuntimeError(
-                f"HTTP error {response.status_code}."
+                f'HTTP error {response.status_code}.'
             )
 
     except requests.exceptions.RequestException as e:
@@ -251,7 +251,7 @@ def tool_update_license_json() -> None:
 
 # Our local data.
     licenses = {
-        '__version__': spdx_data["licenseListVersion"]
+        '__version__': spdx_data['licenseListVersion']
     }
 
     for lic in spdx_data[TAG_SPDX_LICENSES]:
@@ -260,10 +260,10 @@ def tool_update_license_json() -> None:
 
         if normal_ID in licenses:
             raise Exception(
-                 "unbijective normal transformation of license names:"
-                 "\n"
-                f"{license_ID} --> {normal_ID}. "
-                 "BUG!"
+                 'unbijective normal transformation of license names:'
+                 '\n'
+                f'{license_ID} --> {normal_ID}. '
+                 'BUG!'
             )
 
         licenses[normal_ID] = {
@@ -280,7 +280,7 @@ def tool_update_license_json() -> None:
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 # dev:
     UPDATE_LICENSE_MEDATA = True
     UPDATE_LICENSE_MEDATA = False
@@ -304,15 +304,15 @@ if __name__ == "__main__":
     mydata = Licensing(spdx_id = yaml_data)
 
     print('---')
-    print(f"{yaml_data = }")
-    print(f"{mydata    = }")
+    print(f'{yaml_data = }')
+    print(f'{mydata    = }')
 # :dev
 
 # -- Legal weird license code -- #
     @given(
         std_spdx_id = st.sampled_from([
-            "GPL-3.0-only",
-            "CC-BY-NC-4.0"
+            'GPL-3.0-only',
+            'CC-BY-NC-4.0',
         ]),
         rnd = st.randoms(),
     )
@@ -339,13 +339,13 @@ if __name__ == "__main__":
 # -- Illegal license code -- #
     @given(
         yaml_data = st.sampled_from([
-            "gpl-3.0-only-",
-            "gpl 3..0 only",
-            "gpl 3.0+",
-            "gpl",
-            "cc nc",
-            "cc",
-            "",
+            'gpl-3.0-only-',
+            'gpl 3..0 only',
+            'gpl 3.0+',
+            'gpl',
+            'cc nc',
+            'cc',
+            '',
         ]),
     )
     def test_illegal_license_code(yaml_data):
@@ -354,7 +354,7 @@ if __name__ == "__main__":
 
 # dev:
         print('---')
-        print(f"{yaml_data = }")
+        print(f'{yaml_data = }')
         print(e)
 # :dev
 
@@ -373,7 +373,7 @@ if __name__ == "__main__":
 
 # dev:
         print('---')
-        print(f"{yaml_data = }")
+        print(f'{yaml_data = }')
         print(e)
 # :dev
 

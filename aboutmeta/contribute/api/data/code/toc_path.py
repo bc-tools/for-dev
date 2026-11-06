@@ -25,24 +25,24 @@ from aboutmeta.core.validate     import validate_type
 # -- DATA -- #
 # ---------- #
 
-TPTAG_GLOB_METHOD      = 'glob'
-TPTAG_GLOB_RECU_METHOD = 'rglob'
+TAG_GLOB_METHOD      = 'glob'
+TAG_GLOB_RECU_METHOD = 'rglob'
 
-TPTAG_TOCPATH_RAW = 'raw'
+TAG_TOCPATH_RAW = 'raw'
 
-TPTAG_TOC_GLOB_PATTERNS = [
-    TPTAG_TOCPATH_GLOB      := 'glob',
-    TPTAG_TOCPATH_GLOB_RECU := 'r-glob',
+TAG_TOC_GLOB_PATTERNS = [
+    TAG_TOCPATH_GLOB      := 'glob',
+    TAG_TOCPATH_GLOB_RECU := 'r-glob',
 ]
 
-TPTAG_TOC_PATTERN_KINDS = TPTAG_TOC_GLOB_PATTERNS + [
-    TPTAG_TOCPATH_REGEX      := 'regex',
-    TPTAG_TOCPATH_REGEX_RECU := 'r-regex',
+TAG_TOC_PATTERN_KINDS = TAG_TOC_GLOB_PATTERNS + [
+    TAG_TOCPATH_REGEX      := 'regex',
+    TAG_TOCPATH_REGEX_RECU := 'r-regex',
 ]
 
-TPTAG_TOC_PATTERN_ABBREV = {}
+TAG_TOC_PATTERN_ABBREV = {}
 
-for t in TPTAG_TOC_PATTERN_KINDS:
+for t in TAG_TOC_PATTERN_KINDS:
     if '-' in t:
         a = t[:3]
         a = a.replace('-', '')
@@ -50,19 +50,19 @@ for t in TPTAG_TOC_PATTERN_KINDS:
     else:
         a = t[0]
 
-    assert not a in TPTAG_TOC_PATTERN_ABBREV
+    assert not a in TAG_TOC_PATTERN_ABBREV
 
-    TPTAG_TOC_PATTERN_ABBREV[a] = t
+    TAG_TOC_PATTERN_ABBREV[a] = t
 
 
 GLOB_KEYS_TYPE = Literal[
-    TPTAG_TOCPATH_GLOB,
-    TPTAG_TOCPATH_GLOB_RECU
+    TAG_TOCPATH_GLOB,
+    TAG_TOCPATH_GLOB_RECU
 ]
 
 REGEX_KEYS_TYPE = Literal[
-    TPTAG_TOCPATH_REGEX,
-    TPTAG_TOCPATH_REGEX_RECU
+    TAG_TOCPATH_REGEX,
+    TAG_TOCPATH_REGEX_RECU
 ]
 
 TOC_PATH_SPEC_TYPE = (
@@ -79,9 +79,9 @@ TOC_PATH_SPEC_TYPE = (
 #     parent  : the parent directory for the relative paths.
 #     kind    : the kind of path to manage (either a raw path or
 #               a pattern).
-#             @ _ in TPTAG_TOC_PATTERN_KINDS
+#             @ _ in TAG_TOC_PATTERN_KINDS
 #               or
-#               _ = TPTAG_TOCPATH_RAW
+#               _ = TAG_TOCPATH_RAW
 #     pattern : a pattern or a raw path specified relatively to
 #               the ''parent'' directory.
 #
@@ -125,7 +125,7 @@ class TOCPath(DataManager):
 
 # A raw path.
         if isinstance(spec, str):
-            self.kind    = TPTAG_TOCPATH_RAW
+            self.kind    = TAG_TOCPATH_RAW
             self.pattern = spec
 
             return
@@ -133,8 +133,8 @@ class TOCPath(DataManager):
 # A dict spec.
         if len(spec.keys()) != 1:
             raise ParsingError(
-                 "Single key dict expected. "
-                f"See {spec = }."
+                 'Single key dict expected. '
+                f'See {spec = }.'
             )
 
 # Let's work with a single pattern.
@@ -142,15 +142,15 @@ class TOCPath(DataManager):
             ...
 
 # Legal kind?
-        kind = TPTAG_TOC_PATTERN_ABBREV.get(kind, kind)
+        kind = TAG_TOC_PATTERN_ABBREV.get(kind, kind)
 
-        if not kind in TPTAG_TOC_PATTERN_KINDS:
+        if not kind in TAG_TOC_PATTERN_KINDS:
             raise ParsingError(
-                f"Unknow pattern kind ''{kind}''."
+                f'Unknow pattern kind {kind!r}.'
             )
 
 # Legal pattern?
-        if kind in TPTAG_TOC_GLOB_PATTERNS:
+        if kind in TAG_TOC_GLOB_PATTERNS:
             self._check_syntax_glob(pattern)
 
             compiled_pattern = pattern
@@ -191,13 +191,13 @@ class TOCPath(DataManager):
             elif char == ']':
                 if not in_bracket:
                     raise ParsingError(
-                        "Extra closing hook '']''."
+                        "Extra closing hook ']'."
                     )
 
                 in_bracket = False
 
         if in_bracket:
-            raise ParsingError("Opening hook ''['' unclosed.")
+            raise ParsingError("Opening hook '[' unclosed.")
 
 # Checking pattern validity by trying to transform it into a
 # \regex pattern.
@@ -208,12 +208,12 @@ class TOCPath(DataManager):
 
         except ParsingError as _error:
             e = ParsingError(
-                f"Illegal glob pattern ''{pattern}''."
+                f'Illegal glob pattern {pattern!r}.'
             )
 
             e.add_note(str(_error))
 
-            notes = getattr(e, "__notes__", [])
+            notes = getattr(e, '__notes__', [])
 
             for i, n in enumerate(notes, start = 2):
                 e.add_note(n)
@@ -237,7 +237,7 @@ class TOCPath(DataManager):
 
         except (re.error, TypeError) as _error:
             e = ParsingError(
-                f"Illegal regex pattern ''{pattern}''."
+                f'Illegal regex pattern {pattern!r}.'
             )
 
             e.add_note(str(_error))
@@ -263,7 +263,7 @@ class TOCPath(DataManager):
         self._validate_parent_dir()
 
 # Validation regarding the kind of data.
-        if self.kind == TPTAG_TOCPATH_RAW:
+        if self.kind == TAG_TOCPATH_RAW:
             self._validate_raw_path()
 
         else:
@@ -274,13 +274,13 @@ class TOCPath(DataManager):
 #     :action: check for parent folder existence.
 ###
     def _validate_parent_dir(self) -> None:
-        self.data_pb.what("parent dir")
+        self.data_pb.what('parent dir')
         self.data_pb.checking(self.parent)
 
         if not self.parent.is_dir():
             self.data_pb.new_error(
                 data      = self.parent,
-                error_msg = "Directory does not exist.",
+                error_msg = 'Directory does not exist.',
             )
 
         self.data_pb.validated(self.parent)
@@ -292,7 +292,7 @@ class TOCPath(DataManager):
     def _validate_raw_path(self) -> None:
         raw_path = self.pattern
 
-        self.data_pb.what("raw path")
+        self.data_pb.what('raw path')
         self.data_pb.checking(raw_path)
 
         full_path = self.parent / raw_path
@@ -305,7 +305,7 @@ class TOCPath(DataManager):
                 data      = full_path,
                 error_msg = (
                      'Broken absolute path. '
-                    f"See raw path '{raw_path}'."
+                    f'See raw path {raw_path!r}.'
                 ),
             )
 
@@ -370,12 +370,12 @@ class TOCPath(DataManager):
             kind = self.kind
 
         what = (
-            f"recursive {kind}"
+            f'recursive {kind}'
             if is_recu else
             kind
         )
 
-        self.data_pb.what(f"{what} pattern")
+        self.data_pb.what(f'{what} pattern')
         self.data_pb.checking(str_pattern)
 
 ###
@@ -395,7 +395,7 @@ class TOCPath(DataManager):
         if nothing_found:
             self.data_pb.new_error(
                 data      = str_pattern,
-                error_msg = f"No matches found.",
+                error_msg = 'No matches found.',
             )
 
             self.data_pb.rejected(str_pattern)
@@ -410,16 +410,16 @@ class TOCPath(DataManager):
 #              \2nd \arg is either ''"rglob"'' for a recursive
 #              search, or ''"glob"'' (this value is required to
 #              iterate over the paths matching a pattern).
-#            @ _[1] in [TPTAG_GLOB_METHOD, TPTAG_GLOB_RECU_METHOD]
+#            @ _[1] in [TAG_GLOB_METHOD, TAG_GLOB_RECU_METHOD]
 #
 #     :see: self.glob_iter ,
 #           self.regex_iter
 ###
     def _get_search_spec(self) -> (bool, str):
         if self.kind[:2] == 'r-':
-            return (True, TPTAG_GLOB_RECU_METHOD)
+            return (True, TAG_GLOB_RECU_METHOD)
 
-        return (False, TPTAG_GLOB_METHOD)
+        return (False, TAG_GLOB_METHOD)
 
 ###
 # prototype::
@@ -488,88 +488,218 @@ class TOCPath(DataManager):
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
-    from aboutmeta.core.log_conf import *
-    setup_logging()
+if __name__ == '__main__':
+# dev:
+    INTERACTIVE_SESSION = True
+    INTERACTIVE_SESSION = False
+# :dev
 
-    THIS_DIR = Path(__file__).parent
+    from hypothesis import (
+        given,
+        strategies as st
+    )
 
-# CONSTANTS
-    print('')
-    print("-- CONSTANTS --")
+    import                 pytest
+    from pathlib    import Path
+    import                 tempfile
+    from contextlib import contextmanager
 
-    print(f'{TPTAG_TOC_PATTERN_ABBREV = }')
+    from aboutmeta.core.errors import YAMLTypeError
 
-# GOOD
-    print()
-    print("-- GOOD CASES --")
+# -- Common temp dir tree -- #
+#
+# + folder
+#     * readme.md
+#     * script.py
+#     + library
+#         * main.py
+#         + core
+#             * readme.md
+#             * tool.py
+    @contextmanager
+    def temporary_project():
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root_dir = Path(tmpdir)
 
-    for yaml_data in [
-# Raw path.
-        Path(__file__).name,
-# Glob patterns.
-        {'glob': "*.md"},
-        {'glob': "*.py"},
-        {'rg': "*.py"},
-        {'g': r"*\[.md"},
-# Regex patterns.
-        {'r': r".*\.md"},
-        {'rr': r".*\.py"},
-        {'r': r"[^/]*\.py"},
-    ]:
-        mydata = TOCPath(
-            spec   = yaml_data,
-            parent = THIS_DIR
-        )
+            library_dir = root_dir / 'library'
 
-        print()
-        print('~~~')
-
-        print()
-        print(f"{yaml_data = }")
-        print(f"{mydata    = }")
-
-        print()
-        print(f"Validation process")
-        mydata.validate()
-
-# BAD
-    # exit()
-
-    print('')
-    print("-- BAD CASES --")
-
-    for yaml_data in [
-# Raw path.
-        1234,
-        67,   # Used to test unvalid parent.
-# Glob patterns.
-        {'g': "*.md", 'r': "*.md"},
-        {'gob': "*.md"},
-        {'g': r"*\.md]"},
-        {'glob': "**/[a-z"},
-# Regex patterns.
-        {'r': "(abc"},
-    ]:
-        print()
-        print(f"{yaml_data = }")
-
-        try:
-            if yaml_data == 67:
-                parent = yaml_data = str(yaml_data)
-
-            else:
-                parent = THIS_DIR
-
-            TOCPath(
-                spec   = yaml_data,
-                parent = parent
+            core_dir = library_dir / 'core'
+            core_dir.mkdir(
+                parents  = True,
+                exist_ok = True
             )
 
-        except Exception as e:
-            print(type(e).__name__, ':', e)
+            for folder, files_contents in {
+                root_dir: [
+                    (
+                        'readme.md',
+                        '# Racine du projet'
+                    ),
+                    (
+                        'script.py',
+                        "print('script principal')"
+                    ),
+                ],
+                library_dir: [
+                    (
+                        'main.py',
+                        'import core.tool'
+                    ),
+                ],
+                core_dir: [
+                    (
+                        'readme.md',
+                        '# Documentation Core'
+                    ),
+                    (
+                        'tool.py',
+                        'def life_mistery(): return 42'
+                    ),
+                ],
+            }.items():
+                for file, content in files_contents:
+                    (folder / file).write_text(content)
 
-            notes = getattr(e, "__notes__", [])
+            yield root_dir
 
-            for i, n in enumerate(notes, start = 1):
-                print(f'[{i}]. {n}')
+# dev:
+    if INTERACTIVE_SESSION:
+        from aboutmeta.core.log_conf import *
+
+        setup_logging()
+
+        print('---')
+        print(f'{TAG_TOC_PATTERN_ABBREV = }')
+
+        with temporary_project() as tempdir:
+            for yaml_data in [
+                # Raw path.
+                Path(__file__).name,
+                # Winning patterns.
+                {'r': r'.*\.py'},
+                {'rg': 'tool.*'},
+                # Loosing patterns.
+                {'g': '*.tex'},
+            ]:
+                mydata = TOCPath(
+                    spec   = yaml_data,
+                    parent = tempdir
+                )
+
+                print('---')
+                print(f'{yaml_data = }')
+                print(f'{mydata    = }')
+
+                print()
+                print('Validation process')
+                print(f'{mydata = }')
+
+                mydata.validate()
+
+                for m in mydata._errors_found:
+                    print(f'    > {m}')
+# :dev
+
+# -- Legal spec -- #
+    @given(
+        yaml_data = st.sampled_from([
+            # Raw path.
+            'readme.md',
+            # Glob patterns.
+            {'glob': '*/*.md'},
+            {'glob': r'*\[.md'},
+            # Regex patterns.
+            {'regex': r'.*\.md'},
+        ]),
+    )
+    def test_legal_spec(yaml_data):
+        with temporary_project() as tempdir:
+            mydata = TOCPath(
+                spec   = yaml_data,
+                parent = tempdir
+            )
+
+    test_legal_spec()
+
+# -- Validation of good specs -- #
+    @given(
+        yaml_data = st.sampled_from([
+            # Raw path.
+            'readme.md',
+            # Glob patterns.
+            {'glob': '*.md'},
+            {'glob': '*.py'},
+            {'rg': '*.py'},
+            # Regex patterns.
+            {'r': r'.*\.md'},
+            {'rr': r'.*\.py'},
+            {'r': r'[^/]*\.py'},
+        ]),
+    )
+    def test_tocpath_validation(yaml_data):
+        with temporary_project() as tempdir:
+            mydata = TOCPath(
+                spec   = yaml_data,
+                parent = tempdir
+            )
+
+            mydata.validate()
+
+            assert not mydata._errors_found
+
+    test_tocpath_validation()
+
+# -- Illegal spec -- #
+    @given(
+        yaml_data = st.sampled_from([
+            # Glob patterns.
+            {'g': '*.md', 'r': '*.md'},
+            {'gob': '*.md'},
+            {'g': r'*\.md]'},
+            {'glob': '**/[a-z'},
+            # Regex patterns.
+            {'r': '(abc'},
+        ]),
+    )
+    def test_illegal_spec(yaml_data):
+        with pytest.raises(ParsingError) as e:
+            TOCPath(
+                spec   = yaml_data,
+                parent = Path('')
+            )
+
+# dev:
+        print('---')
+        print(f'{yaml_data = }')
+        print(e)
+
+        notes = getattr(e, '__notes__', [])
+
+        for i, n in enumerate(notes, start = 1):
+            print(f'[{i}]. {n}')
+# :dev
+
+    test_illegal_spec()
+
+# -- Illegal YAML data type -- #
+    @given(
+        yaml_data = st.sampled_from([
+            None,
+            123,
+            Path(__file__).name # For illegal parent type.
+        ]),
+    )
+    def test_illegal_yaml_data_type(yaml_data):
+        with pytest.raises(YAMLTypeError) as e:
+            TOCPath(
+                spec   = yaml_data,
+                parent = None
+            )
+
+# dev:
+        print('---')
+        print(f'{yaml_data = }')
+        print(e)
+# :dev
+
+    test_illegal_yaml_data_type()
