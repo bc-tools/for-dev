@@ -58,7 +58,7 @@ class Lang(DataManager):
 
 # Getting a normalized code.
         try:
-            lang = get_langcode(self.std_id).maximize()
+            lang = get_langcode(self.std_id.strip()).maximize()
 
         except LanguageTagError as e:
             msg = str(e)
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     from aboutmeta.core.errors import YAMLTypeError
 
 # dev:
-    yaml_data = 'it'
+    yaml_data = 'it   '
     mydata    = Lang(std_id = yaml_data)
 
     print('---')
@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
     test_legal_spec()
 
-# -- Legal legal weird letter casing -- #
+# -- Legal weird letter casing -- #
     @given(
         std_id = st.sampled_from([
             "fr-BE",

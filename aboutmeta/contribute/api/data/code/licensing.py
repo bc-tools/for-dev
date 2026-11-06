@@ -127,10 +127,12 @@ class Licensing(DataManager):
 #     that normalization does not create any duplicates.
 ###
 def _normalize_lic_code(code: str) -> str:
-    if not code:
-        raise ValueError("empty license code.")
+    _code = code.strip()
 
-    _code = _PATTERN_REMOVE_SPACES.sub("", code.lower())
+    if not _code:
+        raise ValueError(f"empty license code {code!r}.")
+
+    _code = _PATTERN_REMOVE_SPACES.sub("", _code.lower())
 
     for s in _SPECIAL_SEPS:
         if s*2 in _code:

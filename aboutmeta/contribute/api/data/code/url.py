@@ -37,6 +37,8 @@ class URL(DataManager):
             types_expected = str,
         )
 
+        self.url = self.url.strip()
+
 ###
 # prototype::
 #     :action: a standard ''URL'' object is built.
@@ -155,7 +157,7 @@ class URL(DataManager):
 if __name__ == "__main__":
 # dev:
     INTERACTIVE_SESSION = True
-    INTERACTIVE_SESSION = False
+    # INTERACTIVE_SESSION = False
 # :dev
 
     from hypothesis import (
@@ -175,7 +177,7 @@ if __name__ == "__main__":
 
         for yaml_data in [
             # Good cases.
-            "HTTPS://QwAnT.com",
+            "HTTPS://QwAnT.com   ",
             # Bad cases.
             "qwant.com",
             "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html",
@@ -200,6 +202,8 @@ if __name__ == "__main__":
 
             for m in mydata._errors_found:
                 print(f"    > {m}")
+
+    exit()
 # :dev
 
 # -- Legal URL -- #

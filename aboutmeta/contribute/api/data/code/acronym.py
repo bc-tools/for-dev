@@ -146,12 +146,13 @@ if __name__ == "__main__":
     from aboutmeta.core.errors import YAMLTypeError
 
 # dev:
-    yaml_data = '[about] [meta]data'
+    yaml_data = '[about] [meta]data    '
     mydata    = Acronym(spec = yaml_data)
 
     print('---')
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
+    exit()
 # :dev
 
 # -- Legal spec -- #
@@ -208,7 +209,7 @@ if __name__ == "__main__":
 
         assert weird_data.spec == std_spec
 
-    test_weird_spaces()
+    test_weird_spacing()
 
 # -- Illegal spec -- #
     @given(

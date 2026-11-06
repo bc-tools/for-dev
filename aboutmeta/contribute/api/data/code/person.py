@@ -79,7 +79,7 @@ class Person(DataManager):
         )
 
 # We can work.
-        spec = self.spec
+        spec = self.spec.strip()
 
 # One affiliation?
         spec, self.affiliation = extract_group(
@@ -379,9 +379,6 @@ if __name__ == "__main__":
         for yaml_data in [
             # Good cases.
             "Alice, Marie-lise, Someone (My address)",
-            "{mc} Someone [e.mail@provided.by]",
-            "Someone [e.mail@provided.by] (My address)",
-            "Alice, Marie-lise, Someone (My address)",
             "{mc} Someone [support@opeai.com] (My address)",
             # Bad cases.
             "A, B, C [support@openaicom] (Université de la Techlogie, France)",
@@ -408,22 +405,36 @@ if __name__ == "__main__":
                 print(f"    > {m}")
 # :dev
 
-# -- Weird spacing and letter casing -- #
+# -- Weird spacing -- #
     @given(
         std_spec = st.sampled_from([
-            "[about] [meta]data",
-            "[about::@-] [meta::met-@]data",
+            "Alice, Marie-lise, {mc} Someone [e.mail@provided.by]",
+        ]),
+        rnd = st.randoms(),
+    )
+    def test_weird_spacing(std_spec, rnd):
+        weird_spec = ' '.join([
+            p + ' '*rnd.randint(0,5)
+            for p in std_spec.split(' ')
+        ])
+
+        weird_data = Person(spec = weird_spec)
+
+        assert weird_data.spec == std_spec
+
+    test_weird_spacing()
+
+# -- Illegal spec -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "Someone (My address) [e.mail@provided.by]",
+            "Someone [e.mail@provided.by (My address)",
+            "Someone [e.mail@provided.by] (My address",
         ]),
     )
-    def test_weird_spacing_and_letter_casing(std_spec):
-        ...
-
-    test_weird_spacing_and_letter_casing()
-
-
-
-
-
+    def test_illegal_spec(yaml_data):
+        with pytest.raises(ParsingError) as e:
+            Person(spec = yaml_data)
 
 # -- Illegal YAML data type -- #
     @given(
@@ -443,66 +454,3 @@ if __name__ == "__main__":
 # :dev
 
     test_illegal_yaml_data_type()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    exit()
-
-
-# GOOD
-
-
-# BAD
-
-    # exit()
-
-    print('')
-    print("-- BAD PARSING CASES --")
-
-    for yaml_data in [
-        123,
-        "Someone (My address) [e.mail@provided.by]",
-        "Someone [e.mail@provided.by (My address)",
-        "Someone [e.mail@provided.by] (My address",
-    ]:
-        print()
-        print(f"{yaml_data = }")
-
-        try:
-            Person(spec = yaml_data)
-
-        except Exception as e:
-            print(type(e).__name__, ':', e)
