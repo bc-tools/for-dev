@@ -158,7 +158,6 @@ if __name__ == "__main__":
     INTERACTIVE_SESSION = False
 # :dev
 
-
     from hypothesis import (
         given,
         strategies as st
@@ -168,7 +167,6 @@ if __name__ == "__main__":
 
     from aboutmeta.core.errors import YAMLTypeError
 
-
 # dev:
     if INTERACTIVE_SESSION:
         from aboutmeta.core.log_conf import *
@@ -176,7 +174,9 @@ if __name__ == "__main__":
         setup_logging()
 
         for yaml_data in [
+            # Good cases.
             "HTTPS://QwAnT.com",
+            # Bad cases.
             "qwant.com",
             "HTTP://Example.COM/Mon Dôssier/Fichier Testé.html",
         ]:
@@ -202,7 +202,6 @@ if __name__ == "__main__":
                 print(f"    > {m}")
 # :dev
 
-
 # -- Legal URL -- #
     @given(
         yaml_data = st.sampled_from([
@@ -215,7 +214,6 @@ if __name__ == "__main__":
         mydata = URL(url = yaml_data)
 
     test_legal_URL()
-
 
 # -- Normalized URL -- #
     @given(
@@ -245,7 +243,6 @@ if __name__ == "__main__":
         assert mydata.url == std_url
 
     test_normalized_URL()
-
 
 # -- Illegal YAML data type -- #
     @given(

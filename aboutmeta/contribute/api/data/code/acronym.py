@@ -145,7 +145,6 @@ if __name__ == "__main__":
 
     from aboutmeta.core.errors import YAMLTypeError
 
-
 # dev:
     yaml_data = '[about] [meta]data'
     mydata    = Acronym(spec = yaml_data)
@@ -154,7 +153,6 @@ if __name__ == "__main__":
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
 # :dev
-
 
 # -- Legal spec -- #
     @given(
@@ -182,15 +180,15 @@ if __name__ == "__main__":
 
     test_legal_spec()
 
-
 # -- Weird spacing -- #
     @given(
         std_spec = st.sampled_from([
             "[about] [meta]data",
             "[about::@-] [meta::met-@]data",
         ]),
+        rnd = st.randoms(),
     )
-    def test_weird_spacing(std_spec):
+    def test_weird_spacing(std_spec, rnd):
         weird_spec = std_spec
 
         for old in [
@@ -199,7 +197,7 @@ if __name__ == "__main__":
             '{space}::',
             '::{space}',
         ]:
-            new = old.format(space = ' ' * randint(1, 5))
+            new = old.format(space = ' ' * rnd.randint(1, 5))
 
             weird_spec = weird_spec.replace(
                 old.replace('{space}', ''),
@@ -211,27 +209,6 @@ if __name__ == "__main__":
         assert weird_data.spec == std_spec
 
     test_weird_spaces()
-
-
-# -- Illegal YAML data type -- #
-    @given(
-        yaml_data = st.sampled_from([
-            None,
-            123,
-        ]),
-    )
-    def test_illegal_yaml_data_type(yaml_data):
-        with pytest.raises(YAMLTypeError) as e:
-            Acronym(spec = yaml_data)
-
-# dev:
-        print('---')
-        print(f"{yaml_data = }")
-        print(e)
-# :dev
-
-    test_illegal_yaml_data_type()
-
 
 # -- Illegal spec -- #
     @given(
@@ -254,3 +231,22 @@ if __name__ == "__main__":
 # :dev
 
     test_illegal_spec()
+
+# -- Illegal YAML data type -- #
+    @given(
+        yaml_data = st.sampled_from([
+            None,
+            123,
+        ]),
+    )
+    def test_illegal_yaml_data_type(yaml_data):
+        with pytest.raises(YAMLTypeError) as e:
+            Acronym(spec = yaml_data)
+
+# dev:
+        print('---')
+        print(f"{yaml_data = }")
+        print(e)
+# :dev
+
+    test_illegal_yaml_data_type()

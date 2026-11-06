@@ -361,7 +361,6 @@ if __name__ == "__main__":
     INTERACTIVE_SESSION = False
 # :dev
 
-
     from hypothesis import (
         given,
         strategies as st
@@ -371,13 +370,110 @@ if __name__ == "__main__":
 
     from aboutmeta.core.errors import YAMLTypeError
 
-
 # dev:
     if INTERACTIVE_SESSION:
         from aboutmeta.core.log_conf import *
 
         setup_logging()
+
+        for yaml_data in [
+            # Good cases.
+            "Alice, Marie-lise, Someone (My address)",
+            "{mc} Someone [e.mail@provided.by]",
+            "Someone [e.mail@provided.by] (My address)",
+            "Alice, Marie-lise, Someone (My address)",
+            "{mc} Someone [support@opeai.com] (My address)",
+            # Bad cases.
+            "A, B, C [support@openaicom] (Université de la Techlogie, France)",
+        ]:
+            mydata = Person(spec = yaml_data)
+
+            print("---")
+            print(f"{yaml_data = }")
+            print(f"{mydata    = }")
+
+            print()
+            print("Normalization")
+            mydata.normalize()
+            print(f"{mydata = }")
+
+            print()
+            print("Validation process")
+            mydata.normalize()
+            print(f"{mydata = }")
+
+            mydata.validate()
+
+            for m in mydata._errors_found:
+                print(f"    > {m}")
 # :dev
+
+# -- Weird spacing and letter casing -- #
+    @given(
+        std_spec = st.sampled_from([
+            "[about] [meta]data",
+            "[about::@-] [meta::met-@]data",
+        ]),
+    )
+    def test_weird_spacing_and_letter_casing(std_spec):
+        ...
+
+    test_weird_spacing_and_letter_casing()
+
+
+
+
+
+
+# -- Illegal YAML data type -- #
+    @given(
+        yaml_data = st.sampled_from([
+            None,
+            123,
+        ]),
+    )
+    def test_illegal_yaml_data_type(yaml_data):
+        with pytest.raises(YAMLTypeError) as e:
+            Person(spec = yaml_data)
+
+# dev:
+        print('---')
+        print(f"{yaml_data = }")
+        print(e)
+# :dev
+
+    test_illegal_yaml_data_type()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -387,51 +483,9 @@ if __name__ == "__main__":
 
 
 # GOOD
-    print('')
-    print("-- GOOD CASES --")
 
-    for yaml_data in [
-        "Someone",
-        "ALIce, MarIE-LiSe,  Someone    (My address)",
-        "{Mc} Someone    [e.mail@provided.by]",
-        "Someone [e.mail@provided.by] (My address)",
-        "ALIce,    MarIE-LiSe,   {MC}    Someone     [   SuPpOrT@OpeAI.CoM ]    (   My   address  )",
-    ]:
-        mydata = Person(spec = yaml_data)
-
-        print()
-        print('~~~')
-
-        print()
-        print(f"{yaml_data = }")
-        print(f"{mydata    = }")
-
-        print()
-        print("Normalization")
-        mydata.normalize()
-        print(f"{mydata = }")
-
-        print()
-        print(f"Validation process")
-        mydata.validate()
 
 # BAD
-    # exit()
-
-    print('')
-    print("-- BAD VALIDATION CASES --")
-
-    for yaml_data in [
-        "A, B, C [support@openaicom] (Université de la Techlogie, France)",
-    ]:
-        print()
-        print(f"{yaml_data = }")
-
-        mydata = Person(spec = yaml_data)
-        mydata.validate()
-
-        for m in mydata._errors_found:
-            print(f"    > {m}")
 
     # exit()
 

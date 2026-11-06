@@ -27,7 +27,10 @@ LICENSES_JSON_FILE = (
 )
 
 
-_PATTERN_NORMALIZED_LICENSE_CODE = re.compile(r"[\s_\-\.]+")
+_PATTERN_REMOVE_SPACES = re.compile(r"[\s_]+")
+
+_SPECIAL_SEPS                = '.-'
+_PATTERN_REMOVE_SPECIAL_SEPS = re.compile(r"[\.-]+")
 
 
 ###
@@ -124,9 +127,27 @@ class Licensing(DataManager):
 #     that normalization does not create any duplicates.
 ###
 def _normalize_lic_code(code: str) -> str:
-    code = _PATTERN_NORMALIZED_LICENSE_CODE.sub("", code.lower())
+    if not code:
+        raise ValueError("empty license code.")
 
-    return code
+    _code = _PATTERN_REMOVE_SPACES.sub("", code.lower())
+
+    for s in _SPECIAL_SEPS:
+        if s*2 in _code:
+            raise ValueError(
+                f"illegal license code {code!r} contains {s*2!r} "
+                 "(after removing spaces)"
+            )
+
+        if _code[-1] == s:
+            raise ValueError(
+                f"illegal license code {code!r} ends with {s!r} "
+                 "(after removing spaces)"
+            )
+
+    _code = _PATTERN_REMOVE_SPECIAL_SEPS.sub("", _code)
+
+    return _code
 
 
 ###
@@ -263,7 +284,6 @@ if __name__ == "__main__":
     UPDATE_LICENSE_MEDATA = False
 # :dev
 
-
     from hypothesis import (
         given,
         strategies as st
@@ -273,42 +293,70 @@ if __name__ == "__main__":
 
     from aboutmeta.core.errors import YAMLTypeError
 
-
 # dev:
     if UPDATE_LICENSE_MEDATA:
         tool_update_license_json()
 
     yaml_data = 'gpl 3.0 only'
-    mydata    = Licensing(spdx_id = yaml_data)
+
+    mydata = Licensing(spdx_id = yaml_data)
 
     print('---')
     print(f"{yaml_data = }")
     print(f"{mydata    = }")
 # :dev
 
-
 # -- Legal weird license code -- #
     @given(
-        full_data = st.sampled_from([
-            (
-                "gpl   3.0 only ",
-                "GPL-3.0-only"
-            ),
-            (
-                "cc -    by    nc- 4.0",
-                "CC-BY-NC-4.0"
-            ),
+        std_spdx_id = st.sampled_from([
+            "GPL-3.0-only",
+            "CC-BY-NC-4.0"
         ]),
+        rnd = st.randoms(),
     )
-    def test_legal_weird_license_code(full_data):
-        yaml_data, spdx_id = full_data
+    def test_legal_weird_license_code(std_spdx_id, rnd):
+        weird_spdx_id = ''.join([
+            rnd.choice([c.lower(), c.upper()])
+            for c in std_spdx_id
+        ])
 
-        mydata = Licensing(spdx_id = yaml_data)
+        weird_spdx_id = ' '.join([
+            p + ' '*rnd.randint(0,5) + '-'*rnd.randint(0, 1)
+            for p in weird_spdx_id.split('-')
+        ])
 
-        assert mydata.spdx_id == spdx_id
+        if weird_spdx_id[-1] == '-':
+            weird_spdx_id = weird_spdx_id[:-1]
+
+        weird_data = Licensing(spdx_id = weird_spdx_id)
+
+        assert weird_data.spdx_id == std_spdx_id
 
     test_legal_weird_license_code()
 
+# -- Illegal license code -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "gpl-3.0-only-",
+            "gpl 3..0 only",
+            "gpl 3.0+",
+            "gpl",
+            "cc nc",
+            "cc",
+            "",
+        ]),
+    )
+    def test_illegal_license_code(yaml_data):
+        with pytest.raises(ValueError) as e:
+            Licensing(spdx_id = yaml_data)
+
+# dev:
+        print('---')
+        print(f"{yaml_data = }")
+        print(e)
+# :dev
+
+    test_illegal_license_code()
 
 # -- Illegal YAML data type -- #
     @given(
@@ -328,26 +376,3 @@ if __name__ == "__main__":
 # :dev
 
     test_illegal_yaml_data_type()
-
-
-# -- Illegal license code -- #
-    @given(
-        yaml_data = st.sampled_from([
-            "gpl  3.0 +",
-            "gpl",
-            "cc nc",
-            "cc",
-            "",
-        ]),
-    )
-    def test_illegal_license_code(yaml_data):
-        with pytest.raises(ValueError) as e:
-            Licensing(spdx_id = yaml_data)
-
-# dev:
-        print('---')
-        print(f"{yaml_data = }")
-        print(e)
-# :dev
-
-    test_illegal_license_code()
