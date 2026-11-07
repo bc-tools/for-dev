@@ -1,3 +1,5 @@
+donner au pssage des data code sympas : letter casing wierd / temp folder
+
 exemple avec session interactive !!! cf url car plus simple que person !
 
 
