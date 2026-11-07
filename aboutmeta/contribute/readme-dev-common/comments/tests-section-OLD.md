@@ -1,14 +1,3 @@
-#### 'TESTS' section (mandatory)
-
-
-
-
-
-
-
-
-XXX
-
 exemple avec session interactive !!! cf url car plus simple que person !
 
 
@@ -23,7 +12,7 @@ et hypothseiss pour une gestion des param!tres choisis avec possibilité d'aller
 
 
 ~~~python
-# Extract of XXX class code (2026-11-XXX).
+# Extract of ''URL'' class code (2026-11-07).
 
 ...
 ~~~

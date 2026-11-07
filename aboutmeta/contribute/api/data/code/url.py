@@ -202,7 +202,7 @@ if __name__ == '__main__':
             for m in mydata._errors_found:
                 print(f'    > {m}')
 
-    exit()
+        exit()
 # :dev
 
 # -- Legal URL -- #
