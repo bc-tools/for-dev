@@ -519,33 +519,35 @@ if __name__ == '__main__':
     - tool.py
     """)
 
+    type DirTree = list[str | dict[str, DirTree]]
+
     @contextmanager
-    def temporary_project(dirtree):
+    def temporary_project(dirtree: DirTree) -> Path:
         with tempfile.TemporaryDirectory() as tmpdir:
             rootdir  = Path(tmpdir)
             prepaths = []
 
-            def fullpath(p: str):
-                fp = rootdir
+            def fullpath(name: str) -> Path:
+                full_path = rootdir
 
-                for pp in prepaths:
-                    fp /= pp
+                for ppath in prepaths:
+                    full_path /= ppath
 
-                fp /= p
+                full_path /= name
 
-                return fp
+                return full_path
 
-            def recu_build_dirtree(dt):
-                for d in dt:
-                    if type(d) == str:
-                        fullpath(d).touch()
+            def recu_build_dirtree(dirtree: DirTree) -> None:
+                for content in dirtree:
+                    if type(content) == str:
+                        fullpath(content).touch()
 
                     else:
-                        for k, v in d.items():
-                            fullpath(k).mkdir()
+                        for folder, subcontent in content.items():
+                            fullpath(folder).mkdir()
 
-                            prepaths.append(k)
-                            recu_build_dirtree(v)
+                            prepaths.append(folder)
+                            recu_build_dirtree(subcontent)
                             prepaths.pop(-1)
 
             recu_build_dirtree(dirtree)
@@ -602,7 +604,9 @@ if __name__ == '__main__':
             {'regex': r'.*\.md'},
         ]),
     )
-    def test_legal_spec(yaml_data):
+    def test_legal_spec(
+        yaml_data: str | dict[str, str]
+    ) -> None:
         with temporary_project(mydirtree) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
@@ -626,7 +630,9 @@ if __name__ == '__main__':
             {'r': r'[^/]*\.py'},
         ]),
     )
-    def test_tocpath_validation(yaml_data):
+    def test_tocpath_validation(
+        yaml_data: str | dict[str, str]
+    ) -> None:
         with temporary_project(mydirtree) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
@@ -651,7 +657,7 @@ if __name__ == '__main__':
             {'r': '(abc'},
         ]),
     )
-    def test_illegal_spec(yaml_data):
+    def test_illegal_spec(yaml_data: dict[str, str]) -> None:
         with pytest.raises(ParsingError) as e:
             TOCPath(
                 spec   = yaml_data,
@@ -679,7 +685,7 @@ if __name__ == '__main__':
             Path(__file__).name # For illegal parent type.
         ]),
     )
-    def test_illegal_yaml_data_type(yaml_data):
+    def test_illegal_yaml_data_type(yaml_data: object) -> None:
         with pytest.raises(YAMLTypeError) as e:
             TOCPath(
                 spec   = yaml_data,
@@ -711,7 +717,9 @@ if __name__ == '__main__':
             ),
         ]),
     )
-    def test_path_iteration(full_data):
+    def test_path_iteration(
+        full_data: tuple[dict[str, str], list[str]]
+    ) -> None:
         yaml_data, paths = full_data
 
         with temporary_project(mydirtree) as tempdir:

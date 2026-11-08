@@ -366,7 +366,8 @@ if __name__ == '__main__':
         strategies as st
     )
 
-    import pytest
+    import             pytest
+    from random import Random
 
     from aboutmeta.core.errors import YAMLTypeError
 
@@ -411,7 +412,10 @@ if __name__ == '__main__':
         ]),
         rnd = st.randoms(),
     )
-    def test_weird_spacing(std_spec, rnd):
+    def test_weird_spacing(
+        std_spec: str,
+        rnd     : Random
+    ) -> None:
         weird_spec = ' '.join([
             p + ' '*rnd.randint(0,5)
             for p in std_spec.split(' ')
@@ -432,7 +436,10 @@ if __name__ == '__main__':
         ]),
         rnd = st.randoms(),
     )
-    def test_weird_letter_casing(std_spec, rnd):
+    def test_weird_letter_casing(
+        std_spec: str,
+        rnd     : Random
+    ) -> None:
         def weirdcase(text):
             return ''.join([
             rnd.choice([c.lower(), c.upper()])
@@ -469,7 +476,7 @@ if __name__ == '__main__':
             'Someone [e.mail@provided.by] (My address',
         ]),
     )
-    def test_illegal_spec(yaml_data):
+    def test_illegal_spec(yaml_data: str) -> None:
         with pytest.raises(ParsingError) as e:
             Person(spec = yaml_data)
 
@@ -480,7 +487,7 @@ if __name__ == '__main__':
             123,
         ]),
     )
-    def test_illegal_yaml_data_type(yaml_data):
+    def test_illegal_yaml_data_type(yaml_data: object) -> None:
         with pytest.raises(YAMLTypeError) as e:
             Person(spec = yaml_data)
 

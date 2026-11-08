@@ -291,7 +291,8 @@ if __name__ == '__main__':
         strategies as st
     )
 
-    import pytest
+    import             pytest
+    from random import Random
 
     from aboutmeta.core.errors import YAMLTypeError
 
@@ -316,7 +317,10 @@ if __name__ == '__main__':
         ]),
         rnd = st.randoms(),
     )
-    def test_legal_weird_license_code(std_spdx_id, rnd):
+    def test_legal_weird_license_code(
+        std_spdx_id: str,
+        rnd        : Random
+    ) -> None:
         weird_spdx_id = ''.join([
             rnd.choice([c.lower(), c.upper()])
             for c in std_spdx_id
@@ -348,7 +352,7 @@ if __name__ == '__main__':
             '',
         ]),
     )
-    def test_illegal_license_code(yaml_data):
+    def test_illegal_license_code(yaml_data: str) -> None:
         with pytest.raises(ValueError) as e:
             Licensing(spdx_id = yaml_data)
 
@@ -367,7 +371,7 @@ if __name__ == '__main__':
             123,
         ]),
     )
-    def test_illegal_yaml_data_type(yaml_data):
+    def test_illegal_yaml_data_type(yaml_data: object) -> None:
         with pytest.raises(YAMLTypeError) as e:
             Licensing(spdx_id = yaml_data)
 
