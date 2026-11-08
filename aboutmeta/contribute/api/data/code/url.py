@@ -245,14 +245,14 @@ if __name__ == '__main__':
 
     test_normalized_URL()
 
-# -- Illegal YAML data type -- #
+# -- Illegal data type -- #
     @given(
         yaml_data = st.sampled_from([
             None,
             123,
         ]),
     )
-    def test_illegal_yaml_data_type(yaml_data):
+    def test_illegal_data_type(yaml_data):
         with pytest.raises(TypeError) as e:
             URL(url = yaml_data)
 
@@ -262,4 +262,4 @@ if __name__ == '__main__':
         print(e)
 # :dev
 
-    test_illegal_yaml_data_type()
+    test_illegal_data_type()

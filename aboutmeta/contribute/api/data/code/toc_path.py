@@ -691,7 +691,7 @@ if __name__ == '__main__':
 
     test_illegal_spec()
 
-# -- Illegal YAML data type -- #
+# -- Illegal data type -- #
     @given(
         yaml_data = st.sampled_from([
             None,
@@ -699,7 +699,7 @@ if __name__ == '__main__':
             Path(__file__).name # For illegal parent type.
         ]),
     )
-    def test_illegal_yaml_data_type(yaml_data: object) -> None:
+    def test_illegal_data_type(yaml_data: object) -> None:
         with pytest.raises(TypeError) as e:
             TOCPath(
                 spec   = yaml_data,
@@ -712,7 +712,7 @@ if __name__ == '__main__':
         print(e)
 # :dev
 
-    test_illegal_yaml_data_type()
+    test_illegal_data_type()
 
 # -- Path iteration -- #
     @given(

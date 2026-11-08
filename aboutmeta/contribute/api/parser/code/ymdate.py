@@ -72,6 +72,8 @@ if __name__ == "__main__":
         strategies as st
     )
 
+    import pytest
+
 # dev:
     yaml_data   = "2025-06-27"
     data_parsed = parse(yaml_data)
@@ -85,6 +87,45 @@ if __name__ == "__main__":
     print(f"{write(data_parsed) = }")
 # :dev
 
+# -- Data - Illegal spec -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "2.3",
+            "2/3/2025",
+            "2025-02-30",
+        ]),
+    )
+    def test_illegal_spec(yaml_data: str) -> None:
+        with pytest.raises(ParsingError) as e:
+            parse(yaml_data)
+
+# dev:
+        print('---')
+        print(f'{yaml_data = }')
+        print(e)
+# :dev
+
+    test_illegal_spec()
+
+# -- Data - Illegal data type -- #
+    @given(
+        yaml_data = st.sampled_from([
+            None,
+            123,
+        ]),
+    )
+    def test_illegal_data_type(yaml_data: object) -> None:
+        with pytest.raises(TypeError) as e:
+            parse(yaml_data)
+
+# dev:
+        print('---')
+        print(f'{yaml_data = }')
+        print(e)
+# :dev
+
+    test_illegal_data_type()
+
 # -- Parser - Back to spec -- #
     @given(
         yaml_data = st.sampled_from([
@@ -95,35 +136,3 @@ if __name__ == "__main__":
         assert write(parse(yaml_data)) == yaml_data
 
     test_back_2_spec()
-
-    # exit()
-
-
-
-# BAD
-    # exit()
-
-    print()
-    print("-- BAD CASES --")
-
-    for yaml_data in [
-        None, "2.3",
-        "2/3/2025",
-        "2025-02-30",
-    ]:
-        print()
-        print('~~~')
-        print()
-
-        print(f'{yaml_data = }')
-
-        try:
-            parse(yaml_data)
-
-        except Exception as e:
-            print(type(e).__name__, ':', e)
-
-            notes = getattr(e, "__notes__", [])
-
-            for i, n in enumerate(notes, start = 1):
-                print(f'[{i}]. {n}')

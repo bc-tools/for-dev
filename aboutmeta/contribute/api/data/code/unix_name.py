@@ -78,7 +78,7 @@ if __name__ == "__main__":
     test_legal_name()
 
 
-# -- Illegal YAML data type -- #
+# -- Illegal data type -- #
     @given(
         yaml_data = st.sampled_from([
             None,

@@ -56,60 +56,75 @@ def write(data: Version) -> str:
 # ----------- #
 
 if __name__ == "__main__":
-# GOOD
-    print()
-    print("-- GOOD CASES --")
+    from hypothesis import (
+        given,
+        strategies as st
+    )
 
-    for std_yaml_data in [
-        "1.2.3-beta.4+build.5",
-        "2.3.4-beta.1",
-        "4.5.6",
-    ]:
-        data_parsed = parse(std_yaml_data)
+    import pytest
 
-        print()
-        print('~~~')
+# dev:
+    yaml_data   = "1.2.3-beta.4+build.5"
+    data_parsed = parse(yaml_data)
 
-        print()
-        print(f"{std_yaml_data      = }")
-        print(f"{data_parsed        = }")
-        print(f"{write(data_parsed) = }")
+    print('---')
+    print(f"{yaml_data              = }")
+    print(f"{data_parsed            = }")
+    print(f"{data_parsed.major      = }")
+    print(f"{data_parsed.minor      = }")
+    print(f"{data_parsed.patch      = }")
+    print(f"{data_parsed.prerelease = }")
+    print(f"{data_parsed.build      = }")
+    print(f"{write(data_parsed)     = }")
+# :dev
 
-        print()
-        print( f"repr(data_parsed)      = {data_parsed!r}")
-        print(f"{data_parsed.major      = }")
-        print(f"{data_parsed.minor      = }")
-        print(f"{data_parsed.patch      = }")
-        print(f"{data_parsed.prerelease = }")
-        print(f"{data_parsed.build      = }")
+# -- Data - Illegal spec -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "2.3",
+            "2-3-2025",
+        ]),
+    )
+    def test_illegal_spec(yaml_data: str) -> None:
+        with pytest.raises(ParsingError) as e:
+            parse(yaml_data)
 
-        print()
-        print(f"{data_parsed.next_version(part="prerelease") = }")
+# dev:
+        print('---')
+        print(f'{yaml_data = }')
+        print(e)
+# :dev
 
-    print()
+    test_illegal_spec()
 
+# -- Data - Illegal data type -- #
+    @given(
+        yaml_data = st.sampled_from([
+            None,
+            123,
+        ]),
+    )
+    def test_illegal_data_type(yaml_data: object) -> None:
+        with pytest.raises(TypeError) as e:
+            parse(yaml_data)
 
-# BAD
-    # exit()
+# dev:
+        print('---')
+        print(f'{yaml_data = }')
+        print(e)
+# :dev
 
-    print("\n------------\n")
+    test_illegal_data_type()
 
-    print("-- BAD CASES --")
+# -- Parser - Back to spec -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "1.2.3-beta.4+build.5",
+            "2.3.4-beta.1",
+            "4.5.6",
+        ]),
+    )
+    def test_back_2_spec(yaml_data: str) -> None:
+        assert write(parse(yaml_data)) == yaml_data
 
-    for std_yaml_data in [
-        "2.3",
-    ]:
-        print()
-
-        print(f'{std_yaml_data = }')
-
-        try:
-            parse(std_yaml_data)
-
-        except Exception as e:
-            print(type(e).__name__, ':', e)
-
-            notes = getattr(e, "__notes__", [])
-
-            for i, n in enumerate(notes, start = 1):
-                print(f'[{i}]. {n}')
+    test_back_2_spec()

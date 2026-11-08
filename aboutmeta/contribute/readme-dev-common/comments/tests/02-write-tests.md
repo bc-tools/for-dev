@@ -1,5 +1,3 @@
-XXXXX
-
 ##### Write tests
 
 To be able to run tests by simply invoking the `python` command, tests must rely at least on the following imports.
@@ -12,8 +10,6 @@ from hypothesis import (
 )
 
 import pytest
-
-from aboutmeta.core.errors import YAMLTypeError
 ~~~
 
 
@@ -22,8 +18,6 @@ Let's explain the design choices made before walking through a concrete example 
   1. The `given` decorator combined with the strategies provided by `st` allows defining test functions that take arguments yet can be executed without arguments.
 
   1. `pytest` allows to test that a given exception is properly raised.
-
-  1. Among the tests, there should always be one verifying that non-string input is correctly detected.
 
 
 The following contribution code snippet demonstrates how to set up the tools described above.
@@ -68,30 +62,35 @@ if __name__ == '__main__':
 
     test_normalized_URL()
 
-# -- Illegal YAML data type -- #
+# -- Illegal data type -- #
     @given(
         yaml_data = st.sampled_from([
             None,
             123,
         ]),
     )
-    def test_illegal_yaml_data_type(yaml_data):
-        with pytest.raises(YAMLTypeError) as e:
+    def test_illegal_data_type(yaml_data):
+        with pytest.raises(TypeError) as e:
             URL(url = yaml_data)
 
-    test_illegal_yaml_data_type()
+    test_illegal_data_type()
 ~~~
 
 <!-- TESTS (NORMALIZE + ILLEGAL YAML) - URL EXTRACT - END -->
 
 
-The contribution integration process will generate a test file, similar to the example above, as part of the final test suite. Notice how magic comments like `# -- Magic comment -- #` are formatted, as well as the removal of calls to test functions.
+The contribution integration process will generate a test file, similar to the example above, as part of the final test suite. Notice the formatting of magic comments like `# -- Magic comment -- #`, the removal of test function calls, and the automatic addition of a prefix matching the contribution file.
 
 
 <!-- FINAL UNIT TESTS - URL EXTRACT - START -->
 
 ~~~python
 # Extract of 'tests/api/data/contribute/test_url.py' (2026-11-08).
+
+from hypothesis import (
+    given,
+    strategies as st
+)
 
 import pytest
 
@@ -110,7 +109,7 @@ import pytest
         ...
     ]),
 )
-def test_normalized_URL(full_data):
+def test_url_normalized_URL(full_data):
     yaml_data, std_url = full_data
 
     mydata = URL(url = yaml_data)
@@ -120,7 +119,7 @@ def test_normalized_URL(full_data):
 
 
 # ---------------------------- #
-# -- Illegal YAML data type -- #
+# -- Illegal data type -- #
 # ---------------------------- #
 
 @given(
@@ -129,8 +128,8 @@ def test_normalized_URL(full_data):
         123,
     ]),
 )
-def test_illegal_yaml_data_type(yaml_data):
-    with pytest.raises(YAMLTypeError) as e:
+def test_url_illegal_data_type(yaml_data):
+    with pytest.raises(TypeError) as e:
         URL(url = yaml_data)
 ~~~
 
