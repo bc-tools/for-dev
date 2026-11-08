@@ -151,7 +151,6 @@ if __name__ == '__main__':
     print('---')
     print(f'{yaml_data = }')
     print(f'{mydata    = }')
-    exit()
 # :dev
 
 # -- Legal spec -- #

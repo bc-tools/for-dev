@@ -507,60 +507,52 @@ if __name__ == '__main__':
     from aboutmeta.core.errors import YAMLTypeError
 
 # -- Common temp dir tree -- #
-#
-# + folder
-#     * readme.md
-#     * script.py
-#     + library
-#         * main.py
-#         + core
-#             * readme.md
-#             * tool.py
+
     @contextmanager
     def temporary_project():
         with tempfile.TemporaryDirectory() as tmpdir:
-            root_dir = Path(tmpdir)
-
-            library_dir = root_dir / 'library'
-
-            core_dir = library_dir / 'core'
-            core_dir.mkdir(
-                parents  = True,
-                exist_ok = True
-            )
-
-            for folder, files_contents in {
-                root_dir: [
-                    (
+            dirtree = [
+                'readme.md',
+                'script-1.py',
+                'script-2.py',
+                {'library': [
+                    'main.py',
+                    {'core': [
                         'readme.md',
-                        '# Racine du projet'
-                    ),
-                    (
-                        'script.py',
-                        "print('script principal')"
-                    ),
-                ],
-                library_dir: [
-                    (
-                        'main.py',
-                        'import core.tool'
-                    ),
-                ],
-                core_dir: [
-                    (
-                        'readme.md',
-                        '# Documentation Core'
-                    ),
-                    (
-                        'tool.py',
-                        'def life_mistery(): return 42'
-                    ),
-                ],
-            }.items():
-                for file, content in files_contents:
-                    (folder / file).write_text(content)
+                        'tool.py'
+                    ]}
+                ]}
+            ]
 
-            yield root_dir
+            rootdir  = Path(tmpdir)
+            prepaths = []
+
+            def fullpath(p: str):
+                fp = rootdir
+
+                for pp in prepaths:
+                    fp /= pp
+
+                fp /= p
+
+                return fp
+
+            def recu_build_dirtree(dt):
+                for d in dt:
+                    if type(d) == str:
+                        fullpath(d).touch()
+
+                    else:
+                        for k, v in d.items():
+                            fullpath(k).mkdir()
+
+                            prepaths.append(k)
+                            recu_build_dirtree(v)
+                            prepaths.pop(-1)
+
+            recu_build_dirtree(dirtree)
+
+            yield rootdir
 
 # dev:
     if INTERACTIVE_SESSION:
@@ -703,3 +695,38 @@ if __name__ == '__main__':
 # :dev
 
     test_illegal_yaml_data_type()
+
+# -- Path iteration -- #
+    @given(
+        full_data = st.sampled_from([
+            (
+                {'g': '*.py'},
+                ['script-1.py',
+                 'script-2.py',]
+            ),
+            (
+                {'rg': '*.py'},
+                ['script-1.py',
+                 'script-2.py',
+                 'library/main.py',
+                 'library/core/tool.py',]
+            ),
+        ]),
+    )
+    def test_path_iteration(full_data):
+        yaml_data, paths = full_data
+
+        with temporary_project() as tempdir:
+            mydata = TOCPath(
+                spec   = yaml_data,
+                parent = tempdir
+            )
+
+            paths_founds = [
+                str(p.relative_to(tempdir))
+                for p in mydata.path_iter()
+            ]
+
+        assert paths == paths_founds
+
+    test_path_iteration()

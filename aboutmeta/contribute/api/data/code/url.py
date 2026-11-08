@@ -241,8 +241,6 @@ if __name__ == '__main__':
         mydata = URL(url = yaml_data)
         mydata.normalize()
 
-        print(mydata.url)
-
         assert mydata.url == std_url
 
     test_normalized_URL()

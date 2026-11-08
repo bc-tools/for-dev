@@ -3,4 +3,4 @@ atoc:
   - ../../../../readme-dev-common/comments/imports.md
   - tools-section.md
   - ../../../../readme-dev-common/comments/tools-section-warning.md
-  - g: ../../../../../readme-dev-common/comments/tests-section-*.md
+  - g: ../../../../../readme-dev-common/comments/tests-section/*.md
