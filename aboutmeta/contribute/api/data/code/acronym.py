@@ -140,7 +140,7 @@ if __name__ == '__main__':
     )
 
     import             pytest
-    from random import randint
+    from random import Random
 
     from aboutmeta.core.errors import YAMLTypeError
 
@@ -168,7 +168,9 @@ if __name__ == '__main__':
             ),
         ]),
     )
-    def test_legal_spec(full_data):
+    def test_legal_spec(
+        full_data: tuple[str, str, str]
+    ) -> None:
         yaml_data, short, desc = full_data
 
         mydata = Acronym(spec = yaml_data)
@@ -187,7 +189,10 @@ if __name__ == '__main__':
         ]),
         rnd = st.randoms(),
     )
-    def test_weird_spacing(std_spec, rnd):
+    def test_weird_spacing(
+        std_spec: str,
+        rnd     : Random
+    ) -> None:
         weird_spec = std_spec
 
         for old in [
@@ -219,7 +224,7 @@ if __name__ == '__main__':
             'about meta]data',
         ]),
     )
-    def test_illegal_spec(yaml_data):
+    def test_illegal_spec(yaml_data: str) -> None:
         with pytest.raises(ParsingError) as e:
             Acronym(spec = yaml_data)
 
@@ -238,7 +243,7 @@ if __name__ == '__main__':
             123,
         ]),
     )
-    def test_illegal_yaml_data_type(yaml_data):
+    def test_illegal_yaml_data_type(yaml_data: object) -> None:
         with pytest.raises(YAMLTypeError) as e:
             Acronym(spec = yaml_data)
 

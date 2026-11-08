@@ -423,13 +423,15 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     glob_method_name : the name of the glob method to use
-#                        (whether recursive or not).
+#     glob_method_name : either the name of the glob method to use
+#                        (whether recursive or not), or ''None''
+#                        to automatically determine the glob method.
 #
 #     :yield: each path which validates the pattern stored in
 #             ''self.pattern''.
 #
-#     :see: self.glob_iter ,
+#     :see: self._get_search_spec ,
+#           self.glob_iter ,
 #           self.regex_iter
 ###
     def path_iter(
@@ -452,8 +454,7 @@ class TOCPath(DataManager):
 #
 #     :yield: each path which validates the \glob pattern
 #             stored in ''self.pattern'' using the \glob
-#             method named ''glob_method_name'' from the
-#             ''Path'' class.
+#             method named ''glob_method_name''.
 ###
     def glob_iter(
         self,
@@ -470,8 +471,7 @@ class TOCPath(DataManager):
 #
 #     :yield: each path which validates the \regex pattern
 #             stored in ''self.pattern'' using the \glob
-#             method named ''glob_method_name'' from the ''Path''
-#             class.
+#             method named ''glob_method_name''.
 ###
     def regex_iter(
         self,
@@ -503,27 +503,25 @@ if __name__ == '__main__':
     from pathlib    import Path
     import                 tempfile
     from contextlib import contextmanager
+    from yaml       import safe_load
 
     from aboutmeta.core.errors import YAMLTypeError
 
 # -- Common temp dir tree -- #
+    mydirtree = safe_load("""
+- readme.md
+- script-1.py
+- script-02.py
+- library:
+  - main.py
+  - core:
+    - readme.md
+    - tool.py
+    """)
 
     @contextmanager
-    def temporary_project():
+    def temporary_project(dirtree):
         with tempfile.TemporaryDirectory() as tmpdir:
-            dirtree = [
-                'readme.md',
-                'script-1.py',
-                'script-2.py',
-                {'library': [
-                    'main.py',
-                    {'core': [
-                        'readme.md',
-                        'tool.py'
-                    ]}
-                ]}
-            ]
-
             rootdir  = Path(tmpdir)
             prepaths = []
 
@@ -563,7 +561,7 @@ if __name__ == '__main__':
         print('---')
         print(f'{TAG_TOC_PATTERN_ABBREV = }')
 
-        with temporary_project() as tempdir:
+        with temporary_project(mydirtree) as tempdir:
             for yaml_data in [
                 # Raw path.
                 Path(__file__).name,
@@ -605,7 +603,7 @@ if __name__ == '__main__':
         ]),
     )
     def test_legal_spec(yaml_data):
-        with temporary_project() as tempdir:
+        with temporary_project(mydirtree) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
                 parent = tempdir
@@ -629,7 +627,7 @@ if __name__ == '__main__':
         ]),
     )
     def test_tocpath_validation(yaml_data):
-        with temporary_project() as tempdir:
+        with temporary_project(mydirtree) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
                 parent = tempdir
@@ -701,13 +699,13 @@ if __name__ == '__main__':
         full_data = st.sampled_from([
             (
                 {'g': '*.py'},
-                ['script-1.py',
-                 'script-2.py',]
+                ['script-02.py',
+                 'script-1.py',]
             ),
             (
                 {'rg': '*.py'},
-                ['script-1.py',
-                 'script-2.py',
+                ['script-02.py',
+                 'script-1.py',
                  'library/main.py',
                  'library/core/tool.py',]
             ),
@@ -716,7 +714,7 @@ if __name__ == '__main__':
     def test_path_iteration(full_data):
         yaml_data, paths = full_data
 
-        with temporary_project() as tempdir:
+        with temporary_project(mydirtree) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
                 parent = tempdir

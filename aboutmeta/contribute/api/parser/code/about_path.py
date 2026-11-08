@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###
-# This parser processes lists of python::''TOCPath''-like data.
+# This parser processes lists of python::''TOCPath''-like \specs.
 # Paths can be defined relative to a parent folder using a raw
 # path, a glob pattern, or a regex pattern, with optional support
 # for recursive searches. Here is how each option works.
@@ -15,7 +15,7 @@
 #        For example, ''how-to/*.md'' matches all \md files
 #        directly inside the path::''how-to'' subfolder.
 #
-#     1) **\R patterns** are indicated using ''regex: ...''
+#     1) **\Regex patterns** are indicated using ''regex: ...''
 #        (or ''r-regex: ...'' for a recursive search).
 #        Note that ''glob: how-to/*.md'' is equivalent to
 #        ''r-regex: how-to/[^/]+\.md'', but not to
@@ -158,8 +158,9 @@ TAG_POSTPROD_ABOUT_PATH_FILES = '__POSTPROD_ABOUT_PATH_FILES__'
 #
 #
 # important::
-#     Each group of winning pattern paths found using a pattern
-#     are sorted by the \func ''natsort.natsorted''.
+#     Each group of winning pattern paths is sorted via
+#     ''natsort.natsorted'' \func (e.g., path::''script-02.py''
+#     precedes path::''script-1.py'').
 ###
 def postprod(
     amdata: object,

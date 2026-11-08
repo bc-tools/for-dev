@@ -91,7 +91,8 @@ if __name__ == '__main__':
         strategies as st
     )
 
-    import pytest
+    import             pytest
+    from random import Random
 
     from aboutmeta.core.errors import YAMLTypeError
 
@@ -121,7 +122,9 @@ if __name__ == '__main__':
             ),
         ]),
     )
-    def test_legal_spec(full_data):
+    def test_legal_spec(
+        full_data: tuple[str, str, str, str]
+    ) -> None:
         yaml_data, std_id, name, territory = full_data
 
         mydata = Lang(std_id = yaml_data)
@@ -141,7 +144,10 @@ if __name__ == '__main__':
         ]),
         rnd = st.randoms(),
     )
-    def test_weird_letter_casing(std_id, rnd):
+    def test_weird_letter_casing(
+        std_id: str,
+        rnd   : Random
+    ) -> None:
         weird_id = ''.join([
             rnd.choice([c.lower(), c.upper()])
             for c in std_id
@@ -162,7 +168,7 @@ if __name__ == '__main__':
             'XXX',
         ]),
     )
-    def test_unknown_lang(yaml_data):
+    def test_unknown_lang(yaml_data: str) -> None:
         with pytest.raises(ValueError) as e:
             Lang(std_id = yaml_data)
 
@@ -180,7 +186,7 @@ if __name__ == '__main__':
             'X.X',
         ]),
     )
-    def test_illegal_lang_ID(yaml_data):
+    def test_illegal_lang_ID(yaml_data: str) -> None:
         with pytest.raises(ParsingError) as e:
             Lang(std_id = yaml_data)
 
@@ -197,7 +203,7 @@ if __name__ == '__main__':
             123,
         ]),
     )
-    def test_illegal_yaml_data_type(yaml_data):
+    def test_illegal_yaml_data_type(yaml_data : object) -> None:
         with pytest.raises(YAMLTypeError) as e:
             Lang(std_id = yaml_data)
 
