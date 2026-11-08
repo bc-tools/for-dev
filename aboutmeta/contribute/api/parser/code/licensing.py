@@ -62,24 +62,29 @@ if __name__ == "__main__":
 # We just need some basic interface tests, because we have already
 # tested the ''License'' class.
 
-# GOOD
-    print("\n------------\n")
+    from hypothesis import (
+        given,
+        strategies as st
+    )
 
-    print("-- GOOD CASES --")
+# dev:
+    yaml_data   = "gpl-3.0-only"
+    data_parsed = parse(yaml_data)
 
-    for yaml_data in [
-        "GPL-3.0-only",
-        "gpl      -     3.0 only ",
-        "cc    by nc 4.0",
-        "CC-BY-NC-4.0",
-    ]:
-        data_parsed = parse(yaml_data)
+    print('---')
+    print(f"{yaml_data          = }")
+    print(f"{data_parsed        = }")
+    print(f"{write(data_parsed) = }")
+# :dev
 
-        print()
-        print('~~~')
+# -- Back to spec -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "gpl 3.0 only",
+            "cc by nc 4.0",
+        ]),
+    )
+    def test_back_2_spec(yaml_data: str) -> None:
+        assert write(parse(yaml_data)) == yaml_data
 
-        print()
-        print(f"{yaml_data                 = }")
-        print(f"{data_parsed               = }")
-        print(f"{write(data_parsed)        = }")
-        print(f"{parse(write(data_parsed)) = }")
+    test_back_2_spec()

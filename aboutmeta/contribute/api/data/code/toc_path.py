@@ -505,8 +505,6 @@ if __name__ == '__main__':
     from contextlib import contextmanager
     from yaml       import safe_load
 
-    from aboutmeta.core.errors import YAMLTypeError
-
 # -- Common temp dir tree -- #
     mydirtree = safe_load("""
 - readme.md
@@ -702,7 +700,7 @@ if __name__ == '__main__':
         ]),
     )
     def test_illegal_yaml_data_type(yaml_data: object) -> None:
-        with pytest.raises(YAMLTypeError) as e:
+        with pytest.raises(TypeError) as e:
             TOCPath(
                 spec   = yaml_data,
                 parent = None

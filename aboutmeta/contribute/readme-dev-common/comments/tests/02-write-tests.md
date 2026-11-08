@@ -1,3 +1,5 @@
+XXXXX
+
 ##### Write tests
 
 To be able to run tests by simply invoking the `python` command, tests must rely at least on the following imports.
@@ -43,8 +45,6 @@ if __name__ == '__main__':
     )
 
     import pytest
-
-    from aboutmeta.core.errors import YAMLTypeError
 
     ...
 
@@ -94,8 +94,6 @@ The contribution integration process will generate a test file, similar to the e
 # Extract of 'tests/api/data/contribute/test_url.py' (2026-11-08).
 
 import pytest
-
-from aboutmeta.core.errors import YAMLTypeError
 
 ...
 

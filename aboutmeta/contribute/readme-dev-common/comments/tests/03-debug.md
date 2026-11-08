@@ -1,3 +1,5 @@
+XXXXX
+
 ##### Interactive session for live debugging
 
 During development, we all like to print a few variables, even if we'd never admit it publicly. To do so, surround the relevant lines of code with the `# dev:` and `# :dev` magic comments. This marks lines that will not be included in the final project's unit tests. For example, the following lines can be found in the contributed code for the `Acronym` class.
@@ -13,15 +15,7 @@ During development, we all like to print a few variables, even if we'd never adm
 # ----------- #
 
 if __name__ == '__main__':
-    from hypothesis import (
-        given,
-        strategies as st
-    )
-
-    import             pytest
-    from random import Random
-
-    from aboutmeta.core.errors import YAMLTypeError
+    ...
 
 # dev:
     yaml_data = '[about] [meta]data    '

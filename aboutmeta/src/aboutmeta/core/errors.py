@@ -30,13 +30,6 @@ class KeyPathError(Exception):
 class PostProcessingError(Exception):
     ...
 
-
-###
-# Bad YAML data type must use the ''YAMLTypeError'' class.
-###
-class YAMLTypeError(Exception):
-    ...
-
 ###
 # Critical implementation errors must use the ''PostProcessingError'' class.
 ###

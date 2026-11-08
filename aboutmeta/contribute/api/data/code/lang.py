@@ -94,8 +94,6 @@ if __name__ == '__main__':
     import             pytest
     from random import Random
 
-    from aboutmeta.core.errors import YAMLTypeError
-
 # dev:
     yaml_data = 'it   '
     mydata    = Lang(std_id = yaml_data)
@@ -204,7 +202,7 @@ if __name__ == '__main__':
         ]),
     )
     def test_illegal_yaml_data_type(yaml_data : object) -> None:
-        with pytest.raises(YAMLTypeError) as e:
+        with pytest.raises(TypeError) as e:
             Lang(std_id = yaml_data)
 
 # dev:

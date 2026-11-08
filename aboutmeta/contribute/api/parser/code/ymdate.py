@@ -67,27 +67,38 @@ def write(data: datetime.date) -> str:
 # ----------- #
 
 if __name__ == "__main__":
-# GOOD
-    print()
-    print("-- GOOD CASES --")
+    from hypothesis import (
+        given,
+        strategies as st
+    )
 
-    for yaml_data in [
-        "2025-06-27",
-    ]:
-        data_parsed = parse(yaml_data)
+# dev:
+    yaml_data   = "2025-06-27"
+    data_parsed = parse(yaml_data)
 
-        print()
-        print('~~~')
+    print('---')
+    print(f"{yaml_data          = }")
+    print(f"{data_parsed        = }")
+    print(f"{data_parsed.year   = }")
+    print(f"{data_parsed.month  = }")
+    print(f"{data_parsed.day    = }")
+    print(f"{write(data_parsed) = }")
+# :dev
 
-        print()
-        print(f"{yaml_data          = }")
-        print(f"{data_parsed        = }")
-        print(f"{write(data_parsed) = }")
+# -- Parser - Back to spec -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "2026-11-08",
+        ]),
+    )
+    def test_back_2_spec(yaml_data: str) -> None:
+        assert write(parse(yaml_data)) == yaml_data
 
-        print()
-        print(f"{data_parsed.year  = }")
-        print(f"{data_parsed.month = }")
-        print(f"{data_parsed.day   = }")
+    test_back_2_spec()
+
+    # exit()
+
+
 
 # BAD
     # exit()
@@ -96,7 +107,7 @@ if __name__ == "__main__":
     print("-- BAD CASES --")
 
     for yaml_data in [
-        "2.3",
+        None, "2.3",
         "2/3/2025",
         "2025-02-30",
     ]:

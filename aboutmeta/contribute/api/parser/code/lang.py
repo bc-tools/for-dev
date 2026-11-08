@@ -58,17 +58,28 @@ if __name__ == "__main__":
 # We just need some basic interface tests, because we have already
 # tested the ''Lang'' class.
 
-# GOOD
-    print()
-    print("-- GOOD CASES --")
+    from hypothesis import (
+        given,
+        strategies as st
+    )
 
+# dev:
     yaml_data   = "fr"
     data_parsed = parse(yaml_data)
 
-    print()
-    print('~~~')
-
-    print()
+    print('---')
     print(f"{yaml_data          = }")
     print(f"{data_parsed        = }")
     print(f"{write(data_parsed) = }")
+# :dev
+
+# -- Back to spec -- #
+    @given(
+        yaml_data = st.sampled_from([
+            "fr-BE",
+        ]),
+    )
+    def test_back_2_spec(yaml_data: str) -> None:
+        assert write(parse(yaml_data)) == yaml_data
+
+    test_back_2_spec()
