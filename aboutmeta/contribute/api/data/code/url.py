@@ -216,6 +216,8 @@ if __name__ == '__main__':
     def test_legal_URL(yaml_data):
         mydata = URL(url = yaml_data)
 
+        assert mydata.url == yaml_data
+
     test_legal_URL()
 
 # -- Normalized URL -- #

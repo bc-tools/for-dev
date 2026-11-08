@@ -594,24 +594,40 @@ if __name__ == '__main__':
 
 # -- Legal spec -- #
     @given(
-        yaml_data = st.sampled_from([
+        full_data = st.sampled_from([
             # Raw path.
-            'readme.md',
+            (
+                TAG_TOCPATH_RAW,
+                'readme.md'
+            ),
             # Glob patterns.
-            {'glob': '*/*.md'},
-            {'glob': r'*\[.md'},
+            (
+                TAG_TOCPATH_GLOB,
+                {'glob': '*/*.md'}
+            ),
+            (
+                TAG_TOCPATH_GLOB,
+                {'glob': r'*\[.md'}
+            ),
             # Regex patterns.
-            {'regex': r'.*\.md'},
+            (
+                TAG_TOCPATH_REGEX,
+                {'regex': r'.*\.md'}
+            ),
         ]),
     )
     def test_legal_spec(
-        yaml_data: str | dict[str, str]
+        full_data: tuple[str, str | dict[str, str]]
     ) -> None:
+        kind, yaml_data = full_data
+
         with temporary_project(mydirtree) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
                 parent = tempdir
             )
+
+        assert mydata.kind == kind
 
     test_legal_spec()
 

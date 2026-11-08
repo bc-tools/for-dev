@@ -1,6 +1,6 @@
 atoc:
   - template.md
   - ../../../../readme-dev-common/comments/imports.md
-  - tools-section.md
-  - ../../../../readme-dev-common/comments/tools-section-warning.md
-  - g: ../../../../../readme-dev-common/comments/tests-section/*.md
+  - tools.md
+  - ../../../../readme-dev-common/comments/tools/warning.md
+  - g: ../../../../../readme-dev-common/comments/tests/*.md
