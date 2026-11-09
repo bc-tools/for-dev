@@ -67,8 +67,8 @@ def parse(
 ~~~python
 class MokeAMData:
     @classmethod
-    def new_instance(cls, **kwargs):
-        return cls(**kwargs)
+    def new_instance(cls, *args, **kwargs):
+        return cls(*args, **kwargs)
 
     def __init__(
         self,
@@ -78,7 +78,7 @@ class MokeAMData:
         self.flavour = flavour
         self.parent  = parent
 
-# Only for post-processing features.
+# The following lines are only for post-processing features.
     def build(self):
         ...
 

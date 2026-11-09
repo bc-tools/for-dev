@@ -17,7 +17,7 @@ What type of data is returned?
 
   - Returning `None` naturally corresponds to post-processing that strictly interacts with the operating system (such as creating files).
 
-  - Returning a dictionary allows access to specific data via a tag, making it easy to return and retrieve multiple types of nuild data.
+  - Returning a dictionary allows access to specific data via a tag, making it easy to return and retrieve multiple types of build data.
 
 
 > ***NOTE.*** *For returned data, it is strongly recommended to use `Python` constants for tags, following the naming scheme `TAG_{SCHEMA} = '__{SCHEMA}__'` where `{SCHEMA}` is `POSTPROD_<MODULE_NAME>_<DATA_RETURNED>__`. These constants will be integrated automatically into the final product to enhance the user experience.*
@@ -39,7 +39,7 @@ TAG_POSTPROD_ABOUT_PATH_FILES = '__POSTPROD_ABOUT_PATH_FILES__'
 def postprod(
     amdata: object,
     data  : list[TOCPath]
-) -> list[Path]:
+) -> dict[str, list[Path]]:
     paths = []
 
 # Let's walk!

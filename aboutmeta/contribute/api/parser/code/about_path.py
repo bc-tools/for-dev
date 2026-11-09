@@ -206,9 +206,7 @@ def postprod(
             paths_found = natsorted(tpath.path_iter())
 
             if not paths_found:
-                spec = tpath.spec
-
-                for k, p in spec.items(): # Funny Python!
+                for k, p in tpath.spec.items(): # Funny Python!
                     ...
 
                 raise ValueError(
@@ -235,13 +233,36 @@ def postprod(
 # ----------- #
 
 if __name__ == "__main__":
+    from hypothesis import (
+        given,
+        strategies as st
+    )
+
+    import                 pytest
+    from pathlib    import Path
+    import                 tempfile
+    from contextlib import contextmanager
+    from yaml       import safe_load
+
+
+
+
+
+
+
+
+
+
+
+    exit()
+
     from pprint import pprint
 
 # Moke data
     class MokeAMData:
         @classmethod
-        def new_instance(cls, **kwargs):
-            return cls(**kwargs)
+        def new_instance(cls, *args, **kwargs):
+            return cls(*args, **kwargs)
 
         def __init__(
             self,

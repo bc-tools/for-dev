@@ -1,6 +1,6 @@
 ##### Notable code snippets
 
-Here is some code containing interesting test cases.
+Here is some code containing interesting tests.
 
   1. In `contribute/api/data/code/person.py`, the `test_weird_spacing` function demonstrates how to use pseudo-randomness (using the `random` module directly is incompatible with `hypothesis`).
 

@@ -1,4 +1,4 @@
 atoc:
-  - ../../../../readme-common/changes-folder.md
-  - ../../../../readme-common/status-folder.md
+  - ../../../../readme-common/folder/changes.md
+  - ../../../../readme-common/folder/status.md
   - code.md

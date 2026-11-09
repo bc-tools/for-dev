@@ -119,9 +119,9 @@ if __name__ == "__main__":
 # -- Parser - Back to spec -- #
     @given(
         yaml_data = st.sampled_from([
-            "1.2.3-beta.4+build.5",
-            "2.3.4-beta.1",
             "4.5.6",
+            "2.3.4-beta.1",
+            "1.2.3-beta.4+build.5",
         ]),
     )
     def test_back_2_spec(yaml_data: str) -> None:

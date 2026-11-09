@@ -50,4 +50,4 @@ if __name__ == "__main__":
 <!-- PARSER CODE TEMPLATE - MAGIC SECTIONS - END -->
 
 
-> ***NOTE.*** *Only the 'MAPPERS' and  'TOOLS' sections are optional.*
+> ***NOTE.*** *Only the 'POST-PROD' and  'TOOLS' sections are optional.*
