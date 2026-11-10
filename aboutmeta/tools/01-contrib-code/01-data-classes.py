@@ -5,7 +5,6 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-
 from cbutils.logconf    import *
 from cbutils.split_file import *
 from cbutils.coding_py  import *
@@ -17,8 +16,8 @@ from cbutils.pathplus   import *
 # -- CONSTANTS #1 -- #
 # ------------------ #
 
-CONTEXT  = 'parser'
-MSG_CTXT = f'{CONTEXT} utils contrib'
+CONTEXT  = 'data'
+MSG_CTXT = f'{CONTEXT} class contrib'
 
 
 THIS_DIR    = Path(__file__).parent
@@ -27,9 +26,9 @@ PROJECT_DIR = THIS_DIR
 while(PROJECT_DIR.name != 'aboutmeta'):
     PROJECT_DIR = PROJECT_DIR.parent
 
-SPECS_DIR        = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
-PARSER_SPECS_DIR = SPECS_DIR / CONTEXT
-CONTRIB_DIR      = PROJECT_DIR / 'contribute' / 'api' / CONTEXT
+SPECS_DIR      = PROJECT_DIR / 'src' / 'aboutmeta' / 'specs'
+DATA_SPECS_DIR = SPECS_DIR / CONTEXT
+CONTRIB_DIR    = PROJECT_DIR / 'contribute' / 'api' / CONTEXT
 
 
 # ------------------ #
@@ -37,14 +36,12 @@ CONTRIB_DIR      = PROJECT_DIR / 'contribute' / 'api' / CONTEXT
 # ------------------ #
 
 HEADERS_MANDATORY = set([
-    (SECTION_PARSER:= 'PARSER'),
-    (SECTION_WRITER:= 'WRITER'),
-    (SECTION_TESTS := 'TESTS'),
+    (SECTION_DATA := 'DATA'),
+    (SECTION_TESTS:= 'TESTS'),
 ])
 
 HEADERS_OPTIONAL = set([
-    (SECTION_MAPPERS:= 'POST-PROD'),
-    (SECTION_TOOLS  := 'TOOLS'),
+    (SECTION_TOOLS:= 'TOOLS'),
 ])
 
 HEADERS_IGNORED = set([
@@ -65,53 +62,18 @@ assert HEADERS_IGNORED <= (
 )
 
 
-# ------------------ #
-# -- CONSTANTS #3 -- #
-# ------------------ #
-
-FUNCS_MANDATORY = set([
-    (FUNC_NAME_PARSE:= 'parse'),
-    (FUNC_NAME_WRITE:= 'write'),
-])
-
-FUNCS_OPTIONAL = set([
-    # (FUNC_NAME_MAP_LIST:= 'map_list'),
-])
-
-assert FUNCS_MANDATORY & FUNCS_OPTIONAL == set(), \
-       f'{FUNCS_MANDATORY & FUNCS_OPTIONAL = }'
-
-
-LEGAL_SIGNS = {
-    FUNC_NAME_PARSE: [
-        set([
-            (VAR_NAME_DATA:= 'data')
-        ]),
-        set([
-            (VAR_NAME_AMDATA_CLS:= 'amdata'),
-            VAR_NAME_DATA
-        ])
-    ],
-    FUNC_NAME_WRITE: [
-        set([
-            VAR_NAME_DATA
-        ]),
-    ]
-}
-
-assert set(LEGAL_SIGNS) == (FUNCS_MANDATORY | FUNCS_OPTIONAL), \
-       f'not {set(LEGAL_SIGNS)} == {FUNCS_MANDATORY | FUNCS_OPTIONAL}'
-
-
 # ----------------- #
 # -- LET'S WORK! -- #
 # ----------------- #
 
-for _ in [
-    empty_dir,
-    add_missing_init,
+add_missing_dir(SPECS_DIR)
+empty_dir(DATA_SPECS_DIR)
+
+for p in [
+    SPECS_DIR,
+    DATA_SPECS_DIR,
 ]:
-    _(PARSER_SPECS_DIR)
+    add_missing_init(p)
 
 
 for folder, contribs in get_accepted_paths(
@@ -125,9 +87,8 @@ for folder, contribs in get_accepted_paths(
     for one_contrib in contribs:
 # New Python code.
         contrib_file = folder / one_contrib
-        path_src     = contrib_file.relative_to(PROJECT_DIR.parent)
 
-# Magic comments well used?
+# Magic coments welle used?
         hd_split_validate(
             mandatory = HEADERS_MANDATORY,
             optional  = HEADERS_OPTIONAL,
@@ -152,25 +113,15 @@ for folder, contribs in get_accepted_paths(
                 exception = ValueError,
             )
 
-# Good signatures?
-        validate_signatures(
-            mandatory  = FUNCS_MANDATORY,
-            optional   = FUNCS_OPTIONAL,
-            signatures = LEGAL_SIGNS,
-            code       = final_code,
-            path_src   = path_src,
-            context    = MSG_CTXT,
-        )
-
 # Add the original source used.
         final_code = add_pysrc_used(
             code     = final_code,
-            path_src = path_src,
+            path_src = contrib_file.relative_to(PROJECT_DIR.parent)
         )
 
 # We can create / update the source file.
         create_update_file(
-            file    = PARSER_SPECS_DIR / one_contrib,
+            file    = DATA_SPECS_DIR / one_contrib,
             content = final_code,
         )
 
@@ -184,7 +135,7 @@ for folder, contribs in get_accepted_paths(
 
             for xfile in xtra_files:
                 create_update_file(
-                    file      = PARSER_SPECS_DIR / xfile.name,
+                    file      = DATA_SPECS_DIR / xfile.name,
                     content   = xfile.read_text() + '\n',
                     log_level = TAG_WARNING
                 )

@@ -5,7 +5,6 @@ import              sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-
 from collections import defaultdict
 from yaml        import safe_load
 
