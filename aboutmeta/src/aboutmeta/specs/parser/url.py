@@ -35,10 +35,9 @@ from aboutmeta.specs.data.url import URL
 
 ###
 # prototype::
-#     data : one \url provided in the \yaml file, but stripped.
+#     data : \url provided in the \yaml file.
 #
-#     :return: an instance of the ''URL'' class representing the
-#              \url.
+#     :return: ''URL'' instance representing the \url.
 ###
 def parse(data: str) -> URL:
 # No parsing, and all job done by the class
@@ -52,9 +51,9 @@ def parse(data: str) -> URL:
 
 ###
 # prototype::
-#     data : a ''URL'' object.
+#     data : ''URL'' object.
 #
-#     :return: the \std \yaml version of the ''URL'' object.
+#     :return: \std \yaml version of the ''URL'' object.
 ###
 def write(data: URL) -> str:
     return data.url

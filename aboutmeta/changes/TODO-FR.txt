@@ -5,25 +5,6 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-test couverture test sur les conyrib si faisable mais non exigé cote contributeur
-
-
-> ---------------------------- <
-
-        try:
-            Licensing(spdx_id = yaml_data)
-
-        except Exception as e:
-            print(type(e).__name__, ':', e)
-
-            notes = getattr(e, "__notes__", [])
-
-            for i, n in enumerate(notes, start = 1):
-                print(f'[{i}]. {n}')
-
-
-> ---------------------------- <
-
 import re
 
 def strip_debug_blocks(source_code: str) -> str:
@@ -41,24 +22,6 @@ with open("test_unixname.py", "r", encoding="utf-8") as f:
 
 production_ready_code = strip_debug_blocks(original_code)
 
-+
-
-@pytest.mark.parametrize("test_input,expected", [("3+5", 8), ("2+4", 6), ("6*9", 42)])
-def test_eval(test_input, expected):
-    assert eval(test_input) == expected
-
-+
-
-To get all combinations of multiple parametrized arguments you can stack parametrize decorators:
-
-import pytest
-
-
-@pytest.mark.parametrize("x", [0, 1])
-@pytest.mark.parametrize("y", [2, 3])
-def test_foo(x, y):
-    pass
-
 
 > ---------------------------- <
 
@@ -74,14 +37,27 @@ unit tetst
 
      --> hypothesis
 
+     --> test couverture
+
+
+
+
+
+
+
 
 > ---------------------------- <
 
-smever
+postprod nouveauté
 
-   --> ajouter 1 = 1.0.0 et 2.1 = 2.1.0 car prarique !!!
-   --> normalize 1 -> 1.0.0
-   --> post prod un dict avec next minor major, ...
+    --> licensing : ajout auto du fichier
+
+    --> extra paramètre ensisageable mais ATTENDRE DE VOIR SI UTILE : on fourni les keypaths suivis des paarams que l'on fourni via *args, **kwargs
+
+    --> smever : prod un dict avec next minor major, ...
+        via {'next': {'minor': ..., 'major': ..., ...}}
+
+        le post prod d'une clée sur une autre respecte l'ridre de def dans les psecs!
 
 
 > ---------------------------- <
@@ -94,8 +70,6 @@ pour normalize, on interdit ce qui est potentiellmeent dangeraux
 > ---------------------------- <
 
 doc + API
-
-     --> usage de - pour block et flavour en mode str !!!
 
      --> géré lisnertion automatiqsé des bouts de code des specs de locs
      penser à gerer la nouveauté et dans ce cas la le dater !!!
@@ -211,31 +185,11 @@ if __name__ == "__main__":
 def de bloc avec des trucs en commun project / monorepo
 
     ---> commencer par définir proprement monorepo à partir de project et voir comment automatiser les cper-coller : un truc du genr boc magique
+
         __import__:
            from: project
            what:
               struct mimant celle de project avce juste ce qu el'on veur
-
-
-> ---------------------------- <
-
-def is_bigger_path(
-    prepaths = list[list[str]],
-    one_path = list[str]
-) -> bool:
-    if not prepaths:
-        return False
-
-    last_path = prepaths[-1]
-
-    if(
-        len(one_path) <= len(last_path)
-        and
-        one_path != last_path
-    ):
-        return False
-
-    return True
 
 
 > ---------------------------- <
@@ -299,39 +253,22 @@ suport possisble de type python comme int ou float, voir si utile ou non
 
 > ---------------------------- <
 
-postprod nouveauté
-
-    --> sem_ver renvoie next minor major version... via
-{'next': {'minor': ..., 'major': ..., ...}}
-
-    --> licensing : ajout auto du fichier
-
-    --> extra paramètre ensisageable mais ATTENDRE DE VOIR SI UTILE : on fourni les keypaths suivis des paarams que l'on fourni via *args, **kwargs
-
-
-> ---------------------------- <
-
 aout de update(keypath) pour mise ajour interactive ou CLI : par exemple on demande les nouveaux nums de vrsion possibles, et on met ensuite à jour
 
 
 > ---------------------------- <
 
-postprod nouveauté
+        try:
+            Licensing(spdx_id = yaml_data)
 
-    --> sem_ver renvoie next minor major version... via
-{'next': {'minor': ..., 'major': ..., ...}}
+        except Exception as e:
+            print(type(e).__name__, ':', e)
 
-    --> licensing : ajout auto du fichier
+            notes = getattr(e, "__notes__", [])
 
+            for i, n in enumerate(notes, start = 1):
+                print(f'[{i}]. {n}')
 
-+
-
-besoin d'indique le post prod d'une clée sur une autre
-
-project:
-  version: #! sort: current, next
-    current:
-    next:
 
 
 // ---------- //

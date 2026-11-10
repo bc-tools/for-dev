@@ -21,10 +21,9 @@ from aboutmeta.core.errors import ParsingError
 
 ###
 # prototype::
-#     data : the date provided in the \yaml file, but stripped.
+#     data : date provided in the \yaml file.
 #
-#     :return: an instance of the ''datetime.date'' class
-#              representing the date.
+#     :return: ''datetime.date'' instance representing the date.
 ###
 def parse(data: str) -> datetime.date:
     try:
@@ -57,10 +56,10 @@ def parse(data: str) -> datetime.date:
 
 ###
 # prototype::
-#     data : a ''datetime.date'' object.
+#     data : ''datetime.date'' object.
 #
-#     :return: the \std \yaml version of the ''datetime.date''
-#              object using the format ''"%Y-%m-%d"''.
+#     :return: ''"%Y-%m-%d"'' format value of the ''datetime.date''
+#              object.
 ###
 def write(data: datetime.date) -> str:
     return data.strftime('%Y-%m-%d')
