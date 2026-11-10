@@ -307,7 +307,7 @@ if __name__ == "__main__":
 # :dev
 
 # -- Back to spec -- #
-    file_dir  = Path(__file__).parent
+    file_dir = Path(__file__).parent
 
     @given(
         yaml_data = st.sampled_from([
@@ -331,42 +331,7 @@ if __name__ == "__main__":
 
     test_back_2_spec()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    exit()
-
-
-
-
 # -- Post prod -- #
-    @given(
-        yaml_data = st.sampled_from([
-            Path(__file__).name,
-            {'r-glob': "*.py"},
-            {'r-regex': r".*\.py"},
-        ]),
-    )
-    def test_back_2_spec(yaml_data: str) -> None:
-        moke_amdata = MokeAMData(
-            flavour = 'fake-flavour',
-            parent  = (
-                  projdir
-                  / 'contribute' / 'api' / 'parser' / 'readme'
-            ),
-        )
-
-
 
 
 
@@ -382,37 +347,6 @@ if __name__ == "__main__":
 
     exit()
 
-
-
-# GOOD
-
-    print()
-    print("-- GOOD CASES --")
-
-    for yaml_data in [
-        Path(__file__).name,
-        {'rg': "*.py"},
-        {'rr': r".*\.py"},
-    ]:
-        print()
-        print('~~~')
-
-        data_parsed = parse(
-            amdata = moke_amdata,
-            data   = yaml_data
-        )
-
-        print()
-        print(f"{yaml_data          = }")
-        print(f"{data_parsed        = }")
-        print(f"{write(data_parsed) = }")
-
-# POST PROD - GOOD
-
-    print()
-    print("-- POST PROD - GOOD CASES --")
-
-    print()
 
     tocpath_list = [
         parse(
