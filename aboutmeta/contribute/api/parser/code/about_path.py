@@ -177,7 +177,7 @@ def postprod(
 # A folder is treated by a dedicated AMData instance.
             if tpath.pattern[-1] == TAG_PATH_SEP:
                 sub_amdata = amdata.new_instance(
-                    flavour = 'atoc',
+                    flavour = 'fake-flavour',
                     parent  = full_path,
                 )
 
@@ -238,27 +238,23 @@ if __name__ == "__main__":
         strategies as st
     )
 
-    import                 pytest
-    from pathlib    import Path
-    import                 tempfile
-    from contextlib import contextmanager
-    from yaml       import safe_load
+    import              pytest
+    from pathlib import Path
 
+    from aboutmeta.core.temp_dirtree import *
 
+# -- Moke data -- #
+    mydirtree = """
+- readme.md
+- script-1.py
+- script-02.py
+- library:
+  - main.py
+  - core:
+    - readme.md
+    - tool.py
+    """
 
-
-
-
-
-
-
-
-
-    exit()
-
-    from pprint import pprint
-
-# Moke data
     class MokeAMData:
         @classmethod
         def new_instance(cls, *args, **kwargs):
@@ -273,7 +269,8 @@ if __name__ == "__main__":
             self.parent  = parent
 
         def build(self):
-            print('No mock build!')
+# Mock system does not provide build capabilities.
+            ...
 
         def postprod(
             self,
@@ -287,17 +284,106 @@ if __name__ == "__main__":
                 ]
             }
 
+# dev:
+    from pprint import pprint
 
-    projdir = filedir = Path(__file__).parent
+    yaml_data = Path(__file__).name
+    file_dir  = Path(__file__).parent
 
-    while projdir.name != 'aboutmeta':
-        projdir = projdir.parent
+    moke_amdata = MokeAMData(
+        flavour = 'fake-flavour',
+        parent  = file_dir,
+    )
+
+    data_parsed = parse(
+        amdata = moke_amdata,
+        data   = yaml_data
+    )
+
+    print("---")
+    print(f"{yaml_data          = }")
+    print(f"{data_parsed        = }")
+    print(f"{write(data_parsed) = }")
+# :dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    exit()
+
+
+
+
+# -- Post prod -- #
+    @given(
+        yaml_data = st.sampled_from([
+            Path(__file__).name,
+            {'r-glob': "*.py"},
+            {'r-regex': r".*\.py"},
+        ]),
+    )
+    def test_back_2_spec(yaml_data: str) -> None:
+        moke_amdata = MokeAMData(
+            flavour = 'fake-flavour',
+            parent  = (
+                  projdir
+                  / 'contribute' / 'api' / 'parser' / 'readme'
+            ),
+        )
+
+
+
+
+
+
+
+# -- Back to spec -- #
+    @given(
+        yaml_data = st.sampled_from([
+            Path(__file__).name,
+            {'r-glob': "*.py"},
+            {'r-regex': r".*\.py"},
+        ]),
+    )
+    def test_back_2_spec(yaml_data: str) -> None:
+        moke_amdata = MokeAMData(
+            flavour = 'fake-flavour',
+            parent  = filedir,
+        )
+
+        assert write(
+            parse(
+                amdata = moke_amdata,
+                data   = yaml_data
+            )
+        ) == yaml_data
+
+    test_back_2_spec()
+
+
+
+
+
+
+
+
+    exit()
+
+
 
 # GOOD
-    moke_amdata = MokeAMData(
-        flavour = 'atoc',
-        parent  = filedir,
-    )
 
     print()
     print("-- GOOD CASES --")
@@ -321,13 +407,6 @@ if __name__ == "__main__":
         print(f"{write(data_parsed) = }")
 
 # POST PROD - GOOD
-    moke_amdata = MokeAMData(
-        flavour = 'atoc',
-        parent  = (
-              projdir
-            / 'contribute' / 'api' / 'parser' / 'readme'
-        ),
-    )
 
     print()
     print("-- POST PROD - GOOD CASES --")

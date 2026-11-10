@@ -53,7 +53,7 @@ class Lang(DataManager):
         validate_type(
             data_name      = 'std_id',
             data           = self.std_id,
-            types_expected = str,
+            expected_types = str,
         )
 
 # Getting a normalized code.

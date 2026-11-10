@@ -37,7 +37,7 @@ class UnixName(DataManager):
         validate_type(
             data_name      = 'Unix name',
             data           = self.name,
-            types_expected = str,
+            expected_types = str,
         )
 
         if not PATTERN_UNIX_NAME.match(self.name):

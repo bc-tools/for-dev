@@ -111,13 +111,13 @@ class TOCPath(DataManager):
         validate_type(
             data_name      = 'spec',
             data           = self.spec,
-            types_expected = (str, dict),
+            expected_types = (str, dict),
         )
 
         validate_type(
             data_name      = 'parent',
             data           = self.parent,
-            types_expected = Path,
+            expected_types = Path,
         )
 
 # We can work.
@@ -499,14 +499,13 @@ if __name__ == '__main__':
         strategies as st
     )
 
-    import                 pytest
-    from pathlib    import Path
-    import                 tempfile
-    from contextlib import contextmanager
-    from yaml       import safe_load
+    import              pytest
+    from pathlib import Path
 
-# -- Common temp dir tree -- #
-    mydirtree = safe_load("""
+    from aboutmeta.core.temp_dirtree import *
+
+# -- Moke data -- #
+    mydirtree = """
 - readme.md
 - script-1.py
 - script-02.py
@@ -515,42 +514,7 @@ if __name__ == '__main__':
   - core:
     - readme.md
     - tool.py
-    """)
-
-    type DirTree = list[str | dict[str, DirTree]]
-
-    @contextmanager
-    def temporary_project(dirtree: DirTree) -> Path:
-        with tempfile.TemporaryDirectory() as tmpdir:
-            rootdir  = Path(tmpdir)
-            prepaths = []
-
-            def fullpath(name: str) -> Path:
-                full_path = rootdir
-
-                for ppath in prepaths:
-                    full_path /= ppath
-
-                full_path /= name
-
-                return full_path
-
-            def recu_build_dirtree(dirtree: DirTree) -> None:
-                for content in dirtree:
-                    if type(content) == str:
-                        fullpath(content).touch()
-
-                    else:
-                        for folder, subcontent in content.items():
-                            fullpath(folder).mkdir()
-
-                            prepaths.append(folder)
-                            recu_build_dirtree(subcontent)
-                            prepaths.pop(-1)
-
-            recu_build_dirtree(dirtree)
-
-            yield rootdir
+    """
 
 # dev:
     if INTERACTIVE_SESSION:
@@ -561,7 +525,7 @@ if __name__ == '__main__':
         print('---')
         print(f'{TAG_TOC_PATTERN_ABBREV = }')
 
-        with temporary_project(mydirtree) as tempdir:
+        with temp_dirtree(mydirtree) as tempdir:
             for yaml_data in [
                 # Raw path.
                 Path(__file__).name,
@@ -619,7 +583,7 @@ if __name__ == '__main__':
     ) -> None:
         kind, yaml_data = full_data
 
-        with temporary_project(mydirtree) as tempdir:
+        with temp_dirtree(mydirtree) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
                 parent = tempdir
@@ -647,7 +611,7 @@ if __name__ == '__main__':
     def test_tocpath_validation(
         yaml_data: str | dict[str, str]
     ) -> None:
-        with temporary_project(mydirtree) as tempdir:
+        with temp_dirtree(mydirtree) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
                 parent = tempdir
@@ -736,7 +700,7 @@ if __name__ == '__main__':
     ) -> None:
         yaml_data, paths = full_data
 
-        with temporary_project(mydirtree) as tempdir:
+        with temp_dirtree(mydirtree) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
                 parent = tempdir

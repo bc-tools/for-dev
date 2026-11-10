@@ -38,7 +38,7 @@ class URL(DataManager):
         validate_type(
             data_name      = 'URL',
             data           = self.url,
-            types_expected = str,
+            expected_types = str,
         )
 
 ###

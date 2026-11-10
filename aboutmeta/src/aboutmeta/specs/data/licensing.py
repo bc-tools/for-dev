@@ -70,7 +70,7 @@ class Licensing(DataManager):
         validate_type(
             data_name      = 'spdx_id',
             data           = self.spdx_id,
-            types_expected = str,
+            expected_types = str,
         )
 
 # Our local data.

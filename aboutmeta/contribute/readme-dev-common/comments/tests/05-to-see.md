@@ -4,4 +4,4 @@ Here is some code containing interesting tests.
 
   1. In `contribute/api/data/code/person.py`, the `test_weird_spacing` function demonstrates how to use pseudo-randomness (using the `random` module directly is incompatible with `hypothesis`).
 
-  1. In `contribute/api/data/code/toc_path.py`, the `test_legal_spec` function demonstrates how to work with a temporary folder (using a custom `temporary_project` context manager).
+  1. In `contribute/api/data/code/toc_path.py`, the `test_legal_spec` function demonstrates how to work with a temporary folder (using the `temp_dirtree` context manager from `aboutmeta.core.temp_folder` module).

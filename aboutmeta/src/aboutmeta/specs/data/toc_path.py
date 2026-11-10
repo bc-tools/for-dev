@@ -115,13 +115,13 @@ class TOCPath(DataManager):
         validate_type(
             data_name      = 'spec',
             data           = self.spec,
-            types_expected = (str, dict),
+            expected_types = (str, dict),
         )
 
         validate_type(
             data_name      = 'parent',
             data           = self.parent,
-            types_expected = Path,
+            expected_types = Path,
         )
 
 # We can work.

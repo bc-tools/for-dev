@@ -49,7 +49,7 @@ class Acronym(DataManager):
         validate_type(
             data_name      = 'spec',
             data           = self.spec,
-            types_expected = str,
+            expected_types = str,
         )
 
 # We only keep internal extra spaces.

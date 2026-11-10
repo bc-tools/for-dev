@@ -24,7 +24,7 @@ class Biometric(DataManager):
             validate_type(
                 data_name      = dn
                 data           = d,
-                types_expected = te,
+                expected_types = te,
             )
 
 # ----------- #
