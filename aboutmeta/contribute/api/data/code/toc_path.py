@@ -505,7 +505,7 @@ if __name__ == '__main__':
     from aboutmeta.core.temp_dirtree import *
 
 # -- Moke data -- #
-    mydirtree = """
+    mydirview = """
 - readme.md
 - script-1.py
 - script-02.py
@@ -525,7 +525,7 @@ if __name__ == '__main__':
         print('---')
         print(f'{TAG_TOC_PATTERN_ABBREV = }')
 
-        with temp_dirtree(mydirtree) as tempdir:
+        with temp_dirtree(mydirview) as tempdir:
             for yaml_data in [
                 # Raw path.
                 Path(__file__).name,
@@ -583,7 +583,7 @@ if __name__ == '__main__':
     ) -> None:
         kind, yaml_data = full_data
 
-        with temp_dirtree(mydirtree) as tempdir:
+        with temp_dirtree(mydirview) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
                 parent = tempdir
@@ -611,7 +611,7 @@ if __name__ == '__main__':
     def test_tocpath_validation(
         yaml_data: str | dict[str, str]
     ) -> None:
-        with temp_dirtree(mydirtree) as tempdir:
+        with temp_dirtree(mydirview) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
                 parent = tempdir
@@ -700,7 +700,7 @@ if __name__ == '__main__':
     ) -> None:
         yaml_data, paths = full_data
 
-        with temp_dirtree(mydirtree) as tempdir:
+        with temp_dirtree(mydirview) as tempdir:
             mydata = TOCPath(
                 spec   = yaml_data,
                 parent = tempdir

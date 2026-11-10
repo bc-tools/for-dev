@@ -244,7 +244,7 @@ if __name__ == "__main__":
     from aboutmeta.core.temp_dirtree import *
 
 # -- Moke data -- #
-    mydirtree = """
+    mydirview = """
 - readme.md
 - script-1.py
 - script-02.py
@@ -254,6 +254,12 @@ if __name__ == "__main__":
     - readme.md
     - tool.py
     """
+
+    fake_sub_postprod_files = [
+        'I.am',
+        'danse.le',
+        'Mi.a',
+    ]
 
     class MokeAMData:
         @classmethod
@@ -278,9 +284,8 @@ if __name__ == "__main__":
         ) -> object:
             return {
                 TAG_POSTPROD_ABOUT_PATH_FILES: [
-                    self.parent / 'I.am',
-                    self.parent / 'danse.le',
-                    self.parent / 'Mi.a',
+                    self.parent / p
+                    for p in fake_sub_postprod_files
                 ]
             }
 
@@ -288,11 +293,10 @@ if __name__ == "__main__":
     from pprint import pprint
 
     yaml_data = Path(__file__).name
-    file_dir  = Path(__file__).parent
 
     moke_amdata = MokeAMData(
         flavour = 'fake-flavour',
-        parent  = file_dir,
+        parent  = Path('fake-dir'),
     )
 
     data_parsed = parse(
@@ -307,8 +311,6 @@ if __name__ == "__main__":
 # :dev
 
 # -- Back to spec -- #
-    file_dir = Path(__file__).parent
-
     @given(
         yaml_data = st.sampled_from([
             Path(__file__).name,
@@ -319,7 +321,7 @@ if __name__ == "__main__":
     def test_back_2_spec(yaml_data: str) -> None:
         moke_amdata = MokeAMData(
             flavour = 'fake-flavour',
-            parent  = file_dir,
+            parent  = Path('fake-dir'),
         )
 
         assert write(
@@ -332,6 +334,43 @@ if __name__ == "__main__":
     test_back_2_spec()
 
 # -- Post prod -- #
+    @given(
+        full_data = st.sampled_from([
+            (
+                ['readme.md'],
+                ['readme.md'],
+            ),
+        ]),
+    )
+    def test_post_prod(full_data: str) -> None:
+        yaml_data, paths_wanted = full_data
+
+        with temp_dirtree(mydirview) as tempdir:
+            moke_amdata = MokeAMData(
+                flavour = 'fake-flavour',
+                parent  = tempdir,
+            )
+
+            tocpath_list = [
+                parse(
+                    amdata = moke_amdata,
+                    data   = y
+                )
+                for y in yaml_data
+            ]
+
+            paths_found = [
+                str(p.relative_to(tempdir))
+                for _, paths in postprod(
+                    amdata = moke_amdata,
+                    data   = tocpath_list,
+                ).items()  # Funny Python!
+                for p in paths
+            ]
+
+        assert paths_found == paths_wanted
+
+    test_post_prod()
 
 
 
@@ -360,16 +399,6 @@ if __name__ == "__main__":
             {'rr': r'how-to/[^/]+\.md'},
             'structure/',
         ]
-    ]
-
-    paths_found = [
-        str(p.relative_to(projdir))
-        for _, paths in postprod(
-            amdata = moke_amdata,
-            data   = tocpath_list,
-        ).items()  # Funny Python!
-
-        for p in paths
     ]
 
     print('Spec list')
