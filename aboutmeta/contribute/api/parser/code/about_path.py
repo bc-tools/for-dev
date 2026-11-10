@@ -246,7 +246,7 @@ if __name__ == "__main__":
 # -- Moke data -- #
     mydirview = """
 - readme.md
-- script-1.py
+- script-10.py
 - script-02.py
 - library:
   - main.py
@@ -340,6 +340,41 @@ if __name__ == "__main__":
                 ['readme.md'],
                 ['readme.md'],
             ),
+            (
+                [
+                    {'rg': '*.py'},
+                ],
+                [
+                    'library/core/tool.py',
+                    'library/main.py',
+                    'script-02.py',
+                    'script-10.py',
+                ],
+            ),
+            (
+                [
+                    {'g': '*.py'},
+                    {'g': '*/*.py'},
+                ],
+                [
+                    'script-02.py',
+                    'script-10.py',
+                    'library/main.py',
+                ],
+            ),
+            (
+                [
+                    {'g': '*.py'},
+                    'structure/',
+                ],
+                [
+                    'script-02.py',
+                    'script-10.py',
+                ] + [
+                    f'structure/{n}'
+                    for n in fake_sub_postprod_files
+                ],
+            ),
         ]),
     )
     def test_post_prod(full_data: str) -> None:
@@ -371,44 +406,3 @@ if __name__ == "__main__":
         assert paths_found == paths_wanted
 
     test_post_prod()
-
-
-
-
-
-
-
-
-
-
-
-
-
-    exit()
-
-
-    tocpath_list = [
-        parse(
-            amdata = moke_amdata,
-            data   = y
-        )
-        for y in [
-            'title.md',
-# Here, 'g' is ok but not 'r'.
-            {'g': 'how-to/*.md'},
-            {'rr': r'how-to/[^/]+\.md'},
-            'structure/',
-        ]
-    ]
-
-    print('Spec list')
-    print()
-    pprint([
-        tp.spec
-        for tp in tocpath_list
-    ])
-
-    print()
-    print('Relative path list')
-    print()
-    pprint(paths_found)

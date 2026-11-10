@@ -63,7 +63,8 @@ def temp_dirtree(dirview: str) -> Path:
 
         recu_build_dirtree(dirtree)
 
-        yield rootdir
+# We must resolve the path!!!!
+        yield rootdir.resolve()
 
 
 # ----------- #
