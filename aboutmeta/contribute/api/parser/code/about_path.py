@@ -306,7 +306,30 @@ if __name__ == "__main__":
     print(f"{write(data_parsed) = }")
 # :dev
 
+# -- Back to spec -- #
+    file_dir  = Path(__file__).parent
 
+    @given(
+        yaml_data = st.sampled_from([
+            Path(__file__).name,
+            {'r-glob': "*.py"},
+            {'r-regex': r".*\.py"},
+        ]),
+    )
+    def test_back_2_spec(yaml_data: str) -> None:
+        moke_amdata = MokeAMData(
+            flavour = 'fake-flavour',
+            parent  = file_dir,
+        )
+
+        assert write(
+            parse(
+                amdata = moke_amdata,
+                data   = yaml_data
+            )
+        ) == yaml_data
+
+    test_back_2_spec()
 
 
 
@@ -349,28 +372,6 @@ if __name__ == "__main__":
 
 
 
-# -- Back to spec -- #
-    @given(
-        yaml_data = st.sampled_from([
-            Path(__file__).name,
-            {'r-glob': "*.py"},
-            {'r-regex': r".*\.py"},
-        ]),
-    )
-    def test_back_2_spec(yaml_data: str) -> None:
-        moke_amdata = MokeAMData(
-            flavour = 'fake-flavour',
-            parent  = filedir,
-        )
-
-        assert write(
-            parse(
-                amdata = moke_amdata,
-                data   = yaml_data
-            )
-        ) == yaml_data
-
-    test_back_2_spec()
 
 
 
