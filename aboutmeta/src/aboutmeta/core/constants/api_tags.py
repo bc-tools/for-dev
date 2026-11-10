@@ -42,6 +42,8 @@ TAG_URLS = "urls"
 
 TAG_VERSION = "version"
 
+_TAG_TOC = "toc"
+
 
 # ------------------- #
 # -- POSTPROD TAGS -- #

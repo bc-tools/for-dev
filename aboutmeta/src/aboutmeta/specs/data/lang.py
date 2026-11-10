@@ -9,7 +9,6 @@ from langcodes import (
     LanguageTagError
 )
 
-
 from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
@@ -21,20 +20,24 @@ from aboutmeta.core.validate     import validate_type
 # -- DATA -- #
 # ---------- #
 
+_TAG_EN        = 'en'
+_TAG_LANGUAGE  = 'language'
+_TAG_TERRITORY = 'territory'
+
+
 ###
-# prototype::
-#     std_id    : the \std \lang identifier like ''"en-GB"''.
-#     name      : the full \lang name like ''"English"''.
-#     territory : the territory of the \lang like ''"Great
-#                 Britain"''.
+# prototype:
+#     std_id    : \std \lang identifier like ''"en-GB"''.
+#     name      : full \lang name like ''"English"''.
+#     territory : \lang territory like ''"Great Britain"''.
 #
 #
-# note::
+# note:
 #     The ''name'' and ''territory'' \attrs are build from the
 #     \val of the ''std_id'' \attr.
 #
 #
-# warning::
+# warning:
 #     Short identifiers are automatically expanded to full ones
 #     regardless of letter casing: ''"fr"'' and ''"FR-fr"'' are
 #     saved as ''"fr-FR"''.
@@ -47,7 +50,7 @@ class Lang(DataManager):
     territory: str = field(init = False)
 
 ###
-# prototype::
+# prototype:
 #     :action: mandatory validations of ''self.std_id'' type, and
 #              derivation of the ''name'' and ''territory'' \attrs
 #              from ''self.std_id'' and expand the identifier to
@@ -62,7 +65,7 @@ class Lang(DataManager):
 
 # Getting a normalized code.
         try:
-            lang = get_langcode(self.std_id).maximize()
+            lang = get_langcode(self.std_id.strip()).maximize()
 
         except LanguageTagError as e:
             msg = str(e)
@@ -71,15 +74,15 @@ class Lang(DataManager):
             raise ParsingError(msg)
 
 # Small description of the language code.
-        desc = lang.describe('en')
+        desc = lang.describe(_TAG_EN)
 
 # Patch for the strange "Unknow language".
-        if desc['language'].startswith('Unknown language'):
+        if desc[_TAG_LANGUAGE].startswith('Unknown language'):
             raise ValueError(
-                f"unknown language code '{self.std_id}'"
+                f'unknown language code {self.std_id!r}'
             )
 
 # The job has been done.
-        self.std_id    = f"{lang.language}-{lang.territory}"
-        self.name      = desc["language"]
-        self.territory = desc["territory"]
+        self.std_id    = f'{lang.language}-{lang.territory}'
+        self.name      = desc[_TAG_LANGUAGE]
+        self.territory = desc[_TAG_TERRITORY]

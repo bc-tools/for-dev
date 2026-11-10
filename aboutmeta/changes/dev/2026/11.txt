@@ -23,10 +23,9 @@ caution::
 [[:doc:]]      ?????
 Here is the new workflow.
 
-    *  ????
-    The technical \docs are typed using the \tns syntax from now on, and are then automatically converted into \readme.
+    * The technical \docs are typed using the \tns syntax from now on, and are then automatically converted into \readme.
 
-    *  ????
+    * ????
     The main \readme file only provides a short overview of the \proj, focusing its examples on digital project management.
 
 

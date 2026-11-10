@@ -13,7 +13,6 @@ from urllib.parse import (
     urlunparse,
 )
 
-
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
 from aboutmeta.core.validate     import validate_type
@@ -41,9 +40,11 @@ class URL(DataManager):
             expected_types = str,
         )
 
+        self.url = self.url.strip()
+
 ###
 # prototype::
-#     :action: a standard ''URL'' object is built.
+#     :action: a standard \url value is built.
 #
 #
 # Here are the normalizations done.
@@ -60,13 +61,13 @@ class URL(DataManager):
         parsed_url = urlparse(self.url)
 
         self.url = urlunparse((
-            parsed_url.scheme,                   # http, https
-            parsed_url.netloc.lower(),           # Domain
-            # parsed_url.path,                   # No HTML encoding!
-            urlquote(parsed_url.path, safe="/"), # HTML encoding
-            parsed_url.params,                   # Keep params.
-            parsed_url.query,                    # Keep query string.
-            parsed_url.fragment                  # Keep fragment (#...).
+            parsed_url.scheme,                     # http, https
+            parsed_url.netloc.lower(),             # Domain
+            # parsed_url.path,                     # No HTML encoding!
+            urlquote(parsed_url.path, safe = '/'), # HTML encoding
+            parsed_url.params,                     # Keep params.
+            parsed_url.query,                      # Keep query string.
+            parsed_url.fragment                    # Keep fragment (#...).
         ))
 
 ###
@@ -81,10 +82,10 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: \dns check of the hostname.
+#     :action: hostname \dns check.
 ###
     def _validate_DNS(self) -> None:
-        self.data_pb.what("DNS status")
+        self.data_pb.what('DNS status')
 
         url = self.url
 
@@ -96,7 +97,7 @@ class URL(DataManager):
             if hostname is None:
                 self.data_pb.new_error(
                     data      = url,
-                    error_msg = "No hostname scheme supplied.",
+                    error_msg = 'No hostname scheme supplied.',
                 )
 
             else:
@@ -116,10 +117,10 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: \http \url availability check.
+#     :action: \url \http availability check.
 ###
     def _validate_HTTP(self) -> None:
-        self.data_pb.what("HTTP status")
+        self.data_pb.what('HTTP status')
 
         url = self.url
 
@@ -128,7 +129,7 @@ class URL(DataManager):
 
             response = httpx.head(
                 url,
-                timeout         = 3,
+                timeout          = 3,
                 follow_redirects = True
             )
 
@@ -140,7 +141,7 @@ class URL(DataManager):
             else:
                 self.data_pb.new_error(
                     data      = url,
-                    error_msg = f"HTTPX status code = {response.status_code}.",
+                    error_msg = f'HTTPX status code = {response.status_code}.',
                 )
 
         except Exception as e:

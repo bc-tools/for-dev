@@ -4,16 +4,15 @@
 # 'aboutmeta/contribute/api/data/code/licensing.py'
 
 
-from json import load as json_load
-
 from pathlib import Path
 import              re
+
+from json import load as json_load
 
 from rapidfuzz import (
     process as fuzz_process,
     fuzz
 )
-
 
 from dataclasses import field
 
@@ -26,22 +25,30 @@ from aboutmeta.core.validate     import validate_type
 # -- DATA -- #
 # ---------- #
 
-LICENSES_JSON_FILE = (
-    Path(__file__).parent / f"{Path(__file__).stem}-spdx.json"
+LICENSING_JSON_FILE = (
+    Path(__file__).parent / f'{Path(__file__).stem}-spdx.json'
 )
 
 
-_PATTERN_NORMALIZED_LICENSE_CODE = re.compile(r"[\s_\-\.]+")
+_PATTERN_REMOVE_SPACES = re.compile(r'[\s_]+')
+
+_SPECIAL_SEPS                = '.-'
+_PATTERN_REMOVE_SPECIAL_SEPS = re.compile(r'[\.-]+')
+
+
+_TAG_DEPRECATED = 'deprecated'
+_TAG_STD        = 'std'
+_TAG_NAME       = 'name'
+_TAG_REF        = 'ref'
 
 
 ###
 # prototype::
 #     spdx_id : short \spdx identifier, such as ''"GPL-3.0-only"'',
 #               but flexible writings allowed like ''"gpl 3.0 only"'.
-#     name    : the full license name like ''"GNU General Public
-#               License v3.0 only"''.
-#     url     : the \url linking to the \spdx online description of
-#               the license.
+#     name    : full license name like ''"GNU General Public License
+#               v3.0 only"''.
+#     url     : \url linking to the \spdx online license description.
 #
 #
 # note::
@@ -74,7 +81,7 @@ class Licensing(DataManager):
         )
 
 # Our local data.
-        with LICENSES_JSON_FILE.open(mode = "r") as f:
+        with LICENSING_JSON_FILE.open(mode = 'r') as f:
             all_licenses = json_load(f)
 
 # We need a normal form.
@@ -86,14 +93,14 @@ class Licensing(DataManager):
 
             if suggestions:
                 plurial = '' if len(suggestions) == 1 else 'es'
-                extra   = f"Possible match{plurial} found.\n"
-                extra  += '\n'.join(f"  * {s}" for s in suggestions)
+                extra   = f'Possible match{plurial} found.\n'
+                extra  += '\n'.join(f'  * {s}' for s in suggestions)
 
             else:
-                extra = "No match found."
+                extra = 'No match found.'
 
-            e = ParsingError(
-                f"unknown license code ''{self.spdx_id}''."
+            e = ValueError(
+                f'unknown license code {self.spdx_id!r}.'
             )
 
             e.add_note(extra)
@@ -101,26 +108,26 @@ class Licensing(DataManager):
             raise e
 
 # Deprecated?
-        if all_licenses[normal_ID]["deprecated"]:
+        if all_licenses[normal_ID][_TAG_DEPRECATED]:
             raise ValueError(
-                 "deprecated license code "
-                f"''{all_licenses[normal_ID]['std']}''."
+                 'deprecated license code '
+                f'{all_licenses[normal_ID]['std']!r}.'
             )
 
 # Living license found.
         spdx_infos = all_licenses[normal_ID]
 
 # The job has been done.
-        self.spdx_id = spdx_infos["std"]
-        self.name    = spdx_infos["name"]
-        self.url     = spdx_infos["ref"]
+        self.spdx_id = spdx_infos[_TAG_STD]
+        self.name    = spdx_infos[_TAG_NAME]
+        self.url     = spdx_infos[_TAG_REF]
 
 
 ###
 # prototype::
-#     code : a \lic code.
+#     code : \lic code.
 #
-#     :return: a normalized code for the data process.
+#     :return: normalized code for data process.
 #
 #
 # note::
@@ -128,15 +135,35 @@ class Licensing(DataManager):
 #     that normalization does not create any duplicates.
 ###
 def _normalize_lic_code(code: str) -> str:
-    code = _PATTERN_NORMALIZED_LICENSE_CODE.sub("", code.lower())
+    _code = code.strip()
 
-    return code
+    if not _code:
+        raise ValueError(f'empty license code {code!r}.')
+
+    _code = _PATTERN_REMOVE_SPACES.sub('', _code.lower())
+
+    for s in _SPECIAL_SEPS:
+        if s*2 in _code:
+            raise ValueError(
+                f'illegal license code {code!r} contains {s*2!r} '
+                 '(after removing spaces)'
+            )
+
+        if _code[-1] == s:
+            raise ValueError(
+                f'illegal license code {code!r} ends with {s!r} '
+                 '(after removing spaces)'
+            )
+
+    _code = _PATTERN_REMOVE_SPECIAL_SEPS.sub('', _code)
+
+    return _code
 
 
 ###
 # prototype::
-#     normal_ID       : an invalid normalized \lic code.
-#     max_suggestions : the maximum \nb of suggestions proposed.
+#     normal_ID       : invalid normalized \lic code.
+#     max_suggestions : maximum \nb of suggestions proposed.
 #
 #     :return: possible matches for a valid \spdx \lic code.
 ###
@@ -145,7 +172,7 @@ def _license_matches(
     max_suggestions: int = 15
 ) -> list[str]:
 # Our local data.
-    with LICENSES_JSON_FILE.open(mode = "r") as f:
+    with LICENSING_JSON_FILE.open(mode = 'r') as f:
         all_licenses = json_load(f)
 
     all_norm_IDs = list(all_licenses.keys())

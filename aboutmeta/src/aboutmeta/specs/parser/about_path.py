@@ -5,7 +5,7 @@
 
 
 ###
-# This parser processes lists of python::''TOCPath''-like data.
+# This parser processes lists of python::''TOCPath''-like \specs.
 # Paths can be defined relative to a parent folder using a raw
 # path, a glob pattern, or a regex pattern, with optional support
 # for recursive searches. Here is how each option works.
@@ -19,7 +19,7 @@
 #        For example, ''how-to/*.md'' matches all \md files
 #        directly inside the path::''how-to'' subfolder.
 #
-#     1) **\R patterns** are indicated using ''regex: ...''
+#     1) **\Regex patterns** are indicated using ''regex: ...''
 #        (or ''r-regex: ...'' for a recursive search).
 #        Note that ''glob: how-to/*.md'' is equivalent to
 #        ''r-regex: how-to/[^/]+\.md'', but not to
@@ -93,7 +93,7 @@ from aboutmeta.core.constants.internal_tags import TAG_PATH_SEP
 from aboutmeta.specs.data.toc_path import (
     Path,
     TOCPath,
-    TPTAG_TOCPATH_RAW,
+    TAG_RAW,
 )
 
 
@@ -103,13 +103,13 @@ from aboutmeta.specs.data.toc_path import (
 
 ###
 # prototype::
-#     amdata : an instance of ''AMData'' needed to know the folder
+#     amdata : ''AMData'' instance needed to know the folder
 #              of the path::''about.yaml'' file.
-#     data   : the specification of a path or a search pattern
-#              for paths.
+#     data   : path \spec or path search pattern provided in
+#              the \yaml file.
 #
-#     :return: an instance of the class ''TOCPath'' representing
-#              the "extended" path.
+#     :return: ''TOCPath'' instance representing the "extended"
+#              path.
 ###
 def parse(
     amdata: object,
@@ -129,11 +129,11 @@ def parse(
 
 ###
 # prototype::
-#     data : a ''License'' object.
+#     data : ''TOCPath'' object.
 #
 #     :return: either a string raw path, or a single-key \dict
-#              giving the kind of pattern as a key, and the
-#              pattern itself as the \val.
+#              giving the pattern kind as a key, and the pattern
+#              itself as the \val.
 ###
 def write(data: TOCPath) -> str | dict[str, str]:
     return data.spec
@@ -145,13 +145,15 @@ def write(data: TOCPath) -> str | dict[str, str]:
 
 TAG_POSTPROD_ABOUT_PATH_FILES = '__POSTPROD_ABOUT_PATH_FILES__'
 
+_TAG_TOC = 'toc'
+
 
 ###
 # prototype::
 #     amdata : :see: parse
-#     data   : a list of ''TOCPath'' object.
+#     data   : list of ''TOCPath'' objects.
 #
-#     :return: a single-key \dict with the key
+#     :return: \dict with single key
 #              ''TAG_POSTPROD_ABOUT_PATH_FILES'' and \val the
 #              list of raw and winning pattern absolute paths,
 #              validating their existence.
@@ -162,8 +164,9 @@ TAG_POSTPROD_ABOUT_PATH_FILES = '__POSTPROD_ABOUT_PATH_FILES__'
 #
 #
 # important::
-#     Each group of winning pattern paths found using a pattern
-#     are sorted by the \func ''natsort.natsorted''.
+#     Each group of winning pattern paths is sorted via
+#     ''natsort.natsorted'' \func (e.g., path::''script-02.py''
+#     precedes path::''script-1.py'').
 ###
 def postprod(
     amdata: object,
@@ -174,13 +177,13 @@ def postprod(
 # Let's walk!
     for tpath in data:
 # Raw path.
-        if tpath.kind == TPTAG_TOCPATH_RAW:
+        if tpath.kind == TAG_RAW:
             full_path = tpath.parent / tpath.pattern
 
 # A folder is treated by a dedicated AMData instance.
             if tpath.pattern[-1] == TAG_PATH_SEP:
                 sub_amdata = amdata.new_instance(
-                    flavour = 'atoc',
+                    flavour = _TAG_TOC,
                     parent  = full_path,
                 )
 
@@ -209,9 +212,7 @@ def postprod(
             paths_found = natsorted(tpath.path_iter())
 
             if not paths_found:
-                spec = tpath.spec
-
-                for k, p in spec.items(): # Funny Python!
+                for k, p in tpath.spec.items(): # Funny Python!
                     ...
 
                 raise ValueError(

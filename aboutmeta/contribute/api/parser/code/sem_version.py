@@ -21,10 +21,10 @@ from aboutmeta.core.errors import ParsingError
 
 ###
 # prototype::
-#     data : the \nbver provided in the \yaml file, but stripped.
+#     data : \nbver provided in the \yaml file.
 #
-#     :return: an instance of the ''semver.Version'' class
-#              representing the \nbver.
+#     :return: ''semver.Version'' instance representing the
+#              \nbver.
 ###
 def parse(data: str) -> Version:
     try:
@@ -42,9 +42,9 @@ def parse(data: str) -> Version:
 
 ###
 # prototype::
-#     data : a ''semver.Version'' object.
+#     data : ''semver.Version'' object.
 #
-#     :return: the \std \yaml version of the ''semver.Version''
+#     :return: \std \yaml version of the ''semver.Version''
 #              object.
 ###
 def write(data: Version) -> str:

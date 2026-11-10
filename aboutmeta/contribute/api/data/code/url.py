@@ -9,7 +9,6 @@ from urllib.parse import (
     urlunparse,
 )
 
-
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
 from aboutmeta.core.validate     import validate_type
@@ -41,7 +40,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: a standard ''URL'' object is built.
+#     :action: a standard \url value is built.
 #
 #
 # Here are the normalizations done.
@@ -79,7 +78,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: \dns check of the hostname.
+#     :action: hostname \dns check.
 ###
     def _validate_DNS(self) -> None:
         self.data_pb.what('DNS status')
@@ -114,7 +113,7 @@ class URL(DataManager):
 
 ###
 # prototype::
-#     :action: \http \url availability check.
+#     :action: \url \http availability check.
 ###
     def _validate_HTTP(self) -> None:
         self.data_pb.what('HTTP status')

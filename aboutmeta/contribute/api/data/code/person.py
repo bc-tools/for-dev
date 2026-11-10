@@ -4,7 +4,6 @@ import httpx
 
 from email_validator import validate_email
 
-
 from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
@@ -26,29 +25,31 @@ from aboutmeta.core.validate import validate_type
 # -- DATA -- #
 # ---------- #
 
-TAG_AFFILIATION_OPEN, TAG_AFFILIATION_CLOSE = '()'
-TAG_EMAIL_OPEN      , TAG_EMAIL_CLOSE       = '[]'
-TAG_PARTICLE_OPEN   , TAG_PARTICLE_CLOSE    = '{}'
+TAG_AFFI_OPEN    , TAG_AFFI_CLOSE     = '()'
+TAG_EMAIL_OPEN   , TAG_EMAIL_CLOSE    = '[]'
+TAG_PARTICLE_OPEN, TAG_PARTICLE_CLOSE = '{}'
 
 DELIMS_EMAIL       = TAG_EMAIL_OPEN + TAG_EMAIL_CLOSE
-DELIMS_AFFILIATION = TAG_AFFILIATION_OPEN + TAG_AFFILIATION_CLOSE
-DELIMS_PERSON      = ['',DELIMS_EMAIL, DELIMS_AFFILIATION]
+DELIMS_AFFILIATION = TAG_AFFI_OPEN + TAG_AFFI_CLOSE
+ALL_DELIMS         = [
+    '',
+    DELIMS_EMAIL,
+    DELIMS_AFFILIATION
+]
 
 DELIMS_PARTICLE = TAG_PARTICLE_OPEN + TAG_PARTICLE_CLOSE
 
 
 ###
 # prototype::
-#     spec        : the specification of a person.
-#     surname     : the surname without a particle is mandatory.
-#     particle    : the particle of a surname, or ''""'' if no
-#                   particle is needed.
-#     firstnames  : the list of first names (that can be an empty
-#                   list).
-#     email       : the email adress, or ''""'' if no email
+#     spec        : person \spec.
+#     surname     : surname without a particle is mandatory.
+#     particle    : surname particle, or ''""'' if no particle is
+#                   needed.
+#     firstnames  : first name list (that can be an empty list).
+#     email       : email adress, or ''""'' if no email provided.
+#     affiliation : affiliation adress, or ''""'' if no affiliation
 #                   provided.
-#     affiliation : the affiliation adress, or ''""'' if no
-#                   affiliation provided.
 #
 #
 # note::
@@ -145,7 +146,7 @@ class Person(DataManager):
                     self.affiliation
                 ),
             ],
-            delims = DELIMS_PERSON,
+            delims = ALL_DELIMS,
         )
 
 ###
@@ -209,7 +210,7 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     name : a name to be normalized.
+#     name : name to be normalized.
 #
 #     :return: name in "titlecase" without unnecessary spaces.
 ###

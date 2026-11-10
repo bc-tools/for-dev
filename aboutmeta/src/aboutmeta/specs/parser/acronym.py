@@ -30,8 +30,7 @@ from aboutmeta.specs.data.acronym import Acronym
 
 ###
 # prototype::
-#     data : the acronym provided in the \yaml file, but
-#            stripped.
+#     data : acronym \spec provided in the \yaml file.
 #
 #     :return: an instance of the class ''Acronym'' representing
 #              the acronym.

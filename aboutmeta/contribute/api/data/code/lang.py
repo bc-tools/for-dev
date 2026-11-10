@@ -5,7 +5,6 @@ from langcodes import (
     LanguageTagError
 )
 
-
 from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
@@ -17,12 +16,16 @@ from aboutmeta.core.validate     import validate_type
 # -- DATA -- #
 # ---------- #
 
+_TAG_EN        = 'en'
+_TAG_LANGUAGE  = 'language'
+_TAG_TERRITORY = 'territory'
+
+
 ###
 # prototype:
-#     std_id    : the \std \lang identifier like ''"en-GB"''.
-#     name      : the full \lang name like ''"English"''.
-#     territory : the territory of the \lang like ''"Great
-#                 Britain"''.
+#     std_id    : \std \lang identifier like ''"en-GB"''.
+#     name      : full \lang name like ''"English"''.
+#     territory : \lang territory like ''"Great Britain"''.
 #
 #
 # note:
@@ -67,18 +70,18 @@ class Lang(DataManager):
             raise ParsingError(msg)
 
 # Small description of the language code.
-        desc = lang.describe('en')
+        desc = lang.describe(_TAG_EN)
 
 # Patch for the strange "Unknow language".
-        if desc['language'].startswith('Unknown language'):
+        if desc[_TAG_LANGUAGE].startswith('Unknown language'):
             raise ValueError(
                 f'unknown language code {self.std_id!r}'
             )
 
 # The job has been done.
         self.std_id    = f'{lang.language}-{lang.territory}'
-        self.name      = desc['language']
-        self.territory = desc['territory']
+        self.name      = desc[_TAG_LANGUAGE]
+        self.territory = desc[_TAG_TERRITORY]
 
 
 # ----------- #

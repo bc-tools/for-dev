@@ -8,7 +8,6 @@ import httpx
 
 from email_validator import validate_email
 
-
 from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
@@ -30,29 +29,31 @@ from aboutmeta.core.validate import validate_type
 # -- DATA -- #
 # ---------- #
 
-TAG_AFFILIATION_OPEN, TAG_AFFILIATION_CLOSE = '()'
-TAG_EMAIL_OPEN      , TAG_EMAIL_CLOSE       = '[]'
-TAG_PARTICLE_OPEN   , TAG_PARTICLE_CLOSE    = '{}'
+TAG_AFFI_OPEN    , TAG_AFFI_CLOSE     = '()'
+TAG_EMAIL_OPEN   , TAG_EMAIL_CLOSE    = '[]'
+TAG_PARTICLE_OPEN, TAG_PARTICLE_CLOSE = '{}'
 
 DELIMS_EMAIL       = TAG_EMAIL_OPEN + TAG_EMAIL_CLOSE
-DELIMS_AFFILIATION = TAG_AFFILIATION_OPEN + TAG_AFFILIATION_CLOSE
-DELIMS_PERSON      = ['',DELIMS_EMAIL, DELIMS_AFFILIATION]
+DELIMS_AFFILIATION = TAG_AFFI_OPEN + TAG_AFFI_CLOSE
+ALL_DELIMS         = [
+    '',
+    DELIMS_EMAIL,
+    DELIMS_AFFILIATION
+]
 
 DELIMS_PARTICLE = TAG_PARTICLE_OPEN + TAG_PARTICLE_CLOSE
 
 
 ###
 # prototype::
-#     spec        : the specification of a person.
-#     surname     : the surname without a particle is mandatory.
-#     particle    : the particle of a surname, or ''""'' if no
-#                   particle is needed.
-#     firstnames  : the list of first names (that can be an empty
-#                   list).
-#     email       : the email adress, or ''""'' if no email
+#     spec        : person \spec.
+#     surname     : surname without a particle is mandatory.
+#     particle    : surname particle, or ''""'' if no particle is
+#                   needed.
+#     firstnames  : first name list (that can be an empty list).
+#     email       : email adress, or ''""'' if no email provided.
+#     affiliation : affiliation adress, or ''""'' if no affiliation
 #                   provided.
-#     affiliation : the affiliation adress, or ''""'' if no
-#                   affiliation provided.
 #
 #
 # note::
@@ -83,20 +84,20 @@ class Person(DataManager):
         )
 
 # We can work.
-        spec = self.spec
+        spec = self.spec.strip()
 
 # One affiliation?
         spec, self.affiliation = extract_group(
         content = spec,
         delims  = DELIMS_AFFILIATION,
-        context = "affiliation"
+        context = 'affiliation'
     )
 
 # One email?
         spec, self.email = extract_group(
             content = spec,
             delims  = DELIMS_EMAIL,
-            context = "email"
+            context = 'email'
         )
 
 # First names.
@@ -112,7 +113,7 @@ class Person(DataManager):
         self.surname, self.particle = extract_group(
             content      = titles[-1].strip(),
             delims       = DELIMS_PARTICLE,
-            context      = "surname",
+            context      = 'surname',
             data_on_left = False
         )
 
@@ -149,7 +150,7 @@ class Person(DataManager):
                     self.affiliation
                 ),
             ],
-            delims = DELIMS_PERSON,
+            delims = ALL_DELIMS,
         )
 
 ###
@@ -213,7 +214,7 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     name : a name to be normalized.
+#     name : name to be normalized.
 #
 #     :return: name in "titlecase" without unnecessary spaces.
 ###
@@ -248,7 +249,7 @@ class Person(DataManager):
         if self.email:
             local_part, _ , domain_part = self.email.partition('@')
 
-            self.email = f"{local_part}@{domain_part.lower()}"
+            self.email = f'{local_part}@{domain_part.lower()}'
 
 ###
 # prototype::
@@ -278,7 +279,7 @@ class Person(DataManager):
 #              checks the email validity.
 ###
     def _validate_email(self) -> None:
-        self.data_pb.what("email")
+        self.data_pb.what('email')
 
 # Nothing to do.
         if not self.email:
@@ -308,7 +309,7 @@ class Person(DataManager):
 #              of the affiliation.
 ###
     def _validate_affiliation(self) -> None:
-        self.data_pb.what("affiliation")
+        self.data_pb.what('affiliation')
 
 # Nothing to do.
         if not self.affiliation:
@@ -323,14 +324,14 @@ class Person(DataManager):
             self.data_pb.checking(affi)
 
             response = httpx.get(
-                "https://nominatim.openstreetmap.org/search",
+                'https://nominatim.openstreetmap.org/search',
                 params = {
-                    "q"     : affi,
-                    "format": "json",
-                    "limit" : 1,
+                    'q'     : affi,
+                    'format': 'json',
+                    'limit' : 1,
                 },
                 headers = {
-                    "User-Agent": "AdresseChecker/1.0"
+                    'User-Agent': 'AdresseChecker/1.0'
                 },
                 timeout = 3
             )
@@ -343,7 +344,7 @@ class Person(DataManager):
             else:
                 self.data_pb.new_error(
                     data      = affi,
-                    error_msg = "Nothing found by OpenStreetMap.",
+                    error_msg = 'Nothing found by OpenStreetMap.',
                 )
 
         except Exception as e:

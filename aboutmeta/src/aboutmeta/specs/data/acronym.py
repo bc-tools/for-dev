@@ -6,7 +6,6 @@
 
 import re
 
-
 from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
@@ -20,18 +19,18 @@ from aboutmeta.tools.misc  import single_spaces
 # -- DATA -- #
 # ---------- #
 
-PATTERN_ACRONYM_METADATA = re.compile(
+PATTERN_METADATA = re.compile(
     r'\[\s*(.*?)(?:\s*::\s*(.*?))?\s*\]|([^\[]+)'
 )
 
-TAG_ACRONYM_DEF_OPEN, TAG_ACRONYM_DEF_CLOSE = '[]'
+TAG__DEF_OPEN, TAG__DEF_CLOSE = '[]'
 
 
 ###
 # prototype::
-#     spec  : the \spec of an acronym using brackets.
-#     short : the acronym alone.
-#     desc  : the \def of acronym without any bracket.
+#     spec  : \spec of an acronym using brackets.
+#     short : acronym alone.
+#     desc  : full \def of acronym without any bracket.
 #
 #
 # note::
@@ -63,14 +62,14 @@ class Acronym(DataManager):
         bracket_is_opened = False
 
         for i, c in enumerate(self.spec):
-            if c == TAG_ACRONYM_DEF_OPEN:
+            if c == TAG__DEF_OPEN:
                 if bracket_is_opened:
                     raise ParsingError('Unclosed bracket group.')
 
                 else:
                     bracket_is_opened = True
 
-            elif c == TAG_ACRONYM_DEF_CLOSE:
+            elif c == TAG__DEF_CLOSE:
                 if not bracket_is_opened:
                     raise ParsingError('Unopened bracket group.')
 
@@ -83,7 +82,7 @@ class Acronym(DataManager):
 # Extract the spec parts.
         spec_parts = []
 
-        for match in PATTERN_ACRONYM_METADATA.finditer(self.spec):
+        for match in PATTERN_METADATA.finditer(self.spec):
             spec_initial, spec_final, other = match.groups()
 
             if not spec_initial is None:

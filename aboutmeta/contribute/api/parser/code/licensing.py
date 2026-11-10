@@ -23,11 +23,9 @@ from aboutmeta.specs.data.licensing import Licensing
 
 ###
 # prototype::
-#     data : the \lic code provided in the \yaml file, but
-#            stripped.
+#     data : \lic code provided in the \yaml file.
 #
-#     :return: an instance of the class ''Licensing'' representing
-#              the license.
+#     :return: ''Licensing'' instance representing the license.
 ###
 def parse(data: str) -> Licensing:
 # No parsing, and all job done by the class
@@ -41,11 +39,10 @@ def parse(data: str) -> Licensing:
 
 ###
 # prototype::
-#     data : a ''Licensing'' object.
+#     data : ''Licensing'' object.
 #
-#     :return: a human-friendly, \std \yaml representation of
-#              th ''License'' object: this is the \spdx lowercase
-#              identifier with spaces and no hyphens.
+#     :return: \spdx lowercase identifier with hyphens replaced
+#              by single spaces.
 ###
 def write(data: Licensing) -> str:
     text = data.spdx_id.lower()

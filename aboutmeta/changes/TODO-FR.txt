@@ -24,11 +24,6 @@ test couverture test sur les conyrib si faisable mais non exigé cote contribute
 
 > ---------------------------- <
 
-revoir les attributs des data avant publication version 1.0.0 qui devra aussi avoir ses tests unitaires
-
-
-> ---------------------------- <
-
 import re
 
 def strip_debug_blocks(source_code: str) -> str:

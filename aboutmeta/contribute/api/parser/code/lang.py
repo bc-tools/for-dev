@@ -24,10 +24,9 @@ from aboutmeta.specs.data.lang import Lang
 
 ###
 # prototype::
-#     data : the \lang provided in the \yaml file, but stripped.
+#     data : \lang provided in the \yaml file.
 #
-#     :return: an instance of the class ''Lang'' representing the
-#              \lang.
+#     :return: ''Lang'' instance representing the \lang.
 ###
 def parse(data: str) -> Lang:
 # No parsing, and all job done by the class
@@ -41,10 +40,9 @@ def parse(data: str) -> Lang:
 
 ###
 # prototype::
-#     data : a ''Lang'' object.
+#     data : ''Lang'' object.
 #
-#     :return: the \std \yaml version of the ''Lang'' object which
-#              is the full \lang identifier like ''"fr-FR"''.
+#     :return: full \lang identifier like ''"fr-FR"''.
 ###
 def write(data: Lang) -> str:
     return data.std_id

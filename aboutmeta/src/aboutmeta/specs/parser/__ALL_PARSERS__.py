@@ -14,7 +14,6 @@ from aboutmeta.specs.parser import (
     licensing,
     person,
     sem_version,
-    unix_name,
     url,
     ymdate,
 )
@@ -31,7 +30,6 @@ TAG_LICENSING = "licensing"
 TAG_PARSE = "parse"
 TAG_PERSON = "person"
 TAG_SEM_VERSION = "sem_version"
-TAG_UNIX_NAME = "unix_name"
 TAG_URL = "url"
 TAG_WRITE = "write"
 TAG_YMDATE = "ymdate"
@@ -43,7 +41,6 @@ ALL_PARSERS = {
     TAG_LICENSING: {TAG_PARSE: licensing.parse, TAG_WRITE: licensing.write},
     TAG_PERSON: {TAG_PARSE: person.parse, TAG_WRITE: person.write},
     TAG_SEM_VERSION: {TAG_PARSE: sem_version.parse, TAG_WRITE: sem_version.write},
-    TAG_UNIX_NAME: {TAG_PARSE: unix_name.parse, TAG_WRITE: unix_name.write},
     TAG_URL: {TAG_PARSE: url.parse, TAG_WRITE: url.write},
     TAG_YMDATE: {TAG_PARSE: ymdate.parse, TAG_WRITE: ymdate.write},
 }

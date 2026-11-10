@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 
-from json import load as json_load
-
 from pathlib import Path
 import              re
+
+from json import load as json_load
 
 from rapidfuzz import (
     process as fuzz_process,
     fuzz
 )
-
 
 from dataclasses import field
 
@@ -22,7 +21,7 @@ from aboutmeta.core.validate     import validate_type
 # -- DATA -- #
 # ---------- #
 
-LICENSES_JSON_FILE = (
+LICENSING_JSON_FILE = (
     Path(__file__).parent / f'{Path(__file__).stem}-spdx.json'
 )
 
@@ -33,14 +32,19 @@ _SPECIAL_SEPS                = '.-'
 _PATTERN_REMOVE_SPECIAL_SEPS = re.compile(r'[\.-]+')
 
 
+_TAG_DEPRECATED = 'deprecated'
+_TAG_STD        = 'std'
+_TAG_NAME       = 'name'
+_TAG_REF        = 'ref'
+
+
 ###
 # prototype::
 #     spdx_id : short \spdx identifier, such as ''"GPL-3.0-only"'',
 #               but flexible writings allowed like ''"gpl 3.0 only"'.
-#     name    : the full license name like ''"GNU General Public
-#               License v3.0 only"''.
-#     url     : the \url linking to the \spdx online description of
-#               the license.
+#     name    : full license name like ''"GNU General Public License
+#               v3.0 only"''.
+#     url     : \url linking to the \spdx online license description.
 #
 #
 # note::
@@ -73,7 +77,7 @@ class Licensing(DataManager):
         )
 
 # Our local data.
-        with LICENSES_JSON_FILE.open(mode = 'r') as f:
+        with LICENSING_JSON_FILE.open(mode = 'r') as f:
             all_licenses = json_load(f)
 
 # We need a normal form.
@@ -100,7 +104,7 @@ class Licensing(DataManager):
             raise e
 
 # Deprecated?
-        if all_licenses[normal_ID]['deprecated']:
+        if all_licenses[normal_ID][_TAG_DEPRECATED]:
             raise ValueError(
                  'deprecated license code '
                 f'{all_licenses[normal_ID]['std']!r}.'
@@ -110,16 +114,16 @@ class Licensing(DataManager):
         spdx_infos = all_licenses[normal_ID]
 
 # The job has been done.
-        self.spdx_id = spdx_infos['std']
-        self.name    = spdx_infos['name']
-        self.url     = spdx_infos['ref']
+        self.spdx_id = spdx_infos[_TAG_STD]
+        self.name    = spdx_infos[_TAG_NAME]
+        self.url     = spdx_infos[_TAG_REF]
 
 
 ###
 # prototype::
-#     code : a \lic code.
+#     code : \lic code.
 #
-#     :return: a normalized code for the data process.
+#     :return: normalized code for data process.
 #
 #
 # note::
@@ -154,8 +158,8 @@ def _normalize_lic_code(code: str) -> str:
 
 ###
 # prototype::
-#     normal_ID       : an invalid normalized \lic code.
-#     max_suggestions : the maximum \nb of suggestions proposed.
+#     normal_ID       : invalid normalized \lic code.
+#     max_suggestions : maximum \nb of suggestions proposed.
 #
 #     :return: possible matches for a valid \spdx \lic code.
 ###
@@ -164,7 +168,7 @@ def _license_matches(
     max_suggestions: int = 15
 ) -> list[str]:
 # Our local data.
-    with LICENSES_JSON_FILE.open(mode = 'r') as f:
+    with LICENSING_JSON_FILE.open(mode = 'r') as f:
         all_licenses = json_load(f)
 
     all_norm_IDs = list(all_licenses.keys())
@@ -273,7 +277,7 @@ def tool_update_license_json() -> None:
             'deprecated': lic[TAG_SPDX_LICENSE_DEPRECATED]
         }
 
-    LICENSES_JSON_FILE.write_text(json_dumps(licenses))
+    LICENSING_JSON_FILE.write_text(json_dumps(licenses))
 
 
 # ----------- #

@@ -7,12 +7,10 @@ from collections.abc import (
     Iterator,
 )
 
-
 import fnmatch
 import re
 
 from pathlib import Path
-
 
 from dataclasses import field
 
@@ -28,21 +26,21 @@ from aboutmeta.core.validate     import validate_type
 TAG_GLOB_METHOD      = 'glob'
 TAG_GLOB_RECU_METHOD = 'rglob'
 
-TAG_TOCPATH_RAW = 'raw'
+TAG_RAW = 'raw'
 
-TAG_TOC_GLOB_PATTERNS = [
-    TAG_TOCPATH_GLOB      := 'glob',
-    TAG_TOCPATH_GLOB_RECU := 'r-glob',
+TAG_GLOB_PATTERNS = [
+    TAG_GLOB      := 'glob',
+    TAG_GLOB_RECU := 'r-glob',
 ]
 
-TAG_TOC_PATTERN_KINDS = TAG_TOC_GLOB_PATTERNS + [
-    TAG_TOCPATH_REGEX      := 'regex',
-    TAG_TOCPATH_REGEX_RECU := 'r-regex',
+TAG_PATTERN_KINDS = TAG_GLOB_PATTERNS + [
+    TAG_REGEX      := 'regex',
+    TAG_REGEX_RECU := 'r-regex',
 ]
 
-TAG_TOC_PATTERN_ABBREV = {}
+TAG_PATTERN_ABBREV = {}
 
-for t in TAG_TOC_PATTERN_KINDS:
+for t in TAG_PATTERN_KINDS:
     if '-' in t:
         a = t[:3]
         a = a.replace('-', '')
@@ -50,39 +48,39 @@ for t in TAG_TOC_PATTERN_KINDS:
     else:
         a = t[0]
 
-    assert not a in TAG_TOC_PATTERN_ABBREV
+    assert not a in TAG_PATTERN_ABBREV
 
-    TAG_TOC_PATTERN_ABBREV[a] = t
+    TAG_PATTERN_ABBREV[a] = t
 
 
-GLOB_KEYS_TYPE = Literal[
-    TAG_TOCPATH_GLOB,
-    TAG_TOCPATH_GLOB_RECU
+TYPE_GLOB_KEYS = Literal[
+    TAG_GLOB,
+    TAG_GLOB_RECU
 ]
 
-REGEX_KEYS_TYPE = Literal[
-    TAG_TOCPATH_REGEX,
-    TAG_TOCPATH_REGEX_RECU
+TYPE_REGEX_KEYS = Literal[
+    TAG_REGEX,
+    TAG_REGEX_RECU
 ]
 
-TOC_PATH_SPEC_TYPE = (
+TYPE_SPEC = (
       str
-    | dict[GLOB_KEYS_TYPE, str]
-    | dict[REGEX_KEYS_TYPE, re.Pattern]
+    | dict[TYPE_GLOB_KEYS, str]
+    | dict[TYPE_REGEX_KEYS, re.Pattern]
 )
 
 
 ###
 # prototype::
-#     spec    : the \spec of a relative path or a relative search
-#               pattern for paths.
-#     parent  : the parent directory for the relative paths.
-#     kind    : the kind of path to manage (either a raw path or
-#               a pattern).
-#             @ _ in TAG_TOC_PATTERN_KINDS
+#     spec    : relative path \spec or relative search pattern
+#               for paths.
+#     parent  : parent directory for the relative paths.
+#     kind    : path kind to manage (either a raw path or a
+#               pattern).
+#             @ _ in TAG_PATTERN_KINDS
 #               or
-#               _ = TAG_TOCPATH_RAW
-#     pattern : a pattern or a raw path specified relatively to
+#               _ = TAG_RAW
+#     pattern : pattern or raw path specified relatively to
 #               the ''parent'' directory.
 #
 #
@@ -97,7 +95,7 @@ TOC_PATH_SPEC_TYPE = (
 #     are transformed into their compiled versions.
 ###
 class TOCPath(DataManager):
-    spec   : TOC_PATH_SPEC_TYPE
+    spec   : TYPE_SPEC
     parent : Path
     kind   : str              = field(init = False)
     pattern: str | re.Pattern = field(init = False)
@@ -125,7 +123,7 @@ class TOCPath(DataManager):
 
 # A raw path.
         if isinstance(spec, str):
-            self.kind    = TAG_TOCPATH_RAW
+            self.kind    = TAG_RAW
             self.pattern = spec
 
             return
@@ -142,15 +140,15 @@ class TOCPath(DataManager):
             ...
 
 # Legal kind?
-        kind = TAG_TOC_PATTERN_ABBREV.get(kind, kind)
+        kind = TAG_PATTERN_ABBREV.get(kind, kind)
 
-        if not kind in TAG_TOC_PATTERN_KINDS:
+        if not kind in TAG_PATTERN_KINDS:
             raise ParsingError(
                 f'Unknow pattern kind {kind!r}.'
             )
 
 # Legal pattern?
-        if kind in TAG_TOC_GLOB_PATTERNS:
+        if kind in TAG_GLOB_PATTERNS:
             self._check_syntax_glob(pattern)
 
             compiled_pattern = pattern
@@ -165,7 +163,7 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     pattern : a glob pattern search.
+#     pattern : glob pattern search.
 #
 #     :action: check well-balanced hooks, and syntax by trying to
 #              transform the pattern into a \regex object.
@@ -222,7 +220,7 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     pattern : a string \regex pattern search.
+#     pattern : string \regex pattern search.
 #
 #     :action: check syntax by compiling the pattern.
 #
@@ -263,7 +261,7 @@ class TOCPath(DataManager):
         self._validate_parent_dir()
 
 # Validation regarding the kind of data.
-        if self.kind == TAG_TOCPATH_RAW:
+        if self.kind == TAG_RAW:
             self._validate_raw_path()
 
         else:
@@ -380,9 +378,9 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     nothing_found : a ''True'' value indicates that a pattern
-#                     gives at least one match, whereas ''False''
-#                     indicates a losing pattern.
+#     nothing_found : ''True'' indicates that a pattern gives at
+#                     least one match, whereas ''False'' indicates
+#                     a losing pattern.
 #     str_pattern   : :see: self._start_pattern_validation
 #
 #     :action: closing of the pattern validation process.
@@ -423,9 +421,9 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     glob_method_name : either the name of the glob method to use
-#                        (whether recursive or not), or ''None''
-#                        to automatically determine the glob method.
+#     glob_method_name : either the glob method name to use (whether
+#                        recursive or not), or ''None'' to
+#                        automatically determine the glob method.
 #
 #     :yield: each path which validates the pattern stored in
 #             ''self.pattern''.
@@ -523,7 +521,7 @@ if __name__ == '__main__':
         setup_logging()
 
         print('---')
-        print(f'{TAG_TOC_PATTERN_ABBREV = }')
+        print(f'{TAG_PATTERN_ABBREV = }')
 
         with temp_dirtree(mydirview) as tempdir:
             for yaml_data in [
@@ -559,21 +557,21 @@ if __name__ == '__main__':
         full_data = st.sampled_from([
             # Raw path.
             (
-                TAG_TOCPATH_RAW,
+                TAG_RAW,
                 'readme.md'
             ),
             # Glob patterns.
             (
-                TAG_TOCPATH_GLOB,
+                TAG_GLOB,
                 {'glob': '*/*.md'}
             ),
             (
-                TAG_TOCPATH_GLOB,
+                TAG_GLOB,
                 {'glob': r'*\[.md'}
             ),
             # Regex patterns.
             (
-                TAG_TOCPATH_REGEX,
+                TAG_REGEX,
                 {'regex': r'.*\.md'}
             ),
         ]),
