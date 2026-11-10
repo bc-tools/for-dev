@@ -133,13 +133,14 @@ class Acronym(DataManager):
 # ----------- #
 
 if __name__ == '__main__':
+    from random import Random
+
     from hypothesis import (
         given,
         strategies as st
     )
 
-    import             pytest
-    from random import Random
+    import pytest
 
 # dev:
     yaml_data = '[about] [meta]data    '

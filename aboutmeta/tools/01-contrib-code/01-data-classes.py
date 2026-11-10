@@ -84,7 +84,7 @@ for folder, contribs in get_accepted_paths(
 
     logging.info(f"Working on '{ctxt}' codes.")
 
-    for one_contrib in contribs:
+    for one_contrib in sorted(contribs):
 # New Python code.
         contrib_file = folder / one_contrib
 

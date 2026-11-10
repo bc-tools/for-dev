@@ -13,7 +13,7 @@ def strip_debug_blocks(source_code: str) -> str:
     r'#\s*debug::(.*?)(?:#\s*::dev)'
 
     # On remplace par du vide (ou on peut commenter le bloc)
-    cleaned_code = re.sub(pattern, '', source_code, flags=re.DOTALL | re.MULTILINE)
+
     return cleaned_code
 
 # Exemple d'utilisation :

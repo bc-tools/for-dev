@@ -361,14 +361,14 @@ if __name__ == '__main__':
     INTERACTIVE_SESSION = True
     INTERACTIVE_SESSION = False
 # :dev
+    from random import Random
 
     from hypothesis import (
         given,
         strategies as st
     )
 
-    import             pytest
-    from random import Random
+    import pytest
 
 # dev:
     if INTERACTIVE_SESSION:

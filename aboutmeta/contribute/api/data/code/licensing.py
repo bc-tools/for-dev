@@ -290,13 +290,14 @@ if __name__ == '__main__':
     UPDATE_LICENSE_MEDATA = False
 # :dev
 
+    from random import Random
+
     from hypothesis import (
         given,
         strategies as st
     )
 
-    import             pytest
-    from random import Random
+    import pytest
 
 # dev:
     if UPDATE_LICENSE_MEDATA:

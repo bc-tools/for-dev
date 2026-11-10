@@ -53,20 +53,20 @@ for t in TAG_PATTERN_KINDS:
     TAG_PATTERN_ABBREV[a] = t
 
 
-TYPE_GLOB_KEYS = Literal[
+TYPE_TOCPATH_GLOB_KEYS = Literal[
     TAG_GLOB,
     TAG_GLOB_RECU
 ]
 
-TYPE_REGEX_KEYS = Literal[
+TYPE_TOCPATH_REGEX_KEYS = Literal[
     TAG_REGEX,
     TAG_REGEX_RECU
 ]
 
-TYPE_SPEC = (
+TYPE_TOCPATH_SPEC = (
       str
-    | dict[TYPE_GLOB_KEYS, str]
-    | dict[TYPE_REGEX_KEYS, re.Pattern]
+    | dict[TYPE_TOCPATH_GLOB_KEYS, str]
+    | dict[TYPE_TOCPATH_REGEX_KEYS, re.Pattern]
 )
 
 
@@ -95,7 +95,7 @@ TYPE_SPEC = (
 #     are transformed into their compiled versions.
 ###
 class TOCPath(DataManager):
-    spec   : TYPE_SPEC
+    spec   : TYPE_TOCPATH_SPEC
     parent : Path
     kind   : str              = field(init = False)
     pattern: str | re.Pattern = field(init = False)
@@ -501,6 +501,12 @@ if __name__ == '__main__':
     from pathlib import Path
 
     from aboutmeta.core.temp_dirtree import *
+
+    TAG_RAW        = 'raw'
+    TAG_GLOB       = 'glob'
+    TAG_GLOB_RECU  = 'r-glob'
+    TAG_REGEX      = 'regex'
+    TAG_REGEX_RECU = 'r-regex'
 
 # -- Moke data -- #
     mydirview = """

@@ -65,7 +65,7 @@ for folder, contribs in get_accepted_paths(
 
     logging.info(f"Working on '{ctxt}' configs.")
 
-    for one_contrib in contribs:
+    for one_contrib in sorted(contribs):
         logging.info(f"Analyzing '{one_contrib}'.")
 
         contrib_file = folder / one_contrib
