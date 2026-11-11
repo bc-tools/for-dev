@@ -59,10 +59,10 @@ def write(data: URL) -> str:
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
 # We just need some basic interface tests, because we have already
 # tested the ''URL'' class.
 
+if __name__ == "__main__":
     from hypothesis import (
         given,
         strategies as st

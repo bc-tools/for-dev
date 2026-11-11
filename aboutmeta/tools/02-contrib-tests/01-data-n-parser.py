@@ -168,10 +168,13 @@ for nb_ctxt, ctxt in enumerate(
             code = hd_split_pyfile(contrib_file)[SECTION_TESTS]
 
             for q in "'\"":
-                code = code.replace(
-                    f'if __name__ == {q}__main__{q}:',
-                    ''
-                )
+                main_test = f'if __name__ == {q}__main__{q}:'
+
+                if main_test in code:
+                    _ , _ , code = code.partition(main_test)
+
+                    break
+
 
             for p in [
                 PATTERN_DEV_SECTION,

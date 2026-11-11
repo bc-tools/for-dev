@@ -2,11 +2,12 @@
 
 import httpx
 
-from email_validator import validate_email
-
 from dataclasses import field
 
+from email_validator import validate_email
+
 from aboutmeta.core.data_manager import DataManager
+from aboutmeta.core.validate     import validate_type
 
 from aboutmeta.tools.group import (
     extract_group,
@@ -17,8 +18,6 @@ from aboutmeta.tools.misc  import (
     no_space_around,
     single_spaces
 )
-
-from aboutmeta.core.validate import validate_type
 
 
 # ---------- #
@@ -361,6 +360,7 @@ if __name__ == '__main__':
     INTERACTIVE_SESSION = True
     INTERACTIVE_SESSION = False
 # :dev
+
     from random import Random
 
     from hypothesis import (

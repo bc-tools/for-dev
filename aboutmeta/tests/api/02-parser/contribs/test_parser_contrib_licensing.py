@@ -8,9 +8,6 @@ from aboutmeta.specs.parser.licensing import *
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/parser/code/licensing.py'
 
-# We just need some basic interface tests, because we have already
-# tested the ''License'' class.
-
 from hypothesis import (
     given,
     strategies as st

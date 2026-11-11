@@ -55,10 +55,10 @@ def write(data: Licensing) -> str:
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
 # We just need some basic interface tests, because we have already
 # tested the ''License'' class.
 
+if __name__ == "__main__":
     from hypothesis import (
         given,
         strategies as st

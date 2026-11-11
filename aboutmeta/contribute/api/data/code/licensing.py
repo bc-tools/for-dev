@@ -5,12 +5,12 @@ import              re
 
 from json import load as json_load
 
+from dataclasses import field
+
 from rapidfuzz import (
     process as fuzz_process,
     fuzz
 )
-
-from dataclasses import field
 
 from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError

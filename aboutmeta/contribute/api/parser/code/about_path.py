@@ -240,7 +240,8 @@ if __name__ == "__main__":
         strategies as st
     )
 
-    import              pytest
+    import pytest
+
     from pathlib import Path
 
     from aboutmeta.core.temp_dirtree import *

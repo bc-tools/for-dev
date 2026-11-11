@@ -8,9 +8,6 @@ from aboutmeta.specs.parser.lang import *
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/parser/code/lang.py'
 
-# We just need some basic interface tests, because we have already
-# tested the ''Lang'' class.
-
 from hypothesis import (
     given,
     strategies as st

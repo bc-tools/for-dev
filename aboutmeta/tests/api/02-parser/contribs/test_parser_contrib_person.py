@@ -8,9 +8,6 @@ from aboutmeta.specs.parser.person import *
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/parser/code/person.py'
 
-# We just need some basic interface tests, because we have already
-# tested the ''Person'' class.
-
 from hypothesis import (
     given,
     strategies as st

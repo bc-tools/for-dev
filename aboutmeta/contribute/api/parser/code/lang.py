@@ -52,10 +52,10 @@ def write(data: Lang) -> str:
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
 # We just need some basic interface tests, because we have already
 # tested the ''Lang'' class.
 
+if __name__ == "__main__":
     from hypothesis import (
         given,
         strategies as st
