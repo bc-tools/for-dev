@@ -3,18 +3,16 @@
 from types  import ModuleType
 from typing import Callable
 
-
 from copy    import deepcopy
 from pathlib import Path
 
 from benedict import benedict
 from yaml     import safe_load
 
-
 from aboutmeta.core.constants.api_tags      import *
 from aboutmeta.core.constants.internal_tags import *
 
-from aboutmeta.core.errors    import *
+from aboutmeta.core.errors import *
 
 from aboutmeta.specs.flavour.__ALL_FLAVOURS__ import *
 
