@@ -9,14 +9,6 @@ unit tetst
 
      --> testes mixé géré par mélange des testes des contribs (faisons simple !)
 
-     --> test couverture
-
-
-
-
-
-
-
 
 > ---------------------------- <
 

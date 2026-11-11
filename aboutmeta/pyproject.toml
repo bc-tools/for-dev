@@ -56,7 +56,8 @@ path    = "about.yaml"
 pattern = 'version:\s*"(?P<version>.*)"'
 
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/aboutmeta tests}"
+check = "mypy --install-types --non-interactive {args:src/}"
+html  = "mypy --install-types --non-interactive --html-report htmlmypy {args:src/}"
 
 [tool.coverage.run]
 source_pkgs = [

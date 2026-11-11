@@ -1,5 +1,5 @@
 project:
-  version: "0.0.0-alpha"
+  version: "1.0.0-beta.1"
 
   acronym: "[about] [meta]data"
   desc   : "This module enables the definition of project metadata in 'about.yaml' files, simplifying the management of digital projects (both code and text) by third-party applications."

@@ -19,12 +19,12 @@ from aboutmeta.core.errors    import *
 from aboutmeta.specs.flavour.__ALL_FLAVOURS__ import *
 
 
-
 # ------------ #
 # -- TYPING -- #
 # ------------ #
 
 MULTI_KEYPATH_TYPE = None | str | list[str]
+
 
 PARSER_TYPE = (
       Callable[[object], object]
