@@ -6,25 +6,19 @@
 # ------------- #
 
 ###
-# YAML type file errors must use the ''YAMLTypeError'' class.
+# For parsing errors.
 #
 #
 # note::
 #     What was the idea behind the text above? :-) Sorry about
 #     that, but I'll stick to using dummy explanations for now.
 ###
-class YAMLTypeError(Exception):
-    ...
-
-###
-# Parsing errors must use the ''ParsingError'' class.
-###
 class ParsingError(Exception):
     ...
 
 
 ###
-# Parsing key paths errors must use the ''KeyPathError'' class.
+# For parsing key paths errors.
 ###
 class KeyPathError(Exception):
     ...
@@ -35,7 +29,7 @@ class KeyPathError(Exception):
 # ---------------- #
 
 ###
-# Post processing errors must use the ''PostProcessingError'' class.
+# For post processing errors.
 ###
 class PostProcessingError(Exception):
     ...
@@ -46,7 +40,7 @@ class PostProcessingError(Exception):
 # -------------------- #
 
 ###
-# Critical implementation errors must use the ''PostProcessingError'' class.
+# For critical implementation errors.
 ###
 class CriticalImplementationError(Exception):
     def __init__(

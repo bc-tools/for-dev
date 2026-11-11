@@ -61,9 +61,10 @@ def temp_dirtree(dirview: str) -> Path:
                         recu_build_dirtree(subcontent)
                         prepaths.pop(-1)
 
+# It's time to work...
         recu_build_dirtree(dirtree)
 
-# We must resolve the path!!!!
+# We must resolve the path!
         yield rootdir.resolve()
 
 
@@ -72,4 +73,20 @@ def temp_dirtree(dirview: str) -> Path:
 # ----------- #
 
 if __name__ == "__main__":
-    ...
+    mydirview = """
+- readme.md
+- script-10.py
+- script-02.py
+- library:
+  - main.py
+  - core:
+    - readme.md
+    - tool.py
+    """
+
+    with temp_dirtree(mydirview) as folder:
+        print(mydirview)
+        print()
+        print(folder)
+
+        input('Type ENTER.')

@@ -7,18 +7,18 @@
 
 ###
 # prototype::
-#     data_name      : XXXXX
-#     data           : XXXXX
+#     var_name       : name of the variable
+#     value          : XXXXX
 #     expected_types : XXXXX
 #
 #     :action: XXXXX
 ###
 def validate_type(
-    data_name     : str,
-    data          : object,
+    var_name      : str,
+    value         : object,
     expected_types: object,
 ) -> None:
-    if not isinstance(data, expected_types):
+    if not isinstance(value, expected_types):
         if isinstance(expected_types, tuple):
             types_desc = ', '.join(
                 sorted(
@@ -34,7 +34,7 @@ def validate_type(
 
         raise TypeError(
             f'None {types_desc} '
-            f'{data_name} data: value = {data!r}.'
+            f'{var_name} value: value = {value!r}.'
         )
 
 

@@ -2,9 +2,9 @@
 
 from functools import wraps
 
-from aboutmeta.core.log_conf import *
-
 from dataclasses import dataclass
+
+from aboutmeta.core.log_conf import *
 
 
 # -------------------------- #
@@ -58,6 +58,7 @@ def add_log_methods(*log_levels: str) -> callable:
 
                 return method
 
+# Let's add the new method.
             setattr(
                 cls,
                 one_log_level,
@@ -85,11 +86,11 @@ def add_log_methods(*log_levels: str) -> callable:
 #     a text (cf. ''self._prefixed'').
 ###
 @add_log_methods(
-    "info",
-    "warning",
-    "critical",
-    "error",
-    "debug"
+    'info',
+    'warning',
+    'critical',
+    'error',
+    'debug'
 )
 class DataPB:
     def __init__(
@@ -130,7 +131,7 @@ class DataPB:
         self,
         text: str,
     ):
-        return f"[{self.data_cls.__name__} - {self.__what}] {text}"
+        return f'[{self.data_cls.__name__} - {self.__what}] {text}'
 
 ###
 # prototype::
@@ -171,7 +172,7 @@ class DataPB:
     ):
         self._error_printed_stored(
             data      = data,
-            prefix    = f"{type(_exception).__name__}: ",
+            prefix    = f'{type(_exception).__name__}: ',
             error_msg = str(_exception),
         )
 
@@ -207,7 +208,7 @@ class DataPB:
         self,
         data: object
     ):
-        self.info(f"Checking '{data}'")
+        self.info(f"Checking '{data}'.")
 
 ###
 # prototype::
@@ -215,7 +216,7 @@ class DataPB:
 #              checked.
 ###
     def no_check(self):
-        self.info("Nothing to check.")
+        self.info('Nothing to check.')
 
 ###
 # prototype::
@@ -266,10 +267,10 @@ class DataPB:
         is_validated: bool,
     ):
         if is_validated:
-            status, desc = "OK", "validated"
+            status, desc = 'OK', 'validated'
 
         else:
-            status, desc = "KO", "rejected"
+            status, desc = 'KO', 'rejected'
 
         self.info(f"{status}\n'{data}' {desc}.")
 
@@ -280,19 +281,14 @@ class DataPB:
 
 ###
 # note::
-#     ''DataManager'' instances always have the following attributes.
-#
-#         1) The ''yaml_val'' attribute stores the user-input data
-#         coming from an path::''about.yaml'' file.
-#
-#         1) The ''data_pb'' attribute must be used for validation
-#         process communications.
+#     ''DataManager'' instances always have the ''data_pb'' \cls
+#     \attr to be used for validation process communications.
 ###
 class DataManager:
 
 ###
-# We initiate the ''data_pb'' attribute with the actual class, and
-# make the class a subclass of ''dataclasses.dataclass''.
+# We initiate the ''data_pb'' attribute with the actual class,
+# and make the class a subclass of ''dataclasses.dataclass''.
 ###
     def __init_subclass__(
         cls,
@@ -307,10 +303,8 @@ class DataManager:
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from pprint import pprint
-
-    print("\n------------\n")
 
     setup_logging()
 
@@ -325,23 +319,23 @@ if __name__ == "__main__":
 
     data_pb = mydata.data_pb
 
-    print(repr(mydata))
+    print(f'{mydata!r}')
 
-    print("\n------------\n")
+    print('---')
 
-    data_pb.what("Test 1")
+    data_pb.what('Test 1')
     data_pb.start()
     data_pb.checking('something good')
-    data_pb.info("My personal info")
+    data_pb.info('My personal info')
     data_pb.validated('something good')
 
-    print("\n------------\n")
+    print('---')
 
-    data_pb.what("Test 2")
+    data_pb.what('Test 2')
     data_pb.start()
     data_pb.checking('something bad')
-    data_pb.error("My problem")
-    data_pb.critical("Validation done has failed")
+    data_pb.error('My problem')
+    data_pb.critical('Validation done has failed')
 
     try:
         1/0
@@ -356,9 +350,9 @@ if __name__ == "__main__":
 
     pprint(mydata._errors_found)
 
-    print("\n------------\n")
+    print('---')
 
-    data_pb.what("Test 3")
+    data_pb.what('Test 3')
     data_pb.start()
 
     data_pb.no_check()
