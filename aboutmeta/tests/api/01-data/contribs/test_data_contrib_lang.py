@@ -20,7 +20,7 @@ import pytest
 
 
 # ---------------- #
-# -- Legal spec -- #
+# -- LEGAL SPEC -- #
 # ---------------- #
 
 @settings(deadline = None) # Cf coverage tests.
@@ -53,7 +53,7 @@ def test_legal_spec(
 
 
 # ------------------------------- #
-# -- Legal weird letter casing -- #
+# -- LEGAL WEIRD LETTER CASING -- #
 # ------------------------------- #
 
 @given(
@@ -82,7 +82,7 @@ def test_weird_letter_casing(
 
 
 # ------------------ #
-# -- Unknown lang -- #
+# -- UNKNOWN LANG -- #
 # ------------------ #
 
 @given(
@@ -96,7 +96,7 @@ def test_unknown_lang(yaml_data: str) -> None:
 
 
 # --------------------- #
-# -- Illegal lang ID -- #
+# -- ILLEGAL LANG ID -- #
 # --------------------- #
 
 @given(
@@ -110,7 +110,7 @@ def test_illegal_lang_ID(yaml_data: str) -> None:
 
 
 # ----------------------- #
-# -- Illegal data type -- #
+# -- ILLEGAL DATA TYPE -- #
 # ----------------------- #
 
 @given(

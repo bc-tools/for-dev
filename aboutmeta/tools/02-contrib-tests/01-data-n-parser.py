@@ -47,7 +47,7 @@ PATTERN_TEST_FUNC = re.compile(
 def final_comment_title(match):
     title  = match.group(2)
 
-    inner  = f"# -- {title} -- #"
+    inner  = f"# -- {title.upper()} -- #"
     border = "# " + "-" * (len(inner) - 4) + " #"
 
     return f"""

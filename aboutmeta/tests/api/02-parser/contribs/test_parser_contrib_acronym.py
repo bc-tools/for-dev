@@ -18,7 +18,7 @@ from hypothesis import (
 
 
 # ------------------ #
-# -- Back to spec -- #
+# -- BACK TO SPEC -- #
 # ------------------ #
 
 @given(

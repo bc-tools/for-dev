@@ -19,7 +19,7 @@ import pytest
 
 
 # ---------------- #
-# -- Legal spec -- #
+# -- LEGAL SPEC -- #
 # ---------------- #
 
 @given(
@@ -49,7 +49,7 @@ def test_legal_spec(
 
 
 # ------------------- #
-# -- Weird spacing -- #
+# -- WEIRD SPACING -- #
 # ------------------- #
 
 @given(
@@ -84,7 +84,7 @@ def test_weird_spacing(
 
 
 # ------------------ #
-# -- Illegal spec -- #
+# -- ILLEGAL SPEC -- #
 # ------------------ #
 
 @given(
@@ -102,7 +102,7 @@ def test_illegal_spec(yaml_data: str) -> None:
 
 
 # ----------------------- #
-# -- Illegal data type -- #
+# -- ILLEGAL DATA TYPE -- #
 # ----------------------- #
 
 @given(

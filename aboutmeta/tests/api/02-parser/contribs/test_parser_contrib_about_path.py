@@ -20,7 +20,7 @@ from aboutmeta.core.temp_dirtree import *
 
 
 # --------------- #
-# -- Moke data -- #
+# -- MOKE DATA -- #
 # --------------- #
 
 mydirview = """
@@ -70,7 +70,7 @@ class MokeAMData:
 
 
 # ------------------ #
-# -- Back to spec -- #
+# -- BACK TO SPEC -- #
 # ------------------ #
 
 @given(
@@ -95,7 +95,7 @@ def test_back_2_spec(yaml_data: str) -> None:
 
 
 # --------------- #
-# -- Post prod -- #
+# -- POST PROD -- #
 # --------------- #
 
 @given(

@@ -17,7 +17,7 @@ import pytest
 
 
 # ------------------------- #
-# -- Data - Illegal spec -- #
+# -- DATA - ILLEGAL SPEC -- #
 # ------------------------- #
 
 @given(
@@ -33,7 +33,7 @@ def test_illegal_spec(yaml_data: str) -> None:
 
 
 # ------------------------------ #
-# -- Data - Illegal data type -- #
+# -- DATA - ILLEGAL DATA TYPE -- #
 # ------------------------------ #
 
 @given(
@@ -48,7 +48,7 @@ def test_illegal_data_type(yaml_data: object) -> None:
 
 
 # --------------------------- #
-# -- Parser - Back to spec -- #
+# -- PARSER - BACK TO SPEC -- #
 # --------------------------- #
 
 @given(

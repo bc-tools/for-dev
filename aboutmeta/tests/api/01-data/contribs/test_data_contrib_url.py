@@ -17,7 +17,7 @@ import pytest
 
 
 # --------------- #
-# -- Legal URL -- #
+# -- LEGAL URL -- #
 # --------------- #
 
 @given(
@@ -34,7 +34,7 @@ def test_legal_URL(yaml_data):
 
 
 # -------------------- #
-# -- Normalized URL -- #
+# -- NORMALIZED URL -- #
 # -------------------- #
 
 @given(
@@ -63,7 +63,7 @@ def test_normalized_URL(full_data):
 
 
 # ----------------------- #
-# -- Illegal data type -- #
+# -- ILLEGAL DATA TYPE -- #
 # ----------------------- #
 
 @given(

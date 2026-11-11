@@ -19,7 +19,7 @@ import pytest
 
 
 # ------------------------------ #
-# -- Legal weird license code -- #
+# -- LEGAL WEIRD LICENSE CODE -- #
 # ------------------------------ #
 
 @given(
@@ -52,7 +52,7 @@ def test_legal_weird_license_code(
 
 
 # -------------------------- #
-# -- Illegal license code -- #
+# -- ILLEGAL LICENSE CODE -- #
 # -------------------------- #
 
 @given(
@@ -72,7 +72,7 @@ def test_illegal_license_code(yaml_data: str) -> None:
 
 
 # ----------------------- #
-# -- Illegal data type -- #
+# -- ILLEGAL DATA TYPE -- #
 # ----------------------- #
 
 @given(

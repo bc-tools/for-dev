@@ -26,7 +26,7 @@ TAG_REGEX_RECU = 'r-regex'
 
 
 # --------------- #
-# -- Moke data -- #
+# -- MOKE DATA -- #
 # --------------- #
 
 mydirview = """
@@ -44,7 +44,7 @@ mydirview = mydirview.strip()
 
 
 # ---------------- #
-# -- Legal spec -- #
+# -- LEGAL SPEC -- #
 # ---------------- #
 
 @given(
@@ -85,7 +85,7 @@ def test_legal_spec(
 
 
 # ------------------------------ #
-# -- Validation of good specs -- #
+# -- VALIDATION OF GOOD SPECS -- #
 # ------------------------------ #
 
 @given(
@@ -117,7 +117,7 @@ def test_tocpath_validation(
 
 
 # ------------------ #
-# -- Illegal spec -- #
+# -- ILLEGAL SPEC -- #
 # ------------------ #
 
 @given(
@@ -140,7 +140,7 @@ def test_illegal_spec(yaml_data: dict[str, str]) -> None:
 
 
 # ----------------------- #
-# -- Illegal data type -- #
+# -- ILLEGAL DATA TYPE -- #
 # ----------------------- #
 
 @given(
@@ -159,7 +159,7 @@ def test_illegal_data_type(yaml_data: object) -> None:
 
 
 # -------------------- #
-# -- Path iteration -- #
+# -- PATH ITERATION -- #
 # -------------------- #
 
 @given(
