@@ -3,38 +3,45 @@
 # Needed extra imports.
 
 from aboutmeta.core.errors import *
-from aboutmeta.amdata import *
+from aboutmeta.amdata      import *
+
+from aboutmeta.specs.block.__ALL_BLOCKS__ import ALL_BLOCKS
 
 import pytest
 
 
-# --------------------- #
-# -- XXXX -- #
-# --------------------- #
+# --------------- #
+# -- CONSTANTS -- #
+# --------------- #
 
-BLOCK_2_FLAVOUR = dict()
+THIS_DIR          = Path(__file__).parent
+CONTRIB_TESTS_DIR = THIS_DIR / 'contribs'
 
-for flavour, specs in ALL_FLAVOURS.items():
-    for block in specs:
-        if not block in BLOCK_2_FLAVOUR:
-            BLOCK_2_FLAVOUR[block] = flavour
+TAG_OK = 'ok'
+TAG_KO = 'ko'
 
-
-
-
-
-print(BLOCK_2_FLAVOUR)
-
-
+GLOB_ABOUT_SEARCH = '*/*about.yaml'
 
 
 # --------------------- #
 # -- GOOD STRUCTURES -- #
 # --------------------- #
 
+def test_good_yaml_structure() -> None:
+    for bname in ALL_BLOCKS:
+        contrib_tests = CONTRIB_TESTS_DIR / bname / TAG_OK
 
+# We make all parsers as string one to avoid any parsing!
 
+        for one_about in contrib_tests.glob(GLOB_ABOUT_SEARCH):
+            amdata = AMData.new_instance(
+                flavour = [bname],
+                parent  = one_about.parent,
+            )
 
+            amdata.build()
+
+test_good_yaml_structure()
 
 # -------------------- #
 # -- BAD STRUCTURES -- #

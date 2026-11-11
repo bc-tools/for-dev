@@ -293,8 +293,11 @@ class _AMDataChecker:
 
 ###
 # prototype::
-#     flavour : the 'flavour' used to parse data provided by the
-#               path::''about.yaml'' file.
+#     flavour : either a flavour name to parse data from
+#               path::''about.yaml'', or a unique list of block
+#               names (prefix any optional name with a space and
+#               an asterisk ''*'')."
+#             @ type(_) = list ==> size(set(_)) = len(_)
 #     parent  : the path::''about.yaml'' file folder.
 #
 #
@@ -330,7 +333,7 @@ class AMData:
 
     def __init__(
         self,
-        flavour: str,
+        flavour: str | list[str],
         parent : Path,
     ) -> None:
         self._checker = _AMDataChecker(self)
@@ -355,13 +358,45 @@ class AMData:
     @flavour.setter
     def flavour(
         self,
-        flavour: str
+        flavour: str | list[str]
     ) -> None:
-        if not flavour in ALL_FLAVOURS:
-            raise ValueError(f'unknow flavour {flavour!r}.')
+# Dynamic flavour.
+        if isinstance(flavour, list):
+            from aboutmeta.specs.block.__ALL_BLOCKS__ import ALL_BLOCKS
 
-        self._flavour       = flavour
-        self._flavour_specs = ALL_FLAVOURS[flavour]
+            from copy import deepcopy
+
+            specs = dict()
+
+            for block in flavour:
+                block = block.strip()
+
+                is_mandatory = (block[-1] != TAG_PATH_OPTIONAL)
+
+                if not is_mandatory:
+                    block = block[:-1]
+                    block = block.strip()
+
+                if not block in ALL_BLOCKS:
+                    raise ValueError(f'unknow block {block!r}.')
+
+                specs[block] = dict()
+
+                for k, v in ALL_BLOCKS[block].items():
+                    specs[block][k] = v
+
+                specs[block][TAG_IS_MANDATORY] = is_mandatory
+
+            self._flavour_specs = specs
+
+# Standard flavour.
+        else:
+            if not flavour in ALL_FLAVOURS:
+                raise ValueError(f'unknow flavour {flavour!r}.')
+
+            self._flavour_specs = ALL_FLAVOURS[flavour]
+
+        self._flavour = flavour
 
         self._all_block_names       = set()
         self._mandatory_block_names = set()

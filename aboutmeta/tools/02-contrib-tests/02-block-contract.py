@@ -68,6 +68,14 @@ for folder, contribs in get_accepted_paths(
         for p in contrib_test_data.glob('*/*.yaml'):
             test_file = TESTS_DIR / p.relative_to(CONTRIB_TESTS_DIR)
 
+            test_file = test_file.parent / test_file.stem / "about.yaml"
+
+            for _ in [
+                add_missing_dir,
+                empty_dir,
+            ]:
+                _(test_file.parent)
+
             content = ('\n' + ' '*2).join(
                   [f'{contrib_name}:']
                 + p.read_text().split('\n')

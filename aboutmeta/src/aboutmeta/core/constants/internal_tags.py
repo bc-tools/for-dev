@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 
+TAG_PATH_OPTIONAL   = '*'
 TAG_PATH_SEP   = '/'
 TAG_ABOUT_YAML = 'about.yaml'
 
