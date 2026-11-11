@@ -71,8 +71,8 @@ class Licensing(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data_name      = 'spdx_id',
-            data           = self.spdx_id,
+            var_name       = 'spdx_id',
+            value          = self.spdx_id,
             expected_types = str,
         )
 

@@ -58,8 +58,8 @@ class Lang(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data_name      = 'std_id',
-            data           = self.std_id,
+            var_name       = 'std_id',
+            value          = self.std_id,
             expected_types = str,
         )
 

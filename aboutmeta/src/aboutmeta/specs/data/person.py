@@ -6,11 +6,12 @@
 
 import httpx
 
-from email_validator import validate_email
-
 from dataclasses import field
 
+from email_validator import validate_email
+
 from aboutmeta.core.data_manager import DataManager
+from aboutmeta.core.validate     import validate_type
 
 from aboutmeta.tools.group import (
     extract_group,
@@ -21,8 +22,6 @@ from aboutmeta.tools.misc  import (
     no_space_around,
     single_spaces
 )
-
-from aboutmeta.core.validate import validate_type
 
 
 # ---------- #
@@ -78,8 +77,8 @@ class Person(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data_name      = 'spec',
-            data           = self.spec,
+            var_name       = 'spec',
+            value          = self.spec,
             expected_types = str,
         )
 

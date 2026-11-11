@@ -73,8 +73,8 @@ class Person(DataManager):
 ###
     def __post_init__(self) -> None:
         validate_type(
-            data_name      = 'spec',
-            data           = self.spec,
+            var_name       = 'spec',
+            value          = self.spec,
             expected_types = str,
         )
 
