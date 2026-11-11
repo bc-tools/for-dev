@@ -1,4 +1,4 @@
-### Propose new flavours
+### New flavours
 
 Here are the steps to follow.
 

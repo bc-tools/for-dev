@@ -1,4 +1,4 @@
-### Propose new blocks
+### New blocks
 
 Here's how to define a main block.
 

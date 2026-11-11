@@ -7,7 +7,7 @@ aboutmeta - TODO
 
 unit tetst
 
-     --> block ?
+     --> block ? un dossier tests à cote de status, et un sous dossier du nom du blcok dans lequel on maett des illegal-DESC.yaml et des legal : court commentaire pour idniquer le souci afin d'evntuellement affiner les tests unitaires
 
      --> flavour ?
 

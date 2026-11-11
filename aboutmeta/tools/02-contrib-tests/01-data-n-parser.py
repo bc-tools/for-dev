@@ -139,7 +139,7 @@ for nb_ctxt, ctxt in enumerate(
     ],
     start = 1,
 ):
-    msg_ctxt = f'{ctxt} class contrib'
+    msg_ctxt = f'{ctxt} contrib tests'
 
     tests_dir   = PROJECT_DIR / 'tests' / 'api' / f'{nb_ctxt:02}-{ctxt}' / 'contribs'
     contrib_dir = PROJECT_DIR / 'contribute' / 'api' / ctxt
@@ -151,10 +151,13 @@ for nb_ctxt, ctxt in enumerate(
     ).items():
         ctxt = folder.parent.name
 
-        logging.info(f"Working on '{ctxt}' codes.")
+        logging.info(f"Working on '{ctxt}' tests.")
 
-        add_missing_dir(tests_dir)
-        empty_dir(tests_dir)
+        for _ in [
+            add_missing_dir,
+            empty_dir,
+        ]:
+            _(tests_dir)
 
         for one_contrib in sorted(contribs):
             contrib_name = Path(one_contrib).stem

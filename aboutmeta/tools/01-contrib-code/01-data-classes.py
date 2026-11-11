@@ -66,8 +66,11 @@ assert HEADERS_IGNORED <= (
 # -- LET'S WORK! -- #
 # ----------------- #
 
-add_missing_dir(SPECS_DIR)
-empty_dir(DATA_SPECS_DIR)
+for _ in [
+    empty_dir,
+    add_missing_init,
+]:
+    _(DATA_SPECS_DIR)
 
 for p in [
     SPECS_DIR,

@@ -1,5 +1,5 @@
-Propose new parsing tools
--------------------------
+New parsing tools
+-----------------
 
 Parsers require two mandatory features, parsing and writing, along with post-processing tools for specific use cases.
 
