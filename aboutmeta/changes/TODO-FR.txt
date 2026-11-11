@@ -7,6 +7,10 @@ aboutmeta - TODO
 
 unit tetst
 
+     --> block ?
+
+     --> flavour ?
+
      --> testes mixé géré par mélange des testes des contribs (faisons simple !)
 
 

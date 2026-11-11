@@ -132,13 +132,16 @@ def remove_indents(code):
 # -- LET'S WORK! -- #
 # ----------------- #
 
-for ctxt in [
-    'data',
-    'parser',
-]:
+for nb_ctxt, ctxt in enumerate(
+    [
+        'data',
+        'parser',
+    ],
+    start = 1,
+):
     msg_ctxt = f'{ctxt} class contrib'
 
-    tests_dir   = PROJECT_DIR / 'tests' / 'api' / ctxt / 'contribs'
+    tests_dir   = PROJECT_DIR / 'tests' / 'api' / f'{nb_ctxt:02}-{ctxt}' / 'contribs'
     contrib_dir = PROJECT_DIR / 'contribute' / 'api' / ctxt
 
 

@@ -12,7 +12,7 @@ from random import Random
 
 from hypothesis import (
     given,
-    settings,
+    settings, # Cf coverage tests.
     strategies as st
 )
 
@@ -23,7 +23,7 @@ import pytest
 # -- Legal spec -- #
 # ---------------- #
 
-@settings(deadline = None) # Cf coverage.
+@settings(deadline = None) # Cf coverage tests.
 @given(
     full_data = st.sampled_from([
         (
