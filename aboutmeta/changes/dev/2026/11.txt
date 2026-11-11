@@ -2,7 +2,7 @@
 
 
 ==
-??????  (1.0.0-beta.1)
+11  (1.0.0-beta.1)
 ==
 
 -------
@@ -20,28 +20,15 @@ caution::
 :update:
 --------
 
-[[:doc:]]      ?????
-Here is the new workflow.
-
-    * The technical \docs are typed using the \tns syntax from now on, and are then automatically converted into \readme.
-
-    * ????
-    The main \readme file only provides a short overview of the \proj, focusing its examples on digital project management.
-
-
------
-:new:
------
-
-[[:doc:]]      ?????
-The \docs and manual can be easily translated in the path::''contrib/translate'' folder.
+[[:doc:]]
+The technical \docs are typed using the \tns syntax from now on.
 
 
 --------
 :fordev:
 --------
 
-[[:tech:]]      ?????
+[[:tech:]]
 Here are the \chges made.
 
     1) \yaml \cfg files.
@@ -52,5 +39,5 @@ Here are the \chges made.
 
     1) \python data and parser files: magic comments have been simplified a lot (this has been made possible by the fact that parsers and post-rpocessing tools are put inside the same \python file).
 
-    1)  ????
-    Full \docs and \readme files: the \contrib \docs are now automatically integrated (this avoids \doc overhead when updating a \contrib). This implies precise \doc in all \contribs.
+
+    1) In the contributions folder, addition of unit tests for data and parser codes, as well as \yaml test files to validate expected structures for blocks.
