@@ -5,37 +5,9 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-import re
-
-def strip_debug_blocks(source_code: str) -> str:
-    pattern = r'^[ \t]*#\s*DEBUG\s+ON.*?\n.*?[ \t]*#\s*DEBUG\s+OFF\b'
-
-    r'#\s*debug::(.*?)(?:#\s*::dev)'
-
-    # On remplace par du vide (ou on peut commenter le bloc)
-
-    return cleaned_code
-
-# Exemple d'utilisation :
-with open("test_unixname.py", "r", encoding="utf-8") as f:
-    original_code = f.read()
-
-production_ready_code = strip_debug_blocks(original_code)
-
-
-> ---------------------------- <
-
 unit tetst
 
-     --> reprendre toutes les test des contrib en les rendant copiabe pour pyteste en indiquant : pour cela on attend juste de bête assert directement dans le code
-
-     --> si une data ou un parser pas tester, on cérer un fichier de tests auto dont le contnue est celui des tests de la contrib en mode commentée
-
-     --> struct fasse des  block via hypothesis
-
      --> testes mixé géré par mélange des testes des contribs (faisons simple !)
-
-     --> hypothesis
 
      --> test couverture
 

@@ -93,6 +93,7 @@ if __name__ == '__main__':
 
     from hypothesis import (
         given,
+        settings, # Cf coverage tests.
         strategies as st
     )
 
@@ -108,6 +109,7 @@ if __name__ == '__main__':
 # :dev
 
 # -- Legal spec -- #
+    @settings(deadline = None) # Cf coverage tests.
     @given(
         full_data = st.sampled_from([
             (
