@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
+# Needed extra imports.
+
+from aboutmeta.core.errors import *
+from aboutmeta.specs.data.toc_path import *
+
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/data/code/toc_path.py'
-
-
 
 from hypothesis import (
     given,
@@ -31,11 +34,13 @@ mydirview = """
 - script-1.py
 - script-02.py
 - library:
-- main.py
-- core:
-- readme.md
-- tool.py
-"""
+  - main.py
+  - core:
+    - readme.md
+    - tool.py
+    """
+
+mydirview = mydirview.strip()
 
 
 # ---------------- #
@@ -190,4 +195,3 @@ def test_path_iteration(
         ]
 
     assert paths == paths_founds
-

@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
+# Needed extra imports.
+
+from aboutmeta.core.errors import *
+from aboutmeta.specs.data.licensing import *
+
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/data/code/licensing.py'
-
-
 
 from random import Random
 
@@ -81,5 +84,3 @@ def test_illegal_license_code(yaml_data: str) -> None:
 def test_illegal_data_type(yaml_data: object) -> None:
     with pytest.raises(TypeError) as e:
         Licensing(spdx_id = yaml_data)
-
-

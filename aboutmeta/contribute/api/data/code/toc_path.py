@@ -520,6 +520,8 @@ if __name__ == '__main__':
     - tool.py
     """
 
+    mydirview = mydirview.strip()
+
 # dev:
     if INTERACTIVE_SESSION:
         from aboutmeta.core.log_conf import *

@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
+# Needed extra imports.
+
+from aboutmeta.core.errors import *
+from aboutmeta.specs.data.url import *
+
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/data/code/url.py'
-
-
 
 from hypothesis import (
     given,
@@ -72,5 +75,3 @@ def test_normalized_URL(full_data):
 def test_illegal_data_type(yaml_data):
     with pytest.raises(TypeError) as e:
         URL(url = yaml_data)
-
-

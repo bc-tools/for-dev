@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 
+# Needed extra imports.
+
+from aboutmeta.core.errors import *
+from aboutmeta.specs.data.acronym import *
+
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/data/code/acronym.py'
-
 
 from random import Random
 
@@ -112,3 +116,5 @@ def test_illegal_data_type(yaml_data: object) -> None:
         Acronym(spec = yaml_data)
 
 
+
+# TEST

@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 
+# Needed extra imports.
+
+from aboutmeta.core.errors import *
+from aboutmeta.specs.data.lang import *
+
 # Code extracted from the maintained Python file
 # 'aboutmeta/contribute/api/data/code/lang.py'
-
 
 from random import Random
 
@@ -116,5 +120,3 @@ def test_illegal_lang_ID(yaml_data: str) -> None:
 def test_illegal_data_type(yaml_data : object) -> None:
     with pytest.raises(TypeError) as e:
         Lang(std_id = yaml_data)
-
-

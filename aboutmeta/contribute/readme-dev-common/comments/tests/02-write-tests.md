@@ -26,7 +26,7 @@ The following contribution code snippet demonstrates how to set up the tools des
 <!-- TESTS (NORMALIZE + ILLEGAL YAML) - URL EXTRACT - START -->
 
 ~~~python
-# Extract of 'contribute/api/data/code/url.py' (2026-11-08).
+# Extract of 'contribute/api/data/code/url.py' (2026-11-11).
 
 # ----------- #
 # -- TESTS -- #
@@ -85,7 +85,15 @@ The contribution integration process will generate a test file, similar to the e
 <!-- FINAL UNIT TESTS - URL EXTRACT - START -->
 
 ~~~python
-# Extract of 'tests/api/data/contribute/test_url.py' (2026-11-08).
+# Extract of 'tests/api/data/contribute/test_url.py' (2026-11-11).
+
+# Needed extra imports.
+
+from aboutmeta.core.errors import *
+from aboutmeta.specs.data.url import *
+
+# Code extracted from the maintained Python file
+# 'aboutmeta/contribute/api/data/code/url.py'
 
 from hypothesis import (
     given,
@@ -109,7 +117,7 @@ import pytest
         ...
     ]),
 )
-def test_url_normalized_URL(full_data):
+def test_normalized_URL(full_data):
     yaml_data, std_url = full_data
 
     mydata = URL(url = yaml_data)
@@ -118,9 +126,9 @@ def test_url_normalized_URL(full_data):
     assert mydata.url == std_url
 
 
-# ---------------------------- #
+# ----------------------- #
 # -- Illegal data type -- #
-# ---------------------------- #
+# ----------------------- #
 
 @given(
     yaml_data = st.sampled_from([
@@ -128,9 +136,12 @@ def test_url_normalized_URL(full_data):
         123,
     ]),
 )
-def test_url_illegal_data_type(yaml_data):
+def test_illegal_data_type(yaml_data):
     with pytest.raises(TypeError) as e:
         URL(url = yaml_data)
 ~~~
 
 <!-- FINAL UNIT TESTS - URL EXTRACT - END -->
+
+
+> ***CAUTION.*** *If you need multi-line text with content starting at the beginning of the line, use only `'''...'''` or `"""..."""` without chaining any methods directly onto the triple quotes. String method calls must be applied in a second step. This stems from our basic test code integration approach.*
