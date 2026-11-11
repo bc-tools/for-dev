@@ -7,6 +7,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from aboutmeta.core.constants.internal_tags import *
+
 from aboutmeta.specs.block import atoc, project
 
 
@@ -14,9 +16,6 @@ from aboutmeta.specs.block import atoc, project
 # -- ALL BLOCK SPECS -- #
 # --------------------- #
 
-TAG_BLOCK_ALTS = "BLOCK_ALTS"
-TAG_BLOCK_PARSERS = "BLOCK_PARSERS"
-TAG_BLOCK_STATUS = "BLOCK_STATUS"
 TAG_ATOC = "atoc"
 TAG_PROJECT = "project"
 

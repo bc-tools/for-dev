@@ -439,10 +439,13 @@ class AMData:
 
 ###
 # prototype::
-#     tolerant : ''True'' requests to accept additional main
-#                blocks that will be silently ignored.
-#                With ''False'', additional main blocks blocks
-#                are rejected.
+#     tolerant   : ''True'' requests to accept additional main
+#                  blocks that will be silently ignored.
+#                  With ''False'', additional main blocks blocks
+#                  are rejected.
+#     no_parsing : ''True'' switches off all parsing, unlike a
+#                  ''False'' value (this allows you to quickly
+#                  validate a \yaml structure)."
 #
 #     :return: the data parsed into a dictionary which mimics
 #              the \yaml file.
@@ -451,8 +454,11 @@ class AMData:
 ###
     def build(
         self,
-        tolerant: bool = True
+        tolerant  : bool = True,
+        no_parsing: bool = False,
     ) -> benedict:
+        self._no_parsing = no_parsing
+
 # Data operations (e.g., write, normalize, ...) require the full
 # 'keypaths' to the data.
         self._full_data_keypaths = []
@@ -650,6 +656,9 @@ class AMData:
         raw_data     : object,
         parser_module: ModuleType,
     ) -> object:
+        if self._no_parsing:
+            return f'{raw_data!r}'
+
 # Only string allowed!
         if parser_module == str:
             if not type(raw_data) == str:

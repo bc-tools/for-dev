@@ -5,27 +5,18 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
-unit tetst
+doc + API
 
-     --> block ? un dossier tests à cote de status, et un sous dossier du nom du blcok dans lequel on maett des illegal-DESC.yaml et des legal : court commentaire pour idniquer le souci afin d'evntuellement affiner les tests unitaires
+     --> géré lisnertion automatiqsé des bouts de code des specs de locs
+     penser à gerer la nouveauté et dans ce cas la le dater !!!
 
-     --> flavour ?
+     --> doc complète : on doit intégrere automatiquement tous les helpers!
 
-     --> testes mixé géré par mélange des testes des contribs (faisons simple !)
+     --> vendre cote sûr car on ne lit que des strings pour le fichier YAML
+
+     --> flavour dyna : ajouter unexemple mais indiquer que ceci doit se limiter à des testes locaux car le mieux est d'etoffer aboutmeta
 
 
-> ---------------------------- <
-
-postprod nouveauté
-
-    --> licensing : ajout auto du fichier
-
-    --> extra paramètre ensisageable mais ATTENDRE DE VOIR SI UTILE : on fourni les keypaths suivis des paarams que l'on fourni via *args, **kwargs
-
-    --> smever : prod un dict avec next minor major, ...
-        via {'next': {'minor': ..., 'major': ..., ...}}
-
-        le post prod d'une clée sur une autre respecte l'ridre de def dans les psecs!
 
 
 > ---------------------------- <
@@ -37,28 +28,34 @@ pour normalize, on interdit ce qui est potentiellmeent dangeraux
 
 > ---------------------------- <
 
-doc + API
+unit tetst
 
-     --> géré lisnertion automatiqsé des bouts de code des specs de locs
-     penser à gerer la nouveauté et dans ce cas la le dater !!!
-
-     --> doc complète : on doit intégrere automatiquement tous les helpers!
-
-     --> vendre cote sûr car on ne lit que des strings pour le fichier YAML
+     --> testes mixé géré par mélange des testes des contribs (faisons simple !)
 
 
 > ---------------------------- <
 
 flavour
 
-     --> dyna : ajouter unexemple mais indiquer que ceci doit se limiter à des testes locaux car le mieux est d'etoffer aboutmeta
-
      --> cdt en plus avec les parsers associés
 
 
 > ---------------------------- <
 
-ajouter à licensing - ok via postprod : ajout relatif au fhcier about_yamh tout bêtement
+postprod nouveauté
+
+    --> licensing : ajout auto du fichier, ajout relatif au fhcier about_yamh tout bêtement
+
+    --> extra paramètre ensisageable mais ATTENDRE DE VOIR SI UTILE : on fourni les keypaths suivis des paarams que l'on fourni via *args, **kwargs
+
+    --> smever : prod un dict avec next minor major, ...
+        via {'next': {'minor': ..., 'major': ..., ...}}
+
+        le post prod d'une clée sur une autre respecte l'ridre de def dans les psecs!
+
+
+POUR LICENSING!
+
 
 from pathlib import Path
 
@@ -193,7 +190,7 @@ meta.add_license(
 
 CLI.
 
-    ---> boxplus pour la doc demandé, et si doc absente, on donne celle du 1ier parent qui en a une, ceci évite de tout doculentetr (penser aux licences ou aux urls)
+    ---> benedict pour la doc demandé, et si doc absente, on donne celle du 1ier parent qui en a une, ceci évite de tout doculentetr (penser aux licences ou aux urls)
 
     ---> Création/modif guidée
 

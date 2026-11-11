@@ -7,6 +7,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from aboutmeta.core.constants.internal_tags import *
+
 from aboutmeta.specs.parser import (
     about_path,
     acronym,

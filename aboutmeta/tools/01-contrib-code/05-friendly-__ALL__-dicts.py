@@ -201,9 +201,12 @@ for kind_folder in SPECS_DIR.glob('*'):
         data_exposed = DATA_EXPOSED[kind],
     )
 
+    print(tags)
+
     pytags = '\n'.join(
-        f'{get_tag(f)} = "{f}"'
-        for f in sorted(tags)
+        f'{get_tag(t)} = "{t}"'
+        for t in sorted(tags)
+        if not t.startswith('BLOCK_')
     )
 
     pycode = f'''
@@ -213,6 +216,8 @@ for kind_folder in SPECS_DIR.glob('*'):
 # '{THIS_FILE_RELATIVE}'
 
 {magic_title('IMPORTS')}
+
+from aboutmeta.core.constants.internal_tags import *
 
 from aboutmeta.specs.{kind} import {imports_need}
 

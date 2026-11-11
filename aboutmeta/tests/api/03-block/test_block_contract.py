@@ -31,7 +31,22 @@ def test_good_yaml_structure() -> None:
     for bname in ALL_BLOCKS:
         contrib_tests = CONTRIB_TESTS_DIR / bname / TAG_OK
 
-# We make all parsers as string one to avoid any parsing!
+        for one_about in contrib_tests.glob(GLOB_ABOUT_SEARCH):
+            amdata = AMData.new_instance(
+                flavour = [bname],
+                parent  = one_about.parent,
+            )
+
+            amdata.build(no_parsing = True)
+
+
+# -------------------- #
+# -- BAD STRUCTURES -- #
+# -------------------- #
+
+def test_good_yaml_structure() -> None:
+    for bname in ALL_BLOCKS:
+        contrib_tests = CONTRIB_TESTS_DIR / bname / TAG_KO
 
         for one_about in contrib_tests.glob(GLOB_ABOUT_SEARCH):
             amdata = AMData.new_instance(
@@ -39,10 +54,5 @@ def test_good_yaml_structure() -> None:
                 parent  = one_about.parent,
             )
 
-            amdata.build()
-
-test_good_yaml_structure()
-
-# -------------------- #
-# -- BAD STRUCTURES -- #
-# -------------------- #
+            with pytest.raises((KeyPathError, ValueError)):
+                amdata.build(no_parsing = True)

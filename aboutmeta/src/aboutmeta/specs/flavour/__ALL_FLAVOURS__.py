@@ -7,6 +7,8 @@
 # -- IMPORTS -- #
 # ------------- #
 
+from aboutmeta.core.constants.internal_tags import *
+
 from aboutmeta.specs.flavour import atoc, it_project
 
 
