@@ -71,7 +71,11 @@ def setup_logging(no_color: bool = False) -> None:
 # -- TESTS -- #
 # ----------- #
 
+# Unit tests cannot be implemented here; settings are validated
+# visually.
+
 if __name__ == '__main__':
+# dev:
     for title, no_color in [
         ('COLORFUL', False),
         ('B & W'   , True),
@@ -90,3 +94,4 @@ if __name__ == '__main__':
                 logging,
                 level
             )(f"Testing '{level}'")
+# :dev

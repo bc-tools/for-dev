@@ -97,7 +97,12 @@ def temp_dirtree(dirview: str) -> Path:
 # -- TESTS -- #
 # ----------- #
 
+# Unit tests cannot be implemented here; the correct operation
+# is validated by analyzing the contents of a requested temporary
+# directory.
+
 if __name__ == "__main__":
+# dev:
     mydirview = """
 - readme.md
 - script-10.py
@@ -115,3 +120,4 @@ if __name__ == "__main__":
         print(folder)
 
         input('Type ENTER.')
+# :dev

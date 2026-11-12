@@ -12,7 +12,7 @@ from aboutmeta.core.data_manager import DataManager
 from aboutmeta.core.errors       import ParsingError
 from aboutmeta.core.validate     import validate_type
 
-from aboutmeta.tools.misc  import single_spaces
+from aboutmeta.tools.spacing import single_spaces
 
 
 # ---------- #

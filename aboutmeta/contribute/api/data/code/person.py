@@ -14,7 +14,7 @@ from aboutmeta.tools.group import (
     gather_groups,
 )
 
-from aboutmeta.tools.misc  import (
+from aboutmeta.tools.spacing import (
     no_space_around,
     single_spaces
 )

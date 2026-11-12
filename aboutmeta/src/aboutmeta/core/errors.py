@@ -55,6 +55,11 @@ class CriticalImplementationError(Exception):
         super().__init__(msg)
 
 
-# --------------------- #
-# -- NOTHING TO TEST -- #
-# --------------------- #
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+# We have nothing to test!
+
+if __name__ == '__main__':
+    ...
