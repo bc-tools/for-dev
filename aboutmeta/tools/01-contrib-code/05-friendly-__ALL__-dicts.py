@@ -201,8 +201,6 @@ for kind_folder in SPECS_DIR.glob('*'):
         data_exposed = DATA_EXPOSED[kind],
     )
 
-    print(tags)
-
     pytags = '\n'.join(
         f'{get_tag(t)} = "{t}"'
         for t in sorted(tags)

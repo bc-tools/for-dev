@@ -5,8 +5,16 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+extract_group : ok avec delims de plus de un caractère!
+
+
+> ---------------------------- <
+
 code source : tous en mode auto testable commes le s cpntrib !!!!
 
+intégration auto mais ici tests vides acceptés
+
+voir si tets vides repérés pour les contribu pour stippe le buidling si besoin !!!
 
 > ---------------------------- <
 

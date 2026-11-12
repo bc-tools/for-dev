@@ -87,3 +87,22 @@ if __name__ == "__main__":
             )
 
     test_illegal_type()
+
+# -- Bad use -- #
+    @given(
+        full_data = st.sampled_from([
+            (int, 2),
+            (str, '2'),
+        ]),
+    )
+    def test_bad_use(full_data) -> None:
+        val, _type = full_data
+
+        with pytest.raises(TypeError) as e:
+            validate_type(
+                var_name       = '',
+                value          = val,
+                expected_types = _type,
+            )
+
+    test_bad_use()

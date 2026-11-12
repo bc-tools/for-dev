@@ -12,9 +12,8 @@ from aboutmeta.core.errors import ParsingError
 #     content      : text with, or without, a specific extremal
 #                    data surrounded by the delimiters defined
 #                    using the ''delims'' argument.
-#     delims       : 2-character text indicating the opening and
-#                    closing characters used to frame special
-#                    data.
+#     delims       : list of the opening and closing characters
+#                    used to frame special data.
 #     context      : context of use (this text is for error
 #                    messages).
 #     data_on_left : if the value is ''True'', the 'framed' data
@@ -75,7 +74,7 @@ def extract_group(
 # Two delimiting characters?
     if len(delims) != 2:
         raise ValueError(
-            'two delimiters needed, see ''{delims}''.'
+            f"two delimiters needed, see '{delims}'."
         )
 
     opener, closer = delims
@@ -226,42 +225,116 @@ def gather_groups(
 # ----------- #
 
 if __name__ == '__main__':
-    print('\n------------\n')
+# dev:
+    INTERACTIVE_SESSION = True
+    INTERACTIVE_SESSION = False
+# :dev
 
-    print('## extract_group ##')
+    from hypothesis import (
+        given,
+        strategies as st
+    )
 
-    for i, (txt, delims, data_on_left) in enumerate(
-        [
-            (
-                'Nothing to extract',
-                '[]',
-                True
-            ),
-            (
-                'We have [  data ]',
-                '[]',
-                True
-            ),
-            (
-                '[Data] before me!',
-                '[]',
-                False
-            ),
-        ],
-        start = 1
-    ):
-        ctxt = f'-- CTXT OK {i} --'
+    import pytest
 
-        print()
-        print(ctxt)
+# dev:
+    if INTERACTIVE_SESSION:
+        print('---')
 
-        print(f'{txt          = }')
+        content      = 'We have {{data[--'
+        delims       = ['{{', '[--']
+        data_on_left = False
+        data_on_left = True
+
+        print(f'{content      = }')
         print(f'{delims       = }')
         print(f'{data_on_left = }')
+
+        print()
         print(
-                'result       =',
-            extract_group(txt, delims, ctxt, data_on_left)
+            f'extract_group: {extract_group(content, delims, "DEBUGGING", data_on_left)}'
         )
+
+        exit()
+
+# :dev
+
+# -- Extract groups - Legal spec (data on left) -- #
+    @given(
+        full_data = st.sampled_from([
+            (
+                'We have no data',
+                ('We have no data', None),
+                list('[]'),
+            ),
+            (
+                'We [h]ave [data]',
+                ('We [h]ave', 'data'),
+                list('[]'),
+            ),
+            (
+                'We have ]data[',
+                ('We have', 'data'),
+                list(']['),
+            ),
+            (
+                'We have {{data[--',
+                ('We have', 'data'),
+                ['{{', '[--'],
+            ),
+        ]),
+    )
+    def test_legal_spec_data_on_left(full_data) -> None:
+        content, wanted_tuple, delims = full_data
+
+        assert extract_group(
+            content = content,
+            delims  = delims,
+            context = "LEGAL SPEC DATA ON LEFT",
+        ) == wanted_tuple
+
+    test_legal_spec_data_on_left()
+
+# -- Extract groups - Legal spec (data on right) -- #
+    @given(
+        full_data = st.sampled_from([
+            (
+                'We have no data',
+                ('We have no data', None),
+                list('()'),
+            ),
+            (
+                '(Data) we (h)ave',
+                ('we (h)ave', 'Data'),
+                list('[]'),
+            ),
+            (
+                ')Data( we have',
+                ('we have', 'Data'),
+                list(')('),
+            ),
+            (
+                '---]Data}}} we have',
+                ('we have', 'Data'),
+                ('We have', 'data'),
+                ['---]', '}}}'],
+            ),
+        ]),
+    )
+    def test_legal_spec_data_on_right(full_data) -> None:
+        content, wanted_tuple, delims = full_data
+
+        assert extract_group(
+            content      = content,
+            delims       = delims,
+            context      = "LEGAL SPEC DATA ON RIGHT",
+            data_on_left = False
+        ) == wanted_tuple
+
+    test_legal_spec_data_on_right()
+
+
+    exit()
 
     for i, (txt, delims) in enumerate(
         [
