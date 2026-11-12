@@ -84,6 +84,7 @@
 
 from natsort import natsorted
 
+from aboutmeta.core.constants.api_tags      import TAG_ATOC
 from aboutmeta.core.constants.internal_tags import TAG_PATH_SEP
 
 from aboutmeta.specs.data.toc_path import (
@@ -141,8 +142,6 @@ def write(data: TOCPath) -> str | dict[str, str]:
 
 TAG_POSTPROD_ABOUT_PATH_FILES = '__POSTPROD_ABOUT_PATH_FILES__'
 
-_TAG_TOC = 'toc'
-
 
 ###
 # prototype::
@@ -179,7 +178,7 @@ def postprod(
 # A folder is treated by a dedicated AMData instance.
             if tpath.pattern[-1] == TAG_PATH_SEP:
                 sub_amdata = amdata.new_instance(
-                    flavour = _TAG_TOC,
+                    flavour = TAG_ATOC,
                     parent  = full_path,
                 )
 

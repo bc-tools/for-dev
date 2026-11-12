@@ -5,6 +5,17 @@ aboutmeta - TODO
 
 > ---------------------------- <
 
+code source : tous en mode auto testable commes le s cpntrib !!!!
+
+
+> ---------------------------- <
+
+post prod : besoin de penser au cas de différentes clés utilisé et du besoin de faire le lien avec la desc technique !!!
+
+
+
+> ---------------------------- <
+
 --------
 :update:
 --------

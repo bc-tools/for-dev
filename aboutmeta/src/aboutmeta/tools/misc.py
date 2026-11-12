@@ -7,10 +7,10 @@
 
 ###
 # prototype::
-#     text : a text
-#     part : a part of the text we don't want surrounded by spaces.
+#     text : text
+#     part : part of the text we don't want surrounded by spaces.
 #
-#     :return: the text stripped after cleaning up the spaces around
+#     :return: text stripped after cleaning up the spaces around
 #              the ''part'' text.
 #
 #
@@ -18,13 +18,13 @@
 #
 # pyterm::
 #     > from aboutmeta.tools.misc import no_space_around
-#     > no_space_around("A -B  -  C  D-   G", "-")
+#     > no_space_around('A -B  -  C  D-   G', '-')
 #     'A-B-C  D-G'
-#     > no_space_around(" -  ABC   - ", "-")
+#     > no_space_around(' -  ABC   - ', '-')
 #     '-ABC-'
-#     > no_space_around("  A   B    C  ", " ")
+#     > no_space_around('  A   B    C  ', ' ')
 #     'A B C'
-#     > no_space_around("", " ")
+#     > no_space_around('', ' ')
 #     ''
 ###
 def no_space_around(
@@ -44,9 +44,9 @@ def no_space_around(
 
 ###
 # prototype::
-#     text : a text
+#     text : text
 #
-#     :return: the text stripped with multiple consecutive spaces
+#     :return: text stripped with multiple consecutive spaces
 #              replaced by single spaces.
 #
 #     :see: no_space_around
@@ -56,44 +56,44 @@ def no_space_around(
 #
 # pyterm::
 #     > from aboutmeta.tools.misc import single_spaces
-#     > single_spaces("A   B    C")
+#     > single_spaces('A   B    C')
 #     'A B C'
-#     > single_spaces("   A   B    C   ")
+#     > single_spaces('   A   B    C   ')
 #     'A B C'
-#     > single_spaces("")
+#     > single_spaces('')
 #     ''
 ###
 def single_spaces(text: str) -> str:
-    return no_space_around(text, " ")
+    return no_space_around(text, ' ')
 
 
 # ----------- #
 # -- TESTS -- #
 # ----------- #
 
-if __name__ == "__main__":
-    print("\n------------\n")
+if __name__ == '__main__':
+    print('\n------------\n')
 
-    print("## no_space_around ##")
+    print('## no_space_around ##')
 
     for txt, part in [
-        ("A -B  -  C  D-   G", "-"),
-        (" -  ABC   - ", "-"),
-        ("  A   B    C  ", " "),
-        ("", " "),
+        ('A -B  -  C  D-   G', '-'),
+        (' -  ABC   - ', '-'),
+        ('  A   B    C  ', ' '),
+        ('', ' '),
     ]:
         print()
         print(f'{txt                        = }')
         print(f'{part                       = }')
         print(f'{no_space_around(txt, part) = }')
 
-    print("\n------------\n")
+    print('\n------------\n')
 
-    print("## single_spaces ##")
+    print('## single_spaces ##')
 
     for txt in [
-        "A   B    C",
-        "   A   B    C   ",
+        'A   B    C',
+        '   A   B    C   ',
         '',
     ]:
         print()

@@ -2,9 +2,9 @@ project:
   version: "1.0.0-beta.1"
 
   acronym: "[about] [meta]data"
-  desc   : "This module enables the definition of project metadata in 'about.yaml' files, simplifying the management of digital projects (both code and text) by third-party applications."
+  desc   : "This module enables the definition of project metadata using 'about.yaml' files, simplifying the management of digital projects (both code and text) by third-party applications."
 
-  author: Christophe,     BAL
+  author: Christophe, BAL
 
   licenses:
     code  : gpl 3.0 only

@@ -7,11 +7,11 @@
 
 ###
 # prototype::
-#     var_name       : name of the variable
-#     value          : XXXXX
-#     expected_types : XXXXX
+#     var_name       : variable name (for error message).
+#     value          : variable value.
+#     expected_types : the types allowed for ''value''.
 #
-#     :action: XXXXX
+#     :action: validate the ''value'' type.
 ###
 def validate_type(
     var_name      : str,
@@ -38,6 +38,52 @@ def validate_type(
         )
 
 
-# --------------------- #
-# -- NOTHING TO TEST -- #
-# --------------------- #
+# ----------- #
+# -- TESTS -- #
+# ----------- #
+
+if __name__ == "__main__":
+    from hypothesis import (
+        given,
+        strategies as st
+    )
+
+    import pytest
+
+# -- Legal type -- #
+    @given(
+        full_data = st.sampled_from([
+            (2  , int),
+            ('2', str),
+            (2  , (float, int)),
+        ]),
+    )
+    def test_legal_type(full_data) -> None:
+        val, _type = full_data
+
+        validate_type(
+            var_name       = '',
+            value          = val,
+            expected_types = _type,
+        )
+
+    test_legal_type()
+
+# -- Illegal type -- #
+    @given(
+        full_data = st.sampled_from([
+            (2, str),
+            (2, float),
+        ]),
+    )
+    def test_illegal_type(full_data) -> None:
+        val, _type = full_data
+
+        with pytest.raises(TypeError) as e:
+            validate_type(
+                var_name       = '',
+                value          = val,
+                expected_types = _type,
+            )
+
+    test_illegal_type()

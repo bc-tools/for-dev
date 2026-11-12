@@ -14,26 +14,48 @@ type DirTree = list[str | dict[str, DirTree]]
 
 ###
 # prototype::
-#     dirview : XXXXX
+#     dirview : dirview using \yaml syntax (see below).
 #
-#     :yield: XXXXX
+#     :action: creation of a temporary folder containing dummy
+#              files and folders that follow the dirview \spec.
+#              The temporary folder is deleted upon exiting the
+#              context manager invoked via the instrutcion
+#              ''with temp_dirtree(dirview) as d: ...''.
+#
+#     :yield: path of the temporary folder.
+#
+#
+# Here is an example of what a possible ''dirview'' looks like.
+#
+# yaml::
+#     - file-1.txt
+#     - file-2.txt
+#     - folder-1:
+#       - README.md
+#       - src:
+#         - main.py
+#         - CLI.py
+#     - folder-2:
+#       - TODO.txt
 ###
 @contextmanager
 def temp_dirtree(dirview: str) -> Path:
-    dirtree = safe_load(dirview)
+    py_dirview = safe_load(dirview)
 
     with tempfile.TemporaryDirectory() as tmpdir:
-        rootdir  = Path(tmpdir)
+        tempdir  = Path(tmpdir)
         prepaths = []
 
 ###
 # prototype::
-#     name : XXXXX
+#     name : name of a file or a folder.
 #
-#     :return: XXXXX
+#     :return: path built by combining ''tempdir'' (which is
+#              defined above) with the path segments stored
+#              in ''prepaths'', followed by ''name''.
 ###
         def fullpath(name: str) -> Path:
-            full_path = rootdir
+            full_path = tempdir
 
             for ppath in prepaths:
                 full_path /= ppath
@@ -44,12 +66,15 @@ def temp_dirtree(dirview: str) -> Path:
 
 ###
 # prototype::
-#     dirtree : XXXXX
+#     py_dirview : one dirview.
 #
-#     :action: XXXXX
+#     :action: add files or folders specified while iterating
+#              over the current list, making recursive calls
+#              to handle folder contents (which are specified
+#              using a single-key dictionary).
 ###
-        def recu_build_dirtree(dirtree: DirTree) -> None:
-            for content in dirtree:
+        def recu_build_dirtree(py_dirview: DirTree) -> None:
+            for content in py_dirview:
                 if type(content) == str:
                     fullpath(content).touch()
 
@@ -62,10 +87,10 @@ def temp_dirtree(dirview: str) -> Path:
                         prepaths.pop(-1)
 
 # It's time to work...
-        recu_build_dirtree(dirtree)
+        recu_build_dirtree(py_dirview)
 
-# We must resolve the path!
-        yield rootdir.resolve()
+# We must return a resolved path!
+        yield tempdir.resolve()
 
 
 # ----------- #
