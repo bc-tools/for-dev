@@ -9,69 +9,75 @@ from aboutmeta.core.errors import ParsingError
 
 ###
 # prototype::
-#     content      : text with, or without, a specific extremal
-#                    data surrounded by the delimiters defined
-#                    using the ''delims'' argument.
-#     delims       : list of the opening and closing characters
-#                    used to frame special data.
-#     context      : context of use (this text is for error
-#                    messages).
-#     data_on_left : if the value is ''True'', the 'framed' data
-#                    must be at the end of the text, otherwise it
-#                    must be at the beginning (no data can be
-#                    inside the text).
+#     content       : text with, or without, a specific extremal
+#                     data surrounded by the delimiters defined
+#                     using the ''delims'' argument.
+#     delims        : list of opening and closing string delimiters
+#                     used to enclose special data.
+#     context       : context of use (this text is for error
+#                     messages).
+#     data_on_right : if the value is ''True'', the 'enclosed' data
+#                     must be at the end of the text, otherwise it
+#                     must be at the beginning (no data can be
+#                     inside the text).
 #
 #     :return: pair of variables ''(remaining, data)'' where
 #              ''remaining'' is the text obtained after removing
-#              the 'framed' data. ''data'' is ''None'' if no data
+#              the 'enclosed' data. ''data'' is ''None'' if no data
 #              has been extracted, and all constructed texts are
 #              stripped.
+#
+#
+# tip::
+#     For single characters, you can directly pass a 2-length string.
 #
 #
 # Here is a terminal session without any error.
 #
 # pyterm::
 #     > from aboutmeta.tools.group import extract_group
-#     > extract_group('Nothing to extract', '[]', 'CTXT.OK.1')
+#     > extract_group('Nothing to extract', '{}', 'OK.1')
 #     ('Nothing to extract', None)
-#     > extract_group('We have [  data ]', '[]', 'CTXT.OK.2')
+#     > extract_group('We have {  data }', '{}', 'OK.2')
 #     ('We have', 'data')
-#     > extract_group('[Data] before', '[]', 'CTXT.OK.3', False)
+#     > extract_group('{Data} before', '{}', 'OK.3', False)
 #     ('before', 'Data')
+#     > extract_group('We have {{data[--', ['{{', '[--'], 'OK.3')
+#     ('We have', 'data')
 #
 #
 # Here is a terminal session with errors.
 #
 # pyterm::
 #     > from aboutmeta.tools.group import extract_group
-#     > extract_group('Not opened!]', '[]', 'CTXT.KO1')
+#     > extract_group('Not opened!}', '{}', 'KO1')
 #     Traceback (most recent call last):
 #       ...
 #         raise ParsingError(
-#     aboutmeta.core.errors.ParsingError: missing opening ''['' for CTXT.KO1.
-#     > extract_group('Not [closed!', '[]', 'CTXT.KO2')
+#     aboutmeta.core.errors.ParsingError: missing opening ''{'' for KO1.
+#     > extract_group('Not {closed!', '{}', 'KO2')
 #     Traceback (most recent call last):
 #       ...
 #         raise ParsingError(
-#     aboutmeta.core.errors.ParsingError: missing closing '']'' for CTXT.KO2.
-#     > extract_group('Mis]placed[ delims', '[]', 'CTXT.KO3')
+#     aboutmeta.core.errors.ParsingError: missing closing ''}'' for KO2.
+#     > extract_group('Mis}placed{ delims', '{}', 'KO3')
 #     Traceback (most recent call last):
 #       ...
 #         raise ParsingError(
-#     aboutmeta.core.errors.ParsingError: missing closing '']'' at the end for CTXT.KO3.
-#     > extract_group('[Bad data] before', '[]', 'CTXT.KO4')
+#     aboutmeta.core.errors.ParsingError: missing closing ''}'' at the end for KO3.
+#     > extract_group('{Bad data} before', '{}', 'KO4')
 #     Traceback (most recent call last):
 #       ...
 #         raise ParsingError(
-#    aboutmeta.core.errors.ParsingError: missing closing '']'' at the end for CTXT.KO4.
+#    aboutmeta.core.errors.ParsingError: missing closing ''}'' at the end for KO4.
 ###
 def extract_group(
-    content     : str,
-    delims      : list[str],
-    context     : str,
-    data_on_left: bool = True
+    content      : str,
+    delims       : str | list[str],
+    context      : str,
+    data_on_right: bool = True
 ) -> tuple[str, str | None]:
-# Two delimiting characters?
+# Two delimiters?
     if len(delims) != 2:
         raise ValueError(
             f"two delimiters needed, see '{delims}'."
@@ -102,16 +108,18 @@ def extract_group(
             )
 
 # Good use of delimiters?
-    if data_on_left:
-        extrem_pos  = -1
-        extrem_char = closer
+    if data_on_right:
+        extrem_start = len(content) - len(closer)
+        extrem_end   = len(content)
+        extrem_char  = closer
 
     else:
-        extrem_pos  = 0
-        extrem_char = opener
+        extrem_start = 0
+        extrem_end   = len(opener)
+        extrem_char  = opener
 
-    if content[extrem_pos] != extrem_char:
-        if extrem_pos == 0:
+    if content[extrem_start: extrem_end] != extrem_char:
+        if extrem_start == 0:
             what  = 'opening'
             where = 'begining'
 
@@ -120,19 +128,19 @@ def extract_group(
             where = 'end'
 
         raise ParsingError(
-            f'at {where}, missing {what} ''{extrem_char}'' '
+            f'at {where}, missing {what} {extrem_char!r} '
             f'for {context}.'
         )
 
 # Let's extract special data.
-    if extrem_pos == 0:
+    if extrem_start == 0:
         end       = content.index(closer)
-        data      = content[1:end].strip()
-        remaining = content[end + 1:].strip()
+        data      = content[extrem_end:end].strip()
+        remaining = content[end + len(closer):].strip()
 
     else:
         start     = content.rindex(opener)
-        data      = content[start + 1 : -1].strip()
+        data      = content[start + len(opener) : extrem_start].strip()
         remaining = content[:start].strip()
 
 # Mission accomplished.
@@ -141,11 +149,11 @@ def extract_group(
 
 ###
 # prototype::
-#     groups : list of texts to be framed.
+#     groups : list of texts to be enclosed.
 #     delims : texts indicating 'framing' characters.
 #            @ len(groups) = len(delims)
 #
-#     :return: text obtained by joining the framed texts with
+#     :return: text obtained by joining the enclosed texts with
 #              spaces.
 #
 #
@@ -187,8 +195,7 @@ def gather_groups(
 # Same sizes?
     if len(groups) != len(delims):
         raise ValueError(
-            'lists ''groups'' and ''delims'' '
-            'must have same length.'
+            "lists 'groups' and 'delims' must have same length."
         )
 
 # Let's apply the delimiters.
@@ -241,22 +248,24 @@ if __name__ == '__main__':
     if INTERACTIVE_SESSION:
         print('---')
 
-        content      = 'We have {{data[--'
-        delims       = ['{{', '[--']
-        data_on_left = False
-        data_on_left = True
+        content       = 'We have {{data[--'
+        delims        = ['{{', '[--']
+        data_on_right = True
+
+        content       = '{{Data[-- before'
+        delims        = ['{{', '[--']
+        data_on_right = False
 
         print(f'{content      = }')
         print(f'{delims       = }')
-        print(f'{data_on_left = }')
+        print(f'{data_on_right = }')
 
         print()
         print(
-            f'extract_group: {extract_group(content, delims, "DEBUGGING", data_on_left)}'
+            f'extract_group: {extract_group(content, delims, "DEBUGGING", data_on_right)}'
         )
 
         exit()
-
 # :dev
 
 # -- Extract groups - Legal spec (data on left) -- #
@@ -265,17 +274,17 @@ if __name__ == '__main__':
             (
                 'We have no data',
                 ('We have no data', None),
-                list('[]'),
+                '[]',
             ),
             (
                 'We [h]ave [data]',
                 ('We [h]ave', 'data'),
-                list('[]'),
+                '[]',
             ),
             (
                 'We have ]data[',
                 ('We have', 'data'),
-                list(']['),
+                '][',
             ),
             (
                 'We have {{data[--',
@@ -284,7 +293,7 @@ if __name__ == '__main__':
             ),
         ]),
     )
-    def test_legal_spec_data_on_left(full_data) -> None:
+    def test_legal_spec_data_on_right(full_data) -> None:
         content, wanted_tuple, delims = full_data
 
         assert extract_group(
@@ -293,7 +302,7 @@ if __name__ == '__main__':
             context = "LEGAL SPEC DATA ON LEFT",
         ) == wanted_tuple
 
-    test_legal_spec_data_on_left()
+    test_legal_spec_data_on_right()
 
 # -- Extract groups - Legal spec (data on right) -- #
     @given(
@@ -301,22 +310,21 @@ if __name__ == '__main__':
             (
                 'We have no data',
                 ('We have no data', None),
-                list('()'),
+                '()',
             ),
             (
                 '(Data) we (h)ave',
                 ('we (h)ave', 'Data'),
-                list('[]'),
+                '()',
             ),
             (
                 ')Data( we have',
                 ('we have', 'Data'),
-                list(')('),
+                ')(',
             ),
             (
                 '---]Data}}} we have',
                 ('we have', 'Data'),
-                ('We have', 'data'),
                 ['---]', '}}}'],
             ),
         ]),
@@ -328,10 +336,13 @@ if __name__ == '__main__':
             content      = content,
             delims       = delims,
             context      = "LEGAL SPEC DATA ON RIGHT",
-            data_on_left = False
+            data_on_right = False
         ) == wanted_tuple
 
     test_legal_spec_data_on_right()
+
+
+
 
 
     exit()
