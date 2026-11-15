@@ -2,11 +2,114 @@
 aboutmeta - TODO
 =========
 
+> ---------------------------- <
+
+cbutils : ajout de l'intégration des tests
+
+   --> section NO TEST pour cas où les test ne sont pas fasiables ou vraiement inutiles
+
+   --> besoin d'ajout des ifchiers de config yaml pour imposer l'ordre des tests, sinon on les rodonnée naturellement
+
+   --> tests indiqués dans le foncig yaml toujours en premier, on peut ainsi imposer des tests critiques au tout début et pour la suirte utiliser l'ordre naturellement
 
 > ---------------------------- <
 
-extract_group : ok avec delims de plus de un caractère!
+gestion des message d'erreur !!!
 
+        with pytest.raises(TypeError) as e:
+            validate_type(
+                var_name       = '',
+                value          = val,
+                expected_types = _type,
+            )
+
+        print("Message d'erreur capturé :", e.value)
+
+
+> ---------------------------- <
+
+on vire les (car si maj alors on doit chger aussi la doc (c'est con!)
+
+pyterm::
+    > from aboutmeta.tools.group import extract_group
+    > extract_group('Nothing to extract', '{}', 'OK.1')
+    ('Nothing to extract', None)
+    > extract_group('We have {  data }', '{}', 'OK.2')
+    ('We have', 'data')
+    > extract_group('{Data} before', '{}', 'OK.3', False)
+    ('before', 'Data')
+    > extract_group('We have {{data[--', ['{{', '[--'], 'OK.3')
+    ('We have', 'data')
+
+on passe un syts de type test et laisse tnsdoc produit le pyterm, cahrge au codeur de mettre les valeurs en tests unitaires locaux pour valider on code : pour la traceback, on garde toujouts le tout dernier bloc...s
+
+pyterm-auto::
+    ---
+    data = in [
+        ('Nothing to extract', '{}', 'OK.1'),
+        ('We have {  data }', '{}', 'OK.2'),
+        ('{Data} before', '{}', 'OK.3', False),
+        ('We have {{data[--', ['{{', '[--'], 'OK.3')
+    ]
+    ---
+
+    from aboutmeta.tools.group import extract_group
+    extract_group(data[0], data[1], data[2])
+
+
+IA donne :
+
+import sys
+import io
+
+def simulate_code_session(code_lines):
+    """
+    Exécute une liste de lignes de code arbitraires ligne par ligne,
+    en conservant le contexte et en affichant un rendu de type terminal.
+    """
+    print("\033[1mPython 3.10.x (interactive session)\033[0m")
+    print("Type \"help\", \"copyright\" or \"license\" for more information.\n")
+
+    # Dictionnaire pour stocker l'état (variables, fonctions, imports) d'une ligne à l'autre
+    global_context = {}
+
+    for line in code_lines:
+        line = line.strip()
+        # Ignorer les lignes vides ou les commentaires seuls
+        if not line or line.startswith("#"):
+            continue
+
+        # 1. Affichage du prompt du terminal
+        print(f"\033[36m>>>\033[0m {line}")
+
+        # 2. Redirection de la sortie standard (pour capturer les print() du code)
+        old_stdout = sys.stdout
+        sys.stdout = captured_output = io.StringIO()
+
+        try:
+            # 3. Tentative d'évaluation en tant qu'expression (pour afficher le retour automatiquement)
+            # Si c'est une affectation (ex: x = 10) ou une instruction (ex: def, import),
+            # eval() lèvera une SyntaxError, on basculera alors sur exec().
+            try:
+                result = eval(line, global_context)
+                if result is not None:
+                    print(repr(result))
+            except SyntaxError:
+                exec(line, global_context)
+
+            # Récupération et restauration de la sortie standard
+            sys.stdout = old_stdout
+            output_val = captured_output.getvalue()
+            if output_val:
+                print(output_val, end="")
+
+        except Exception as e:
+            # Restauration de sys.stdout en cas d'erreur
+            sys.stdout = old_stdout
+            # Affichage de l'exception en rouge
+            print(f"\033[31m{type(e).__name__}: {e}\033[0m")
+
+        print() # Ligne vide pour aérer
 
 > ---------------------------- <
 

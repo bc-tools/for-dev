@@ -93,7 +93,7 @@ def extract_group(
     ):
         return (content, None)
 
-# One of the delimiters is alone. Poor lonesome character...
+# One of the delimiters is alone. Poor lonesome delimiter...
     for missing, found, kind in [
         (closer, opener, 'closing'),
         (opener, closer, 'opening'),
@@ -104,7 +104,7 @@ def extract_group(
             found in content
         ):
             raise ParsingError(
-                f'missing {kind} ''{missing}'' for {context}.'
+                f'missing {kind} {missing!r} for {context}.'
             )
 
 # Good use of delimiters?
@@ -135,12 +135,12 @@ def extract_group(
 # Let's extract special data.
     if extrem_start == 0:
         end       = content.index(closer)
-        data      = content[extrem_end:end].strip()
+        data      = content[extrem_end: end].strip()
         remaining = content[end + len(closer):].strip()
 
     else:
         start     = content.rindex(opener)
-        data      = content[start + len(opener) : extrem_start].strip()
+        data      = content[start + len(opener): extrem_start].strip()
         remaining = content[:start].strip()
 
 # Mission accomplished.
@@ -340,6 +340,10 @@ if __name__ == '__main__':
         ) == wanted_tuple
 
     test_legal_spec_data_on_right()
+
+
+
+
 
 
 
