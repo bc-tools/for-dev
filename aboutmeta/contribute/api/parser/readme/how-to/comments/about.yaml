@@ -1,7 +1,0 @@
-atoc:
-  - template.md
-  - tnsdoc.md
-  - ../../../../../readme-dev-common/comments/imports.md
-  - tools.md
-  - ../../../../../readme-dev-common/comments/tools/warning.md
-  - g: ../../../../../readme-dev-common/comments/tests/*.md

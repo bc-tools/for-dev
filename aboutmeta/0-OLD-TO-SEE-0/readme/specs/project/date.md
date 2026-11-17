@@ -1,3 +1,0 @@
-#### Date
-
-The optional `project.date` key allows to give a date in the English format `YYYY-MM-DD` like `2025-07-15`.
