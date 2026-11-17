@@ -114,5 +114,5 @@ if __name__ == '__main__':
             print(f'Saving {title!r} SVG screenshot')
 
             active_console.save_svg(
-                str(TOOLS_DATA_DIR  / f"terminal-output-{title}.svg")
+                str(TOOLS_DATA_DIR  / f"term-output-{title}-LOGGING.svg")
             )

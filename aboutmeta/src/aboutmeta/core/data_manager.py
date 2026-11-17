@@ -307,9 +307,20 @@ class DataManager:
 # ----------- #
 
 if __name__ == '__main__':
+    from pathlib import Path
+
+    THIS_DIR       = Path(__file__).parent
+    TOOLS_DATA_DIR = THIS_DIR
+
+    while(TOOLS_DATA_DIR.name != 'for-dev'):
+        TOOLS_DATA_DIR = TOOLS_DATA_DIR.parent
+
+    TOOLS_DATA_DIR = TOOLS_DATA_DIR / 'aboutmeta' / 'tools' / 'data' / 'svg'
+
+
     from pprint import pprint
 
-    setup_logging()
+    active_console = setup_logging()
 
     class MyData(DataManager):
         yaml_val: str
@@ -361,3 +372,9 @@ if __name__ == '__main__':
     data_pb.no_check()
 
     pprint(mydata._errors_found)
+
+    print(f'Saving SVG screenshot')
+
+    active_console.save_svg(
+                str(TOOLS_DATA_DIR  / "term-output-COLORFUL-DATA-PB.svg")
+            )
