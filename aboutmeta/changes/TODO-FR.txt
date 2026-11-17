@@ -2,6 +2,33 @@
 aboutmeta - TODO
 =========
 
+
+> ---------------------------- <
+
+unit tests locaux
+
+./aboutmeta/core/log_conf.py
+./aboutmeta/core/data_manager.py
+./aboutmeta/amdata.py
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev
+
+
+> ---------------------------- <
+
+unit tests avec msg
+
+./aboutmeta/tools/spacing.py
+./aboutmeta/tools/web.py
+./aboutmeta/tools/group.py
+./aboutmeta/core/log_conf.py
+./aboutmeta/core/validate.py
+./aboutmeta/core/data_manager.py
+./aboutmeta/amdata.py
+
+
 > ---------------------------- <
 
 cbutils : ajout de l'intégration des tests
@@ -11,6 +38,8 @@ cbutils : ajout de l'intégration des tests
    --> besoin d'ajout des ifchiers de config yaml pour imposer l'ordre des tests, sinon on les rodonnée naturellement
 
    --> tests indiqués dans le foncig yaml toujours en premier, on peut ainsi imposer des tests critiques au tout début et pour la suirte utiliser l'ordre naturellement
+
+   --> interdire tests vides !!!
 
 > ---------------------------- <
 
@@ -45,7 +74,7 @@ on passe un syts de type test et laisse tnsdoc produit le pyterm, cahrge au code
 
 pyterm-auto::
     ---
-    data = in [
+    data in [
         ('Nothing to extract', '{}', 'OK.1'),
         ('We have {  data }', '{}', 'OK.2'),
         ('{Data} before', '{}', 'OK.3', False),
@@ -109,20 +138,11 @@ def simulate_code_session(code_lines):
             # Affichage de l'exception en rouge
             print(f"\033[31m{type(e).__name__}: {e}\033[0m")
 
-        print() # Ligne vide pour aérer
-
-> ---------------------------- <
-
-code source : tous en mode auto testable commes le s cpntrib !!!!
-
-intégration auto mais ici tests vides acceptés
-
-voir si tets vides repérés pour les contribu pour stippe le buidling si besoin !!!
+        print() # Ligne vide pour aéreracous
 
 > ---------------------------- <
 
 post prod : besoin de penser au cas de différentes clés utilisé et du besoin de faire le lien avec la desc technique !!!
-
 
 
 > ---------------------------- <

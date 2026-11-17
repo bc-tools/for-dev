@@ -13,14 +13,14 @@ from aboutmeta.core.log_conf import *
 
 ###
 # prototype::
-#     log_levels : ''logging'' level names
-#                @ log_levels in [
-#                      'info',
-#                      'warning',
-#                      'critical',
-#                      'error',
-#                      'debug',
-#                  ]
+#     log_levels: ''logging'' level names
+#         @ log_levels in [
+#             'info',
+#             'warning',
+#             'critical',
+#             'error',
+#             'debug',
+#         ]
 #
 #     :return: class decorator function used to inject logging
 #              methods into a class.
@@ -28,11 +28,11 @@ from aboutmeta.core.log_conf import *
 def add_log_methods(*log_levels: str) -> callable:
 ###
 # prototype::
-#     cls : target class to be decorated.
+#     cls: target class to be decorated.
 #
 #     :return: decorated class with injected ''logging'' methods
-#              that automatically prepend a text prefix using
-#              the ''cls._prefixed'' method.
+#         that automatically prepend a text prefix using the
+#         ''cls._prefixed'' method.
 ###
     def decorator(cls: object) -> object:
         for one_log_level in log_levels:
@@ -43,18 +43,18 @@ def add_log_methods(*log_levels: str) -> callable:
 
 ###
 # prototype::
-#     fn : underlying ''logging'' function to be wrapped.
+#     fnc: underlying ''logging'' function to be wrapped.
 #
 #     :return: method wrapper that prefixes the ''logging''
-#              message, using the ''cls._prefixed'' method,
-#              and then executes the 'logging' call.
+#         message, using the ''cls._prefixed'' method, and then
+#         executes the 'logging' call.
 ###
-            def _make_logger(fn: callable) -> callable:
-                @wraps(fn)
+            def _make_logger(fnc: callable) -> callable:
+                @wraps(fnc)
                 def method(self, text: str) -> None:
                     message = self._prefixed(text)
 
-                    fn(message)
+                    fnc(message)
 
                 return method
 
@@ -72,9 +72,9 @@ def add_log_methods(*log_levels: str) -> callable:
 
 ###
 # prototype::
-#     cls : class equal to the ''data_cls'' attribute which is
-#           used to update ''data_cls._errors_found'', a list
-#           of issues.
+#     cls: class equal to the ''data_cls'' attribute which is
+#         used to update ''data_cls._errors_found'', a list of
+#         issues.
 #
 #     :action: :see: add_log_methods[return]
 #
@@ -98,14 +98,14 @@ class DataPB:
 ###
 # prototype::
 #     :action: setting the ''errors_found'' attribute of
-#              ''self.data_cls'' to an empty list.
+#         ''self.data_cls'' to an empty list.
 ###
     def start(self):
        self.data_cls._errors_found = []
 
 ###
 # prototype::
-#     what : short text describing an ongoing process.
+#     what: short text describing an ongoing process.
 #
 #     :action: set internal ''__what'' attribute to ''what''.
 ###
@@ -117,11 +117,11 @@ class DataPB:
 
 ###
 # prototype::
-#     text : message.
+#     text: message.
 #
 #     :return: prefixed ''text'' value indicating in brackets
-#              the type of data being studied and the specific
-#              element under analysis.
+#         the type of data being studied and the specific \elt
+#         under analysis.
 ###
     def _prefixed(
         self,
@@ -131,12 +131,13 @@ class DataPB:
 
 ###
 # prototype::
-#     data      : :see: self._error_printed_stored
-#     error_msg : :see: self._error_printed_stored
+#     data: :see: self._error_printed_stored
+#
+#     error_msg: :see: self._error_printed_stored
 #
 #
 #     :action: print and store a message made with ''data'' and
-#              ''error_msg''.
+#         ''error_msg''.
 #
 #     :see: self._error_printed_stored
 ###
@@ -152,12 +153,13 @@ class DataPB:
 
 ###
 # prototype::
-#     data       : :see: self._error_printed_stored
-#     _exception : exception instance caught by a validation or
-#                  normalization process.
+#     data: :see: self._error_printed_stored
+#
+#     _exception: exception instance caught by a validation or
+#         normalization process.
 #
 #     :action: print and store a text showing type and message
-#              of the exception, and the problematic ''data''.
+#         of the exception, and the problematic ''data''.
 #
 #     :see: self._error_printed_stored
 ###
@@ -174,14 +176,16 @@ class DataPB:
 
 ###
 # prototype::
-#     data      : data.
-#     error_msg : error message.
-#     prefix    : optional prefix to add before ''error_msg''.
+#     data: data.
+#
+#     error_msg: error message.
+#
+#     prefix: optional prefix to add before ''error_msg''.
 #
 #     :action: print an error logging message and store it in
-#              the attribute ''data_cls._errors_found''.
-#              The message is made by added ''prefix'', if not
-#              empty, and ''data'' before ''error_msg''.
+#         the attribute ''data_cls._errors_found''.
+#         The message is made by added ''prefix'', if not empty,
+#         and ''data'' before ''error_msg''.
 ###
     def _error_printed_stored(
         self,
@@ -196,10 +200,10 @@ class DataPB:
 
 ###
 # prototype::
-#     data : data to check.
+#     data: data to check.
 #
 #     :action: display one text stating that data is being
-#              checked.
+#         checked.
 ###
     def checking(
         self,
@@ -210,14 +214,14 @@ class DataPB:
 ###
 # prototype::
 #     :action: display one text stating that nothing needs to
-#              be checked.
+#         be checked.
 ###
     def no_check(self):
         self.info('Nothing to check.')
 
 ###
 # prototype::
-#     data : data that has been rejected.
+#     data: data that has been rejected.
 #
 #     :action: display text indicating data rejection.
 #
@@ -234,7 +238,7 @@ class DataPB:
 
 ###
 # prototype::
-#     data : data that has been validated.
+#     data: data that has been validated.
 #
 #     :action: display text indicating data validation.
 #
@@ -251,12 +255,13 @@ class DataPB:
 
 ###
 # prototype::
-#     data         : data that has been tested to be validated.
-#     is_validated : boolean indicating validation or rejection
-#                    of the tested data.
+#     data: data that has been tested to be validated.
+#
+#     is_validated: boolean indicating validation or rejection
+#         of the tested data.
 #
 #     :action: display text indicating rejection or validation
-#              of the data.
+#         of the data.
 ###
     def _conclusion(
         self,

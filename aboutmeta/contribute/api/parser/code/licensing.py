@@ -23,7 +23,7 @@ from aboutmeta.specs.data.licensing import Licensing
 
 ###
 # prototype::
-#     data : \lic code provided in the \yaml file.
+#     data: \lic code provided in the \yaml file.
 #
 #     :return: ''Licensing'' instance representing the license.
 ###
@@ -39,7 +39,7 @@ def parse(data: str) -> Licensing:
 
 ###
 # prototype::
-#     data : ''Licensing'' object.
+#     data: ''Licensing'' object.
 #
 #     :return: \spdx lowercase identifier with hyphens replaced
 #              by single spaces.
@@ -85,3 +85,7 @@ if __name__ == "__main__":
         assert write(parse(yaml_data)) == yaml_data
 
     test_back_2_spec()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

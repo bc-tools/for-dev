@@ -24,7 +24,7 @@ from aboutmeta.specs.data.lang import Lang
 
 ###
 # prototype::
-#     data : \lang provided in the \yaml file.
+#     data: \lang provided in the \yaml file.
 #
 #     :return: ''Lang'' instance representing the \lang.
 ###
@@ -40,7 +40,7 @@ def parse(data: str) -> Lang:
 
 ###
 # prototype::
-#     data : ''Lang'' object.
+#     data: ''Lang'' object.
 #
 #     :return: full \lang identifier like ''"fr-FR"''.
 ###
@@ -81,3 +81,7 @@ if __name__ == "__main__":
         assert write(parse(yaml_data)) == yaml_data
 
     test_back_2_spec()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

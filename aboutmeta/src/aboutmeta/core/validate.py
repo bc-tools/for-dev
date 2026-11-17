@@ -7,9 +7,11 @@
 
 ###
 # prototype::
-#     var_name       : variable name (for error message).
-#     value          : variable value.
-#     expected_types : the types allowed for ''value''.
+#     var_name: variable name (for error message).
+#
+#     value: variable value.
+#
+#     expected_types: the types allowed for ''value''.
 #
 #     :action: validate the ''value'' type.
 ###
@@ -106,3 +108,7 @@ if __name__ == "__main__":
             )
 
     test_bad_use()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

@@ -9,23 +9,23 @@ from aboutmeta.core.errors import ParsingError
 
 ###
 # prototype::
-#     content       : text with, or without, a specific extremal
-#                     data surrounded by the delimiters defined
-#                     using the ''delims'' argument.
-#     delims        : list of opening and closing string delimiters
-#                     used to enclose special data.
-#     context       : context of use (this text is for error
-#                     messages).
-#     data_on_right : if the value is ''True'', the 'enclosed' data
-#                     must be at the end of the text, otherwise it
-#                     must be at the beginning (no data can be
-#                     inside the text).
+#     content: text with, or without, a specific extremal data
+#         surrounded by the delimiters defined using the ''delims''
+#         argument.
+#
+#     delims: list of opening and closing string delimiters used
+#         to enclose special data.
+
+#     context: context of use (this text is for error messages).
+#
+#     data_on_right: if the value is ''True'', the 'enclosed' data
+#         must be at the end of the text, otherwise it must be at
+#         the beginning (no data can be inside the text).
 #
 #     :return: pair of variables ''(remaining, data)'' where
-#              ''remaining'' is the text obtained after removing
-#              the 'enclosed' data. ''data'' is ''None'' if no data
-#              has been extracted, and all constructed texts are
-#              stripped.
+#         ''remaining'' is the text obtained after removing the
+#         'enclosed' data. ''data'' is ''None'' if no data has been
+#         extracted, and all constructed texts are stripped.
 #
 #
 # tip::
@@ -149,12 +149,13 @@ def extract_group(
 
 ###
 # prototype::
-#     groups : list of texts to be enclosed.
-#     delims : texts indicating 'framing' characters.
-#            @ len(groups) = len(delims)
+#     groups: list of texts to be enclosed.
+#
+#     delims: texts indicating 'framing' characters.
+#         @ len(groups) = len(delims)
 #
 #     :return: text obtained by joining the enclosed texts with
-#              spaces.
+#         spaces.
 #
 #
 # Here is a terminal session.
@@ -293,7 +294,7 @@ if __name__ == '__main__':
             ),
         ]),
     )
-    def test_legal_spec_data_on_right(full_data) -> None:
+    def test_extract_legal_spec_data_on_right(full_data) -> None:
         content, wanted_tuple, delims = full_data
 
         assert extract_group(
@@ -302,7 +303,7 @@ if __name__ == '__main__':
             context = "LEGAL SPEC DATA ON LEFT",
         ) == wanted_tuple
 
-    test_legal_spec_data_on_right()
+    test_extract_legal_spec_data_on_right()
 
 # -- Extract groups - Legal spec (data on right) -- #
     @given(
@@ -329,7 +330,7 @@ if __name__ == '__main__':
             ),
         ]),
     )
-    def test_legal_spec_data_on_right(full_data) -> None:
+    def test_extract_legal_spec_data_on_right(full_data) -> None:
         content, wanted_tuple, delims = full_data
 
         assert extract_group(
@@ -339,20 +340,30 @@ if __name__ == '__main__':
             data_on_right = False
         ) == wanted_tuple
 
-    test_legal_spec_data_on_right()
+    test_extract_legal_spec_data_on_right()
 
+# -- Extract groups - Illegal delims -- #
+    @given(
+        delims = st.sampled_from([
+            '[',
+            '[]]',
+            ['['],
+            ['[', ']', ']'],
+        ]),
+    )
+    def test_extract_illegal_delims(delims) -> None:
+        with pytest.raises(ValueError) as e:
+            extract_group(
+            content = 'We have [data]',
+            delims  = delims,
+            context = "ILLEGAL DELIMS"
+        )
 
+    test_extract_illegal_delims()
 
-
-
-
-
-
-
-    exit()
-
-    for i, (txt, delims) in enumerate(
-        [
+# -- Extract groups - Delims misused -- #
+    @given(
+        full_data = st.sampled_from([
             (
                 'Not [closed!',
                 '[]',
@@ -365,73 +376,69 @@ if __name__ == '__main__':
                 '[Bad data] before',
                 '[]',
             ),
-        ],
-        start = 1
-    ):
-        ctxt = f'-- CTXT KO {i} --'
+        ]),
+    )
+    def test_extract_delims_misused(full_data) -> None:
+        content, delims = full_data
 
-        print()
-        print(ctxt)
+        with pytest.raises(ParsingError) as e:
+            extract_group(
+                content = content,
+                delims  = delims,
+                context = "BAD DELIMS"
+            )
 
-        print(f'{txt    = }')
-        print(f'{delims = }')
+    test_extract_delims_misused()
 
-        try:
-            extract_group(txt, delims, ctxt)
-
-        except ParsingError as e:
-            print(f'ParsingError: {e}')
-
-    exit()
-
-    print('\n------------\n')
-
-    print('## gather_groups ##')
-
-    for i, (txtgps, delims) in enumerate(
-        [
+# -- Gather groups - Legal specs -- #
+    @given(
+        full_data = st.sampled_from([
             (
-                ['Someone', 'email@test.org', 'Institute, Galaxy'],
-                ['', '[]', '()']
+                ['A', 'B'],
+                ['[]', '()'],
+                '[A] (B)'
             ),
             (
-                ['Someone', '', 'Institute, Galaxy'],
-                ['', '[]', '()']
+                ['A', 'B', 'C'],
+                ['', '[]', '()'],
+                'A [B] (C)'
             ),
-        ],
-        start = 1
-    ):
-        print()
-        print(f'-- CTXT OK {i} --')
+        ]),
+    )
+    def test_gather_legal_specs(full_data) -> None:
+        groups, delims, content = full_data
 
-        print(f'{txtgps = }')
-        print(f'{delims = }')
-        print(
-                'result =',
-            gather_groups(txtgps, delims)
-        )
+        assert gather_groups(
+            groups = groups,
+            delims = delims,
+        ) == content
 
-    for i, (txt, delims) in enumerate(
-        [
+    test_gather_legal_specs()
+
+# -- Gather groups - Illegal specs -- #
+    @given(
+        full_data = st.sampled_from([
             (
-                ['Someone', 'email@test.org', 'Institute, Galaxy'],
-                ['', '[', '()']
+                ['A', 'B', 'C'],
+                ['', '[', '()'],
             ),
             (
-                ['Someone', 'email@test.org', 'Institute, Galaxy'],
+                ['A', 'B', 'C'],
                 ['[]', '()']
             ),
-        ],
-        start = 1
-    ):
-        print()
-        print(f'-- CTXT KO {i} --')
+        ]),
+    )
+    def test_gather_illegal_specs(full_data) -> None:
+        groups, delims = full_data
 
-        try:
-            print(f'{txtgps = }')
-            print(f'{delims = }')
+        with pytest.raises(ValueError) as e:
+            gather_groups(
+                groups = groups,
+                delims = delims,
+            )
 
-            gather_groups(txtgps, delims)
+    test_gather_illegal_specs()
 
-        except ValueError as e:
-            print(f'ValueError: {e}')
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

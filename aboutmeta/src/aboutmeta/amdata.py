@@ -48,15 +48,18 @@ class _AMDataChecker:
 ###
 # prototype::
 #     _exception : :see: self._raise_kpse_error
-#     fmt_str    : a format \str with placeholders to be replaced.
-#                  The following placeholders are reserved.
-#         + ''{names}'' is used to print a comma separated list of
-#           "names".
-#         + ''{plural}'' allows to use ''"s"'' for several names,
-#           and python::{''} otherwise.
-#         + ''{keypath}'', ''{e}'' and ''{etype}'': :see:
-#           self._raise_kpse_error.
-#     names    : a set of key names.
+#
+#     fmt_str : a format \str with placeholders to be replaced.
+#         The following placeholders are reserved.
+#             + ''{names}'' is used to print a comma separated
+#               list of "names".
+#             + ''{plural}'' allows to use ''"s"'' for several
+#               names, and python::{''} otherwise.
+#             + ''{keypath}'', ''{e}'' and ''{etype}'': :see:
+#               self._raise_kpse_error.
+#
+#     names : a set of key names.
+#
 #     **kwargs : :see: self._raise_kpse_error
 #
 #     :action: :see: self._raise_kpse_error
@@ -92,22 +95,24 @@ class _AMDataChecker:
 ###
 # prototype::
 #     _exception : an exception to raise.
-#     fmt_str    : a format \str with placeholders to be replaced.
-#                  The following placeholders are reserved.
-#         + ''{keypath}'' is replaced by the current ''AMData''
-#           full keypath.
-#         + ''{e}'' is used to print the sub-exception \msg when
-#           present.
-#         + ''{etype}'' is the sub-exception type when present.
+#
+#     fmt_str : a format \str with placeholders to be replaced.
+#         The following placeholders are reserved.
+#             + ''{keypath}'' is replaced by the current ''AMData''
+#               full keypath.
+#             + ''{e}'' is used to print the sub-exception \msg
+#               when present.
+#             + ''{etype}'' is the sub-exception type when present.
+#
 #     _sub_exception : a caught sub-exception, or ''None'' when
-#                      nothing was caught.
-#     **kwargs       : optional \args to use as placeholder \vels
-#                      in ''fmt_str'' format string.
+#         nothing was caught.
+#
+#     **kwargs : optional \args to use as placeholder \vels in
+#         ''fmt_str'' format string.
 #
 #     :action: raise ''_exception'' using ''fmt_str'' with filled
-#              placeholders, appending a suffix for the
-#              ''_sub_exception'' message if ''_sub_exception'' is
-#              provided.
+#         placeholders, appending a suffix for the ''_sub_exception''
+#         message if ''_sub_exception'' is provided.
 #
 #
 # note::
@@ -139,11 +144,11 @@ class _AMDataChecker:
 ###
 # prototype::
 #     tolerant : whether to allow main blocks other than flavour
-#                ones.
+#         ones.
 #
 #     :action: ensure correct usage of main blocks.
-#              When ''tolerant = True'', non-flavour main blocks
-#              are also permitted.
+#         When ''tolerant = True'', non-flavour main blocks are
+#         also permitted.
 ###
     def check_main_blocks(
         self,
@@ -184,7 +189,7 @@ class _AMDataChecker:
 ###
 # prototype::
 #     :action: ensure all keys are used correctly at the current
-#              \dict depth.
+#         \dict depth.
 #
 #     :see: self._check_legal_keys ,
 #           self._check_no_alt_keys ,
@@ -214,7 +219,7 @@ class _AMDataChecker:
 ###
 # prototype::
 #     :action: ensure that only allowed keys are used (at the
-#              current \dict depth).
+#         current \dict depth).
 ###
     def _check_legal_keys(self) -> None:
         if not (
@@ -233,7 +238,7 @@ class _AMDataChecker:
 ###
 # prototype::
 #     :action: ensure that no key alternatives are violated (at
-#              the current \dict depth).
+#         the current \dict depth).
 ###
     def _check_no_alt_keys(self) -> None:
         illegal_couples = set()
@@ -258,8 +263,8 @@ class _AMDataChecker:
 
 ###
 # prototype::
-#     :action: ensure that no mandatory keys are missing (at
-#              the current \dict depth).
+#     :action: ensure that no mandatory keys are missing (at the
+#         current \dict depth).
 ###
     def _check_manda_keys(self) -> None:
         mandatory_keys = set()
@@ -291,11 +296,12 @@ class _AMDataChecker:
 ###
 # prototype::
 #     flavour : either a flavour name to parse data from
-#               path::''about.yaml'', or a unique list of block
-#               names (optional block name must be prefixed by
-#               a space and an asterisk ''*'')."
+#         path::''about.yaml'', or a unique list of block names
+#         (optional block name must be prefixed by a space and
+#         an asterisk ''*'')."
 #             @ type(_) = list ==> size(set(_)) = len(_)
-#     parent  : path::''about.yaml'' file folder.
+#
+#     parent : path::''about.yaml'' file folder.
 #
 #
 # note::
@@ -318,8 +324,8 @@ class AMData:
 ###
 # prototype::
 #     :return: new instance of the ''AMData'' class. This allows
-#              working with ''AMData''  instances without importing
-#              ''amdata''.
+#         working with ''AMData''  instances without importing
+#         ''amdata''.
 #
 #
 # note::
@@ -417,7 +423,7 @@ class AMData:
 #     parent : :see: AMData
 #
 #     :action: validate the existence of the ''parent'' folder
-#              and the path::''about.yaml'' file.
+#         and the path::''about.yaml'' file.
 ###
     @parent.setter
     def parent(
@@ -437,16 +443,16 @@ class AMData:
 
 ###
 # prototype::
-#     tolerant   : ''True'' requests to accept additional main
-#                  blocks that will be silently ignored.
-#                  With ''False'', additional main blocks blocks
-#                  are rejected.
-#     no_parsing : ''True'' switches off all parsing, unlike a
-#                  ''False'' value (this allows you to quickly
-#                  validate a \yaml structure)."
+#     tolerant : ''True'' requests to accept additional main blocks
+#         that will be silently ignored. With ''False'', additional
+#         main blocks blocks are rejected.
 #
-#     :return: the data parsed into a dictionary which mimics
-#              the \yaml file.
+#     no_parsing : ''True'' switches off all parsing, unlike a
+#         ''False'' value (this allows you to quickly validate a
+#         \yaml structure)."
+#
+#     :return: the data parsed into a dictionary which mimics the
+#         \yaml file.
 #
 #     :see: self._recu_build
 ###
@@ -643,11 +649,12 @@ class AMData:
 
 ###
 # prototype::
-#     raw_data      : single data to be parsed.
+#     raw_data : single data to be parsed.
+#
 #     parser_module : parser module for parsing.
 #
 #     :return: data parsed by the ''parse'' \func of the module
-#              ''parser_module''.
+#         ''parser_module''.
 ###
     def _get_parsed_data(
         self,
@@ -690,7 +697,7 @@ class AMData:
 #     key : \yaml key.
 #
 #     :return: full "keypath" to access the ''key'' data (at the
-#              current \dict depth).
+#         current \dict depth).
 ###
     def get_str_keypath(
         self,
@@ -710,7 +717,7 @@ class AMData:
 ###
 # prototype::
 #     :action: only for data, append the current keypath to the
-#              list ''self._full_data_keypaths''.
+#         list ''self._full_data_keypaths''.
 ###
     def _update_full_data_keypaths(self) -> None:
         self._full_data_keypaths.append(
@@ -720,7 +727,7 @@ class AMData:
 ###
 # prototype::
 #     :return: data type if the current "keylist" points to one
-#              data, ''None'' otherwise.
+#         data, ''None'' otherwise.
 #            @ _ in ALLTAGS_DATATYPES or _ = None
 ###
     def _this_data_type(self) -> str | None:
@@ -732,7 +739,7 @@ class AMData:
 ###
 # prototype::
 #     tag : tag to retrieve metadata from the \specs of the
-#           current "keylist".
+#         current "keylist".
 #
 #     :return: \spec metadata associated to "keylist".
 ###
@@ -745,7 +752,7 @@ class AMData:
 ###
 # prototype::
 #     :return: \python parsing module of the current "keylist"
-#              parser.
+#         parser.
 ###
     def _this_parser_module(self) -> ModuleType:
         return self._get_current_metadata(TAG_PARSER)
@@ -753,7 +760,7 @@ class AMData:
 ###
 # prototype::
 #     :return: ''amdata''-\arg \specs of the current "keylist"
-#              parser.
+#         parser.
 ###
     def _this_amdata_use(self) -> (bool, bool | None):
         return self._get_current_metadata(TAG_AMDATA_USE)
@@ -761,7 +768,7 @@ class AMData:
 ###
 # prototype::
 #     :return: ''True'' if post-processing is proposed by the
-#              current "keylist" parser, ''False'' otherwise.
+#         current "keylist" parser, ''False'' otherwise.
 ###
     def _this_use_post(self) -> bool:
         return self._get_current_metadata(TAG_USE_POST)
@@ -769,17 +776,17 @@ class AMData:
 ###
 # prototype::
 #     keypath : this \arg can be of three types.
-#         1. ''None'' asks to iterate on all the data
-#            "keypaths".
-#         1. A string value allows you to use a specific
-#            "keypath".
-#         1. A list of string values iterate for specific
-#            "keypaths".
+#             1. ''None'' asks to iterate on all the data
+#                "keypaths".
+#             1. A string value allows you to use a specific
+#                "keypath".
+#             1. A list of string values iterate for specific
+#                "keypaths".
 #
 #     :yield: a tuple of three values.
-#         1. The current data "keypath".
-#         1. The data associated with the "keypath".
-#         1. The parser to apply to the data.
+#             1. The current data "keypath".
+#             1. The data associated with the "keypath".
+#             1. The parser to apply to the data.
 ###
     def _iter_keypath(
         self,
@@ -811,8 +818,8 @@ class AMData:
 #     keypath : :see: self._iter_keypath
 #
 #     :action: build ''self.std_yaml_data'' which matches the
-#              original \yaml \dict, but with only standardized
-#              \yaml \vals for ''self.std_yaml_data[keypath]''.
+#         original \yaml \dict, but with only standardized \yaml
+#         \vals for ''self.std_yaml_data[keypath]''.
 ###
     def standardize(
         self,
@@ -867,17 +874,17 @@ class AMData:
 
 ###
 # prototype::
-#     keypath  : :see: self._iter_keypath
+#     keypath : :see: self._iter_keypath
+#
 #     tolerant : :see: _AMDataChecker.check_main_blocks
 #
-#     :action: launch the post-processing of all the data \vals
-#              of ''self.data[keypath]'.
-#              When ''tolerant = True'', missing post-processing
-#              \feats are silently ignored, otherwise, an error
-#              is raised.
+#     :action: launch the post-processing of all the data \vals of
+#         ''self.data[keypath]'.
+#         When ''tolerant = True'', missing post-processing \feats
+#         are silently ignored, otherwise, an error is raised.
 #
-#     :return: \dict providing access to any data returned by
-#              the called post-processors.
+#     :return: \dict providing access to any data returned by the
+#         called post-processors.
 ###
     def postprod(
         self,

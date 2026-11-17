@@ -23,9 +23,11 @@ _TAG_TERRITORY = 'territory'
 
 ###
 # prototype:
-#     std_id    : \std \lang identifier like ''"en-GB"''.
-#     name      : full \lang name like ''"English"''.
-#     territory : \lang territory like ''"Great Britain"''.
+#     std_id: \std \lang identifier like ''"en-GB"''.
+#
+#     name: full \lang name like ''"English"''.
+#
+#     territory: \lang territory like ''"Great Britain"''.
 #
 #
 # note:
@@ -48,9 +50,9 @@ class Lang(DataManager):
 ###
 # prototype:
 #     :action: mandatory validations of ''self.std_id'' type, and
-#              derivation of the ''name'' and ''territory'' \attrs
-#              from ''self.std_id'' and expand the identifier to
-#              its full form (e.g., ''"fr"'' becomes ''"fr-FR"'').
+#         derivation of the ''name'' and ''territory'' \attrs
+#         from ''self.std_id'' and expand the identifier to its full
+#         form (e.g., ''"fr"'' becomes ''"fr-FR"'').
 ###
     def __post_init__(self) -> None:
         validate_type(
@@ -218,3 +220,7 @@ if __name__ == '__main__':
 # :dev
 
     test_illegal_data_type()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

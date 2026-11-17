@@ -41,14 +41,18 @@ DELIMS_PARTICLE = TAG_PARTICLE_OPEN + TAG_PARTICLE_CLOSE
 
 ###
 # prototype::
-#     spec        : person \spec.
-#     surname     : surname without a particle is mandatory.
-#     particle    : surname particle, or ''""'' if no particle is
-#                   needed.
-#     firstnames  : first name list (that can be an empty list).
-#     email       : email adress, or ''""'' if no email provided.
-#     affiliation : affiliation adress, or ''""'' if no affiliation
-#                   provided.
+#     spec: person \spec.
+#
+#     surname: surname without a particle is mandatory.
+#
+#     particle: surname particle, or ''""'' if no particle is needed.
+#
+#     firstnames: first name list (that can be an empty list).
+#
+#     email: email adress, or ''""'' if no email provided.
+#
+#     affiliation: affiliation adress, or ''""'' if no affiliation
+#         provided.
 #
 #
 # note::
@@ -67,9 +71,8 @@ class Person(DataManager):
 ###
 # prototype::
 #     :action: mandatory validations of ''self.spec'' type, and
-#              derivation of the ''surname'', ''particle'',
-#              ''firstnames'', ''email'' and ''affiliation''
-#              \attrs from ''self.spec''.
+#         derivation of the ''surname'', ''particle'', ''firstnames'',
+#         ''email'' and ''affiliation'' \attrs from ''self.spec''.
 ###
     def __post_init__(self) -> None:
         validate_type(
@@ -118,7 +121,7 @@ class Person(DataManager):
 ###
 # prototype::
 #     :action: update the ''spec'' \attr using to the actual \vals
-#              of other \attrs.
+#         of other \attrs.
 ###
     def _update_spec(self) -> None:
 # Build the standard spec definition.
@@ -151,7 +154,7 @@ class Person(DataManager):
 ###
 # prototype::
 #     :action: the normalization process concern firstnames,
-#              surname, email adress, and affiliation.
+#         surname, email adress, and affiliation.
 #
 #     :see: self._normalize_titles,
 #           self._normalize_email,
@@ -187,7 +190,7 @@ class Person(DataManager):
 ###
 # prototype::
 #     :action: all names are written in "titlecase", and the
-#              particle is in lowercase.
+#         particle is in lowercase.
 #
 #     :see: self._normalize_name
 ###
@@ -209,7 +212,7 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     name : name to be normalized.
+#     name: name to be normalized.
 #
 #     :return: name in "titlecase" without unnecessary spaces.
 ###
@@ -249,7 +252,7 @@ class Person(DataManager):
 ###
 # prototype::
 #     :action: unnecessary spaces are removed from the
-#              affiliation adresss.
+#         affiliation adresss.
 ###
     def _normalize_affiliation(self) -> None:
         if self.affiliation:
@@ -271,7 +274,7 @@ class Person(DataManager):
 ###
 # prototype::
 #     :action: the external \func ''email_validator.validate_email''
-#              checks the email validity.
+#         checks the email validity.
 ###
     def _validate_email(self) -> None:
         self.data_pb.what('email')
@@ -300,8 +303,8 @@ class Person(DataManager):
 
 ###
 # prototype::
-#     :action: OpenStreetMap is used to verify the existence
-#              of the affiliation.
+#     :action: OpenStreetMap is used to verify the existence of
+#         the affiliation.
 ###
     def _validate_affiliation(self) -> None:
         self.data_pb.what('affiliation')
@@ -497,3 +500,7 @@ if __name__ == '__main__':
 # :dev
 
     test_illegal_data_type()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

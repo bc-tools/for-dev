@@ -21,7 +21,7 @@ from aboutmeta.core.errors import ParsingError
 
 ###
 # prototype::
-#     data : \nbver provided in the \yaml file.
+#     data: \nbver provided in the \yaml file.
 #
 #     :return: ''semver.Version'' instance representing the
 #              \nbver.
@@ -42,7 +42,7 @@ def parse(data: str) -> Version:
 
 ###
 # prototype::
-#     data : ''semver.Version'' object.
+#     data: ''semver.Version'' object.
 #
 #     :return: \std \yaml version of the ''semver.Version''
 #              object.
@@ -128,3 +128,7 @@ if __name__ == "__main__":
         assert write(parse(yaml_data)) == yaml_data
 
     test_back_2_spec()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

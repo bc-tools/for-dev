@@ -72,16 +72,16 @@ TYPE_TOCPATH_SPEC = (
 
 ###
 # prototype::
-#     spec    : relative path \spec or relative search pattern
-#               for paths.
-#     parent  : parent directory for the relative paths.
-#     kind    : path kind to manage (either a raw path or a
-#               pattern).
-#             @ _ in TAG_PATTERN_KINDS
-#               or
-#               _ = TAG_RAW
-#     pattern : pattern or raw path specified relatively to
-#               the ''parent'' directory.
+#     spec: relative path \spec or relative search pattern for
+#         paths.
+#
+#     parent: parent directory for the relative paths.
+#
+#     kind: path kind to manage (either a raw path or a pattern).
+#         @ _ = TAG_RAW or _ in TAG_PATTERN_KINDS
+#
+#     pattern: pattern or raw path specified relatively to the
+#         ''parent'' directory.
 #
 #
 # note::
@@ -103,7 +103,7 @@ class TOCPath(DataManager):
 ###
 # prototype::
 #     :action: we standardize the ''spec'' \attr and validate
-#              the search pattern syntax if needed.
+#         the search pattern syntax if needed.
 ###
     def __post_init__(self) -> None:
         validate_type(
@@ -163,10 +163,10 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     pattern : glob pattern search.
+#     pattern: glob pattern search.
 #
 #     :action: check well-balanced hooks, and syntax by trying to
-#              transform the pattern into a \regex object.
+#         transform the pattern into a \regex object.
 ###
     def _check_syntax_glob(
         self,
@@ -220,7 +220,7 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     pattern : string \regex pattern search.
+#     pattern: string \regex pattern search.
 #
 #     :action: check syntax by compiling the pattern.
 #
@@ -246,9 +246,9 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :action: check for the ''parent'' folder's existence,
-#              as well as either a single unbroken raw path
-#              or winning pattern validation.
+#     :action: check for the ''parent'' folder's existence, as
+#         well as either a single unbroken raw path or winning
+#         pattern validation.
 #
 #     :see: self._validate_parent_dir,
 #           self._validate_raw_path,
@@ -311,8 +311,8 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :action: check for winning \glob or \regex pattern using
-#              a specific path iterator.
+#     :action: check for winning \glob or \regex pattern using a
+#         specific path iterator.
 #
 #     :see: self.path_iter
 ###
@@ -349,10 +349,10 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     str_pattern : string version of a glob or \regex pattern
-#                   (this is for terminal and log communication).
-#     is_recu     : ''True'' for a recursive search, ''False''
-#                   otherwise.
+#     str_pattern: string version of a glob or \regex pattern
+#         (this is for terminal and log communication).
+#
+#     is_recu: ''True'' for a recursive search, ''False'' otherwise.
 #
 #     :action: initialization of the pattern validation process.
 ###
@@ -378,10 +378,11 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     nothing_found : ''True'' indicates that a pattern gives at
-#                     least one match, whereas ''False'' indicates
-#                     a losing pattern.
-#     str_pattern   : :see: self._start_pattern_validation
+#     nothing_found: ''True'' indicates that a pattern gives at
+#         least one match, whereas ''False'' indicates a losing
+#         pattern.
+#
+#     str_pattern: :see: self._start_pattern_validation
 #
 #     :action: closing of the pattern validation process.
 ###
@@ -403,12 +404,13 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     :return: \1st \arg is ''True'' for a recursive search, and
-#              ''False'' otherwise.
-#              \2nd \arg is either ''"rglob"'' for a recursive
-#              search, or ''"glob"'' (this value is required to
-#              iterate over the paths matching a pattern).
-#            @ _[1] in [TAG_GLOB_METHOD, TAG_GLOB_RECU_METHOD]
+#     :return: here are the meaning of the 2 \args returned.
+#             * \1st \arg is ''True'' for a recursive search, and
+#             ''False'' otherwise.
+#             * \2nd \arg is either ''"rglob"'' for a recursive
+#             search, or ''"glob"'' (this value is required to
+#             iterate over the paths matching a pattern).
+#         @ _[1] in [TAG_GLOB_METHOD, TAG_GLOB_RECU_METHOD]
 #
 #     :see: self.glob_iter ,
 #           self.regex_iter
@@ -421,12 +423,12 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     glob_method_name : either the glob method name to use (whether
-#                        recursive or not), or ''None'' to
-#                        automatically determine the glob method.
+#     glob_method_name: either the glob method name to use (whether
+#         recursive or not), or ''None'' to automatically determine
+#         the glob method.
 #
 #     :yield: each path which validates the pattern stored in
-#             ''self.pattern''.
+#         ''self.pattern''.
 #
 #     :see: self._get_search_spec ,
 #           self.glob_iter ,
@@ -448,11 +450,11 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     glob_method_name : :see: self.path_iter
+#     glob_method_name: :see: self.path_iter
 #
-#     :yield: each path which validates the \glob pattern
-#             stored in ''self.pattern'' using the \glob
-#             method named ''glob_method_name''.
+#     :yield: each path which validates the \glob pattern stored
+#         in ''self.pattern'' using the \glob method named
+#         ''glob_method_name''.
 ###
     def glob_iter(
         self,
@@ -465,11 +467,11 @@ class TOCPath(DataManager):
 
 ###
 # prototype::
-#     glob_method_name : :see: self.path_iter
+#     glob_method_name: :see: self.path_iter
 #
-#     :yield: each path which validates the \regex pattern
-#             stored in ''self.pattern'' using the \glob
-#             method named ''glob_method_name''.
+#     :yield: each path which validates the \regex pattern stored
+#         in ''self.pattern'' using the \glob method named
+#         ''glob_method_name''.
 ###
     def regex_iter(
         self,
@@ -721,3 +723,7 @@ if __name__ == '__main__':
         assert paths == paths_founds
 
     test_path_iteration()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

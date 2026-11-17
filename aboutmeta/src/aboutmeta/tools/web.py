@@ -9,7 +9,7 @@ import requests
 
 ###
 # prototype::
-#     url : \url pointing to an online text file.
+#     url: \url pointing to an online text file.
 #
 #     :return: file text content found online.
 ###
@@ -83,3 +83,7 @@ if __name__ == "__main__":
             get_text_from(url)
 
     test_none_404_HTTP_error()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

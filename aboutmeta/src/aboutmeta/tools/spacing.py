@@ -7,11 +7,12 @@
 
 ###
 # prototype::
-#     text : text
-#     part : part of the text we don't want surrounded by spaces.
+#     text: text
+#
+#     part: part of the text we don't want surrounded by spaces.
 #
 #     :return: text stripped after cleaning up the spaces around
-#              the ''part'' text.
+#         the ''part'' text.
 #
 #
 # Here is a terminal session.
@@ -44,10 +45,10 @@ def no_space_around(
 
 ###
 # prototype::
-#     text : text
+#     text: text
 #
 #     :return: text stripped with multiple consecutive spaces
-#              replaced by single spaces.
+#         replaced by single spaces.
 #
 #     :see: no_space_around
 #
@@ -72,30 +73,137 @@ def single_spaces(text: str) -> str:
 # ----------- #
 
 if __name__ == '__main__':
-    print('\n------------\n')
+# dev:
+    INTERACTIVE_SESSION = True
+    INTERACTIVE_SESSION = False
+# :dev
 
-    print('## no_space_around ##')
+    from random import Random
 
-    for txt, part in [
-        ('A -B  -  C  D-   G', '-'),
-        (' -  ABC   - ', '-'),
-        ('  A   B    C  ', ' '),
-        ('', ' '),
-    ]:
-        print()
+    from hypothesis import (
+        given,
+        strategies as st
+    )
+
+    import pytest
+
+    from string import (
+        ascii_letters,
+        punctuation
+    )
+
+# dev:
+    if INTERACTIVE_SESSION:
+        print('---')
+
+        txt  = 'aMFky        !       AA   !  AA   !                  '
+        part = '!'
+
         print(f'{txt                        = }')
         print(f'{part                       = }')
         print(f'{no_space_around(txt, part) = }')
 
-    print('\n------------\n')
+        print('---')
 
-    print('## single_spaces ##')
+        txt = 'AA AA AA'
 
-    for txt in [
-        'A   B    C',
-        '   A   B    C   ',
-        '',
-    ]:
-        print()
         print(f'{txt                = }')
         print(f'{single_spaces(txt) = }')
+
+        exit()
+# :dev
+
+# -- Tools for tests -- #
+    def rnd_spacing(
+        sentence: str,
+        part    : str,
+        rnd     : Random,
+    ):
+        _rnd_sentence = [' '*rnd.randint(0, 10)]
+
+        words    = list(sentence.split(' '))
+        nb_words = len(words)
+
+        for i, w in enumerate(words, start = 1):
+            _rnd_sentence += [
+                w,
+                ' '*rnd.randint(0, 10),
+            ]
+
+            if i != nb_words:
+                _rnd_sentence += [
+                    part,
+                    ' '*rnd.randint(0, 10),
+                ]
+
+        _rnd_sentence.append(' '*rnd.randint(0, 10))
+
+        rnd_sentence = ''.join(_rnd_sentence)
+
+        return rnd_sentence
+
+# -- No space around - Legal spec -- #
+    @given(
+        sentence = st.lists(
+            st.text(
+                alphabet = ascii_letters,
+                min_size = 2,
+                max_size = 10
+            ),
+            min_size = 3,
+            max_size = 15
+        ).map(" ".join),
+        rnd = st.randoms(),
+    )
+    def test_no_space_around_legal_spec(
+        sentence: str,
+        rnd     : Random
+    ) -> None:
+        part = rnd.choice(punctuation)
+
+        rnd_sentence = rnd_spacing(
+            sentence = sentence,
+            part     = part,
+            rnd      = rnd,
+        )
+
+        sentence = sentence.replace(' ', part)
+
+        assert no_space_around(
+            text = rnd_sentence,
+            part = part,
+        ) == sentence
+
+    test_no_space_around_legal_spec()
+
+# -- Single spaces - Legal spec -- #
+    @given(
+        sentence = st.lists(
+            st.text(
+                alphabet = ascii_letters,
+                min_size = 2,
+                max_size = 10
+            ),
+            min_size = 3,
+            max_size = 15
+        ).map(" ".join),
+        rnd = st.randoms(),
+    )
+    def test_single_spaces_legal_spec(
+        sentence: str,
+        rnd     : Random
+    ) -> None:
+        part        = rnd.choice(punctuation)
+        rnd_sentence = rnd_spacing(
+            sentence = sentence,
+            part     = ' ',
+            rnd      = rnd,
+        )
+
+        assert single_spaces(rnd_sentence) == sentence
+
+    test_single_spaces_legal_spec()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

@@ -262,3 +262,7 @@ if __name__ == '__main__':
 # :dev
 
     test_illegal_data_type()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

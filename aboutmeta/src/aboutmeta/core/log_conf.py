@@ -16,21 +16,25 @@ LOG_FILE = 'aboutmeta.log'
 
 ###
 # prototype::
-#     no_color  : set to ''False'', the log information will be
-#                 printed in color; otherwise, it will be printed
-#                 in black and white.
+#     no_color: set to ''False'', the log information will be
+#         printed in color; otherwise, it will be printed in black
+#         and white.
 #
 #     :action: the function lives up to its name...
+#
+#     :return: a ''Console'' instance. This is used to record an
+#         SVG screenshot of a colorful session.
 ###
-def setup_logging(no_color: bool = False) -> None:
+def setup_logging(no_color: bool = False) -> Console:
 # Terminal handler
 #
-# ''color_system = 'quto''' detects whether the output is a real
+# ''color_system = 'auto''' detects whether the output is a real
 # terminal. If not—such as when output is redirected via a pipe—no
 # color is used.
     console = Console(
+        record       = True,
         stderr       = True,
-        color_system = None if no_color else 'auto'
+        color_system = None if no_color else 'auto',
     )
 
 # ''markup = True'' allows to use the formatting markup language
@@ -66,23 +70,33 @@ def setup_logging(no_color: bool = False) -> None:
         ],
     )
 
+    return console
 
-# ----------- #
-# -- TESTS -- #
-# ----------- #
 
-# Unit tests cannot be implemented here; settings are validated
-# visually.
+# ------------- #
+# -- NO TEST -- #
+# ------------- #
+
+# We just check visually that settings are good.
 
 if __name__ == '__main__':
-# dev:
+    from pathlib import Path
+
+    THIS_DIR       = Path(__file__).parent
+    TOOLS_DATA_DIR = THIS_DIR
+
+    while(TOOLS_DATA_DIR.name != 'for-dev'):
+        TOOLS_DATA_DIR = TOOLS_DATA_DIR.parent
+
+    TOOLS_DATA_DIR = TOOLS_DATA_DIR / 'aboutmeta' / 'tools' / 'data' / 'svg'
+
     for title, no_color in [
         ('COLORFUL', False),
         ('B & W'   , True),
     ]:
         print(f'-- {title} --')
 
-        setup_logging(no_color)
+        active_console = setup_logging(no_color)
 
         for level in [
             'info',
@@ -94,4 +108,11 @@ if __name__ == '__main__':
                 logging,
                 level
             )(f"Testing '{level}'")
-# :dev
+
+        if title == 'COLORFUL':
+            print('')
+            print(f'Saving {title!r} SVG screenshot')
+
+            active_console.save_svg(
+                str(TOOLS_DATA_DIR  / f"terminal-output-{title}.svg")
+            )

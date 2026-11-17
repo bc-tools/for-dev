@@ -31,7 +31,7 @@ from aboutmeta.specs.data.url import URL
 
 ###
 # prototype::
-#     data : \url provided in the \yaml file.
+#     data: \url provided in the \yaml file.
 #
 #     :return: ''URL'' instance representing the \url.
 ###
@@ -47,7 +47,7 @@ def parse(data: str) -> URL:
 
 ###
 # prototype::
-#     data : ''URL'' object.
+#     data: ''URL'' object.
 #
 #     :return: \std \yaml version of the ''URL'' object.
 ###
@@ -88,3 +88,7 @@ if __name__ == "__main__":
         assert write(parse(yaml_data)) == yaml_data
 
     test_back_2_spec()
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

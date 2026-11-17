@@ -14,13 +14,13 @@ type DirTree = list[str | dict[str, DirTree]]
 
 ###
 # prototype::
-#     dirview : dirview using \yaml syntax (see below).
+#     dirview: dirview using \yaml syntax (see below).
 #
 #     :action: creation of a temporary folder containing dummy
-#              files and folders that follow the dirview \spec.
-#              The temporary folder is deleted upon exiting the
-#              context manager invoked via the instrutcion
-#              ''with temp_dirtree(dirview) as d: ...''.
+#         files and folders that follow the dirview \spec.
+#         The temporary folder is deleted upon exiting the context
+#         manager invoked using ''with temp_dirtree(dirview) as
+#         d: ...''.
 #
 #     :yield: path of the temporary folder.
 #
@@ -48,11 +48,11 @@ def temp_dirtree(dirview: str) -> Path:
 
 ###
 # prototype::
-#     name : name of a file or a folder.
+#     name: name of a file or a folder.
 #
 #     :return: path built by combining ''tempdir'' (which is
-#              defined above) with the path segments stored
-#              in ''prepaths'', followed by ''name''.
+#         defined above) with the path segments stored in
+#         ''prepaths'', followed by ''name''.
 ###
         def fullpath(name: str) -> Path:
             full_path = tempdir
@@ -66,12 +66,12 @@ def temp_dirtree(dirview: str) -> Path:
 
 ###
 # prototype::
-#     py_dirview : one dirview.
+#     py_dirview: one dirview.
 #
 #     :action: add files or folders specified while iterating
-#              over the current list, making recursive calls
-#              to handle folder contents (which are specified
-#              using a single-key dictionary).
+#         over the current list, making recursive calls to handle
+#         folder contents (which are specified using a single-key
+#         dictionary).
 ###
         def recu_build_dirtree(py_dirview: DirTree) -> None:
             for content in py_dirview:
@@ -93,9 +93,9 @@ def temp_dirtree(dirview: str) -> Path:
         yield tempdir.resolve()
 
 
-# ----------- #
-# -- TESTS -- #
-# ----------- #
+# ------------- #
+# -- NO TEST -- #
+# ------------- #
 
 # Unit tests cannot be implemented here; the correct operation
 # is validated by analyzing the contents of a requested temporary
