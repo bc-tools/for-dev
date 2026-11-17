@@ -307,74 +307,97 @@ class DataManager:
 # ----------- #
 
 if __name__ == '__main__':
-    from pathlib import Path
+# dev:
+    INTERACTIVE_SESSION = True
+    # INTERACTIVE_SESSION = False
+# :dev
 
-    THIS_DIR       = Path(__file__).parent
-    TOOLS_DATA_DIR = THIS_DIR
-
-    while(TOOLS_DATA_DIR.name != 'for-dev'):
-        TOOLS_DATA_DIR = TOOLS_DATA_DIR.parent
-
-    TOOLS_DATA_DIR = TOOLS_DATA_DIR / 'aboutmeta' / 'tools' / 'data' / 'svg'
-
-
-    from pprint import pprint
-
-    active_console = setup_logging()
-
-    class MyData(DataManager):
-        yaml_val: str
-        foo     : str
-
-    mydata = MyData(
-        yaml_val = '-> OK <-',
-        foo      = 'OK',
+    from hypothesis import (
+        given,
+        strategies as st
     )
 
-    data_pb = mydata.data_pb
+    import pytest
 
-    print(f'{mydata!r}')
+# dev:
+    if INTERACTIVE_SESSION:
+        print('---')
 
-    print('---')
+        from pathlib import Path
+        from pprint  import pprint
 
-    data_pb.what('Test 1')
-    data_pb.start()
-    data_pb.checking('something good')
-    data_pb.info('My personal info')
-    data_pb.validated('something good')
+        THIS_DIR       = Path(__file__).parent
+        TOOLS_DATA_DIR = THIS_DIR
 
-    print('---')
+        while(TOOLS_DATA_DIR.name != 'for-dev'):
+            TOOLS_DATA_DIR = TOOLS_DATA_DIR.parent
 
-    data_pb.what('Test 2')
-    data_pb.start()
-    data_pb.checking('something bad')
-    data_pb.error('My problem')
-    data_pb.critical('Validation done has failed')
+        TOOLS_DATA_DIR = TOOLS_DATA_DIR / 'aboutmeta' / 'tools' / 'data' / 'svg'
 
-    try:
-        1/0
+        active_console = setup_logging()
 
-    except Exception as e:
-        data_pb.new_exception(
-            data       = 'mydivision',
-            _exception = e,
+        class MyData(DataManager):
+            yaml_val: str
+            foo     : str
+
+        mydata = MyData(
+            yaml_val = '-> OK <-',
+            foo      = 'OK',
         )
 
-    data_pb.rejected('Houston')
+        data_pb = mydata.data_pb
 
-    pprint(mydata._errors_found)
+        print(f'{mydata!r}')
 
-    print('---')
+        print('---')
 
-    data_pb.what('Test 3')
-    data_pb.start()
+        data_pb.what('Test 1')
+        data_pb.start()
+        data_pb.checking('something good')
+        data_pb.info('My personal info')
+        data_pb.validated('something good')
 
-    data_pb.no_check()
+        print('---')
 
-    pprint(mydata._errors_found)
+        data_pb.what('Test 2')
+        data_pb.start()
+        data_pb.checking('something bad')
+        data_pb.error('My problem')
+        data_pb.critical('Validation done has failed')
 
-    print(f'Saving SVG screenshot')
+        try:
+            1/0
 
-    active_console.save_svg(
-                str(TOOLS_DATA_DIR  / "term-output-COLORFUL-DATA-PB.svg")
+        except Exception as e:
+            data_pb.new_exception(
+                data       = 'mydivision',
+                _exception = e,
             )
+
+        data_pb.rejected('Houston')
+
+        pprint(mydata._errors_found)
+
+        print('---')
+
+        data_pb.what('Test 3')
+        data_pb.start()
+
+        data_pb.no_check()
+
+        pprint(mydata._errors_found)
+
+        print(f'Saving SVG screenshot')
+
+        active_console.save_svg(
+            str(TOOLS_DATA_DIR  / "term-output-COLORFUL-DATA-PB.svg")
+        )
+# :dev
+
+
+
+
+
+# dev:
+    print('LOCAL TESTS DONE..')
+# :dev

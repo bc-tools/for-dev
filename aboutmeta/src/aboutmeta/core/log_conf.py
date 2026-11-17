@@ -22,8 +22,9 @@ LOG_FILE = 'aboutmeta.log'
 #
 #     :action: the function lives up to its name...
 #
-#     :return: a ''Console'' instance. This is used to record an
-#         SVG screenshot of a colorful session.
+#     :return: the ''Console'' instance used by \rich for log \msgs.
+#         (this is used to record an SVG screenshot of a colorful
+#         session).
 ###
 def setup_logging(no_color: bool = False) -> Console:
 # Terminal handler
